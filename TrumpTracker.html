@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trump Tracker: 78 Notable Moves</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #e74c3c, #3498db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .completed { color: #27ae60; }
+        .in-process { color: #f39c12; }
+        .stalled { color: #e74c3c; }
+        .proposed { color: #9b59b6; }
+
+        .filters {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-section {
+            margin-bottom: 20px;
+        }
+
+        .filter-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn:hover {
+            background: #f8f9fa;
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
+        }
+
+        .moves-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        .move-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid #ddd;
+        }
+
+        .move-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .move-card.completed { border-left-color: #27ae60; }
+        .move-card.in-process { border-left-color: #f39c12; }
+        .move-card.stalled { border-left-color: #e74c3c; }
+        .move-card.proposed { border-left-color: #9b59b6; }
+
+        .move-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .move-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
+            line-height: 1.3;
+            flex: 1;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-left: 10px;
+            white-space: nowrap;
+        }
+
+        .status-badge.completed {
+            background: #d5f4e6;
+            color: #27ae60;
+        }
+
+        .status-badge.in-process {
+            background: #fef9e7;
+            color: #f39c12;
+        }
+
+        .status-badge.stalled {
+            background: #fdedec;
+            color: #e74c3c;
+        }
+
+        .status-badge.proposed {
+            background: #f4ecf7;
+            color: #9b59b6;
+        }
+
+        .move-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        .move-description {
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .move-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 15px;
+        }
+
+        .tag {
+            background: #ecf0f1;
+            color: #34495e;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .timeline {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .timeline-chart {
+            height: 300px;
+            display: flex;
+            align-items: end;
+            justify-content: space-around;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .timeline-bar {
+            width: 60px;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            border-radius: 5px 5px 0 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-bar:hover {
+            transform: scale(1.05);
+        }
+
+        .timeline-label {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            white-space: nowrap;
+        }
+
+        .timeline-value {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .moves-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-buttons {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Trump Tracker: 78 Notable Moves</h1>
+            <p>Track the latest announcements and executive orders from President Trump's second term</p>
+            <p style="margin-top: 10px; font-weight: bold;">Updated June 13, 2025</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number completed">27</div>
+                <div class="stat-label">Completed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number in-process">38</div>
+                <div class="stat-label">In Process</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number stalled">8</div>
+                <div class="stat-label">Stalled</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number proposed">5</div>
+                <div class="stat-label">Proposed</div>
+            </div>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-title">Actions by Category</div>
+            <div class="timeline-chart">
+                <div class="timeline-bar" style="height: 80%;">
+                    <div class="timeline-value">24</div>
+                    <div class="timeline-label">Trade & Economy</div>
+                </div>
+                <div class="timeline-bar" style="height: 65%;">
+                    <div class="timeline-value">19</div>
+                    <div class="timeline-label">Immigration</div>
+                </div>
+                <div class="timeline-bar" style="height: 55%;">
+                    <div class="timeline-value">16</div>
+                    <div class="timeline-label">Role of Gov</div>
+                </div>
+                <div class="timeline-bar" style="height: 45%;">
+                    <div class="timeline-value">13</div>
+                    <div class="timeline-label">Culture & DEI</div>
+                </div>
+                <div class="timeline-bar" style="height: 30%;">
+                    <div class="timeline-value">9</div>
+                    <div class="timeline-label">Legal</div>
+                </div>
+                <div class="timeline-bar" style="height: 25%;">
+                    <div class="timeline-value">7</div>
+                    <div class="timeline-label">Foreign Policy</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <input type="text" class="search-box" id="searchBox" placeholder="Search moves by title or description...">
+            
+            <div class="filter-section">
+                <div class="filter-title">Filter by Topic:</div>
+                <div class="filter-buttons" id="topicFilters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="immigration">Immigration</button>
+                    <button class="filter-btn" data-filter="trade">Trade & Economy</button>
+                    <button class="filter-btn" data-filter="culture">Culture & DEI</button>
+                    <button class="filter-btn" data-filter="legal">Legal</button>
+                    <button class="filter-btn" data-filter="foreign">Foreign Policy</button>
+                    <button class="filter-btn" data-filter="government">Role of Government</button>
+                </div>
+            </div>
+            
+            <div class="filter-section">
+                <div class="filter-title">Filter by Status:</div>
+                <div class="filter-buttons" id="statusFilters">
+                    <button class="filter-btn active" data-status="all">All</button>
+                    <button class="filter-btn" data-status="completed">Completed</button>
+                    <button class="filter-btn" data-status="in-process">In Process</button>
+                    <button class="filter-btn" data-status="stalled">Stalled</button>
+                    <button class="filter-btn" data-status="proposed">Proposed</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="moves-grid" id="movesGrid">
+            <!-- Immigration moves -->
+            <div class="move-card stalled" data-topic="immigration" data-status="stalled">
+                <div class="move-header">
+                    <div class="move-title">Deploying Marines and the National Guard to Los Angeles</div>
+                    <div class="status-badge stalled">Stalled</div>
+                </div>
+                <div class="move-meta">
+                    <span>Memo • 8 days ago</span>
+                </div>
+                <div class="move-description">
+                    A federal judge ruled June 12 that Trump illegally federalized the California National Guard, and ordered that the force be returned to Gov. Gavin Newsom's control. About 4,000 National Guard troops and 700 Marines were deployed.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Entertainment</span>
+                    <span class="tag">Film</span>
+                </div>
+            </div>
+
+            <div class="move-card completed" data-topic="trade" data-status="completed">
+                <div class="move-header">
+                    <div class="move-title">Softening some automotive tariffs</div>
+                    <div class="status-badge completed">Completed</div>
+                </div>
+                <div class="move-meta">
+                    <span>Public Statement • 47 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump moved to soften the impact of automotive tariffs, preventing duties on foreign-made cars from stacking on top of other tariffs and easing some levies on foreign parts.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Trade</span>
+                    <span class="tag">Automotive</span>
+                </div>
+            </div>
+
+            <div class="move-card stalled" data-topic="trade" data-status="stalled">
+                <div class="move-header">
+                    <div class="move-title">Imposing blanket and reciprocal tariffs</div>
+                    <div class="status-badge stalled">Stalled</div>
+                </div>
+                <div class="move-meta">
+                    <span>Executive Order • 74 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump said the U.S. will impose a 10% across-the-board tariff on all imports. The Court of International Trade found it illegal to impose sweeping duties using emergency economic powers, but duties remain in effect pending appeal.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Trade</span>
+                    <span class="tag">Tariffs</span>
+                </div>
+            </div>
+
+            <!-- Legal moves -->
+            <div class="move-card in-process" data-topic="legal" data-status="in-process">
+                <div class="move-header">
+                    <div class="move-title">Ordering an investigation into Biden's actions as president</div>
+                    <div class="status-badge in-process">In Process</div>
+                </div>
+                <div class="move-meta">
+                    <span>Public Statement • 10 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump ordered an investigation into Joe Biden's actions as president, including his use of an autopen, alleging his predecessor's aides hid evidence of "serious cognitive decline."
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Legal</span>
+                    <span class="tag">Investigation</span>
+                </div>
+            </div>
+
+            <div class="move-card proposed" data-topic="legal" data-status="proposed">
+                <div class="move-header">
+                    <div class="move-title">Reopening Alcatraz</div>
+                    <div class="status-badge proposed">Proposed</div>
+                </div>
+                <div class="move-meta">
+                    <span>Public Statement • 42 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump said he directed the Bureau of Prisons to reopen and expand the historical prison to house "America's most ruthless and violent Offenders."
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Legal</span>
+                    <span class="tag">Prison</span>
+                </div>
+            </div>
+
+            <div class="move-card in-process" data-topic="legal" data-status="in-process">
+                <div class="move-header">
+                    <div class="move-title">Investigating ActBlue</div>
+                    <div class="status-badge in-process">In Process</div>
+                </div>
+                <div class="move-meta">
+                    <span>Memo • 52 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump signed a memorandum directing Attorney General Pam Bondi to investigate ActBlue, the liberal fundraising platform that transformed small-dollar political donations.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Legal</span>
+                    <span class="tag">Campaign Finance</span>
+                </div>
+            </div>
+
+            <div class="move-card in-process" data-topic="legal" data-status="in-process">
+                <div class="move-header">
+                    <div class="move-title">Overhauling election and voting regulations</div>
+                    <div class="status-badge in-process">In Process</div>
+                </div>
+                <div class="move-meta">
+                    <span>Executive Order • 82 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump's order sets new identification requirements for voter registration and prohibits counting absentee or mail-in ballots received after Election Day.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Legal</span>
+                    <span class="tag">Elections</span>
+                </div>
+            </div>
+
+            <div class="move-card completed" data-topic="legal" data-status="completed">
+                <div class="move-header">
+                    <div class="move-title">Making English the official U.S. language</div>
+                    <div class="status-badge completed">Completed</div>
+                </div>
+                <div class="move-meta">
+                    <span>Executive Order • 106 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump's executive order makes English the official language of the U.S. for the first time in its nearly 250-year history, rescinding requirements for language assistance to non-English speakers.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Legal</span>
+                    <span class="tag">Language</span>
+                </div>
+            </div>
+
+            <div class="move-card completed" data-topic="legal" data-status="completed">
+                <div class="move-header">
+                    <div class="move-title">Jan. 6 pardons</div>
+                    <div class="status-badge completed">Completed</div>
+                </div>
+                <div class="move-meta">
+                    <span>Pardon • 146 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump granted full pardons to nearly all defendants involved in the Jan. 6, 2021, attack on the Capitol and commuted the sentences of 14, including leaders of far-right groups found guilty of seditious conspiracy.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Legal</span>
+                    <span class="tag">Pardons</span>
+                </div>
+            </div>
+
+            <!-- Culture & DEI moves -->
+            <div class="move-card proposed" data-topic="culture" data-status="proposed">
+                <div class="move-header">
+                    <div class="move-title">Ending Harvard's federal contracts</div>
+                    <div class="status-badge proposed">Proposed</div>
+                </div>
+                <div class="move-meta">
+                    <span>Memo • 19 days ago</span>
+                </div>
+                <div class="move-description">
+                    The Trump administration is seeking to end remaining federal contracts with Harvard University, citing antisemitism and race discrimination in its admissions process.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Culture</span>
+                    <span class="tag">Education</span>
+                </div>
+            </div>
+
+            <div class="move-card in-process" data-topic="culture" data-status="in-process">
+                <div class="move-header">
+                    <div class="move-title">Defunding public media, including PBS and NPR</div>
+                    <div class="status-badge in-process">In Process</div>
+                </div>
+                <div class="move-meta">
+                    <span>Executive Order • 45 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump issued an executive order ending federal funding of public media, including PBS and National Public Radio, claiming they don't present "fair, accurate or unbiased" news.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Culture</span>
+                    <span class="tag">Media</span>
+                </div>
+            </div>
+
+            <div class="move-card in-process" data-topic="culture" data-status="in-process">
+                <div class="move-header">
+                    <div class="move-title">Removing 'divisive race-centered ideology' from Smithsonian</div>
+                    <div class="status-badge in-process">In Process</div>
+                </div>
+                <div class="move-meta">
+                    <span>Executive Order • 80 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump's order tasks VP JD Vance and other officials with ensuring future Smithsonian programs don't divide Americans based on race or promote ideologies inconsistent with federal policy.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Culture</span>
+                    <span class="tag">Museums</span>
+                </div>
+            </div>
+
+            <div class="move-card completed" data-topic="culture" data-status="completed">
+                <div class="move-header">
+                    <div class="move-title">Removing Kennedy Center's director</div>
+                    <div class="status-badge completed">Completed</div>
+                </div>
+                <div class="move-meta">
+                    <span>Public Statement • 128 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump removed several members from the Kennedy Center board, including Chairman David Rubenstein, criticizing the center for holding "drag shows targeting youth." Trump became chairman and appointed Richard Grenell as interim director.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Culture</span>
+                    <span class="tag">Arts</span>
+                </div>
+            </div>
+
+            <div class="move-card completed" data-topic="culture" data-status="completed">
+                <div class="move-header">
+                    <div class="move-title">Banning transgender people from women's school sports</div>
+                    <div class="status-badge completed">Completed</div>
+                </div>
+                <div class="move-meta">
+                    <span>Executive Order • 130 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump's order strips federal funding from schools that allow transgender girls and women to participate in female sports events in schools and colleges.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Culture</span>
+                    <span class="tag">Sports</span>
+                </div>
+            </div>
+
+            <div class="move-card stalled" data-topic="culture" data-status="stalled">
+                <div class="move-header">
+                    <div class="move-title">Restricting medical treatments for transgender children</div>
+                    <div class="status-badge stalled">Stalled</div>
+                </div>
+                <div class="move-meta">
+                    <span>Executive Order • 138 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump directed agencies to withhold funding from institutions providing gender therapies to anyone under 19 and exclude such treatments from military health coverage. A judge temporarily blocked the move.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Culture</span>
+                    <span class="tag">Healthcare</span>
+                </div>
+            </div>
+
+            <div class="move-card completed" data-topic="culture" data-status="completed">
+                <div class="move-header">
+                    <div class="move-title">Halting federal DEI programs</div>
+                    <div class="status-badge completed">Completed</div>
+                </div>
+                <div class="move-meta">
+                    <span>Executive Order • 146 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump signed an order to end diversity, equity and inclusion programs across the federal government and ordered the military and DHS to abolish DEI efforts.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Culture</span>
+                    <span class="tag">DEI</span>
+                </div>
+            </div>
+
+            <div class="move-card stalled" data-topic="culture" data-status="stalled">
+                <div class="move-header">
+                    <div class="move-title">Recognizing biological sex</div>
+                    <div class="status-badge stalled">Stalled</div>
+                </div>
+                <div class="move-meta">
+                    <span>Executive Order • 146 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump instituted a policy recognizing individuals' biological sex rather than gender identity and stated those with gender dysphoria are unfit to serve in the military. A judge blocked the military ban.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Culture</span>
+                    <span class="tag">Military</span>
+                </div>
+            </div>
+
+            <!-- Foreign Policy moves -->
+            <div class="move-card completed" data-topic="foreign" data-status="completed">
+                <div class="move-header">
+                    <div class="move-title">Appointing a leader for the 'Golden Dome' project</div>
+                    <div class="status-badge completed">Completed</div>
+                </div>
+                <div class="move-meta">
+                    <span>Public Statement • 26 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump named Space Force Gen. Michael Guetlein to oversee development of a "Golden Dome" anti-missile shield to protect the U.S. from high-tech threats including hypersonic weapons.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Foreign Policy</span>
+                    <span class="tag">Defense</span>
+                </div>
+            </div>
+
+            <div class="move-card completed" data-topic="foreign" data-status="completed">
+                <div class="move-header">
+                    <div class="move-title">Cuts short meeting with Ukrainian president</div>
+                    <div class="status-badge completed">Completed</div>
+                </div>
+                <div class="move-meta">
+                    <span>Public Statement • 107 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump abruptly ended a White House meeting with Ukrainian President Volodymyr Zelensky after a combative exchange over how to negotiate a settlement for the Russian-Ukraine conflict.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Foreign Policy</span>
+                    <span class="tag">Ukraine</span>
+                </div>
+            </div>
+
+            <div class="move-card completed" data-topic="foreign" data-status="completed">
+                <div class="move-header">
+                    <div class="move-title">Calling Ukraine's president a dictator</div>
+                    <div class="status-badge completed">Completed</div>
+                </div>
+                <div class="move-meta">
+                    <span>Public Statement • 116 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump called Ukrainian President Volodymyr Zelensky a "Dictator without Elections" and accused him of starting the war, which began after Russian President Vladimir Putin ordered an invasion.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Foreign Policy</span>
+                    <span class="tag">Ukraine</span>
+                </div>
+            </div>
+
+            <div class="move-card in-process" data-topic="foreign" data-status="in-process">
+                <div class="move-header">
+                    <div class="move-title">Sanctioning the International Criminal Court</div>
+                    <div class="status-badge in-process">In Process</div>
+                </div>
+                <div class="move-meta">
+                    <span>Executive Order • 129 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump imposed sanctions on the International Criminal Court in response to the court issuing an arrest warrant for Israeli Prime Minister Benjamin Netanyahu for alleged war crimes in Gaza.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Foreign Policy</span>
+                    <span class="tag">Israel</span>
+                </div>
+            </div>
+
+            <div class="move-card proposed" data-topic="foreign" data-status="proposed">
+                <div class="move-header">
+                    <div class="move-title">Taking control of Gaza</div>
+                    <div class="status-badge proposed">Proposed</div>
+                </div>
+                <div class="move-meta">
+                    <span>Public Statement • 131 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump called for the U.S. to take long-term control of Gaza and for nearly two million Palestinian residents to permanently leave for neighboring countries, a break with decades of U.S. policy.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Foreign Policy</span>
+                    <span class="tag">Gaza</span>
+                </div>
+            </div>
+
+            <div class="move-card in-process" data-topic="foreign" data-status="in-process">
+                <div class="move-header">
+                    <div class="move-title">Withdrawing from some U.N. programs</div>
+                    <div class="status-badge in-process">In Process</div>
+                </div>
+                <div class="move-meta">
+                    <span>Executive Order • 130 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump directed the U.S. to withdraw from and end funding to the UN Human Rights Council and UN Relief and Works Agency, while reviewing participation in UNESCO and other international organizations.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Foreign Policy</span>
+                    <span class="tag">UN</span>
+                </div>
+            </div>
+
+            <div class="move-card completed" data-topic="foreign" data-status="completed">
+                <div class="move-header">
+                    <div class="move-title">Pausing the TikTok ban</div>
+                    <div class="status-badge completed">Completed</div>
+                </div>
+                <div class="move-meta">
+                    <span>Executive Order • 146 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump signed an executive order giving 75 days for TikTok to work out a deal to prevent a ban in the U.S. Trump has said he wants the U.S. to have a 50% ownership position in the app.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Foreign Policy</span>
+                    <span class="tag">Technology</span>
+                </div>
+            </div>
+
+            <!-- Government Role moves -->
+            <div class="move-card in-process" data-topic="government" data-status="in-process">
+                <div class="move-header">
+                    <div class="move-title">Banning artificial food dyes</div>
+                    <div class="status-badge in-process">In Process</div>
+                </div>
+                <div class="move-meta">
+                    <span>Public Statement • 54 days ago</span>
+                </div>
+                <div class="move-description">
+                    The Health and Human Services Department and FDA unveiled measures to eliminate petroleum-based synthetic dyes in food, including Red 40, Yellow 5 and 6, Green 3, and Blue 1 and 2 by end of 2026.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Government</span>
+                    <span class="tag">Health</span>
+                </div>
+            </div>
+
+            <div class="move-card in-process" data-topic="government" data-status="in-process">
+                <div class="move-header">
+                    <div class="move-title">Abolishing the Education Department</div>
+                    <div class="status-badge in-process">In Process</div>
+                </div>
+                <div class="move-meta">
+                    <span>Executive Order • 87 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump directed Education Secretary Linda McMahon to "take all necessary steps to facilitate the closure" of the Education Department while ensuring uninterrupted delivery of services.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Government</span>
+                    <span class="tag">Education</span>
+                </div>
+            </div>
+
+            <div class="move-card in-process" data-topic="government" data-status="in-process">
+                <div class="move-header">
+                    <div class="move-title">Dismantling some government offices</div>
+                    <div class="status-badge in-process">In Process</div>
+                </div>
+                <div class="move-meta">
+                    <span>Executive Order • 93 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump ordered the dismantling of seven government offices, including the parent of Voice of America and another focused on solving homelessness, as part of his mission to reduce federal government size.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Government</span>
+                    <span class="tag">Reduction</span>
+                </div>
+            </div>
+
+            <div class="move-card in-process" data-topic="government" data-status="in-process">
+                <div class="move-header">
+                    <div class="move-title">Firing top Pentagon officials</div>
+                    <div class="status-badge in-process">In Process</div>
+                </div>
+                <div class="move-meta">
+                    <span>Memo • 114 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump fired the military's highest-ranking officer, the admiral leading the Navy and several other senior Pentagon leaders in a massive shake-up of the top ranks of the armed forces.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Government</span>
+                    <span class="tag">Military</span>
+                </div>
+            </div>
+
+            <div class="move-card in-process" data-topic="government" data-status="in-process">
+                <div class="move-header">
+                    <div class="move-title">Empowering DOGE to make federal workforce cuts</div>
+                    <div class="status-badge in-process">In Process</div>
+                </div>
+                <div class="move-meta">
+                    <span>Executive Order • 124 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump directed federal agencies to hire one employee for every four that leave and work with DOGE staffers to develop data-driven plans for hiring only in critical areas.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Government</span>
+                    <span class="tag">DOGE</span>
+                </div>
+            </div>
+
+            <div class="move-card completed" data-topic="government" data-status="completed">
+                <div class="move-header">
+                    <div class="move-title">Creating DOGE</div>
+                    <div class="status-badge completed">Completed</div>
+                </div>
+                <div class="move-meta">
+                    <span>Executive Order • 146 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump signed an executive order creating the Elon Musk-led Department of Government Efficiency out of the Obama-era U.S. Digital Service. Musk has said DOGE will try to cut $2 trillion from federal spending.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Government</span>
+                    <span class="tag">Efficiency</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Filter functionality
+        let currentTopicFilter = 'all';
+        let currentStatusFilter = 'all';
+        let currentSearchTerm = '';
+
+        // Get all move cards
+        const moveCards = document.querySelectorAll('.move-card');
+        const searchBox = document.getElementById('searchBox');
+        const topicFilters = document.querySelectorAll('#topicFilters .filter-btn');
+        const statusFilters = document.querySelectorAll('#statusFilters .filter-btn');
+
+        // Search functionality
+        searchBox.addEventListener('input', function() {
+            currentSearchTerm = this.value.toLowerCase();
+            filterMoves();
+        });
+
+        // Topic filter functionality
+        topicFilters.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all topic buttons
+                topicFilters.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                currentTopicFilter = this.dataset.filter;
+                filterMoves();
+            });
+        });
+
+        // Status filter functionality
+        statusFilters.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all status buttons
+                statusFilters.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                currentStatusFilter = this.dataset.status;
+                filterMoves();
+            });
+        });
+
+        // Main filtering function
+        function filterMoves() {
+            moveCards.forEach(card => {
+                const cardTopic = card.dataset.topic;
+                const cardStatus = card.dataset.status;
+                const cardText = card.textContent.toLowerCase();
+
+                // Check topic filter
+                const topicMatch = currentTopicFilter === 'all' || cardTopic === currentTopicFilter;
+                
+                // Check status filter
+                const statusMatch = currentStatusFilter === 'all' || cardStatus === currentStatusFilter;
+                
+                // Check search term
+                const searchMatch = currentSearchTerm === '' || cardText.includes(currentSearchTerm);
+
+                // Show/hide card based on all filters
+                if (topicMatch && statusMatch && searchMatch) {
+                    card.style.display = 'block';
+                    card.classList.remove('hidden');
+                } else {
+                    card.style.display = 'none';
+                    card.classList.add('hidden');
+                }
+            });
+
+            // Update visible count
+            updateVisibleCount();
+        }
+
+        // Update visible count
+        function updateVisibleCount() {
+            const visibleCards = document.querySelectorAll('.move-card:not(.hidden)');
+            const totalCards = moveCards.length;
+            
+            // You could add a counter element if desired
+            console.log(`Showing ${visibleCards.length} of ${totalCards} moves`);
+        }
+
+        // Add smooth animations
+        function addAnimations() {
+            moveCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.style.animation = 'fadeInUp 0.6s ease forwards';
+            });
+        }
+
+        // CSS animation for cards
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            .move-card {
+                opacity: 0;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize animations when page loads
+        window.addEventListener('load', addAnimations);
+
+        // Initialize filter state
+        filterMoves();
+    </script>
+</body>
+</html><span class="tag">Immigration</span>
+                    <span class="tag">Military</span>
+                </div>
+            </div>
+
+            <div class="move-card stalled" data-topic="immigration" data-status="stalled">
+                <div class="move-header">
+                    <div class="move-title">Halting new foreign-student enrollment at Harvard</div>
+                    <div class="status-badge stalled">Stalled</div>
+                </div>
+                <div class="move-meta">
+                    <span>Public Statement • 10 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump suspended Harvard from participating in the student-visa program. A Boston federal judge issued a temporary restraining order against the Department of Homeland Security.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Immigration</span>
+                    <span class="tag">Education</span>
+                </div>
+            </div>
+
+            <div class="move-card in-process" data-topic="immigration" data-status="in-process">
+                <div class="move-header">
+                    <div class="move-title">Banning citizens of 12 countries from traveling to the U.S.</div>
+                    <div class="status-badge in-process">In Process</div>
+                </div>
+                <div class="move-meta">
+                    <span>Public Statement • 10 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump signed a travel ban on 12 countries, largely in the Middle East and Africa, and introduced more-limited travel restrictions on seven others. The ban takes effect June 9.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Immigration</span>
+                    <span class="tag">Travel</span>
+                </div>
+            </div>
+
+            <div class="move-card in-process" data-topic="immigration" data-status="in-process">
+                <div class="move-header">
+                    <div class="move-title">Revoking visas of Chinese students</div>
+                    <div class="status-badge in-process">In Process</div>
+                </div>
+                <div class="move-meta">
+                    <span>Public Statement • 17 days ago</span>
+                </div>
+                <div class="move-description">
+                    The Trump administration will begin to "aggressively revoke" the visas of Chinese students studying in the U.S., according to Secretary of State Marco Rubio.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Immigration</span>
+                    <span class="tag">China</span>
+                </div>
+            </div>
+
+            <div class="move-card in-process" data-topic="immigration" data-status="in-process">
+                <div class="move-header">
+                    <div class="move-title">Pausing new student-visa interviews</div>
+                    <div class="status-badge in-process">In Process</div>
+                </div>
+                <div class="move-meta">
+                    <span>Memo • 19 days ago</span>
+                </div>
+                <div class="move-description">
+                    The Trump administration directed embassies and consulates to stop scheduling new student-visa interviews while preparing for expanded social media screening and vetting.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Immigration</span>
+                    <span class="tag">Visa</span>
+                </div>
+            </div>
+
+            <div class="move-card completed" data-topic="immigration" data-status="completed">
+                <div class="move-header">
+                    <div class="move-title">Designating 'sanctuary jurisdictions'</div>
+                    <div class="status-badge completed">Completed</div>
+                </div>
+                <div class="move-meta">
+                    <span>Executive Order • 48 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump directed officials to identify cities and states not complying with federal immigration laws. These jurisdictions could face federal funding cuts and possible lawsuits.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Immigration</span>
+                    <span class="tag">Funding</span>
+                </div>
+            </div>
+
+            <div class="move-card completed" data-topic="immigration" data-status="completed">
+                <div class="move-header">
+                    <div class="move-title">Reversing course on student visa revocations</div>
+                    <div class="status-badge completed">Completed</div>
+                </div>
+                <div class="move-meta">
+                    <span>Public Statement • 51 days ago</span>
+                </div>
+                <div class="move-description">
+                    The Trump administration abruptly restored the legal status of thousands of international students whose status was suddenly terminated, ending widespread confusion on college campuses.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Immigration</span>
+                    <span class="tag">Students</span>
+                </div>
+            </div>
+
+            <div class="move-card proposed" data-topic="immigration" data-status="proposed">
+                <div class="move-header">
+                    <div class="move-title">Proposing $5 million 'gold card' to grant U.S. residency</div>
+                    <div class="status-badge proposed">Proposed</div>
+                </div>
+                <div class="move-meta">
+                    <span>Public Statement • 110 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump said he would allow wealthy individuals or companies to pay $5 million for a "gold card" that would grant them permanent U.S. residency, replacing the existing investment program.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Immigration</span>
+                    <span class="tag">Investment</span>
+                </div>
+            </div>
+
+            <div class="move-card in-process" data-topic="immigration" data-status="in-process">
+                <div class="move-header">
+                    <div class="move-title">Using Guantanamo to house migrants</div>
+                    <div class="status-badge in-process">In Process</div>
+                </div>
+                <div class="move-meta">
+                    <span>Memo • 137 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump instructed the Pentagon and Department of Homeland Security to construct a facility for holding as many as 30,000 migrants at Guantanamo Bay. Some migrants have been taken to the site.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Immigration</span>
+                    <span class="tag">Detention</span>
+                </div>
+            </div>
+
+            <div class="move-card completed" data-topic="immigration" data-status="completed">
+                <div class="move-header">
+                    <div class="move-title">Signing the Laken Riley Act</div>
+                    <div class="status-badge completed">Completed</div>
+                </div>
+                <div class="move-meta">
+                    <span>Legislation • 137 days ago</span>
+                </div>
+                <div class="move-description">
+                    The law requires the Department of Homeland Security to detain undocumented immigrants arrested for theft-related offenses and dramatically expands the power of states to challenge immigration decisions.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Immigration</span>
+                    <span class="tag">Detention</span>
+                </div>
+            </div>
+
+            <div class="move-card stalled" data-topic="immigration" data-status="stalled">
+                <div class="move-header">
+                    <div class="move-title">Ending birthright citizenship</div>
+                    <div class="status-badge stalled">Stalled</div>
+                </div>
+                <div class="move-meta">
+                    <span>Executive Order • 146 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump signed an order that would move to end recognition of automatic birthright citizenship. Attorneys general from more than a dozen states filed a lawsuit asserting the order violates the 14th Amendment.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Immigration</span>
+                    <span class="tag">Constitution</span>
+                </div>
+            </div>
+
+            <div class="move-card in-process" data-topic="immigration" data-status="in-process">
+                <div class="move-header">
+                    <div class="move-title">Declaring a border emergency</div>
+                    <div class="status-badge in-process">In Process</div>
+                </div>
+                <div class="move-meta">
+                    <span>Executive Order • 146 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump declared a national emergency at the southern border and revived the Remain in Mexico policy, requiring migrants seeking asylum to live in northern Mexican border cities during U.S. court proceedings.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Immigration</span>
+                    <span class="tag">Border</span>
+                </div>
+            </div>
+
+            <!-- Trade & Economy moves -->
+            <div class="move-card completed" data-topic="trade" data-status="completed">
+                <div class="move-header">
+                    <div class="move-title">Doubling tariffs on steel and aluminum</div>
+                    <div class="status-badge completed">Completed</div>
+                </div>
+                <div class="move-meta">
+                    <span>Public Statement • 16 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump said tariffs on imported steel and aluminum would increase to 50% from the current 25%, effective June 4. "That means that nobody is going to be able to steal your industry," he told U.S. Steel workers.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Trade</span>
+                    <span class="tag">Tariffs</span>
+                </div>
+            </div>
+
+            <div class="move-card stalled" data-topic="trade" data-status="stalled">
+                <div class="move-header">
+                    <div class="move-title">Imposing a 50% tariff on goods from the EU</div>
+                    <div class="status-badge stalled">Stalled</div>
+                </div>
+                <div class="move-meta">
+                    <span>Public Statement • 20 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump threatened to impose a 50% tariff on goods from the European Union, arguing that trade negotiations with the bloc aren't making progress. Extended deadline to July 9 after speaking with EU President.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Trade</span>
+                    <span class="tag">EU</span>
+                </div>
+            </div>
+
+            <div class="move-card proposed" data-topic="trade" data-status="proposed">
+                <div class="move-header">
+                    <div class="move-title">Imposing a 25% tariff on smartphones</div>
+                    <div class="status-badge proposed">Proposed</div>
+                </div>
+                <div class="move-meta">
+                    <span>Public Statement • 23 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump threatened Apple with a tariff of at least 25% on iPhones made overseas, later adding Samsung and other manufacturers. The tariffs would likely take effect in late June.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Trade</span>
+                    <span class="tag">Technology</span>
+                </div>
+            </div>
+
+            <div class="move-card in-process" data-topic="trade" data-status="in-process">
+                <div class="move-header">
+                    <div class="move-title">Boosting the nuclear power industry</div>
+                    <div class="status-badge in-process">In Process</div>
+                </div>
+                <div class="move-meta">
+                    <span>Executive Order • 23 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump signed executive orders aimed at quadrupling nuclear power generation in the next 25 years, including plans to overhaul the nuclear regulator and fast-track licenses for new projects.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Energy</span>
+                    <span class="tag">Nuclear</span>
+                </div>
+            </div>
+
+            <div class="move-card completed" data-topic="trade" data-status="completed">
+                <div class="move-header">
+                    <div class="move-title">Reaching a tariff suspension agreement with China</div>
+                    <div class="status-badge completed">Completed</div>
+                </div>
+                <div class="move-meta">
+                    <span>Public Statement • 34 days ago</span>
+                </div>
+                <div class="move-description">
+                    The U.S. and China agreed to suspend most tariffs on each other's goods while trade negotiations continue. Both countries lowered reciprocal tariffs to 10% from 125%.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Trade</span>
+                    <span class="tag">China</span>
+                </div>
+            </div>
+
+            <div class="move-card in-process" data-topic="trade" data-status="in-process">
+                <div class="move-header">
+                    <div class="move-title">Instituting a 'Most Favored Nation' drug policy</div>
+                    <div class="status-badge in-process">In Process</div>
+                </div>
+                <div class="move-meta">
+                    <span>Executive Order • 34 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump signed an executive order aimed at lowering prescription drug costs by tying U.S. government drug prices to prices paid by other countries.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Healthcare</span>
+                    <span class="tag">Drugs</span>
+                </div>
+            </div>
+
+            <div class="move-card in-process" data-topic="trade" data-status="in-process">
+                <div class="move-header">
+                    <div class="move-title">Outlining a trade deal with the U.K.</div>
+                    <div class="status-badge in-process">In Process</div>
+                </div>
+                <div class="move-meta">
+                    <span>Public Statement • 38 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump agreed to roll back tariffs on British steel and automobiles in exchange for purchasing Boeing jets and giving American farmers greater access to U.K. markets.
+                </div>
+                <div class="move-tags">
+                    <span class="tag">Trade</span>
+                    <span class="tag">UK</span>
+                </div>
+            </div>
+
+            <div class="move-card proposed" data-topic="trade" data-status="proposed">
+                <div class="move-header">
+                    <div class="move-title">Imposing a 100% tariff on films produced overseas</div>
+                    <div class="status-badge proposed">Proposed</div>
+                </div>
+                <div class="move-meta">
+                    <span>Public Statement • 42 days ago</span>
+                </div>
+                <div class="move-description">
+                    Trump authorized a 100% tariff on films produced overseas in response to other countries' tax incentives for film production.
+                </div>
+                <div class="move-tags">
+                    
