@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot II - File Directory</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+
+        .folder-info {
+            background-color: #e8f4fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #3498db;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            opacity: 0.9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #ecf0f1;
+            vertical-align: top;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+            transition: background-color 0.3s ease;
+        }
+
+        .folder-name {
+            font-weight: 600;
+            color: #2980b9;
+            white-space: nowrap;
+            background-color: #ecf0f1;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .file-name {
+            font-weight: 500;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .file-type {
+            font-size: 0.8em;
+            color: #7f8c8d;
+            background-color: #ecf0f1;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-left: 10px;
+        }
+
+        .description {
+            color: #555;
+            line-height: 1.5;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .folder-section {
+            margin-bottom: 40px;
+            border: 1px solid #ecf0f1;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .folder-header {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+            padding: 15px 20px;
+            font-weight: 600;
+            font-size: 1.2em;
+        }
+
+        .folder-table {
+            margin: 0;
+            box-shadow: none;
+        }
+
+        .author {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+            background-color: #f1f2f6;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 30px;
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .live-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: #27ae60;
+            border-radius: 50%;
+            margin-right: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><span class="live-indicator"></span>ChatBot II</h1>
+            <p class="subtitle">Live directory generated from Google Drive</p>
+        </div>
+
+        <div class="folder-info">
+            <strong>📁 Source Folder:</strong> ChatBot II<br>
+            <strong>🔗 Folder ID:</strong> 11amfhW8zrumcILSZEvO3K-5NDCfrukF6<br>
+            <strong>📊 Scan Results:</strong> 133 documents found across 8 folder(s)
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">133</div>
+                <div class="stat-label">Total Documents</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Folders Scanned</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">75</div>
+                <div class="stat-label">Google Docs</div>
+            </div>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 Course Material (12 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">Book Marks</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿ChatBot Launch Pad https://docs.google.com/presentation/d/e/2PACX-1vSP5CWE-wY4rNCgyhn-5WOslYxQHtTQG5kPQo4x3JFIcuvLN43jKPhUksPQRQCqp-PX3dkxzkcBBq5H/pub?start=false&loop=false&delayms=3000&slide=id.p Zoom Meeting https://brandeis.zoom.us/j/95706807241?pwd=aS94ZUU5djBsbU5sMmp6dWdyckI2QT09#success AI Experiences https://docs.google.com/document/d/e/2PACX-1vTYjmySfDmNwQ7gdkpOR94aXVKqEVJ6HGWhf7xqBK-rV83C5eX1BU0y75s2NxQVGWPzv1iwbINnJzEc/pub Gemini https://gemini.goog (Google Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1To-FPXAarGJUZL5c90hgP0LJgzXN6hihmjqZOC_E-FY/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">ChatBot Launch Pad</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: ChatBot Launch Pad (Google Slides, Created Mar 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1XWTWTm7qjh1IX51DAsVPhZDhYLxtvhIFeO_Mv69Vg-s/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Copy of ChatBot Launch Pad</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Copy of ChatBot Launch Pad (Google Slides, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/12cFmUasnpnXNAhm3-IXQYurnP_LWU9N5p0kWSdTeuwU/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Deep Research Tutorial</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Deep Research Tutorial (Google Slides, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1YeuxXKXFLrqZAIbtfS-ussAqA6OspdZXDlNLm-jH_Uo/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Download/Upload Tutorial</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Download/Upload Tutorial (Google Slides, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1TDVIvv9d-VEMWgFy8oMbzkZNLmBAywanmNKcANyPnbU/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Example Prompts</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Example Prompts Absolutely! Here are concise prompts designed to showcase Gemini Deep Research's capabilities across those areas, suitable for an introductory chatbot class: General: * "Summarize the key arguments for and against the use of AI in creative writing." * "Explain the concept of 'cognitive bias' and provide three real-world examples." Literature: * "Analyze the symbolism of water in Herman... (Google Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1of7kY2jqprqKfuwsbQ4fcAZ0FGx4Bv-kE_HfSfqlxf4/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Immersive Reading</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Immersive Reading (Google Slides, Created Mar 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1tc9iMfQbL1vUKf9Mfs_x598gmACd3bAo8ThVfuE_B7g/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Immersive Reading Script</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿To Kill a Mockingbird Use Claud 1. List the geographical, historical, and sociological context of this story 2. List the main characters and their roles 3. List the themes of the story 4. Cite passages that illustrate Learning as a means of understanding 5. Transition to multiple windows 6. Discuss how the following passage frames the narrative "Maycomb was an... (Google Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1qh8LQaw9_ZbAJoNybrsp4TKrMSRuMCsLQbUmxaAa4Yo/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Safari and AI Research Tutorial Script</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Safari and AI Research Tutorial Script Introduction (5 minutes) * Welcome participants * Purpose of today's session: Mastering browser skills for AI research * Key objectives: 1. Organize browser bookmarks effectively 2. Navigate between multiple resources seamlessly 3. Use chat bots for research and analysis Part 1: Browser Basics (10 minutes) Bookmark Organization 1. Creating an AI Folder * Open... (Google Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1odqWwJ_c7kqwgXYgMi_NvqV8Vmr4U32hdMKCT10OCTw/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Signup Skills Session</div>
+                            <span class="file-type">Google Sheet</span>
+                        </td>
+                        <td class="description">Spreadsheet with data tables and calculations. File: Signup Skills Session (Google Sheet, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1_UmX_pcT3QIgLU1qf5KuciCqyQleNFKINQPGuTyr6do/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Weekly note</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Tab 1 Tanscript The Zoom session and AI assessment for this week class are available . I recommend you read the AI assessment so that we can discuss next week where the class is from two perspectives : AI and HI. To enhance the discussion, you might want to download the Text of the session and do your own prompting.... (Google Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1tya1wQr96k2ZN1XSXY7XYJxPsmJwyAc0bmZK4cVlzvY/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Zoom Screen Management</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Zoom Screen Management (Google Slides, Created Feb 2025 by Ferne Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1dMYX-ItEEk13ECNKWwkOWDgPEOqM_zuFRp-g402X4wo/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">Ferne Day</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 Couse Display Articles (28 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">Average Answer</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Average Answer (Google Slides, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1wGXY3-9Kb-16PLvyATMnU9f-_Dve2ecZEgkxkGcZ7C4/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Blood Pressure Summary</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Source Document 2017 Guideline for High Blood Pressure in Adults - American College of Cardiology.pdf You said: Summarize the main points of this report in a bullited list at the level of a person in the eigth grade ChatGPT said: Here are the main points from the 2017 Guideline for High Blood Pressure in Adults, simplified for an eighth-grade level:... (Google Doc, Created Jan 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1RBiKKBQweZVM5U5ozsLmPEhxKQnYqSn4gzfG_qsFSXM/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">ChatBot Coda</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: ChatBot Coda (Google Slides, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1lPegLl1D3-yDXj0NV2LKBB_jPvOfiw1QZnjdyOnZeM8/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">ChatBot II in Images</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: ChatBot II in Images (Google Slides, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1bCkPA-CbVMNw1AgTlaNeSzONQW-gfdyGp2bCceL4rcY/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">ChatBot Urls</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿ChatBot Launch Pad https://docs.google.com/presentation/d/e/2PACX-1vSP5CWE-wY4rNCgyhn-5WOslYxQHtTQG5kPQo4x3JFIcuvLN43jKPhUksPQRQCqp-PX3dkxzkcBBq5H/pub?start=false&loop=false&delayms=3000&slide=id.p Zoom Meeting https://brandeis.zoom.us/j/95706807241?pwd=aS94ZUU5djBsbU5sMmp6dWdyckI2QT09#success AI Experiences https://docs.google.com/document/d/e/2PACX-1vTYjmySfDmNwQ7gdkpOR94aXVKqEVJ6HGWhf7xqBK-rV83C5eX1BU0y75s2NxQVGWPzv1iwbINnJzEc/pub Gemini https://gemini.goog (Google Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1TuEhf2eu4HR5vWryA0dIZB2MsamgKeO0wLv6C01RXGc/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Climate Court Cases</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Initital Prompt during the last 5 years report on the major court cases that address climate change and efforts to limit and reduce CO2 emissions - include a discussion on the the election of Trump and the 2025 agenda may effect these legal effort ChatGPT said: I’d be happy to research major court cases on climate change and CO2 emissions... (Google Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1O934LbY1aPM4-rUqefwwRFjoOgitGcwNUQOEMwJG-UQ/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Context</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Context (Google Slides, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1stJnuyY87kO2LjhVHpon_r-GqORXbF6ROoNnK0narpo/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Copy of SGM Profile for ChatBot course (Responses)</div>
+                            <span class="file-type">Google Sheet</span>
+                        </td>
+                        <td class="description">Spreadsheet with data tables and calculations. File: Copy of SGM Profile for ChatBot course (Responses) (Google Sheet, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/18Uy_Xmo1orhiX1vRjjopNt2xJUBfF1rYfyNz1uebkV4/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Deep Research Phone Notification</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Deep Research Phone Notification (Google Slides, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1RJI960mL_elLzQwzZXiIvgzOGZxMhPSMmkUYwb6fVQc/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Diagram Dickens</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Whether I shall turn out to be the hero of my own life, or whether that station will be held by anybody else, these pages must show. Ah, you're quoting the famous opening line from Charles Dickens' "David Copperfield"! This is one of literature's most memorable first-person narrative openings, setting up the autobiographical nature of the novel. Would you like... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1FMcPgNmsa5-N5YLSQqWh_dvNlpngLCi86jtgOZZWrm4/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Dual Screen</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Dual Screen (Google Slides, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1CeKdnhmNz1qMUowJeWL8rIdQiugL2eCZwYmJ5CgQvGE/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Energizing America</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Create a simple bulleted list with 5 points that describe this document. ChatGPT said: Here is a simple bulleted list with five points that describe the document Energizing America: A Roadmap to Launch a National Energy Innovation Mission: * Focus on Clean Energy Innovation – The document advocates for significantly increasing federal investment in clean energy research, development, and demonstration... (Google Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1NGBUm358DHO5zaCJYDrm58-TaS6XGHyoWPaVOL-ce7w/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Fuel Cell</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Fuel Cell (Google Slides, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/111pdmOuFUZX3qDqghtn1TdspoSHteSLrNAqp0GhNy3E/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Linking</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Linking (Google Slides, Created Mar 2025 by jhndayskey)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1O4lIggEx96wXm8e9oUieAx4rkbEn3bFYcfBmjsM5vbE/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">jhndayskey</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Mac Screen Shots</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Mac Screen Shots (Google Slides, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1XkGcQqMB-Z4hqXxtVAxtcoXHALBapCoW8hynY2xiVXY/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Newton Method of Finding Zero Point</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Newton Method of Finding Zero Point (Google Slides, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1IVO5Ao_kFHJ8hUuoiLBNv5AYv18qsp5CuFDkMXyzizo/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Newton's Method of Approximation</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Newton's Method of Approximation (Google Slides, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1YlW42xarJweJF9XzPyEaGV5W1Q6RaVWH3W_9kHxj2SM/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Open Sezme</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Open Sezme (Google Slides, Created Mar 2025 by Ferne Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1ZujrpqzOFdSc1Er9eKEzHQXezuG0o_0sgmcYmLADkwA/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">Ferne Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Prompting Guide Annotation</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Prompting Guide Annotation (Google Slides, Created Apr 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1FvwMgqrdpj2UItqI_iVtq-qy64Ipj8mF3OVV_Fu0r1o/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Putting AI in Perspective</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Putting AI in Perspective (Google Slides, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1e0yw1xhPk9C2OopxtTnlD3srtDPivFII16mbh21Wbw4/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">RAG Visuals</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: RAG Visuals (Google Slides, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1zlTSsWSkQDRG3YQi8b1WTS5W9qPKjEbggPx8-ydOqY4/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Safari Sogood</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Safari Sogood (Google Slides, Created Mar 2025 by Ferne Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1I1PaPpPp2HmNN1UWmF6Hn_MjS4do3jvdsytY0K3jn5I/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">Ferne Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Turing</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Turing (Google Slides, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/17QWwZZueGpSU3gtT28g6SjW9F30S4ijpIpjz5rz7wa4/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Untitled presentation</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Untitled presentation (Google Slides, Created Mar 2025 by Ferne Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1STx3uPUFvCnbygtv5sv-vdnx8uEZa9hHpEWTC5o1s-g/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">Ferne Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Wordle vs NLP</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Wordle vs NLP (Google Slides, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1I7QYmSGHuBfk79wHcG2KxIriC9gPE9vTvRxqTfDgixE/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Wordle vs NLP v1</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Wordle vs NLP v1 (Google Slides, Created Oct 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1icL2WAXjesnVCRGQxH9qpY-5D1uiVJF7ieNMlwsyoS4/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Zoom AI</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Summarize the process that John described of how to use Gemini Deep Search * Based on John's demonstration, here are the key steps to use Gemini Deep Search: * Initial Setup * Select "Deep Research" from the Gemini dropdown menu1 * Enter your research prompt in the prompt window2 * Research Planning34 * Click the right arrow to start5 *... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1-QQ0DhM4ClxnZvRte0SbBrJCsTWnCxug7j6miCUYThE/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">zero curve</div>
+                            <span class="file-type">Google Sheet</span>
+                        </td>
+                        <td class="description">Spreadsheet with data tables and calculations. File: zero curve (Google Sheet, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1WmUUb5pGAD69khxXuD8I3evT5vXUbvQooRmAcD3XfOI/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 Experiences (14 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">A Guide to Exploring Literature</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿A Guide to Exploring Literature With A Chatbot Do not assume Chatbot can think. It just ain’t so. * Ideas do not occur to Chatbot. * Chatbot responds to inputs from humans to whom ideas do occur. Do not begin by asking Chatbot to explain the story. This approach will probably produce a constrained view of the story and lead... (Google Doc, Created Dec 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/15no2SbguvD3KBBVmf228rdwwRd373_n7FM1DL33IO4A/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Best Practices</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Instructions 1. Set the context for the responses by first inputting the text - “All the prompts in this conversation will be about the best ways for the person who is inputting the prompts to use conversational AI - comment on the importance and use of each best practices for the person who is inputting the prompt - respond in... (Google Doc, Created Jan 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1I0MAOpPcX5pzjy2hgNxFNF4gvY5aBODfEln079L3t3g/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Carousel</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿EVEN AS DICK and Oscar were writing State Fair, Terry Helburn and the Theatre Guild began searching for their next potential Broadway success, hoping to follow the remarkable triumph of Oklahoma! Helburn proposed a musical adaptation of Liliom, the beloved 1909 drama by Hungarian playwright Ferenc Molnár, which initially confused European audiences because the protagonist dies halfway through the narrative.... (Google Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/193z_-w-2YJRm8bjOjTEL6vS0fcCIBTx0jKoDUhrkkJE/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Carousel Claude Converstion</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Carousel Plot Line Main Plot: * Billy Bigelow works as a carousel barker at a seaside amusement park * Julie Jordan, a mill worker, falls in love with Billy * Both lose their jobs because of their relationship and get married * Billy struggles with unemployment and becomes abusive toward Julie * Julie reveals she's pregnant, which makes Billy desperate... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1SSzzfAgL0nO9x3b7o9j_F0A1LaK8o2Kgerifcl3oHhQ/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Class Experience Registry</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Tab 1 ChatBot Experience Registry Name Research Project Link Important and Interesting Things Learned What I will do with my AI Experience John Day https://g.co/gemini/share/1fa3694283b6 * Importance of students mastering the basic computer skills * Ways of teaching these skills * There should be at least one in-person session to resolve computer configuration issues * Advanced concepts can be assimilated... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/12mre8wfSoxauK78ObfD0HwqC0YskzAx9RJ0EOT_ObZM/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Communal Report</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿On Thursday we will engage in a communal activity of using the Deep Research capability of Gemini. To prepare for this exercise, create a brief prompt of some research that you find interesting. Below are some sample prompts. Medical Research: "Summarize recent advances in personalized cancer therapies, focusing on genomics and immunotherapy. Discuss ethical concerns around data privacy and access.... (Google Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1T3WupMEWS7YzPNIe5t1w27ltXugDQEzDURpsIs17d14/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Experiences With AI</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Difficulty Area of Interest Description Data Sources Experience Illustrated Moderate Literature Short Story/Exerpts * A Guide to Exploring Short Stories * Prompting Guide * Arrangement in Black and White * The Lottery * Atticus Shoots the Mad Dog Video Clip * Mrs. Henry Lafayette DuBoise * The Old Man and the Sea Beginner Literature Analysis of Dickens Writing * What... (Google Doc, Created Dec 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1Nl3xdxgTS98TkNMM7pqC4mYR7pfhGR3T6XtDTDVuPAE/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">HOA</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Initial Prompt MAKE A LKST OF FREE PDF VERSIONS OF HOA MANUALS AND INFORMATION ChatGPT said: Could you specify what type of HOA (Homeowners Association) manuals and information you are looking for? Are you interested in general HOA governance guides, legal regulations, community management best practices, or specific HOA documents from particular states or organizations? You said: community management best... (Google Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1HZWbH59P0_gvJGekUe9wDq8RYemaI56rQ6hyIVyMQEk/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Immersive Reading Prompts</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Probing with Prompting To Create a Study Guide Subject Area Description Prompt Literature - Contextual Clues Identifies historical, social, and cultural references within the text itself What historical or cultural references appear in this text? How do these references help establish the setting or influence character motivations? Literature - Character Analysis Examines character development using textual evidence Select a main... (Google Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/13UakIGvM-bqIm-5iomdnzfB80yUmTZI_kExlthxjhnM/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">King Lear.pdf</div>
+                            <span class="file-type">PDF</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (PDF, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://drive.google.com/file/d/1M3uYXcq4qVpj7RJWBWfPoi3xszweqhlb/view?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">LILIOM</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿LILIOM [Pg xvii] SYNOPSIS OF SCENES PROLOGUE—An amusement park on the outskirts of Budapest. FIRST SCENE—A lonely place in the park. SECOND SCENE—The photographic studio of the HOLLUNDERS. THIRD SCENE—Same as scene two. FOURTH SCENE—A railroad embankment outside the city. FIFTH SCENE—Same as scene two. SIXTH SCENE—A courtroom in the beyond. SEVENTH SCENE—JULIE’S garden. ________________ There are intermissions only after... (Google Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1gPq2e_jUbszZE81AX0xVbXv6AzAlcvnlXwiLgRSDtt4/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">SGM Profile</div>
+                            <span class="file-type">Google Sheet</span>
+                        </td>
+                        <td class="description">Spreadsheet with data tables and calculations. File: SGM Profile (Google Sheet, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1vt8dhRrpMs4HVtrp5qegFzdfYabiDpNtQRqcRENnWcY/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">SGM Profile Template</div>
+                            <span class="file-type">Google Sheet</span>
+                        </td>
+                        <td class="description">Spreadsheet with data tables and calculations. File: SGM Profile Template (Google Sheet, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1BWvrjyuemI4l5YHCQD98dLlZts9c7rCrSxMC4zskKRE/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Untitled document</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿King Lear by William Shakespeare Edited by Barbara A. Mowat and Paul Werstine with Michael Poston and Rebecca Niles Folger Shakespeare Library https://shakespeare.folger.edu/shakespeares-works/king-lear/ Created on Jul 31, 2015, from FDT version 0.9.2 Characters in the Play ====================== LEAR, king of Britain GONERIL, Lear's eldest daughter DUKE OF ALBANY, her husband OSWALD, her steward REGAN, Lear's second daughter DUKE OF CORNWALL,... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1ckdy0GIVaf2D_2oNZ55kEgWrU8P8MaQQJpxYlambnYA/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 Immersive Reading (20 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">2017 Guideline for High Blood Pressure in Adults - American College of Cardiology.pdf</div>
+                            <span class="file-type">PDF</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (PDF, Created Jan 2025 by John Day)</td>
+                        <td><a href="https://drive.google.com/file/d/1-8R7Hs4q1Ep6rJXZPLxd4oKSyZDOwZ0n/view?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">America Awakending - 23-26</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿CHAPTER 23 The Constitution The Declaration of Independence had asserted the colonists' new country would be based on the ideas of equality and self-government, rather than on social hierarchies, religion, or ethnicity, but it said nothing about how such a government might actually work. Because the white men who drafted the Declaration saw it primarily as an assertion of their... (Google Doc, Created Mar 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1aMmWRwhc8407Iu-2ePM3lF0qjCSyTngKogFIgcH-qWk/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">America Awakening : CC</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Chapter 23: The Constitution * The Articles of Confederation established a weak federal government, with most power residing in the states. This system was a disaster. * The Constitution created a stronger federal government, a representative democracy with checks and balances between the legislative, executive, and judicial branches. * The Bill of Rights was added to protect individual rights and... (Google Doc, Created Mar 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1JByvgJ1RQPbgcpIP4DGSzk_V8KdIsfvSRUQzX2sEwzw/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Arrangement in Black and White</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Arrangement in Black and White By September 30, 1927 A woman with 1920s finger curls looking away from the camera against a black backdrop Photograph by H. Armstrong Roberts / Getty The woman with the pink velvet poppies wreathed round the assisted gold of her hair traversed the crowded room at an interesting gait combining a skip with a sidle,... (Google Doc, Created Feb 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1FYKTecPKfUFZ3TXzvORA_uB7Cp9nDaz2gkEDy881G6w/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Atticus Shoots the Mad Dog</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Chapter 10 Atticus was feeble: he was nearly fifty. When Jem and I asked him why he was so old, he said he got started late, which we felt reflected upon his abilities and manliness. He was much older than the parents of our school contemporaries, and there was nothing Jem or I could say about him when our classmates... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1ROJxES1NTQIJwyZfxf-SbuvtHItAjjMTN9UpTPc5XdI/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">COMPUTING MACHINERY AND INTELLIGENCE.pdf</div>
+                            <span class="file-type">PDF</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (PDF, Created Oct 2023 by John Day)</td>
+                        <td><a href="https://drive.google.com/file/d/10UgnQ4QnEDchtVnQukofNg0_Hs0Bb_dx/view?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">EnergizingAmerica.pdf</div>
+                            <span class="file-type">PDF</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (PDF, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://drive.google.com/file/d/14czUQ6dSmg015vsMqfGItwlIp_KciCa1/view?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Mad Dog</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿In a fog, Jem and I watched our father take the gun and walk out into the middle of the street. He walked quickly, but I thought he moved like an underwater swimmer: time had slowed to a nauseating crawl. When Atticus raised his glasses Calpurnia murmured, “Sweet Jesus help him,” and put her hands to her cheeks. Atticus pushed... (Google Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1PrsK98NUrR1hvDsHypEl4Jddiw1prTkiKJm5NByUi2s/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Mrs Henry Lafayette Dubose</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Chapter 11 When we were small, Jem and I confined our activities to the southern neighborhood, but when I was well into the second grade at school and tormenting Boo Radley became passe, the business section of Maycomb drew us frequently up the street past the real property of Mrs. Henry Lafayette Dubose. It was impossible to go to town... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/189KTwDwYqxBVUxPBKdy6dH8Ox7DCgQrSCBwiD7JP6sY/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Oranament of the World</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Part 1: Beginnings ONCE UPON A TIME IN THE MID-EIGHTH CENTURY, AN INTREPID young man named Abd al-Rahman abandoned his home in Damascus, the Near Eastern heartland of Islam, and set out across the North African desert in search of a place of refuge. Damascus had become a slaughterhouse for his family, the ruling Umayyads, who had first led the... (Google Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/19KNQ6DAuZaWP5qyuYqva24zjTOYqHwQXdqc9Gw09DC8/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Ornament of the World : Beginnings</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿ONCE UPON A TIME IN THE MID-EIGHTH CENTURY, AN INTREPID young man named Abd al-Rahman abandoned his home in Damascus, the Near Eastern heartland of Islam, and set out across the North African desert in search of a place of refuge. Damascus had become a slaughterhouse for his family, the ruling Umayyads, who had first led the Muslims out of... (Google Doc, Created Dec 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1eQY_EIXfpVD4IrXLYooet66oHZlTzNERiEg8E6LCdF0/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">The Innovators : Chapter 2A</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿CHAPTER TWO THE COMPUTER Sometimes innovation is a matter of timing. A big idea comes along at just the moment when the technology exists to implement it. For example, the idea of sending a man to the moon was proposed right when the progress of microchips made it possible to put computer guidance systems into the nose cone of a... (Google Doc, Created Mar 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1BvRTpp4CSOGUgqM4u0Vdy2qGKIJlxZMTKmc3x-A3OBU/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">The Innovators : Chapters 1-3 Summary</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Chapter 2: * Traces the development of the first electronic digital computers in the 1930s and 1940s * Discusses the theoretical foundations laid by Alan Turing and Claude Shannon * Covers the early electromechanical machines of George Stibitz and Howard Aiken * Explores the electronic computing work of John Atanasoff * Focuses on ENIAC, the first general-purpose electronic computer, built... (Google Doc, Created Mar 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1sHgaztuZRHnfG_s3xE3W576pFL7rwsGEINiazkyuyVY/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">The Lottery</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿The Lottery By Shirley Jackson June 18, 1948 People in a field. Photograph by Garrett Grove Listen to this story The morning of June 27th was clear and sunny, with the fresh warmth of a full-summer day; the flowers were blossoming profusely and the grass was richly green. The people of the village began to gather in the square, between... (Google Doc, Created Dec 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1NLqaJvPkfEZNyW7nWau-vL8s0hBz8eVzVP6IJyWuGE0/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">The Lottery</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿The Lottery By Shirley Jackson June 18, 1948 People in a field. Photograph by Garrett Grove Listen to this story The morning of June 27th was clear and sunny, with the fresh warmth of a full-summer day; the flowers were blossoming profusely and the grass was richly green. The people of the village began to gather in the square, between... (Google Doc, Created Mar 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/19xhDICUGc6QV7S_aUDku22R1C2KtRswOwI3kV4DfbTw/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">The Old Man and the Sea</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿THE OLD MAN AND THE SEA ERNEST HEMINGWAY He was an old man who fished alone in a skiff in the Gulf Stream and he had gone eighty-four days now without taking a fish. In the first forty days a boy had been with him. But after forty days without a fish the boy's parents had told him that the... (Google Doc, Created Jan 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/16lV5H85rp0zAbHICjv4tECYClG2CdzjP7ah2aIWmqOY/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">To Kill a Mockingbird</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Part One Chapter 1 When he was nearly thirteen, my brother Jem got his arm badly broken at the elbow. When it healed, and Jem's fears of never being able to play football were assuaged, he was seldom self-conscious about his injury. His left arm was somewhat shorter than his right; when he stood or walked, the back of his... (Google Doc, Created Jan 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/16OrqHWfbG-hqNMsG5YhRJSVcmR0sNR-yxoeeAZSNDPY/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">To Kill a Mockingbird.txt</div>
+                            <span class="file-type">Text File</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Text File, Created Jan 2025 by John Day)</td>
+                        <td><a href="https://drive.google.com/file/d/18JV8q37fNj6vyBrju2BlKd8NtP7cCO6M/view?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Untitled document</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Make a simple list of 5 bullets that describe this work ChatGPT said: Here is a simple list of five key points describing The Ornament of the World: * Cultural Flourishing: The book explores the remarkable coexistence of Muslims, Christians, and Jews in medieval Spain (al-Andalus), highlighting a period of intellectual and artistic collaboration. * Abd al-Rahman’s Journey: It begins... (Google Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1yQT0MvuJQnS3OgEUiiDjOgRdmdBrR0FpPrd7dn0rnJs/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">What the Dylan</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿1. Like a Rolling Stone (1965) Once upon a time you dressed so fine Threw the bums a dime in your prime, didn't you? People call, say, "Beware doll, you're bound to fall" You thought they were all kiddin' you You used to laugh about Everybody that was hangin' out Now you don't talk so loud Now you don't seem... (Google Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1k7_0YGRSe_kkhS4R5jaqA7aG9ZQF83WbXPHRoqG54iA/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 Lexington Computer Group (11 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">AI Presentation Outline: Exploring AI Engines and Beyond</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿AI Presentation Outline: Exploring AI Engines and Beyond This outline is designed for a presentation to the Lexington Computer Group, incorporating the topics and suggestions discussed in recent emails. It emphasizes practical demonstrations and a comparison of current AI tools, while also delving into more advanced concepts. I. Introduction (5-10 minutes) * A. Welcome and Context: * Briefly introduce the... (Google Doc, Created Jun 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1SK2Q-wZ9wArj8qf1AzET2e6RanvJwj7cPfsJvoY47ZM/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Beyond  Generative</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Beyond  Generative (Google Slides, Created Jun 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1xhLyZe0xe-THaHObNqY7TM9UTV0zZozJsk5VVtZ855Q/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Deep Search Prompts</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Hydrogen vs EVs with Batteries Compare the advantages of powering privately owned EV vs Hydropgen vehicles In the discussion include the challenges and opportunities of * Creating hydrogen with renewable electrical energy sources * The need transport hydrogen from the point of production to the point of use * The cost of creating and disposing of materials required for batteries... (Google Doc, Created Jun 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1CmFvWRmc4cmLlCUZNsla8-tchGalGtFvQL8h4PRTXrE/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Hydrogen EV Vehicle Comparison</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Interface Research Plan Research plan created from the input prompt This is a complex and multifaceted query that requires deep research into hydrogen vehicles versus electric vehicles across multiple dimensions. Let me analyze this step by step according to the research process guidelines. Assessment and breakdown: The main concepts include: * Hydrogen vehicles vs. electric vehicles for private ownership *... (Google Doc, Created Jun 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1-sZzWR-hef64uELeiLZ806-5DzoyghiOCm4heCPNvFw/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">LCTG Email Analysis</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Development Flow write a python program to extract the author,date,subject,text of emails from the folder Lexington Computer Group in my Gmail - output the results to a tab delimited file "C:\Users\jhnda\Downloads\LexCmpGrpEmails.tsv" I'll help you create a Python program to extract emails from your Gmail's "Lexington Computer Group" folder and save them to a TSV file. First, let me search your... (Google Doc, Created Jun 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1_w8BLA1HYifA72EU78cbhvKrKEVkIdAsTaP-0vY6pQE/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">LCTG Emails 3 Years</div>
+                            <span class="file-type">Google Sheet</span>
+                        </td>
+                        <td class="description">Spreadsheet with data tables and calculations. File: LCTG Emails 3 Years (Google Sheet, Created Jun 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/17UAXKi-virbk1jeVoIs5gx0eZHR-Tj-bI7r4QEF2WDI/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">LCTGJun11</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿00:00-00:07 | DREW KING Into your account when you see the boxes and use it just the way that you would use it if you were using it for real 00:07-00:17 | LCC 237 My question was more, my question was more along the lines of how much control do you have over what it opts to pick out of... (Google Doc, Created Jun 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1psHRJyWbF3e0Pp_ZddZqEI8KufgWjc0MJ_k3e54rRLQ/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">LTCGJun4</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿00:12-01:37 | LCC 237 Good alrighty. we're off. I don't know if you you people other people everybody can see. Here. I got mission control. I have my portable computer. I have my second screen and my have my graphics tablet. Yeah. this better be good. Then we're good to go here. Today's talk because I'm a physician, as most... (Google Doc, Created Jun 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1wn8D9BgZGbG9F6zk_x5-V6pQZk8RnUcZEAQVi7avV0g/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Program Generation from AI Prompt</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Program Generation from AI Prompt Natural Language Understanding: I parse your prompt to extract key information like the program's purpose, required functionality, data types, input/output specifications, and constraints. This involves understanding context, implied requirements, and technical terminology. Knowledge Synthesis: I draw from my training on vast amounts of code repositories, documentation, tutorials, and programming discussions. This allows me to understand... (Google Doc, Created Jun 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/17GHkH1nZPp5zMicFHgeCUy_WaWjXikioT_gDLeaz-D4/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Prompts</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Journal Searches What stories or articles have been published in Washington Post, New York Times, Science, Scientific American, MIT Technology Review about the development of solid state batteries for powering EVs Deep Search help me choose a black and white laser printer for the home for light usage Program Creation write a python program to read in the file "C:\Users\jhnda\Downloads\EO... (Google Doc, Created Jun 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1NMqRmVc-3aRD5LIASKD_OFvlxvQyL8clsxaRWYKv9HE/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Untitled document</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Zoom's "Voice Tagging" (Smart Name Tags for Voice) Zoom has a feature called "Smart Name Tags for Voice" which allows for "voice tagging" participants in Zoom Rooms meetings. This feature aims to make it easier to identify who is speaking during a meeting, especially in hybrid settings where some attendees are in a physical room and others join remotely. How... (Google Doc, Created Jun 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1ng-B0SC11_irNcOeCSGw5s3M0Mb2v0EOh7NbjBBaqmo/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 Lincoln's Speeches (7 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">Coopers Union Address</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Cooper Union Speech * Date: February 27, 1860 * Occasion: Invitation by the Young Men's Central Republican Union * Location: Cooper Union, New York City * Context: Lincoln was a little-known Illinois lawyer with presidential ambitions. This speech was a critical effort to introduce himself to the East Coast political establishment and make a strong case against the expansion of... (Google Doc, Created Dec 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1jHarzGrkaKfgihtiZt-xW-sKR6UaL1WhIGPSXiaAXqg/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Gettsyburg Address</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Gettysburg Address * Date: November 19, 1863 * Occasion: Dedication of the Soldiers' National Cemetery * Location: Gettysburg, Pennsylvania * Context: Delivered four and a half months after the pivotal Battle of Gettysburg, Lincoln's brief but powerful address reframed the Civil War as a struggle for national unity and the preservation of the ideals of liberty and equality. Four score... (Google Doc, Created Dec 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1vvPuuv8RPKy_ODsJBFbK0pJvOm3j4K9IKeDEV4SrcHM/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">House Divided Speech</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿House Divided Speech * Date: June 16, 1858 * Occasion: Acceptance of the Illinois Republican Party's nomination for U.S. Senator * Location: Springfield, Illinois * Context: This speech marked the beginning of Lincoln's famous debates with Stephen Douglas. The "house divided" metaphor, taken from the Bible, emphasized Lincoln's belief that the nation could not continue to exist half-slave and half-free.... (Google Doc, Created Dec 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1SWGiSL786i7NFB2O5PBkle25gXoAEttMJ-Vu5r5LWfs/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Lincolns First Ignaugural</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Lincoln's First Inaugural Address * Date: March 4, 1861 * Occasion: His first inauguration as President of the United States * Location: Washington, D.C. * Context: Delivered on the eve of the Civil War, Lincoln appealed for national unity and declared that secession was illegal. He also reiterated his commitment to preventing the expansion of slavery. In compliance with a... (Google Doc, Created Dec 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/18XqopAMYIKDUkUgMtz3HZ8BxfvxwdiB_0eQLE_dTZ3w/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Lincolns Second Inaugural</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Lincoln's Second Inaugural Address * Date: March 4, 1865 * Occasion: His second inauguration as President of the United States * Location: Washington, D.C. * Context: Delivered just weeks before the end of the Civil War and his assassination, Lincoln reflected on the causes of the war and called for reconciliation and healing. It is notable for its brevity, its... (Google Doc, Created Dec 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1J4Rmpj9p4qLepOJ9n3YRZ8bO_dPrdWocFT5Ixc7ODco/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Lincolns Speeches</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Speech Peoria Speech * Date: October 16, 1854 * Occasion: A political rally opposing the Kansas-Nebraska Act * Location: Peoria, Illinois * Context: This lengthy speech was one of Lincoln's most comprehensive arguments against slavery. He condemned its immorality and argued for its eventual extinction. The speech helped solidify his position as a leading opponent of slavery's expansion. House Divided... (Google Doc, Created Dec 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1Vw5WvfZVzJsm6QeaR2mVovu5llt1MTp7nypAKPGyQig/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Peoria Speech</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Peoria Speech * Date: October 16, 1854 * Occasion: A political rally opposing the Kansas-Nebraska Act * Location: Peoria, Illinois * Context: This lengthy speech was one of Lincoln's most comprehensive arguments against slavery. He condemned its immorality and argued for its eventual extinction. The speech helped solidify his position as a leading opponent of slavery's expansion. The repeal of... (Google Doc, Created Dec 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1X0b82bO9yDFIj7kSp2AQK30Cr7LUu3HuaSRuc42v62M/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 Main Folder (31 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">AI ChatBOT Course</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Week 1: Foundations of Conversational AI * Objective: Introduce foundational concepts and prepare students for text-based applications. * Topics: * What is NLP, and how does Generative AI work? * Real-world applications in humanities and science. * Interactive Elements: * Demonstration: AI identifying grammatical and syntactical parts of sentences. * Exercise: Students experiment with AI tools for text summarization and... (Google Doc, Created Jan 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/12PTbX-PtUvKDtWjHo2EpnOp0H3HTFE5Zi7uc6ggmvTw/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">AI Essentials</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: AI Essentials (Google Slides, Created Apr 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1scFQxdCy5X9ksgSg1YHRVez5xgWxd4cvJUdB6dZ17DA/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Applying Chabots Revised</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿SCI1-5b-Mon2 Applying Chatbots to Understand Literature, History, Science, and Current Events Study Group Leader (SGL) - John Day Location: This course will take place virtually on Zoom. Participation in this course requires a device (ideally a computer or tablet, rather than a cell phone) with a camera and microphone in good working order and basic familiarity with using Zoom and... (Google Doc, Created Aug 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1XUtaoCyS3Yp1xFGyOKJ99o8GITTINFL1jgYqZIIVRRk/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">ChatBot II Eval.xlsx</div>
+                            <span class="file-type">Excel File</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Excel File, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1bIRmMyoNSEbQ0NTT40epuYPHU5sZ1wfU/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">ChatBot Login</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿If you don’t have a Google account and want to create logins for ChatGPT (OpenAI), Claude (Anthropic), or Gemini (Google AI), here’s how you can proceed: 1. ChatGPT (OpenAI) * Visit https://chat.openai.com * Click "Sign up" * You can sign up using: * An email address (any email provider, such as Yahoo, ProtonMail, Outlook, etc.) * A Microsoft account or... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1SwUFEKdt5g-Utwd_OK90_ZUDAA9DTn3Dj8M9AJX0bz0/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Chatbots in Action: A User's Guide to Working With and Understanding AI Conversations</div>
+                            <span class="file-type">Document</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Document, Created Dec 2024 by John Day)</td>
+                        <td><a href="https://sites.google.com/d/1sb2TBJgUNADXX0YxCKoUX0TJHqnqfJPe/edit" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Copy of ChatBot Course Input to AI</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿I am revising a course on NLP AI that I gave for adult learners who are at least 65 years old The audience is mostly a mixture of Liberal Arts, Medical Science, and a small contingency of science and technology bachelor and master’s degree holders My objectives are 1. To explain at a high level with visuals some key concepts... (Google Doc, Created Nov 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1n3Zw-Do9uv3XvZ4fAEzAy9iXtsVWe2GuiFLwALWErIY/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Final Note</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿* The transcript for Week 5 has been posted in the Transcript Registry. Note in the Claude assessment that Claude was able to recognize the conversation between myself and ChatGPT. * I have also completed aggregating all of the sessions into one file to produce a Total Course Assessent * I added the Link to the Next Steps Proposal that... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1ZG3QWjGIxnMcn_uSSGwiZS26ENoZlk5l4dNLzKm35Gs/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Funadamental AI Capabilities</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Funadamental AI Capabilities (Google Slides, Created Dec 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1LHeriZRfI_rrt-4dvFaEqGaGX72_ozqgCJnb10Y4Q_4/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Fundamental Capabilities</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Linguistic X-Ray Enables deep analysis of language structure, breaking down sentences to understand their construction, flow, and impact. This capability helps identify patterns in writing style, grammatical choices, and rhetorical devices, making complex text more accessible and understandable. Content Distiller Transforms lengthy documents into clear, concise summaries while preserving key ideas and arguments. This skill adapts to different summarization needs... (Google Doc, Created Dec 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1-_7yQJ2XD8Xl8ru94zP0Vuy30l4cC1lf_5r1XRGLvUM/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Generative Process Flow</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Generative Process Flow (Google Slides, Created Nov 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1wHW0Qob2tMMAT5wpSeD-qtNktgzBy3kSzLDGzJoCueY/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Hunting Wolf Generative Word Demonstration</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Single word Single Word in responding to the following prompts do no use the context for previous prompts ChatGPT said: ChatGPT Understood! I will respond to your prompts without referencing or using any previous context. Please go ahead with your question or request. _____________________________ You said: add the next 5 most likely words to 'The hungry fox prowled through the... (Google Doc, Created Nov 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1YAsELQUUMRCaAESlULv3M7tfTDo95PrCEIoP6OkB0NQ/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Introduction</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Introduction (Google Slides, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1r7dXW1OQ19KDqSDQJjB5E3_7Re2OBTx-gisvtVboY04/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Key Capabilities</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Chatgpt 1. Sentence Dissection and Grammar Insight Evocative Name: Grammar Detective AI can analyze sentences by breaking them into parts of speech and examining syntactic relationships. This is fundamental for understanding language structure and style, which is critical in literature and linguistic analysis. ________________ 2. Document Digest and Summary Generation Evocative Name: Essence Extractor The ability to summarize a document... (Google Doc, Created Dec 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/19r50_sbWGfHRn0y7hTi0kJC3oYU_tbjZCNwOQgGF4F4/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">NLP AI Heuristic</div>
+                            <span class="file-type">Google Sheet</span>
+                        </td>
+                        <td class="description">Spreadsheet with data tables and calculations. File: NLP AI Heuristic (Google Sheet, Created Nov 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1zgXHOPqtYIihQbboLF1gWZGj_oRqCUCntv-3KqxPjO8/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Optimal NLP Course</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿I am planning a two week course on basic nlp ai with the goal of demonstrating how conversational AI dramatically expands research efficacy in the humanities and science. Compare these two plans, make recommednations on combining to get the optimal curriculum to to obtain the state goal ChatGPT said: ChatGPT Both plans share a similar structure and content outline. Here’s... (Google Doc, Created Dec 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1AateM4jId-mssPMhhRb6qXUy0ERwsP11FBvVIyCLLBQ/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Review of  AI Capabilities</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Review of  AI Capabilities (Google Slides, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1_-QXsY3UFRshGMQBG23S-HhQzkOW1Fgr6zlTBakN6ms/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Revised Plan</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Week 1: Foundations of Conversational AI * Objective: Introduce foundational concepts and prepare students for text-based applications. * Topics: * What is NLP, and how does Generative AI work? * Real-world applications in humanities and science. * Interactive Elements: * Demonstration: AI identifying grammatical and syntactical parts of sentences. * Exercise: Students experiment with AI tools for text summarization and... (Google Doc, Created Dec 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1YqIWYuZ90ELRNiMHyqRVBH4VQBTOxYA1jsSF9YKJC3Q/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">SCI1-5b-Mon2  Applying Chatbots to Understand Literature, History, Science, and Current Events</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿SCI1-5b-Mon2 Applying Chatbots to Understand Literature, History, Science, and Current Events Study Group Leader (SGL) - John Day Location: This course will take place virtually on Zoom. Participation in this course requires a device (ideally a computer or tablet, rather than a cell phone) with a camera and microphone in good working order and basic familiarity with using Zoom and... (Google Doc, Created Aug 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1P0vgH2Y46m10ogNeg3b7OHGHZabsPC5LGcrtwtwdBjw/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">SGM CHAR FROM CLAUDE</div>
+                            <span class="file-type">Google Sheet</span>
+                        </td>
+                        <td class="description">Spreadsheet with data tables and calculations. File: SGM CHAR FROM CLAUDE (Google Sheet, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1ySm9CeCE1iPf9os-xwcMxscmeXyR_D7lXbBpLd4G36M/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">SGM Profile for ChatBot course</div>
+                            <span class="file-type">Document</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Document, Created Dec 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/forms/d/1N-EXCLv2OKsBd-St8dKcWJhyGEVsrKzXWi66lnoVAic/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">SGM Profile for ChatBot course (Responses)</div>
+                            <span class="file-type">Google Sheet</span>
+                        </td>
+                        <td class="description">Spreadsheet with data tables and calculations. File: SGM Profile for ChatBot course (Responses) (Google Sheet, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1HmkzUQzMwu3wZUUkqTi5BnQ6sMTCLAClMVGp4ZpzOtk/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Scatter Plot Analogy</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Scatter Plot Analogy (Google Slides, Created Jan 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1v5x_1oX4kC_P3rq04hW5ikwHguKALsfsNjPJ26sSouM/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Side by Side Comparison</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Tab 1 Plan 1 Plan 2 Revised Plan Week 1: Introduction to Basics Concepts: How Generative AI works Activities: Identify parts of a sentence, Summarize text, Merge texts Week 1: Introduction to Basics Concepts: How Generative AI works Activities: Identify parts of a sentence, Summarize text, Merge texts Week 1: Foundations of Conversational AI Concepts: What is NLP? How Generative... (Google Doc, Created Dec 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1e_spCqOun0QjQOppgE1LRuyFShc-EXu8_eDqjSUJlwE/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Smantic Pyramid</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Smantic Pyramid (Google Slides, Created May 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1zalOYlllpeoI1XKtcQQ0_hB7KUVD6JqGcgm9PiRyYMU/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">To Do</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿* Revise The Hungry Fox exercise * Create demonstrations for each of the four capabilities * Linguistic X-Ray - add comparison between excerpts * Content Distiller - blood pressure * Knowldedge Weaver (compare three of lincolns speeches) * Language Bridge Builder : (Song of Roland) * (Google Doc, Created Jan 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1EcXZ4Wum5AqLH-drbhI9Rt1EP-e_kDd3xr5p0_FmjNg/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Topics</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿* Review and Comparison of major ChatBots * Chatgpt * Claude * Gemini * Major topics * Concepts - how does it work * Techniques - how to use it * Use Cases - examples * Areas of application * Literature * History * Science/Technology * Current Events * Key components * Use the class transcripts to practice using AI... (Google Doc, Created Aug 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1EOtm5Ov7_1z1qAuaXOzIh6xQQClPGnvPOFhtHMA2LLQ/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Transcript Register I</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Session Zoom Session Text Transcript AI Assessment Orientation Jan 29 Zoom Transcript Text Transcript Introduction April 1 Zoom Transcript Text Transcript Assessment Literature April 8 Zoom Transcript Text Transcript Assessment Nyer Discussion Apr 10 Zoom Transcript Text Transcript Assessment History April 15 Zoom Transcript Text Transcript Assessment Science/Tech April 29 Zoom Transcript Text Transcript Assessment Current Events Ma (Google Doc, Created Dec 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1jWbvfrn-_ssRupioqKpU6wbc521_SVikuTR6xTq7jvM/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Transcript Register II</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Session Zoom Session Text Transcript AI Assessment Foundations of AI : Mar 13 Immrsive Reading : Mar 20 Beyong Generrative : Mar 27 Heuristic Models : Apri 30 Conversing with AI : May 7 Total Course Assessment - I aggregated all of the sessions into one document (Google Doc, Created Dec 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1VSDaiMsgoIxF5AEDQL-UM78qV9z8b3N2llLZ1xjtFhQ/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Welcome Letter</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Tab 1 Welcome to Applying Chatbots to Understand Literature, History, Science, and Current Events The focus of this course is hands-on learning, where you'll develop skills through practical application and direct experience. This active approach is complemented by the presentation of essential concepts explained in an intuitive, accessible manner. I will introduce key ideas as they become relevant to your... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1LetocmiGYTL-7oV8mZ_Xu2MeErejXTeJyrbXPnDWiK0/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">What the Dickens</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Download this document and upload it to Claude Example Claude Conversation * Select a quote from below and input the prompt into Claude or ChatGPT * Use Claude to diagram the sentence - “Use myriad to diagram this sentence (select from below) * Compare the different quotes - paste the following into the prompt box * Compare and contrast the... (Google Doc, Created Dec 2024 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1IAqQd4A1r61fpasEUjf5lekLcP5euBFaqMJkSMnFRp0/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 Transcripts (10 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">Chabot 3.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/11nvTlLlsAL9ubx5cJXnAjwqCHhqgM3PV/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">ChatBot 4.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/13Nj1456_JJnNnxqG6iz1facnS6pqCiEw/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">ChatBot 5.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/13XNqkMY-VIHQ6vglI-dcswaFi0S3nKvG/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">ChatBot 5.vtt</div>
+                            <span class="file-type">Document</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Document, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://drive.google.com/file/d/1uzMBsV9yshVE8qCNco5LosUTuhzAGY__/view?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Chatbot 1.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/11EJWgmpyFkQLBB6mi_oOIaelt4O9kHwx/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Chatbot 2.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/11Zka82uqYdwZ6Dm6p6n1rhnaokwGlWQR/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Course Transcript</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Week 1 Foundations of Conversational AI Art Shearman: Morning, John. John Day: Good morning, Art! How are you? Art Shearman: I'm well, thank you. John Day: Good, good. Art Shearman: I'm the only one that took you up on an early start. Huh! John Day: I guess so. But maybe more people will show up you know. Next time. Art... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1T1gAZ8eNwvXjgb0Bnc8yrdIPaN1-qNyQiG-XzwE2alY/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Skills_Session.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/11m92m6-NxhMfbkkBVonUeBg1K4LtnAzN/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Transcript Registry</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Session Zoom Session Text Transcript AI Assessment Foundations of AI : Mar 13 Week 1 Text ChatGPT : Session Claude : Getting to Know Us Immersive Reading : Mar 20 Week 2 Text Claude Assessment Skills Session Skills Session Text Claude Assessment Beyong Generrative : Mar 27 Week 3 Text Claude Assessment Heuristic Models : Apri 30 Week 4 Text... (Google Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1qzCpne1wdy55gLGr0lN0BEVkLNKzXDXq5D8AwJX2bY4/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Week1</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿00:19-00:20 | ART SHEARMAN Morning, John. 00:20-00:22 | JOHN DAY Good morning, Art! How are you? 00:22-00:24 | ART SHEARMAN I'm well, thank you. 00:24-00:25 | JOHN DAY Good, good. 00:28-00:31 | ART SHEARMAN I'm the only one that took you up on an early start. Huh! 00:31-00:36 | JOHN DAY I guess so. But maybe more people will show... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1cbS5az_ZNBcVYul3v3qnwVhR14bkE83RtCPc5ID7FE0/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="timestamp">
+            <strong>🕒 Generated:</strong> June 21, 2025 at 05:12 PM<br>
+            <strong>🔄 Data Source:</strong> Live Google Drive API scan<br>
+            <strong>💡 Note:</strong> This report reflects real-time folder contents
+        </div>
+    </div>
+</body>
+</html>
