@@ -1,0 +1,2476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 2025 - File Directory</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+
+        .folder-info {
+            background-color: #e8f4fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #3498db;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            opacity: 0.9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #ecf0f1;
+            vertical-align: top;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+            transition: background-color 0.3s ease;
+        }
+
+        .folder-name {
+            font-weight: 600;
+            color: #2980b9;
+            white-space: nowrap;
+            background-color: #ecf0f1;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .file-name {
+            font-weight: 500;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .file-type {
+            font-size: 0.8em;
+            color: #7f8c8d;
+            background-color: #ecf0f1;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-left: 10px;
+        }
+
+        .description {
+            color: #555;
+            line-height: 1.5;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .folder-section {
+            margin-bottom: 40px;
+            border: 1px solid #ecf0f1;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .folder-header {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+            padding: 15px 20px;
+            font-weight: 600;
+            font-size: 1.2em;
+        }
+
+        .folder-table {
+            margin: 0;
+            box-shadow: none;
+        }
+
+        .author {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+            background-color: #f1f2f6;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 30px;
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .live-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: #27ae60;
+            border-radius: 50%;
+            margin-right: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><span class="live-indicator"></span>Project 2025</h1>
+            <p class="subtitle">Live directory generated from Google Drive</p>
+        </div>
+
+        <div class="folder-info">
+            <strong>📁 Source Folder:</strong> Project 2025<br>
+            <strong>🔗 Folder ID:</strong> 1PhdNC3_1MRiBCOnt8jp1vwtN_2gmOJjw<br>
+            <strong>📊 Scan Results:</strong> 210 documents found across 20 folder(s)
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">210</div>
+                <div class="stat-label">Total Documents</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">20</div>
+                <div class="stat-label">Folders Scanned</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">75</div>
+                <div class="stat-label">Google Docs</div>
+            </div>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 Columnists (7 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">Articles of Note</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿David Brooks The Six Principles of Stupidity Jan. 30, 2025 David Brooks By David Brooks Opinion Columnist Leer en español This was the week in which the Chinese made incredible gains in artificial intelligence and the Americans made incredible gains in human stupidity. I’m sorry, but I look at the Trump administration’s behavior over the last week and the only... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1fU2vYuYFpuEsolovn9pz-FbfyAfDhKfcUolibm9BBu0/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Comments on 6 Principles of Stupidity</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿L Lesser Magistrate Louisville, KY Jan. 31 Very good piece, with a usual persuasive effort to avoid ideology. Principle 3, however, points to the need for actual moral principles and principles of democratic governance. Is principle the right word for an ironic hope, teased into a proposition, that evil people will commit less damage? Apply this to the Biden/Harris failure... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1fdEA2bNdodHG2dl7GjIrXqhGsnKFNQ7QOOe7IfzzqFQ/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Contrairian</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Tab 1 White Christian Nationalism Threatens Pluralistic Democracy Do we believe in the Declaration of Independence? Jennifer Rubin Feb 05, 2025 Next year, the United States will celebrate the 250th anniversary of the Declaration of Independence. This foundational document set forth America's creed: “All men are created equal...”, which has never been fully realized but has never been rejected by... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1rulpcelDB-dm8-vwWhIF9X0U05co-4YHud4UBuVr_Jw/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Eugene Robinson : Live Chat</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Are Americans not paying attention? I answered your questions. Eugene’s live chat with readers started at 1 p.m. ET on Tuesday. Read the transcript. Updated December 17, 2024 at 1:00 p.m. EST By Eugene Robinson The event has finished.Asking questions is not availableChat area. Please ask your question here. Questions and comments will be moderated, read, and answered as time... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1FLDOpCeyC7fITdWjZZAPPtzMl5uYwjgVTSXLPe_wluo/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Jennifer Rubin</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Democrats shouldn’t try to find ‘common ground’ with Trump Unwise, premature and embarrassing outreach from what is supposed to be the opposition. December 23, 2024 5 min 2948 From left, Sen. John Thune (R-South Dakota) House Speaker Mike Johnson (R-Louisiana) and President-elect Donald Trump talk during the Army-Navy football game in Landover on Dec. 14. (John McDonnell for The Washington... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1ItObPuBUyGh31wfOaTznie6wnjMrJNtfDvfIKdZpM2c/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">NYtimes Opinion</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Opinion David Brooks, Ross Douthat, David French and Bret Stephens Trump Voters Love Him More Than Before. Four Conservative Columnists Pinpoint Why. March 21, 2025, 5:04 a.m. ET A collage of symbols of the U.S. flag, scribbles, grids, the U.S. presidential seal and the back of President Trump’s head. Credit... Illustration by Shoshana Schultz/The New York Times Listen to this... (Google Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1HSvMhynXt79_fVWsOEvPD6svTVG6rv8-247CYz3HKKU/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">New Deal Project 2025 Comparison</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿The objective of this conversation is to compare and contrast FDR's New Deal with objectives of Project 2025. Let's begin by listing the major accomplishments of the New Deal that fundamentally changed the social contract with the American people and have become a fabric of their daily life over the last 100 years ChatGPT said: The New Deal, enacted under... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1PNoQ6e4tcfj6wobsdsS4B9FBsy5lXAg1xa8Jy2PtY8E/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 Comm (3 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">5/9 Meeting Notice</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿There was a Zoom Session on Friday 5/9 from 2-2:30 , and the transcript is available in Project 2025 Transcripts Tentatively we have decided to meet on Friday afternoon from 2-3:30. If you are interested and have the time you can access all the necessaries (including the Zoom site) at Project 2025 Launch Pad The Agenda for these week will... (Google Doc, Created May 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1zcHu8U6B8iV_r3POrWN2hiabHFnrfg_f-TqpS34Q-KA/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">6/6 Meeting Notice</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿I have a meeting with the BOLLI Strategic PLanning Committee early on Friday afternoon so we will meet on Friday June 6 from 3-3:30 this week. The Agenda for these week will be 1. We will conduct a communal prompting session to summarize and discuss the previous session 2. Comments and questions from Dave and Jim 3. Hal will present... (Google Doc, Created Jun 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1r1Xap3OuqEpctoDqXH8M8uR7fTWP6YSLBKcNjogqNNo/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Availability</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Tracking Project 2025 - Summer 2025 We will meet every 2 weeks Check your availability Time Mon Tues Wed Thur Fri 9-10:30 * Lois Ambash * Andy Urban * Jim DiNatale * Bob Fishman * Dave Chosiad * David Rattner * Lois Ambash * Andy Urban * Jim DiNatale * Bob Fishman * Dave Chosiad * David Rattner * Lois... (Google Doc, Created May 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1ZDHHnVKHSOODe_CcfzVQxki4e_jnmJbDeE0zFrsWBCw/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 Inital Presentation (23 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">28 Executive Orders, 59 lawsuits  as of  6pm February 11, 2025</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿28 Executive Orders, 59 lawsuits as of 6pm February 11, 2025 I. Executive Order 14160 – Birthright Citizenship (8 cases) 1. New Hampshire Indonesian Community Support v. Trump (D.N.H.) On Feb. 10, 2025, Judge Joseph N. Laplante issued a preliminary injunction. 2. O. Doe; Brazilian Worker Center, Inc; La Colaborativa v. Trump et al (D. Mass.) 3. State of New... (Google Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1TfGfRvWabp3Fg_ldrvxZviGZFYmA2L8MtI8Og26VM80/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Abortion Example</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Abortion Example (Google Slides, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1vrfWdnoHXGGSyE-DlwnXnn3QtX-QhxmFdhf-2OOhinM/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Biographical Sketches of Project 2025 Section Authors</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Biographical Sketches of Project 2025 Section Authors Burton, David R. David R. Burton is a Senior Fellow in Economic Policy at The Heritage Foundation, specializing in securities law, tax matters, financial privacy, and regulatory issues. He has a BA in economics from the University of Chicago and a JD from the University of Maryland Francis King Carey School of Law.... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1vh1xhxqfQtW0qdpf71nPOkJjRxTyB1uTb8S_c5i3i5E/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Case Graphs</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Case Graphs (Google Slides, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/194hTB5_BxcmHpE2tCtPT6R27U7rYkZ3mq2zvt0Jc2r4/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Copy of mandate</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Mandate for Leadership Heritage Foundation SECTION 1: TAKING THE REINS OF GOVERNMENT WHITE HOUSE OFFICE Rick Dearborn EXECUTIVE OFFICE OF THE PRESIDENT OF THE U. S. Russ Vought CENTRAL PERSONNEL AGENCIES: MANAGING THE BUREAUCRACY Donald Devine, Dennis Dean Kirk, and Paul Dans SECTION 2: THE COMMON DEFENSE DEPARTMENT OF DEFENSE. Christopher Miller DEPARTMENT OF HOMELAND SECURITY. Ken Cuccinelli DEPARTMENT OF... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1TZPjQWFO_jP2X5tWcRm_KbN0QOH19orxn-8TBAidEN8/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Court Case Summaries</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Court Case Summaries (Google Slides, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1Xw4bTOcAPWTYxAzVJOj6w_T_QJIvtywLWa2KM58yYE4/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">DOJ Resignations Trigger Bold New Appointments: The Age of the Loyal and the Unlettered Begins</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿DOJ Resignations Trigger Bold New Appointments: The Age of the Loyal and the Unlettered Begins In the wake of mass resignations at the Department of Justice following the directive to dismiss the corruption case against New York City Mayor Eric Adams, a new wave of appointments has swept through the corridors of power. Gone are the seasoned prosecutors, the award-winning... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1GE7bZ7JDfPtiC0jp3u9EtRdUaUyh7cXqdjFBL_kWrKs/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Env Actions</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Env Actions (Google Slides, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1mQYqZN6Zpnz4rVYTP_-ip8nYU6Vsaz4dsTA4LlUt7nI/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Env Graphs</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Env Graphs (Google Slides, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1MsTa01rwarO92TfxYnlu6PFjlnX18bATA92JOH0iuV4/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Executive Actions</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Defending Women from Gender Ideology Extremism and Restoring Biological Truth to the Federal Government (January 20, 2025): Defines sex as a binary concept, instructs federal agencies to use "sex" instead of "gender," and halts funding for programs promoting gender ideology. ​Wikipedia+1Wikipedia+1Wikipedia+1 Prioritizing Military Excellence and Readiness (January 27, 2025): Rescinds the inclusion of transgender individuals in the U.S. military, citing... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1xcfUut7v-24jgJbkv4hRdjOmfnzoYIh82t78FL-jP7U/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">General Contributors</div>
+                            <span class="file-type">Google Sheet</span>
+                        </td>
+                        <td class="description">Spreadsheet with data tables and calculations. File: General Contributors (Google Sheet, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1kOVMFd9dCzNc1DhHJwoPd-MXArFukIFTn7WBTvfgFR4/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Looking at Project 2025</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Looking at Project 2025 (Google Slides, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1VshYU2LlAZvgsgKpeeGkjGHZkhUIUqmSyhkqs8UGHp0/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Looking at Project 2025</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Looking at Project 2025 General Purpose and Vision ● Prepare a comprehensive transition plan for the next conservative U.S. administration. ● Provide a structured and detailed policy roadmap for governing from Day One. ● Assemble a coalition of conservative organizations and personnel to implement this vision. ● Train and prepare a new generation of government officials aligned with conservative principles.... (Google Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/145O4aO1V3_pMI0OAAyQebKPopIMEcjma0MlvY5F9kcc/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Mandate</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Mandate (Google Slides, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1m12-istM1npuR-syju7SYBN1iZunfjWFT_Vk7aEWrqU/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Mandate Details</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿ChatGPT to Create this report Section 1: Taking the Reins of Government 1. White House Office 1. Restructure White House staffing policies to improve efficiency. 2. Enhance executive decision-making processes through streamlined advisory roles. 3. Revise internal communication protocols for better coordination. 2. Executive Office of the President 1. Streamline executive agencies under presidential authority to consolidate power. 2. Increase... (Google Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1GSiDysT7lIMitPqVCLBqsbo1g59_QWvJw7cSFVcoUHs/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Nominee-Contributor</div>
+                            <span class="file-type">Google Sheet</span>
+                        </td>
+                        <td class="description">Spreadsheet with data tables and calculations. File: Nominee-Contributor (Google Sheet, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/14e8vd_tZBWQ46TDZkEc3kPZuwHhxtv2utV8FuOjY5Ok/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Nominees Contrinutor</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Nominees Contrinutor (Google Slides, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1gk3rT4e1sNGGkYdpZ39ZF16hz9HXBHmbea1fjv2_t8o/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project 2025 Initial Presentation</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Project 2025 Initial Presentation (Google Slides, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1ziXqLAt5uGmvsmGrwgLwM46S7U1sYaixTj2c6hPzKhc/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Revised Summary List of Cases</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Summary Summary Count: * Total Executive Actions covered: 11 * Total Cases with Updates: 23 Structure of Government/Personnel Department of Government Efficiency (DOGE) (Executive Order 14158) * Case 1:25-cv-00164: Public Citizen Inc v. Trump - Challenge to DOGE's authority 1. Feb 18: Judge granted motion to consolidate three cases under this one * Case 1:25-cv-00429: New Mexico v. Musk -... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1P0teX7VA9EGW1GQBM95uF71p7PcY9BjdTAzy-HQAuCM/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Summary List of Updates</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Summary Count: Total Executive Actions covered: 68 Total Cases with Updates: 193 Department of Justice review of FBI personnel involved in January 6 investigations (Executive Order 14147) Case 1:25-cv-00328: Federal Bureau of Investigation Agents Association; John Does 1-4; Jane Does 1-3 v. Department of Justice (D.D.C.) Case No. 1:25-cv-00328 (Filed: 2025-02-04) - Overview: The Federal Bureau of Investigation Agents Association... (Google Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1JaICLt_qzYuOwCTT7GRSMPvpqzfwwCV0eUVzwUbzWwA/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">contributors nominated, appointed .xlsx</div>
+                            <span class="file-type">Excel File</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Excel File, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1CJMjnER-g1biiE36RXOreziGva5D11Mi/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">first page of PPT</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Slide 1 Project 2025 Comprehensive Policy Guide Mandate for Leadership: The Conservative Promise by The Heritage Foundation Published April 21, 2023 (Google Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1ihCb_CY45fOL3Xgte5QpS8-pYoExXzYiMeolnQxoy94/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">mandate</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿1. Mandate or Leadership Heritage Foundation SECTION 1: TAKING THE REINS OF GOVERNMENT WHITE HOUSE OFFICE Rick Dearborn EXECUTIVE OFFICE OF THE PRESIDENT OF THE U. S. Russ Vought CENTRAL PERSONNEL AGENCIES: MANAGING THE BUREAUCRACY Donald Devine, Dennis Dean Kirk, and Paul Dans SECTION 2: THE COMMON DEFENSE DEPARTMENT OF DEFENSE. Christopher Miller DEPARTMENT OF HOMELAND SECURITY. Ken Cuccinelli DEPARTMENT... (Google Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1SIhksTAu36rhD1np82001vk0TDfjUtqZepyQjrShDA0/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 Keywords (3 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">Indexing Scripts</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Generate exactly 5 keywords that best represent the core themes, policy areas, and governmental mechanisms broken down by department and subsection These keywords should be specific enough to differentiate this section from others, but broad enough to connect to related concepts display the result in tabular form with '1' in the first column named Section followed by 'Taking Reins of... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1bUQ5hgxTVmSX9zRBlnHPE8CPGwntMx5kaTBUIBoKDm4/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Keyword Index ChatGPT</div>
+                            <span class="file-type">Google Sheet</span>
+                        </td>
+                        <td class="description">Spreadsheet with data tables and calculations. File: Keyword Index ChatGPT (Google Sheet, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/16AS6MaSEsUjh4jGJbRI442_EX17Ab_t5_0ox3ozzyB8/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Keywords Index Claude</div>
+                            <span class="file-type">Google Sheet</span>
+                        </td>
+                        <td class="description">Spreadsheet with data tables and calculations. File: Keywords Index Claude (Google Sheet, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1Mzc3ofawrGA34M1nhYon6t-_fhOfKqjeod7zOzTxJz0/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 Main Folder (38 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">2025 Job and Background </div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Current Employment and Background Information for Listed Individuals This report provides information on the current employment, educational background, and any legal issues of the individuals listed in the request. It also explores some common threads connecting these individuals, such as affiliations with specific organizations or political movements. The information was compiled from various sources and is summarized in the table... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/19K-gP8yKjPPkoyx5y_PPasVUunFTqC3bAWVhGIXnHes/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Chatgpt DoD actions list.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1oiTB-GKjsb9viVvrf3fiKrDs1brPGChV/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Claude section 2.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1Pg9qN5vKWcipwqvwbK2O2YCZiRW2DxDd/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Conversations of Note</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Topic Comments Gold Standard Looking to the past Six Principles of Studpidity Analsysis of comments on David Brooks OPEd New Deal Project 2025 Comparison between New Deal and Project 2025 (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/12Ow4ojubqyqwf5EhxHVOx8a1HEI6yQiQLotzX0RtWOs/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">DOJ Officials' Resignations Over Case
+</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿DOJ Officials Resign in Protest of Directive to Dismiss Eric Adams Case In a stunning display of integrity and commitment to the rule of law, several high-ranking officials at the Department of Justice (DOJ) resigned in protest of a directive from Acting Deputy Attorney General Emil Bove to dismiss the corruption case against New York City Mayor Eric Adams. This... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1VPOM_DV3p8O3oUorhKnYi0017BA8ycoVTfpQZhRO6ds/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">EO Wikipedia</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿* 2025 EO Relative EO # Absolute EO # Title Date signed Date published Federal Register citation Federal Register doc. # Full text Revoked by – EO # 1 14147[ws] Ending the Weaponization of the Federal Government January 20, 2025 January 28, 2025 90 FR 8235 2025-01900 [13][14] 2 14148[ws] Initial Rescissions of Harmful Executive Orders and Actions 90 FR... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1-HAyx9E0v5c8sFFbigmk5NWTq-hi7vjOJuCvcpSVh4E/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">EOCases</div>
+                            <span class="file-type">Google Sheet</span>
+                        </td>
+                        <td class="description">Spreadsheet with data tables and calculations. File: EOCases (Google Sheet, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1O1vlUOrctA6-eRr6Nck-w63B0rPEZ-V0cxBD-3CqP7M/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Ed Murrow Reprised</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿This is no time for men who oppose Trump’s abuses of power to keep silent. This is the story of a man who views the Constitution not as a sacred contract between the governed and their government, but as an inconvenience to be sidestepped, a roadblock on the path to his personal dominion. It is the story of a man... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1HV78OUCS84IU5WWhNwlFO-gz8JWBtUmV5_zSILs5QIE/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Env Tracking</div>
+                            <span class="file-type">Google Sheet</span>
+                        </td>
+                        <td class="description">Spreadsheet with data tables and calculations. File: Env Tracking (Google Sheet, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1NyoWpHzwkfRnaarVk6ybgPH5oalWg4-Kl2J9ERYN69g/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Executive Orders and Post–Jan</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Executive Orders and Post–Jan. 20, 2025 Developments Below we detail each Executive Order (EO) from the provided list, along with significant implementation steps taken since January 20, 2025, and any legal challenges that have arisen. EO 14147 – Ending the Weaponization of the Federal Government Implementation Updates: This order set in motion an internal purge of officials deemed to have... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1WZZ2xzxq4HX3KMKPB9N98RloLPEBRmlMS6wYHti43Mk/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Gemini  section 2 actions.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1OJxo1Vr2FDcyt76CPubRdgzcsIJDH2SD/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Job Information Lookup 
+</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Current Employment of Select Individuals This report provides information on the current employment of the following individuals: * Bakst, Daren * Berry, Jonathan * Bowes, Robert * Burke, Lindsey M. * Burton, David R. * Carmack, Dustin J. * Carr, Brendan * Carson, Sr., MD, Benjamin S. * Cuccinelli, Ken * Dans, Paul * de Rugy, Veronique * Dearborn, Rick... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1-3ibTshmhj6PtXZ0N3Yl61We6XABP2MbIUEe9Os0USs/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Lawsuit tracker: How Maryland, Baltimore are suing the Trump administration</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Lawsuit tracker: How Maryland, Baltimore are suing the Trump administration Madeleine O'Neill 2/14/2025 5:30 a.m. EST States and others have turned to the courts in an effort to stop a flood of executive actions from the White House Lawsuits against the new Trump administration are flying almost as quickly as the executive orders they seek to challenge. This tracker can... (Google Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1iHz5Bxq2hzSsfh4fKJFbmqDSZZFOFPdSYz6o9MWhnws/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Litigation Tracker</div>
+                            <span class="file-type">Google Sheet</span>
+                        </td>
+                        <td class="description">Spreadsheet with data tables and calculations. File: Litigation Tracker (Google Sheet, Created May 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1BtTi1oe9G4VgNtWYFR5qqmemTNaXKmkyQXSkvGJIy-c/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Litigation Tracker</div>
+                            <span class="file-type">Google Sheet</span>
+                        </td>
+                        <td class="description">Spreadsheet with data tables and calculations. File: Litigation Tracker (Google Sheet, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1PGwa8O3u-kEudCGE9vYCvHhh3HsAJUJfUYcrrj-PKXM/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Litigation Tracker List</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Tab 1 Case Name Complaint Date Filed Case Summary Last UpdateCase Immigration and Citizenship Executive Action: Birthright Citizenship (Executive Order 14160) New Hampshire Indonesian Community Support v. Donald J. Trump (D.N.H.) Case No. 1:25-cv-38 Complaint Jan. 20, 2025 Trump’s executive order seeks to revoke birthright citizenship for the children of undocumented immigrants on the basis that people in the United... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1mMCIzq3maXRjjkIqhoyZLPR4HhzUgVxbI4njK2StVcw/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">MFL and EO's Abortion  5/12/2025</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿The Mandate for Leadership and abortion May 12, 2025 Planned Approach to Federal Funding of Abortion Providers The Mandate for Leadership (MFL) document, which is a policy blueprint for a potential Trump 2025 administration, explicitly recommends: 1. Ending All Federal Funding to Abortion Providers: * MFL "urges ending federal funding to abortion providers like Planned Parenthood through Medicaid and other... (Google Doc, Created May 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1V-B1GrYEIcYfOte28KN6DzZERZE_43IzyuZ5RzP_wCA/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">New Executive Orders as best i can tell</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿New Executive Orders as best i can tell * Establishment of the National Energy Dominance Council: Signed on February 14, 2025, this executive order aims to increase domestic energy production and reduce costs, including projects like expanding the Algonquin Gas Transmission Pipeline. nypost.com * Keeping Education Accessible and Ending COVID-19 Vaccine Mandates in Schools: Signed on February 15, 2025, this... (Google Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1vvHVyhsAr3NmGUwbJ2NfYEMgCjwsmWm4gmeS_iJHSJg/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">PPT presentation 2/15</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿More details and revisions as of February 15 1215pm The objective of the handout and presentation should be to provide context and some sense of what’s involved PPT Purpose of the examination of Project 2025 Slide 1 The relationship of on-going Trump Administration's actions to those set forth in Project 2025 3 min Why we should focus on Project 2025.... (Google Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1-bpywvt_AA73fflBGoJZivtdvKBFaLeCEdX2rZHAKCs/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project 2025 2025 3pm</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Taking a look at Project 2025, General Purpose and Vision * Prepare a comprehensive transition plan for the next conservative U.S. administration. * Provide a structured and detailed policy roadmap for governing from Day One. * Assemble a coalition of conservative organizations and personnel to implement this vision. * Train and prepare a new generation of government officials aligned with... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1sSY_SOGY8M_GbKW5swWY9eZ1fMF0tyvZ6o_-XmFqK6k/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project 2025 Digest</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Project 2025 Digest One key aspect of project 2025 is the number of executive orders that have been issued to further the goals of that project. Along with those goals a large number of law suits have been issued that challenge the effort . As you can see from the graph to the right. (Google Doc, Created May 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1409AjQP-tCZ4tpVEc67TVSe70iSLbiNxkaLPjxd-JVs/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project 2025 Group Bios</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Dave Chosiad Education Background * B.S. in Economics, Wharton School, University of Pennsylvania. Major in Accounting * MBA Booth School, University of Chicago. Major in Finance * Various Graduate Courses in Information Technology at Boston University Professional Experience * Fidelity Investments (1996-2007) - liaison between central IT and divisions; India startup; acquisitions integration * Independent Consulting (1995-1996) - consulting to... (Google Doc, Created Jun 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1euTvLkqsfly580eHtuXokKCM2AQ8NImeatz3PXZNuoA/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project 2025 Launch Pad</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Project 2025 Launch Pad (Google Slides, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1VaxO2qHavHQhYOwe_CHY0GzNlwlwugjVb12mAl1tbxw/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project 2025 Overview</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Summary Outline of Proposed Key Actions from Project 2025 Report * Dismantling the Federal Student Loan Program * Eliminating the Department of Education’s Authority Over Higher Education Accreditation * Overhauling the Federal Reserve & Monetary System * Radical Changes in Healthcare & Social Services * Deregulating Labor & Workplace Protections * Abolishing or Defunding Key Government Agencies * Massive Tax... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1EctHKe4iBp1S31AFr4No5Mco0a0gGj-SPOx1vqPnpTM/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project 2025 Prompt</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿I want to see the status of the following 10 objectives listed in the Project 2025 and potential legal challenges. Display the results in a bullited list. Keep the response brief. Restrict the search to .org,.edu,.gov TLDs or in (nytimes.com,washingtonpost.com,guardian.com) Respond to all 10 of these obectives 1. Elimination of Civil Service Protections 2. Restricting Reproductive Rights 3. Rollback of... (Google Doc, Created Jan 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/15n7joDOP6B_-gwZnK4wYRu8EreAXrR0Tlv899-kb9Vs/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project 2025 Roles</div>
+                            <span class="file-type">Google Sheet</span>
+                        </td>
+                        <td class="description">Spreadsheet with data tables and calculations. File: Project 2025 Roles (Google Sheet, Created Jan 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/19rCqNs7wIL6fEmfBGrCQmNMp_lf63GIc2Wj8zob9QYw/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project 2025 Summary : ChatGPT</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿what part of this document might inhibit or prohobit a woman's right to make decisions about her pregnancy ChatGPT said: ChatGPT The document contains multiple sections that advocate for policies that could restrict or prohibit a woman's right to make decisions about her pregnancy. Key points include: 1. Restrictions on Medication Abortion – The document argues for reversing FDA approval... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1H0J06maW2hPeuF1OarYVB9k80DdDm1-XLhAT5wTdxqQ/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project 2025 and Legal Challenges</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Project 2025: Status and Legal Challenges This report provides a concise overview of the status and potential legal challenges associated with three key elements of Project 2025: Elimination of Civil Service Protections, Restricting Reproductive Rights, and Rollback of LGBTQ+ Protections. Elimination of Civil Service Protections Project 2025 advocates for significant changes to the federal civil service system, with the goal... (Google Doc, Created Jan 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/126IfF4f9h_pwVWDjMCUGLQ7JQWVeC-d3IkPVvhqA_aU/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Rogue's Gallery</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Tab 1 Biographies of Key Personnel This document provides short biographies (under 200 words) of individuals listed in the table below. Each biography is related to the section name and Department/Agency associated with that person and includes relevant information about their role in the government and contributions to their field. White House Office Name Section Department/Agency Rick Dearborn Legislative Affairs... (Google Doc, Created Jan 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1p0Pryg-DIRwaWDqwuGZ6yVi7jxOsGSj4WKAFFjO9ihg/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Saul Shchapiro</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿H&G16-10-Tue2 America in 2025 - Forces Shaping our Society and Politics Study Group Leader (SGL) - Saul Schapiro Location: This course will take place in person at 60 Turner Street. The room will be equipped with a HEPA air purifier. Tuesday– Course Period 2 – 11:10 am - 12:35 pm 10 week course - March 11 - May 20 (No... (Google Doc, Created Jun 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1i8S74iiThXFHyBlZ3Qy8Ey6U0vFp2PJsWPagthgO2TY/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Since Thursday, February 13, 2025, update</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Since Thursday, February 13, 2025, President Donald Trump has issued several executive orders and made notable appointments: Executive Orders: 1. Reciprocal Tariffs: On February 13, 2025, President Trump signed an executive order mandating that U.S. import tariffs match the rates imposed by other countries. This move aims to address perceived trade imbalances but has raised concerns about potential economic repercussions... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1n2My6cxiGwZ68y44H5_CJUYnxo502t1Dv1a9D731nxg/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Untitled presentation</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Untitled presentation (Google Slides, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1E0rb6CWtoD-AmS4TObKa2pKphcQvvVDDTJ0yT8GUetY/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Updates on legal challenges February 14, 2025</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Updates on legal challenges February 14, 2025 Updates on legal challenges February 14, 2025 Based on recent developments up to February 14, 2025, here are the updates to the legal challenges against President Trump's executive orders: I. Executive Order 14160 – Birthright Citizenship * New Hampshire Indonesian Community Support v. Trump (D.N.H.): On February 10, 2025, Judge Joseph N. Laplante... (Google Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1qMQOR5Tb-qwW0FcKtksoXzRo9zHzlA_NBkdFCp2YbuI/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Why we should focus on Project 2025</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Why we should focus on Project 2025. Feb 14, 2025 We are on a precipice as what appears to be actions by a power-hungry bully will lead us down the other side and the end of democracy. The truth of the matter is that the day-to-day actions by the crazy guy and his acolytes should not be the focus of... (Google Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1tTxGBojGHYYDWLklNDukYxuSyFnKC_YPJa2fQ-yTFuY/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">action items Project 2025.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1Z6hOjcDjer5nuv9YqrWkldOEiH7HoWee/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">news sources</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿John Here are the potential sources. I have marked * the ones i would use. Your comment welcome *theguardian.com sfchronicle.com *politico.com nypost.com *reuters.com vox.com newyorker.com *The Whitehouse *Congress.gov *govinfo *U.S. House of Representatives – Office of the Clerk: *U.S. Senate – Legislation &amp; Records: *United States Statutes at Large: The official record of Acts of Congress and concurrent resolutions, published... (Google Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/182e_bNfBGgVLyHOhj2d7G6ZjVUJ8RcZq_8PbWwZ13Xc/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">revisions </div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Project 2025 Report See edits to title page * Mandate for Leadership * Looking at Project 2025 * Biography of each section author * General Contributors to Project 2025 Now Let’s Analyze The Crucial Aspects of the Report · Executive Actions · Litigation Actions - Visualization - Updates · Personnel nominations and appointments should add column titles and reference to... (Google Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1bV3o7q9SZlgth4zrtMdaQXMdOeSvXTCrBuz7pCVx8bY/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">what is the best way to learn about the daily.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/18QHg7aNxSQxCwx4to7BVcuubU1Y1mMhl/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 Mandate Doc (9 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">2025_MandateForLeadership_FULL.pdf</div>
+                            <span class="file-type">PDF</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (PDF, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://drive.google.com/file/d/1oS1_DdGaOdU1miMiJPGryyFi-TXQMQvL/view?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">EO Project2025 Matrix</div>
+                            <span class="file-type">Google Sheet</span>
+                        </td>
+                        <td class="description">Spreadsheet with data tables and calculations. File: EO Project2025 Matrix (Google Sheet, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1aMIY9na3gxnxXlAe234c8KwbjkEALL4TVGdzL3_ePXI/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">EO_Master_List_with_Mandate_Sections.txt</div>
+                            <span class="file-type">Text File</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Text File, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://drive.google.com/file/d/1Awv-snbHV8uR6qhV3SCQd5lCs3ObMIKP/view?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Mandate TOC</div>
+                            <span class="file-type">Google Sheet</span>
+                        </td>
+                        <td class="description">Spreadsheet with data tables and calculations. File: Mandate TOC (Google Sheet, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1cUV4RgUXaz8dA9YlLbfbfeTu3Cj4KiZbfqtetKbLDUo/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Mandate TOC</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Mandate TOC (Google Slides, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1lx-cXVTdOXWZo4eXOlAMw8Dx7VGapBlyQd3VG-QFHw4/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">MandateTOC</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿SECTION 1: TAKING THE REINS OF GOVERNMENT...........................19 1. WHITE HOUSE OFFICE.....................................................................................................23 Rick Dearborn 2. EXECUTIVE OFFICE OF THE PRESIDENT OF THE UNITED STATES..................................................................................................43 Russ Vought 3. CENTRAL PERSONNEL AGENCIES: MANAGING THE BUREAUCRACY...................................................... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1FOrvQinFcbuJ3R0Pdvf0j2ZWshRIiz0Rj8lqcwmRe5c/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">ONWARD to the 1890s</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿ONWARD to the 1890s ONWARD to the 1890s ! Edwin J. Feulner The idea of Mandate for Leadership was first conceived in the fall of 1979 at a Heritage Foundation board of trustees meeting when former Treasury Secretary Bill Simon and former General Services Administration Administrator Jack Eckerd discussed the predicament they had faced when they first joined a new,... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1YwY-XFR6lxbDHnGTTBxuBad2NWQkFwWPMz5X2BDqqKI/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Section 3 EO Mandate XRF</div>
+                            <span class="file-type">Google Sheet</span>
+                        </td>
+                        <td class="description">Spreadsheet with data tables and calculations. File: Section 3 EO Mandate XRF (Google Sheet, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1GUtsoL7FbUs-49PyYonGAG3Eq1leWmDcBoWwUvlxP2I/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Section 5 Actions</div>
+                            <span class="file-type">Google Sheet</span>
+                        </td>
+                        <td class="description">Spreadsheet with data tables and calculations. File: Section 5 Actions (Google Sheet, Created May 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/10ZoDCydqNT6XoNbDdbBlsByyRLEg6CtDhXeblIXCykM/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 Mandate Sections - Word (5 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">Mandate - Section 1.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1yVlU9euxzTuysaas9_ac1rAByNMhzGSh/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Mandate - Section 2.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1yUtM-M5BKJvrQojl2sU5WvB6_zBGPIAi/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Mandate - Section 3.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1ae13GYkwEHSOSi8qJNeJhzsM48fD9Zb8/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Mandate - Section 4.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1kbz_-IH3LKDz5wZxpq65f3Bh0l-wEe8j/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Mandate - Section 5.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1qzZVLy1Vyj6UzxMzZpN8sbsyuf74gM4y/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 Session Notes (1 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">5/9</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: 5/9 (Google Slides, Created May 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1T6TMZ2uH5EtkWs6qs2NXy_FLR8LG1kqAfQxBoJmF5gg/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 Shared Content (8 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">4. update  Project 2025 authors and contributors serving the adminsitration 04112025.xlsx</div>
+                            <span class="file-type">Excel File</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Excel File, Created May 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1CEKKbOpvVjbaT5_udCIXbfP9Zp88UTdE/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Activity Status Board</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Item Person Status Segment Project 2025 into Sections Project 2025 Sections John Completed Rewrite Hard Look and send to Hal Lois Complete Keyword Analysis : based on the text of the Mandate Keyword Index ChatGPT : Keyword Index Claude John Review next session EO Summary list is produced from the Federal registry - needs to be updated regularly John Review... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1VoSAVkxFwHxC_u9mV43HOJptj6MCGZ_6kS8gCkKyU-g/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Executive Orders vs MFL 05052025.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created May 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1wj5JPzKdnfCUwFw1vzd7VBTVf0CGUvBM/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Idea Board</div>
+                            <span class="file-type">Google Slides</span>
+                        </td>
+                        <td class="description">Presentation slides with visual content and information. File: Idea Board (Google Slides, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/presentation/d/1qX2eXI17OPTz8znyNFOg2PAhzzzmdAzwuwV9S8ehTgM/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Lois's Reaction to Project 2025.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1c-r3LDfleXdD9qC7QMFqMhdUBYGNyxy0/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project 2025 Presidency</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Atlantic Article David Graham (The Atlantic) new book about Project 2025 april 2025 APRIL 24, 2025, 5:16 PM ET After Donald Trump won in November, I sat down to read all 922 pages of Project 2025. As I write in my new book, what I discovered was more radical and more interesting than I’d expected. It predicted much of what... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/17S5YUzpNoBjVYjTqjUl8rs0-SjT8IlEeS5GD0jT9ixY/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project 2025: An Analysis by/of/ </div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Project 2025: An Analysis by/of/ ? Bolli members, etc. unclear how to peg this 4/25/5pm Purpose From the moment he took the oath of office on January 20, 2025, Donald J. Trump's second administration has been characterized, at least on the surface, by chaos and disorganization. Trump's policies, executive orders, and actions—along with those of Elon Musk and his other... (Google Doc, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1z32ijH5vSCfWYQG5_bPRl_wXiyuqmUKBcaKUr2r6Rdk/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">people of Project 2025 in adm 05052025.xlsx</div>
+                            <span class="file-type">Excel File</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Excel File, Created May 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1PdljOaJ4HAbhIJW4KlFsu6l0tfvsAko5/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 Transcripts (6 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">Pjrct202502</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿00:58-00:59 | JOHN DAY Oh, yeah. 03:43-03:44 | HAL SHEAR Hi John. 03:45-03:46 | JOHN DAY Morning, or. 03:46-03:47 | HAL SHEAR You're muted. 03:47-03:51 | JOHN DAY Afternoon. I got it right. How are you. 03:54-03:55 | HAL SHEAR You're still muted. 03:58-04:00 | JOHN DAY How about now? 04:02-04:02 | HAL SHEAR No. 04:03-04:13 | JOHN DAY Hold... (Google Doc, Created May 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1-Gzw0m497FVcPA4qToUkFTBAPiZNAXlygGnMv9hau48/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Prjct202501.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/13aTKvZn_iyS-RUis7uLL4vcYwMhnZEVr/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project 2025 Transcripts</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Date Zoom Transcript AI Assessment 4/18/2025 ZoomTranscript TextTranscript 5/9/2025 Zoom Transcript Text Transcript Claude 5/23/2025 Zoom Transcript Text Transcript 6/4/2025 Zoom Transcript Text Transcript DataViz Basic DataViz Newspaper DataViZ AI Research DataViz Project Overview 6/7/2025 Zoom Transcript Text Transript 6/20/2025 (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1q772oDAv0Ooqp0hns9SAg0rFLVLNGLU9z4OS9RuXkAU/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project202503</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿00:21-05:23 | JOHN DAY Hi. hmm. okay, Hmm. one. Hello. Dave, how are, you. 05:23-05:24 | DAVE CHOSIAD I am well, and you. 05:25-05:30 | JOHN DAY Fine, fine, patiently waiting for spring to get started. 05:30-05:39 | DAVE CHOSIAD Yeah, I think it was last week, and we are now in the fall. You are looking at a second... (Google Doc, Created May 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1IEeMWXG5pLGICJoCjqH897UY0lGgJmKSgvPvug5HNz0/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project202504</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿01:20-02:55 | JOHN DAY hmm. hmm, hmm. hmm. yeah, yeah. 03:01-03:02 | DAVE CHOSIAD Hi! There! 03:02-03:04 | JOHN DAY Hi, Dave, how are you? 03:04-03:04 | DAVE CHOSIAD Pretty good. 03:05-03:13 | JOHN DAY Good good. I did like that article you sent me. That was interesting. 03:22-03:26 | DAVE CHOSIAD You'd never know what's gonna cross your desk.... (Google Doc, Created Jun 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1wl9bCh555ZxzsmaPRFpH6P8wuXRc-BJTOzNHK-fGAKQ/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project202505</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿01:41-01:45 | JOHN DAY Oh, hi! How are you? 01:46-01:48 | HAL SHEAR I'm good, and you. 01:48-01:50 | JOHN DAY Fine. How was the graduation. 01:51-01:53 | HAL SHEAR It was quite good. 01:54-01:55 | JOHN DAY Oh, that's good! Oh, he's. 01:55-02:09 | HAL SHEAR But I don't. Well, when I graduated from the 5th grade to go... (Google Doc, Created Jun 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1m5XDHAFSi_e9Xs7i9UQENe1FQN3ghR2dn0I9fap56ts/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 Transcripts00 (14 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">Prjct 20225 - 2</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Hal: Hi John. John Day: Good morning! Hal: Morning still can't stop coughing. But that's okay. John Day: Right, yeah. Hal: So what did you? What did you think of my idea. John Day: I know, I think. You know, that's what we should discuss. I think it has a lot of merit keeping it simple is, I think, extremely... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1pGiwQ8mk593cguqTOx1uzWlUN2bn8y1IGHl47lkC39I/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Prjct 2025 - Initial Chat</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿John Day: boy. hmm. hmm. hmm. Oh, okay. right. Hmm. Hmm. Okay. Hmm. okay. Hmm. Morning, Hal. Now. okay. are you? Muted Hal. hal shear: How does that make? Is that any better. John Day: I can hear you. I can hear you, but I can't see you, but you know. hal shear: Audio is on. I don't understand. John... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1w7ISFnVf6UDKZyiv0rxg0CrsSN7rL03G-seekIowQiA/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project 2025 - 3</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿John Day: Oh, yeah. Nice. Okay. hal shear: Hi John. John Day: Oh! How are you. hal shear: Hey? I am dealing with life's complications because I can get this on my safari, but not on my chrome. and that's late, anyway. Let's talk about you. Got a chance to look at what I sent you. John Day: Yeah, just... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1eFMfCzMpKEuKlVDRZM8kIA-7vtiiTBHa1U47qpDyB3Y/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project 2025 10</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿ (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/17Ax0TI6mCWNu9AcZ4CZUmNvluYFNihPJkJ6qPYshqug/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project 2025 4</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿John Day: Random. Yeah, I'm not again trying to minimize the danger of Elon. But this is such classic overreach on the part of both him and trump, and I guarantee you I could be wrong, but I I've been wrong in some of my predictions in the past, but this will end with him fleeing the country with emeralds.... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1sG5fGqPQKcWL660aDmtuzXbFK6aobprKL-Xrb5PjMME/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project 2025 5</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿John Day: Good morning, Hal. hal shear: Hi! Hold on one second. Just hey, hey? Okay, do. Did you read the Wall Street Journal this morning? John Day: I'm sorry. hal shear: Did you read the Wall Street Journal this morning. John Day: No, no, I don't. I'm not a a journal, reader, but hal shear: Okay? Well, the article... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1SN5AfBRW8YEWzarM74d8dK4OQqHyzSr8F8ThQmnilWE/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project 2025 6</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿John Day: Okay. hal shear: Hi John. John Day: Yes, Hi, Hal! How are you? hal shear: I'm here. John Day: You're here. hal shear: Okay. John Day: So let's go through those documents. I did not see them. Did you save them in your You're not sure. hal shear: Yeah, I you know. I tried to put them in... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1DwzpwwQhQq0IHNN78ULkyWGPAkNRMdpQ0AmPYza0fp4/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project 2025 7</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿John Day: Good morning! hal shear: Hi! There! How are you? John Day: Well yourself. hal shear: We're fine. John Day: Good sounds like you may have gotten past your coughing fits a little bit. hal shear: Yes, it seems that way, although. I'm not counting anything yet. So. John Day: Okay. So it was an interesting day on Thursday,... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1vlMxh4GXEby7q1u8pOEl2d6s3N5E105dw22StLF6fgQ/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project 2025 8</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿John Day: Hello! hal shear: Hi! There! How was your flight? John Day: Oh, it was it started out really. Well, we had a very early flight. 7 o'clock. And it was gonna be. And typically it's a 3 h flight from Sarasota to Boston, and they said that it's gonna be 2, 32 h, 30 min, and I said,... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1QRfMYdzXoe3VWj09QRxad7JNir3WitW8EU5RuQkuSjI/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project 2025 9</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Hal: Hi! There! Hi! There! John Day: Hello! Hal: Hi John. John Day: How are you? Hal: I'm all right, and you. John Day: Fine! Fine! What's doing that. Hal: Yeah, I don't show you. I don't know. You're not well, I don't know. Do we share? Is that what it is? John Day: Yeah, yeah, go to share screen.... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/16emEiz4FiCMKgb8xy4zqQXhhFlzrnwD3lh8mKPVziLk/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project 2025_11</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿jhnda: Hello! hal shear: Hi! There! jhnda: How are you? hal shear: Hey? Well, it's been a long day, but it's okay. jhnda: Okay. hal shear: I just did a presentation for my kids in which jhnda: Tripping, Panama. hal shear: And I tried to screen share with my Samsung TV, and it wasn't easy, but we got it done... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1WiPkg70AOYmlx2_QTWx5dxg49mvVGMD1xV0cZkKiZIQ/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project2025_12</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿jhnda: Hello! hal shear: Hi! There! jhnda: How are you? hal shear: Hey? Well, it's been a long day, but it's okay. jhnda: Okay. hal shear: I just did a presentation for my kids in which jhnda: Tripping, Panama. hal shear: And I tried to screen share with my Samsung TV, and it wasn't easy, but we got it done... (Google Doc, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1j7VtcNlGDopSK2gZxiNqxmCCQdqjmAK74636SxiFYGA/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project2025_12.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/12vjkJvdMIjHWmEO_SE0YoK9sDrJ4hIRr/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Transcript Registy</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Date Transcript ChatGPT 1/31/2025 Initial Chat ChatGPT 2/4/2025 Session 2 ChatGPT 2/5/2025 Session 3 ChatGPT 2/8/2025 Session 4 ChatGPT 2/10/2025 Session 5 ChatGpt 2/14/2025 Session 6 ChaGPT 2/16/2025 Session 7 ChatGPT 2/21/2025 Session 8 ChatGPT 2/23/2025 Session 9 ChatGPT 3/16/2025 Session10 Chapgpt 3/24/2025 Session 11 3/28/2025 Session 12 (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1GeIfzF6Oap6nlAv4hT1Mgx46N8_-LnjimSzzp36cW5U/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 Trump EO (1 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">EO Summary</div>
+                            <span class="file-type">Google Sheet</span>
+                        </td>
+                        <td class="description">Spreadsheet with data tables and calculations. File: EO Summary (Google Sheet, Created Apr 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/15z6nsq6ruCkmV5LYOr8QYqgvKBRGLgGovKkIcJT2h3Y/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 draft project 2025  (23 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">1. Looking at Project 2025.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1sIvkbndd4_TiUen9lGU2XwEkQPSK4n2l/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">1. Looking at Project 2025.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1NmEZxTF4aYDS42VNFIeu286164ONaM5i/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">2. Mandate or Leadership Heritage Foundation.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1c3KLCLXYM3X_U8MdfUj6hHK2xoYPtTza/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">2. Mandate or Leadership Heritage Foundation.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1li2E-XAL0xlVpS44MXe_SmyH2BGG4GKS/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">3 Biographical Sketches of Project 2025 Section Authors.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/12UlffYna4HTmVqrwCEt43feIUXLef2uc/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">3 Biographical Sketches of Project 2025 Section Authors.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1ELDv9A5qou1zQ9vwXIGysJsBH9v5CfwO/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">4. General contributors to Project 2025.xlsx</div>
+                            <span class="file-type">Excel File</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Excel File, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/19SpoR9dIQL6DDmll0LefwqMqPyBifC1G/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">4. General contributors to Project 2025.xlsx</div>
+                            <span class="file-type">Excel File</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Excel File, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1KqtdQv8QdHlIY6VbG-X0DHYZhWmYdNpa/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">5. Historic Governmental Relationships.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1m5_d7CBLTEKpfiOKuMaWiOw8WQhgoGJb/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">5. Historic Governmental Relationships.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1BUr0PspuyukE-B6B3zcsXB8YZId9HGaD/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">6.  Recent  Trump appoinmentees:Nominees  .xlsx</div>
+                            <span class="file-type">Excel File</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Excel File, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1DUafWwf0kokV2ntD9vOCEZ471cOikKXp/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">6.  Recent  Trump appoinmentees:Nominees  .xlsx</div>
+                            <span class="file-type">Excel File</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Excel File, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/10-XsrbSdskWNWhWmqNbu2442_Y6gOtIY/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">7. 2025_MandateForLeadership_FULL.pdf</div>
+                            <span class="file-type">PDF</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (PDF, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://drive.google.com/file/d/1iSfcpwKYKX5Nrcnf2HPq1V7LA_ZYzO5a/view?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">7. 2025_MandateForLeadership_FULL.pdf</div>
+                            <span class="file-type">PDF</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (PDF, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://drive.google.com/file/d/1iA-wp-qvxjxyrOfU9GT_jH6z9qgGQsVk/view?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Project 2025 Overview</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿General Purpose and Vision Looking at Project 2025 General Purpose and Vision * Prepare a comprehensive transition plan for the next conservative U.S. administration. * Provide a structured and detailed policy roadmap for governing from Day One. * Assemble a coalition of conservative organizations and personnel to implement this vision. * Train and prepare a new generation of government officials... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1sPoTehFLkqPk4NQDAhs1XNcj5nftYC-t1dT-_Wnlaps/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Summary List of Case Updates</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿Litigation of Executive Orders update of 2/21/2025 Case No. 1:25-cv-00339 - AFL-CIO challenges DOGE's access to Department of Labor information systems * Update 1 (Feb 7): Judge denies TRO due to plaintiffs lacking standing * Update 2 (Feb 12): Plaintiffs submit renewed TRO request * Update 3 (Feb 14): Judge denies renewed TRO but notes need for further briefing on... (Google Doc, Created Feb 2025 by John Day)</td>
+                        <td><a href="https://docs.google.com/document/d/1XgP3b7jl75mYostkimW3V_vagMUUzihKf1kDZw17yyg/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Table of contents  2:9 revisions .docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1pirrJqrKezxO1ZD4dsyO05hT3KOfBsc3/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Table of contents  2:9 revisions .docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/14ASVRfO12vzHRsEd9874l1h34woNsCFF/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">final look at section 1 actions and sources</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿The actions taken by the Trump administration from February 2025 to March 15, 2025, are derived from Project 2025 action section 1 and Action Update Sources Summary*documents. Below is the list of actions with their sources: 1. White House Office (Rick Dearborn) - Established a Senior Advisor to oversee energy and environmental policy - Abolished the Office of Domestic Climate... (Google Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1mq56Otjp_9VJTzI-QMUeSfNzamYdd28LnLSos3cnAas/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">~$Table of contents  2:7 revisions .docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1yI-6e7ZJZX0OGncy56BV-kWiEwCTDni8/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">~$Table of contents  2:7 revisions .docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1M9tVtmo6I7vBDWUbl2_8-rjjNU1XfIRx/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">~$ndate or Leadership Heritage Foundation.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1tkeRnrOdDM7wEpZpMJ1OI8yW-SP4sU_b/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">~$ndate or Leadership Heritage Foundation.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Feb 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1GtdSVD_Hd3XPcG6exIwSaxeFh8MMTbgi/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 for circulation  project 2025 (8 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">.DS_Store</div>
+                            <span class="file-type">Document</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Document, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://drive.google.com/file/d/1SYlnLz62uB-r35uS7VYG6Iq0pWSN-RrJ/view?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">1. Bolli Project 2025 A hard look.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1X_7eoAPazRm5O8d9r64MHaST18gBZHuv/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">2. MFL 2025 organizations of authors: contrbutors .docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1faVhxvCzpUKGD4mHv1LCeLcX719K-6EP/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">3. Author and editor Biographies as of 1.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1LJ41nIWFtV-BGG5f9nDLzhpuK_4QGP2E/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">4. Project 2025 authors and contributors serving the adminsitration 04112025.xlsx</div>
+                            <span class="file-type">Excel File</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Excel File, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/10COyPs8uP1efaVLi0vzpgyxGC9IlwY4r/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Details from deep search.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1z2tkdkXLEiawcq9y7IO4xA_qjbDJJvoR/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">School Board Book Bans
+</div>
+                            <span class="file-type">Google Doc</span>
+                        </td>
+                        <td class="description">﻿The Implementation of Book Ban Policies by School Boards in the United States: A Comprehensive Analysis 1. Executive Summary: The issue of book bans in schools across the United States has garnered significant national attention in recent years. This report provides a comprehensive analysis of the number of school boards that have implemented policies to ban books, drawing upon data... (Google Doc, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/13QpSiXFZyEwipoL4edR8Dk7Zs6RFHhdupEmHJ22XnSg/edit?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">~$4. Project 2025 contributors serving admin 04112025.xlsx</div>
+                            <span class="file-type">Excel File</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Excel File, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1wLUlShN8XExkNpFvkh162TM5jYVa0Aam/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 gemini project  (2 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">gemini 1.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/131qzrX-0EFRzRkDD2TMdzn_jBQZSXAT3/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">gemini report 2.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1FR7UjXK5e4NLpD1FX6kAuSmPOSU2SmuW/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 info for working group 4-4-2025 (14 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">  our project to understand MFL  Project 2025 in the  contex of real time actions 4_4_25.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1A8txdu4x2yD-0I3yxHDqsZyoSFfr8_hL/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">.DS_Store</div>
+                            <span class="file-type">Document</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Document, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://drive.google.com/file/d/1eiBKZL4i7KbdJrDxTccZlr8wEN66VKsL/view?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">1 Looking at Project 2025.pdf</div>
+                            <span class="file-type">PDF</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (PDF, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://drive.google.com/file/d/1_xQC8khmRgjBb7_gYR36-jiy_5q30XvP/view?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">2.  initial contributors nominated, appointed .xlsx</div>
+                            <span class="file-type">Excel File</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Excel File, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1VLV9NBWe5BY3zWlC1Ek0GAoc78omFbaC/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">2. a current appointees as of feb .xlsx</div>
+                            <span class="file-type">Excel File</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Excel File, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1XPPU7eOpYRF6w7UbB1cXGJFjke6LpFLu/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">2. b authors contributors over time .xlsx</div>
+                            <span class="file-type">Excel File</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Excel File, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/178o_XPyWJXhVpetSOeJoLORTRDTDJfy-/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">2. c Trump_Appointees, tec, as of feb 21 2025.xlsx</div>
+                            <span class="file-type">Excel File</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Excel File, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1diKPkmdTdUs3gXBOY2JDlVlADq3-iwHY/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">2.d. edited Biographical Sketches of Project 2025 Section Authors.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1XiMj2EuHigZ_gsiSujspkScxm9IOS5vk/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">2025_MandateForLeadership_FULL.pdf</div>
+                            <span class="file-type">PDF</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (PDF, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://drive.google.com/file/d/1ARNKzQKUIfImoaA00oUEhufAVHmCE7lX/view?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">3. Lawsuit tracker 2-14.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1zMjPr8HS_Ge_zZvKaB3cA4nzLnX7ph-o/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">4. as of march 15, 25 Ex actions 458.xlsx</div>
+                            <span class="file-type">Excel File</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Excel File, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1YegvLpkACJhTUOjqLHZ_pE02O1t_IJSG/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">5. detailed executive actions .xlsx</div>
+                            <span class="file-type">Excel File</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Excel File, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1MlcxI7NQHf54T9gzJbkdER1VERv5jZT5/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">6.Mandate_Match_Summary.numbers</div>
+                            <span class="file-type">Document</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Document, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://drive.google.com/file/d/1TINWS1erEE7kEC_W8hJDOAhyIG6q3brE/view?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">7. SECTIONs  of MFL 2025.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Apr 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/18P-omRCnCIYdIDTdokWTjtled-vI0e41/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 section 5 project  (25 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">A project 2025 update chaTgtp.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1qYXhWuDndAd4DI6oxZGwymj7sYpwXhv8/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">A1 Gemini news sources .docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1D8R5dlEE7bEun3SNaBniNKHjb2E_UXyY/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">As of update .docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1fZXq_juSpt4hAtBWxeQG3KgrhChaGc1B/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">As of update 3:25:2025 .docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/18m3vAILFWXptri7qJSp2AlieRB0mKFO6/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">As of.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1JBoTGaAUmX_8BaBHD3pNu7lI4s2zv37-/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">B Project 2025 update.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1xs4Vy8tZqYxuifXHcvqIcgWVoe3XP7lY/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">C orject 2025 section 1 ref The White House.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/19vhAhHC2Dcddky5mCGye1YLD8ujuBAQQ/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">D project 2025 with the  source of each update.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/12YGVom0kPp7AI0goSPuZHlwHih6zsuLy/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">E project 2025 status update .docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1Ywi6FPXH4yJqPhZclgqDgyTEwK4872wS/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Edited sources for the section 5 actions.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1n3-dz0CBdHdTPOU8JMLdNjnZUDoId0xV/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">F include references to sources other than Whitehouse or politico.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1LX3VJW0RZzFckK1vUDJb44uZdt7sbN_D/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Full sources for Section 5 actions.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1JFMOiw4Hdmw00TN4gOmhriCY-Kebkp8o/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">More sources.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1CNXRJHWPRS7xV0nQQFjx7hXxa42e5Ybk/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">New list of action items section 5  time 707.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1JoJprZgO2-tZ-ThXH2GZSNOiD4N7vaUN/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">News sources for ChatGPT.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1TynbdpwJgqdcdDmxX2_N9aMxAHxzBL2N/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Section 5 of the report CHAT only.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1iBmVeBed4FcVRJxEIurrSKRSr65Tf8tr/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Sources for analysis section 5 .docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/11zW_7dKIB0-5RRG9-AU9P4uauApzO-YY/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">chatgpt and the list from the site.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1b80eLXrIEA6PhmslX0MofQV8-wsL_psF/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">full list of sources.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1kdK3oNUS-bZhkV1-XEpGSkc_W-qaZ9fH/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">section 5 FRA  instruction .docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1yXJQUr6kMAa1IX5p-N4gACJ7SqY0s1W3/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">section 5 chat with sources .docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1WLs8J93Pxj9KwYDUkSQC0985FNtfmn4Q/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">section 5 visual .docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1WmfQvcp7jhIOBEZ9932KtIU2HsVuUdXd/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">sorted list of sources.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/11Yk4tHTXOq8pTDeq06CGHLTT8MND3MkI/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">the start.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1eLP7KYdcaEAgcShlde0Jthbu2_7rVpim/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">update showing chart.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/10OKxflLRJjxapGlCBfTe1-Z0F9Jj-OPF/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 sources project  (15 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">A project 2025 update chaTgtp.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1jwW8B8tCC4Vg6G-4HQtOGcmAJzu4AadC/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">A1 Gemini news sources .docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1QhD5CPi9vjsDNnpCkjXg_tSsQ90ZhkA5/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">B Project 2025 update.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1W89i6so-ZJ06FSgqdPiYF3URCfX9ld6V/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">C orject 2025 section 1 ref The White House.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1Lyl4-EFUcLRIgvrJxamTv42B35JLKdjU/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">D project 2025 with the  source of each update.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1Td-boKc3Y3GnXMWqFs4O-tEwip7ZkJAL/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">E project 2025 status update .docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1nLDA6rO4lVxO3i2LdKdGYvH5B0u-GCMc/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">F include references to sources other than Whitehouse or politico.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/13I_IXRJcZ7mAkC7bamhLDkT3n2pKIPoO/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">More sources.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/14um43x6mVWsrs5Sj9TN4_NIvAbqdV_Vw/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">News sources for ChatGPT.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1bBuTKEwxyoe5tUHoaMEinAn2NiogXXlD/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">Sources for analysis section 5 .docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1gGRqvFpmUV85LFrWqcWDlZDNYWmcSt0j/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">What Has President Trump Done So Far_ Track His Executive Orders, Tariff Threats and More - WSJ.pdf</div>
+                            <span class="file-type">PDF</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (PDF, Created Jun 2025 by John Day)</td>
+                        <td><a href="https://drive.google.com/file/d/1ZAf_ZS-5al0AUb414tjnCS7eFNX9C4DV/view?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">John Day</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">section 5 FRA  instruction .docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1IfxL_dJWsOs9UurQrH_-rIt0fmPu9dp1/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">section 5 visual .docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/11O3CjbWzGLcHLEvSuk7zNdwvrzYya67a/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">the start.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1hkKackMhHR14ckCKqYutaQD25REx8l5y/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">update showing chart.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1OOhHIdWahV8Z-YI5D3f1a7CBjjuMTLTn/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 today  (4 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name"> nyt, WSJ, WAPO as chat sources.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1YgIl_4RPG8Vkq30kdDAJTfsQBr9p8TD2/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">ChatGPT 1041.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1bWuLAvNghDb5FkmSs37YFB0xKRdUSUH8/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">fisrt and last.xlsx</div>
+                            <span class="file-type">Excel File</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Excel File, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/spreadsheets/d/1nsiR-CXpD-EDYq_sBkx7xXSS0mG__jdQ/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file-name">lMarch 28 list all nominees and app.docx</div>
+                            <span class="file-type">Word Doc</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://docs.google.com/document/d/1GAXp4xNdZKX8ZpKiOrPVmMUiLyYs7brK/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="folder-section">
+            <div class="folder-header">
+                📁 updated sources project  (1 documents)
+            </div>
+            <table class="folder-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">File Name</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 15%;">Link</th>
+                        <th style="width: 15%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="file-name">.DS_Store</div>
+                            <span class="file-type">Document</span>
+                        </td>
+                        <td class="description">Binary file or unsupported format for content extraction. (Document, Created Mar 2025 by halscoc803)</td>
+                        <td><a href="https://drive.google.com/file/d/1DhblKr_DPZ8Liv4eE8R6s9hmMoV2VPRF/view?usp=drivesdk" target="_blank">Open</a></td>
+                        <td class="author">halscoc803</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="timestamp">
+            <strong>🕒 Generated:</strong> June 21, 2025 at 02:12 PM<br>
+            <strong>🔄 Data Source:</strong> Live Google Drive API scan<br>
+            <strong>💡 Note:</strong> This report reflects real-time folder contents
+        </div>
+    </div>
+</body>
+</html>
