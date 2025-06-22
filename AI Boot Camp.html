@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Boot Camp for BOLLI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            font-weight: 300;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero .subtitle {
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .comfort-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: 2px solid rgba(255,255,255,0.3);
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+
+        .journey-path {
+            display: flex;
+            justify-content: space-between;
+            margin: 60px 0;
+            position: relative;
+        }
+
+        .journey-path::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #e74c3c, #f39c12, #27ae60);
+            z-index: 1;
+            border-radius: 2px;
+        }
+
+        .week-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            width: 30%;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .week-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+
+        .week-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white;
+        }
+
+        .week1 .week-number { background: #e74c3c; }
+        .week2 .week-number { background: #f39c12; }
+        .week3 .week-number { background: #27ae60; }
+
+        .week-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .week-card p {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .skill-tag {
+            background: #ecf0f1;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            color: #34495e;
+        }
+
+        .support-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .support-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .support-item {
+            text-align: center;
+            padding: 25px;
+            border-radius: 15px;
+            background: #f8f9fa;
+        }
+
+        .support-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .testimonial {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            text-align: center;
+            font-style: italic;
+            font-size: 1.2em;
+        }
+
+        .fear-buster {
+            background: #2ecc71;
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .fear-buster h3 {
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .fear-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .fear-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid white;
+        }
+
+        .cta {
+            text-align: center;
+            background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+            color: white;
+            padding: 50px;
+            border-radius: 20px;
+            margin-top: 40px;
+        }
+
+        .cta h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #e84393;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .journey-path {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .journey-path::before {
+                display: none;
+            }
+            
+            .week-card {
+                width: 100%;
+            }
+            
+            .hero h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>AI Boot Camp</h1>
+            <div class="subtitle">Your Gentle Introduction to the Future</div>
+            <div class="comfort-badge">💡 No Tech Background Required • We Start Simple • You're Not Alone</div>
+        </div>
+
+        <div class="fear-buster">
+            <h3>🤝 If You're Thinking "I'm Not a Computer Person"...</h3>
+            <p>Perfect! This course is designed for exactly that feeling. We know technology can feel overwhelming, so we've built in every support you could need.</p>
+            
+            <div class="fear-list">
+                <div class="fear-item">
+                    <strong>"I break things when I touch them"</strong><br>
+                    → We have helpers at every table. Nothing you can do will break anything permanently!
+                </div>
+                <div class="fear-item">
+                    <strong>"Everyone else will be ahead of me"</strong><br>
+                    → We start with absolute basics. Many participants feel the same way you do.
+                </div>
+                <div class="fear-item">
+                    <strong>"I don't want to look foolish"</strong><br>
+                    → Questions are encouraged! The "silly" questions often help everyone.
+                </div>
+                <div class="fear-item">
+                    <strong>"What if I can't keep up?"</strong><br>
+                    → We move at the group's pace, with individual help and practice time built in.
+                </div>
+            </div>
+        </div>
+
+        <div class="journey-path">
+            <div class="week-card week1">
+                <div class="week-number">1</div>
+                <h3>Get Comfortable</h3>
+                <p>We start with your browser—opening windows, saving bookmarks, organizing files. Think of it as arranging your digital desk.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">Multiple Windows</span>
+                    <span class="skill-tag">Bookmarks</span>
+                    <span class="skill-tag">Downloads</span>
+                    <span class="skill-tag">Screen Setup</span>
+                </div>
+            </div>
+
+            <div class="week-card week2">
+                <div class="week-number">2</div>
+                <h3>Meet Your AI Assistant</h3>
+                <p>Like having a conversation with a knowledgeable research librarian. We'll practice asking questions and getting useful answers.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">Simple Questions</span>
+                    <span class="skill-tag">Summarizing</span>
+                    <span class="skill-tag">Fact Finding</span>
+                    <span class="skill-tag">Follow-up</span>
+                </div>
+            </div>
+
+            <div class="week-card week3">
+                <div class="week-number">3</div>
+                <h3>Research Like a Pro</h3>
+                <p>Tackle bigger projects and plan your continued learning. You'll leave feeling confident and curious, not overwhelmed.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">Deep Research</span>
+                    <span class="skill-tag">Comparing Sources</span>
+                    <span class="skill-tag">Personal Projects</span>
+                    <span class="skill-tag">Next Steps</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="support-section">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #2c3e50;">We've Got Your Back Every Step</h2>
+            <div class="support-grid">
+                <div class="support-item">
+                    <div class="support-icon">👥</div>
+                    <h4>Small Groups</h4>
+                    <p>Maximum 16 people, with helpers at every table. You'll get individual attention when you need it.</p>
+                </div>
+                
+                <div class="support-item">
+                    <div class="support-icon">☕</div>
+                    <h4>Office Hours</h4>
+                    <p>Drop-in help sessions between classes. Bring your laptop and get one-on-one support.</p>
+                </div>
+                
+                <div class="support-item">
+                    <div class="support-icon">📋</div>
+                    <h4>Take-Home Guides</h4>
+                    <p>Laminated reference cards with step-by-step instructions you can follow at home.</p>
+                </div>
+                
+                <div class="support-item">
+                    <div class="support-icon">🤝</div>
+                    <h4>Practice Partners</h4>
+                    <p>We'll pair you with someone using similar technology for mutual support and encouragement.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="testimonial">
+            "I thought AI was for young tech wizards. Turns out, it's like having a really smart research assistant who never gets tired of my questions. I wish I'd started sooner!" 
+            <br><br>
+            <strong>— What we hope you'll say after Week 3</strong>
+        </div>
+
+        <div class="support-section">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">Real Examples of What You'll Learn</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
+                <div style="background: #fff3cd; padding: 20px; border-radius: 10px; border-left: 4px solid #f39c12;">
+                    <h4>📚 Research Your Interests</h4>
+                    <p>"Tell me about the history of jazz in Boston" → Get a clear overview plus suggestions for books, documentaries, and local venues.</p>
+                </div>
+                
+                <div style="background: #d1ecf1; padding: 20px; border-radius: 10px; border-left: 4px solid #17a2b8;">
+                    <h4>🏥 Understand Medical Information</h4>
+                    <p>Upload a complex medical report → Get it explained in plain English with questions to ask your doctor.</p>
+                </div>
+                
+                <div style="background: #d4edda; padding: 20px; border-radius: 10px; border-left: 4px solid #28a745;">
+                    <h4>✈️ Plan Travel</h4>
+                    <p>"Help me plan a week in Italy for someone who walks slowly" → Get detailed itineraries with accessibility considerations.</p>
+                </div>
+                
+                <div style="background: #f8d7da; padding: 20px; border-radius: 10px; border-left: 4px solid #dc3545;">
+                    <h4>📰 Stay Informed</h4>
+                    <p>"Explain this news article about climate change" → Get context, background, and different perspectives on current events.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta">
+            <h2>Ready to Surprise Yourself?</h2>
+            <p>Join fellow BOLLI members who thought they "weren't computer people" and discovered they absolutely are.</p>
+            <a href="#" class="cta-button">I'm Ready to Start My AI Journey</a>
+            <div style="margin-top: 20px; font-size: 0.9em; opacity: 0.8;">
+                3 weeks • 90 minutes each • In-person support • No prerequisites
+            </div>
+        </div>
+    </div>
+</body>
+</html>
