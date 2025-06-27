@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLLI SWOT Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .swot-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            min-height: 800px;
+        }
+
+        .quadrant {
+            padding: 30px;
+            position: relative;
+            border: 2px solid #ecf0f1;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .quadrant:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .strengths {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+        }
+
+        .weaknesses {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .opportunities {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+        }
+
+        .threats {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+        }
+
+        .quadrant h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 300;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .category {
+            margin-bottom: 25px;
+        }
+
+        .category h3 {
+            font-size: 1.3em;
+            margin-bottom: 12px;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .items {
+            list-style: none;
+        }
+
+        .items li {
+            margin: 8px 0;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 6px;
+            font-size: 0.95em;
+            line-height: 1.4;
+            transition: background 0.3s ease;
+        }
+
+        .items li:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .icon {
+            font-size: 1.5em;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .summary {
+            background: #f8f9fa;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .summary h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .summary p {
+            color: #7f8c8d;
+            font-size: 1.1em;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        .strengths .stat-number { color: #27ae60; }
+        .weaknesses .stat-number { color: #c0392b; }
+        .opportunities .stat-number { color: #e67e22; }
+        .threats .stat-number { color: #8e44ad; }
+
+        @media (max-width: 768px) {
+            .swot-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(4, auto);
+            }
+            
+            .stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .quadrant {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>BOLLI Strategic Planning</h1>
+            <p>SWOT Analysis - Brandeis Osher Lifelong Learning Institute</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card strengths">
+                <div class="stat-number">12</div>
+                <div class="stat-label">Key Strengths</div>
+            </div>
+            <div class="stat-card weaknesses">
+                <div class="stat-number">15</div>
+                <div class="stat-label">Areas for Improvement</div>
+            </div>
+            <div class="stat-card opportunities">
+                <div class="stat-number">18</div>
+                <div class="stat-label">Growth Opportunities</div>
+            </div>
+            <div class="stat-card threats">
+                <div class="stat-number">10</div>
+                <div class="stat-label">Strategic Threats</div>
+            </div>
+        </div>
+
+        <div class="swot-grid">
+            <div class="quadrant strengths">
+                <h2><span class="icon">💪</span>STRENGTHS</h2>
+                
+                <div class="category">
+                    <h3>Academic Excellence</h3>
+                    <ul class="items">
+                        <li>High-quality courses and curriculum</li>
+                        <li>Strong intellectual academic culture</li>
+                        <li>Excellent teaching from SGLs</li>
+                        <li>Robust support program for instructors</li>
+                    </ul>
+                </div>
+
+                <div class="category">
+                    <h3>Learning Community</h3>
+                    <ul class="items">
+                        <li>Highly educated, engaged members</li>
+                        <li>Diverse professional backgrounds</li>
+                        <li>Strong camaraderie and discussion</li>
+                        <li>Community of committed learners</li>
+                    </ul>
+                </div>
+
+                <div class="category">
+                    <h3>Program Flexibility</h3>
+                    <ul class="items">
+                        <li>Choice of Zoom and in-person options</li>
+                        <li>Wide variety of course topics</li>
+                        <li>5 and 10-week course options</li>
+                        <li>Balance of member and expert instructors</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="quadrant weaknesses">
+                <h2><span class="icon">⚠️</span>WEAKNESSES</h2>
+                
+                <div class="category">
+                    <h3>Financial Sustainability</h3>
+                    <ul class="items">
+                        <li>Compensation issues with external SGLs</li>
+                        <li>Unsustainable cost structure</li>
+                        <li>Declining member SGL participation</li>
+                        <li>Revenue vs. expense mismatch</li>
+                    </ul>
+                </div>
+
+                <div class="category">
+                    <h3>Infrastructure</h3>
+                    <ul class="items">
+                        <li>Inadequate basement space</li>
+                        <li>No accessibility for stairs</li>
+                        <li>Technology support limitations</li>
+                        <li>Poor hybrid learning capabilities</li>
+                    </ul>
+                </div>
+
+                <div class="category">
+                    <h3>Programming Limitations</h3>
+                    <ul class="items">
+                        <li>Random curriculum generation</li>
+                        <li>Rigid scheduling constraints</li>
+                        <li>Limited course format variety</li>
+                        <li>Unbalanced course demand/supply</li>
+                    </ul>
+                </div>
+
+                <div class="category">
+                    <h3>Community Challenges</h3>
+                    <ul class="items">
+                        <li>Post-COVID community building</li>
+                        <li>Volunteer burnout</li>
+                        <li>Lack of diversity (age, demographics)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="quadrant opportunities">
+                <h2><span class="icon">🚀</span>OPPORTUNITIES</h2>
+                
+                <div class="category">
+                    <h3>Marketing & Expansion</h3>
+                    <ul class="items">
+                        <li>Enhanced marketing efforts</li>
+                        <li>Course promotion via podcasts/video</li>
+                        <li>Recruit through local organizations</li>
+                        <li>Target younger demographics (50-65)</li>
+                    </ul>
+                </div>
+
+                <div class="category">
+                    <h3>Revenue Generation</h3>
+                    <ul class="items">
+                        <li>Sell recorded courses online</li>
+                        <li>Partnerships with CCRCs</li>
+                        <li>Annual giving campaigns</li>
+                        <li>Collaboration with other OLLIs</li>
+                    </ul>
+                </div>
+
+                <div class="category">
+                    <h3>Program Innovation</h3>
+                    <ul class="items">
+                        <li>Flexible course lengths and times</li>
+                        <li>AI integration for course prep</li>
+                        <li>Hybrid learning capabilities</li>
+                        <li>Hands-on workshops and activities</li>
+                    </ul>
+                </div>
+
+                <div class="category">
+                    <h3>Community Building</h3>
+                    <ul class="items">
+                        <li>Leverage member expertise</li>
+                        <li>Expand Special Interest Groups</li>
+                        <li>Member volunteers for staff tasks</li>
+                        <li>Enhanced social programming</li>
+                    </ul>
+                </div>
+
+                <div class="category">
+                    <h3>Strategic Positioning</h3>
+                    <ul class="items">
+                        <li>New accessible space</li>
+                        <li>Brandeis library access restoration</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="quadrant threats">
+                <h2><span class="icon">⚡</span>THREATS</h2>
+                
+                <div class="category">
+                    <h3>Financial Risks</h3>
+                    <ul class="items">
+                        <li>Program shutdown risk</li>
+                        <li>Unsustainable cost structure</li>
+                        <li>Declining enrollment trends</li>
+                        <li>Competition from cheaper programs</li>
+                    </ul>
+                </div>
+
+                <div class="category">
+                    <h3>Competitive Pressures</h3>
+                    <ul class="items">
+                        <li>SGLs teaching at multiple programs</li>
+                        <li>Better benefits at other institutions</li>
+                        <li>More flexible competitor scheduling</li>
+                        <li>Online learning disruption</li>
+                    </ul>
+                </div>
+
+                <div class="category">
+                    <h3>Organizational Risks</h3>
+                    <ul class="items">
+                        <li>Loss of community model culture</li>
+                        <li>Staff and volunteer burnout</li>
+                        <li>Aging membership base</li>
+                        <li>Difficulty recruiting member SGLs</li>
+                    </ul>
+                </div>
+
+                <div class="category">
+                    <h3>External Challenges</h3>
+                    <ul class="items">
+                        <li>National decline in volunteerism</li>
+                        <li>Changing learning preferences</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="summary">
+            <h2>Strategic Summary</h2>
+            <p>
+                BOLLI stands at a critical crossroads with strong academic foundations and an engaged learning community, 
+                but faces significant financial sustainability challenges and infrastructure limitations. The organization 
+                must leverage its reputation for excellence while addressing cost pressures, expanding its reach to younger 
+                demographics, and adapting to post-COVID learning preferences. Success will require balancing the preservation 
+                of BOLLI's unique "community of learners" culture with necessary adaptations for long-term viability.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
