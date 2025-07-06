@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Events Discussion Topics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .date-info {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin: 10px 0;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #ffd700;
+            width: 11.6%;
+            border-radius: 4px;
+            animation: progressGlow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes progressGlow {
+            from { box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+            to { box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+        }
+        
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .topic-card {
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .topic-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: inherit;
+            opacity: 0.3;
+        }
+        
+        .topic-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .topic-card.fiscal { border-left-color: #e74c3c; }
+        .topic-card.trade { border-left-color: #f39c12; }
+        .topic-card.political { border-left-color: #3498db; }
+        .topic-card.governance { border-left-color: #9b59b6; }
+        .topic-card.justice { border-left-color: #e67e22; }
+        .topic-card.social { border-left-color: #27ae60; }
+        .topic-card.foreign { border-left-color: #34495e; }
+        .topic-card.health { border-left-color: #1abc9c; }
+        
+        .topic-number {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(145deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .topic-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            line-height: 1.3;
+        }
+        
+        .topic-subtitle {
+            font-style: italic;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+        
+        .shakespeare-quote {
+            background: rgba(108, 92, 231, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            font-style: italic;
+            color: #5a5a5a;
+            margin-bottom: 15px;
+            border-left: 3px solid #6c5ce7;
+            font-size: 0.9em;
+        }
+        
+        .summary {
+            background: rgba(52, 73, 94, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-weight: 500;
+            color: #2c3e50;
+            font-size: 0.95em;
+            line-height: 1.4;
+            border-left: 3px solid #34495e;
+        }
+        
+        .key-points {
+            list-style: none;
+            margin-top: 15px;
+        }
+        
+        .key-points li {
+            padding: 8px 0;
+            color: #555;
+            position: relative;
+            padding-left: 20px;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+        
+        .key-points li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #6c5ce7;
+            font-weight: bold;
+        }
+        
+        .cost-highlight {
+            background: rgba(231, 76, 60, 0.1);
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+            border-left: 3px solid #e74c3c;
+        }
+        
+        .cost-number {
+            font-weight: bold;
+            color: #e74c3c;
+            font-size: 1.1em;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(108, 92, 231, 0.1);
+            border-radius: 10px;
+            color: #555;
+        }
+        
+        @media (max-width: 768px) {
+            .topics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Current Events Discussion Topics</h1>
+            <div class="date-info">Session Date: July 9, 2025</div>
+            <div class="date-info">Day 170 of Trump's Second Term</div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="date-info">1,291 days remaining in term</div>
+        </div>
+        
+        <div class="topics-grid">
+            <div class="topic-card fiscal">
+                <div class="topic-number">1</div>
+                <div class="topic-title">The Big Beautiful Bill (BBB)</div>
+                <div class="topic-subtitle">Brutal Budget Bill or Billionaire Betterment Bill</div>
+                <div class="shakespeare-quote">
+                    "If it were done when 'tis done, then t'were well it were done quickly." - Macbeth
+                </div>
+                <div class="cost-highlight">
+                    <div class="cost-number">Net Cost: $3.4 Trillion over 10 years</div>
+                </div>
+                <div class="summary">
+                    The BBB permanently extends tax cuts benefiting wealthy Americans while cutting social programs, creating a $3.4T deficit funded by reduced healthcare access for millions of vulnerable citizens.
+                </div>
+                <ul class="key-points">
+                    <li>Extended 2017 tax cuts permanently ($4.7T)</li>
+                    <li>Top 10% of earners get 80% of tax savings</li>
+                    <li>12-17 million may lose medical coverage</li>
+                    <li>Passed by razor-thin margins in both chambers</li>
+                </ul>
+            </div>
+            
+            <div class="topic-card trade">
+                <div class="topic-number">2</div>
+                <div class="topic-title">Tariffs</div>
+                <div class="topic-subtitle">A Tale of Sound and Fury</div>
+                <div class="shakespeare-quote">
+                    "It is a tale told by an idiot, full of sound and fury, signifying nothing." - Macbeth
+                </div>
+                <div class="summary">
+                    Despite promises of revenue generation, tariffs function as regressive taxes on consumers while trade negotiations remain stalled with only vague framework agreements.
+                </div>
+                <ul class="key-points">
+                    <li>10% tariff floor imposed since Liberation Day (4/02)</li>
+                    <li>Letters with rates up to 70% for 170+ countries (7/09)</li>
+                    <li>Framework deals announced but details lacking</li>
+                    <li>Functions as regressive tax on consumers</li>
+                    <li>Equal trade balance concept inherently flawed</li>
+                </ul>
+            </div>
+            
+            <div class="topic-card political">
+                <div class="topic-number">3</div>
+                <div class="topic-title">Election Retrospective & 2026 Midterms</div>
+                <div class="topic-subtitle">The Reality Behind the "Mandate"</div>
+                <div class="shakespeare-quote">
+                    "Elections have consequences." - Barack Obama
+                </div>
+                <div class="summary">
+                    Trump's narrow 1.48% victory margin was amplified by Biden's late exit and decreased turnout, but 2026 midterms favor Republicans in Senate while House control remains competitive.
+                </div>
+                <ul class="key-points">
+                    <li>Trump won by 2.3M votes (1.48% margin)</li>
+                    <li>Turnout decreased by 3.2M from 2020</li>
+                    <li>Republican 5-seat House edge vulnerable</li>
+                    <li>2026: Only 6 of 33 Senate races competitive</li>
+                    <li>Democrats need 3 House seats to regain control</li>
+                </ul>
+            </div>
+            
+            <div class="topic-card governance">
+                <div class="topic-number">4</div>
+                <div class="topic-title">Rising Authoritarianism</div>
+                <div class="topic-subtitle">The Erosion of Guardrails</div>
+                <div class="shakespeare-quote">
+                    "L'État, c'est moi." - Louis XIV
+                </div>
+                <div class="summary">
+                    Constitutional guardrails have collapsed as Trump consolidates power through loyal appointees, threatens judicial independence, and plans to restructure federal employment. Supreme Court immunity ruling enables unprecedented presidential authority with minimal oversight.
+                </div>
+                <ul class="key-points">
+                    <li>Supreme Court immunity ruling provides carte blanche</li>
+                    <li>Surrounded by loyalists, no internal constraints</li>
+                    <li>Plans to impound congressionally approved funds</li>
+                    <li>Schedule F reclassification of federal employees</li>
+                    <li>Threats to ignore unfavorable judicial decisions</li>
+                </ul>
+            </div>
+            
+            <div class="topic-card justice">
+                <div class="topic-number">5</div>
+                <div class="topic-title">Retribution</div>
+                <div class="topic-subtitle">Settling Scores</div>
+                <div class="shakespeare-quote">
+                    "When someone shows you who they are, believe them the first time." - Maya Angelou
+                </div>
+                <div class="summary">
+                    Trump systematically targets perceived enemies through pardons for January 6th participants, firing federal prosecutors, threatening media outlets, and pursuing legal action against universities and critics.
+                </div>
+                <ul class="key-points">
+                    <li>Pardoned all January 6th defendants on Day 1</li>
+                    <li>Fired DOJ employees from Trump prosecutions</li>
+                    <li>Threatened law firms with security clearance revocation</li>
+                    <li>Media settlements: ABC ($15M), CBS ($16M)</li>
+                    <li>Actions against elite universities (Harvard, etc.)</li>
+                </ul>
+            </div>
+            
+            <div class="topic-card social">
+                <div class="topic-number">6</div>
+                <div class="topic-title">Immigration</div>
+                <div class="topic-subtitle">The Crackdown Intensifies</div>
+                <div class="shakespeare-quote">
+                    "Be kind whenever possible. It is always possible." - Dalai Lama
+                </div>
+                <div class="summary">
+                    Mass deportation operations target both illegal and legal immigrants indiscriminately, prioritizing arrest numbers over actual criminals while expanding detention infrastructure. The Kilmer Abrego Garcia case exemplifies systematic abuse and fabricated justifications for deportations.
+                </div>
+                <ul class="key-points">
+                    <li>Goal: 3,000 arrests per day (Stephen Miller)</li>
+                    <li>Kilmer Abrego Garcia case study in overreach</li>
+                    <li>500k parole recipients had status revoked</li>
+                    <li>$45B over 10 years for detention facilities</li>
+                    <li>"Alligator Alcatraz" in the Everglades</li>
+                </ul>
+            </div>
+            
+            <div class="topic-card foreign">
+                <div class="topic-number">7</div>
+                <div class="topic-title">Foreign Policy</div>
+                <div class="topic-subtitle">Disrupting the Post-WWII Order</div>
+                <div class="shakespeare-quote">
+                    "Power tends to corrupt, and absolute power corrupts absolutely." - Lord Acton
+                </div>
+                <div class="summary">
+                    Trump undermines 75 years of post-WWII international order by withdrawing Ukraine support, bombing Iran unilaterally, and hedging NATO commitments. Key alliances face unprecedented strain as America retreats from global leadership while accommodating authoritarian regimes.
+                </div>
+                <ul class="key-points">
+                    <li>Ukraine support withering; weapons shipments halted</li>
+                    <li>Iran nuclear facilities bombed without Congress</li>
+                    <li>NATO Article 5 commitment hedged</li>
+                    <li>Supports Russia's return to G8</li>
+                    <li>Antagonized Canada and Denmark over territorial claims</li>
+                </ul>
+            </div>
+            
+            <div class="topic-card health">
+                <div class="topic-number">8</div>
+                <div class="topic-title">Health Care</div>
+                <div class="topic-subtitle">RFK Jr.'s Radical Restructuring</div>
+                <div class="shakespeare-quote">
+                    "Do no harm." - Hippocrates
+                </div>
+                <div class="summary">
+                    RFK Jr. dismantles public health infrastructure through massive staff cuts and promotes vaccine skepticism despite limited medical credentials. His radical restructuring prioritizes alternative medicine over evidence-based healthcare while fostering dangerous conspiracy theories.
+                </div>
+                <ul class="key-points">
+                    <li>25% CDC staff reduction planned (20k employees)</li>
+                    <li>28 HHS divisions consolidated to 15</li>
+                    <li>Billions in university grants cancelled</li>
+                    <li>CDC vaccine-autism study planned</li>
+                    <li>Flu shot advisory meeting cancelled</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <strong>Discussion Framework:</strong> Each topic includes key data points, policy implications, and potential long-term consequences for substantive debate and analysis.
+        </div>
+    </div>
+</body>
+</html>
