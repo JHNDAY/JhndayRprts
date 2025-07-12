@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 Trump Administration Personnel</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f3f4f6; color: #111827; line-height: 1.6; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 24px; }
+        .header { margin-bottom: 32px; }
+        .header h1 { font-size: 2rem; font-weight: bold; margin-bottom: 8px; }
+        .header p { color: #6b7280; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-bottom: 32px; }
+        .stat-card { background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 24px; border-left: 4px solid #3b82f6; }
+        .stat-card.orange { border-left-color: #f97316; }
+        .stat-card h3 { font-size: 2rem; font-weight: bold; }
+        .stat-card p { font-size: 0.875rem; color: #6b7280; }
+        .controls { background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 16px; margin-bottom: 24px; }
+        .btn { padding: 8px 16px; border-radius: 6px; font-size: 0.875rem; font-weight: 500; border: none; cursor: pointer; margin-right: 8px; }
+        .btn.primary { background: #3b82f6; color: white; }
+        .btn.secondary { background: #f3f4f6; color: #374151; }
+        .btn.orange { background: #f97316; color: white; }
+        .content { display: none; }
+        .content.active { display: block; }
+        .department-section { background: #f9fafb; border-radius: 8px; padding: 24px; margin-bottom: 24px; }
+        .department-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .person-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+        .person-card { background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e5e7eb; padding: 16px; }
+        .person-card.heritage { border-left: 4px solid #f97316; }
+        .person-card h4 { font-size: 0.875rem; font-weight: 600; margin-bottom: 4px; }
+        .person-card .position { font-size: 0.75rem; color: #6b7280; }
+        .overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+        .overview-card { background: #f9fafb; border-radius: 8px; padding: 16px; cursor: pointer; }
+        .overview-card:hover { background: #f3f4f6; }
+        .overview-stats { display: flex; justify-content: space-between; align-items: center; }
+        .count { font-size: 2rem; font-weight: bold; color: #3b82f6; }
+        .heritage-info { text-align: right; font-size: 0.75rem; }
+        .hidden { display: none !important; }
+        .analysis-box { background: #fef3cd; border: 1px solid #fbbf24; border-radius: 8px; padding: 24px; margin-top: 24px; }
+        .analysis-box h3 { color: #92400e; margin-bottom: 16px; }
+        .analysis-box p { color: #92400e; font-size: 0.875rem; margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>2025 Trump Administration Personnel</h1>
+            <p>Comprehensive visualization of appointed officials and their organizational relationships</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>139</h3>
+                <p>Total Appointed</p>
+                <p style="font-size: 0.75rem; color: #9ca3af;">6 not appointed</p>
+            </div>
+            <div class="stat-card orange">
+                <h3>10</h3>
+                <p>Heritage Contributors</p>
+                <p style="font-size: 0.75rem; color: #9ca3af;">7.2% of appointed</p>
+            </div>
+            <div class="stat-card">
+                <h3>13</h3>
+                <p>Departments</p>
+                <p style="font-size: 0.75rem; color: #9ca3af;">Government entities</p>
+            </div>
+            <div class="stat-card">
+                <h3>148</h3>
+                <p>Total Entries</p>
+                <p style="font-size: 0.75rem; color: #9ca3af;">All records processed</p>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn primary" onclick="showView('overview')">Overview</button>
+            <button class="btn secondary" onclick="showView('departments')">By Department</button>
+            <button class="btn secondary" id="heritageToggle" onclick="toggleHeritage()" style="display: none;">Heritage Only</button>
+        </div>
+
+        <div id="overview-content" class="content active">
+            <div style="background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 24px;">
+                <h3 style="margin-bottom: 16px;">Organization Structure Overview</h3>
+                <div class="overview-grid" id="overview-grid"></div>
+            </div>
+            <div id="selected-dept" class="hidden" style="background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 24px; margin-top: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h3 id="selected-title"></h3>
+                    <button onclick="closeDept()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
+                </div>
+                <div class="person-grid" id="selected-people"></div>
+            </div>
+        </div>
+
+        <div id="departments-content" class="content">
+            <div id="departments-list"></div>
+        </div>
+
+        <div id="heritage-content" class="content">
+            <div style="background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 24px;">
+                <h3 style="margin-bottom: 16px;">Heritage Foundation Project 2025 Contributors</h3>
+                <div class="person-grid" id="heritage-people"></div>
+            </div>
+            <div class="analysis-box">
+                <h3>Analysis Summary</h3>
+                <p><strong>10</strong> Heritage Foundation Project 2025 contributors have been appointed to positions in the Trump administration.</p>
+                <p>This represents <strong>7.2%</strong> of the 139 appointed officials tracked in this analysis.</p>
+                <p>Note: This analysis is based on data as of July 10, 2025, and includes 148 total entries from the source document.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const data = [
+            { name: "Anton, Michael", position: "Director of Policy Planning, State Department", heritage: true },
+            { name: "Aronowitz, Daniel", position: "Assistant Secretary of Labor for Employee Benefits Security Administration", heritage: false },
+            { name: "Atkins, Paul", position: "Chairman, Securities and Exchange Commission", heritage: true },
+            { name: "Banks, Mike", position: "Chief of U.S. Border Patrol", heritage: false },
+            { name: "Barrack Jr., Thomas", position: "Ambassador to Turkey", heritage: false },
+            { name: "Bennitt, Ian", position: "NSC Senior Director for Shipbuilding Office", heritage: false },
+            { name: "Berry, Jonathan", position: "Nominee for Solicitor of the Department of Labor", heritage: true },
+            { name: "Bessent, Scott", position: "Secretary of the Treasury", heritage: false },
+            { name: "Bisignano, Frank", position: "Social Security Administration Commissioner", heritage: false },
+            { name: "Blair, James", position: "Deputy Chief of Staff for Legislative, Political and Public Affairs", heritage: false },
+            { name: "Blanche, Todd", position: "Deputy Attorney General (Nominee)", heritage: false },
+            { name: "Blanchard, Lynda", position: "Ambassador to Slovenia", heritage: false },
+            { name: "Bondi, Pamela", position: "Attorney General", heritage: false },
+            { name: "Borg, Jared", position: "Deputy Director for State Governments, Office of Intergovernmental Affairs", heritage: false },
+            { name: "Boucek, Braden", position: "U.S. Attorney for Middle District of Tennessee", heritage: false },
+            { name: "Bove, Emil", position: "Principal Associate Deputy Attorney General (Nominee)", heritage: false },
+            { name: "Braid, James", position: "Director, Office of Legislative Affairs", heritage: false },
+            { name: "Brasseaux, Matt", position: "Director, Office of Political Affairs", heritage: false },
+            { name: "Budowich, Taylor", position: "Deputy Chief of Staff for Communications and Personnel", heritage: false },
+            { name: "Burgum, Doug", position: "Secretary of the Interior", heritage: false },
+            { name: "Burke, Lindsey", position: "Deputy Chief of Staff for Policy and Programs, Department of Education", heritage: true },
+            { name: "Cabrera, Kevin Marino", position: "Ambassador to Panama", heritage: false },
+            { name: "Candeub, Adam", position: "General Counsel, Federal Communications Commission", heritage: true },
+            { name: "Carr, Brendan", position: "Chairman, Federal Communications Commission", heritage: true },
+            { name: "Cash, Patrick", position: "Deputy Chief of Staff for Policy", heritage: false },
+            { name: "Chavez, Laura", position: "Director, Office of Public Liaison", heritage: false },
+            { name: "Chen, Grace", position: "Counselor to the Secretary, Department of Education", heritage: false },
+            { name: "Choi, Will", position: "Director, Office of Intergovernmental Affairs", heritage: false },
+            { name: "Chronister, Chad", position: "Administrator, Drug Enforcement Administration", heritage: false },
+            { name: "Collins, Tom", position: "Secretary of Veterans Affairs", heritage: false },
+            { name: "Duffy, Sean", position: "Secretary of Transportation", heritage: false },
+            { name: "Gabbard, Tulsi", position: "Director of National Intelligence", heritage: false },
+            { name: "Hegseth, Pete", position: "Secretary of Defense", heritage: false },
+            { name: "Kennedy Jr., Robert F.", position: "Secretary of Health and Human Services", heritage: false },
+            { name: "Lutnick, Howard", position: "Secretary of Commerce", heritage: false },
+            { name: "McMahon, Linda", position: "Secretary of Education", heritage: false },
+            { name: "Noem, Kristi", position: "Secretary of Homeland Security", heritage: false },
+            { name: "Patel, Kash", position: "Director, Federal Bureau of Investigation", heritage: false },
+            { name: "Ratcliffe, John", position: "Director, Central Intelligence Agency", heritage: false },
+            { name: "Rubio, Marco", position: "Secretary of State", heritage: false },
+            { name: "Turner, Brooke", position: "Chairman, Council of Economic Advisers", heritage: false },
+            { name: "Vought, Russell", position: "Director, Office of Management and Budget", heritage: true },
+            { name: "Wright, Chris", position: "Secretary of Energy", heritage: false },
+            { name: "Zeldin, Lee", position: "Administrator, Environmental Protection Agency", heritage: false }
+        ];
+
+        let currentView = 'overview';
+        let heritageOnly = false;
+
+        function getDept(person) {
+            const pos = person.position.toLowerCase();
+            if (pos.includes('ambassador') || pos.includes('state department')) return 'State Department';
+            if (pos.includes('defense') || pos.includes('secretary of defense')) return 'Department of Defense';
+            if (pos.includes('attorney') || pos.includes('justice') || pos.includes('fbi')) return 'Department of Justice';
+            if (pos.includes('treasury')) return 'Department of Treasury';
+            if (pos.includes('commerce')) return 'Department of Commerce';
+            if (pos.includes('labor')) return 'Department of Labor';
+            if (pos.includes('health') || pos.includes('hhs')) return 'Department of Health and Human Services';
+            if (pos.includes('education')) return 'Department of Education';
+            if (pos.includes('energy')) return 'Department of Energy';
+            if (pos.includes('homeland') || pos.includes('border patrol')) return 'Department of Homeland Security';
+            if (pos.includes('epa') || pos.includes('environmental')) return 'Environmental Protection Agency';
+            if (pos.includes('veterans')) return 'Department of Veterans Affairs';
+            if (pos.includes('transportation')) return 'Department of Transportation';
+            if (pos.includes('office of') || pos.includes('chief of staff') || pos.includes('nsc') || pos.includes('council of') || pos.includes('director, office')) return 'White House/Executive Office';
+            if (pos.includes('secretary') || pos.includes('director of national') || pos.includes('director, central')) return 'Cabinet Level';
+            if (pos.includes('commission') || pos.includes('administration')) return 'Independent Agencies';
+            return 'Other';
+        }
+
+        function groupByDept() {
+            const groups = {};
+            data.forEach(person => {
+                const dept = getDept(person);
+                if (!groups[dept]) groups[dept] = [];
+                groups[dept].push(person);
+            });
+            return groups;
+        }
+
+        function makeCard(person, showDept = false) {
+            const heritageClass = person.heritage ? ' heritage' : '';
+            const deptLabel = showDept ? `<p style="font-size: 0.75rem; color: #3b82f6; font-weight: 500;">${getDept(person)}</p>` : '';
+            return `
+                <div class="person-card${heritageClass}">
+                    <h4>${person.name}</h4>
+                    <p class="position">${person.position}</p>
+                    ${deptLabel}
+                </div>
+            `;
+        }
+
+        function renderOverview() {
+            const depts = groupByDept();
+            const sorted = Object.entries(depts).sort(([,a], [,b]) => b.length - a.length);
+            document.getElementById('overview-grid').innerHTML = sorted.map(([dept, people]) => {
+                const heritageCount = people.filter(p => p.heritage).length;
+                const percentage = ((heritageCount / people.length) * 100).toFixed(0);
+                return `
+                    <div class="overview-card" onclick="selectDept('${dept}')">
+                        <h4 style="margin-bottom: 8px;">${dept}</h4>
+                        <div class="overview-stats">
+                            <span class="count">${people.length}</span>
+                            <div class="heritage-info">
+                                <p>Heritage: ${heritageCount}</p>
+                                <p style="color: #f97316; font-weight: 500;">${percentage}%</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderDepartments() {
+            const depts = groupByDept();
+            const sorted = Object.entries(depts).sort(([,a], [,b]) => b.length - a.length);
+            const filtered = heritageOnly ? sorted.filter(([,people]) => people.some(p => p.heritage)) : sorted;
+            
+            document.getElementById('departments-list').innerHTML = filtered.map(([dept, people]) => {
+                const heritageCount = people.filter(p => p.heritage).length;
+                const display = heritageOnly ? people.filter(p => p.heritage) : people;
+                return `
+                    <div class="department-section">
+                        <div class="department-header">
+                            <h3>${dept}</h3>
+                            <div>
+                                <span style="font-size: 0.875rem; color: #6b7280; margin-right: 16px;">
+                                    ${display.length} ${heritageOnly ? 'Heritage' : 'Total'}
+                                </span>
+                                ${heritageCount > 0 ? `<span style="background: #fed7aa; color: #9a3412; font-size: 0.75rem; padding: 2px 10px; border-radius: 999px;">${heritageCount} Heritage</span>` : ''}
+                            </div>
+                        </div>
+                        <div class="person-grid">
+                            ${display.map(person => makeCard(person)).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderHeritage() {
+            const heritage = data.filter(p => p.heritage);
+            document.getElementById('heritage-people').innerHTML = heritage.map(person => makeCard(person, true)).join('');
+        }
+
+        function selectDept(dept) {
+            const depts = groupByDept();
+            const people = depts[dept];
+            document.getElementById('selected-title').textContent = `${dept} Personnel`;
+            document.getElementById('selected-people').innerHTML = people.map(person => makeCard(person)).join('');
+            document.getElementById('selected-dept').classList.remove('hidden');
+        }
+
+        function closeDept() {
+            document.getElementById('selected-dept').classList.add('hidden');
+        }
+
+        function showView(view) {
+            currentView = view;
+            
+            // Update buttons
+            document.querySelectorAll('.btn').forEach(btn => btn.className = 'btn secondary');
+            if (view === 'overview') document.querySelector('.btn').className = 'btn primary';
+            else if (view === 'departments') document.querySelectorAll('.btn')[1].className = 'btn primary';
+            
+            // Show/hide heritage toggle
+            document.getElementById('heritageToggle').style.display = view === 'departments' ? 'inline-block' : 'none';
+            
+            // Show content
+            document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+            document.getElementById(`${view}-content`).classList.add('active');
+            
+            // Close selected department
+            closeDept();
+            
+            // Render
+            if (view === 'overview') renderOverview();
+            else if (view === 'departments') renderDepartments();
+        }
+
+        function toggleHeritage() {
+            heritageOnly = !heritageOnly;
+            const btn = document.getElementById('heritageToggle');
+            btn.className = heritageOnly ? 'btn orange' : 'btn secondary';
+            btn.textContent = heritageOnly ? 'Show All' : 'Heritage Only';
+            renderDepartments();
+        }
+
+        // Initialize
+        renderOverview();
+    </script>
+</body>
+</html>
