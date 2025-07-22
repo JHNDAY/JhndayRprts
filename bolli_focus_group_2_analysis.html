@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLLI Focus Group Analysis - Group 2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 3px solid #dee2e6;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 15px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            color: #6c757d;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab-btn.active {
+            color: #2c3e50;
+            border-bottom-color: #667eea;
+            background: white;
+        }
+        
+        .tab-btn:hover {
+            background: #e9ecef;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 30px;
+            min-height: 500px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .theme-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .theme-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .theme-title {
+            font-size: 1.4em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .quote {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #17a2b8;
+            margin: 15px 0;
+            font-style: italic;
+            color: #495057;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .quote::before {
+            content: '"';
+            font-size: 2em;
+            color: #17a2b8;
+            float: left;
+            margin-right: 10px;
+            line-height: 1;
+        }
+        
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .insight-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .insight-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .insight-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .participants-info {
+            background: #e3f2fd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 5px solid #2196f3;
+        }
+        
+        .methodology {
+            background: #fff3e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 5px solid #ff9800;
+        }
+        
+        .key-finding {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-weight: 500;
+        }
+        
+        .challenge-item {
+            background: #ffebee;
+            border-left: 5px solid #f44336;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        
+        .opportunity-item {
+            background: #f3e5f5;
+            border-left: 5px solid #9c27b0;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        
+        .vision-item {
+            background: #e8f5e8;
+            border-left: 5px solid #4caf50;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        
+        .tag {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin: 3px;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>BOLLI Focus Group Analysis - Group 2</h1>
+            <p>Strategic Planning Initiative - Comprehensive Member Perspectives</p>
+        </div>
+        
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
+            <button class="tab-btn" onclick="showTab('experience')">Member Experiences</button>
+            <button class="tab-btn" onclick="showTab('format-debate')">Format Preferences</button>
+            <button class="tab-btn" onclick="showTab('challenges')">Key Challenges</button>
+            <button class="tab-btn" onclick="showTab('vision')">Future Vision</button>
+        </div>
+        
+        <div id="overview" class="tab-content active">
+            <div class="participants-info">
+                <h3>Focus Group Composition</h3>
+                <p><strong>Participants:</strong> 8 BOLLI members. Most have been participants in other LLPs in addition to BOLLI.</p>
+                <p><strong>Experience Range:</strong> From newer members (3 years) to long-term veterans (20+ years)</p>
+                <p><strong>Backgrounds:</strong> Mix including educators, retirees from various fields, volunteers</p>
+                <p><strong>Geographic Spread:</strong> Newton, Waltham, and surrounding areas</p>
+            </div>
+            
+            <div class="methodology">
+                <h3>Session Overview</h3>
+                <p>Extended focus group discussion covering member experiences, challenges, and vision for BOLLI's future. Participants engaged in detailed conversations about format preferences, community building, and program improvements.</p>
+            </div>
+            
+            <div class="insights-grid">
+                <div class="insight-box">
+                    <div class="insight-number">5</div>
+                    <div class="insight-label">Core Themes Identified</div>
+                </div>
+                <div class="insight-box">
+                    <div class="insight-number">Spirited</div>
+                    <div class="insight-label">Engaged Discussion</div>
+                </div>
+                <div class="insight-box">
+                    <div class="insight-number">Multiple</div>
+                    <div class="insight-label">Program Comparisons</div>
+                </div>
+                <div class="insight-box">
+                    <div class="insight-number">Strong</div>
+                    <div class="insight-label">Community Focus</div>
+                </div>
+            </div>
+            
+            <div class="key-finding">
+                <strong>Key Finding:</strong> Spirited but respectful discussion among members who appreciate the convenience/accessibility (Zoom) and those who value community and interaction (in-person), all recognizing the importance of maintaining options.
+            </div>
+        </div>
+        
+        <div id="experience" class="tab-content">
+            <h2>Member Experiences at BOLLI</h2>
+            
+            <div class="theme-card">
+                <div class="theme-title">Standout Learning Experiences</div>
+                <div class="quote">
+                    I started in BOLLI even before I retired... and I think I was born to be a teacher. Actually, I played teacher when I was a kid. So this program appealed to me on 2 levels, one, that I could learn a lot, and one that I could teach.
+                </div>
+                <p><strong>Valued experiences:</strong></p>
+                <span class="tag">Pre-Retirement Engagement</span>
+                <span class="tag">Teaching Opportunities</span>
+                <span class="tag">Academic Rigor</span>
+                <span class="tag">Diverse Course Choices</span>
+            </div>
+            
+            <div class="theme-card">
+                <div class="theme-title">Mixed Course Experiences</div>
+                <div class="quote">
+                    I was trying to think how long I've been at BOLLI, and I think it's probably 20 years or so... I've never had in all those years a bad course.
+                </div>
+                <div class="quote">
+                    I have had probably 4 or 5 classes I've been pretty disappointed in. Only once did I literally not finish it. But you know, and I think that was either the teacher style or they just weren't good teachers, or, you know, wasn't a good match for me.
+                </div>
+                <p><strong>Factors affecting course satisfaction:</strong></p>
+                <ul style="margin-top: 15px;">
+                    <li>Teaching style compatibility</li>
+                    <li>Instructor experience and skill</li>
+                    <li>Personal learning preferences</li>
+                    <li>Course design and expectations</li>
+                </ul>
+            </div>
+            
+            <div class="theme-card">
+                <div class="theme-title">Multi-Program Experiences</div>
+                <div class="quote">
+                    I have participated in outside and other OLLI's, most notably the one in Sarasota where we winter. So I've taken classes there, and I've seen how another program works and has a very different approach.
+                </div>
+                <p><strong>Comparison programs mentioned:</strong></p>
+                <span class="tag">Sarasota OLLI</span>
+                <span class="tag">UMass OLLI</span>
+                <span class="tag">Johns Hopkins Osher</span>
+                <span class="tag">Temple Israel Program</span>
+                <span class="tag">Harvard ILR</span>
+            </div>
+            
+            <div class="theme-card">
+                <div class="theme-title">Comparative Program Analysis</div>
+                <div class="quote">
+                    Classes are different lengths, some are 6 weeks, some are 5 weeks, some are 4 weeks, some are 2 days... No preparation required. so people would just come in and listen and ask questions and leave the room.
+                </div>
+                <p><strong>Other programs' advantages:</strong></p>
+                <ul style="margin-top: 15px;">
+                    <li><strong>Flexible Scheduling:</strong> Staggered course lengths and start times</li>
+                    <li><strong>Evening Options:</strong> Some programs offer classes for working professionals</li>
+                    <li><strong>Lower Barriers:</strong> No preparation required for some courses</li>
+                    <li><strong>Social Integration:</strong> Temple Israel includes lunch and speakers in registration</li>
+                    <li><strong>Pricing Flexibility:</strong> UMass OLLI allows single course enrollment</li>
+                </ul>
+                <p><strong>BOLLI's comparative strengths:</strong></p>
+                <ul style="margin-top: 15px;">
+                    <li><strong>Academic Rigor:</strong> Reading assignments and preparation enhance learning</li>
+                    <li><strong>Interactive Discussion:</strong> Cross-talk and peer engagement</li>
+                    <li><strong>Course Variety:</strong> "Best catalog every semester in terms of variety and content"</li>
+                    <li><strong>Community Building:</strong> Name recognition and member connections</li>
+                    <li><strong>No Admission Requirements:</strong> Unlike Harvard ILR's interview process</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="format-debate" class="tab-content">
+            <h2>Zoom vs. In-Person</h2>
+            
+            <div class="theme-card">
+                <div class="theme-title">Pro-In-Person Arguments</div>
+                <div class="quote">
+                    I wish I could give 10 votes or 200 votes to the on-site in-person class. The conviviality... the getting together with people and the sense of community... more active learning takes place when you're in a room.
+                </div>
+                <p><strong>In-person advantages cited:</strong></p>
+                <span class="tag">Community Building</span>
+                <span class="tag">Cross-Discussion</span>
+                <span class="tag">Active Engagement</span>
+                <span class="tag">Natural Socialization</span>
+                <span class="tag">Better Participation Flow</span>
+            </div>
+            
+            <div class="theme-card">
+                <div class="theme-title">Pro-Zoom Perspectives</div>
+                <div class="quote">
+                    I have to express a divergent opinion, because no one else has so far. I'm very happy that there are so many zoom options... I would probably possibly not continue with BOLLI if there were. If Zoom was eliminated or minimized a lot.
+                </div>
+                <p><strong>Zoom advantages cited:</strong></p>
+                <span class="tag">Transportation Independence</span>
+                <span class="tag">Accessibility</span>
+                <span class="tag">Caregiving Compatibility</span>
+                <span class="tag">Weather Independence</span>
+                <span class="tag">Recorded Sessions</span>
+            </div>
+            
+            <div class="theme-card">
+                <div class="theme-title">The Supply-Side Reality</div>
+                <div class="quote">
+                    The limiting factor is the number of people who are willing to teach in person... we have not been able to convince people to come back to in person after zoom... it's just really, really hard to get people to teach in in person classes.
+                </div>
+                <p><strong>Instructor challenges:</strong></p>
+                <ul style="margin-top: 15px;">
+                    <li>Caregiving responsibilities</li>
+                    <li>Transportation difficulties</li>
+                    <li>Health considerations</li>
+                    <li>Convenience preferences</li>
+                    <li>Technology comfort</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="challenges" class="tab-content">
+            <h2>Key Challenges Identified</h2>
+            
+            <div class="theme-card">
+                <div class="theme-title">Physical Facility Issues</div>
+                <div class="quote">
+                    I think Turner is absolutely terrible. I don't worry about window dressing. I worry about safety. When that elevator was out... There's no easy egress in an emergency.
+                </div>
+                <div class="challenge-item">
+                    <strong>Safety Concerns:</strong> Basement location with limited emergency exits, especially problematic when elevator is out of service
+                </div>
+                <div class="challenge-item">
+                    <strong>Acoustics:</strong> Poor sound quality in central room with noise bleeding between classrooms
+                </div>
+                <div class="challenge-item">
+                    <strong>Layout Problems:</strong> Circular classroom configuration limiting visibility and discussion
+                </div>
+            </div>
+            
+            <div class="theme-card">
+                <div class="theme-title">Course Access and Lottery System</div>
+                <div class="quote">
+                    This is the second time where I haven't had a full assignment of courses... I had a list of 10 requests. I got into none of them.
+                </div>
+                <div class="challenge-item">
+                    <strong>Lottery Confusion:</strong> System appears opaque and difficult to understand for many members
+                </div>
+                <div class="challenge-item">
+                    <strong>High-Demand Instructors:</strong> Popular teachers create access bottlenecks
+                </div>
+                <div class="challenge-item">
+                    <strong>Underenrolled Courses:</strong> Some classes struggle to fill while others are oversubscribed
+                </div>
+                <div class="challenge-item">
+                    <strong>Existence of Course Advisors Not Known or Understood:</strong> People struggled to select courses and were unhappy with lottery results
+                </div>
+            </div>
+            
+            <div class="theme-card">
+                <div class="theme-title">Community Connection Challenges</div>
+                <div class="quote">
+                    I feel BOLLI has evolved away from fostering a sense of community, and I miss that... it just doesn't have the same warm feeling that it did many years ago.
+                </div>
+                <div class="challenge-item">
+                    <strong>Missing Elements:</strong> Name tags not prominently available, member directory discontinued
+                </div>
+                <div class="challenge-item">
+                    <strong>Post-COVID Changes:</strong> Loss of daily shared meals and speakers
+                </div>
+                <div class="challenge-item">
+                    <strong>Zoom Limitations:</strong> Reduced casual interactions and relationship building
+                </div>
+            </div>
+        </div>
+        
+        <div id="vision" class="tab-content">
+            <h2>Vision for BOLLI's Future</h2>
+            
+            <div class="theme-card">
+                <div class="theme-title">Flexible Membership Models</div>
+                <div class="quote">
+                    I'd love to see a few more options based on how much you want to participate in the program... why am I paying all this money? And I'm not getting what I want.
+                </div>
+                <div class="vision-item">
+                    <strong>Tiered Pricing:</strong> Options for single courses, partial enrollment, or full membership
+                </div>
+                <div class="vision-item">
+                    <strong>Evening Classes:</strong> Accommodate working professionals and create more variety
+                </div>
+                <div class="vision-item">
+                    <strong>Staggered Schedules:</strong> Different course lengths and start times like UMass OLLI model
+                </div>
+            </div>
+            
+            <div class="theme-card">
+                <div class="theme-title">Enhanced Course Delivery</div>
+                <div class="quote">
+                    I wonder if somebody would be willing to run the same course twice, either on different days or back to back... particularly if we gave them a stipend.
+                </div>
+                <div class="vision-item">
+                    <strong>Instructor Incentives:</strong> Small stipends to encourage in-person teaching
+                </div>
+                <div class="vision-item">
+                    <strong>Better Course Guidance:</strong> Improve advisor system and member testimonials
+                </div>
+            </div>
+            
+            <div class="theme-card">
+                <div class="theme-title">Community Building Initiatives</div>
+                <div class="quote">
+                    Maybe BOLLI could maybe come up with 2 times during a week where it's very much specified. It's come, have lunch. Let's just chat... every week on Friday at 12 to one.
+                </div>
+                <div class="vision-item">
+                    <strong>Regular Social Hours:</strong> Structured weekly community time
+                </div>
+                <div class="vision-item">
+                    <strong>Geographic Meetups:</strong> Local gatherings for members in similar areas
+                </div>
+                <div class="vision-item">
+                    <strong>Hybrid Discussion Groups:</strong> Post-lecture discussions for Distinguished Speaker events
+                </div>
+            </div>
+            
+            <div class="theme-card">
+                <div class="theme-title">Program Expansion Ideas</div>
+                <div class="opportunity-item">
+                    <strong>Hands-On Learning:</strong> More practical courses like drawing, conversation groups, crafts
+                </div>
+                <div class="opportunity-item">
+                    <strong>Partnership Opportunities:</strong> Collaborate with local art centers and cultural institutions
+                </div>
+                <div class="opportunity-item">
+                    <strong>Transportation Solutions:</strong> Carpools, van service, or central meeting points for excursions
+                </div>
+                <div class="opportunity-item">
+                    <strong>Younger Member Outreach:</strong> Marketing to attract early retirees and part-time workers
+                </div>
+            </div>
+            
+            <div class="theme-card">
+                <div class="theme-title">Facility and Infrastructure</div>
+                <div class="quote">
+                    I did hear that there was talk about us moving to the office park across... but I don't know whether that's true or not.
+                </div>
+                <p><strong>Facility priorities:</strong></p>
+                <span class="tag">Safety First</span>
+                <span class="tag">Better Acoustics</span>
+                <span class="tag">Accessibility</span>
+                <span class="tag">Natural Light</span>
+                <span class="tag">Community Space</span>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab and activate button
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        // Add smooth scrolling for mobile
+        window.addEventListener('load', function() {
+            if (window.innerWidth <= 768) {
+                document.querySelector('.container').style.margin = '10px';
+            }
+        });
+    </script>
+</body>
+</html>
