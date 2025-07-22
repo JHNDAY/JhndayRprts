@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>As I Lay Dying: The Bundren Family Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #e6e6e6;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(0,0,0,0.4);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #8b6914;
+        }
+
+        h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            color: #ffd700;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #daa520;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .narrative-structure {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .character-panel {
+            background: rgba(0,0,0,0.5);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .central-journey {
+            background: linear-gradient(135deg, rgba(139, 69, 19, 0.3), rgba(160, 82, 45, 0.3));
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #8b6914;
+            text-align: center;
+        }
+
+        .journey-phases {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .phase {
+            background: rgba(0,0,0,0.4);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #8b6914;
+            transition: all 0.3s ease;
+        }
+
+        .phase:hover {
+            background: rgba(139, 105, 20, 0.2);
+            transform: translateX(10px);
+        }
+
+        .phase-title {
+            color: #ffd700;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .characters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .character-card {
+            background: rgba(0,0,0,0.5);
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid rgba(139, 105, 20, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .character-card:hover {
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .character-name {
+            color: #ffd700;
+            font-size: 1.4em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .character-role {
+            color: #daa520;
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .key-passages {
+            background: rgba(26, 26, 46, 0.8);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            border: 1px solid #8b6914;
+        }
+
+        .passage {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 3px solid #8b6914;
+            font-style: italic;
+        }
+
+        .passage-source {
+            color: #daa520;
+            font-size: 0.9em;
+            margin-top: 8px;
+            text-align: right;
+        }
+
+        .thematic-elements {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .theme-card {
+            background: rgba(139, 69, 19, 0.2);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            text-align: center;
+        }
+
+        .theme-title {
+            color: #ffd700;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .symbol-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+        }
+
+        .symbol {
+            text-align: center;
+            padding: 15px;
+            background: rgba(139, 105, 20, 0.2);
+            border-radius: 10px;
+            min-width: 120px;
+        }
+
+        .symbol-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #ffd700;
+        }
+
+        .symbol-name {
+            color: #daa520;
+            font-weight: bold;
+        }
+
+        .river-crossing {
+            background: linear-gradient(135deg, rgba(22, 33, 62, 0.8), rgba(15, 52, 96, 0.8));
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 2px solid #4169e1;
+            text-align: center;
+        }
+
+        .crisis-moment {
+            color: #ff6b6b;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .narrative-structure {
+                grid-template-columns: 1fr;
+            }
+            
+            .characters-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .symbol-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>As I Lay Dying</h1>
+            <p class="subtitle">William Faulkner's Dark Journey Through Death and Family</p>
+            <p style="color: #daa520; margin-top: 10px;">A Multi-Perspective Narrative of the Bundren Family's Odyssey</p>
+        </header>
+
+        <div class="narrative-structure">
+            <div class="character-panel">
+                <h3 style="color: #ffd700; text-align: center;">Multiple Narrators</h3>
+                <p>15 different voices tell this story, each revealing their own perspective on the family's crisis.</p>
+                <ul style="list-style: none; padding: 0; margin-top: 15px;">
+                    <li>• <strong style="color: #daa520;">Darl:</strong> Most chapters - philosophical observer</li>
+                    <li>• <strong style="color: #daa520;">Vardaman:</strong> Child's confused perspective</li>
+                    <li>• <strong style="color: #daa520;">Cash:</strong> Methodical carpenter</li>
+                    <li>• <strong style="color: #daa520;">Jewel:</strong> Passionate, angry</li>
+                    <li>• <strong style="color: #daa520;">Dewey Dell:</strong> Pregnant, desperate</li>
+                </ul>
+            </div>
+
+            <div class="central-journey">
+                <h2 style="color: #ffd700; margin-bottom: 20px;">The Central Journey</h2>
+                <p style="font-size: 1.2em; margin-bottom: 15px;">Carrying Addie Bundren's coffin from their farm to Jefferson cemetery - a 40-mile odyssey that tests every family bond and reveals every hidden truth.</p>
+                <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; margin-top: 20px;">
+                    <strong style="color: #ffd700;">"I promised her"</strong> - Anse's justification for the journey that will destroy his family
+                </div>
+            </div>
+
+            <div class="character-panel">
+                <h3 style="color: #ffd700; text-align: center;">Fragmented Reality</h3>
+                <p>Stream of consciousness, shifting timeframes, and psychological fragmentation mirror the family's broken state.</p>
+                <div style="margin-top: 15px; font-style: italic; color: #daa520;">
+                    "Information comes sideways" - Faulkner's technique of revealing crucial details through indirect means, overheard conversations, and fragmented thoughts.
+                </div>
+            </div>
+        </div>
+
+        <div class="journey-phases">
+            <div class="phase">
+                <div class="phase-title">1. The Death Watch</div>
+                <p>Addie lies dying while Cash builds her coffin outside her window. The constant sound of sawing and hammering becomes the rhythm of approaching death.</p>
+                <div class="passage">
+                    "You, Cash!" she shouts, her voice harsh, strong, and unimpaired. "You, Cash!" - Addie's final acknowledgment of her son's devotion
+                </div>
+            </div>
+
+            <div class="phase">
+                <div class="phase-title">2. The Three-Dollar Decision</div>
+                <p>While Addie lies dying, Anse sends Darl and Jewel away to earn three dollars hauling lumber - prioritizing money over final moments.</p>
+                <div class="passage">
+                    "It means three dollars. Do you want us to go, or not?" - The cruel economics that shape every family decision
+                </div>
+            </div>
+
+            <div class="phase">
+                <div class="phase-title">3. The Balance Problem</div>
+                <p>The coffin won't balance properly in the wagon - a physical problem that mirrors the emotional imbalance of the entire family.</p>
+                <div class="passage">
+                    "It won't balance. If you want it to tote and ride on a balance, we will have—" "Pick up! Goddamn you, pick up!"
+                </div>
+            </div>
+
+            <div class="phase">
+                <div class="phase-title">4. The River Crossing Disaster</div>
+                <p>The flooded river destroys everything - the wagon tips, Cash breaks his leg, the mules drown, and Jewel must sacrifice his beloved horse.</p>
+            </div>
+
+            <div class="phase">
+                <div class="phase-title">5. The Barn Fire</div>
+                <p>In a final act of devotion, Jewel saves Addie's coffin from the burning barn, suffering severe burns in the process.</p>
+            </div>
+
+            <div class="phase">
+                <div class="phase-title">6. The Hollow Victory</div>
+                <p>They reach Jefferson, bury Addie, and Anse immediately remarries - revealing the journey's true purpose was his own desires.</p>
+            </div>
+        </div>
+
+        <div class="characters-grid">
+            <div class="character-card">
+                <div class="character-name">Addie Bundren</div>
+                <div class="character-role">The Dead Mother - Catalyst</div>
+                <p>Even in death, Addie dominates the narrative. Her affair with Whitfield produced Jewel, her bitterness toward words and life shapes the family dynamics, and her demand to be buried in Jefferson drives the entire plot.</p>
+            </div>
+
+            <div class="character-card">
+                <div class="character-name">Anse Bundren</div>
+                <div class="character-role">The Parasitic Father</div>
+                <p>The "anti-fool" who uses wisdom's language for selfish ends. Believes sweating will kill him, exploits his family's labor and sacrifice, and uses Addie's death as an excuse to get new teeth and a new wife.</p>
+            </div>
+
+            <div class="character-card">
+                <div class="character-name">Darl</div>
+                <div class="character-role">The Philosophical Observer</div>
+                <p>The most articulate narrator whose insight borders on madness. He knows family secrets, provides the most complex psychological analysis, but his awareness ultimately destroys him.</p>
+            </div>
+
+            <div class="character-card">
+                <div class="character-name">Cash</div>
+                <div class="character-role">The Methodical Craftsman</div>
+                <p>Builds Addie's coffin "on the bevel" with obsessive precision. His carpentry becomes his language of love, but his dedication leads to injury and suffering.</p>
+            </div>
+
+            <div class="character-card">
+                <div class="character-name">Jewel</div>
+                <div class="character-role">The Illegitimate Son</div>
+                <p>Addie's secret favorite, actually fathered by preacher Whitfield. His passionate love for his horse mirrors his complex relationship with his mother. The most physically heroic but emotionally tormented.</p>
+            </div>
+
+            <div class="character-card">
+                <div class="character-name">Dewey Dell</div>
+                <div class="character-role">The Pregnant Daughter</div>
+                <p>17 years old, pregnant by field hand Lafe, desperately hoping to find help in Jefferson. Represents the vulnerability of women trapped by circumstance and lack of options.</p>
+            </div>
+
+            <div class="character-card">
+                <div class="character-name">Vardaman</div>
+                <div class="character-role">The Confused Child</div>
+                <p>The youngest, traumatized by his mother's death. His declaration "My mother is a fish" and his drilling holes in her coffin show a child's desperate attempt to understand mortality.</p>
+            </div>
+        </div>
+
+        <div class="symbol-grid">
+            <div class="symbol">
+                <div class="symbol-icon">🐟</div>
+                <div class="symbol-name">The Fish</div>
+                <div>Vardaman's attempt to understand death</div>
+            </div>
+            <div class="symbol">
+                <div class="symbol-icon">🐎</div>
+                <div class="symbol-name">The Horse</div>
+                <div>Jewel's displaced love for his mother</div>
+            </div>
+            <div class="symbol">
+                <div class="symbol-icon">⚰️</div>
+                <div class="symbol-name">The Coffin</div>
+                <div>Cash's expression of love through craft</div>
+            </div>
+            <div class="symbol">
+                <div class="symbol-icon">🌊</div>
+                <div class="symbol-name">The River</div>
+                <div>Barrier between old and new, test of commitment</div>
+            </div>
+            <div class="symbol">
+                <div class="symbol-icon">🔥</div>
+                <div class="symbol-name">The Fire</div>
+                <div>Destruction and sacrifice</div>
+            </div>
+        </div>
+
+        <div class="river-crossing">
+            <div class="crisis-moment">The River Crossing: Point of No Return</div>
+            <p>The flooded river represents the ultimate test - a barrier that reveals character, destroys illusions, and transforms everyone who attempts to cross it. Despite all warnings, the family chooses to cross because turning back would mean admitting their entire enterprise is flawed.</p>
+            <div style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; margin-top: 20px;">
+                <strong style="color: #ffd700;">"The mules dived up again diving their legs stiff"</strong> - Vardaman's traumatized account of watching their world literally come apart
+            </div>
+        </div>
+
+        <div class="thematic-elements">
+            <div class="theme-card">
+                <div class="theme-title">Existence as Trauma</div>
+                <p>Life itself is portrayed as inherently traumatic - birth, consciousness, family bonds, and death all become sources of suffering rather than meaning.</p>
+            </div>
+
+            <div class="theme-card">
+                <div class="theme-title">The Economics of Poverty</div>
+                <p>Rural sharecropper life traps families in cycles of desperation where love becomes secondary to survival and moral choices become luxuries they can't afford.</p>
+            </div>
+
+            <div class="theme-card">
+                <div class="theme-title">Language and Meaning</div>
+                <p>Words are "gaps" between people rather than bridges. Characters struggle to communicate their deepest needs and truths, leading to tragic misunderstandings.</p>
+            </div>
+
+            <div class="theme-card">
+                <div class="theme-title">The Sacred in the Ordinary</div>
+                <p>Despite the darkness, Faulkner finds moments of transcendence in everyday acts - Cash's careful carpentry, Jewel's devotion, even Vardaman's confused love.</p>
+            </div>
+        </div>
+
+        <div class="key-passages">
+            <h3 style="color: #ffd700; text-align: center; margin-bottom: 20px;">Key Passages from the Text</h3>
+            
+            <div class="passage">
+                "I made it on the bevel. There is more surface for the nails to grip. The water will have to seep into it on a slant. Water moves easiest up and down or straight across."
+                <div class="passage-source">- Cash's methodical explanation of his coffin craftsmanship</div>
+            </div>
+
+            <div class="passage">
+                "My mother is a fish."
+                <div class="passage-source">- Vardaman's attempt to understand death through something he knows</div>
+            </div>
+
+            <div class="passage">
+                "In a strange room you must empty yourself for sleep. And before you are emptied for sleep, what are you. And when you are emptied for sleep, you are not."
+                <div class="passage-source">- Darl's philosophical meditation on existence and consciousness</div>
+            </div>
+
+            <div class="passage">
+                "That's what they mean by the womb of time: the agony and the despair of spreading bones, the hard girdle in which lie the outraged entrails of events."
+                <div class="passage-source">- The traumatic nature of existence itself</div>
+            </div>
+        </div>
+
+        <div style="background: rgba(0,0,0,0.6); padding: 25px; border-radius: 15px; text-align: center; margin-top: 30px;">
+            <h3 style="color: #ffd700; margin-bottom: 15px;">Faulkner's Achievement</h3>
+            <p>Through the Bundren family's nightmarish odyssey, Faulkner created one of the most psychologically complex and formally innovative novels in American literature. The fractured narrative mirrors the fractured family, while the journey becomes both literal transportation and metaphysical exploration of what it means to be human in a world where love and duty can become forms of destruction.</p>
+        </div>
+    </div>
+</body>
+</html>
