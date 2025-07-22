@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>William Faulkner: A Visual Biography</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #2c1810 0%, #8b4513 50%, #deb887 100%);
+            color: #f5f5dc;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            color: #daa520;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .header .subtitle {
+            font-size: 1.3em;
+            color: #f5deb3;
+            font-style: italic;
+        }
+
+        .header .dates {
+            font-size: 1.1em;
+            color: #cd853f;
+            margin-top: 10px;
+        }
+
+        .timeline-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 40px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #daa520, #cd853f, #8b4513);
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(218, 165, 32, 0.5);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 40px 0;
+            width: 45%;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(218, 165, 32, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .timeline-item.left {
+            left: 0;
+        }
+
+        .timeline-item.right {
+            left: 55%;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #daa520;
+            border: 3px solid #f5deb3;
+            box-shadow: 0 0 10px rgba(218, 165, 32, 0.7);
+        }
+
+        .timeline-item.left::before {
+            right: -35px;
+        }
+
+        .timeline-item.right::before {
+            left: -35px;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            top: 35px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+
+        .timeline-item.left::after {
+            right: -10px;
+            border: 10px solid transparent;
+            border-left-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .timeline-item.right::after {
+            left: -10px;
+            border: 10px solid transparent;
+            border-right-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .year {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #daa520;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        }
+
+        .event-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #f5deb3;
+            margin-bottom: 8px;
+        }
+
+        .event-description {
+            font-size: 1em;
+            line-height: 1.5;
+            color: #deb887;
+        }
+
+        .major-work {
+            background: linear-gradient(135deg, rgba(218, 165, 32, 0.2), rgba(205, 133, 63, 0.2));
+            border-left: 4px solid #daa520;
+        }
+
+        .life-event {
+            background: linear-gradient(135deg, rgba(139, 69, 19, 0.2), rgba(160, 82, 45, 0.2));
+            border-left: 4px solid #8b4513;
+        }
+
+        .award {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 140, 0, 0.2));
+            border-left: 4px solid #ffd700;
+        }
+
+        .stats-section {
+            margin: 60px 0;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .stat-item {
+            padding: 20px;
+            background: rgba(218, 165, 32, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(218, 165, 32, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #daa520;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            color: #f5deb3;
+            margin-top: 10px;
+        }
+
+        .works-highlight {
+            margin: 40px 0;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .works-title {
+            font-size: 2em;
+            color: #daa520;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .work-item {
+            padding: 15px;
+            background: rgba(139, 69, 19, 0.2);
+            border-radius: 8px;
+            border-left: 3px solid #daa520;
+        }
+
+        .work-title {
+            font-weight: bold;
+            color: #f5deb3;
+            margin-bottom: 5px;
+        }
+
+        .work-year {
+            color: #cd853f;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5em;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                width: calc(100% - 60px);
+                left: 40px !important;
+            }
+            
+            .timeline-item::before {
+                left: -35px !important;
+            }
+            
+            .timeline-item::after {
+                left: -10px !important;
+                border: 10px solid transparent;
+                border-right-color: rgba(0, 0, 0, 0.4) !important;
+                border-left-color: transparent !important;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>William Faulkner</h1>
+        <div class="subtitle">Master of Southern Literature & Nobel Laureate</div>
+        <div class="dates">September 25, 1897 – July 6, 1962</div>
+    </div>
+
+    <div class="timeline-container">
+        <div class="stats-section">
+            <h2 style="color: #daa520; font-size: 2.2em; margin-bottom: 20px;">Literary Achievements</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">1</span>
+                    <div class="stat-label">Nobel Prize in Literature (1949)</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">2</span>
+                    <div class="stat-label">Pulitzer Prizes</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">19</span>
+                    <div class="stat-label">Novels Published</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">50+</span>
+                    <div class="stat-label">Hollywood Films</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item left life-event">
+                <div class="year">1897</div>
+                <div class="event-title">Birth in New Albany</div>
+                <div class="event-description">Born September 25th to Murry and Maud Falkner in New Albany, Mississippi. Family moves to Oxford in 1902.</div>
+            </div>
+
+            <div class="timeline-item right life-event">
+                <div class="year">1918</div>
+                <div class="event-title">World War I Service</div>
+                <div class="event-description">Joins Royal Canadian Air Force after being rejected by US Army. Serves 179 days but never sees combat. Changes surname from "Falkner" to "Faulkner".</div>
+            </div>
+
+            <div class="timeline-item left major-work">
+                <div class="year">1925</div>
+                <div class="event-title">First Novel: Soldiers' Pay</div>
+                <div class="event-description">Publishes debut novel while living in New Orleans' French Quarter, influenced by Sherwood Anderson.</div>
+            </div>
+
+            <div class="timeline-item right major-work">
+                <div class="year">1927-1929</div>
+                <div class="event-title">Yoknapatawpha County Begins</div>
+                <div class="event-description">Writes "Flags in the Dust" (published as "Sartoris"), his first novel set in fictional Yoknapatawpha County. Marries Estelle Oldham in 1929.</div>
+            </div>
+
+            <div class="timeline-item left major-work">
+                <div class="year">1929</div>
+                <div class="event-title">The Sound and the Fury</div>
+                <div class="event-description">Publishes his experimental masterpiece, written in stream-of-consciousness style. Considers it his breakthrough work.</div>
+            </div>
+
+            <div class="timeline-item right major-work">
+                <div class="year">1930</div>
+                <div class="event-title">As I Lay Dying</div>
+                <div class="event-description">Completes novel while working night shifts at University of Mississippi Power House. Demonstrates his mastery of multiple narrative voices.</div>
+            </div>
+
+            <div class="timeline-item left life-event">
+                <div class="year">1932-1954</div>
+                <div class="event-title">Hollywood Years</div>
+                <div class="event-description">Works as screenwriter for MGM and other studios. Contributes to "To Have and Have Not" and "The Big Sleep" with Howard Hawks.</div>
+            </div>
+
+            <div class="timeline-item right major-work">
+                <div class="year">1932</div>
+                <div class="event-title">Light in August</div>
+                <div class="event-description">Publishes another major novel exploring themes of race, religion, and violence in the American South.</div>
+            </div>
+
+            <div class="timeline-item left major-work">
+                <div class="year">1936</div>
+                <div class="event-title">Absalom, Absalom!</div>
+                <div class="event-description">Releases what many consider his greatest novel, a complex meditation on Southern history and the burden of the past.</div>
+            </div>
+
+            <div class="timeline-item right award">
+                <div class="year">1949</div>
+                <div class="event-title">Nobel Prize in Literature</div>
+                <div class="event-description">Awarded "for his powerful and artistically unique contribution to the modern American novel." Becomes only Mississippi-born Nobel laureate.</div>
+            </div>
+
+            <div class="timeline-item left award">
+                <div class="year">1951 & 1955</div>
+                <div class="event-title">National Book Awards</div>
+                <div class="event-description">Wins for "Collected Stories" (1951) and "A Fable" (1955).</div>
+            </div>
+
+            <div class="timeline-item right award">
+                <div class="year">1954 & 1962</div>
+                <div class="event-title">Pulitzer Prizes</div>
+                <div class="event-description">Wins for "A Fable" (1954) and posthumously for "The Reivers" (1962).</div>
+            </div>
+
+            <div class="timeline-item left life-event">
+                <div class="year">1957-1958</div>
+                <div class="event-title">Writer-in-Residence</div>
+                <div class="event-description">Serves as first Writer-in-Residence at University of Virginia, Charlottesville.</div>
+            </div>
+
+            <div class="timeline-item right life-event">
+                <div class="year">1962</div>
+                <div class="event-title">Death</div>
+                <div class="event-description">Dies July 6th at age 64 from heart attack following a fall from his horse. Buried in St. Peter's Cemetery, Oxford.</div>
+            </div>
+        </div>
+
+        <div class="works-highlight">
+            <h2 class="works-title">Major Works of Yoknapatawpha County</h2>
+            <div class="works-grid">
+                <div class="work-item">
+                    <div class="work-title">Sartoris</div>
+                    <div class="work-year">1929 - First Yoknapatawpha novel</div>
+                </div>
+                <div class="work-item">
+                    <div class="work-title">The Sound and the Fury</div>
+                    <div class="work-year">1929 - Stream-of-consciousness masterpiece</div>
+                </div>
+                <div class="work-item">
+                    <div class="work-title">As I Lay Dying</div>
+                    <div class="work-year">1930 - Multi-narrator tour de force</div>
+                </div>
+                <div class="work-item">
+                    <div class="work-title">Light in August</div>
+                    <div class="work-year">1932 - Race and religion in the South</div>
+                </div>
+                <div class="work-item">
+                    <div class="work-title">Absalom, Absalom!</div>
+                    <div class="work-year">1936 - Epic of Southern history</div>
+                </div>
+                <div class="work-item">
+                    <div class="work-title">The Hamlet</div>
+                    <div class="work-year">1940 - First of Snopes trilogy</div>
+                </div>
+                <div class="work-item">
+                    <div class="work-title">Go Down, Moses</div>
+                    <div class="work-year">1942 - Interconnected stories</div>
+                </div>
+                <div class="work-item">
+                    <div class="work-title">The Reivers</div>
+                    <div class="work-year">1962 - Final novel, Pulitzer winner</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
