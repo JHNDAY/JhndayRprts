@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLLI Focus Group Analysis - Group 1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 3px solid #dee2e6;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 15px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            color: #6c757d;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab-btn.active {
+            color: #2c3e50;
+            border-bottom-color: #667eea;
+            background: white;
+        }
+        
+        .tab-btn:hover {
+            background: #e9ecef;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 30px;
+            min-height: 500px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .theme-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .theme-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .theme-title {
+            font-size: 1.4em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .quote {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #17a2b8;
+            margin: 15px 0;
+            font-style: italic;
+            color: #495057;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .quote::before {
+            content: '"';
+            font-size: 2em;
+            color: #17a2b8;
+            float: left;
+            margin-right: 10px;
+            line-height: 1;
+        }
+        
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .insight-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .insight-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .insight-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .participants-info {
+            background: #e3f2fd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 5px solid #2196f3;
+        }
+        
+        .methodology {
+            background: #fff3e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 5px solid #ff9800;
+        }
+        
+        .key-finding {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-weight: 500;
+        }
+        
+        .challenge-item {
+            background: #ffebee;
+            border-left: 5px solid #f44336;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        
+        .opportunity-item {
+            background: #f3e5f5;
+            border-left: 5px solid #9c27b0;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        
+        .vision-item {
+            background: #e8f5e8;
+            border-left: 5px solid #4caf50;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        
+        .tag {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin: 3px;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>BOLLI Focus Group Analysis - Group 1</h1>
+            <p>Strategic Planning Initiative - Member Experience & Vision</p>
+        </div>
+        
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
+            <button class="tab-btn" onclick="showTab('experience')">Experience at BOLLI</button>
+            <button class="tab-btn" onclick="showTab('learning')">Learning Preferences</button>
+            <button class="tab-btn" onclick="showTab('community')">Community</button>
+            <button class="tab-btn" onclick="showTab('vision')">Future Vision</button>
+        </div>
+        
+        <div id="overview" class="tab-content active">
+            <div class="participants-info">
+                <h3>Focus Group Composition</h3>
+                <p><strong>Participants:</strong> 6 long-term BOLLI members (pilot group for strategic planning)</p>
+                <p><strong>Experience Range:</strong> Mix of long-term members, with some having 10+ years at BOLLI</p>
+                <p><strong>Backgrounds:</strong> Diverse professional experience including education, law, medicine, and technology</p>
+                <p><strong>Location:</strong> Greater Boston area residents</p>
+            </div>
+            
+            <div class="methodology">
+                <h3>Session Overview</h3>
+                <p>This was a pilot focus group conducted as part of BOLLI's strategic planning process. Participants discussed their experiences, challenges, and vision for the future of lifelong learning at BOLLI.</p>
+            </div>
+            
+            <div class="insights-grid">
+                <div class="insight-box">
+                    <div class="insight-number">4</div>
+                    <div class="insight-label">Core Themes Emerged</div>
+                </div>
+                <div class="insight-box">
+                    <div class="insight-number">10+</div>
+                    <div class="insight-label">Years Average Membership</div>
+                </div>
+                <div class="insight-box">
+                    <div class="insight-number">High</div>
+                    <div class="insight-label">Engagement Level</div>
+                </div>
+                <div class="insight-box">
+                    <div class="insight-number">Mixed</div>
+                    <div class="insight-label">Format Preferences</div>
+                </div>
+            </div>
+            
+            <div class="key-finding">
+                <strong>Key Finding:</strong> BOLLI's greatest strength lies in its intellectual community and peer-to-peer learning, with members valuing both rigorous academics and meaningful social connections.
+            </div>
+        </div>
+        
+        <div id="experience" class="tab-content">
+            <h2>Experience at BOLLI</h2>
+            
+            <div class="theme-card">
+                <div class="theme-title">Standout Learning Experiences</div>
+                <div class="quote">
+                    Taking Proust... 7 semesters of absolutely classic book that we always wanted to read. We had incredible Professor... it was really one of my most amazing learning experiences.
+                </div>
+                <p><strong>Top-rated experiences:</strong></p>
+                <span class="tag">Proust Literature Course</span>
+                <span class="tag">New Yorker Discussion Group</span>
+                <span class="tag">Book Groups</span>
+                <span class="tag">Hands-on Workshops</span>
+            </div>
+            
+            <div class="theme-card">
+                <div class="theme-title">Volunteer Leadership Impact</div>
+                <div class="quote">
+                    Being on the curriculum committee... you feel like you're actually part of the creation of it. And it's very different from just coming in for classes and leaving.
+                </div>
+                <p><strong>Leadership roles valued:</strong></p>
+                <span class="tag">Curriculum Committee</span>
+                <span class="tag">Teaching/Facilitating</span>
+                <span class="tag">Study Group Leadership</span>
+                <span class="tag">Course Development</span>
+            </div>
+            
+            <div class="theme-card">
+                <div class="theme-title">Major Challenges</div>
+                <div class="challenge-item">
+                    <strong>Physical Facility:</strong> Basement location with poor ventilation, sound issues, and accessibility concerns
+                </div>
+                <div class="challenge-item">
+                    <strong>Technology Support:</strong> Outdated systems and inadequate technical assistance
+                </div>
+                <div class="challenge-item">
+                    <strong>Limited Awareness of Committee Opportunities:</strong> Many members are unaware of available volunteer positions and how committee involvement enhances the BOLLI experience. There is a need to better market committees and Special Interest Groups (SIGs) to newer members, with clear explanations of how committee membership enriches one's experience at BOLLI by fostering deeper connections to the community.
+                </div>
+                <div class="challenge-item">
+                    <strong>Welcoming New Members:</strong> Difficulty making personal connections, especially on Zoom
+                </div>
+            </div>
+        </div>
+        
+        <div id="learning" class="tab-content">
+            <h2>Learning Preferences & Needs</h2>
+            
+            <div class="theme-card">
+                <div class="theme-title">Preferred Learning Formats</div>
+                <div class="quote">
+                    I don't have the attention span for a purely lecture course... there has to be some interactivity. I like us to talk to each other in class.
+                </div>
+                <p><strong>Format preferences:</strong></p>
+                <span class="tag">Interactive Discussion</span>
+                <span class="tag">Peer-to-Peer Learning</span>
+                <span class="tag">Reading + Questions</span>
+                <span class="tag">Mixed Media (videos, slides)</span>
+            </div>
+            
+            <div class="theme-card">
+                <div class="theme-title">Zoom vs. In-Person Debate</div>
+                <div class="quote">
+                    We all know it's harder to get to know people [on Zoom]. You don't have that wandering out to the parking lot together, chatting after a class kind of opportunity.
+                </div>
+                <p><strong>Split preferences:</strong></p>
+                <ul style="margin-top: 15px;">
+                    <li><strong>Pro-Zoom:</strong> Convenience, accessibility, weather independence</li>
+                    <li><strong>Pro-In-Person:</strong> Better connections, community building, natural interactions</li>
+                    <li><strong>Consensus:</strong> Need both options available</li>
+                </ul>
+            </div>
+            
+            <div class="theme-card">
+                <div class="theme-title">Course Quality Factors</div>
+                <div class="quote">
+                    The quality of the course is really virtually entirely dependent on the SGL [Study Group Leader].
+                </div>
+                <p><strong>Key quality indicators:</strong></p>
+                <span class="tag">Engaged Participants</span>
+                <span class="tag">Skilled Facilitator</span>
+                <span class="tag">Interactive Format</span>
+                <span class="tag">Appropriate Materials</span>
+            </div>
+        </div>
+        
+        <div id="community" class="tab-content">
+            <h2>Learning Community</h2>
+            
+            <div class="theme-card">
+                <div class="theme-title">Community as Core Value</div>
+                <div class="quote">
+                    For 10 years now... I have had the opportunity multiple times a week, all year round, to talk, to get to know, and become friendly with just a really wonderful group of people.
+                </div>
+                <p><strong>Community elements valued:</strong></p>
+                <span class="tag">Year-round Engagement</span>
+                <span class="tag">Intellectual Stimulation</span>
+                <span class="tag">Social Connections</span>
+                <span class="tag">Shared Interests</span>
+            </div>
+            
+            <div class="theme-card">
+                <div class="theme-title">Welcoming Challenges</div>
+                <div class="quote">
+                    Nobody talked to me. I didn't have a placard that had my name... nobody said Welcome! Nobody said, What's your name?
+                </div>
+                <p><strong>Integration barriers identified:</strong></p>
+                <ul style="margin-top: 15px;">
+                    <li>Lack of structured welcome process</li>
+                    <li>Existing members not reaching out</li>
+                    <li>Limited opportunities for casual interaction</li>
+                    <li>Zoom making connections even harder</li>
+                </ul>
+            </div>
+            
+            <div class="theme-card">
+                <div class="theme-title">Physical Space Impact</div>
+                <div class="quote">
+                    I appreciate the fact that there is a room in the middle where everyone has to go in order to go to their class... that common room is important.
+                </div>
+                <p><strong>Importance of central gathering space:</strong></p>
+                <span class="tag">Crossroads Design</span>
+                <span class="tag">Casual Encounters</span>
+                <span class="tag">Community Building</span>
+                <span class="tag">Shared Lunch Space</span>
+            </div>
+        </div>
+        
+        <div id="vision" class="tab-content">
+            <h2>Future Vision for BOLLI</h2>
+            
+            <div class="theme-card">
+                <div class="theme-title">Balancing Academic Rigor & Accessibility</div>
+                <div class="quote">
+                    I would like to keep the intellectual rigor of the courses. I don't think that we hurt those by adding some hands-on or different kinds of courses.
+                </div>
+                <div class="vision-item">
+                    <strong>Maintain:</strong> Small liberal arts college atmosphere with intellectual depth
+                </div>
+                <div class="vision-item">
+                    <strong>Add:</strong> More practical "how-to" courses and hands-on learning
+                </div>
+                <div class="vision-item">
+                    <strong>Expand:</strong> Variety in course formats and teaching styles
+                </div>
+            </div>
+            
+            <div class="theme-card">
+                <div class="theme-title">Addressing Generational Needs</div>
+                <div class="quote">
+                    I kind of feel that all of us are in an elder category of BOLLI members, and there are newer people coming in who are as much as 20 and 30 years younger than we are.
+                </div>
+                <p><strong>Generational considerations:</strong></p>
+                <ul style="margin-top: 15px;">
+                    <li>Younger members (50s-60s) may want different course types</li>
+                    <li>Need input from newer/younger demographic</li>
+                    <li>Balance traditional academic focus with evolving preferences</li>
+                </ul>
+            </div>
+            
+            <div class="theme-card">
+                <div class="theme-title">Operational Improvements</div>
+                <div class="opportunity-item">
+                    <strong>Facility Upgrade:</strong> Better physical space with improved ventilation and accessibility
+                </div>
+                <div class="opportunity-item">
+                    <strong>Technology Enhancement:</strong> Modern systems with reliable technical support
+                </div>
+                <div class="opportunity-item">
+                    <strong>Course Marketing:</strong> Better promotion of underenrolled classes through profiles and previews
+                </div>
+                <div class="opportunity-item">
+                    <strong>Member Integration:</strong> Structured welcome process and mentorship programs
+                </div>
+                <div class="opportunity-item">
+                    <strong>Volunteer Awareness and Engagement:</strong> Enhanced marketing and communication about existing committee and SIG opportunities to help members understand how volunteer involvement enriches their BOLLI experience and strengthens community connections.
+                </div>
+            </div>
+            
+            <div class="theme-card">
+                <div class="theme-title">Course Development Strategy</div>
+                <div class="quote">
+                    We need to do some of these things. First of all, get more members being SGLs, and that's more affordable. So there's a double plus for that.
+                </div>
+                <p><strong>Strategic recommendations:</strong></p>
+                <span class="tag">More Member Instructors</span>
+                <span class="tag">Balanced Course Portfolio</span>
+                <span class="tag">Better Course Matching</span>
+                <span class="tag">Instructor Support</span>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab and activate button
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        // Add smooth scrolling for mobile
+        window.addEventListener('load', function() {
+            if (window.innerWidth <= 768) {
+                document.querySelector('.container').style.margin = '10px';
+            }
+        });
+    </script>
+</body>
+</html>
