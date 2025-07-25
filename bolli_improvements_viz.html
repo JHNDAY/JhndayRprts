@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLLI Program Improvement Ideas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 0;
+        }
+
+        .category {
+            padding: 30px;
+            border-right: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+            min-height: 400px;
+        }
+
+        .category:hover {
+            background: #f8f9fa;
+            transform: translateY(-2px);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid;
+        }
+
+        .category-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+        }
+
+        .category-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .subcategory {
+            margin-bottom: 20px;
+        }
+
+        .subcategory-title {
+            font-weight: 600;
+            color: #34495e;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .subcategory-title::before {
+            content: "▶";
+            margin-right: 8px;
+            font-size: 0.8rem;
+            color: #7f8c8d;
+        }
+
+        .idea-list {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .idea-list li {
+            padding: 4px 0;
+            color: #555;
+            position: relative;
+            line-height: 1.4;
+        }
+
+        .idea-list li::before {
+            content: "•";
+            color: #3498db;
+            font-weight: bold;
+            position: absolute;
+            left: -15px;
+        }
+
+        /* Color coding for different categories */
+        .courses { border-bottom-color: #e74c3c; }
+        .courses .category-header { border-bottom-color: #e74c3c; }
+        .courses .category-icon { color: #e74c3c; }
+
+        .community { border-bottom-color: #2ecc71; }
+        .community .category-header { border-bottom-color: #2ecc71; }
+        .community .category-icon { color: #2ecc71; }
+
+        .operations { border-bottom-color: #f39c12; }
+        .operations .category-header { border-bottom-color: #f39c12; }
+        .operations .category-icon { color: #f39c12; }
+
+        .facilities { border-bottom-color: #9b59b6; }
+        .facilities .category-header { border-bottom-color: #9b59b6; }
+        .facilities .category-icon { color: #9b59b6; }
+
+        .transport { border-bottom-color: #1abc9c; }
+        .transport .category-header { border-bottom-color: #1abc9c; }
+        .transport .category-icon { color: #1abc9c; }
+
+        .instructors { border-bottom-color: #34495e; }
+        .instructors .category-header { border-bottom-color: #34495e; }
+        .instructors .category-icon { color: #34495e; }
+
+        .balance { border-bottom-color: #e67e22; }
+        .balance .category-header { border-bottom-color: #e67e22; }
+        .balance .category-icon { color: #e67e22; }
+
+        .stats {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+
+        .stat-item {
+            display: inline-block;
+            margin: 0 20px;
+            padding: 10px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category {
+                border-right: none;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>BOLLI Program Improvement Ideas</h1>
+            <p>Comprehensive suggestions from focus group participants</p>
+        </div>
+
+        <div class="grid">
+            <div class="category courses">
+                <div class="category-header">
+                    <div class="category-icon">📚</div>
+                    <div class="category-title">Course & Learning Format Ideas</div>
+                </div>
+                
+                <div class="subcategory">
+                    <div class="subcategory-title">Course Structure & Scheduling</div>
+                    <ul class="idea-list">
+                        <li>Offer classes of varying lengths (4-6 weeks vs. 10 weeks)</li>
+                        <li>Stagger course start times throughout semester</li>
+                        <li>Add evening classes for working people</li>
+                        <li>Allow popular courses to be taught twice per semester</li>
+                        <li>Increase enrollment caps for popular Zoom classes</li>
+                        <li>Expand à la carte course options</li>
+                    </ul>
+                </div>
+
+                <div class="subcategory">
+                    <div class="subcategory-title">Course Content & Types</div>
+                    <ul class="idea-list">
+                        <li>Add more hands-on/practical courses</li>
+                        <li>Include "how-to" classes and lifestyle courses</li>
+                        <li>Expand language conversation groups</li>
+                        <li>Partner with local art centers</li>
+                        <li>Continue "Test Kitchen" model expansion</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="category community">
+                <div class="category-header">
+                    <div class="category-icon">🤝</div>
+                    <div class="category-title">Community Building & Social</div>
+                </div>
+                
+                <div class="subcategory">
+                    <div class="subcategory-title">Regular Social Opportunities</div>
+                    <ul class="idea-list">
+                        <li>Designated weekly community time</li>
+                        <li>Bring back daily shared food and speakers</li>
+                        <li>Organize geographic member meet-ups</li>
+                        <li>Create evening interest-based gatherings</li>
+                    </ul>
+                </div>
+
+                <div class="subcategory">
+                    <div class="subcategory-title">Member Connection Improvements</div>
+                    <ul class="idea-list">
+                        <li>Make name tags more visible and available</li>
+                        <li>Restore member directory (opt-out basis)</li>
+                        <li>Implement better new member orientation</li>
+                        <li>Encourage active welcoming by existing members</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="category operations">
+                <div class="category-header">
+                    <div class="category-icon">⚙️</div>
+                    <div class="category-title">Program Structure & Operations</div>
+                </div>
+                
+                <div class="subcategory">
+                    <div class="subcategory-title">Pricing & Membership Options</div>
+                    <ul class="idea-list">
+                        <li>Create flexible pricing tiers</li>
+                        <li>Offer partial membership options</li>
+                        <li>Better value for members with scheduling conflicts</li>
+                    </ul>
+                </div>
+
+                <div class="subcategory">
+                    <div class="subcategory-title">Course Selection & Information</div>
+                    <ul class="idea-list">
+                        <li>Simplify course catalog layout</li>
+                        <li>Add course websites with previews</li>
+                        <li>Create instructor video introductions</li>
+                        <li>Better teaching style information</li>
+                        <li>Share evaluation feedback with advisors</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="category facilities">
+                <div class="category-header">
+                    <div class="category-icon">🏢</div>
+                    <div class="category-title">Physical Space & Technology</div>
+                </div>
+                
+                <div class="subcategory">
+                    <div class="subcategory-title">Facility Improvements</div>
+                    <ul class="idea-list">
+                        <li>Move to safer location with better egress</li>
+                        <li>Find space with natural light and acoustics</li>
+                        <li>Maintain central gathering space</li>
+                        <li>Improve classroom layouts for interaction</li>
+                    </ul>
+                </div>
+
+                <div class="subcategory">
+                    <div class="subcategory-title">Technology Support</div>
+                    <ul class="idea-list">
+                        <li>Upgrade technology infrastructure</li>
+                        <li>Better technical support for instructors</li>
+                        <li>Improve Zoom integration and recording</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="category transport">
+                <div class="category-header">
+                    <div class="category-icon">🚐</div>
+                    <div class="category-title">Transportation & Accessibility</div>
+                </div>
+                
+                <div class="subcategory">
+                    <div class="subcategory-title">Transportation Solutions</div>
+                    <ul class="idea-list">
+                        <li>Organize carpools from Turner Street for excursions</li>
+                        <li>Explore van service for non-drivers</li>
+                        <li>Consider shuttle to remote parking</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="category instructors">
+                <div class="category-header">
+                    <div class="category-icon">👨‍🏫</div>
+                    <div class="category-title">Instructor & Course Development</div>
+                </div>
+                
+                <div class="subcategory">
+                    <div class="subcategory-title">Instructor Support</div>
+                    <ul class="idea-list">
+                        <li>Provide stipends for in-person teaching</li>
+                        <li>Practical orientation on BOLLI community</li>
+                        <li>Balance member-led vs. professional courses</li>
+                        <li>Targeted outreach for underrepresented subjects</li>
+                    </ul>
+                </div>
+
+                <div class="subcategory">
+                    <div class="subcategory-title">Course Planning</div>
+                    <ul class="idea-list">
+                        <li>Strategic curriculum planning</li>
+                        <li>Promote classes needing enrollment</li>
+                        <li>Better distribute similar courses across semesters</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="category balance">
+                <div class="category-header">
+                    <div class="category-icon">⚖️</div>
+                    <div class="category-title">Program Balance</div>
+                </div>
+                
+                <div class="subcategory">
+                    <div class="subcategory-title">In-Person vs. Zoom</div>
+                    <ul class="idea-list">
+                        <li>Increase in-person offerings while maintaining Zoom</li>
+                        <li>Ensure robust discussion in all formats</li>
+                        <li>Facilitate participant cross-talk vs. instructor-focused</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">7</div>
+                <div class="stat-label">Major Categories</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">15</div>
+                <div class="stat-label">Subcategories</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">40+</div>
+                <div class="stat-label">Specific Ideas</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

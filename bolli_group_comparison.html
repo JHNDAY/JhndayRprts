@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLLI Focus Groups Comparison</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 80px 1fr;
+            gap: 0;
+            min-height: 600px;
+        }
+
+        .group-column {
+            padding: 30px;
+            background: #f8f9fa;
+        }
+
+        .group-header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 20px;
+            margin: -30px -30px 30px -30px;
+            text-align: center;
+        }
+
+        .group-header.group2 {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .group-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .group-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .divider {
+            background: linear-gradient(to bottom, #ecf0f1, #bdc3c7, #ecf0f1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #7f8c8d;
+        }
+
+        .topic-section {
+            margin-bottom: 30px;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+        }
+
+        .topic-section:hover {
+            transform: translateY(-2px);
+        }
+
+        .topic-header {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .group2 .topic-header {
+            border-bottom-color: #e74c3c;
+        }
+
+        .emphasis-high {
+            background: #e8f5e8;
+            border-left: 4px solid #27ae60;
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .emphasis-medium {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .emphasis-low {
+            background: #f8f9fa;
+            border-left: 4px solid #6c757d;
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .unique-point {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 5px 0;
+            position: relative;
+        }
+
+        .group2 .unique-point {
+            background: #ffebee;
+            border-color: #f44336;
+        }
+
+        .unique-label {
+            position: absolute;
+            top: -8px;
+            right: 10px;
+            background: #2196f3;
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .group2 .unique-label {
+            background: #f44336;
+        }
+
+        .shared-themes {
+            background: #f1f8e9;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 15px;
+            border: 2px solid #8bc34a;
+        }
+
+        .shared-header {
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #33691e;
+            margin-bottom: 20px;
+        }
+
+        .shared-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .shared-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4caf50;
+        }
+
+        .point-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .point-list li {
+            margin: 8px 0;
+            padding-left: 20px;
+            position: relative;
+            line-height: 1.4;
+        }
+
+        .point-list li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .group2 .point-list li::before {
+            color: #e74c3c;
+        }
+
+        .stats-bar {
+            background: #34495e;
+            color: white;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 10px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 1200px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .divider {
+                display: none;
+            }
+            
+            .group-column {
+                border-bottom: 2px solid #ecf0f1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>BOLLI Focus Groups Comparison</h1>
+            <p>Analyzing responses from two distinct focus group sessions</p>
+        </div>
+
+        <div class="comparison-grid">
+            <!-- Group 1 Column -->
+            <div class="group-column">
+                <div class="group-header">
+                    <div class="group-title">Focus Group 1</div>
+                    <div class="group-subtitle">Strategic Planning Session - 8 participants</div>
+                </div>
+
+                <div class="topic-section">
+                    <div class="topic-header">🎯 Primary Focus Areas</div>
+                    <div class="emphasis-high">
+                        <strong>In-Person vs. Zoom Balance</strong>
+                        <ul class="point-list">
+                            <li>Passionate advocacy for more in-person classes</li>
+                            <li>Detailed discussion of community loss due to Zoom</li>
+                            <li>Specific suggestions for encouraging in-person teaching</li>
+                        </ul>
+                    </div>
+                    <div class="emphasis-medium">
+                        <strong>Physical Space Concerns</strong>
+                        <ul class="point-list">
+                            <li>Safety issues with basement location</li>
+                            <li>Emergency egress concerns</li>
+                            <li>Poor acoustics and ventilation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="topic-section">
+                    <div class="topic-header">💡 Unique Contributions</div>
+                    <div class="unique-point">
+                        <span class="unique-label">UNIQUE</span>
+                        <strong>Stipends for In-Person Teachers:</strong> Specific suggestion to pay $80-100 stipends to encourage in-person teaching
+                    </div>
+                    <div class="unique-point">
+                        <span class="unique-label">UNIQUE</span>
+                        <strong>Lottery System Issues:</strong> Detailed discussion of course registration lottery being confusing and opaque
+                    </div>
+                    <div class="unique-point">
+                        <span class="unique-label">UNIQUE</span>
+                        <strong>Graduate Student Teachers:</strong> Strong preference against courses taught by graduate students vs. experienced members
+                    </div>
+                    <div class="unique-point">
+                        <span class="unique-label">UNIQUE</span>
+                        <strong>Name Tags & Member Directory:</strong> Specific requests for better name tag visibility and restoring member contact directory
+                    </div>
+                </div>
+
+                <div class="topic-section">
+                    <div class="topic-header">🔍 Discussion Depth</div>
+                    <div class="emphasis-high">Very detailed discussion of instructor quality and teaching styles</div>
+                    <div class="emphasis-high">Extensive analysis of community-building challenges</div>
+                    <div class="emphasis-medium">Multiple perspectives on Zoom vs. in-person trade-offs</div>
+                </div>
+
+                <div class="topic-section">
+                    <div class="topic-header">👥 Group Dynamics</div>
+                    <div class="emphasis-medium">
+                        <ul class="point-list">
+                            <li>More structured, formal discussion format</li>
+                            <li>Participants with significant committee experience</li>
+                            <li>Focus on operational and policy issues</li>
+                            <li>Strong consensus on in-person preference</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="divider">VS</div>
+
+            <!-- Group 2 Column -->
+            <div class="group-column">
+                <div class="group-header group2">
+                    <div class="group-title">Focus Group 2</div>
+                    <div class="group-subtitle">Guinea Pig Session - 6 participants</div>
+                </div>
+
+                <div class="topic-section">
+                    <div class="topic-header">🎯 Primary Focus Areas</div>
+                    <div class="emphasis-high">
+                        <strong>Community & Social Connection</strong>
+                        <ul class="point-list">
+                            <li>Emphasis on friendships and social aspects</li>
+                            <li>Importance of New Yorker group as community builder</li>
+                            <li>Value of central gathering space</li>
+                        </ul>
+                    </div>
+                    <div class="emphasis-medium">
+                        <strong>Learning Experience Quality</strong>
+                        <ul class="point-list">
+                            <li>Discussion vs. lecture preferences</li>
+                            <li>Course content and instructor evaluation</li>
+                            <li>Academic rigor maintenance</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="topic-section">
+                    <div class="topic-header">💡 Unique Contributions</div>
+                    <div class="unique-point">
+                        <span class="unique-label">UNIQUE</span>
+                        <strong>Video Instructor Introductions:</strong> Suggestion for 1-minute videos by instructors to preview classes
+                    </div>
+                    <div class="unique-point">
+                        <span class="unique-label">UNIQUE</span>
+                        <strong>Course Promotion Strategy:</strong> Specific examples of promoting underenrolled classes through BOLLI bulletin
+                    </div>
+                    <div class="unique-point">
+                        <span class="unique-label">UNIQUE</span>
+                        <strong>Curriculum Balance Planning:</strong> Discussion of too many music courses and need for strategic planning
+                    </div>
+                    <div class="unique-point">
+                        <span class="unique-label">UNIQUE</span>
+                        <strong>Jewish Identity Question:</strong> Exploration of whether BOLLI's Jewish connection affects membership decisions
+                    </div>
+                </div>
+
+                <div class="topic-section">
+                    <div class="topic-header">🔍 Discussion Depth</div>
+                    <div class="emphasis-high">Rich stories about joining BOLLI and early experiences</div>
+                    <div class="emphasis-high">Detailed committee work experiences and rewards</div>
+                    <div class="emphasis-medium">Nuanced discussion of teaching pedagogy and course quality</div>
+                </div>
+
+                <div class="topic-section">
+                    <div class="topic-header">👥 Group Dynamics</div>
+                    <div class="emphasis-medium">
+                        <ul class="point-list">
+                            <li>More conversational, story-sharing format</li>
+                            <li>Participants with deep BOLLI involvement</li>
+                            <li>Focus on personal experiences and relationships</li>
+                            <li>More balanced view on Zoom vs. in-person</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shared Themes Section -->
+        <div class="shared-themes">
+            <div class="shared-header">🤝 Common Themes Across Both Groups</div>
+            <div class="shared-grid">
+                <div class="shared-item">
+                    <strong>Community Importance:</strong> Both groups emphasized BOLLI's role as a social and intellectual community, not just classes
+                </div>
+                <div class="shared-item">
+                    <strong>Physical Space Issues:</strong> Concerns about Turner Street location, though Group 1 was more focused on safety
+                </div>
+                <div class="shared-item">
+                    <strong>Course Quality:</strong> Both discussed the importance of good instructors and engaging course content
+                </div>
+                <div class="shared-item">
+                    <strong>Technology Challenges:</strong> Both mentioned technology support issues and Zoom-related concerns
+                </div>
+                <div class="shared-item">
+                    <strong>New Member Integration:</strong> Both groups shared stories about difficulty connecting when new to BOLLI
+                </div>
+                <div class="shared-item">
+                    <strong>Hands-on Learning:</strong> Interest in practical courses and the Test Kitchen model
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-number">94 min</div>
+                <div class="stat-label">Group 1 Duration</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">69 min</div>
+                <div class="stat-label">Group 2 Duration</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">8 vs 6</div>
+                <div class="stat-label">Participants</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">6</div>
+                <div class="stat-label">Shared Themes</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Unique Points</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
