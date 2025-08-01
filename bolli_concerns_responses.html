@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How BOLLI's Strategic Objectives Address Key Concerns</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #006BB3 0%, #003d6b 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #ffd700, #ffed4e, #ffd700);
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            font-style: italic;
+        }
+        
+        .mapping-section {
+            padding: 40px;
+        }
+        
+        .mapping-grid {
+            display: grid;
+            gap: 30px;
+        }
+        
+        .concern-response-pair {
+            background: #f8f9fa;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .concern-response-pair:hover {
+            transform: translateY(-3px);
+        }
+        
+        .pair-content {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 0;
+            align-items: stretch;
+            min-height: 200px;
+        }
+        
+        .concern-side {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 25px;
+            position: relative;
+        }
+        
+        .response-side {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+            padding: 25px;
+            position: relative;
+        }
+        
+        .arrow-connector {
+            background: #ecf0f1;
+            width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .arrow {
+            width: 0;
+            height: 0;
+            border-left: 15px solid #e74c3c;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+        }
+        
+        .side-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+        
+        .concern-title, .response-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+        
+        .concern-details {
+            font-size: 0.95em;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+        
+        .response-actions {
+            list-style: none;
+        }
+        
+        .response-action {
+            margin: 8px 0;
+            padding: 6px 0;
+            font-size: 0.95em;
+            line-height: 1.4;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .response-action::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .concern-category {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .response-category {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .summary-section {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .summary-stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #006BB3;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .summary-text {
+            font-size: 1.1em;
+            color: #555;
+            font-style: italic;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        @media (max-width: 1024px) {
+            .pair-content {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto;
+            }
+            
+            .arrow-connector {
+                width: 100%;
+                height: 40px;
+                flex-direction: column;
+            }
+            
+            .arrow {
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-top: 15px solid #e74c3c;
+                border-bottom: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .mapping-section {
+                padding: 20px;
+            }
+            
+            .concern-side, .response-side {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .summary-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Strategic Response Framework</h1>
+            <p>How BOLLI's Priority Objectives Address Key Concerns from Strategic Planning</p>
+        </div>
+        
+        <div class="mapping-section">
+            <div class="mapping-grid">
+                
+                <!-- Post-COVID Community Challenges -->
+                <div class="concern-response-pair">
+                    <div class="pair-content">
+                        <div class="concern-side">
+                            <div class="concern-category">Post-COVID Impact</div>
+                            <div class="side-title">Major Concern</div>
+                            <div class="concern-title">Loss of Community Connection</div>
+                            <div class="concern-details">
+                                Members who joined post-COVID often never met classmates or SGLs in person. Difficulty maintaining community feeling when people can't meet face-to-face. Community events eliminated or moved online.
+                            </div>
+                        </div>
+                        <div class="arrow-connector">
+                            <div class="arrow"></div>
+                        </div>
+                        <div class="response-side">
+                            <div class="response-category">Program Enhancement</div>
+                            <div class="side-title">Strategic Response</div>
+                            <div class="response-title">Community Building Initiatives</div>
+                            <ul class="response-actions">
+                                <li class="response-action">Designate weekly community time (Lunch and Learn)</li>
+                                <li class="response-action">Make nametags more visible and available</li>
+                                <li class="response-action">Support member-formed SIGs with guidance</li>
+                                <li class="response-action">Experiment with evening/geographic meet-ups</li>
+                                <li class="response-action">Restore member directory</li>
+                                <li class="response-action">Expand new member orientation with mentoring</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Volunteer Recruitment Crisis -->
+                <div class="concern-response-pair">
+                    <div class="pair-content">
+                        <div class="concern-side">
+                            <div class="concern-category">Volunteer Crisis</div>
+                            <div class="side-title">Major Concern</div>
+                            <div class="concern-title">Declining Member SGL Participation</div>
+                            <div class="concern-details">
+                                More classes taught by non-members than members. Member SGLs "retiring" without replacements. Difficulty recruiting leadership committee members due to reduced loyalty and commitment.
+                            </div>
+                        </div>
+                        <div class="arrow-connector">
+                            <div class="arrow"></div>
+                        </div>
+                        <div class="response-side">
+                            <div class="response-category">Infrastructure & Program</div>
+                            <div class="side-title">Strategic Response</div>
+                            <div class="response-title">Comprehensive Volunteer Revitalization</div>
+                            <ul class="response-actions">
+                                <li class="response-action">Survey membership for teaching backgrounds and skills</li>
+                                <li class="response-action">Expand workbook and panel sessions for SGLs</li>
+                                <li class="response-action">Recruit retiring faculty from schools/colleges</li>
+                                <li class="response-action">Integrate volunteer opportunities in new member orientation</li>
+                                <li class="response-action">Increase volunteer incentives and social occasions</li>
+                                <li class="response-action">Consider term limits with succession planning</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Financial Sustainability Crisis -->
+                <div class="concern-response-pair">
+                    <div class="pair-content">
+                        <div class="concern-side">
+                            <div class="concern-category">Financial Sustainability</div>
+                            <div class="side-title">Major Concern</div>
+                            <div class="concern-title">Revenue and Cost Pressures</div>
+                            <div class="concern-details">
+                                High fees compared to peers. Cost of external SGLs receiving stipends. Pressure from Brandeis to reduce expenses. Weak history of fundraising. No strategic plan for 20 years.
+                            </div>
+                        </div>
+                        <div class="arrow-connector">
+                            <div class="arrow"></div>
+                        </div>
+                        <div class="response-side">
+                            <div class="response-category">Financial Sustainability</div>
+                            <div class="side-title">Strategic Response</div>
+                            <div class="response-title">Comprehensive Revenue Strategy</div>
+                            <ul class="response-actions">
+                                <li class="response-action">Form Marketing Committee to expand membership</li>
+                                <li class="response-action">Target marketing at senior centers and colleges</li>
+                                <li class="response-action">Re-engage past/trial members</li>
+                                <li class="response-action">Form Development/Fundraising Committee</li>
+                                <li class="response-action">Target specific fundraising campaign (new space)</li>
+                                <li class="response-action">Improve social media and targeted advertising</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Space and Technology Inadequacy -->
+                <div class="concern-response-pair">
+                    <div class="pair-content">
+                        <div class="concern-side">
+                            <div class="concern-category">Infrastructure</div>
+                            <div class="side-title">Major Concern</div>
+                            <div class="concern-title">Completely Inadequate Space & Tech</div>
+                            <div class="concern-details">
+                                Basement location, no accessibility for stairs. No windows, no flexibility. Poor IT support, can't record classes, lack hybrid infrastructure. Offices not near classrooms.
+                            </div>
+                        </div>
+                        <div class="arrow-connector">
+                            <div class="arrow"></div>
+                        </div>
+                        <div class="response-side">
+                            <div class="response-category">Infrastructure</div>
+                            <div class="side-title">Strategic Response</div>
+                            <div class="response-title">Space & Technology Transformation</div>
+                            <ul class="response-actions">
+                                <li class="response-action">Plan buildout of 2nd floor at 29 Sawyer</li>
+                                <li class="response-action">Clarify options for 51 Sawyer</li>
+                                <li class="response-action">Explore other Brandeis campus possibilities</li>
+                                <li class="response-action">Implement hybrid technology with built-in systems</li>
+                                <li class="response-action">Consult organizations with hybrid best practices</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Program Rigidity and Gaps -->
+                <div class="concern-response-pair">
+                    <div class="pair-content">
+                        <div class="concern-side">
+                            <div class="concern-category">Program Limitations</div>
+                            <div class="side-title">Major Concern</div>
+                            <div class="concern-title">Curriculum Gaps & Schedule Rigidity</div>
+                            <div class="concern-details">
+                                Lack of how-to and lifestyle courses. Rigidity of 5 and 10 week daytime schedule. Random curriculum generation. Requests for à la carte pricing. Poor website quality.
+                            </div>
+                        </div>
+                        <div class="arrow-connector">
+                            <div class="arrow"></div>
+                        </div>
+                        <div class="response-side">
+                            <div class="response-category">Program Enhancement</div>
+                            <div class="side-title">Strategic Response</div>
+                            <div class="response-title">Flexible Programming & Curriculum Planning</div>
+                            <ul class="response-actions">
+                                <li class="response-action">Pilot courses outside usual schedule (evening, 2-4 week)</li>
+                                <li class="response-action">Develop à la carte pricing models</li>
+                                <li class="response-action">Survey members about desired subject areas</li>
+                                <li class="response-action">Partner with art centers for courses</li>
+                                <li class="response-action">Use AI to redesign catalog (searchable, calendar format)</li>
+                                <li class="response-action">Create YouTube channel with course previews</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+        <div class="summary-section">
+            <div class="summary-stats">
+                <div class="stat">
+                    <span class="stat-number">5</span>
+                    <span class="stat-label">Major Concern Areas</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">30+</span>
+                    <span class="stat-label">Specific Response Actions</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Concerns Addressed</span>
+                </div>
+            </div>
+            <div class="summary-text">
+                This framework demonstrates how BOLLI's strategic objectives directly address the key concerns identified through comprehensive SWOT analysis, member surveys, and strategic planning sessions. Each priority area contains specific, actionable responses to the challenges facing our community of lifelong learners.
+            </div>
+        </div>
+    </div>
+</body>
+</html>
