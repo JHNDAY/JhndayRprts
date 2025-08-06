@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLLI Hybrid Learning Environment</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.2em;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            font-style: italic;
+        }
+        
+        .classroom-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .main-classroom {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            position: relative;
+            border: 3px solid #3498db;
+            min-height: 400px;
+        }
+        
+        .classroom-title {
+            background: #3498db;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.2em;
+        }
+        
+        .in-person-section {
+            background: #e8f5e8;
+            border: 2px dashed #27ae60;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .virtual-section {
+            background: #e8f4f8;
+            border: 2px dashed #2980b9;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .participant {
+            display: inline-block;
+            background: #fff;
+            padding: 6px 12px;
+            margin: 4px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 2px solid;
+        }
+        
+        .sgl {
+            border-color: #e74c3c;
+            background: #fdf2f2;
+            font-weight: bold;
+        }
+        
+        .sgm-present {
+            border-color: #27ae60;
+            background: #f0f8f0;
+        }
+        
+        .sgm-remote {
+            border-color: #3498db;
+            background: #f0f6ff;
+        }
+        
+        .tech-panel {
+            background: #2c3e50;
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .tech-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #ecf0f1;
+            font-size: 1.1em;
+        }
+        
+        .tech-feature {
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .benefit-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+        }
+        
+        .benefit-number {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .benefit-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .benefit-description {
+            font-size: 0.95em;
+            line-height: 1.5;
+            opacity: 0.95;
+        }
+        
+        .interaction-flow {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .flow-title {
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 8px;
+        }
+        
+        .icon {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+        }
+        
+        .connection-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .social-indicator {
+            background: #ff6b6b;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>BOLLI Hybrid Learning Environment</h1>
+        <p class="subtitle">Connecting Study Group Members (SGMs) and Leaders (SGLs) across physical and virtual spaces</p>
+        
+        <div class="classroom-container">
+            <div class="main-classroom">
+                <div class="classroom-title">📚 Turner Street Classroom + Zoom Integration</div>
+                
+                <div class="in-person-section">
+                    <div class="section-title">
+                        🏢 In-Person Participants
+                        <span class="social-indicator">High Social</span>
+                    </div>
+                    <div class="participant sgl">SGL: Dr. Sarah Chen (Local Expert)</div>
+                    <div class="participant sgm-present">Tom (Retired Professor)</div>
+                    <div class="participant sgm-present">Maria (Former Lawyer)</div>
+                    <div class="participant sgm-present">Robert (MIT Alum)</div>
+                    <div class="participant sgm-present">Janet (Doctor)</div>
+                    <div class="participant sgm-present">David (Prefers In-Person)</div>
+                </div>
+                
+                <div class="virtual-section">
+                    <div class="section-title">
+                        💻 Zoom Participants
+                        <span class="social-indicator">Mod Social</span>
+                    </div>
+                    <div class="participant sgl">Co-SGL: Prof. Martinez (Stanford - Remote Expert)</div>
+                    <div class="participant sgm-remote">Eleanor (Health limitations)</div>
+                    <div class="participant sgm-remote">Frank (Avoids commute)</div>
+                    <div class="participant sgm-remote">Lisa (Traveling)</div>
+                    <div class="participant sgm-remote">James (Weather concerns)</div>
+                    <div class="participant sgm-remote">Patricia (Cape Cod resident)</div>
+                </div>
+                
+                <div class="interaction-flow">
+                    <div class="flow-title">🔄 Dynamic Interaction Flow</div>
+                    <strong>Pre-class:</strong> Zoom coffee chat (15 min) • In-person arrivals mingle<br>
+                    <strong>During:</strong> Breakout rooms mix in-person + virtual • Body language visible to all via cameras<br>
+                    <strong>Post-class:</strong> Optional virtual "parking lot" discussion • In-person social time
+                </div>
+            </div>
+            
+            <div class="tech-panel">
+                <div class="tech-title">🔧 Technology Integration</div>
+                <div class="tech-feature"><strong>Multiple Cameras:</strong> Room view + close-up for body language</div>
+                <div class="tech-feature"><strong>Smart Audio:</strong> Directional mics pick up all voices</div>
+                <div class="tech-feature"><strong>Interactive Display:</strong> Shared screen visible to all</div>
+                <div class="tech-feature"><strong>Breakout Flexibility:</strong> Mix virtual & physical groups</div>
+                <div class="tech-feature"><strong>Recording Options:</strong> Full session or highlights</div>
+                <div class="tech-feature"><strong>Chat Integration:</strong> Questions from remote participants</div>
+                <div class="tech-feature"><strong>Digital Whiteboard:</strong> Collaborative note-taking</div>
+            </div>
+        </div>
+        
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="benefit-number">1</div>
+                <div class="benefit-title">Access Expert SGLs Globally</div>
+                <div class="benefit-description">Renowned Harvard professor in London can co-teach with local Brandeis faculty. Remote experts share specialized knowledge without travel constraints, expanding BOLLI's academic reach.</div>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-number">2</div>
+                <div class="benefit-title">Health & Mobility Support</div>
+                <div class="benefit-description">SGMs with health challenges, mobility issues, or recovery periods stay connected to their learning community. No one misses out due to physical limitations or seasonal health concerns.</div>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-number">3</div>
+                <div class="benefit-title">Eliminate Commute Barriers</div>
+                <div class="benefit-description">Boston-area traffic and parking concerns dissolve. Cape Cod and suburban members join easily. Weather becomes irrelevant. Geographic boundaries expand BOLLI's reach.</div>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-number">4</div>
+                <div class="benefit-title">Preserve In-Person Connection</div>
+                <div class="benefit-description">Coffee conversations, spontaneous discussions, and the energy of shared physical space remain intact. Body language, side conversations, and post-class socializing flourish.</div>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-number">5</div>
+                <div class="benefit-title">Virtual Community Building</div>
+                <div class="benefit-description">Pre-class Zoom social time, chat conversations during sessions, and optional post-class "parking lot" discussions create meaningful connections among remote participants.</div>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-number">6</div>
+                <div class="benefit-title">Enhanced Body Language Sharing</div>
+                <div class="benefit-description">Strategic camera placement captures facial expressions and gestures. Remote participants see presenter enthusiasm and peer reactions. Multiple camera angles ensure no one feels excluded.</div>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-number">7</div>
+                <div class="benefit-title">SGM Contribution Optimization</div>
+                <div class="benefit-description">Discussion-based courses thrive with diverse perspectives. Chat allows thoughtful written contributions. Breakout rooms enable small group dynamics mixing in-person and virtual participants.</div>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-number">8</div>
+                <div class="benefit-title">Collaborative Co-Learning</div>
+                <div class="benefit-description">SGMs become co-teachers sharing expertise. Virtual whiteboards enable collaborative note-taking. Digital resources are instantly accessible to all participants regardless of location.</div>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-number">9</div>
+                <div class="benefit-title">Optimized Learning Experience</div>
+                <div class="benefit-description">Best of both worlds: intimate discussion groups, diverse perspectives, expert access, and flexible participation. Recordings help with complex topics. Technology enhances rather than replaces human connection.</div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px; border-left: 5px solid #3498db;">
+            <h3 style="margin-top: 0; color: #2c3e50;">The BOLLI Advantage</h3>
+            <p style="margin-bottom: 0; color: #555; line-height: 1.6;">This hybrid model honors BOLLI's core values: intellectual engagement, community connection, and lifelong learning. It removes barriers while preserving the spontaneous discussions and peer relationships that make BOLLI special. Whether you're a retired physician in Lexington preferring in-person interaction or a former tech executive on the Cape avoiding winter drives, you're equally part of the BOLLI learning community.</p>
+        </div>
+    </div>
+</body>
+</html>

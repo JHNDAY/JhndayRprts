@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLLI 51 Sawyer Space Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+        
+        .card h2 {
+            color: #4a5568;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 5px;
+        }
+        
+        .requirements {
+            grid-column: 1 / -1;
+        }
+        
+        .requirement-item {
+            background: #f7fafc;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            font-weight: 500;
+        }
+        
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .solution-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .solution-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.15);
+        }
+        
+        .solution-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .pros, .cons {
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .pros {
+            background: #f0fff4;
+            border-left: 4px solid #38a169;
+        }
+        
+        .cons {
+            background: #fff5f5;
+            border-left: 4px solid #e53e3e;
+        }
+        
+        .pros h4, .cons h4 {
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+        
+        .pros h4 {
+            color: #38a169;
+        }
+        
+        .cons h4 {
+            color: #e53e3e;
+        }
+        
+        .pros ul, .cons ul {
+            list-style: none;
+        }
+        
+        .pros li::before {
+            content: "✓ ";
+            color: #38a169;
+            font-weight: bold;
+        }
+        
+        .cons li::before {
+            content: "⚠ ";
+            color: #e53e3e;
+            font-weight: bold;
+        }
+        
+        .timeline {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+        
+        .timeline h2 {
+            color: #4a5568;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .timeline-time {
+            font-weight: bold;
+            color: #667eea;
+            margin-right: 15px;
+            min-width: 80px;
+        }
+        
+        .timeline-content {
+            flex: 1;
+        }
+        
+        .author {
+            font-size: 0.9em;
+            color: #718096;
+            font-style: italic;
+        }
+        
+        .key-insight {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 5px solid #ed8936;
+        }
+        
+        .key-insight h3 {
+            color: #c05621;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .solutions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>BOLLI Space Planning Analysis</h1>
+            <p>51 Sawyer Building, 5th Floor - Evaluating Campus Planning Options</p>
+        </div>
+        
+        <div class="card requirements">
+            <h2>BOLLI's Core Space Requirements</h2>
+            <div class="requirement-item">Three classrooms with at least 17 seats each (seminar-style, not lecture)</div>
+            <div class="requirement-item">Large gathering space for 70+ people (DSS, New Yorker discussions, special events)</div>
+            <div class="requirement-item">Screens in each classroom and large lecture space</div>
+            <div class="requirement-item">Flexible space that can open up for large lectures (30-50 people)</div>
+            <div class="requirement-item">Administrative offices and support spaces</div>
+            <div class="requirement-item">Kitchen/refreshment area for community gatherings</div>
+        </div>
+        
+        <div class="key-insight">
+            <h3>Key Challenge</h3>
+            <p>The current test fit options provide classrooms that are too small (10 and 12 person) and lack the critical large gathering space that BOLLI uses for community functions like Distinguished Speakers Series and New Yorker discussions.</p>
+        </div>
+        
+        <div class="solutions-grid">
+            <div class="solution-card">
+                <div class="solution-title">Option 1: Current Test Fit</div>
+                <p><em>As presented by Campus Planning</em></p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>One 18-seat classroom available</li>
+                            <li>Nice lounge space</li>
+                            <li>Professional office layout</li>
+                            <li>Good for small administrative meetings</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons</h4>
+                        <ul>
+                            <li>Two classrooms too small (10 & 12 seats)</li>
+                            <li>Third classroom is lecture-style, not seminar</li>
+                            <li>No equivalent to current gathering space</li>
+                            <li>Special events would need off-site venues</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="solution-card">
+                <div class="solution-title">Option 2: Modified Layout</div>
+                <p><em>Judy Feldman's suggestion with moveable partition</em></p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Moveable partition for flexibility</li>
+                            <li>Can combine lounge + classroom for lectures</li>
+                            <li>Seminar-style seating in circles</li>
+                            <li>Better use of open space</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons</h4>
+                        <ul>
+                            <li>Still limited to 30-50 for large events</li>
+                            <li>Need for 70+ person space unresolved</li>
+                            <li>Scheduling conflicts between classes and events</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="solution-card">
+                <div class="solution-title">Option 3: Oliver's Redesign</div>
+                <p><em>"Nuke" an office, relocate kitchen</em></p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Convert small classroom to 18-seat room</li>
+                            <li>Kitchen becomes office space</li>
+                            <li>Wall-mounted kitchen like Turner Street</li>
+                            <li>More efficient space utilization</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons</h4>
+                        <ul>
+                            <li>Lose dedicated office space</li>
+                            <li>Still doesn't solve 70+ gathering need</li>
+                            <li>Requires significant renovation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="solution-card" style="margin: 20px 0;">
+            <div class="solution-title">Option 4: Hybrid Approach</div>
+            <p><em>Combining on-floor space with building resources</em></p>
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>Pros</h4>
+                    <ul>
+                        <li>Use larger downstairs space for big events</li>
+                        <li>Optimize 5th floor for daily operations</li>
+                        <li>Access to additional adjacent space</li>
+                        <li>Remove walls to expand into vacated areas</li>
+                        <li>Cost-effective solution</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>Cons</h4>
+                    <ul>
+                        <li>Event setup/breakdown logistics</li>
+                        <li>Loss of spontaneous community gathering</li>
+                        <li>Potential scheduling conflicts with building</li>
+                        <li>Less cohesive BOLLI community space</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline">
+            <h2>Email Discussion Timeline</h2>
+            
+            <div class="timeline-item">
+                <div class="timeline-time">3:30 PM</div>
+                <div class="timeline-content">
+                    <strong>Ted shares initial test fit options</strong> from Liz Forester/Campus Planning
+                    <div class="author">Theodore Gilman</div>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-time">3:41 PM</div>
+                <div class="timeline-content">
+                    <strong>First concerns raised:</strong> Classrooms too small, no gathering space equivalent
+                    <div class="author">Marsha Semuels</div>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-time">4:45 PM</div>
+                <div class="timeline-content">
+                    <strong>Option 2 preference:</strong> Suggests moveable partition and flexible classroom setup
+                    <div class="author">Judy Feldman</div>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-time">4:55 PM</div>
+                <div class="timeline-content">
+                    <strong>Capacity clarification:</strong> Questions about 10-person classes and seminar-style setup
+                    <div class="author">Marsha Semuels</div>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-time">5:04 PM</div>
+                <div class="timeline-content">
+                    <strong>Requirements summary:</strong> 3 classrooms (17+ seats), large lecture space (30-50), screens
+                    <div class="author">Judy Feldman</div>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-time">6:49 PM</div>
+                <div class="timeline-content">
+                    <strong>Scale revision:</strong> Gathering space needs to accommodate 70+ people
+                    <div class="author">Marsha Semuels</div>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-time">6:11 PM</div>
+                <div class="timeline-content">
+                    <strong>Redesign proposal:</strong> "Nuke" office, relocate kitchen, expand classroom
+                    <div class="author">Oliver Curme</div>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-time">7:49 PM</div>
+                <div class="timeline-content">
+                    <strong>Alternative venue suggestion:</strong> Use larger downstairs space for occasional big events
+                    <div class="author">Oliver Curme</div>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-time">7:59 PM</div>
+                <div class="timeline-content">
+                    <strong>Expansion opportunity:</strong> Adjacent space vacated, wall removal possible
+                    <div class="author">Marsha Semuels</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="key-insight">
+            <h3>Recommended Next Steps</h3>
+            <p><strong>Immediate:</strong> Request Campus Planning to explore the hybrid approach - optimize 5th floor for daily seminar-style classes while securing access to larger building spaces for the 70+ person gatherings that are essential to BOLLI's community mission.</p>
+            <p><strong>Long-term:</strong> Investigate the adjacent vacated space for potential expansion, which could provide the ideal solution for BOLLI's growing lifelong learning community.</p>
+        </div>
+    </div>
+</body>
+</html>
