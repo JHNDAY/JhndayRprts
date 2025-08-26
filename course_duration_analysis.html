@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Duration Analysis</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        h3 {
+            color: #2980b9;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: 600;
+        }
+        
+        td:first-child {
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: #e8f4f8;
+        }
+        
+        .highlight-online {
+            background-color: #e8f5e8 !important;
+            color: #2e7d2e;
+        }
+        
+        .highlight-inperson {
+            background-color: #fff3cd !important;
+            color: #856404;
+        }
+        
+        .highlight-total {
+            background-color: #d1ecf1 !important;
+            color: #0c5460;
+            font-weight: bold;
+        }
+        
+        .calculation-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 1.1em;
+            margin-top: 5px;
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .formula {
+            font-family: 'Courier New', monospace;
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        @media (max-width: 768px) {
+            .stat-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            table {
+                font-size: 0.9em;
+            }
+            
+            th, td {
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Course Duration and 10-Week Equivalents Analysis</h1>
+        
+        <h2>Course Duration Breakdown</h2>
+        <p>Analysis of 58 courses (rows 2-60) broken down by duration and delivery method:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Delivery Method</th>
+                    <th>5-Week Courses</th>
+                    <th>10-Week Courses</th>
+                    <th>Total Courses</th>
+                    <th>10-Week Equivalents</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="highlight-online">
+                    <td><strong>Online</strong></td>
+                    <td>19</td>
+                    <td>20</td>
+                    <td>39</td>
+                    <td>29</td>
+                </tr>
+                <tr class="highlight-inperson">
+                    <td><strong>In-Person</strong></td>
+                    <td>13</td>
+                    <td>6</td>
+                    <td>19</td>
+                    <td>12</td>
+                </tr>
+                <tr class="highlight-total">
+                    <td><strong>Total</strong></td>
+                    <td>32</td>
+                    <td>26</td>
+                    <td>58</td>
+                    <td>41</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="stat-grid">
+            <div class="stat-box">
+                <span class="stat-number">2.4:1</span>
+                <span class="stat-label">Online to In-Person Ratio</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-number">29 vs 12</span>
+                <span class="stat-label">10-Week Equivalents Available</span>
+            </div>
+        </div>
+
+        <h2>Calculation Methodology</h2>
+        
+        <div class="calculation-box">
+            <h3>10-Week Equivalent Formula:</h3>
+            <p><span class="formula">10-Week Equivalents = ⌊5-Week Courses ÷ 2⌋ + 10-Week Courses</span></p>
+            <p><em>(⌊ ⌋ represents floor division - ignoring remainders)</em></p>
+        </div>
+
+        <h3>Step-by-Step Calculations:</h3>
+
+        <h4>Online Courses:</h4>
+        <ul>
+            <li><strong>5-week courses:</strong> 19 courses</li>
+            <li><strong>10-week courses:</strong> 20 courses</li>
+            <li><strong>10-week equivalents from 5-week:</strong> 19 ÷ 2 = 9 equivalents (1 course remainder)</li>
+            <li><strong>Total 10-week equivalents:</strong> 9 + 20 = <strong>29</strong></li>
+        </ul>
+
+        <h4>In-Person Courses:</h4>
+        <ul>
+            <li><strong>5-week courses:</strong> 13 courses</li>
+            <li><strong>10-week courses:</strong> 6 courses</li>
+            <li><strong>10-week equivalents from 5-week:</strong> 13 ÷ 2 = 6 equivalents (1 course remainder)</li>
+            <li><strong>Total 10-week equivalents:</strong> 6 + 6 = <strong>12</strong></li>
+        </ul>
+
+        <h2>Key Findings</h2>
+
+        <div class="warning-box">
+            <h3>⚠️ Significant Choice Disparity</h3>
+            <p><strong>Your observation is confirmed:</strong> A student who wants only in-person courses has significantly fewer options available.</p>
+        </div>
+
+        <ul>
+            <li><strong>Online students</strong> have access to <strong>29 ten-week equivalent</strong> course options</li>
+            <li><strong>In-person students</strong> have access to only <strong>12 ten-week equivalent</strong> course options</li>
+            <li>This represents a <strong>2.4:1 ratio</strong> - online students have more than twice as many equivalent course options</li>
+            <li>The disparity is even more pronounced than the raw course count (39 vs 19) because in-person courses have proportionally fewer 10-week offerings</li>
+        </ul>
+
+        <h2>Course Duration Patterns</h2>
+        
+        <ul>
+            <li><strong>Online courses</strong> have a balanced mix: 19 five-week + 20 ten-week</li>
+            <li><strong>In-person courses</strong> are predominantly five-week: 13 five-week + 6 ten-week</li>
+            <li><strong>Total offerings:</strong> 32 five-week courses and 26 ten-week courses across both delivery methods</li>
+        </ul>
+
+        <h3>Methodology Notes</h3>
+        <ul>
+            <li>Duration identified by course codes: "-5a-" and "-5b-" for 5-week courses, "-10-" for 10-week courses</li>
+            <li>All 58 courses were successfully categorized using these patterns</li>
+            <li>Remainder courses (1 online 5-week, 1 in-person 5-week) don't contribute to 10-week equivalents in this calculation</li>
+            <li>Based on the principle that students are entitled to "the equivalent of two 10-week courses"</li>
+        </ul>
+    </div>
+</body>
+</html>
