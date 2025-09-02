@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLLI Focus Group Analysis</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .subtitle {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #4facfe;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .content-section {
+            padding: 40px;
+        }
+        
+        .section-title {
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #4facfe;
+            color: #333;
+        }
+        
+        .feedback-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .feedback-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid transparent;
+        }
+        
+        .positive {
+            border-left-color: #28a745;
+        }
+        
+        .negative {
+            border-left-color: #dc3545;
+        }
+        
+        .feedback-card h3 {
+            margin-top: 0;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .icon {
+            font-size: 1.2em;
+        }
+        
+        .feedback-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feedback-list li {
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .feedback-list li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #4facfe;
+            font-weight: bold;
+        }
+        
+        .ideas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .idea-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .idea-card:hover {
+            border-color: #4facfe;
+            box-shadow: 0 5px 20px rgba(79, 172, 254, 0.1);
+        }
+        
+        .idea-card h4 {
+            margin-top: 0;
+            color: #4facfe;
+            font-size: 1.2em;
+        }
+        
+        .tech-topics {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 30px;
+        }
+        
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .tech-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .collapsible {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            cursor: pointer;
+            padding: 25px;
+            width: 100%;
+            border: none;
+            text-align: center;
+            outline: none;
+            font-size: 1.3em;
+            font-weight: bold;
+            border-top: 2px solid #dee2e6;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+        }
+        
+        .collapsible:hover {
+            background: linear-gradient(135deg, #3d8bfe 0%, #00d4fe 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+        }
+        
+        .collapsible:after {
+            content: '\002B';
+            color: white;
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+            font-size: 1.2em;
+        }
+        
+        .collapsible.active:after {
+            content: "\2212";
+            transform: rotate(180deg);
+        }
+        
+        .content {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: #fff;
+        }
+        
+        .content.active {
+            padding: 20px;
+            max-height: 2000px;
+        }
+        
+        .full-text {
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+        
+        .full-text h3 {
+            color: #4facfe;
+            border-bottom: 2px solid #4facfe;
+            padding-bottom: 5px;
+        }
+        
+        .full-text ul {
+            margin-left: 20px;
+        }
+        
+        .full-text li {
+            margin-bottom: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .feedback-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>BOLLI Focus Group Analysis</h1>
+            <div class="subtitle">August 26 • In-Person Session</div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">9</div>
+                <div class="stat-label">Attendees</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Moderators</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">Post-COVID</div>
+                <div class="stat-label">Member Focus</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">12</div>
+                <div class="stat-label">Tech Topics</div>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2 class="section-title">Participant Feedback</h2>
+            <div class="feedback-grid">
+                <div class="feedback-card positive">
+                    <h3><span class="icon">👍</span> What People Appreciate</h3>
+                    <ul class="feedback-list">
+                        <li>Very welcoming environment</li>
+                        <li>Love in-person classes and excursions</li>
+                        <li>Richness of curriculum</li>
+                        <li>Superior to Tufts and UMass Boston programs</li>
+                        <li>Taylor Ackley's in-person presence</li>
+                        <li>Excellent support for Study Group Leaders</li>
+                    </ul>
+                </div>
+                
+                <div class="feedback-card negative">
+                    <h3><span class="icon">⚠️</span> Areas for Improvement</h3>
+                    <ul class="feedback-list">
+                        <li>Not enough diversity</li>
+                        <li>Curriculum too focused on Jewish topics (2 people noted)</li>
+                        <li>Insufficient in-person classes</li>
+                        <li>Over-reliance on volunteers</li>
+                        <li>Zoom perpetuates isolation from COVID</li>
+                        <li>Too intellectual (1 person, others disagreed)</li>
+                        <li>Catalog is too complicated</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h2 class="section-title">Program Enhancement Ideas</h2>
+            <div class="ideas-grid">
+                <div class="idea-card">
+                    <h4>🤝 Collaboration</h4>
+                    <p>Develop series with other OLLIs on special topics (e.g., 1619 project) and shared Dartmouth-style lectures</p>
+                </div>
+                
+                <div class="idea-card">
+                    <h4>📚 Course Structure</h4>
+                    <p>Create "one-offs" on topics like Shakespeare, mini-courses, and more than two terms per year</p>
+                </div>
+                
+                <div class="idea-card">
+                    <h4>👨‍🏫 Faculty Development</h4>
+                    <p>Use experienced faculty to teach Study Group Leaders college teaching techniques</p>
+                </div>
+                
+                <div class="idea-card">
+                    <h4>🎭 Special Interest Groups</h4>
+                    <p>Create SIGs for theater, films, and start a cooking club (suggested by professional chef)</p>
+                </div>
+                
+                <div class="idea-card">
+                    <h4>📍 Geographic Expansion</h4>
+                    <p>Add sites on north and south shores using public spaces like libraries</p>
+                </div>
+                
+                <div class="idea-card">
+                    <h4>🔬 Subject Areas</h4>
+                    <p>More science and math courses, bring in more Brandeis faculty, include field trips in descriptions</p>
+                </div>
+                
+                <div class="idea-card">
+                    <h4>💻 Hybrid Learning</h4>
+                    <p>Implement hybrid classes and require homework/assignments for more engagement</p>
+                </div>
+                
+                <div class="idea-card">
+                    <h4>📢 Marketing & Outreach</h4>
+                    <p>Target 55+ communities, libraries, senior centers. Use CAST tours at synagogues for awareness</p>
+                </div>
+            </div>
+            
+            <div class="tech-topics">
+                <h3>💡 Proposed "Applied Technology" Topics</h3>
+                <p><em>Suggested by participant for between-term sessions:</em></p>
+                <div class="tech-grid">
+                    <div class="tech-item">GPS</div>
+                    <div class="tech-item">QR Codes/Barcodes</div>
+                    <div class="tech-item">Artificial Intelligence</div>
+                    <div class="tech-item">The Simple Radio</div>
+                    <div class="tech-item">Smart TV</div>
+                    <div class="tech-item">iPhone</div>
+                    <div class="tech-item">Semiconductor Chips</div>
+                    <div class="tech-item">Solar Panels</div>
+                    <div class="tech-item">3D Printing</div>
+                    <div class="tech-item">Drones</div>
+                    <div class="tech-item">Apple Watch</div>
+                    <div class="tech-item">Sensor Technology</div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="collapsible">📄 See Full Text</button>
+        <div class="content">
+            <div class="full-text">
+                <h3>August 26 Focus Group</h3>
+                
+                <p>In person. 9 attendees plus two moderators. Emphasis on "newish" members who joined BOLLI since Covid. Consequently, they were not familiar with time when everything was in person – classes, lunch time speakers, etc. Participants included one person who will teach in the fall, one SIG chair and one person who led a summer test kitchen program.</p>
+                
+                <h3>What people appreciate about BOLLI</h3>
+                <ul>
+                    <li>Very welcoming</li>
+                    <li>Love in person classes and excursions</li>
+                    <li>Richness of curriculum</li>
+                    <li>Looked at Tufts and UMass Boston but BOLLI much better program</li>
+                    <li>Taylor Ackley in person</li>
+                    <li>Excellent support for SGLs – comment from somebody who is a new SGL</li>
+                </ul>
+                
+                <h3>Negatives</h3>
+                <ul>
+                    <li>Not enough diversity</li>
+                    <li>Curriculum too Jewish - two people. Others appreciate "unique experience of courses with topics related to Judaism"</li>
+                    <li>Not enough in person classes – "learning is a social experience"</li>
+                    <li>Too much reliance on volunteers "when I come up with an idea, there is nobody to implement. I'm told to do it myself."</li>
+                    <li>Covid created an epidemic of loneliness and isolation; Zoom continues that epidemic</li>
+                    <li>Too intellectual – one person. Others disagreed</li>
+                    <li>Catalog too complicated</li>
+                </ul>
+                
+                <h3>Program Ideas</h3>
+                <ul>
+                    <li>With other OLLIs, develop a series of talks on special topics (e.g., 1619 project) and make available to all programs</li>
+                    <li>Create "one-offs" on topics of interest, such as Shakespeare</li>
+                    <li>More combined experiences, such as the Dartmouth lectures, with other OLLIs</li>
+                    <li>Mini-courses</li>
+                    <li>Need orientation to understand how things work, e.g., lottery, catalog, number of courses one can take (note that most of these people began at BOLLI for membership committee was formed)</li>
+                    <li>Have more than two terms</li>
+                    <li>Use experienced faculty to teach SGLs "college teaching techniques"</li>
+                    <li>Start a cooking club – suggested by somebody who is a professional chef</li>
+                    <li>Create SIGs for theater and films</li>
+                    <li>Require homework and assignments</li>
+                    <li>Add sites on north and south shores, using public spaces such as libraries</li>
+                    <li>Bring in more Brandeis faculty</li>
+                    <li>Encourage field trips for classes and include field trips in course descriptions</li>
+                    <li>More science and math courses</li>
+                    <li>Hybrid classes</li>
+                </ul>
+                
+                <h3>Marketing ideas</h3>
+                <p>(participants commented that they were not aware of any marketing efforts currently)</p>
+                <ul>
+                    <li>Outreach to 55 plus communities</li>
+                    <li>Flyers at senior centers and libraries</li>
+                    <li>Develop promotional materials</li>
+                    <li>Take CAST on tour to synagogues and use as an opportunity to make people aware of BOLLI</li>
+                </ul>
+                
+                <p><em>Note: Subsequent to discussion, one participant sent us a list of topics she would like to teach between terms, under the topic of "Applied Technology"</em></p>
+                
+                <ol>
+                    <li>GPS</li>
+                    <li>QR Codes/Barcodes</li>
+                    <li>Artificial Intelligence</li>
+                    <li>The Simple Radio</li>
+                    <li>Smart TV</li>
+                    <li>iPhone</li>
+                    <li>Semi-conductor chips</li>
+                    <li>Solar panels</li>
+                    <li>3D Printing</li>
+                    <li>Drones</li>
+                    <li>Apple Watch</li>
+                    <li>Sensor technology</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const collapsible = document.querySelector('.collapsible');
+            const content = document.querySelector('.content');
+            
+            collapsible.addEventListener('click', function() {
+                this.classList.toggle('active');
+                content.classList.toggle('active');
+                
+                if (content.classList.contains('active')) {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                } else {
+                    content.style.maxHeight = "0";
+                }
+            });
+        });
+    </script>
+</body>
+</html>
