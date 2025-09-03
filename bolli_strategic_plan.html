@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLLI Strategic Plan - September 3</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="60" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="70" r="2.5" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            opacity: 0.3;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            margin-top: 10px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .main-content {
+            padding: 40px;
+        }
+
+        .objectives-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .objective-card {
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .objective-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+
+        .objective-card:hover::before {
+            opacity: 1;
+        }
+
+        .objective-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .financial {
+            border-left-color: #e74c3c;
+            background: linear-gradient(145deg, #fff5f5 0%, #ffffff 100%);
+        }
+
+        .infrastructure {
+            border-left-color: #3498db;
+            background: linear-gradient(145deg, #f0f8ff 0%, #ffffff 100%);
+        }
+
+        .program {
+            border-left-color: #2ecc71;
+            background: linear-gradient(145deg, #f0fff4 0%, #ffffff 100%);
+        }
+
+        .objective-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .financial .icon { background: #e74c3c; }
+        .infrastructure .icon { background: #3498db; }
+        .program .icon { background: #2ecc71; }
+
+        .objective-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .objective-item {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 8px;
+            border-left: 3px solid rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .objective-item:hover {
+            background: rgba(255,255,255,0.9);
+            transform: translateX(5px);
+            border-left-color: #3498db;
+        }
+
+        .objective-item strong {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .sub-items {
+            list-style: none;
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+
+        .sub-item {
+            margin-bottom: 8px;
+            padding: 8px 12px;
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 5px;
+            font-size: 0.95em;
+            transition: all 0.2s ease;
+        }
+
+        .sub-item:hover {
+            background: rgba(52, 152, 219, 0.2);
+            transform: translateX(3px);
+        }
+
+        .sub-sub-items {
+            list-style: none;
+            margin-top: 8px;
+            padding-left: 15px;
+        }
+
+        .sub-sub-item {
+            margin-bottom: 5px;
+            padding: 5px 10px;
+            background: rgba(46, 204, 113, 0.1);
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        .stats-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        .collapsible {
+            margin-top: 30px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .collapsible-header {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+            padding: 20px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .collapsible-header:hover {
+            background: linear-gradient(135deg, #3d566e 0%, #34495e 100%);
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .collapsible-content.active {
+            max-height: 2000px;
+        }
+
+        .collapsible-text {
+            padding: 30px;
+            line-height: 1.8;
+            color: #2c3e50;
+        }
+
+        .toggle-icon {
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 768px) {
+            .objectives-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>BOLLI Strategic Plan</h1>
+            <p>Objectives for Discussion - September 3, 2025</p>
+        </div>
+
+        <div class="main-content">
+            <div class="stats-section">
+                <h2>Strategic Focus Areas</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">Core Objectives</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">30+</span>
+                        <span class="stat-label">Action Items</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Member-Focused</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="objectives-grid">
+                <div class="objective-card financial">
+                    <div class="objective-title">
+                        <div class="icon">💰</div>
+                        Financial Sustainability
+                    </div>
+                    <ul class="objective-list">
+                        <li class="objective-item">
+                            <strong>Expand Marketing to Attract New Members</strong>
+                            <ul class="sub-items">
+                                <li class="sub-item">Set target membership goals</li>
+                                <li class="sub-item">Form Marketing Committee</li>
+                                <li class="sub-item">Recruit at senior centers & retirement communities</li>
+                                <li class="sub-item">Re-engage past/trial members</li>
+                                <li class="sub-item">Create promotional materials</li>
+                                <li class="sub-item">Improve social media presence</li>
+                                <li class="sub-item">Consider targeted advertising</li>
+                            </ul>
+                        </li>
+                        <li class="objective-item">
+                            <strong>Ramp Up Fundraising Efforts</strong>
+                            <ul class="sub-items">
+                                <li class="sub-item">Form Development/Fundraising Committee</li>
+                                <li class="sub-item">Target specific areas for campaigns</li>
+                                <li class="sub-item">Launch annual giving campaign</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="objective-card infrastructure">
+                    <div class="objective-title">
+                        <div class="icon">🏗️</div>
+                        Infrastructure
+                    </div>
+                    <ul class="objective-list">
+                        <li class="objective-item">
+                            <strong>Explore New Space Possibilities</strong>
+                            <ul class="sub-items">
+                                <li class="sub-item">Plan buildout of 2nd floor at 29 Sawyer</li>
+                                <li class="sub-item">Clarify options for 51 Sawyer</li>
+                                <li class="sub-item">Explore other Brandeis campus locations</li>
+                            </ul>
+                        </li>
+                        <li class="objective-item">
+                            <strong>Implement Hybrid Technology</strong>
+                            <ul class="sub-items">
+                                <li class="sub-item">Built-in camera & screen options</li>
+                                <li class="sub-item">Research best practices</li>
+                                <li class="sub-item">Plan hybrid-ready classes</li>
+                            </ul>
+                        </li>
+                        <li class="objective-item">
+                            <strong>Revamp Volunteer Program</strong>
+                            <ul class="sub-items">
+                                <li class="sub-item">Encourage member SIGs formation</li>
+                                <li class="sub-item">Create new committees & task groups</li>
+                                <li class="sub-item">Consider term limits for chairs</li>
+                                <li class="sub-item">Enhance volunteer orientation</li>
+                                <li class="sub-item">Increase volunteer incentives</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="objective-card program">
+                    <div class="objective-title">
+                        <div class="icon">📚</div>
+                        Program Excellence
+                    </div>
+                    <ul class="objective-list">
+                        <li class="objective-item">
+                            <strong>Preserve Academic Focus & Quality</strong>
+                        </li>
+                        <li class="objective-item">
+                            <strong>Increase Number of SGLs</strong>
+                            <ul class="sub-items">
+                                <li class="sub-item">Survey member teaching backgrounds</li>
+                                <li class="sub-item">Expand SGL recruitment materials</li>
+                                <li class="sub-item">Create faculty recruitment RFP</li>
+                            </ul>
+                        </li>
+                        <li class="objective-item">
+                            <strong>Improve Community Engagement</strong>
+                            <ul class="sub-items">
+                                <li class="sub-item">Better nametags & visibility</li>
+                                <li class="sub-item">Weekly community time</li>
+                                <li class="sub-item">Support member SIG formation</li>
+                                <li class="sub-item">Grow lectures & special events</li>
+                                <li class="sub-item">Evening & geographic meetups</li>
+                                <li class="sub-item">Restore member directory</li>
+                            </ul>
+                        </li>
+                        <li class="objective-item">
+                            <strong>Expand Course Offerings</strong>
+                            <ul class="sub-items">
+                                <li class="sub-item">More in-person classes</li>
+                                <li class="sub-item">Joint classes with other OLLIs</li>
+                                <li class="sub-item">Flexible scheduling options</li>
+                                <li class="sub-item">BOLLI library recordings</li>
+                                <li class="sub-item">Intentional curriculum planning</li>
+                            </ul>
+                        </li>
+                        <li class="objective-item">
+                            <strong>Enhance Communication & Technology</strong>
+                            <ul class="sub-items">
+                                <li class="sub-item">Redesign website & catalog</li>
+                                <li class="sub-item">Improve member communications</li>
+                                <li class="sub-item">Enhanced new member orientation</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="collapsible">
+                <div class="collapsible-header" onclick="toggleCollapsible()">
+                    <span>See Full Text</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="collapsible-content" id="fullText">
+                    <div class="collapsible-text">
+                        <h2>Objectives to Discuss in Detail on September 3</h2>
+
+                        <h3>Financial Sustainability</h3>
+
+                        <ol>
+                            <li><strong>Expand marketing to attract new members</strong>
+                                <ol>
+                                    <li>Set target membership</li>
+                                    <li>Form Marketing Committee to develop marketing plan
+                                        <ol>
+                                            <li>Invite members (via email or BOLLI Bulletin) with marketing experience</li>
+                                        </ol>
+                                    </li>
+                                    <li>Actively recruit members at senior centers, retirement communities, libraries, colleges and secondary schools (retiring faculty)</li>
+                                    <li>Reach out to past/trial members who did not continue</li>
+                                    <li>Create materials (BOLLI brochure) for retirement communities, libraries, senior centers and general distribution (marketing, holding courses)</li>
+                                    <li>Improve social media presence</li>
+                                    <li>Consider targeted ads in AARP, community publications</li>
+                                </ol>
+                            </li>
+                            <li><strong>Ramp up fundraising efforts</strong>
+                                <ol>
+                                    <li>Form Development/Fundraising Committee
+                                        <ol>
+                                            <li>Invite members (via email or BOLLI Bulletin) with philanthropy capacity and/or fundraising experience</li>
+                                        </ol>
+                                    </li>
+                                    <li>Target one area (e.g. renovation of new space) for fundraising campaign think creatively about philanthropic interests to target (e.g., music courses)</li>
+                                    <li>Launch annual giving campaign</li>
+                                </ol>
+                            </li>
+                        </ol>
+
+                        <h3>Infrastructure</h3>
+
+                        <ol>
+                            <li><strong>Vigorously explore new space possibilities</strong>
+                                <ol>
+                                    <li>Outline plan for buildout of 2nd floor at 29 Sawyer, including pricing options. Awaiting Brandeis negotiations</li>
+                                    <li>Clarify options for 51 Sawyer</li>
+                                    <li>Explore other possibilities on Brandeis campus - has been done already</li>
+                                </ol>
+                            </li>
+                            <li><strong>Implement hybrid technology (may need to be postponed until new space is developed)</strong>
+                                <ol>
+                                    <li>Explore options for built-in camera, screen etc for new classrooms and gathering space</li>
+                                    <li>Consult with organizations with hybrid courses and identify best practices</li>
+                                    <li>Plan which classes are ripe for hybrid and whether that changes class size and other logistics</li>
+                                </ol>
+                            </li>
+                            <li><strong>Revamp volunteer program (numbers, succession planning)</strong>
+                                <ol>
+                                    <li>Encourage members to form SIGs with support and guidance (similar to current workbook for new SGLs)</li>
+                                    <li>Enlist membership in new committees and task groups arising out of the Strategic Plan (e.g. Catalog and Website Design, Marketing)</li>
+                                    <li>Consider instituting term limits for committee chairs, with co-chair succeeding and appointing new co-chair</li>
+                                    <li>Introduce volunteer work in new member orientation, with presentations from committee chairs</li>
+                                    <li>Increase incentives to volunteer including more social occasions for committees and task groups</li>
+                                    <li>Publicize volunteer opportunities in Bulletin (e.g., investment group)</li>
+                                </ol>
+                            </li>
+                        </ol>
+
+                        <h3>Program</h3>
+
+                        <ol>
+                            <li><strong>Preserve academic focus and high quality – BOLLI brand identity</strong></li>
+                            <li><strong>Increase number of SGLs</strong>
+                                <ol>
+                                    <li>Member SGLs
+                                        <ol>
+                                            <li>Survey membership re teaching background and areas of skill and specialization</li>
+                                            <li>Expand and further publicize the current workbook, panel sessions on course planning</li>
+                                            <li>Create RFP to sent to BOLLI community to recruit faculty</li>
+                                        </ol>
+                                    </li>
+                                    <li>All SGLs
+                                        <ol>
+                                            <li>Actively recruit members at senior centers, colleges and secondary schools (retiring faculty)</li>
+                                            <li>Explore piggy backing on Brandeis courses</li>
+                                            <li>Develop RFP that Robin and Ted can use to recruit via networking and/or advertising in academic publications</li>
+                                        </ol>
+                                    </li>
+                                </ol>
+                            </li>
+                            <li><strong>Implement measures to improve community</strong>
+                                <ol>
+                                    <li>Make nametags more visible and available</li>
+                                    <li>Designate a weekly community time (Lunch and Learn etc) with food and speakers</li>
+                                    <li>Encourage members to form SIGs with support and guidance (similar to current workbook for new SGLs)</li>
+                                    <li>Emphasize that best way to be part of community is to join a committee</li>
+                                    <li>Grow lectures, special events on site (music)</li>
+                                    <li>Arrange participation in Brandeis campus events as group activity</li>
+                                    <li>Experiment with evening interest-based gatherings or geographic meet-ups</li>
+                                    <li>Restore member directory</li>
+                                </ol>
+                            </li>
+                            <li><strong>Hold member-led in person small group sessions following lecture series and large Zoom classes Offer more in person courses</strong>
+                                <ol>
+                                    <li>Offer more in person classes by encouraging current SGLs to offer in person opportunities, ask Brandeis SGLs and grad students who are on campus to teach in person, explicitly advertise for SGLs willing to teach in person, expand on current efforts to encourage members to teach</li>
+                                    <li>Joint in person classes with other OLLIs</li>
+                                    <li>Network with Brandeis faculty currently teaching to find peers</li>
+                                    <li>Identify emeritus professors in Boston area who would be interested in teaching</li>
+                                    <li>Record in person classes for those who are not able to attend 100% of classes</li>
+                                </ol>
+                            </li>
+                            <li><strong>Experiment with more flexible course schedule</strong>
+                                <ol>
+                                    <li>Pilot a few courses which are outside the usual schedule (evening, 2-4 week, off-cycle starts, daylong seminars etc)Produce financial model that include a la carte pricing with and without membership requirements and larger Zoom classes</li>
+                                </ol>
+                            </li>
+                            <li><strong>Create BOLLI library recordings of classes that are accessible to members. Consider opening these recordings to BOLLI members at other OLLIs, for a fee</strong></li>
+                            <li><strong>Partnering with other OLLIs</strong>
+                                <ol>
+                                    <li>Joint classes</li>
+                                    <li>Joint programming such as Dartmouth</li>
+                                    <li>Co-programmingExpand course offerings by partnering with Boston-area OLLIs</li>
+                                </ol>
+                            </li>
+                            <li><strong>Intentionally plan curriculum</strong>
+                                <ol>
+                                    <li>Survey members about desired subject areas, including academic, "hands on" and lifestyle courses and/or analyze data from course registration to determine course preferences.</li>
+                                    <li>Add how-to and other non-academic classes</li>
+                                    <li>Create courses tied to Boston cultural events, such as music and theater</li>
+                                    <li>Review member survey for topics not currently offered</li>
+                                    <li>Survey members re teaching interest and skill areas</li>
+                                    <li>Explore options to partner with art centers to offer courses</li>
+                                    <li>Recruit "outside" SGLs to match gaps in curriculum</li>
+                                    <li>Market to university and secondary school retirees to recruit new member/SGLs</li>
+                                    <li>Consider changes to scheduling/lottery systems to improve availability of course types, modalities and times</li>
+                                </ol>
+                            </li>
+                            <li><strong>Improve website and catalog</strong>
+                                <ol>
+                                    <li>Website: form working group to coordinate with Marketing Committee</li>
+                                    <li>Catalog: form working group to use AI to redesign catalog
+                                        <ol>
+                                            <li>Website format</li>
+                                            <li>Searchable</li>
+                                            <li>Calendar, with links to individual course descriptions and videos</li>
+                                            <li>YouTube channel with course previews</li>
+                                        </ol>
+                                    </li>
+                                </ol>
+                            </li>
+                            <li><strong>Improve communication to members</strong>
+                                <ol>
+                                    <li>Use BOLLI Bulletin more intentionally to convey volunteer opportunities, changes in policies, and schedule reminders</li>
+                                    <li>Use redesigned catalog and website to convey more information about courses, SGLs, SIGs and committees</li>
+                                    <li>Improve and expand new member orientation, with in-person meetings and options for mentoring</li>
+                                </ol>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleCollapsible() {
+            const content = document.getElementById('fullText');
+            const icon = document.querySelector('.toggle-icon');
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                icon.classList.remove('rotated');
+            } else {
+                content.classList.add('active');
+                icon.classList.add('rotated');
+            }
+        }
+    </script>
+</body>
+</html>
