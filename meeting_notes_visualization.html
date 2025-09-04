@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Notes Visualization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header h2 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin: 10px 0;
+            font-weight: 600;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.1em;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .card.scheduling {
+            border-left-color: #e74c3c;
+        }
+
+        .card.membership {
+            border-left-color: #3498db;
+        }
+
+        .card.technical {
+            border-left-color: #2ecc71;
+        }
+
+        .card.partnerships {
+            border-left-color: #f39c12;
+        }
+
+        .card.marketing {
+            border-left-color: #9b59b6;
+        }
+
+        .card.operations {
+            border-left-color: #1abc9c;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 20px;
+            color: white;
+        }
+
+        .scheduling .card-icon {
+            background: #e74c3c;
+        }
+
+        .membership .card-icon {
+            background: #3498db;
+        }
+
+        .technical .card-icon {
+            background: #2ecc71;
+        }
+
+        .partnerships .card-icon {
+            background: #f39c12;
+        }
+
+        .marketing .card-icon {
+            background: #9b59b6;
+        }
+
+        .operations .card-icon {
+            background: #1abc9c;
+        }
+
+        .card-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .card-content {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .action-items {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            color: white;
+        }
+
+        .action-items h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 2em;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .priority-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .priority-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .priority-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+
+        .action-list {
+            list-style: none;
+        }
+
+        .action-list li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .action-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #ecf0f1;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .full-text-section {
+            margin-top: 40px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .toggle-button {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toggle-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .toggle-button:hover::before {
+            left: 100%;
+        }
+
+        .toggle-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle-icon {
+            font-size: 1.1em;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-button.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .full-text-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+
+        .full-text-content.expanded {
+            max-height: 5000px;
+            transition: max-height 0.7s ease-in;
+        }
+
+        .full-text-header {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 30px;
+            text-align: center;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .full-text-header h2 {
+            color: #2c3e50;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .document-date {
+            color: #6c757d;
+            font-size: 1.1em;
+            font-style: italic;
+        }
+
+        .document-content {
+            padding: 30px;
+            line-height: 1.7;
+            color: #2c3e50;
+        }
+
+        .doc-section {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #f8f9fa;
+        }
+
+        .doc-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .doc-section h3 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .doc-section p {
+            font-size: 1.05em;
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+
+        .next-steps-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .next-steps-list li {
+            background: #f8f9fa;
+            margin-bottom: 12px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .next-steps-list li:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .next-steps-list li::before {
+            content: "✓";
+            position: absolute;
+            left: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .subsection {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #28a745;
+        }
+
+        .subsection h4 {
+            color: #28a745;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .subsection p {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .document-content {
+                padding: 20px;
+            }
+
+            .full-text-header {
+                padding: 20px;
+            }
+
+            .subsection {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Meeting Summary Dashboard</h1>
+            <h2>SPG Sep 03 Meeting</h2>
+            <p>Space allocation, scheduling challenges & community engagement strategies</p>
+        </div>
+
+        <div class="dashboard">
+            <div class="card scheduling">
+                <div class="card-header">
+                    <div class="card-icon">📅</div>
+                    <div class="card-title">Class Scheduling & Space</div>
+                </div>
+                <div class="card-content">
+                    <strong>Challenge:</strong> Space allocation conflicts between in-person and Zoom classes<br>
+                    <strong>Solution:</strong> Three-term solution with 8-week classes, evening classes, expanded sessions<br>
+                    <strong>Priority:</strong> Implement easier solutions first (evening classes, session frequency changes)
+                </div>
+            </div>
+
+            <div class="card membership">
+                <div class="card-header">
+                    <div class="card-icon">👥</div>
+                    <div class="card-title">Trial Membership Engagement</div>
+                </div>
+                <div class="card-content">
+                    <strong>Strategy:</strong> Personal contact through liaisons<br>
+                    <strong>Focus:</strong> Help trial members navigate organization<br>
+                    <strong>Metrics:</strong> Track conversion rates and retention<br>
+                    <strong>Success:</strong> Welcome events showing positive results
+                </div>
+            </div>
+
+            <div class="card technical">
+                <div class="card-header">
+                    <div class="card-icon">💻</div>
+                    <div class="card-title">Zoom Community Support</div>
+                </div>
+                <div class="card-content">
+                    <strong>Importance:</strong> 60% of members use Zoom<br>
+                    <strong>Issues:</strong> Technical support, engagement, platform access<br>
+                    <strong>Solutions:</strong> Adjust class times (5 PM vs 7 PM), improved support strategies<br>
+                    <strong>Model:</strong> Hebrew College hybrid success example
+                </div>
+            </div>
+
+            <div class="card partnerships">
+                <div class="card-header">
+                    <div class="card-icon">🤝</div>
+                    <div class="card-title">Theater & BSO Partnerships</div>
+                </div>
+                <div class="card-content">
+                    <strong>Theater Program:</strong> 10-week classes + performances<br>
+                    <strong>Partners:</strong> Huntington, Lyric theaters<br>
+                    <strong>Format:</strong> Classes + discounted matinees + talkbacks<br>
+                    <strong>Music:</strong> BSO collaboration for curriculum planning
+                </div>
+            </div>
+
+            <div class="card marketing">
+                <div class="card-header">
+                    <div class="card-icon">📢</div>
+                    <div class="card-title">Marketing Initiatives</div>
+                </div>
+                <div class="card-content">
+                    <strong>Social Media:</strong> Facebook group creation<br>
+                    <strong>Staffing:</strong> Consider hiring social media intern<br>
+                    <strong>Alumni Outreach:</strong> Access Brandeis alumni lists<br>
+                    <strong>Content:</strong> Archive recordings library for fee-based access
+                </div>
+            </div>
+
+            <div class="card operations">
+                <div class="card-header">
+                    <div class="card-icon">⚙️</div>
+                    <div class="card-title">Operations & Systems</div>
+                </div>
+                <div class="card-content">
+                    <strong>Lottery System:</strong> Ensure members understand 6-class requirement<br>
+                    <strong>Pay-Per-Course:</strong> Explore limited public sessions<br>
+                    <strong>Funding:</strong> Address volunteer rates or find additional funding<br>
+                    <strong>Website:</strong> Simplify navigation and catalog
+                </div>
+            </div>
+        </div>
+
+        <div class="action-items">
+            <h2>🎯 Action Items & Next Steps</h2>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">Action Items</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Key Areas</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">60%</div>
+                    <div class="stat-label">Zoom Members</div>
+                </div>
+            </div>
+
+            <div class="actions-grid">
+                <div class="priority-section">
+                    <div class="priority-title">
+                        <div class="priority-icon">🔥</div>
+                        Immediate Actions
+                    </div>
+                    <ul class="action-list">
+                        <li>Organize meeting transcript by priority levels</li>
+                        <li>Follow up with Brandeis IT about Zoom unmute feature</li>
+                        <li>Explore evening Zoom classes pilot program</li>
+                        <li>Develop specific Zoom community support strategies</li>
+                    </ul>
+                </div>
+
+                <div class="priority-section">
+                    <div class="priority-title">
+                        <div class="priority-icon">📈</div>
+                        Marketing & Outreach
+                    </div>
+                    <ul class="action-list">
+                        <li>Create Facebook group with restricted access</li>
+                        <li>Investigate hiring social media intern</li>
+                        <li>Contact Brandeis alumni office for marketing lists</li>
+                        <li>Explore social media initiatives</li>
+                    </ul>
+                </div>
+
+                <div class="priority-section">
+                    <div class="priority-title">
+                        <div class="priority-icon">🎭</div>
+                        Partnership Development
+                    </div>
+                    <ul class="action-list">
+                        <li>Explore theater partnerships (combined classes + performances)</li>
+                        <li>Investigate BSO partnerships for music classes</li>
+                        <li>Arrange field trip to Lexington location with John Day</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Collapsible Full Text Section -->
+        <div class="full-text-section">
+            <button class="toggle-button" onclick="toggleFullText()">
+                <span class="toggle-icon">▼</span>
+                <span class="toggle-text">See Full Text</span>
+            </button>
+            
+            <div id="fullTextContent" class="full-text-content">
+                <div class="full-text-header">
+                    <h2>📄 Complete Meeting Document</h2>
+                    <p class="document-date">SPG September 03 Meeting</p>
+                </div>
+                
+                <div class="document-content">
+                    <section class="doc-section">
+                        <h3>📋 Quick Recap</h3>
+                        <p>The meeting focused on addressing space allocation and scheduling challenges for classes, including discussions about implementing a three-term solution and exploring alternative formats like evening classes or expanded session options. The group evaluated a pay-per-course model and membership engagement strategies, while also discussing initiatives to welcome and retain trial members through personal contact and improved communication. Technical and operational concerns were addressed, particularly regarding Zoom classes and the lottery system, with the team agreeing to develop specific support strategies and marketing approaches for both in-person and online learning communities.</p>
+                    </section>
+
+                    <section class="doc-section">
+                        <h3>🎯 Next Steps</h3>
+                        <ul class="next-steps-list">
+                            <li>Ted to organize meeting transcript into short-term, medium-term, and long-term priorities for the next meeting.</li>
+                            <li>Ted and team to explore offering evening Zoom classes as a pilot program.</li>
+                            <li>Ted to follow up with Brandeis IT about allowing hosts to unmute participants in Zoom.</li>
+                            <li>Marketing team to explore social media initiatives, including potentially creating a Facebook group.</li>
+                            <li>Ted to investigate hiring a social media intern.</li>
+                            <li>Ted to contact Brandeis alumni office about accessing alumni lists for marketing purposes.</li>
+                            <li>Ted to explore partnerships with theaters for combined class and performance experiences.</li>
+                            <li>Ted to investigate partnerships with BSO for music-related classes tied to performances.</li>
+                            <li>Ted to develop specific strategies to support the Zoom community as part of the plan.</li>
+                            <li>Ted to arrange a field trip to the Lexington location with John Day.</li>
+                        </ul>
+                    </section>
+
+                    <section class="doc-section">
+                        <h3>📊 Detailed Summary</h3>
+                        
+                        <div class="subsection">
+                            <h4>📅 Class Scheduling and Space Solutions</h4>
+                            <p>Ted discussed space allocation and scheduling challenges for classes, emphasizing the need to address in-person and Zoom conflicts. He proposed a three-term solution with 8-week classes, but noted that implementing this immediately might not be feasible. Instead, he suggested prioritizing easier solutions like evening classes or expanding to twice or once-a-week sessions, which could be implemented sooner. Ted also raised questions about the capacity of the new space and whether more in-person classes could be accommodated without changes.</p>
+                        </div>
+
+                        <div class="subsection">
+                            <h4>💳 Pay-Per-Course Model Implementation Challenges</h4>
+                            <p>Ted discussed the risks and complexities of implementing a pay-per-course model, expressing concern about its financial implications and operational challenges. He suggested exploring options to open specific short-term sessions to the public without affecting existing membership structures. Ted also noted that while some members object to the current tuition, it was not a significant barrier to membership, and conversion issues were more related to connection and timing.</p>
+                        </div>
+
+                        <div class="subsection">
+                            <h4>👥 Trial Membership Engagement Strategies</h4>
+                            <p>Ted discussed the efforts of the membership committee to welcome and engage trial members, who have limited access to classes but can participate in other activities. He emphasized the importance of personal contact through liaisons to help trial members navigate the organization and track metrics like conversion to full membership and retention rates. Ted highlighted the complexity of the organization as a strength, preventing member boredom, while acknowledging areas for improvement, such as simplifying the website and catalog. He also mentioned a new member's positive experience at a welcome event, noting that even existing members may not be aware of certain benefits, like bringing a friend to events.</p>
+                        </div>
+
+                        <div class="subsection">
+                            <h4>📚 Initiatives and Curriculum Planning</h4>
+                            <p>Ted and the team discussed several initiatives, including archiving recordings in a library for a fee, expanding social media presence, and exploring partnerships for curriculum planning. They decided to create a Facebook group with restricted access and considered hiring a social media intern to manage it. The group also discussed the need for intentional curriculum planning, noting they were already working on this with the BSO. They agreed to remove a survey about member desires and focus on implementing these initiatives with available resources.</p>
+                        </div>
+
+                        <div class="subsection">
+                            <h4>🎭 Theater Program and Community Collaboration</h4>
+                            <p>Ted discussed a 10-week program involving theater classes and performances, similar to programs at Harvard and UMass Boston. He proposed collaborating with local theaters like the Huntington and Lyric to offer discounted matinee performances followed by talkbacks, with classes meeting both on-site and at theaters. The group also touched on member surveys, marketing efforts, and fundraising opportunities, while noting that some items, like scheduling changes and lottery issues, were already addressed elsewhere.</p>
+                        </div>
+
+                        <div class="subsection">
+                            <h4>🎲 Lottery System and Funding Challenges</h4>
+                            <p>Ted expressed confusion about how people consistently get their first choice in the lottery system without understanding the rules, sharing an example of a long-time member who failed to get any courses due to not signing up for six classes. He emphasized the importance of ensuring participants sign up for the required number of classes to receive their choices and discussed the need to address funding issues by either increasing volunteer rates or finding additional funding. Ted also suggested creating a structured plan to categorize actions into short-term, medium-term, and long-term goals for future meetings.</p>
+                        </div>
+
+                        <div class="subsection">
+                            <h4>💻 Enhancing Zoom Class Support Strategies</h4>
+                            <p>The group discussed concerns about Zoom classes, with Ted emphasizing the need to support the Zoom community, which comprises 60% of members, while not ignoring in-person classes. They identified issues with Zoom technical support, member engagement, and platform access, and discussed potential solutions including adjusting class times to 5 PM instead of 7 PM to improve attendance. The team agreed to work on specific ideas for supporting Zoom members before the next meeting, and discussed marketing strategies to reach Brandeis alumni, with Ted sharing positive experiences from a hybrid class at Hebrew College that successfully integrated Zoom and in-person learning.</p>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleFullText() {
+            const content = document.getElementById('fullTextContent');
+            const button = document.querySelector('.toggle-button');
+            const text = document.querySelector('.toggle-text');
+            
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                button.classList.remove('active');
+                text.textContent = 'See Full Text';
+                button.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+                content.classList.add('expanded');
+                button.classList.add('active');
+                text.textContent = 'Hide Full Text';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('click', function() {
+                    this.style.transform = 'scale(1.02)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+                });
+            });
+
+            document.querySelectorAll('.stat-number').forEach((stat, index) => {
+                setTimeout(() => {
+                    stat.style.opacity = '0';
+                    stat.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        stat.style.transition = 'all 0.6s ease';
+                        stat.style.opacity = '1';
+                        stat.style.transform = 'translateY(0)';
+                    }, 50);
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
