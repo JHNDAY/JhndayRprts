@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John Day's Brilliant Moments</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 4s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: translateX(-100px) translateY(-100px); }
+            50% { transform: translateX(100px) translateY(100px); }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: 300;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            padding: 15px 25px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            color: #6c757d;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .nav-tab:hover {
+            color: #3498db;
+            background: rgba(52, 152, 219, 0.1);
+        }
+
+        .nav-tab.active {
+            color: #3498db;
+            background: white;
+        }
+
+        .nav-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #3498db;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .achievement-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #3498db;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .achievement-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #e74c3c, #f39c12, #27ae60);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .achievement-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .achievement-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .achievement-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+        }
+
+        .achievement-description {
+            color: #5a6c7d;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .achievement-impact {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 3px solid #28a745;
+            font-style: italic;
+            color: #495057;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #3498db, #e74c3c);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 50px;
+            width: 45%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 55%;
+            text-align: left;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .timeline-year {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            top: -15px;
+            z-index: 2;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .stat-card:hover::before {
+            left: 100%;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .current-projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .project-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .project-description {
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                width: calc(100% - 40px);
+                left: 40px !important;
+                text-align: left !important;
+            }
+            
+            .nav-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>John Day's Brilliant Moments</h1>
+            <p>A Journey of Innovation, Leadership, and Lifelong Learning</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('overview')">Overview</button>
+            <button class="nav-tab" onclick="showTab('career')">Career Highlights</button>
+            <button class="nav-tab" onclick="showTab('education')">Education & Leadership</button>
+            <button class="nav-tab" onclick="showTab('current')">Current Impact</button>
+            <button class="nav-tab" onclick="showTab('timeline')">Timeline</button>
+        </div>
+
+        <div class="content">
+            <div id="overview" class="tab-content active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">41</div>
+                        <div class="stat-label">Years at Raytheon</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">$10M</div>
+                        <div class="stat-label">Documented Savings</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">MIT Students Mentored</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">Professionals Trained</div>
+                    </div>
+                </div>
+
+                <div class="achievement-card">
+                    <div class="achievement-title">
+                        <div class="achievement-icon" style="background: #e74c3c; color: white;">🏆</div>
+                        2020 Smithsonian Computer World Award
+                    </div>
+                    <div class="achievement-description">
+                        Recognized for outstanding contributions to the field of data analytics and statistical methodologies in industrial applications.
+                    </div>
+                    <div class="achievement-impact">
+                        This prestigious award acknowledges your pioneering work in bridging theoretical statistical physics with practical industrial applications.
+                    </div>
+                </div>
+
+                <div class="achievement-card">
+                    <div class="achievement-title">
+                        <div class="achievement-icon" style="background: #27ae60; color: white;">💡</div>
+                        Certified Six Sigma Expert
+                    </div>
+                    <div class="achievement-description">
+                        Advanced expertise in process improvement methodologies, contributing to quality excellence across multiple divisions.
+                    </div>
+                </div>
+            </div>
+
+            <div id="career" class="tab-content">
+                <div class="achievement-card">
+                    <div class="achievement-title">
+                        <div class="achievement-icon" style="background: #3498db; color: white;">🎓</div>
+                        PhD in Statistical Physics - Boston University (1979)
+                    </div>
+                    <div class="achievement-description">
+                        Dissertation: "Theoretical and Experimental Study of Phase Transitions in Model Biological Lipid Membranes" - contributed to understanding cellular membrane dynamics and biophysical systems.
+                    </div>
+                    <div class="achievement-impact">
+                        Published multiple papers in Journal of Theoretical Biology, establishing foundation for decades of analytical excellence.
+                    </div>
+                </div>
+
+                <div class="achievement-card">
+                    <div class="achievement-title">
+                        <div class="achievement-icon" style="background: #f39c12; color: white;">🚀</div>
+                        Enterprise-Wide Data Analytics Leadership
+                    </div>
+                    <div class="achievement-description">
+                        Led comprehensive data analytics initiatives across Raytheon's defense programs, developing proprietary statistical methodologies for manufacturing quality control and design optimization.
+                    </div>
+                    <div class="achievement-impact">
+                        Created standardized data access protocols adopted across 4 of 6 major company divisions, revolutionizing data-driven decision making.
+                    </div>
+                </div>
+
+                <div class="achievement-card">
+                    <div class="achievement-title">
+                        <div class="achievement-icon" style="background: #9b59b6; color: white;">👥</div>
+                        MIT Sloan Industrial Mentor
+                    </div>
+                    <div class="achievement-description">
+                        Served as mentor and industrial thesis advisor for 12 students from MIT Sloan Leaders for Global Operations program, bridging academic theory with real-world applications.
+                    </div>
+                    <div class="achievement-impact">
+                        Shaped the next generation of leaders by providing hands-on experience in data analytics and statistical modeling.
+                    </div>
+                </div>
+
+                <div class="achievement-card">
+                    <div class="achievement-title">
+                        <div class="achievement-icon" style="background: #e67e22; color: white;">💰</div>
+                        $10 Million Cost Savings Achievement
+                    </div>
+                    <div class="achievement-description">
+                        Generated documented savings of $10 million through innovative data-driven process improvements and statistical analysis methodologies.
+                    </div>
+                    <div class="achievement-impact">
+                        Demonstrated the tangible business value of advanced analytics in defense manufacturing and systems optimization.
+                    </div>
+                </div>
+            </div>
+
+            <div id="education" class="tab-content">
+                <div class="achievement-card">
+                    <div class="achievement-title">
+                        <div class="achievement-icon" style="background: #e74c3c; color: white;">🎯</div>
+                        AI Education Pioneer at BOLLI
+                    </div>
+                    <div class="achievement-description">
+                        Teaching courses and delivering presentations about AI for two years, developing curriculum for "Applying Chatbots to Understand Literature, History, Science, and Current Events."
+                    </div>
+                    <div class="achievement-impact">
+                        Making cutting-edge AI technology accessible to lifelong learners, bridging the gap between complex technology and practical applications.
+                    </div>
+                </div>
+
+                <div class="achievement-card">
+                    <div class="achievement-title">
+                        <div class="achievement-icon" style="background: #3498db; color: white;">📚</div>
+                        Comprehensive Training Program Development
+                    </div>
+                    <div class="achievement-description">
+                        Created and delivered dozens of courses and presentations on data access and analysis to hundreds of professionals throughout career.
+                    </div>
+                    <div class="achievement-impact">
+                        Democratized data analytics knowledge across the organization, elevating the technical capabilities of entire teams.
+                    </div>
+                </div>
+
+                <div class="achievement-card">
+                    <div class="achievement-title">
+                        <div class="achievement-icon" style="background: #27ae60; color: white;">🔬</div>
+                        Research Publication Legacy
+                    </div>
+                    <div class="achievement-description">
+                        Published multiple research papers based on doctoral thesis in Journal of Theoretical Biology, contributing to the scientific understanding of biological systems.
+                    </div>
+                    <div class="achievement-impact">
+                        Established credibility in both theoretical research and practical applications, creating a unique bridge between academia and industry.
+                    </div>
+                </div>
+            </div>
+
+            <div id="current" class="tab-content">
+                <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">Current Brilliant Moments in Progress</h2>
+                
+                <div class="current-projects">
+                    <div class="project-card">
+                        <div class="project-title">AI Research Collective Leadership</div>
+                        <div class="project-description">
+                            Co-founding and leading an AI research initiative that bridges current events analysis with artificial intelligence applications, creating innovative educational content and research methodologies.
+                        </div>
+                    </div>
+
+                    <div class="project-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <div class="project-title">BOLLI Strategic Planning</div>
+                        <div class="project-description">
+                            Contributing strategic vision as a member of BOLLI Strategic Planning Group, helping shape the future of lifelong learning through technology integration and educational innovation.
+                        </div>
+                    </div>
+
+                    <div class="project-card" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); color: #2c3e50;">
+                        <div class="project-title">AI Initiative Implementation</div>
+                        <div class="project-description">
+                            Spearheading the initiative to bring AI education to BOLLI, designing courses that make artificial intelligence accessible and relevant to lifelong learners.
+                        </div>
+                    </div>
+
+                    <div class="project-card" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #2c3e50;">
+                        <div class="project-title">Current Affairs Portal Innovation</div>
+                        <div class="project-description">
+                            Created the Current Affairs portal that transformed the legacy Current Events group, modernizing how members engage with and analyze contemporary issues through digital innovation.
+                        </div>
+                    </div>
+
+                    <div class="project-card" style="background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%); color: #2c3e50;">
+                        <div class="project-title">Technology Community Leadership</div>
+                        <div class="project-description">
+                            Active member of Lexington Computer Technology Group (LCTG), continuing to contribute expertise and leadership in the technology community.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="achievement-card" style="margin-top: 30px;">
+                    <div class="achievement-title">
+                        <div class="achievement-icon" style="background: #e74c3c; color: white;">🌟</div>
+                        Continued Innovation in Retirement
+                    </div>
+                    <div class="achievement-description">
+                        Rather than slowing down, you've accelerated your impact by pivoting from corporate analytics to educational innovation, bringing decades of expertise to new audiences and applications.
+                    </div>
+                    <div class="achievement-impact">
+                        Proving that brilliant minds don't retire - they evolve and find new ways to contribute to society and knowledge advancement.
+                    </div>
+                </div>
+            </div>
+
+            <div id="timeline" class="tab-content">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-year">1979</div>
+                        <div class="timeline-content">
+                            <h3>PhD Achievement</h3>
+                            <p>Earned PhD in Statistical Physics from Boston University, publishing groundbreaking research on biological membrane dynamics.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">1980</div>
+                        <div class="timeline-content">
+                            <h3>Raytheon Career Begins</h3>
+                            <p>Started what would become a distinguished 41-year career, beginning the journey from statistical analyst to senior consultant.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">1990s</div>
+                        <div class="timeline-content">
+                            <h3>Six Sigma Expertise</h3>
+                            <p>Became certified Six Sigma expert, revolutionizing quality control processes across multiple divisions.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">2000s</div>
+                        <div class="timeline-content">
+                            <h3>MIT Mentorship Program</h3>
+                            <p>Began mentoring MIT Sloan students, sharing industrial expertise and shaping future leaders in analytics.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">2020</div>
+                        <div class="timeline-content">
+                            <h3>Smithsonian Award</h3>
+                            <p>Received prestigious Smithsonian Computer World Award, recognizing lifetime contributions to data analytics.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">2021</div>
+                        <div class="timeline-content">
+                            <h3>Retirement & Renaissance</h3>
+                            <p>Retired from Raytheon after 41 years, immediately pivoting to educational innovation and AI research.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">2025</div>
+                        <div class="timeline-content">
+                            <h3>AI Education Leadership</h3>
+                            <p>Leading AI initiatives at BOLLI, co-founding research collectives, and continuing to break new ground in educational technology.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.achievement-card, .project-card, .stat-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
