@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Group Analysis Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .header h1 {
+            color: #2d3748;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #718096;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .chart-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+        
+        .chart-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .canvas-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 15px;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .insights h3 {
+            color: #2d3748;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .insight-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .insight-card h4 {
+            color: #667eea;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        
+        .insight-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .insight-card li {
+            color: #4a5568;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .insight-card li::before {
+            content: '•';
+            color: #667eea;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .timeline {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+        
+        .timeline h3 {
+            color: #2d3748;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .timeline-time {
+            font-weight: 600;
+            color: #667eea;
+            min-width: 80px;
+            margin-right: 15px;
+        }
+        
+        .timeline-content {
+            color: #4a5568;
+            flex: 1;
+        }
+        
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #718096;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Focus Group Analysis Dashboard</h1>
+            <p>Strategic Planning Session - September 10</p>
+        </div>
+        
+        <div class="stats-bar">
+            <div class="stat">
+                <span class="stat-number">9</span>
+                <span class="stat-label">Participants</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">93</span>
+                <span class="stat-label">Minutes</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">287</span>
+                <span class="stat-label">Speaking Turns</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">21</span>
+                <span class="stat-label">Years Avg Experience</span>
+            </div>
+        </div>
+        
+        <div class="grid">
+            <div class="chart-container">
+                <div class="chart-title">Participation Distribution</div>
+                <div class="canvas-container">
+                    <canvas id="participationChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">Years of Membership</div>
+                <div class="canvas-container">
+                    <canvas id="membershipChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">Speaking Time Distribution</div>
+                <div class="canvas-container">
+                    <canvas id="timeChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">Key Topics Mentioned</div>
+                <div class="canvas-container">
+                    <canvas id="topicsChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline">
+            <h3>📅 Discussion Flow Timeline</h3>
+            <div class="timeline-item">
+                <div class="timeline-time">00:00-07:30</div>
+                <div class="timeline-content">Opening remarks and technical setup</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">07:30-32:00</div>
+                <div class="timeline-content">Round-robin introductions - participants share background and what they value about the organization</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">32:00-55:00</div>
+                <div class="timeline-content">Open discussion on challenges, barriers, and problems experienced</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">55:00-76:00</div>
+                <div class="timeline-content">Discussion on organizational strategy, competition, and pricing concerns</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">76:00-93:00</div>
+                <div class="timeline-content">Future aspirations, ideal program features, and closing thoughts</div>
+            </div>
+        </div>
+        
+        <div class="insights">
+            <h3>🔍 Key Insights</h3>
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <h4>Community Building Challenges</h4>
+                    <ul>
+                        <li>Several participants struggled to build meaningful connections</li>
+                        <li>Zoom format creates barriers to relationship building</li>
+                        <li>Need for more structured networking opportunities</li>
+                        <li>Small group activities work better than large gatherings</li>
+                    </ul>
+                </div>
+                
+                <div class="insight-card">
+                    <h4>Technology & Accessibility</h4>
+                    <ul>
+                        <li>Technical support needs vary widely among participants</li>
+                        <li>Zoom provides crucial access for mobility-limited members</li>
+                        <li>Website navigation is consistently problematic</li>
+                        <li>Need for better technical orientation</li>
+                    </ul>
+                </div>
+                
+                <div class="insight-card">
+                    <h4>Value Proposition</h4>
+                    <ul>
+                        <li>Member-taught classes are consistently most popular</li>
+                        <li>Cost concerns vs. value received</li>
+                        <li>High quality of both instructors and participants</li>
+                        <li>Need better marketing of comprehensive offerings</li>
+                    </ul>
+                </div>
+                
+                <div class="insight-card">
+                    <h4>Strategic Opportunities</h4>
+                    <ul>
+                        <li>Expand summer programming options</li>
+                        <li>Strengthen university connections</li>
+                        <li>Improve volunteer recruitment and engagement</li>
+                        <li>Enhance hybrid learning capabilities</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Anonymized participant data
+        const participants = [
+            { id: 'P1', turns: 31, years: 0.5, role: 'New Member' },
+            { id: 'P2', turns: 28, years: 21, role: 'Long-term Member' },
+            { id: 'P3', turns: 22, years: 8, role: 'Active Volunteer' },
+            { id: 'P4', turns: 35, years: 18, role: 'Former Committee Chair' },
+            { id: 'P5', turns: 18, years: 2, role: 'Recent Member' },
+            { id: 'P6', turns: 41, years: 7, role: 'Committee Member' },
+            { id: 'P7', turns: 26, years: 4, role: 'Remote Participant' },
+            { id: 'P8', turns: 24, years: 8, role: 'Former SGL' },
+            { id: 'P9', turns: 19, years: 4, role: 'Recent Member' }
+        ];
+
+        // Chart configurations
+        const chartColors = [
+            '#667eea', '#764ba2', '#f093fb', '#f5576c', '#4ecdc4',
+            '#45b7d1', '#f39c12', '#27ae60', '#e74c3c'
+        ];
+
+        // Participation Chart
+        const participationCtx = document.getElementById('participationChart').getContext('2d');
+        new Chart(participationCtx, {
+            type: 'doughnut',
+            data: {
+                labels: participants.map(p => p.id),
+                datasets: [{
+                    data: participants.map(p => p.turns),
+                    backgroundColor: chartColors,
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 15,
+                            usePointStyle: true
+                        }
+                    }
+                }
+            }
+        });
+
+        // Membership Years Chart
+        const membershipCtx = document.getElementById('membershipChart').getContext('2d');
+        new Chart(membershipCtx, {
+            type: 'bar',
+            data: {
+                labels: participants.map(p => p.id),
+                datasets: [{
+                    label: 'Years of Membership',
+                    data: participants.map(p => p.years),
+                    backgroundColor: chartColors,
+                    borderRadius: 8,
+                    borderSkipped: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Years'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Speaking Time Chart
+        const timeCtx = document.getElementById('timeChart').getContext('2d');
+        new Chart(timeCtx, {
+            type: 'line',
+            data: {
+                labels: participants.map(p => p.id),
+                datasets: [{
+                    label: 'Speaking Turns',
+                    data: participants.map(p => p.turns),
+                    borderColor: '#667eea',
+                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#667eea',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Turns'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Topics Chart
+        const topicsCtx = document.getElementById('topicsChart').getContext('2d');
+        new Chart(topicsCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Community Building', 'Technology Support', 'Course Quality', 'Accessibility', 'Cost/Value', 'Website Issues'],
+                datasets: [{
+                    label: 'Mentions',
+                    data: [15, 12, 18, 10, 8, 9],
+                    backgroundColor: [
+                        '#667eea', '#764ba2', '#f093fb', '#f5576c', '#4ecdc4', '#45b7d1'
+                    ],
+                    borderRadius: 6,
+                    borderSkipped: false
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Frequency'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
