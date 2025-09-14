@@ -3,847 +3,1122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOLLI Strategic Plan - File Directory</title>
+    <title>Repository Index - JHNDAY/JhndayRprts</title>
     <style>
+        :root {
+            --primary-color: #0366d6;
+            --secondary-color: #586069;
+            --background-color: #f6f8fa;
+            --card-background: #ffffff;
+            --border-color: #e1e4e8;
+            --hover-color: #f6f8fa;
+            --text-color: #24292e;
+        }
+
+        * { box-sizing: border-box; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
             line-height: 1.6;
+            color: var(--text-color);
             max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f8f9fa;
-        }
-
-        .container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background-color: var(--background-color);
         }
 
         .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 10px;
-        }
-
-        h1 {
-            margin: 0;
-            font-size: 2.5em;
-        }
-
-        .subtitle {
-            margin: 10px 0 0 0;
-            opacity: 0.9;
-            font-size: 1.1em;
-        }
-
-        h2 {
-            color: #34495e;
-            margin-top: 40px;
+            background: var(--card-background);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             margin-bottom: 20px;
-            border-left: 4px solid #3498db;
-            padding-left: 15px;
         }
 
-        .folder-info {
-            background-color: #e8f4fd;
+        .repo-title {
+            margin: 0 0 10px 0;
+            color: var(--primary-color);
+            font-size: 2em;
+            font-weight: 600;
+        }
+
+        .stats {
+            background: var(--card-background);
             padding: 20px;
             border-radius: 8px;
-            margin-bottom: 30px;
-            border-left: 4px solid #3498db;
-        }
-
-        .stats-grid {
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
+            gap: 15px;
         }
 
-        .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
+        .stat-item {
             text-align: center;
+            padding: 10px;
+            background: var(--background-color);
+            border-radius: 6px;
         }
 
         .stat-number {
-            font-size: 2.5em;
+            font-size: 1.8em;
             font-weight: bold;
-            margin-bottom: 5px;
+            color: var(--primary-color);
+            display: block;
         }
 
-        .stat-label {
-            opacity: 0.9;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 30px;
-            background-color: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        .controls {
+            background: var(--card-background);
+            padding: 20px;
             border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .search-container {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .search-box {
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1em;
+        }
+
+        .filter-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .view-controls, .sort-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .view-button, .sort-button, .sort-select {
+            padding: 8px 16px;
+            border: 1px solid var(--border-color);
+            background: var(--card-background);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+
+        .view-button:hover, .view-button.active, .sort-button:hover, .sort-button.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .file-list {
+            background: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             overflow: hidden;
         }
 
-        th {
-            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
-            color: white;
-            padding: 15px;
-            text-align: left;
+        .file-list-header {
+            background: var(--background-color);
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
             font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        td {
-            padding: 15px;
-            border-bottom: 1px solid #ecf0f1;
-            vertical-align: top;
+        .file-item {
+            display: grid;
+            grid-template-columns: auto 1fr auto auto auto;
+            gap: 15px;
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-color);
+            align-items: start;
+            transition: background-color 0.2s ease;
         }
 
-        tr:hover {
-            background-color: #f8f9fa;
-            transition: background-color 0.3s ease;
-        }
-
-        .folder-name {
-            font-weight: 600;
-            color: #2980b9;
-            white-space: nowrap;
-            background-color: #ecf0f1;
-            padding: 5px 10px;
-            border-radius: 5px;
-            display: inline-block;
-        }
+        .file-item:hover { background-color: var(--hover-color); }
 
         .file-name {
+            color: var(--primary-color);
+            text-decoration: none;
             font-weight: 500;
-            color: #2c3e50;
-            margin-bottom: 5px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .file-name:hover { text-decoration: underline; }
+
+        .file-path {
+            color: var(--secondary-color);
+            font-size: 0.9em;
+            font-family: monospace;
+            margin-bottom: 4px;
+        }
+
+        .file-description {
+            color: #6a737d;
+            font-size: 0.85em;
+            font-style: italic;
+            line-height: 1.3;
         }
 
         .file-type {
+            background: var(--border-color);
+            color: var(--secondary-color);
+            padding: 2px 8px;
+            border-radius: 12px;
             font-size: 0.8em;
-            color: #7f8c8d;
-            background-color: #ecf0f1;
-            padding: 2px 6px;
-            border-radius: 3px;
-            margin-left: 10px;
+            white-space: nowrap;
         }
 
-        .description {
-            color: #555;
-            line-height: 1.5;
-        }
-
-        a {
-            color: #3498db;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 5px 10px;
-            background-color: #ecf0f1;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        a:hover {
-            background-color: #3498db;
-            color: white;
-        }
-
-        .folder-section {
-            margin-bottom: 40px;
-            border: 1px solid #ecf0f1;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .folder-header {
-            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
-            color: white;
-            padding: 15px 20px;
-            font-weight: 600;
-            font-size: 1.2em;
-        }
-
-        .folder-table {
-            margin: 0;
-            box-shadow: none;
-        }
-
-        .author {
-            color: #7f8c8d;
+        .file-size {
+            color: var(--secondary-color);
             font-size: 0.9em;
-            font-style: italic;
+            text-align: right;
+            white-space: nowrap;
         }
-            background-color: #f1f2f6;
+
+        .file-card {
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
             padding: 15px;
-            border-radius: 5px;
-            margin-top: 30px;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .file-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+
+        .footer {
             text-align: center;
-            color: #2c3e50;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            color: var(--secondary-color);
+            font-size: 0.9em;
         }
 
-        .live-indicator {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background-color: #27ae60;
-            border-radius: 50%;
-            margin-right: 10px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
+        @media (max-width: 768px) {
+            .file-item { grid-template-columns: auto 1fr; gap: 10px; }
+            .file-type, .file-size { display: none; }
+            .search-container { grid-template-columns: 1fr; }
+            .filter-controls { grid-template-columns: 1fr; }
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1><span class="live-indicator"></span>BOLLI Strategic Plan</h1>
-            <p class="subtitle">Live directory generated from Google Drive</p>
+<body>    <div class="header">
+        <h1 class="repo-title">📁 JhndayRprts Repository Index</h1>    </div>
+    <div class="stats">
+        <div class="stat-item">
+            <span class="stat-number">45</span>
+            <span class="stat-label">Total Files</span>
         </div>
-
-        <div class="folder-info">
-            <strong>📁 Source Folder:</strong> BOLLI Strategic Plan<br>
-            <strong>🔗 Folder ID:</strong> 10z9cRis-Bpx02IAS5bobW6djph84m5KT<br>
-            <strong>📊 Scan Results:</strong> 56 documents found across 6 folder(s)
+        <div class="stat-item">
+            <span class="stat-number">43</span>
+            <span class="stat-label">HTML Files</span>
         </div>
-
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-number">56</div>
-                <div class="stat-label">Total Documents</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">6</div>
-                <div class="stat-label">Folders Scanned</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">35</div>
-                <div class="stat-label">Google Docs</div>
-            </div>
+        <div class="stat-item">
+            <span class="stat-number">45</span>
+            <span class="stat-label">Files with Dates</span>
         </div>
-        <div class="folder-section">
-            <div class="folder-header">
-                📁 NRC NEWSLETTERS (7 documents)
-            </div>
-            <table class="folder-table">
-                <thead>
-                    <tr>
-                        <th style="width: 25%;">File Name</th>
-                        <th style="width: 45%;">Description</th>
-                        <th style="width: 15%;">Link</th>
-                        <th style="width: 15%;">Author</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="file-name">NewsLetter Jan. 2025</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿Greetings from the NRC........................... January 2025 In December 2019, our long-time and highly esteemed colleague, David Blazevich, The Bernard Osher Foundation’s senior program director left to take the helm of the Fleishhacker Foundation in San Francisco. The Osher NRC staff had little time to mourn his departure as we focused on fulfilling many of the functions David had always deftly... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1yp3O2q3NyvFC_mkrpsLIvxUzBMnJqDgCCIoFcDiN_5k/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Newsletter Apr 2025</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿Greetings from the NRC........................... April 2025 There are two prominent stories behind Chicago’s nickname "The Windy City.” Many believe it is literal, referring to the breezes coming from the great Lake Michigan (a block from the Osher NRC offices – the red heart in the picture above). The other story relates to local politicians of the late 19th century. As... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1KhYtqn5_Q_i2XLGhLXIYrLaBw0Tt-9l1z-32_LH1dSE/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Newsletter Feb. 2025</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿Greetings from the NRC...........................February 2025 An important part of an OLLI leader’s job – whether on staff or volunteer – is community building. There is power in forming a strong sense of community among OLLI members. It starts by forming individual relationships with members and creating engaged small groups. Then it grows into inspiring the entire Institute’s membership and even... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1sWEvFYV-oUMFzxWSz3pIQ9bSkmu6obksNmE4IunF5sg/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Newsletter Jun 2025</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿Greetings from the NRC........................... June 2025 While some might think of June as the time to slow down and unwind, the calendar tells a different story. From high school and college graduations to Juneteenth, Father’s Day, and the official start of summer, June brims with activity. We also recognize Pride Month, Alzheimer’s and Brain Awareness Month, Men’s Health Month, and... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1ACMv-kkBmJn3MFwx8uxcZWDge8CmTnXstbVQ49OrLpE/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Newsletter Mar 2025</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿Greetings from the NRC........................... March 2025 Aren’t we lucky? With more than 183,000 participants nationwide — including over 22,000 dedicated volunteers — we are a formidable group of engaged learners, colleagues, and friends. We combat the much-publicized epidemic of loneliness and social isolation in older adults with our courses, events, tours, trips, and small group activities. We refute the idea... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1jnNLRZJIHh62QIC2j5RzSJhOcYh0WjIkP8ffZYn_2kM/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Newsletter May 2025</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿Greetings from the NRC.............................. May 2025 By the time this newsletter drops, we will have just completed our 16th Osher Institutes National Conference. Writing the Osher Network Newsletter around conference time is always a bit tricky. In order to be timely, it needs to be completely ready to send prior to leaving for the conference. So, no, the picture above... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1-UPHBbJCVFnqRmrtNb0htxwxuGaGLtOfHwFt5wjVOHw/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Strategic PLanning Group Bios</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿Oliver Curme Education Background B.S. Biochemistry, Brown University 1976 MBA Harvard Business School 1982 Professional Experience Environ Laboratories, Lab Manager, 1976-1980 First National Bank of Boston, Loan Officer, 1982-1985 Battery Ventures, Software Analyst, 1985-2005 Perception of the Current State of BOLLI Superb community of life long learners. The culture is warm, caring, engaged and intellectually curious. Current financial situation is... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/16QvysSxOfWwcvsDVycotKDIUVYsFQuBRPABl7kOFEb0/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="stat-item">
+            <span class="stat-number">3</span>
+            <span class="stat-label">File Types</span>
         </div>
-        <div class="folder-section">
-            <div class="folder-header">
-                📁 Project Definition Documents (20 documents)
-            </div>
-            <table class="folder-table">
-                <thead>
-                    <tr>
-                        <th style="width: 25%;">File Name</th>
-                        <th style="width: 45%;">Description</th>
-                        <th style="width: 15%;">Link</th>
-                        <th style="width: 15%;">Author</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="file-name">All Comments from AI</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿AI (Claude) Summary SGL Comments Here is a summary of the main points from the Study Group Leader questionnaire responses about what worked well and what the challenges were: What Worked Well: * Engaging and intelligent class members who were motivated to learn * Preparing thorough materials and having interesting topics * Using Zoom and Google Sites/Docs for virtual classes... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1JllM3v_OOCR7BxF6JX8dwpO-AjM20c2p9EFwb0E5dIA/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">BOLLI Fall 2025 Catalog</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿________________ Osher Lifelong Learning Institute at Brandeis Fall 2025 Catalog Clicking the links below will take you to a section of the catalog: Monday classes Tuesday classes Wednesday classes Thursday classes Friday classes Modality color code yellow for in-person green for Zoom Please note: Fall study groups will take place virtually on Zoom or in person at 60 Turner Street.... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1hah3dLE8S3D7xKZQvuJPAnXgSXcG8Pguzj1EyFiGing/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">BOLLI Self-study 2025</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿BOLLI Self-Study 2025 1. Organizational Overview * Mission and Vision Statements * History and Founding Context Governance Structure (e.g., advisory board, committees) * Relationship with Host Institution (e.g., university affiliation, administrative support) 2. Membership and Demographics * Membership Numbers Over Time (multi-year trends) * Member Demographics (age ranges, gender, education level, geographic distribution) * Membership Retention and Turnover Rates * (Google Doc, Created May 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1tj_d6e0ozOFgRIxblnTeysp05HJ3QSBRl5DSRUG_apk/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">BOLLI Spring 2024 CATALOGUE</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿OSHER LIFELONG LEARNING INSTITUTE AT BRANDEIS BOLLI: Spring 2024 Catalog MONDAY Period 1 9:30-10:55am ET Period 2 11:10am-12:35pm ET Period 3 2:10-3:35pm ET ________________ Period 1 (Mon) LIT1-10-Mon1 Forgotten Women: Three Overlooked Short Story Writers Study Group Leader (SGL) - Marlene Hobel Location: This course will take place virtually on Zoom. Participation in this course requires a device (ideally a... (Google Doc, Created Jan 2024 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1YfbL7Do1WR1DD0OK2yj-Fs_DSjYqZVPpv36RfLoPOxM/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">BOLLI Spring 2025 Catalog</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿DRAFT DRAFT OSHER LIFELONG LEARNING INSTITUTE AT BRANDEIS BOLLI: Spring 2025 Catalog [Last Updated: 12/2/24] f Table of Contents Monday classes Tuesday classes Wednesday classes Thursday classes Friday classes Modality color code yellow for in-person green for Zoom Please note: Spring study groups will take place virtually on Zoom or in person at 60 Turner Street. The course modality will... (Google Doc, Created Dec 2024 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1K-LCvdfgIVapzoeHdnDOq_1rUcIuOkGCEO9l2PevT7U/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">DRAFT BOLLI STRATEGIC PLAN</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿DRAFT 5.13.25 BOLLI STRATEGIC PLANNING PROCESS Summer/Fall 2025 1. RATIONALE/CASE STATEMENT * History BOLLI was founded simulating the Harvard Institute of Learning in Retirement model as a “community of learners,” with members leading all study groups and special interest groups. A smattering of Brandeis faculty and graduate students were incorporated into the teaching ranks about eight years ago. The culture... (Google Doc, Created May 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1uuPvIgknhZmmyCa6FR26153VU7cnjmfikYR7LTruri0/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Group informal chat - Marsha</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿Notes from informal chat on 6.19 with: Henry Morris Carol Fishman Maria Smith Hal Lichten Marsha Semuels Note that this chat occurred during lunch at an Arts and Culture field trip so it tilts toward people who like in person experiences. Question from Henry UMass OLLI uses several locations for its courses, including the Columbia Point campus and a network... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1QiKNqUo7obhTBYXGtCwwqUhYHvKvlTdIAkJviQMmUss/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">HOLLI Fall 2025 Catalogue.pdf</div>
-                            <span class="file-type">PDF</span>
-                        </td>
-                        <td class="description">Binary file or unsupported format for content extraction. (PDF, Created Jul 2025 by John Day)</td>
-                        <td><a href="https://drive.google.com/file/d/110uAUalXHJXBKFuYbqx9XrkJpQEoi6jH/view?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Impressions from Examination of OLLI Websites_.pdf</div>
-                            <span class="file-type">PDF</span>
-                        </td>
-                        <td class="description">Binary file or unsupported format for content extraction. (PDF, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://drive.google.com/file/d/1yPgpV4kbQRNUqwxxafLY0HfZqVVuGiNY/view?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Meeting summary for Ted Gilman's Personal Meeting Room (06/26/2025)</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿Document Outline Meeting summary for Ted Gilman's Personal Meeting Room (06/26/2025) Quick recap The meeting focused on conducting a SWOT analysis of an educational program, discussing strengths, weaknesses, opportunities, and threats across various aspects including curriculum, extracurricular activities, and finances. Strategies for improving course enrollment, engagement, and financial sustainability were explored, along with plans to gather member feedback through foc (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1IIE5DDaTslVYzQmTk4E32ejPEZeKMgQcMwmD2yuar-A/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">NRC_Infographic_edit-2024-copy.pdf</div>
-                            <span class="file-type">PDF</span>
-                        </td>
-                        <td class="description">Binary file or unsupported format for content extraction. (PDF, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://drive.google.com/file/d/1kTgLsnT014XQgFuKJbg-nufhi9QPpn4b/view?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">NewMemberDurvey.pdf</div>
-                            <span class="file-type">PDF</span>
-                        </td>
-                        <td class="description">Binary file or unsupported format for content extraction. (PDF, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://drive.google.com/file/d/1_FdchI3nFhQ3UIGNQ16LDzuZRjQb6j4A/view?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">ROLLI Fall 2025 catalog.pdf</div>
-                            <span class="file-type">PDF</span>
-                        </td>
-                        <td class="description">Binary file or unsupported format for content extraction. (PDF, Created Jul 2025 by John Day)</td>
-                        <td><a href="https://drive.google.com/file/d/1so-6clInqOZ8uIn0zjH1DflmS1kzsRBv/view?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Report of BOLLI Survey 2024.V6.docx</div>
-                            <span class="file-type">Word Doc</span>
-                        </td>
-                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1czviqiwMpFEmMfGupHYjPuk2ufoB-_38/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Report of BOLLI Survey 2024.V6.docx</div>
-                            <span class="file-type">Word Doc</span>
-                        </td>
-                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1P56fw5OfC75UV_j8fVjYclwuUiMVweBI/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Survey Leadership Presentation.pdf</div>
-                            <span class="file-type">PDF</span>
-                        </td>
-                        <td class="description">Binary file or unsupported format for content extraction. (PDF, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://drive.google.com/file/d/1nFiUo3VfPAvYWyVVFlWSJAT8Goq1bZw7/view?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">TOLLI Fall 2025 Catalogue.pdf</div>
-                            <span class="file-type">PDF</span>
-                        </td>
-                        <td class="description">Binary file or unsupported format for content extraction. (PDF, Created Jul 2025 by John Day)</td>
-                        <td><a href="https://drive.google.com/file/d/1NiqovhEnSBOTwhZKEskONyMfxQy0zt4t/view?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Typical BOLLI Course</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿BOLLI 5 Week Course Think of a BOLLI 5-week course as an intellectual adventure designed for curious minds who've been around the block and know what they like. These aren't your typical college survey courses – they're focused deep dives that respect your time and intelligence. Take "Flash Memoir: Moments From Your Life" with Donna Johns, for instance. This isn't... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1c8YTT-jI0bEmfhqHGKbkwJ1g9bp9hJJoYBjjEGroFjI/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">UMOLLI Spring 2025 Catalogue.pdf</div>
-                            <span class="file-type">PDF</span>
-                        </td>
-                        <td class="description">Binary file or unsupported format for content extraction. (PDF, Created Jul 2025 by John Day)</td>
-                        <td><a href="https://drive.google.com/file/d/18fyY3R8pKIDNYtmbd_u-NjgcYU2pU3IZ/view?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Zoom only course comments</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿Reasons for Zoom only courses Q21 - What are your reasons for taking courses only on Zoom? Q22 - If you chose Other, please explain. I am now used to Zoom and feel commuting is too time consuming, and sometimes stressful if I’m running late. lost my in-person course to the lottery A disability makes getting to campus cumbersome and... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1B52RD7Qn0Fu4ew2fTz8mjKcnuoYHicQwpo4efDUEq5c/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="stat-item">
+            <span class="stat-number">1.1 MB</span>
+            <span class="stat-label">Total Size</span>
         </div>
-        <div class="folder-section">
-            <div class="folder-header">
-                📁 Reference Documents (19 documents)
-            </div>
-            <table class="folder-table">
-                <thead>
-                    <tr>
-                        <th style="width: 25%;">File Name</th>
-                        <th style="width: 45%;">Description</th>
-                        <th style="width: 15%;">Link</th>
-                        <th style="width: 15%;">Author</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="file-name">BOLLI ROLLI</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿Note the data visualizations denoted by the blue and bolded links. JD compare the formats and the styles of the BOLLI Fall 2025 Catalogue and the ROLLI Fall 2025 Catalogue I'll help you compare those two catalogs! Let me search for information about both BOLLI and ROLLI's Fall 2025 offerings to give you a meaningful comparison. Searched project for “BOLLI... (Google Doc, Created Jul 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1w482kX0YLq5PtXLP5lOGKUARk3Hn3eOiti8eZIvW3OY/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">BOLLI Strategic Planning June 26 Conversation Context Analysis</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿Summary Note: Some of my additions to challenges could be listed in the Weaknesses section. SWOT does not have a Challenges section. Should we merge Challenges and Weaknesses? Do we need to zero in on the challenges we wish to address at our next session? * Main Issues (Challenges): * Financial sustainability (rising costs of external Study Group Leaders (SGLs),... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1vu5QxFmrPpYnmnybdPWwpc5v2cnJnQYVfY5oYgxJ3nc/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">BOLLI-AARP Partnership Development</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿Document Map BOLLI-AARP Partnership Development: Complete Conversation and Strategy Context & Initial Request I want to connect to AARP to explore how they may help the Strategic Planning Group (SPG) reach potential BOLLI members. That would be people who are about to retire or who have recently retired. I would like to convince AARP to put a link on their... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1p4Jyx_sOEVB_Lw6hxzBmqi3zwiaQ-pFDxN-EUTve9hw/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Competitive Analysis of LLI  Chat GPT</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿Summary Overview and Purpose The report examines key characteristics across multiple LLIs to identify strategic opportunities for BOLLI's revitalization. It compares membership structures, study formats, fees, curriculum, volunteer leadership, facilities, and special programs. Summary Comparison Table A high-level comparison of all seven LLIs across: * Membership size and structure * Study group formats * Membership types and fees * Curriculum... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1bgwYMPJT7TvahuHxwJZSPO-mmdoJz54nF5mR1RkCGNw/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Competitive Analysis of LLI Claude</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿Summary This report analyzes seven major lifelong learning institutes (LLIs) in the Greater Boston area, highlighting their different organizational models, pricing strategies, leadership structures, facilities, programming, and membership requirements. Key findings include: * Institutional Models: The LLIs vary in their affiliation, including university-affiliated, independent collaborative, college-affiliated, and synagogue-based, each impacting their market position. * Pricing: Annua (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1CjvBACQ0vExpGTKdD-ndWAWGV3xBbLQKi3C6lpfQjfs/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Future FActors Z Membership</div>
-                            <span class="file-type">Google Sheet</span>
-                        </td>
-                        <td class="description">Spreadsheet with data tables and calculations. File: Future FActors Z Membership (Google Sheet, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/spreadsheets/d/1mnlAtls0N6S4YUMdO76iOmfNI43YrigvjF3KZacRv4E/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">H&G10-10-Tues2  America 2025 – Forces that Shape Our Society and Politics</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿H&G10-10-Tues2 America 2025 – Forces that Shape Our Society and Politics Study Group Leader (SGL) - Saul Schapiro Location: This course will take place in person at 60 Turner Street. The room will be equipped with a HEPA air purifier. Tuesday– Course Period 2 – 11:10 am - 12:35 pm 10 week course - September 9 - November 18 (No... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1LwbKBIRm3Nidl64gptkoXaYsUoKhPkjgts4eRlZrsrQ/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Impressions from Examination of OLLI Websites:</div>
-                            <span class="file-type">Document</span>
-                        </td>
-                        <td class="description">Binary file or unsupported format for content extraction. (Document, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://drive.google.com/file/d/1vgVHFSSNlrtdiDQCZl1zIqzc1Gb3e-Tv/view?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">In-Person Zoom Conversation</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿JD There is a tension between in-person vs Zoom meetings - each has it's distinct advantages and add to the learning experience. Instead of either or let's discuss how we could design a 5 week or 10 week course to include both in-person and Zoom meetings of the class - include the possibility of a hybrid meeting to accommodate those... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1CjrKxiikPnxMbsUBKo06jrUqyRxASecUSOflAm7A_r8/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Initital Prompt</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿Claude Conversation Based on the 2024 survey what are the strengths and weaknesses of BOLLI Edit Based on the 2024 BOLLI survey, here are the key strengths and areas for improvement: Major Strengths Academic Excellence & Community * Outstanding satisfaction: 97% would recommend BOLLI to a friend, with 95% satisfied with course quality * Exceptional Study Group Leaders: Members consistently... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1iS92oHyDSDzU6VwlBZ5i-Hy4xh-DAwhHngPnezZ1sVo/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Key Issues from Email</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿Use the emails in my Gmail folder BOLLI Strategic Plan to suggest issues that should be probed and considered in creating the strategic plan - cite email authors where appropriate Edit Based on the extensive BOLLI strategic planning documents you've shared, I'll search your Gmail for emails related to the strategic planning process to identify key issues that should be... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1Zpp3zP2iu-mkrnjaHO1pc3ozMgYF1x4o5gBXxaOue9s/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">NRC Newsletters Summary</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿Newsletters I can see you've shared several Osher Institute newsletters from the National Resource Center (NRC) spanning from January through June 2025. These newsletters contain updates about the Osher Lifelong Learning Institute (OLLI) network, which appears to be a nationwide network of over 120 educational institutes for older adults. The newsletters include: * January 2025: Farewell tribute to Kelly Jane... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1umUs5pt2VbnYxbDXes6Yi4gkuu5wprpEaXaubyDznB8/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">New Members Survey Analaysis</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿summarize the new members survey Edit I'll summarize the key findings from the BOLLI New Member Survey conducted in Spring 2025. Survey Overview * Participants: 23 responses from 42 new members (55% response rate) * Timing: May 19-30, 2025 * Purpose: Understand how to improve retention, satisfaction, and identify generational shifts Key Demographics * New members are similar to existing... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1QcN25A64nsjE5Zm1SMV8RlWRpO9FP9g4A7sVr6P56YE/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Osher-Institute-Directory</div>
-                            <span class="file-type">Google Sheet</span>
-                        </td>
-                        <td class="description">Spreadsheet with data tables and calculations. File: Osher-Institute-Directory (Google Sheet, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/spreadsheets/d/15TaLtBjVzLaGbMkHktXZJKWEboOFJCGhwiR1XbrKW1o/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Reference Index</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿Index Authord Date Link Description JD 6/18 Key Issues from Email A Claude Analysis that suggests issues to be probed from the email exchange lof the group JD 6/18 Project Knowledge A Claude Conversation that list all the documents in the Claude Project Knowledge JD 6/18 Compettitive Aanalysis LlI Claude Deep Research Results JD 6/18 Compettitive Aanalysis LLI Chat GPT... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1T9kfeJt9o4fSkCC4Ts0BB6gOsWDZQbXm4ZjBzRH766g/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">SPG notes June 6</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿BOLLI Strategic Planning Group Meeting Notes June 6, 2025 Next Meetings June 26 11:30-1:30 – SWOT analysis July 24 11:30-1:30 September 3 11:30-1:30 1. Group agreed on following draft mission, vision and value statements Draft mission, vision and value statements (based on discussion) to be reviewed at conclusion of planning process Mission Statement The mission of BOLLI is to promote... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1d8huQoQM78rVMS7deOnuTu4qEB932pmWbEFLSvtW1F0/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">StratPlan Jun 18 Claude</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿Describe the AI infrastructure that was demonstrated and discuss how it can support the project objectives Based on the meeting transcript and strategic planning documents, John Day demonstrated a sophisticated AI infrastructure specifically designed to support BOLLI's strategic planning process. Here's an overview of the system and its capabilities: AI Infrastructure Components Claude Project Environment The centerpiece is a Claude... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1fdcMqSp8-cm1cMpu87pgNdoBMVzQcHaEpC7VkqbR5tk/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">TOLLI BOLLI</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿Outline JD compare the formats and the styles of the BOLLI Fall 2025 Catalogue and the TOLLI Fall 2025 Catalogue I'll help you compare the BOLLI and TOLLI fall 2025 catalogues. Let me search for information about these programs and their catalogue formats. Searched project for “BOLLI Fall 2025 Catalogue format style” 6 results Now let me search for information... (Google Doc, Created Jul 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1OLVHbJK7I-xEUCcixWFcnSMrBO25ukcNv-xyElo-yt4/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Tuftschatgpt.docx</div>
-                            <span class="file-type">Word Doc</span>
-                        </td>
-                        <td class="description">Binary file or unsupported format for content extraction. (Word Doc, Created Jun 2025 by judyfeldman1944)</td>
-                        <td><a href="https://docs.google.com/document/d/111mtQgn7ryQuBQdl3fcI4ER3xrZGqSUN/edit?usp=drivesdk&ouid=110764943895545355498&rtpof=true&sd=true" target="_blank">Open</a></td>
-                        <td class="author">judyfeldman1944</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="folder-section">
-            <div class="folder-header">
-                📁 Strat Plan Transcripts (3 documents)
-            </div>
-            <table class="folder-table">
-                <thead>
-                    <tr>
-                        <th style="width: 25%;">File Name</th>
-                        <th style="width: 45%;">Description</th>
-                        <th style="width: 15%;">Link</th>
-                        <th style="width: 15%;">Author</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="file-name">SPG6-26</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿00:02-02:29 | TED GILMAN Okay, we're recording. Yep, oops, that's not what I wanted, or or everyone. That's what I wanted. We can see Ollie, and we can see that? Well, I mean, we need to find out. How do you know? Oh, I'm not. Hold on. I will send you exactly when I'm not live, or something already. It's... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1YYQ4wRnKJK5yU08B9B6kn7zO1j8T0dTM28R_Rsqa5Tw/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">StratPlan06-18</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿00:43-10:52 | JOHN DAY Hmm, that's funny. Right? Nice. Hmm, that's on hmm huh. credit that's all what's this hmm. hi Kate, how are you? Let's see you there, Kate, I can't hear you. Can you hear me, Kate? 11:05-11:05 | MARSHA SEMUELS I can hear you. 11:06-11:10 | JOHN DAY Oh, okay. Great Marsha. 11:11-11:27 | MARSHA SEMUELS But... (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1p0Dq-EMSKdBc81RNV44RoonCHEA_fkOW5BlE2hf8xQg/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Transcripts Index</div>
-                            <span class="file-type">Google Doc</span>
-                        </td>
-                        <td class="description">﻿Date Zoom Transcript Summary 6/18/2025 Zoom Text Claude Analysis 6/29/2025 Zoom Text Claude Analysis (Google Doc, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/document/d/1pnDiGfg2T15dt59HdrGdt5p4Z-qHADJiGuLMwdRbE6g/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="folder-section">
-            <div class="folder-header">
-                📁 Supporting Data (5 documents)
-            </div>
-            <table class="folder-table">
-                <thead>
-                    <tr>
-                        <th style="width: 25%;">File Name</th>
-                        <th style="width: 45%;">Description</th>
-                        <th style="width: 15%;">Link</th>
-                        <th style="width: 15%;">Author</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="file-name">BOLLI CLASS OF 2025</div>
-                            <span class="file-type">Google Sheet</span>
-                        </td>
-                        <td class="description">Spreadsheet with data tables and calculations. File: BOLLI CLASS OF 2025 (Google Sheet, Created Mar 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/spreadsheets/d/1jC46pFXFeLhGSF20o9Vmro4goZkRJtF_KjvkCLEh5TY/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">BOLLI_SPRINGCAT2025</div>
-                            <span class="file-type">Google Sheet</span>
-                        </td>
-                        <td class="description">Spreadsheet with data tables and calculations. File: BOLLI_SPRINGCAT2025 (Google Sheet, Created Mar 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/spreadsheets/d/14PyuWaurDYKNmYuhjhLbgRdqJUqlWrlLq2wgloX6Uog/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">BolliCrses 2024-2025</div>
-                            <span class="file-type">Google Sheet</span>
-                        </td>
-                        <td class="description">Spreadsheet with data tables and calculations. File: BolliCrses 2024-2025 (Google Sheet, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/spreadsheets/d/1Fi1v99VVV7klmf15uKPghlL4RrSP2hk-Gn_9sg11L5k/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">Location By Person</div>
-                            <span class="file-type">Google Sheet</span>
-                        </td>
-                        <td class="description">Spreadsheet with data tables and calculations. File: Location By Person (Google Sheet, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/spreadsheets/d/16S7H21Tz6GBNzs_RZES5Xs-KXQvapuca89UcxH7TH0A/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">SGMCatMulti</div>
-                            <span class="file-type">Google Sheet</span>
-                        </td>
-                        <td class="description">Spreadsheet with data tables and calculations. File: SGMCatMulti (Google Sheet, Created Jun 2025 by John Day)</td>
-                        <td><a href="https://docs.google.com/spreadsheets/d/1LAbWUZeiY7c9gDNfJmOtXdAr0XtVwEZNy7DMBUF_h7g/edit?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">John Day</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="folder-section">
-            <div class="folder-header">
-                📁 Working Documents (2 documents)
-            </div>
-            <table class="folder-table">
-                <thead>
-                    <tr>
-                        <th style="width: 25%;">File Name</th>
-                        <th style="width: 45%;">Description</th>
-                        <th style="width: 15%;">Link</th>
-                        <th style="width: 15%;">Author</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="file-name">Template for peer comparisons</div>
-                            <span class="file-type">Document</span>
-                        </td>
-                        <td class="description">Binary file or unsupported format for content extraction. (Document, Created Jun 2025 by judyfeldman1944)</td>
-                        <td><a href="https://drive.google.com/file/d/1iqlvZ9rywu1swf4VYmTol6MzQWbJ8PiR/view?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">judyfeldman1944</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file-name">focusgroups.docx</div>
-                            <span class="file-type">Document</span>
-                        </td>
-                        <td class="description">Binary file or unsupported format for content extraction. (Document, Created Jun 2025 by judyfeldman1944)</td>
-                        <td><a href="https://drive.google.com/file/d/1P3_UVkUyuNu7VvgGepqSuUojb3npp6ki/view?usp=drivesdk" target="_blank">Open</a></td>
-                        <td class="author">judyfeldman1944</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="timestamp">
-            <strong>🕒 Generated:</strong> July 03, 2025 at 06:44 AM<br>
-            <strong>🔄 Data Source:</strong> Live Google Drive API scan<br>
-            <strong>💡 Note:</strong> This report reflects real-time folder contents
+        <div class="stat-item">
+            <span class="stat-number">2025-09-14</span>
+            <span class="stat-label">Generated</span>
         </div>
     </div>
+
+    <div class="controls">
+        <div class="search-container">
+            <input type="text" class="search-box" id="searchBox" placeholder="Search files, descriptions, authors, keywords...">
+            <button class="view-button" onclick="clearFilters()">Clear Filters</button>
+            <button class="view-button" onclick="toggleAdvancedSearch()">Advanced Search</button>
+        </div>
+
+        <div class="filter-controls">
+            <div class="view-controls">
+                <span>View:</span>
+                <button class="view-button active" id="listView" onclick="switchToListView()">List</button>
+                <button class="view-button" id="cardView" onclick="switchToCardView()">Cards</button>
+            </div>
+            <div class="sort-controls">
+                <span>Sort by:</span>
+                <select class="sort-select" id="sortField" onchange="applySorting()">
+                    <option value="name">File Name</option>
+                    <option value="posting_date">Posting Date</option>
+                    <option value="size">File Size</option>
+                    <option value="type">File Type</option>
+                </select>
+                <button class="sort-button" id="sortOrder" onclick="toggleSortOrder()">Ascending ↑</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="file-list">
+        <div class="file-list-header">
+            <span>📋 Repository Files</span>
+            <span class="results-count" id="resultsCount">45 files</span>
+        </div>
+        <div id="fileContainer">
+            <div>Loading files...</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        Generated on September 14, 2025 at 06:19 AM |
+        <a href="https://github.com/JHNDAY/JhndayRprts" target="_blank">JHNDAY/JhndayRprts</a>
+    </div>
+
+    <script>
+        const allFiles = [
+  {
+    "name": "AI Boot Camp.html",
+    "path": "AI Boot Camp.html",
+    "size": 14043,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/AI%20Boot%20Camp.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/AI%20Boot%20Camp.html",
+    "sha": "3cc15a37b330c56c6be4ba863a4858d5ef32fe40",
+    "type": "HTML",
+    "description": "Analytical report examining AI Boot Camp with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-06-22",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Ai Boot Camp"
+  },
+  {
+    "name": "AIEnrg.html",
+    "path": "AIEnrg.html",
+    "size": 33291,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/AIEnrg.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/AIEnrg.html",
+    "sha": "3edf3bbf98e3fdfaa827ee092c4e6c5b14ae471e",
+    "type": "HTML",
+    "description": "Analytical report examining AIEnrg with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-05-21",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Aienrg"
+  },
+  {
+    "name": "AsILayDying.html",
+    "path": "AsILayDying.html",
+    "size": 19054,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/AsILayDying.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/AsILayDying.html",
+    "sha": "5dffcc723aca1ebbee2c796e78cd58183361f86c",
+    "type": "HTML",
+    "description": "Analytical report examining AsILayDying with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-07-22",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "As Ilay Dying"
+  },
+  {
+    "name": "BOLLI DEMOGRAPHICS.html",
+    "path": "BOLLI DEMOGRAPHICS.html",
+    "size": 3456,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/BOLLI%20DEMOGRAPHICS.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/BOLLI%20DEMOGRAPHICS.html",
+    "sha": "3973790b9facee36332b9af425ba8d4bdc4df98e",
+    "type": "HTML",
+    "description": "Demographic analysis examining population statistics, age distributions, geographic patterns, and social characteristics with trend projections.",
+    "posting_date": "2025-06-15",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Bolli Demographics"
+  },
+  {
+    "name": "BOLLICourseCharacterization.html",
+    "path": "BOLLICourseCharacterization.html",
+    "size": 3905,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/BOLLICourseCharacterization.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/BOLLICourseCharacterization.html",
+    "sha": "289b6931b47cb1075a29adbcd1d94db48b16701e",
+    "type": "HTML",
+    "description": "Analytical report examining BOLLICourseCharacterization with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-06-26",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Bollicourse Characterization"
+  },
+  {
+    "name": "BOLLISPGSWOT.html",
+    "path": "BOLLISPGSWOT.html",
+    "size": 13913,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/BOLLISPGSWOT.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/BOLLISPGSWOT.html",
+    "sha": "0ca3f4f636e6f5dfa8255f4145663ebe52e07e50",
+    "type": "HTML",
+    "description": "Analytical report examining BOLLISPGSWOT with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-06-27",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Bollispgswot"
+  },
+  {
+    "name": "Chance&NecessityDir.html",
+    "path": "Chance&NecessityDir.html",
+    "size": 14550,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/Chance%26NecessityDir.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/Chance&NecessityDir.html",
+    "sha": "4ba114bb356b109317c2086fe6c7d76cd8794918",
+    "type": "HTML",
+    "description": "Analytical report examining Chance&NecessityDir with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-07-06",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Chance&necessity Dir"
+  },
+  {
+    "name": "ChanceAndNecessity.html",
+    "path": "ChanceAndNecessity.html",
+    "size": 12352,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/ChanceAndNecessity.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/ChanceAndNecessity.html",
+    "sha": "a450e66f6a5f7d484a45bb84d509102a7f6e3523",
+    "type": "HTML",
+    "description": "Analytical report examining ChanceAndNecessity with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-06-22",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Chance And Necessity"
+  },
+  {
+    "name": "ChatBot_II.html",
+    "path": "ChatBot_II.html",
+    "size": 123124,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/ChatBot_II.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/ChatBot_II.html",
+    "sha": "69f907af678d68698447d62130f13a1830a639fb",
+    "type": "HTML",
+    "description": "Analytical report examining ChatBot II with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-06-21",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Chat Bot Ii"
+  },
+  {
+    "name": "FocusGrp2Cmmnty.html",
+    "path": "FocusGrp2Cmmnty.html",
+    "size": 18517,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/FocusGrp2Cmmnty.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/FocusGrp2Cmmnty.html",
+    "sha": "c5843a41b0a9ed3472bf6bf81d197f2fd8871f4d",
+    "type": "HTML",
+    "description": "Analytical report examining FocusGrp2Cmmnty with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-07-22",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Focus Grp2cmmnty"
+  },
+  {
+    "name": "PortalRefs.html",
+    "path": "PortalRefs.html",
+    "size": 10886,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/PortalRefs.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/PortalRefs.html",
+    "sha": "0d085e94749f23ff13a6a2a6aa555f673c1868e1",
+    "type": "HTML",
+    "description": "Analytical report examining PortalRefs with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-08-16",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Portal Refs"
+  },
+  {
+    "name": "Prjct2025Jun 7-11-25.html",
+    "path": "Prjct2025Jun 7-11-25.html",
+    "size": 16411,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/Prjct2025Jun%207-11-25.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/Prjct2025Jun%207-11-25.html",
+    "sha": "77b50515e9c1a58c74c8a9dd116fe0ba3108e679",
+    "type": "HTML",
+    "description": "Analytical report examining Prjct2025Jun 7 11 25 with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-07-12",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Prjct2025jun 7 11 25"
+  },
+  {
+    "name": "Prjct2025Jun-11-25.html",
+    "path": "Prjct2025Jun-11-25.html",
+    "size": 16411,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/Prjct2025Jun-11-25.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/Prjct2025Jun-11-25.html",
+    "sha": "77b50515e9c1a58c74c8a9dd116fe0ba3108e679",
+    "type": "HTML",
+    "description": "Analytical report examining Prjct2025Jun 11 25 with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-07-12",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Prjct2025jun 11 25"
+  },
+  {
+    "name": "Project202507.vtt",
+    "path": "Project202507.vtt",
+    "size": 87357,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/Project202507.vtt",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/Project202507.vtt",
+    "sha": "15e6b44995f601a1e4767a8a252e32d536b99595",
+    "type": "VTT File",
+    "description": "Supporting file containing data, configuration, or resources related to the repository's content and analysis.",
+    "posting_date": "2025-07-12",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Project202507.vtt"
+  },
+  {
+    "name": "Project2025Dir.html",
+    "path": "Project2025Dir.html",
+    "size": 183143,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/Project2025Dir.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/Project2025Dir.html",
+    "sha": "c5cae9522b7659a39ce1dadf7bb3eda5d8edc772",
+    "type": "HTML",
+    "description": "Analytical report examining Project2025Dir with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-06-26",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Project2025dir"
+  },
+  {
+    "name": "README.md",
+    "path": "README.md",
+    "size": 32810,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/README.md",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/README.md",
+    "sha": "cc0ef4bad16ed8850857ab414e45f28898891881",
+    "type": "Markdown",
+    "description": "Project documentation explaining the purpose, structure, and usage of the JhndayRprts repository.",
+    "posting_date": "2025-05-21",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Readme"
+  },
+  {
+    "name": "StratPlanDir.html",
+    "path": "StratPlanDir.html",
+    "size": 58620,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/StratPlanDir.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/StratPlanDir.html",
+    "sha": "1f273f9b8f26e9a90b18de6f7f863e3ef16bcef5",
+    "type": "HTML",
+    "description": "Analytical report examining StratPlanDir with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-07-03",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Strat Plan Dir"
+  },
+  {
+    "name": "TrumpTracker.html",
+    "path": "TrumpTracker.html",
+    "size": 61714,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/TrumpTracker.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/TrumpTracker.html",
+    "sha": "b00a7a164b1dea68de601aab9b82fd104d5b2190",
+    "type": "HTML",
+    "description": "Analytical report examining TrumpTracker with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-06-16",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Trump Tracker"
+  },
+  {
+    "name": "as_i_lay_dying.html",
+    "path": "as_i_lay_dying.html",
+    "size": 19054,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/as_i_lay_dying.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/as_i_lay_dying.html",
+    "sha": "5dffcc723aca1ebbee2c796e78cd58183361f86c",
+    "type": "HTML",
+    "description": "Analytical report examining as i lay dying with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-07-22",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "As I Lay Dying"
+  },
+  {
+    "name": "bali_focus_group_viz.html",
+    "path": "bali_focus_group_viz.html",
+    "size": 14817,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/bali_focus_group_viz.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/bali_focus_group_viz.html",
+    "sha": "d995d7799fd86b9b665dc10facb39c576de81157",
+    "type": "HTML",
+    "description": "Analytical report examining bali focus group viz with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-07-16",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Bali Focus Group Viz"
+  },
+  {
+    "name": "bolli_concerns_responses.html",
+    "path": "bolli_concerns_responses.html",
+    "size": 18803,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/bolli_concerns_responses.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/bolli_concerns_responses.html",
+    "sha": "f473392ea09bb9e08638bc603e18f1f68c5d1db5",
+    "type": "HTML",
+    "description": "Analytical report examining bolli concerns responses with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-08-04",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Bolli Concerns Responses"
+  },
+  {
+    "name": "bolli_editing_session_viz.html",
+    "path": "bolli_editing_session_viz.html",
+    "size": 17121,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/bolli_editing_session_viz.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/bolli_editing_session_viz.html",
+    "sha": "5423e038d52729719c039887891706c46215ea1a",
+    "type": "HTML",
+    "description": "Analytical report examining bolli editing session viz with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-07-23",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Bolli Editing Session Viz"
+  },
+  {
+    "name": "bolli_focus_group_1_analysis.html",
+    "path": "bolli_focus_group_1_analysis.html",
+    "size": 20617,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/bolli_focus_group_1_analysis.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/bolli_focus_group_1_analysis.html",
+    "sha": "275cf0bdd6a1b000d84b3f2048ac10c4812c94e4",
+    "type": "HTML",
+    "description": "Analytical report examining bolli focus group 1 analysis with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-07-22",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Bolli Focus Group 1 Analysis"
+  },
+  {
+    "name": "bolli_focus_group_2_analysis.html",
+    "path": "bolli_focus_group_2_analysis.html",
+    "size": 24329,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/bolli_focus_group_2_analysis.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/bolli_focus_group_2_analysis.html",
+    "sha": "4ee5ab759faffa2a28a8703b7c95a7a190b11f58",
+    "type": "HTML",
+    "description": "Analytical report examining bolli focus group 2 analysis with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-07-23",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Bolli Focus Group 2 Analysis"
+  },
+  {
+    "name": "bolli_focus_group_3.html",
+    "path": "bolli_focus_group_3.html",
+    "size": 16691,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/bolli_focus_group_3.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/bolli_focus_group_3.html",
+    "sha": "f3eff562b0d118ea2e3e831287d9fe0594e8d23f",
+    "type": "HTML",
+    "description": "Analytical report examining bolli focus group 3 with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-09-11",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Bolli Focus Group 3"
+  },
+  {
+    "name": "bolli_focus_group_pilot.html",
+    "path": "bolli_focus_group_pilot.html",
+    "size": 20598,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/bolli_focus_group_pilot.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/bolli_focus_group_pilot.html",
+    "sha": "7e3ecc39b8ced5ca1b9bb5820d1b344b514ab0d0",
+    "type": "HTML",
+    "description": "Analytical report examining bolli focus group pilot with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-07-20",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Bolli Focus Group Pilot"
+  },
+  {
+    "name": "bolli_focus_group_vizAug26.html",
+    "path": "bolli_focus_group_vizAug26.html",
+    "size": 18035,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/bolli_focus_group_vizAug26.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/bolli_focus_group_vizAug26.html",
+    "sha": "e7d0b59b4877bdf48c9f8f9a8e353bdc1433387c",
+    "type": "HTML",
+    "description": "Analytical report examining bolli focus group vizAug26 with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-09-02",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Bolli Focus Group Viz Aug26"
+  },
+  {
+    "name": "bolli_group_comparison.html",
+    "path": "bolli_group_comparison.html",
+    "size": 21142,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/bolli_group_comparison.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/bolli_group_comparison.html",
+    "sha": "c08ea211a5233cfd6d2db7460c6db87be6196ed5",
+    "type": "HTML",
+    "description": "Analytical report examining bolli group comparison with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-07-26",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Bolli Group Comparison"
+  },
+  {
+    "name": "bolli_hybrid_classroom.html",
+    "path": "bolli_hybrid_classroom.html",
+    "size": 14189,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/bolli_hybrid_classroom.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/bolli_hybrid_classroom.html",
+    "sha": "b67cd6356c479d4b19fb947267eb1434c456380f",
+    "type": "HTML",
+    "description": "Analytical report examining bolli hybrid classroom with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-08-06",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Bolli Hybrid Classroom"
+  },
+  {
+    "name": "bolli_improvements_viz.html",
+    "path": "bolli_improvements_viz.html",
+    "size": 17111,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/bolli_improvements_viz.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/bolli_improvements_viz.html",
+    "sha": "e1427622c4b8f3b8312eaa9979b2e9b6f2495a6b",
+    "type": "HTML",
+    "description": "Analytical report examining bolli improvements viz with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-07-26",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Bolli Improvements Viz"
+  },
+  {
+    "name": "bolli_space_analysis.html",
+    "path": "bolli_space_analysis.html",
+    "size": 15786,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/bolli_space_analysis.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/bolli_space_analysis.html",
+    "sha": "078afd34a163a6d16a285cf7a8fc7eb7a169f2db",
+    "type": "HTML",
+    "description": "Analytical report examining bolli space analysis with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-08-06",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Bolli Space Analysis"
+  },
+  {
+    "name": "bolli_strategic_plan.html",
+    "path": "bolli_strategic_plan.html",
+    "size": 29273,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/bolli_strategic_plan.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/bolli_strategic_plan.html",
+    "sha": "7184eb66b2de9020b11b6a07dc2ac385d85b8bbe",
+    "type": "HTML",
+    "description": "Analytical report examining bolli strategic plan with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-09-03",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Bolli Strategic Plan"
+  },
+  {
+    "name": "brilliant_moments_visualization.html",
+    "path": "brilliant_moments_visualization.html",
+    "size": 26123,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/brilliant_moments_visualization.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/brilliant_moments_visualization.html",
+    "sha": "5c54a1c36ca3ca4bd2571d9f10249ac3f0e6b71f",
+    "type": "HTML",
+    "description": "Analytical report examining brilliant moments visualization with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-09-07",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Brilliant Moments Visualization"
+  },
+  {
+    "name": "conversation_visualization.html",
+    "path": "conversation_visualization.html",
+    "size": 10367,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/conversation_visualization.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/conversation_visualization.html",
+    "sha": "782c96a446122f3e39695ff724ce61da58d63dd5",
+    "type": "HTML",
+    "description": "Analytical report examining conversation visualization with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-08-21",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Conversation Visualization"
+  },
+  {
+    "name": "course_choice_analysis_html.html",
+    "path": "course_choice_analysis_html.html",
+    "size": 10715,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/course_choice_analysis_html.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/course_choice_analysis_html.html",
+    "sha": "07ff719cd7a376e2dc5845f43e6b1a9e0aedf9e3",
+    "type": "HTML",
+    "description": "Analytical report examining course choice analysis html with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-08-26",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Course Choice Analysis Html"
+  },
+  {
+    "name": "course_duration_analysis.html",
+    "path": "course_duration_analysis.html",
+    "size": 8893,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/course_duration_analysis.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/course_duration_analysis.html",
+    "sha": "c378a015cdeff4a3d35b48cba1f035b9a568efe6",
+    "type": "HTML",
+    "description": "Analytical report examining course duration analysis with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-08-26",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Course Duration Analysis"
+  },
+  {
+    "name": "discussion_topics_visual.html",
+    "path": "discussion_topics_visual.html",
+    "size": 16588,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/discussion_topics_visual.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/discussion_topics_visual.html",
+    "sha": "f3e6addd4bf564128064d62c3b386a3f21376a26",
+    "type": "HTML",
+    "description": "Analytical report examining discussion topics visual with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-07-07",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Discussion Topics Visual"
+  },
+  {
+    "name": "executive_order_litigation.html",
+    "path": "executive_order_litigation.html",
+    "size": 3887,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/executive_order_litigation.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/executive_order_litigation.html",
+    "sha": "6a7ceafedb9eaa739ee51b3354eecf614c0023dc",
+    "type": "HTML",
+    "description": "Analytical report examining executive order litigation with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-06-03",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Executive Order Litigation"
+  },
+  {
+    "name": "faulkner-biography-timeline.html",
+    "path": "faulkner-biography-timeline.html",
+    "size": 15404,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/faulkner-biography-timeline.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/faulkner-biography-timeline.html",
+    "sha": "1919e1c321dcdd0c97eb62d396b476dd5c6b10e1",
+    "type": "HTML",
+    "description": "Analytical report examining faulkner biography timeline with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-07-22",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Faulkner Biography Timeline"
+  },
+  {
+    "name": "index.html",
+    "path": "index.html",
+    "size": 526,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/index.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/index.html",
+    "sha": "69eb7d9c04e80800bb2568cce36613576e4ab05a",
+    "type": "HTML",
+    "description": "Analytical report examining index with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-06-15",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Index"
+  },
+  {
+    "name": "meeting_notes_visualization.html",
+    "path": "meeting_notes_visualization.html",
+    "size": 28131,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/meeting_notes_visualization.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/meeting_notes_visualization.html",
+    "sha": "e38106ebca24b56cb21390cebc94652bb00fb94d",
+    "type": "HTML",
+    "description": "Analytical report examining meeting notes visualization with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-09-04",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Meeting Notes Visualization"
+  },
+  {
+    "name": "mtg_gaza_statements.html",
+    "path": "mtg_gaza_statements.html",
+    "size": 14618,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/mtg_gaza_statements.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/mtg_gaza_statements.html",
+    "sha": "32dc3d621d877d600ad6e95e7329ddb2908fba5b",
+    "type": "HTML",
+    "description": "Analytical report examining mtg gaza statements with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-08-11",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Mtg Gaza Statements"
+  },
+  {
+    "name": "stephens_opinion_visual.html",
+    "path": "stephens_opinion_visual.html",
+    "size": 14903,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/stephens_opinion_visual.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/stephens_opinion_visual.html",
+    "sha": "9d3cd86b029db2e2adeac93281f8d84e73c950b7",
+    "type": "HTML",
+    "description": "Analytical report examining stephens opinion visual with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-08-11",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Stephens Opinion Visual"
+  },
+  {
+    "name": "strengths_board.html",
+    "path": "strengths_board.html",
+    "size": 8975,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/strengths_board.html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/strengths_board.html",
+    "sha": "8f23ec035784b6d427640636d5de7b3f5e5b7c2f",
+    "type": "HTML",
+    "description": "Analytical report examining strengths board with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-06-26",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Strengths Board"
+  },
+  {
+    "name": "trump_admin_html_viz (1).html",
+    "path": "trump_admin_html_viz (1).html",
+    "size": 19086,
+    "download_url": "https://raw.githubusercontent.com/JHNDAY/JhndayRprts/main/trump_admin_html_viz%20(1).html",
+    "html_url": "https://github.com/JHNDAY/JhndayRprts/blob/main/trump_admin_html_viz%20(1).html",
+    "sha": "b0e78f3be38e1851781d753ba0cf1930072f5d41",
+    "type": "HTML",
+    "description": "Analytical report examining trump admin html viz (1) with comprehensive data analysis, statistical insights, and evidence-based findings for decision-making.",
+    "posting_date": "2025-07-12",
+    "author": "JHNDAY",
+    "keywords": [],
+    "title": "Trump Admin Html Viz (1)"
+  }
+];
+        let filteredFiles = [...allFiles];
+        let currentView = 'list';
+        let currentSortField = 'name';
+        let currentSortOrder = 'asc';
+
+        function performSearch() {
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase().trim();
+
+            if (!searchTerm) {
+                filteredFiles = [...allFiles];
+            } else {
+                filteredFiles = allFiles.filter(file => {
+                    return file.name.toLowerCase().includes(searchTerm) ||
+                           file.path.toLowerCase().includes(searchTerm) ||
+                           file.description.toLowerCase().includes(searchTerm) ||
+                           file.type.toLowerCase().includes(searchTerm) ||
+                           file.author.toLowerCase().includes(searchTerm) ||
+                           file.title.toLowerCase().includes(searchTerm);
+                });
+            }
+
+            applySorting();
+            renderFiles();
+        }
+
+        function applySorting() {
+            const field = currentSortField;
+            const order = currentSortOrder;
+
+            filteredFiles.sort((a, b) => {
+                let aVal = a[field];
+                let bVal = b[field];
+
+                if (field === 'posting_date') {
+                    if (aVal === 'Unknown') aVal = '0000-00-00';
+                    if (bVal === 'Unknown') bVal = '0000-00-00';
+                }
+
+                if (field === 'size') {
+                    aVal = parseInt(aVal) || 0;
+                    bVal = parseInt(bVal) || 0;
+                }
+
+                if (typeof aVal === 'string' && typeof bVal === 'string') {
+                    aVal = aVal.toLowerCase();
+                    bVal = bVal.toLowerCase();
+                }
+
+                let comparison = 0;
+                if (aVal < bVal) comparison = -1;
+                else if (aVal > bVal) comparison = 1;
+
+                return order === 'asc' ? comparison : -comparison;
+            });
+        }
+
+        function toggleSortOrder() {
+            currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
+            const button = document.getElementById('sortOrder');
+            button.textContent = currentSortOrder === 'asc' ? 'Ascending ↑' : 'Descending ↓';
+            button.classList.toggle('active');
+
+            applySorting();
+            renderFiles();
+        }
+
+        function clearFilters() {
+            document.getElementById('searchBox').value = '';
+            document.getElementById('sortField').value = 'name';
+            currentSortField = 'name';
+            currentSortOrder = 'asc';
+            document.getElementById('sortOrder').textContent = 'Ascending ↑';
+            document.getElementById('sortOrder').classList.remove('active');
+
+            filteredFiles = [...allFiles];
+            applySorting();
+            renderFiles();
+        }
+
+        function toggleAdvancedSearch() {
+            alert('Advanced search supports: file names, paths, descriptions, types, authors, and titles.');
+        }
+
+        function switchToListView() {
+            currentView = 'list';
+            document.getElementById('listView').classList.add('active');
+            document.getElementById('cardView').classList.remove('active');
+            renderFiles();
+        }
+
+        function switchToCardView() {
+            currentView = 'card';
+            document.getElementById('cardView').classList.add('active');
+            document.getElementById('listView').classList.remove('active');
+            renderFiles();
+        }
+
+        function renderFiles() {
+            const container = document.getElementById('fileContainer');
+            const resultsCount = document.getElementById('resultsCount');
+
+            resultsCount.textContent = filteredFiles.length + ' files';
+
+            if (filteredFiles.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 40px; color: #586069;">No files found matching your search criteria.</div>';
+                return;
+            }
+
+            if (currentView === 'card') {
+                let cardHTML = '';
+                filteredFiles.forEach(function(file) {
+                    const postingDate = file.posting_date !== 'Unknown' ? file.posting_date : '';
+                    const authorInfo = file.author !== 'Unknown' ? file.author : '';
+                    cardHTML += '<div class="file-card">' +
+                        '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">' +
+                            '<div style="display: flex; align-items: center; gap: 8px;">' +
+                                '<div>🌐</div>' +
+                                (postingDate ? '<div style="color: #586069; font-size: 0.75em; background: #f1f3f4; padding: 2px 6px; border-radius: 3px;">📅 ' + postingDate + '</div>' : '') +
+                            '</div>' +
+                            '<div class="file-type">' + file.type + '</div>' +
+                        '</div>' +
+                        '<div style="margin-bottom: 15px;">' +
+                            '<a href="https://jhnday.github.io/JhndayRprts/' + file.path + '" class="file-name" target="_blank">' + file.name + '</a>' +
+                            '<div class="file-path">' + file.path + '</div>' +
+                            (authorInfo ? '<div style="color: #586069; font-size: 0.8em; margin: 4px 0;">👤 ' + authorInfo + '</div>' : '') +
+                            '<div class="file-description">' + file.description + '</div>' +
+                        '</div>' +
+                        '<div style="display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px solid var(--border-color);">' +
+                            '<div style="font-size: 0.8em; color: #586069;">' + formatFileSize(file.size) + '</div>' +
+                            '<div><a href="' + file.download_url + '" target="_blank" title="Download" style="color: var(--primary-color); text-decoration: none; padding: 4px 8px; border-radius: 4px; transition: background-color 0.2s;">⬇️</a></div>' +
+                        '</div>' +
+                    '</div>';
+                });
+                container.innerHTML = cardHTML;
+                container.style.display = 'grid';
+                container.style.gridTemplateColumns = 'repeat(auto-fill, minmax(350px, 1fr))';
+                container.style.gap = '20px';
+                container.style.padding = '20px';
+            } else {
+                let listHTML = '';
+                filteredFiles.forEach(function(file) {
+                    const postingDate = file.posting_date !== 'Unknown' ? file.posting_date : '';
+                    const authorInfo = file.author !== 'Unknown' ? file.author : '';
+                    listHTML += '<div class="file-item">' +
+                        '<div style="display: flex; align-items: center; gap: 8px;">' +
+                            '<div>🌐</div>' +
+                            (postingDate ? '<div style="color: #586069; font-size: 0.75em; background: #f1f3f4; padding: 2px 6px; border-radius: 3px; white-space: nowrap;">📅 ' + postingDate + '</div>' : '') +
+                        '</div>' +
+                        '<div>' +
+                            '<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">' +
+                                '<a href="https://jhnday.github.io/JhndayRprts/' + file.path + '" class="file-name" target="_blank">' + file.name + '</a>' +
+                                (authorInfo ? '<div style="color: #586069; font-size: 0.75em; background: #e3f2fd; padding: 2px 6px; border-radius: 3px;">👤 ' + authorInfo + '</div>' : '') +
+                            '</div>' +
+                            '<div class="file-path">' + file.path + '</div>' +
+                            '<div class="file-description">' + file.description + '</div>' +
+                        '</div>' +
+                        '<div class="file-type">' + file.type + '</div>' +
+                        '<div class="file-size">' + formatFileSize(file.size) + '</div>' +
+                        '<div><a href="' + file.download_url + '" target="_blank" title="Download" style="color: var(--primary-color); text-decoration: none; padding: 4px 8px; border-radius: 4px; transition: background-color 0.2s;">⬇️</a></div>' +
+                    '</div>';
+                });
+                container.innerHTML = listHTML;
+                container.style.display = 'block';
+                container.style.gridTemplateColumns = '';
+                container.style.gap = '';
+                container.style.padding = '';
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 B';
+            const units = ['B', 'KB', 'MB', 'GB'];
+            let size = bytes;
+            let unitIndex = 0;
+            while (size >= 1024 && unitIndex < units.length - 1) {
+                size /= 1024;
+                unitIndex++;
+            }
+            return size.toFixed(1) + ' ' + units[unitIndex];
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchBox = document.getElementById('searchBox');
+            searchBox.addEventListener('input', performSearch);
+            searchBox.addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+
+            document.getElementById('sortField').addEventListener('change', function() {
+                currentSortField = this.value;
+                applySorting();
+                renderFiles();
+            });
+
+            renderFiles();
+        });
+    </script>
 </body>
 </html>
