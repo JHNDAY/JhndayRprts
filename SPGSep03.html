@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Summary Visualization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #4facfe;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 15px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .topic-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .topic-card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .topic-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .topic-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            background: #4facfe;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+        }
+        
+        .topic-description {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .actions-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 15px;
+        }
+        
+        .action-item {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 15px 20px;
+            border-radius: 10px;
+            border-left: 4px solid #4facfe;
+            transition: all 0.3s ease;
+        }
+        
+        .action-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .action-owner {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .action-description {
+            color: #555;
+            font-size: 0.95rem;
+        }
+        
+        .priority-tags {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .priority-tag {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .short-term {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+        }
+        
+        .medium-term {
+            background: linear-gradient(135deg, #feca57, #ff9ff3);
+        }
+        
+        .long-term {
+            background: linear-gradient(135deg, #48dbfb, #0abde3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Meeting Summary Dashboard</h1>
+            <p style="font-size: 1.3rem; margin-bottom: 5px;">Sep 03</p>
+            <p>Strategic Planning for Class Scheduling, Membership, and Community Engagement</p>
+        </div>
+        
+        <div class="content">
+            <div class="quick-stats">
+                <div class="stat-card">
+                    <div class="stat-number">10</div>
+                    <div class="stat-label">Action Items</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Key Discussion Areas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">60%</div>
+                    <div class="stat-label">Zoom Members</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">
+                    <div class="section-icon">📋</div>
+                    Key Discussion Topics
+                </div>
+                <div class="topics-grid">
+                    <div class="topic-card">
+                        <div class="topic-title">
+                            <div class="topic-icon">🏫</div>
+                            Class Scheduling & Space
+                        </div>
+                        <div class="topic-description">
+                            Addressing space allocation challenges with three-term solution proposals, evening classes, and expanded session options to resolve scheduling conflicts.
+                        </div>
+                    </div>
+                    
+                    <div class="topic-card">
+                        <div class="topic-title">
+                            <div class="topic-icon">💰</div>
+                            Pay-Per-Course Model
+                        </div>
+                        <div class="topic-description">
+                            Evaluating financial implications and operational challenges of implementing alternative payment structures while maintaining membership benefits.
+                        </div>
+                    </div>
+                    
+                    <div class="topic-card">
+                        <div class="topic-title">
+                            <div class="topic-icon">👥</div>
+                            Trial Member Engagement
+                        </div>
+                        <div class="topic-description">
+                            Developing strategies for welcoming and retaining trial members through personal contact, liaison programs, and improved communication.
+                        </div>
+                    </div>
+                    
+                    <div class="topic-card">
+                        <div class="topic-title">
+                            <div class="topic-icon">🎭</div>
+                            Theater Partnerships
+                        </div>
+                        <div class="topic-description">
+                            Creating collaborative programs with local theaters and BSO for combined class and performance experiences.
+                        </div>
+                    </div>
+                    
+                    <div class="topic-card">
+                        <div class="topic-title">
+                            <div class="topic-icon">🎲</div>
+                            Lottery System Issues
+                        </div>
+                        <div class="topic-description">
+                            Addressing confusion around lottery rules and ensuring members understand requirements for course selection.
+                        </div>
+                    </div>
+                    
+                    <div class="topic-card">
+                        <div class="topic-title">
+                            <div class="topic-icon">💻</div>
+                            Zoom Community Support
+                        </div>
+                        <div class="topic-description">
+                            Developing specific strategies to support the 60% of members who participate via Zoom, including technical and engagement improvements.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">
+                    <div class="section-icon">✅</div>
+                    Action Items & Next Steps
+                </div>
+                <div class="actions-list">
+                    <div class="action-item">
+                        <div class="action-owner">Ted</div>
+                        <div class="action-description">Organize meeting transcript into short-term, medium-term, and long-term priorities</div>
+                    </div>
+                    
+                    <div class="action-item">
+                        <div class="action-owner">Ted & Team</div>
+                        <div class="action-description">Explore offering evening Zoom classes as a pilot program</div>
+                    </div>
+                    
+                    <div class="action-item">
+                        <div class="action-owner">Ted</div>
+                        <div class="action-description">Follow up with Brandeis IT about allowing hosts to unmute participants in Zoom</div>
+                    </div>
+                    
+                    <div class="action-item">
+                        <div class="action-owner">Marketing Team</div>
+                        <div class="action-description">Explore social media initiatives, including potentially creating a Facebook group</div>
+                    </div>
+                    
+                    <div class="action-item">
+                        <div class="action-owner">Ted</div>
+                        <div class="action-description">Investigate hiring a social media intern</div>
+                    </div>
+                    
+                    <div class="action-item">
+                        <div class="action-owner">Ted</div>
+                        <div class="action-description">Contact Brandeis alumni office about accessing alumni lists for marketing</div>
+                    </div>
+                    
+                    <div class="action-item">
+                        <div class="action-owner">Ted</div>
+                        <div class="action-description">Explore partnerships with theaters for combined class and performance experiences</div>
+                    </div>
+                    
+                    <div class="action-item">
+                        <div class="action-owner">Ted</div>
+                        <div class="action-description">Investigate partnerships with BSO for music-related classes tied to performances</div>
+                    </div>
+                    
+                    <div class="action-item">
+                        <div class="action-owner">Ted</div>
+                        <div class="action-description">Develop specific strategies to support the Zoom community</div>
+                    </div>
+                    
+                    <div class="action-item">
+                        <div class="action-owner">Ted</div>
+                        <div class="action-description">Arrange a field trip to the Lexington location with John Day</div>
+                    </div>
+                </div>
+                
+                <div class="priority-tags">
+                    <div class="priority-tag short-term">Short-term: Zoom pilot & IT follow-up</div>
+                    <div class="priority-tag medium-term">Medium-term: Social media & partnerships</div>
+                    <div class="priority-tag long-term">Long-term: Three-term solution & space planning</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPG Strategic Planning Meeting</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .meeting-info {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            font-size: 1.1em;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .swot-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+            height: 600px;
+        }
+        
+        .swot-box {
+            border-radius: 15px;
+            padding: 25px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .swot-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .strengths {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        }
+        
+        .weaknesses {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        
+        .opportunities {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+        
+        .threats {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+        
+        .swot-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .swot-title::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+            margin-right: 10px;
+        }
+        
+        .swot-items {
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+        
+        .swot-items li {
+            margin-bottom: 8px;
+            padding-left: 10px;
+            position: relative;
+        }
+        
+        .categories {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .category {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            min-width: 200px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .category:hover {
+            transform: scale(1.05);
+            background: #e9ecef;
+        }
+        
+        .category h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        
+        .timeline {
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #3498db;
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            justify-content: flex-start;
+        }
+        
+        .timeline-item:nth-child(even) {
+            justify-content: flex-end;
+        }
+        
+        .timeline-content {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 40%;
+            position: relative;
+        }
+        
+        .timeline-content::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 0;
+            height: 0;
+            border: 10px solid transparent;
+            transform: translateY(-50%);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content::after {
+            right: -20px;
+            border-left-color: white;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content::after {
+            left: -20px;
+            border-right-color: white;
+        }
+        
+        .participants {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .participant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .participant {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .participant:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .key-concerns {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .concern-item {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #f39c12;
+        }
+        
+        @media (max-width: 768px) {
+            .swot-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(4, 1fr);
+                height: auto;
+            }
+            
+            .meeting-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-content {
+                width: calc(100% - 60px);
+                margin-left: 40px;
+            }
+            
+            .timeline-content::after {
+                left: -20px !important;
+                right: auto !important;
+                border-right-color: white !important;
+                border-left-color: transparent !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>SPG Strategic Planning Meeting</h1>
+            <h2 style="margin: 10px 0; font-weight: 300; font-size: 1.3em;">June 26</h2>
+            <div class="meeting-info">
+                <div>📅 June 26, 2025</div>
+                <div>🎯 SWOT Analysis</div>
+                <div>👥 7 Participants</div>
+                <div>⏱️ 3+ Hours</div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="participants">
+                <h2>🎭 Meeting Participants</h2>
+                <div class="participant-grid">
+                    <div class="participant">
+                        <strong>Ted Gilman</strong><br>
+                        <small>Facilitator</small>
+                    </div>
+                    <div class="participant">
+                        <strong>Oliver Curme</strong><br>
+                        <small>Remote (Zoom)</small>
+                    </div>
+                    <div class="participant">
+                        <strong>Marsha</strong><br>
+                        <small>In-person</small>
+                    </div>
+                    <div class="participant">
+                        <strong>Judy</strong><br>
+                        <small>In-person</small>
+                    </div>
+                    <div class="participant">
+                        <strong>John</strong><br>
+                        <small>In-person</small>
+                    </div>
+                    <div class="participant">
+                        <strong>Others</strong><br>
+                        <small>Committee members</small>
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="text-align: center; color: #2c3e50; margin: 40px 0;">📊 SWOT Analysis Categories</h2>
+            
+            <div class="categories">
+                <div class="category">
+                    <h3>📚 Curriculum & Teaching</h3>
+                    <p>Primary focus area covering course quality, instructor support, and academic programs</p>
+                </div>
+                <div class="category">
+                    <h3>🎭 Extracurricular</h3>
+                    <p>Community building, SIGs, social activities, and volunteer programs</p>
+                </div>
+                <div class="category">
+                    <h3>🏢 Infrastructure</h3>
+                    <p>Facilities, technology, space, and operational resources</p>
+                </div>
+                <div class="category">
+                    <h3>⚔️ Competition</h3>
+                    <p>Market positioning, pricing, and competitive landscape</p>
+                </div>
+            </div>
+
+            <div class="swot-grid">
+                <div class="swot-box strengths" onclick="showDetails('strengths')">
+                    <div class="swot-title">💪 Strengths</div>
+                    <ul class="swot-items">
+                        <li>High-quality courses & teaching</li>
+                        <li>Strong learning community</li>
+                        <li>Diverse course topics</li>
+                        <li>Excellent instructor support</li>
+                        <li>Good parking (infrastructure)</li>
+                        <li>Established reputation</li>
+                        <li>Active SIGs & volunteers</li>
+                    </ul>
+                </div>
+                
+                <div class="swot-box weaknesses" onclick="showDetails('weaknesses')">
+                    <div class="swot-title">⚠️ Weaknesses</div>
+                    <ul class="swot-items">
+                        <li>Compensation issues for instructors</li>
+                        <li>Technology challenges</li>
+                        <li>Limited course format options</li>
+                        <li>Space limitations</li>
+                        <li>Poor marketing</li>
+                        <li>Limited membership diversity</li>
+                        <li>Volunteer recruitment challenges</li>
+                    </ul>
+                </div>
+                
+                <div class="swot-box opportunities" onclick="showDetails('opportunities')">
+                    <div class="swot-title">🚀 Opportunities</div>
+                    <ul class="swot-items">
+                        <li>New facilities/space</li>
+                        <li>AI integration for course prep</li>
+                        <li>Expanded marketing reach</li>
+                        <li>Partnerships with senior centers</li>
+                        <li>Alumni & younger member recruitment</li>
+                        <li>Fundraising initiatives</li>
+                        <li>Online course monetization</li>
+                    </ul>
+                </div>
+                
+                <div class="swot-box threats" onclick="showDetails('threats')">
+                    <div class="swot-title">⚡ Threats</div>
+                    <ul class="swot-items">
+                        <li>Competition from cheaper programs</li>
+                        <li>Financial sustainability concerns</li>
+                        <li>Faculty teaching elsewhere</li>
+                        <li>Aging membership base</li>
+                        <li>Technology gaps</li>
+                        <li>Reduced university support</li>
+                        <li>Volunteer burnout</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="key-concerns">
+                <h2>🔥 Critical Issues Discussed</h2>
+                <div class="concern-item">
+                    <strong>💰 Financial Sustainability</strong><br>
+                    Revenue vs. costs analysis needed - $150 average per student vs. $2-4K instructor costs
+                </div>
+                <div class="concern-item">
+                    <strong>👥 Aging Membership</strong><br>
+                    Majority 71-80 years old, need to attract 50-60 age group for future viability
+                </div>
+                <div class="concern-item">
+                    <strong>💻 Technology Challenges</strong><br>
+                    IT support issues for both instructors and members, digital literacy gaps
+                </div>
+                <div class="concern-item">
+                    <strong>🏆 Competition</strong><br>
+                    Other programs offering more flexibility and lower costs
+                </div>
+            </div>
+
+            <div class="timeline">
+                <h2 style="text-align: center; color: #2c3e50;">🗓️ Next Steps Timeline</h2>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <strong>July 24, 2025</strong><br>
+                        Goals & objectives discussion + financial data review
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <strong>Focus Groups</strong><br>
+                        6 groups of 8 people (mix of in-person & Zoom)
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <strong>September 3, 2025</strong><br>
+                        Review focus group results & refine strategy
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <strong>Community Meeting</strong><br>
+                        Present draft plans to full membership
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showDetails(category) {
+            const details = {
+                strengths: "Key strengths include the high quality of courses and teaching staff, with strong community support and diverse programming. The organization has excellent infrastructure like parking and maintains good relationships with both member and external instructors.",
+                weaknesses: "Major challenges include compensation disparities, technology support issues, and limited flexibility in course formats. Marketing and member diversity are also areas needing improvement.",
+                opportunities: "Significant growth potential through new facilities, AI integration, expanded marketing, and partnerships. There's also potential for monetizing online content and attracting younger demographics.",
+                threats: "Primary concerns include financial sustainability, competition from more flexible/cheaper alternatives, and an aging membership base. Technology gaps and potential reduction in institutional support are also risks."
+            };
+            
+            alert(details[category]);
+        }
+
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const boxes = document.querySelectorAll('.swot-box');
+            boxes.forEach((box, index) => {
+                box.style.animationDelay = `${index * 0.1}s`;
+                box.style.animation = 'fadeInUp 0.6s ease forwards';
+            });
+        });
+
+        // Add CSS animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

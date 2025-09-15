@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWOT Analysis Meeting Visualization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            opacity: 0.3;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .meeting-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .info-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #3498db;
+        }
+
+        .info-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .swot-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 20px;
+            padding: 30px;
+            min-height: 800px;
+        }
+
+        .swot-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .swot-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .swot-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent-color);
+        }
+
+        .strengths {
+            --accent-color: #27ae60;
+        }
+
+        .weaknesses {
+            --accent-color: #e74c3c;
+        }
+
+        .opportunities {
+            --accent-color: #f39c12;
+        }
+
+        .threats {
+            --accent-color: #8e44ad;
+        }
+
+        .swot-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .swot-icon {
+            font-size: 2em;
+            margin-right: 15px;
+            color: var(--accent-color);
+        }
+
+        .swot-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .swot-items {
+            list-style: none;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .swot-items::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .swot-items::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .swot-items::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 10px;
+        }
+
+        .swot-item {
+            background: #f8f9fa;
+            margin-bottom: 10px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-color);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .swot-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .swot-item::before {
+            content: '•';
+            color: var(--accent-color);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .categories {
+            background: #ecf0f1;
+            padding: 20px;
+            margin: 20px 30px;
+            border-radius: 10px;
+        }
+
+        .categories h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .category-tag {
+            background: white;
+            padding: 10px;
+            border-radius: 20px;
+            text-align: center;
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border: 2px solid #3498db;
+            color: #2c3e50;
+        }
+
+        .progress-indicator {
+            background: #2c3e50;
+            color: white;
+            padding: 15px 30px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .swot-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Strategic Planning SWOT Analysis</h1>
+            <p>Jul 25 - Lifelong Learning Organization - Episode 1</p>
+        </div>
+
+        <div class="meeting-info">
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>📅 Meeting Details</h3>
+                    <p>Strategic planning session using SWOT methodology</p>
+                </div>
+                <div class="info-card">
+                    <h3>👥 Participants</h3>
+                    <p>Ted Gilman, Oliver Curme, and strategic planning committee</p>
+                </div>
+                <div class="info-card">
+                    <h3>🎯 Objective</h3>
+                    <p>Analyze organizational strengths, weaknesses, opportunities, and threats</p>
+                </div>
+                <div class="info-card">
+                    <h3>📊 Methodology</h3>
+                    <p>Collaborative whiteboard sessions with sticky note categorization</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="categories">
+            <h3>Analysis Categories Covered</h3>
+            <div class="category-grid">
+                <div class="category-tag">📚 Curriculum & Teaching</div>
+                <div class="category-tag">🎯 Extracurricular & Community</div>
+                <div class="category-tag">⚔️ Competitiveness</div>
+                <div class="category-tag">🏗️ Infrastructure</div>
+                <div class="category-tag">📈 Marketing & Membership</div>
+                <div class="category-tag">💰 Financial Considerations</div>
+            </div>
+        </div>
+
+        <div class="swot-grid">
+            <div class="swot-section strengths fade-in">
+                <div class="swot-header">
+                    <div class="swot-icon">💪</div>
+                    <div class="swot-title">STRENGTHS</div>
+                </div>
+                <ul class="swot-items">
+                    <li class="swot-item">High quality courses and curriculum</li>
+                    <li class="swot-item">Excellent teaching and strong SGL support</li>
+                    <li class="swot-item">Diverse variety of course topics</li>
+                    <li class="swot-item">Strong learning community</li>
+                    <li class="swot-item">Highly educated member base</li>
+                    <li class="swot-item">Academic culture and intellectual engagement</li>
+                    <li class="swot-item">Zoom accessibility for remote members</li>
+                    <li class="swot-item">5 and 10 week course options</li>
+                    <li class="swot-item">Balance of member and external SGLs</li>
+                    <li class="swot-item">Lottery system for fair course access</li>
+                    <li class="swot-item">Strong support for SGLs before and after classes</li>
+                    <li class="swot-item">Excellent speaker programs</li>
+                    <li class="swot-item">Volunteer leadership opportunities</li>
+                    <li class="swot-item">Wide variety of special interest groups</li>
+                </ul>
+            </div>
+
+            <div class="swot-section weaknesses fade-in">
+                <div class="swot-header">
+                    <div class="swot-icon">⚠️</div>
+                    <div class="swot-title">WEAKNESSES</div>
+                </div>
+                <ul class="swot-items">
+                    <li class="swot-item">Compensation issues for SGLs</li>
+                    <li class="swot-item">Technology struggles for both SGLs and members</li>
+                    <li class="swot-item">Decreasing number of member SGLs</li>
+                    <li class="swot-item">Insufficient variation in class scheduling</li>
+                    <li class="swot-item">Lack of modality options</li>
+                    <li class="swot-item">Random curriculum generation</li>
+                    <li class="swot-item">Course topic imbalance</li>
+                    <li class="swot-item">Volunteer burnout</li>
+                    <li class="swot-item">Demand and supply mismatch</li>
+                    <li class="swot-item">Limited hybrid support</li>
+                    <li class="swot-item">Zoom hinders community building</li>
+                    <li class="swot-item">Lack of diversity in membership</li>
+                    <li class="swot-item">Low conversion from trial membership</li>
+                    <li class="swot-item">Poor use of social media</li>
+                    <li class="swot-item">Limited administrative support for SIGs</li>
+                </ul>
+            </div>
+
+            <div class="swot-section opportunities fade-in">
+                <div class="swot-header">
+                    <div class="swot-icon">🚀</div>
+                    <div class="swot-title">OPPORTUNITIES</div>
+                </div>
+                <ul class="swot-items">
+                    <li class="swot-item">Using SGLs to offload staff tasks</li>
+                    <li class="swot-item">Marketing undersubscribed courses</li>
+                    <li class="swot-item">Better integration of AI tools</li>
+                    <li class="swot-item">Off-site programs at retirement communities</li>
+                    <li class="swot-item">Collaboration with other colleges</li>
+                    <li class="swot-item">Variety in course lengths and formats</li>
+                    <li class="swot-item">Selling recorded course content</li>
+                    <li class="swot-item">Expanding marketing efforts</li>
+                    <li class="swot-item">Fundraising for specific purposes</li>
+                    <li class="swot-item">New space opportunities</li>
+                    <li class="swot-item">Recruiting through local organizations</li>
+                    <li class="swot-item">Enhanced online help and resources</li>
+                    <li class="swot-item">Video and podcast course promotion</li>
+                    <li class="swot-item">Reaching out to past members</li>
+                    <li class="swot-item">More summer and winter programming</li>
+                </ul>
+            </div>
+
+            <div class="swot-section threats fade-in">
+                <div class="swot-header">
+                    <div class="swot-icon">⚡</div>
+                    <div class="swot-title">THREATS</div>
+                </div>
+                <ul class="swot-items">
+                    <li class="swot-item">Competition from cheaper programs</li>
+                    <li class="swot-item">SGLs teaching in multiple programs</li>
+                    <li class="swot-item">Better compensation at other institutions</li>
+                    <li class="swot-item">Increased reliance on external teachers</li>
+                    <li class="swot-item">Member disinterest in teaching</li>
+                    <li class="swot-item">Misunderstanding member needs</li>
+                    <li class="swot-item">Online course competition</li>
+                    <li class="swot-item">Rigid scheduling compared to competitors</li>
+                    <li class="swot-item">Potential standardization limits</li>
+                    <li class="swot-item">Diminished staff support</li>
+                    <li class="swot-item">Financial sustainability concerns</li>
+                    <li class="swot-item">Aging membership base</li>
+                    <li class="swot-item">Technology advancement gaps</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="progress-indicator">
+            📊 Meeting Status: SWOT Analysis Complete | Next Steps: Focus Groups & Financial Analysis | Next Meeting: July 24th
+        </div>
+    </div>
+
+    <script>
+        // Add dynamic interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            const swotSections = document.querySelectorAll('.swot-section');
+            
+            swotSections.forEach((section, index) => {
+                section.style.animationDelay = `${index * 0.2}s`;
+                
+                section.addEventListener('click', function() {
+                    this.style.transform = 'scale(1.02)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 200);
+                });
+            });
+
+            // Add hover effects to SWOT items
+            const swotItems = document.querySelectorAll('.swot-item');
+            swotItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.boxShadow = 'none';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
