@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLLI Strategic Planning Group</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #4682b4 0%, #5a90c4 100%);
+            min-height: 100vh;
+            color: #495057;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: rgba(176, 196, 222, 0.9);
+            border-radius: 20px;
+            padding: 50px 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(176, 196, 222, 0.7);
+        }
+
+        .header h1 {
+            font-size: 3.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #6c757d, #495057);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            letter-spacing: -0.02em;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 35px;
+            margin-top: 30px;
+        }
+
+        .section {
+            background: rgba(176, 196, 222, 0.8);
+            border-radius: 15px;
+            padding: 35px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(176, 196, 222, 0.6);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            min-height: 200px;
+        }
+
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: #495057;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 12px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .idea-link {
+            display: inline-block;
+            background: linear-gradient(45deg, #9999dd, #8888cc);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 15px 10px 10px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(153, 153, 221, 0.25);
+            font-family: 'Georgia', serif;
+            font-size: 1.1rem;
+        }
+
+        .idea-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(153, 153, 221, 0.35);
+            background: linear-gradient(45deg, #8888cc, #7777bb);
+        }
+
+        .resource-item {
+            background: linear-gradient(45deg, #add8e6, #b0c4de);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid #4682b4;
+            transition: all 0.3s ease;
+        }
+
+        .resource-item:hover {
+            box-shadow: 0 3px 10px rgba(108, 117, 125, 0.15);
+            transform: translateX(3px);
+        }
+
+        .resource-item h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .link-btn {
+            background: linear-gradient(45deg, #9999dd, #8888cc);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+        }
+
+        .link-btn:hover {
+            background: linear-gradient(45deg, #8888cc, #7777bb);
+            transform: scale(1.05);
+        }
+
+        .motto {
+            font-size: 18px !important;
+            color: #343a40 !important;
+            font-style: italic;
+            font-family: 'Times New Roman', serif;
+            letter-spacing: 0.8px;
+            margin-top: 25px;
+            font-weight: 600 !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: block;
+        }
+
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.8rem;
+            }
+
+            .section {
+                padding: 25px;
+            }
+
+            .section h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>BOLLI Strategic Planning Group</h1>
+            <p style="font-size: 28px; color: #495057; font-style: italic; font-family: 'Times New Roman', serif; margin: 10px 0 20px 0; font-weight: 700;">Shaping the Future of Lifelong Learning</p>
+            <div style="margin: 15px 0;">
+                <a href="https://jhnday.github.io/JhndayRprts/bolli_strategic_plan.html" class="idea-link" target="_blank" rel="noopener noreferrer">📋 Planning Process</a>
+            </div>
+            <div class="motto">
+                <strong>Mission Statement</strong><br>
+                The mission of BOLLI is to promote a welcoming, congenial and stimulating experience for lifelong learners. This mission is accomplished through exceptional teaching, intellectually enriching courses, and a variety of cultural and social activities.<br><br>
+                <strong>Vision Statement</strong><br>
+                We strive to create a member-driven community in which academic excellence, transformational experiences and meaningful connections thrive.
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="section" data-section="spg-interactions">
+                <h2>SPG Interactions</h2>
+                <div class="resource-item">
+                    <h3>SPG Meetings</h3>
+                    <div class="links">
+                        <a href="https://jhnday.github.io/JhndayRprts/SPGJun26" class="link-btn" target="_blank" rel="noopener noreferrer">Jun 26</a>
+                        <a href="https://jhnday.github.io/JhndayRprts/SPGJul25" class="link-btn" target="_blank" rel="noopener noreferrer">Jul 25</a>
+                        <a href="https://jhnday.github.io/JhndayRprts/SPGSep03" class="link-btn" target="_blank" rel="noopener noreferrer">Sep 03</a>
+                    </div>
+                </div>
+                <div class="resource-item">
+                    <h3>Communication Channels</h3>
+                    <div class="links">
+                        <a href="#" class="link-btn">💬 Discussion Forum</a>
+                        <a href="#" class="link-btn">📧 Email Updates</a>
+                        <a href="#" class="link-btn">📢 Announcements</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" data-section="focus-group">
+                <h2>Focus Groups</h2>
+                <div class="resource-item">
+                    <h3>Focus Groups</h3>
+                    <div class="links">
+                        <a href="https://jhnday.github.io/JhndayRprts/bolli_focus_group_pilot.html" class="link-btn" target="_blank" rel="noopener noreferrer">Pilot Focus Group</a>
+                        <a href="https://jhnday.github.io/JhndayRprts/bolli_focus_group_1_analysis.html" class="link-btn" target="_blank" rel="noopener noreferrer">Focus Group 1</a>
+                        <a href="https://jhnday.github.io/JhndayRprts/bolli_focus_group_2_analysis.html" class="link-btn" target="_blank" rel="noopener noreferrer">Focus Group 2</a>
+                        <a href="https://jhnday.github.io/JhndayRprts/bolli_focus_group_2_analysis.html" class="link-btn" target="_blank" rel="noopener noreferrer">Focus Group 3</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" data-section="research-results">
+                <h2>Research Results</h2>
+                <div class="resource-item">
+                    <h3>Survey Data</h3>
+                    <div class="links">
+                        <a href="#" class="link-btn">📊 Member Survey Results</a>
+                        <a href="#" class="link-btn">📈 Trend Analysis</a>
+                        <a href="#" class="link-btn">📝 Detailed Reports</a>
+                    </div>
+                </div>
+                <div class="resource-item">
+                    <h3>Comparative Studies</h3>
+                    <div class="links">
+                        <a href="#" class="link-btn">🏫 Peer Institution Analysis</a>
+                        <a href="#" class="link-btn">📚 Best Practices</a>
+                        <a href="#" class="link-btn">💡 Innovation Opportunities</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" data-section="sessions">
+                <h2>Strategic Planning Sessions</h2>
+                <div class="resource-item">
+                    <h3>Upcoming Sessions</h3>
+                    <div class="resource-item" style="margin: 15px 0; padding: 15px; background: linear-gradient(45deg, #ddeeff, #ccddff);">
+                        <h4 style="color: #495057; margin-bottom: 15px; font-size: 1.2rem; font-weight: 600;">Planning Calendar</h4>
+                        <div class="links">
+                            <a href="#" class="link-btn">📅 Session Schedule</a>
+                            <a href="#" class="link-btn">📋 Agenda Items</a>
+                            <a href="#" class="link-btn">🎯 Objectives</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="resource-item">
+                    <h3>Past Sessions</h3>
+                    <div class="links">
+                        <a href="#" class="link-btn">📝 Session Summaries</a>
+                        <a href="#" class="link-btn">🎥 Recorded Sessions</a>
+                        <a href="#" class="link-btn">📊 Action Items</a>
+                    </div>
+                </div>
+                <div class="resource-item">
+                    <h3>Documentation</h3>
+                    <div class="links">
+                        <a href="#" class="link-btn">📄 Strategic Plan Draft</a>
+                        <a href="#" class="link-btn">📈 Progress Reports</a>
+                        <a href="#" class="link-btn">🗂️ Resource Library</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
