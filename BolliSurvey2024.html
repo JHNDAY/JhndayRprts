@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLLI 2024 Survey Results Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+        }
+        
+        .chart-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .chart-title {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        /* Custom bar chart styles */
+        .bar-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .bar-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .bar-label {
+            min-width: 120px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+        
+        .bar-visual {
+            flex: 1;
+            height: 30px;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            background: #ecf0f1;
+        }
+        
+        .bar-fill {
+            height: 100%;
+            border-radius: 15px;
+            transition: width 0.8s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+        
+        /* Pie chart styles */
+        .pie-chart {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        
+        .pie-slice {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            clip-path: polygon(50% 50%, 50% 0%, 100% 0%, 100% 100%, 50% 100%);
+            transform-origin: center;
+        }
+        
+        .pie-legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+        }
+        
+        /* Donut chart */
+        .donut-chart {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            margin: 2rem auto;
+        }
+        
+        .donut-segment {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            clip-path: circle(50% at center);
+        }
+        
+        .insights {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .insights h2 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+        
+        .insight-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .insight-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border-left: 4px solid #3498db;
+        }
+        
+        .insight-card h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .insight-card p {
+            color: #555;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            border-left-color: #e74c3c;
+        }
+        
+        /* Simple animated progress bars */
+        .progress-bar {
+            background: #ecf0f1;
+            border-radius: 10px;
+            height: 20px;
+            margin: 0.5rem 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+            
+            .chart-container {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .bar-label {
+                min-width: 100px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>BOLLI 2024 Survey Results</h1>
+        <p>Brandeis Osher Lifelong Learning Institute Membership Analysis</p>
+        <p><strong>327 responses (67% response rate)</strong> from 474 members</p>
+    </div>
+    
+    <div class="stats-overview">
+        <div class="stat-card">
+            <div class="stat-number">97%</div>
+            <div class="stat-label">Would Recommend BOLLI</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">95%</div>
+            <div class="stat-label">Satisfied with Courses</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">70%</div>
+            <div class="stat-label">Take 4+ Courses/Year</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">21%</div>
+            <div class="stat-label">Are Study Group Leaders</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">38%</div>
+            <div class="stat-label">Current Volunteers</div>
+        </div>
+    </div>
+    
+    <div class="dashboard">
+        <div class="chart-container">
+            <h3 class="chart-title">Age Distribution</h3>
+            <div class="bar-chart">
+                <div class="bar-item">
+                    <div class="bar-label">70 or younger</div>
+                    <div class="bar-visual">
+                        <div class="bar-fill" style="width: 24%; background: #3498db;">12%</div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">71-80 years</div>
+                    <div class="bar-visual">
+                        <div class="bar-fill" style="width: 100%; background: #e74c3c;">54%</div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Over 80</div>
+                    <div class="bar-visual">
+                        <div class="bar-fill" style="width: 63%; background: #f39c12;">34%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <h3 class="chart-title">Membership Tenure</h3>
+            <div class="bar-chart">
+                <div class="bar-item">
+                    <div class="bar-label">Up to 3 years</div>
+                    <div class="bar-visual">
+                        <div class="bar-fill" style="width: 100%; background: #9b59b6;">31%</div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">4-6 years</div>
+                    <div class="bar-visual">
+                        <div class="bar-fill" style="width: 71%; background: #3498db;">22%</div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">7-10 years</div>
+                    <div class="bar-visual">
+                        <div class="bar-fill" style="width: 71%; background: #2ecc71;">22%</div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">10+ years</div>
+                    <div class="bar-visual">
+                        <div class="bar-fill" style="width: 81%; background: #e74c3c;">25%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <h3 class="chart-title">Class Modality Preferences</h3>
+            <div class="bar-chart">
+                <div class="bar-item">
+                    <div class="bar-label">Zoom Important</div>
+                    <div class="bar-visual">
+                        <div class="bar-fill" style="width: 100%; background: #3498db;">55%</div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">In-Person Important</div>
+                    <div class="bar-visual">
+                        <div class="bar-fill" style="width: 65%; background: #e74c3c;">36%</div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Took In-Person</div>
+                    <div class="bar-visual">
+                        <div class="bar-fill" style="width: 98%; background: #2ecc71;">54%</div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">NO In-Person</div>
+                    <div class="bar-visual">
+                        <div class="bar-fill" style="width: 84%; background: #95a5a6;">46%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <h3 class="chart-title">Course Topics Interest (% Very Interested)</h3>
+            <div class="bar-chart">
+                <div class="bar-item">
+                    <div class="bar-label">Art</div>
+                    <div class="bar-visual">
+                        <div class="bar-fill" style="width: 100%; background: #e74c3c;">49%</div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Literature</div>
+                    <div class="bar-visual">
+                        <div class="bar-fill" style="width: 96%; background: #9b59b6;">47%</div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">History & Gov</div>
+                    <div class="bar-visual">
+                        <div class="bar-fill" style="width: 88%; background: #3498db;">43%</div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Film</div>
+                    <div class="bar-visual">
+                        <div class="bar-fill" style="width: 71%; background: #f39c12;">35%</div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Science</div>
+                    <div class="bar-visual">
+                        <div class="bar-fill" style="width: 61%; background: #2ecc71;">30%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <h3 class="chart-title">Courses Taken (Past 12 Months)</h3>
+            <div style="text-align: center; margin-top: 2rem;">
+                <div style="margin: 1rem 0;">
+                    <strong style="color: #e74c3c; font-size: 1.2rem;">70% take 4+ courses per year</strong>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 4%; background: #95a5a6;">None (2%)</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 12%; background: #f39c12;">1 Course (6%)</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 44%; background: #3498db;">2-3 Courses (22%)</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 88%; background: #2ecc71;">4-5 Courses (44%)</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 52%; background: #e74c3c;">5+ Courses (26%)</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <h3 class="chart-title">Activity Participation Rates</h3>
+            <div class="bar-chart">
+                <div class="bar-item">
+                    <div class="bar-label">Distinguished Speakers</div>
+                    <div class="bar-visual">
+                        <div class="bar-fill" style="width: 100%; background: #9b59b6;">65%</div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Summer/Winter</div>
+                    <div class="bar-visual">
+                        <div class="bar-fill" style="width: 89%; background: #3498db;">58%</div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Special Interest</div>
+                    <div class="bar-visual">
+                        <div class="bar-fill" style="width: 83%; background: #2ecc71;">54%</div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Turner St. 3+ Times</div>
+                    <div class="bar-visual">
+                        <div class="bar-fill" style="width: 74%; background: #f39c12;">48%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="insights">
+        <h2>Key Insights & Recommendations</h2>
+        <div class="insight-grid">
+            <div class="insight-card highlight">
+                <h3>🎯 Exceptional Satisfaction</h3>
+                <p>97% would recommend BOLLI to others with 95% satisfied with course quality. This indicates outstanding program delivery and member experience.</p>
+            </div>
+            
+            <div class="insight-card">
+                <h3>🔄 Hybrid Learning Success</h3>
+                <p>Both modalities are valued: 55% prefer Zoom option, 36% prefer in-person. Continue supporting both to meet diverse member needs.</p>
+            </div>
+            
+            <div class="insight-card">
+                <h3>👥 Active Community Engagement</h3>
+                <p>High participation rates: 65% attend Distinguished Speakers, 58% in Summer/Winter terms, 54% in Special Interest Groups.</p>
+            </div>
+            
+            <div class="insight-card highlight">
+                <h3>🎓 Strong Leadership Pool</h3>
+                <p>21% serve as Study Group Leaders who find the role rewarding. However, they need more technology support and prep time assistance.</p>
+            </div>
+            
+            <div class="insight-card">
+                <h3>🎨 Popular Subject Areas</h3>
+                <p>Top interests: Art (49%), Literature (47%), History/Government (43%). Members request philosophy, contemporary topics, and hands-on courses.</p>
+            </div>
+            
+            <div class="insight-card">
+                <h3>🏢 Infrastructure Needs</h3>
+                <p>Most frequent enhancement request: "larger and above ground meeting space." Current Turner Street facility limits in-person growth.</p>
+            </div>
+            
+            <div class="insight-card highlight">
+                <h3>🔧 Technology Sophistication</h3>
+                <p>All age groups comfortable with phones, internet, and Zoom. Members request advanced technology training (PowerPoint, AI).</p>
+            </div>
+            
+            <div class="insight-card">
+                <h3>🤝 Volunteer Potential</h3>
+                <p>38% currently volunteer, with 94 additional members interested. Focus recruitment on recent members and 65-80 age group.</p>
+            </div>
+        </div>
+        
+        <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px; text-align: center;">
+            <h3 style="margin-bottom: 1rem;">🚀 Future Opportunities</h3>
+            <p><strong>Expand course diversity</strong> • <strong>Enhance physical space</strong> • <strong>Increase social programming</strong> • <strong>Improve volunteer support</strong> • <strong>Advanced tech training</strong></p>
+        </div>
+    </div>
+    
+    <script>
+        // Add some animation on load
+        window.addEventListener('load', function() {
+            const barFills = document.querySelectorAll('.bar-fill');
+            const progressFills = document.querySelectorAll('.progress-fill');
+            
+            setTimeout(() => {
+                barFills.forEach(bar => {
+                    bar.style.opacity = '1';
+                    bar.style.transform = 'scaleX(1)';
+                });
+                
+                progressFills.forEach(bar => {
+                    bar.style.opacity = '1';
+                });
+            }, 500);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLLI New Member Survey - Spring 2025</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+        
+        .chart-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+        
+        .chart-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 20px 0;
+        }
+        
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .feedback-section {
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        
+        .feedback-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .feedback-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+        
+        .feedback-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .feedback-list {
+            list-style: none;
+        }
+        
+        .feedback-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #ecf0f1;
+            color: #34495e;
+        }
+        
+        .feedback-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .positive { color: #27ae60; }
+        .negative { color: #e74c3c; }
+        
+        .recommendations {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 30px;
+        }
+        
+        .recommendations h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+        
+        .rec-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .rec-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .rec-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>BOLLI New Member Survey</h1>
+            <p>Spring 2025 • 23 responses from 42 new members (55% response rate)</p>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">95%</div>
+                <div class="stat-label">Felt Welcomed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">90%</div>
+                <div class="stat-label">Would Recommend</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">77%</div>
+                <div class="stat-label">Took One Course</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">62%</div>
+                <div class="stat-label">Trial Members Likely to Return</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">47%</div>
+                <div class="stat-label">Prior Lifelong Learning</div>
+            </div>
+        </div>
+        
+        <div class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-title">Course Selection Factors</div>
+                <div class="chart-container">
+                    <canvas id="selectionFactorsChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-card">
+                <div class="chart-title">Top Course Interest Areas</div>
+                <div class="chart-container">
+                    <canvas id="interestAreasChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-card">
+                <div class="chart-title">Event Attendance</div>
+                <div class="chart-container">
+                    <canvas id="eventAttendanceChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-card">
+                <div class="chart-title">Member Type Distribution</div>
+                <div class="chart-container">
+                    <canvas id="memberTypeChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-card full-width">
+                <div class="chart-title">What Members Loved Most</div>
+                <div class="chart-container">
+                    <canvas id="satisfactionChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="feedback-section">
+            <div class="feedback-grid">
+                <div class="feedback-card">
+                    <div class="feedback-title positive">What Worked Well</div>
+                    <ul class="feedback-list">
+                        <li>Excellent Study Group Leaders (72%)</li>
+                        <li>High-quality course content</li>
+                        <li>Interactive learning environment</li>
+                        <li>Strong peer engagement</li>
+                        <li>University-level discourse</li>
+                        <li>Both Zoom and in-person options valued</li>
+                    </ul>
+                </div>
+                
+                <div class="feedback-card">
+                    <div class="feedback-title negative">Areas for Improvement</div>
+                    <ul class="feedback-list">
+                        <li>Website navigation (only 22% satisfied)</li>
+                        <li>Community connection (only 28% felt strong)</li>
+                        <li>More social opportunities needed</li>
+                        <li>Better course preparation materials</li>
+                        <li>Inconsistent SGL quality</li>
+                        <li>Clearer registration process</li>
+                    </ul>
+                </div>
+                
+                <div class="feedback-card">
+                    <div class="feedback-title">Key Praise Points</div>
+                    <ul class="feedback-list">
+                        <li>Dom Restivo & Ted Gilman (staff excellence)</li>
+                        <li>Welcoming atmosphere</li>
+                        <li>Technical support for Zoom</li>
+                        <li>Quality discussions</li>
+                        <li>Respectful treatment as equals</li>
+                        <li>Course variety and challenge</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="recommendations">
+            <h2>Recommended Next Steps</h2>
+            <div class="rec-grid">
+                <div class="rec-card">
+                    <div class="rec-title">Demographics</div>
+                    <p>Recruit younger members to diversify age range</p>
+                </div>
+                <div class="rec-card">
+                    <div class="rec-title">Engagement</div>
+                    <p>Offer more trial opportunities for 5-10 week courses</p>
+                </div>
+                <div class="rec-card">
+                    <div class="rec-title">Community Building</div>
+                    <p>Increase new member events (in-person & virtual)</p>
+                </div>
+                <div class="rec-card">
+                    <div class="rec-title">Programming</div>
+                    <p>Add more film classes and interest groups</p>
+                </div>
+                <div class="rec-card">
+                    <div class="rec-title">Retention</div>
+                    <p>Encourage current members to bring friends</p>
+                </div>
+                <div class="rec-card">
+                    <div class="rec-title">Website</div>
+                    <p>Improve navigation and user experience</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Chart configurations
+        const chartDefaults = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        font: {
+                            size: 12
+                        }
+                    }
+                }
+            }
+        };
+        
+        // Selection Factors Chart
+        const selectionCtx = document.getElementById('selectionFactorsChart').getContext('2d');
+        new Chart(selectionCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Course Topic', 'SGL Quality', 'Day/Time', 'Modality'],
+                datasets: [{
+                    data: [100, 62, 62, 40],
+                    backgroundColor: ['#3498db', '#e74c3c', '#f39c12', '#2ecc71'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                ...chartDefaults,
+                plugins: {
+                    ...chartDefaults.plugins,
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + context.parsed + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Interest Areas Chart
+        const interestCtx = document.getElementById('interestAreasChart').getContext('2d');
+        new Chart(interestCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Art', 'History & Gov', 'Literature', 'Film', 'Music'],
+                datasets: [{
+                    label: 'Interest Level',
+                    data: [85, 80, 75, 70, 65],
+                    backgroundColor: '#9b59b6',
+                    borderRadius: 8,
+                    borderSkipped: false
+                }]
+            },
+            options: {
+                ...chartDefaults,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+        
+        // Event Attendance Chart
+        const eventCtx = document.getElementById('eventAttendanceChart').getContext('2d');
+        new Chart(eventCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['In-Person Events', 'Zoom Events', 'No Events'],
+                datasets: [{
+                    data: [43, 18, 39],
+                    backgroundColor: ['#e74c3c', '#3498db', '#95a5a6'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                ...chartDefaults,
+                plugins: {
+                    ...chartDefaults.plugins,
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + context.parsed + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Member Type Chart
+        const memberCtx = document.getElementById('memberTypeChart').getContext('2d');
+        new Chart(memberCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Trial Members', 'Seasonal Members'],
+                datasets: [{
+                    data: [59, 41],
+                    backgroundColor: ['#f39c12', '#2ecc71'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                ...chartDefaults,
+                plugins: {
+                    ...chartDefaults.plugins,
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + context.parsed + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Satisfaction Chart
+        const satisfactionCtx = document.getElementById('satisfactionChart').getContext('2d');
+        new Chart(satisfactionCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Course Quality', 'SGL Quality', 'SGL Communication', 'Website', 'Community'],
+                datasets: [{
+                    label: 'Satisfaction %',
+                    data: [72, 67, 61, 22, 28],
+                    backgroundColor: ['#27ae60', '#27ae60', '#27ae60', '#e74c3c', '#e74c3c'],
+                    borderRadius: 8,
+                    borderSkipped: false
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
