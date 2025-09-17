@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPG Email Discussion Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f9fafb;
+            color: #374151;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        
+        .header {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            color: #6b7280;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 24px;
+        }
+        
+        .tab {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+            color: #6b7280;
+            border: none;
+            font-size: 14px;
+        }
+        
+        .tab:hover {
+            background: #f3f4f6;
+        }
+        
+        .tab.active {
+            background: #2563eb;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 24px;
+        }
+        
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 24px;
+        }
+        
+        .card h2 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 16px;
+        }
+        
+        .insight {
+            border-left: 4px solid #3b82f6;
+            padding-left: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .insight h3 {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 4px;
+        }
+        
+        .insight .value {
+            font-size: 1.125rem;
+            font-weight: 500;
+            color: #2563eb;
+            margin-bottom: 4px;
+        }
+        
+        .insight .detail {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        
+        .chart-container {
+            height: 300px;
+            position: relative;
+            padding: 20px;
+        }
+        
+        .chart-container-tall {
+            height: 400px;
+            position: relative;
+            padding: 20px;
+        }
+        
+        .simple-bar-chart {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            gap: 8px;
+        }
+        
+        .bar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .bar-label {
+            width: 120px;
+            font-size: 12px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+        
+        .bar {
+            height: 24px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            padding-left: 8px;
+            color: white;
+            font-size: 12px;
+            font-weight: 500;
+            min-width: 40px;
+        }
+        
+        .simple-pie-chart {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            height: 100%;
+            align-items: center;
+        }
+        
+        .pie-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .pie-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .pie-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 2px;
+        }
+        
+        .pie-info {
+            flex: 1;
+        }
+        
+        .pie-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+        }
+        
+        .pie-value {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        
+        .pie-visual {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #8884d8 0deg 146deg,
+                #82ca9d 146deg 234deg,
+                #ffc658 234deg 310deg,
+                #ff7c7c 310deg 360deg
+            );
+            margin: 0 auto;
+        }
+        
+        .theme-item {
+            border-left: 4px solid;
+            padding-left: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .theme-item h3 {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 4px;
+        }
+        
+        .theme-item p {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        
+        .green { border-color: #10b981; }
+        .blue { border-color: #3b82f6; }
+        .purple { border-color: #8b5cf6; }
+        .orange { border-color: #f59e0b; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        th {
+            background: #f9fafb;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        td {
+            font-weight: 500;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .badge-blue { background: #dbeafe; color: #1e40af; }
+        .badge-purple { background: #ede9fe; color: #7c3aed; }
+        .badge-yellow { background: #fef3c7; color: #d97706; }
+        .badge-green { background: #d1fae5; color: #065f46; }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 16px;
+            border-radius: 8px;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+        }
+        
+        .stat-detail {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+        
+        .alternatives-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        
+        .alternative-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+            transition: box-shadow 0.2s;
+        }
+        
+        .alternative-card:hover {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .alternative-card h3 {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+        
+        .status-yellow { background: #fef3c7; color: #d97706; }
+        .status-blue { background: #dbeafe; color: #1e40af; }
+        .status-purple { background: #ede9fe; color: #7c3aed; }
+        .status-gray { background: #f3f4f6; color: #374151; }
+        
+        .alternatives-list {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+        
+        .alternatives-list li {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+        
+        .observations {
+            background: #eff6ff;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 24px;
+        }
+        
+        .observations h4 {
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 8px;
+        }
+        
+        .observations ul {
+            list-style: none;
+        }
+        
+        .observations li {
+            font-size: 0.875rem;
+            color: #1e40af;
+            margin-bottom: 4px;
+            padding-left: 16px;
+            position: relative;
+        }
+        
+        .observations li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+        }
+        
+        .analysis-box {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        
+        .analysis-box p {
+            font-size: 0.875rem;
+            color: #374151;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>SPG Email Discussion Analysis</h1>
+            <p>Analysis of 215 emails focusing on themes, alternatives, questions, and resolutions</p>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="showTab(event, 'overview')">Overview</button>
+            <button class="tab" onclick="showTab(event, 'themes')">Themes</button>
+            <button class="tab" onclick="showTab(event, 'discussions')">Discussions</button>
+            <button class="tab" onclick="showTab(event, 'alternatives')">Alternatives</button>
+        </div>
+        
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="grid grid-2">
+                <div class="card">
+                    <h2>Key Insights</h2>
+                    <div class="insight">
+                        <h3>Most Discussed Theme</h3>
+                        <div class="value">Committee Work</div>
+                        <div class="detail">144 mentions across discussions about BOLLI governance and organization</div>
+                    </div>
+                    <div class="insight">
+                        <h3>Discussion Pattern</h3>
+                        <div class="value">Question-Heavy</div>
+                        <div class="detail">134 questions vs 71 proposals - shows active inquiry and deliberation</div>
+                    </div>
+                    <div class="insight">
+                        <h3>Resolution Style</h3>
+                        <div class="value">Collaborative Agreement</div>
+                        <div class="detail">82 agreements vs 43 concerns - positive consensus-building approach</div>
+                    </div>
+                    <div class="insight">
+                        <h3>Hot Topic</h3>
+                        <div class="value">Focus Groups & Feedback</div>
+                        <div class="detail">21 emails about suggestion boxes and focus group outcomes</div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2>Most Active Participants</h2>
+                    <div class="chart-container">
+                        <div class="simple-bar-chart">
+                            <div class="bar-item">
+                                <div class="bar-label">Marsha Semuels</div>
+                                <div class="bar" style="background-color: #8884d8; width: 100%;">69</div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar-label">Judy Feldman</div>
+                                <div class="bar" style="background-color: #8884d8; width: 77%;">53</div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar-label">Theodore Gilman</div>
+                                <div class="bar" style="background-color: #8884d8; width: 74%;">51</div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar-label">Kate Ehrlich</div>
+                                <div class="bar" style="background-color: #8884d8; width: 25%;">17</div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar-label">David Rattner</div>
+                                <div class="bar" style="background-color: #8884d8; width: 14%;">10</div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar-label">Oliver Curme</div>
+                                <div class="bar" style="background-color: #8884d8; width: 10%;">7</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2>Discussion Types</h2>
+                    <div class="chart-container">
+                        <div class="simple-pie-chart">
+                            <div class="pie-visual"></div>
+                            <div class="pie-legend">
+                                <div class="pie-item">
+                                    <div class="pie-color" style="background-color: #8884d8;"></div>
+                                    <div class="pie-info">
+                                        <div class="pie-label">Questions</div>
+                                        <div class="pie-value">134 (41%)</div>
+                                    </div>
+                                </div>
+                                <div class="pie-item">
+                                    <div class="pie-color" style="background-color: #82ca9d;"></div>
+                                    <div class="pie-info">
+                                        <div class="pie-label">Agreements</div>
+                                        <div class="pie-value">82 (25%)</div>
+                                    </div>
+                                </div>
+                                <div class="pie-item">
+                                    <div class="pie-color" style="background-color: #ffc658;"></div>
+                                    <div class="pie-info">
+                                        <div class="pie-label">Proposals</div>
+                                        <div class="pie-value">71 (21%)</div>
+                                    </div>
+                                </div>
+                                <div class="pie-item">
+                                    <div class="pie-color" style="background-color: #ff7c7c;"></div>
+                                    <div class="pie-info">
+                                        <div class="pie-label">Concerns</div>
+                                        <div class="pie-value">43 (13%)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Themes Tab -->
+        <div id="themes" class="tab-content">
+            <div class="grid grid-2">
+                <div class="card">
+                    <h2>Discussion Themes</h2>
+                    <div class="chart-container-tall">
+                        <div class="simple-bar-chart">
+                            <div class="bar-item">
+                                <div class="bar-label">Committee Work</div>
+                                <div class="bar" style="background-color: #82ca9d; width: 100%;">144</div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar-label">Focus Groups</div>
+                                <div class="bar" style="background-color: #82ca9d; width: 82%;">118</div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar-label">Course Management</div>
+                                <div class="bar" style="background-color: #82ca9d; width: 82%;">118</div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar-label">Strategic Planning</div>
+                                <div class="bar" style="background-color: #82ca9d; width: 75%;">108</div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar-label">Hybrid Learning</div>
+                                <div class="bar" style="background-color: #82ca9d; width: 69%;">100</div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar-label">Website/Tech</div>
+                                <div class="bar" style="background-color: #82ca9d; width: 42%;">61</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2>Theme Analysis</h2>
+                    <div class="theme-item green">
+                        <h3>Committee Work (144 mentions)</h3>
+                        <p>BOLLI governance, organizational structure, and administrative discussions</p>
+                    </div>
+                    <div class="theme-item blue">
+                        <h3>Focus Groups & Course Management (118 each)</h3>
+                        <p>Feedback collection and curriculum planning are major priorities</p>
+                    </div>
+                    <div class="theme-item purple">
+                        <h3>Strategic Planning (108 mentions)</h3>
+                        <p>Long-term vision and organizational development discussions</p>
+                    </div>
+                    <div class="theme-item orange">
+                        <h3>Hybrid Learning (100 mentions)</h3>
+                        <p>Balancing in-person and online educational approaches</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Discussions Tab -->
+        <div id="discussions" class="tab-content">
+            <div class="grid">
+                <div class="card">
+                    <h2>Top Discussion Threads</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="text-align: left;">Discussion Topic</th>
+                                <th>Total Emails</th>
+                                <th>Questions</th>
+                                <th>Proposals</th>
+                                <th>Agreements</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Focus groups and electronic suggestion box</td>
+                                <td style="text-align: center;"><span class="badge badge-blue">15</span></td>
+                                <td style="text-align: center;"><span class="badge badge-purple">8</span></td>
+                                <td style="text-align: center;"><span class="badge badge-yellow">5</span></td>
+                                <td style="text-align: center;"><span class="badge badge-green">6</span></td>
+                            </tr>
+                            <tr>
+                                <td>New idea</td>
+                                <td style="text-align: center;"><span class="badge badge-blue">9</span></td>
+                                <td style="text-align: center;"><span class="badge badge-purple">4</span></td>
+                                <td style="text-align: center;"><span class="badge badge-yellow">7</span></td>
+                                <td style="text-align: center;"><span class="badge badge-green">3</span></td>
+                            </tr>
+                            <tr>
+                                <td>BOLLI space -- the latest</td>
+                                <td style="text-align: center;"><span class="badge badge-blue">7</span></td>
+                                <td style="text-align: center;"><span class="badge badge-purple">3</span></td>
+                                <td style="text-align: center;"><span class="badge badge-yellow">2</span></td>
+                                <td style="text-align: center;"><span class="badge badge-green">4</span></td>
+                            </tr>
+                            <tr>
+                                <td>Comments from electronic suggestion box</td>
+                                <td style="text-align: center;"><span class="badge badge-blue">6</span></td>
+                                <td style="text-align: center;"><span class="badge badge-purple">2</span></td>
+                                <td style="text-align: center;"><span class="badge badge-yellow">1</span></td>
+                                <td style="text-align: center;"><span class="badge badge-green">3</span></td>
+                            </tr>
+                            <tr>
+                                <td>BOLLI test fits: 51 Sawyer</td>
+                                <td style="text-align: center;"><span class="badge badge-blue">6</span></td>
+                                <td style="text-align: center;"><span class="badge badge-purple">3</span></td>
+                                <td style="text-align: center;"><span class="badge badge-yellow">1</span></td>
+                                <td style="text-align: center;"><span class="badge badge-green">2</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="card">
+                    <h2>Discussion Patterns</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card" style="background-color: rgba(136, 132, 216, 0.2);">
+                            <div class="stat-value" style="color: #8884d8;">134</div>
+                            <div class="stat-label">Questions</div>
+                            <div class="stat-detail">62.3% of emails</div>
+                        </div>
+                        <div class="stat-card" style="background-color: rgba(130, 202, 157, 0.2);">
+                            <div class="stat-value" style="color: #82ca9d;">82</div>
+                            <div class="stat-label">Agreements</div>
+                            <div class="stat-detail">38.1% of emails</div>
+                        </div>
+                        <div class="stat-card" style="background-color: rgba(255, 198, 88, 0.2);">
+                            <div class="stat-value" style="color: #ffc658;">71</div>
+                            <div class="stat-label">Proposals</div>
+                            <div class="stat-detail">33.0% of emails</div>
+                        </div>
+                        <div class="stat-card" style="background-color: rgba(255, 124, 124, 0.2);">
+                            <div class="stat-value" style="color: #ff7c7c;">43</div>
+                            <div class="stat-label">Concerns</div>
+                            <div class="stat-detail">20.0% of emails</div>
+                        </div>
+                    </div>
+                    <div class="analysis-box">
+                        <p><strong>Analysis:</strong> The high ratio of questions (134) to proposals (71) suggests an active inquiry and deliberation process. The positive agreement-to-concern ratio (82:43) indicates collaborative decision-making.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Alternatives Tab -->
+        <div id="alternatives" class="tab-content">
+            <div class="grid">
+                <div class="card">
+                    <h2>Alternatives & Options Under Discussion</h2>
+                    <div class="alternatives-grid">
+                        <div class="alternative-card">
+                            <h3>Website Redesign</h3>
+                            <span class="status-badge status-yellow">Under discussion</span>
+                            <div>
+                                <h4 style="font-weight: 500; color: #374151; margin-bottom: 8px;">Options discussed:</h4>
+                                <ul class="alternatives-list">
+                                    <li>Committee-led approach</li>
+                                    <li>Professional consultant</li>
+                                    <li>UX testing integration</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="alternative-card">
+                            <h3>Hybrid Learning</h3>
+                            <span class="status-badge status-blue">Multiple proposals</span>
+                            <div>
+                                <h4 style="font-weight: 500; color: #374151; margin-bottom: 8px;">Options discussed:</h4>
+                                <ul class="alternatives-list">
+                                    <li>In-person priority</li>
+                                    <li>Online expansion</li>
+                                    <li>Tech field trips</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="alternative-card">
+                            <h3>Space Issues</h3>
+                            <span class="status-badge status-purple">Exploring options</span>
+                            <div>
+                                <h4 style="font-weight: 500; color: #374151; margin-bottom: 8px;">Options discussed:</h4>
+                                <ul class="alternatives-list">
+                                    <li>51 Sawyer location</li>
+                                    <li>Alternative venues</li>
+                                    <li>Flexible arrangements</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="alternative-card">
+                            <h3>Strategic Planning</h3>
+                            <span class="status-badge status-gray">Information gathering</span>
+                            <div>
+                                <h4 style="font-weight: 500; color: #374151; margin-bottom: 8px;">Options discussed:</h4>
+                                <ul class="alternatives-list">
+                                    <li>Focus group input</li>
+                                    <li>Committee recommendations</li>
+                                    <li>Electronic feedback</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2>Resolution & Decision Patterns</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" style="color: #10b981;">38%</div>
+                            <div class="stat-label">Agreement Rate</div>
+                            <div class="stat-detail">82 agreements out of 215 emails</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" style="color: #f59e0b;">33%</div>
+                            <div class="stat-label">Proposal Rate</div>
+                            <div class="stat-detail">71 proposals for solutions</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" style="color: #ef4444;">20%</div>
+                            <div class="stat-label">Concern Rate</div>
+                            <div class="stat-detail">43 emails raising concerns</div>
+                        </div>
+                    </div>
+                    
+                    <div class="observations">
+                        <h4>Key Observations</h4>
+                        <ul>
+                            <li>High engagement with 62% of emails containing questions</li>
+                            <li>Collaborative approach with nearly 2:1 agreement to concern ratio</li>
+                            <li>Active alternative generation with multiple options for each major issue</li>
+                            <li>Focus on consensus-building rather than unilateral decisions</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(event, tabName) {
+            // Hide all tab contents
+            var tabs = document.querySelectorAll('.tab-content');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            
+            // Remove active class from all tab buttons
+            var tabButtons = document.querySelectorAll('.tab');
+            for (var i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove('active');
+            }
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab button
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

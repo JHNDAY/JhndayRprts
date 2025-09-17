@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OLLI Newsletter Timeline</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            color: #4a5568;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header p {
+            color: #718096;
+            font-size: 1.2em;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+        
+        .month {
+            display: flex;
+            margin: 40px 0;
+            position: relative;
+        }
+        
+        .month:nth-child(odd) {
+            flex-direction: row;
+        }
+        
+        .month:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        
+        .month-content {
+            width: 45%;
+            padding: 25px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .month-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .month-indicator {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .month-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .theme {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+        
+        .highlight {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .highlight-title {
+            font-weight: bold;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+        
+        .programs {
+            margin: 15px 0;
+        }
+        
+        .program-item {
+            background: #edf2f7;
+            padding: 10px 15px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border-left: 3px solid #764ba2;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            border-radius: 15px;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            color: #718096;
+            font-size: 1.1em;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .month {
+                flex-direction: column !important;
+                margin-left: 40px;
+            }
+            
+            .month-content {
+                width: calc(100% - 60px);
+            }
+            
+            .month-indicator {
+                left: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 OLLI Newsletter Timeline</h1>
+            <p>Osher Lifelong Learning Institute Network Highlights • January - June 2025</p>
+        </div>
+        
+        <div class="timeline">
+            <div class="month">
+                <div class="month-content">
+                    <div class="month-title">🗓️ January 2025</div>
+                    <div class="theme">Transition & Leadership Tribute</div>
+                    
+                    <div class="highlight">
+                        <div class="highlight-title">💫 Key Story</div>
+                        Farewell to Kelly Jane Rosenblatt, program director who guided the network through pandemic challenges
+                    </div>
+                    
+                    <div class="programs">
+                        <div class="program-item">🥽 <strong>San Diego State:</strong> VR pilot for Egyptology courses</div>
+                        <div class="program-item">🎉 <strong>Cal State Channel Islands:</strong> 20th anniversary celebration & new classroom lab</div>
+                        <div class="program-item">❄️ <strong>Curriculum:</strong> University of Denver's "Science of Snow" course</div>
+                    </div>
+                </div>
+                <div class="month-indicator"></div>
+            </div>
+            
+            <div class="month">
+                <div class="month-content">
+                    <div class="month-title">🗓️ February 2025</div>
+                    <div class="theme">Community Building & Crisis Response</div>
+                    
+                    <div class="highlight">
+                        <div class="highlight-title">🤝 Key Focus</div>
+                        Emphasis on community support during crises, exemplified by UCLA's fire response
+                    </div>
+                    
+                    <div class="programs">
+                        <div class="program-item">🇹🇭 <strong>Arizona State:</strong> OLLI Corps service trip to Thailand</div>
+                        <div class="program-item">🏢 <strong>UC San Diego:</strong> New Extended Studies facility opening</div>
+                        <div class="program-item">🥾 <strong>Curriculum:</strong> Cal State Chico's outdoor hiking programs</div>
+                        <div class="program-item">💌 <strong>UCLA:</strong> "Encouragement Brigade" for fire-displaced members</div>
+                    </div>
+                </div>
+                <div class="month-indicator"></div>
+            </div>
+            
+            <div class="month">
+                <div class="month-content">
+                    <div class="month-title">🗓️ March 2025</div>
+                    <div class="theme">Membership Growth & Outreach</div>
+                    
+                    <div class="highlight">
+                        <div class="highlight-title">📈 Key Message</div>
+                        Word-of-mouth marketing and personal recommendations drive OLLI growth
+                    </div>
+                    
+                    <div class="programs">
+                        <div class="program-item">🧶 <strong>Nevada Reno:</strong> Knitting group donated 1,000+ handmade items</div>
+                        <div class="program-item">🎙️ <strong>University of Delaware:</strong> Member featured on local podcast</div>
+                        <div class="program-item">⚰️ <strong>Curriculum:</strong> Louisiana State's New Orleans burial customs course</div>
+                    </div>
+                </div>
+                <div class="month-indicator"></div>
+            </div>
+            
+            <div class="month">
+                <div class="month-content">
+                    <div class="month-title">🗓️ April 2025</div>
+                    <div class="theme">National Conference Preview & Collaboration</div>
+                    
+                    <div class="highlight">
+                        <div class="highlight-title">🎯 Key Focus</div>
+                        Building anticipation for National Conference in Washington, DC area
+                    </div>
+                    
+                    <div class="programs">
+                        <div class="program-item">🏈 <strong>Montana Schools:</strong> "Brawl of the Wild" rivalry collaboration</div>
+                        <div class="program-item">🏛️ <strong>Emory:</strong> Hosting Southern Regional Conference</div>
+                        <div class="program-item">📚 <strong>North Texas:</strong> Brad Meltzer author event</div>
+                        <div class="program-item">🛶 <strong>Curriculum:</strong> South Dakota's cedar strip canoe building</div>
+                    </div>
+                </div>
+                <div class="month-indicator"></div>
+            </div>
+            
+            <div class="month">
+                <div class="month-content">
+                    <div class="month-title">🗓️ May 2025</div>
+                    <div class="theme">Post-Conference & Intergenerational Partnerships</div>
+                    
+                    <div class="highlight">
+                        <div class="highlight-title">💡 Key Message</div>
+                        "Steal" and adapt successful ideas from other institutes
+                    </div>
+                    
+                    <div class="programs">
+                        <div class="program-item">👥 <strong>UNC Wilmington:</strong> Graduate student partnerships</div>
+                        <div class="program-item">✍️ <strong>Florida Atlantic:</strong> David Brooks drew 800+ attendees</div>
+                        <div class="program-item">🚨 <strong>Curriculum:</strong> UNC Asheville's disaster preparedness course</div>
+                    </div>
+                </div>
+                <div class="month-indicator"></div>
+            </div>
+            
+            <div class="month">
+                <div class="month-content">
+                    <div class="month-title">🗓️ June 2025</div>
+                    <div class="theme">Summer Programming & Innovation</div>
+                    
+                    <div class="highlight">
+                        <div class="highlight-title">☀️ Key Focus</div>
+                        Active summer programming with celebrations and social events
+                    </div>
+                    
+                    <div class="programs">
+                        <div class="program-item">🔧 <strong>Furman:</strong> Surprise success of new "Fix-It Clinic"</div>
+                        <div class="program-item">📻 <strong>Boise State:</strong> Ongoing radio partnership</div>
+                        <div class="program-item">⚾ <strong>Curriculum:</strong> Nebraska's College World Series party</div>
+                        <div class="program-item">🕵️ <strong>Indiana State:</strong> "Murder at the Museum" fundraiser</div>
+                    </div>
+                </div>
+                <div class="month-indicator"></div>
+            </div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">124</div>
+                <div class="stat-label">OLLI Institutes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">260+</div>
+                <div class="stat-label">Conference Attendees</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1,000+</div>
+                <div class="stat-label">Knitted Donations</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">6</div>
+                <div class="stat-label">Months of Growth</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
