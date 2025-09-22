@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLLI Focus Group Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .critical-insight {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border: 3px solid #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .critical-insight::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .critical-insight h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .critical-insight h2::before {
+            content: '⚡';
+            font-size: 1.2em;
+            margin-right: 15px;
+        }
+        
+        .critical-insight p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        .card h3 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #4a5568;
+            display: flex;
+            align-items: center;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .strengths h3::before { content: '✅ '; color: #48bb78; }
+        .challenges h3::before { content: '⚠️ '; color: #ed8936; }
+        .tension h3::before { content: '⚖️ '; color: #805ad5; }
+        .systemic h3::before { content: '🔧 '; color: #3182ce; }
+        .demographics h3::before { content: '👥 '; color: #38b2ac; }
+        .recommendations h3::before { content: '🎯 '; color: #e53e3e; }
+        
+        .item {
+            margin-bottom: 15px;
+            padding: 12px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .item-title {
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+        
+        .item-detail {
+            color: #4a5568;
+            font-size: 0.95em;
+            line-height: 1.4;
+        }
+        
+        .tension-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 15px 0;
+        }
+        
+        .pro-zoom, .pro-person {
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid;
+        }
+        
+        .pro-zoom {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: #3b82f6;
+        }
+        
+        .pro-person {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: #10b981;
+        }
+        
+        .priority-high { border-left-color: #e53e3e; background: rgba(229, 62, 62, 0.1); }
+        .priority-medium { border-left-color: #ed8936; background: rgba(237, 137, 54, 0.1); }
+        .priority-low { border-left-color: #48bb78; background: rgba(72, 187, 120, 0.1); }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .stat {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            flex: 1;
+            margin: 0 10px;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            color: #4a5568;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>BOLLI Focus Group Analysis</h1>
+            <p>Strategic Insights from Four Focus Group Sessions</p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Focus Groups</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">35+</div>
+                    <div class="stat-label">Participants</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Key Themes</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="critical-insight">
+            <h2>Most Critical Insight</h2>
+            <p>BOLLI faces a fundamental tension between its core mission of creating an intellectual learning community versus practical realities of an aging population, technology adoption, economic pressures, and post-COVID behavioral changes. Success will require intentional strategies to preserve community while adapting to these realities rather than simply responding reactively to external pressures. BOLLI is at a crossroads where it must make deliberate choices about its future identity and operations.</p>
+        </div>
+
+        <div class="dashboard">
+            <div class="card strengths">
+                <h3>Core Strengths</h3>
+                <div class="item">
+                    <div class="item-title">Community & Relationships</div>
+                    <div class="item-detail">Social connections consistently cited as greatest value; Special Interest Groups (especially New Yorker group) serve as community anchors; lasting friendships central to experience</div>
+                </div>
+                <div class="item">
+                    <div class="item-title">Academic Quality</div>
+                    <div class="item-detail">High intellectual rigor praised; variety of course offerings seen as major strength; both member-taught and external courses valued</div>
+                </div>
+            </div>
+
+            <div class="card challenges">
+                <h3>Critical Challenges</h3>
+                <div class="item priority-high">
+                    <div class="item-title">Physical Facility Crisis</div>
+                    <div class="item-detail">Turner Street basement widely criticized for poor ventilation, accessibility, safety concerns; described as unhealthy and unwelcoming</div>
+                </div>
+                <div class="item priority-high">
+                    <div class="item-title">Community Connection Breakdown</div>
+                    <div class="item-detail">New members struggle to integrate; Zoom hinders relationship-building; multiple stories of isolation</div>
+                </div>
+                <div class="item priority-medium">
+                    <div class="item-title">Technology & Communication Gaps</div>
+                    <div class="item-detail">Inadequate tech support; outdated website; communication failures; missing basic tools like name tags</div>
+                </div>
+            </div>
+
+            <div class="card tension">
+                <h3>The Zoom vs. In-Person Tension</h3>
+                <div class="tension-grid">
+                    <div class="pro-zoom">
+                        <strong>Pro-Zoom:</strong>
+                        <ul style="padding-left: 20px; margin: 10px 0;">
+                            <li>Essential for accessibility</li>
+                            <li>Supports caregivers</li>
+                            <li>Enables distant participation</li>
+                            <li>Accommodates mobility issues</li>
+                        </ul>
+                    </div>
+                    <div class="pro-person">
+                        <strong>Pro-In-Person:</strong>
+                        <ul style="padding-left: 20px; margin: 10px 0;">
+                            <li>Critical for community building</li>
+                            <li>Better discussions</li>
+                            <li>Full BOLLI experience</li>
+                            <li>Authentic relationships</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="item-title">Root Cause</div>
+                    <div class="item-detail">Instructor preference/convenience rather than member demand driving the shift to Zoom</div>
+                </div>
+            </div>
+
+            <div class="card systemic">
+                <h3>Systemic Issues</h3>
+                <div class="item">
+                    <div class="item-title">Instructor Pipeline Problems</div>
+                    <div class="item-detail">Shift from member-led to external instructors has budget implications; member-taught courses often most popular</div>
+                </div>
+                <div class="item">
+                    <div class="item-title">Course Registration Dysfunction</div>
+                    <div class="item-detail">Lottery system causes frustration; popular courses fill while others cancelled; poor course marketing</div>
+                </div>
+                <div class="item">
+                    <div class="item-title">Cost & Value Misalignment</div>
+                    <div class="item-detail">Expensive compared to alternatives; financial barriers; limited pricing flexibility</div>
+                </div>
+            </div>
+
+            <div class="card demographics">
+                <h3>Demographic Challenges</h3>
+                <div class="item">
+                    <div class="item-title">Aging Membership Impact</div>
+                    <div class="item-detail">Physical limitations affect participation; transportation challenges; need accessibility balance</div>
+                </div>
+                <div class="item">
+                    <div class="item-title">Economic Diversity Barriers</div>
+                    <div class="item-detail">Cost driving members to alternatives; financial aid recipients show profound gratitude</div>
+                </div>
+            </div>
+
+            <div class="card recommendations">
+                <h3>Strategic Recommendations</h3>
+                <div class="item priority-high">
+                    <div class="item-title">Prioritize Facility Improvement</div>
+                    <div class="item-detail">Affects health, safety, and first impressions</div>
+                </div>
+                <div class="item priority-high">
+                    <div class="item-title">Systematic Community Integration</div>
+                    <div class="item-detail">Develop processes for new member integration</div>
+                </div>
+                <div class="item priority-medium">
+                    <div class="item-title">Technology Infrastructure Investment</div>
+                    <div class="item-detail">Support systems and website redesign</div>
+                </div>
+                <div class="item priority-medium">
+                    <div class="item-title">Member Instructor Incentives</div>
+                    <div class="item-detail">Create support and encouragement systems</div>
+                </div>
+                <div class="item priority-low">
+                    <div class="item-title">Flexible Pricing Models</div>
+                    <div class="item-detail">Improve accessibility and retention</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
