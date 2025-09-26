@@ -5,343 +5,563 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BOLLI Strategic Plan Analysis</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
+        * {
             margin: 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             overflow: hidden;
         }
-        
+
         .header {
-            background: linear-gradient(135deg, #4f5ba2 0%, #5d4e75 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 30px;
+            padding: 40px;
             text-align: center;
         }
-        
+
         .header h1 {
-            margin: 0;
             font-size: 2.5em;
-            font-weight: 300;
+            margin-bottom: 10px;
         }
-        
+
         .header p {
-            margin: 10px 0 0 0;
-            opacity: 0.9;
-            font-size: 1.1em;
+            font-size: 1.2em;
+            opacity: 0.95;
         }
-        
+
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px 40px;
+            background: #f8f9fa;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
         .content {
             padding: 40px;
         }
-        
-        .analysis-section {
+
+        .section {
             margin-bottom: 40px;
         }
-        
-        .analysis-section h2 {
-            color: #4f5ba2;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 10px;
-            margin-bottom: 25px;
+
+        .section-title {
             font-size: 1.8em;
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
         }
-        
-        .concern-item {
-            background: #f8f9ff;
+
+        .issue-grid {
+            display: grid;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .issue-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
             border-left: 5px solid #667eea;
-            margin: 20px 0;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.3s ease;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        
-        .concern-item:hover {
+
+        .issue-card:hover {
             transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
         }
-        
-        .concern-header {
-            background: #e8ebff;
-            padding: 15px 20px;
+
+        .issue-title {
+            font-size: 1.3em;
             font-weight: bold;
-            color: #4f5ba2;
-            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        
-        .concern-content {
-            padding: 20px;
-        }
-        
-        .quote {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 10px 15px;
-            margin: 15px 0;
-            font-style: italic;
-            border-radius: 5px;
-        }
-        
-        .strategic-response {
-            background: #d4edda;
-            border-left: 4px solid #28a745;
-            padding: 15px 20px;
-            margin: 15px 0;
-            border-radius: 5px;
-        }
-        
-        .strategic-response h4 {
-            margin: 0 0 10px 0;
-            color: #155724;
-        }
-        
-        .gap-analysis {
-            background: #f8d7da;
-            border: 1px solid #f5c6cb;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
-        
-        .gap-analysis h3 {
-            color: #721c24;
-            margin-top: 0;
-        }
-        
-        .recommendations {
-            background: #cce7ff;
-            border: 1px solid #99d1ff;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
-        
-        .recommendations h3 {
-            color: #0056b3;
-            margin-top: 0;
-        }
-        
-        ul {
-            padding-left: 20px;
-        }
-        
-        li {
-            margin: 8px 0;
-        }
-        
-        .highlight {
-            background: #fff3cd;
-            padding: 2px 6px;
-            border-radius: 3px;
-        }
-        
-        .metric {
+
+        .priority-badge {
             display: inline-block;
-            background: #667eea;
-            color: white;
-            padding: 5px 10px;
+            padding: 4px 12px;
             border-radius: 20px;
-            font-size: 0.9em;
-            margin: 2px;
+            font-size: 0.7em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .priority-1 { background: #ff6b6b; color: white; }
+        .priority-2 { background: #ffa500; color: white; }
+        .priority-3 { background: #4ecdc4; color: white; }
+
+        .concerns-list {
+            margin: 15px 0;
+        }
+
+        .concern-item {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #d63031;
+            font-weight: 500;
+        }
+
+        .concern-item:before {
+            content: "⚠";
+            position: absolute;
+            left: 0;
+            color: #d63031;
+        }
+
+        .responses-list {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .response-item {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #00b894;
+            font-weight: 500;
+        }
+
+        .response-item:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #00b894;
+            font-weight: bold;
+        }
+
+        .goal-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .goal-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .goal-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 10px;
+        }
+
+        .goal-card .objective-count {
+            font-size: 2em;
+            font-weight: bold;
+            opacity: 0.9;
+        }
+
+        .gap-analysis {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .gap-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        .gap-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .gap-item {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .gap-item.good:before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+        }
+
+        .gap-item.partial:before {
+            content: "⚠️";
+            position: absolute;
+            left: 0;
+        }
+
+        .conclusion {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-top: 40px;
+        }
+
+        .conclusion h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .conclusion-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .conclusion-box {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .conclusion-box h3 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .conclusion-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .conclusion-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .conclusion-box li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+        }
+
+        @media (max-width: 768px) {
+            .gap-analysis, .conclusion-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>BOLLI Strategic Plan Analysis</h1>
+            <h1>🎓 BOLLI Strategic Plan Analysis</h1>
             <p>How the Strategic Plan Addresses Focus Group Concerns</p>
         </div>
-        
+
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-number">46</div>
+                <div class="stat-label">Concerns Identified</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">83+</div>
+                <div class="stat-label">Total Actions & Tactics</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">11</div>
+                <div class="stat-label">Issue Categories</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Strategic Goals</div>
+            </div>
+        </div>
+
         <div class="content">
-            <div class="analysis-section">
-                <h2>🎯 Strong Alignment Areas</h2>
-                
-                <div class="concern-item">
-                    <div class="concern-header">Community Building & Social Connections</div>
-                    <div class="concern-content">
-                        <div class="quote">
-                            "I don't really know anybody... I was looking for community" - Focus Group Participant
-                        </div>
-                        <div class="strategic-response">
-                            <h4>Strategic Plan Response:</h4>
-                            <ul>
-                                <li><strong>Community Building</strong> appears in all three focus group summaries</li>
-                                <li><strong>Social Connections</strong> identified as major interest</li>
-                                <li>Cross-cutting theme: <span class="highlight">"Sense of community and belonging"</span></li>
-                                <li>Cross-cutting theme: <span class="highlight">"Maintaining community connections"</span></li>
-                            </ul>
-                        </div>
+            <div class="section">
+                <h2 class="section-title">Strategic Goals Overview</h2>
+                <div class="goal-overview">
+                    <div class="goal-card">
+                        <h3>Goal I</h3>
+                        <p>Enhance BOLLI Curriculum</p>
+                        <div class="objective-count">9 objectives</div>
+                    </div>
+                    <div class="goal-card">
+                        <h3>Goal II</h3>
+                        <p>Improve Community Feeling</p>
+                        <div class="objective-count">8 objectives</div>
+                    </div>
+                    <div class="goal-card">
+                        <h3>Goal III</h3>
+                        <p>Infrastructure Improvements</p>
+                        <div class="objective-count">3 objectives</div>
+                    </div>
+                    <div class="goal-card">
+                        <h3>Goal IV</h3>
+                        <p>Financial Sustainability</p>
+                        <div class="objective-count">4 objectives</div>
                     </div>
                 </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Top Priority Issues & Responses</h2>
                 
-                <div class="concern-item">
-                    <div class="concern-header">Academic Quality & Intellectual Rigor</div>
-                    <div class="concern-content">
-                        <div class="quote">
-                            "I value the courses and the level of the courses immensely... the intellectual rigor of the participants"
+                <div class="issue-grid">
+                    <div class="issue-card">
+                        <div class="issue-title">
+                            🤝 Community & Socialization
+                            <span class="priority-badge priority-1">Priority 1</span>
                         </div>
-                        <div class="strategic-response">
-                            <h4>Strategic Plan Response:</h4>
-                            <ul>
-                                <li><strong>Academic Rigor</strong> listed as major interest (Group 1)</li>
-                                <li><strong>Academic Excellence</strong> highlighted (Group 2)</li>
-                                <li>Cross-cutting theme: <span class="highlight">"High-quality learning experiences"</span></li>
-                                <li><strong>Teacher Quality Variation</strong> identified as concern to address</li>
-                            </ul>
+                        <div class="concerns-list">
+                            <div class="concern-item">Loss of community due to Zoom</div>
+                            <div class="concern-item">Difficulty making personal connections</div>
+                            <div class="concern-item">No one talked to me when I was new</div>
+                        </div>
+                        <div class="responses-list">
+                            <div class="response-item">Emphasize community in all communications</div>
+                            <div class="response-item">Increase in-person events with food & nametags</div>
+                            <div class="response-item">Revitalize volunteer program</div>
+                            <div class="response-item">Restore member directory</div>
+                            <div class="response-item"><strong>Plus tactics:</strong> Weekly community time, reinstate food sharing, honor volunteers in bulletin, volunteer training program</div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="concern-item">
-                    <div class="concern-header">Zoom vs. In-Person Balance</div>
-                    <div class="concern-content">
-                        <div class="quote">
-                            "The heart of BOLLI is the connections in the community, and if you don't meet in person you don't get that"
+
+                    <div class="issue-card">
+                        <div class="issue-title">
+                            🏢 Physical Space
+                            <span class="priority-badge priority-1">Priority 1</span>
                         </div>
-                        <div class="strategic-response">
-                            <h4>Strategic Plan Response:</h4>
-                            <ul>
-                                <li>Cross-cutting concern: <span class="highlight">"Balancing Zoom vs. in-person programming"</span></li>
-                                <li><strong>Flexibility & Accessibility</strong> (Group 2) addresses Zoom needs</li>
-                                <li><strong>In-Person Engagement</strong> (Group 1) addresses community building</li>
-                                <li><strong>Physical Accessibility</strong> concerns identified</li>
-                            </ul>
+                        <div class="concerns-list">
+                            <div class="concern-item">Basement location unhealthy</div>
+                            <div class="concern-item">Safety concerns - difficult egress</div>
+                            <div class="concern-item">Poor acoustics in central room</div>
+                        </div>
+                        <div class="responses-list">
+                            <div class="response-item">Vigorously explore new space possibilities</div>
+                            <div class="response-item">Work with Brandeis on Sawyer Road properties</div>
+                            <div class="response-item">Use Weintraub endowment for space</div>
+                        </div>
+                    </div>
+
+                    <div class="issue-card">
+                        <div class="issue-title">
+                            🌐 Communication & Website
+                            <span class="priority-badge priority-1">Priority 1</span>
+                        </div>
+                        <div class="concerns-list">
+                            <div class="concern-item">"Terrible website, hard to navigate"</div>
+                            <div class="concern-item">Lottery system confusing</div>
+                            <div class="concern-item">Missing links and unclear processes</div>
+                        </div>
+                        <div class="responses-list">
+                            <div class="response-item">Complete website overhaul</div>
+                            <div class="response-item">Revamp course catalog to be searchable</div>
+                            <div class="response-item">Explain lottery system clearly with FAQ</div>
+                            <div class="response-item"><strong>Plus tactics:</strong> YouTube channel for course previews, mentoring for new members, reach out to past members who left</div>
+                        </div>
+                    </div>
+
+                    <div class="issue-card">
+                        <div class="issue-title">
+                            👥 Member SGLs (Teachers)
+                            <span class="priority-badge priority-1">Priority 1</span>
+                        </div>
+                        <div class="concerns-list">
+                            <div class="concern-item">Prefer peer learning over outside experts</div>
+                            <div class="concern-item">Best courses from BOLLI members</div>
+                            <div class="concern-item">Need more peer teachers</div>
+                        </div>
+                        <div class="responses-list">
+                            <div class="response-item">Publicize need for member SGLs</div>
+                            <div class="response-item">Develop incentives and supports</div>
+                            <div class="response-item">Offer co-teaching opportunities</div>
+                            <div class="response-item"><strong>Plus tactics:</strong> Emphasize at Back to School Brunch, ask SGLs to recruit students, expand planning workbook</div>
+                        </div>
+                    </div>
+
+                    <div class="issue-card">
+                        <div class="issue-title">
+                            💻 In-Person vs. Zoom Balance
+                            <span class="priority-badge priority-1">Priority 1</span>
+                        </div>
+                        <div class="concerns-list">
+                            <div class="concern-item">Too many Zoom classes</div>
+                            <div class="concern-item">But Zoom essential for accessibility</div>
+                            <div class="concern-item">Transportation/mobility issues</div>
+                        </div>
+                        <div class="responses-list">
+                            <div class="response-item">Increase in-person classes</div>
+                            <div class="response-item">Maintain Zoom for accessibility</div>
+                            <div class="response-item">Implement hybrid technology</div>
+                            <div class="response-item"><strong>Plus tactics:</strong> Record in-person classes, recruit Brandeis faculty, piggyback on existing Brandeis courses</div>
+                        </div>
+                    </div>
+
+                    <div class="issue-card">
+                        <div class="issue-title">
+                            🎭 Distinguished Speaker Series
+                            <span class="priority-badge priority-1">Priority 1</span>
+                        </div>
+                        <div class="concerns-list">
+                            <div class="concern-item">Speaker series "fell off" post-COVID</div>
+                            <div class="concern-item">Miss daily speakers and food</div>
+                            <div class="concern-item">Want more programming options</div>
+                        </div>
+                        <div class="responses-list">
+                            <div class="response-item"><strong>Major expansion:</strong> Offer every weekday classes are held!</div>
+                            <div class="response-item">Hybrid presentations with Zoom simulcasting</div>
+                            <div class="response-item">Small group discussions after lectures</div>
+                            <div class="response-item">Refreshments to encourage staying</div>
+                            <div class="response-item">Recruit Brandeis faculty (not just big names)</div>
+                            <div class="response-item">Consider lunch and learn format</div>
+                        </div>
+                    </div>
+
+                    <div class="issue-card">
+                        <div class="issue-title">
+                            📚 Course Variety & Innovation
+                            <span class="priority-badge priority-2">Priority 2</span>
+                        </div>
+                        <div class="concerns-list">
+                            <div class="concern-item">Want hands-on, non-traditional courses</div>
+                            <div class="concern-item">Need evening courses for working people</div>
+                            <div class="concern-item">Want summer/winter programming</div>
+                        </div>
+                        <div class="responses-list">
+                            <div class="response-item">Partner with theaters, art centers, music venues</div>
+                            <div class="response-item">Study other programs for hands-on ideas</div>
+                            <div class="response-item">Launch film series (BJFF, West Newton)</div>
+                            <div class="response-item">Offer 1-day courses for retirees (e.g., housing options)</div>
+                            <div class="response-item">Year-round programming with flexible lengths</div>
+                        </div>
+                    </div>
+
+                    <div class="issue-card">
+                        <div class="issue-title">
+                            💰 Cost & Accessibility
+                            <span class="priority-badge priority-2">Priority 2</span>
+                        </div>
+                        <div class="concerns-list">
+                            <div class="concern-item">Program too expensive</div>
+                            <div class="concern-item">Pricing structure inflexible</div>
+                            <div class="concern-item">Need per-course option</div>
+                        </div>
+                        <div class="responses-list">
+                            <div class="response-item">Expand marketing to explain value</div>
+                            <div class="response-item">Continue scholarship program</div>
+                            <div class="response-item">Note: NOT pursuing à la carte pricing</div>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <div class="analysis-section">
-                <h2>📊 Partially Addressed Areas</h2>
-                
-                <div class="concern-item">
-                    <div class="concern-header">Technology Support & Digital Divide</div>
-                    <div class="concern-content">
-                        <div class="quote">
-                            "The technology really matters, and some people are more adept than others... some technical difficulties"
-                        </div>
-                        <div class="strategic-response">
-                            <h4>Strategic Plan Recognition:</h4>
-                            <ul>
-                                <li><strong>Technology Support</strong> appears in Groups 1 & 3 concerns</li>
-                                <li>Identified as inadequate for teaching and learning</li>
-                                <li>Need for better help for less tech-savvy members</li>
-                            </ul>
-                        </div>
-                        <div class="gap-analysis">
-                            <h3>Gap Identified:</h3>
-                            <p>While technology support is listed as a concern, the strategic plan doesn't clearly articulate specific solutions for digital literacy training, technical mentorship programs, or improved user interfaces that participants suggested.</p>
-                        </div>
+
+            <div class="section">
+                <h2 class="section-title">Gap Analysis</h2>
+                <div class="gap-analysis">
+                    <div class="gap-section">
+                        <h3>✅ Comprehensively Addressed</h3>
+                        <div class="gap-item good">Community building</div>
+                        <div class="gap-item good">Physical space</div>
+                        <div class="gap-item good">Technology support</div>
+                        <div class="gap-item good">Member SGLs</div>
+                        <div class="gap-item good">Communication/website</div>
+                        <div class="gap-item good">New member integration</div>
+                        <div class="gap-item good">Program variety</div>
                     </div>
-                </div>
-                
-                <div class="concern-item">
-                    <div class="concern-header">Member Recruitment & Peer Teaching</div>
-                    <div class="concern-content">
-                        <div class="quote">
-                            "We need to get more members being SGLs... working on getting more members to become SGLs"
-                        </div>
-                        <div class="strategic-response">
-                            <h4>Strategic Plan Recognition:</h4>
-                            <ul>
-                                <li><strong>Member Recruitment</strong> identified (Group 3)</li>
-                                <li><strong>Declining Participation</strong> in teaching noted (Group 1)</li>
-                                <li><strong>Member-Taught Courses</strong> valued (Group 1)</li>
-                            </ul>
-                        </div>
+                    <div class="gap-section">
+                        <h3>⚠️ Partial Response / Compromises</h3>
+                        <div class="gap-item partial">Pricing structure - maintains current model, focuses on value communication</div>
+                        <div class="gap-item partial">Course access - addresses through planning, but demand may exceed capacity</div>
                     </div>
                 </div>
             </div>
-            
-            <div class="analysis-section">
-                <h2>⚠️ Significant Gaps in Strategic Plan</h2>
+
+            <div class="conclusion">
+                <h2>📊 Bottom Line Assessment</h2>
+                <p style="font-size: 1.2em; margin-bottom: 20px;">The strategic plan demonstrates excellent responsiveness to focus group concerns, with concrete actions addressing virtually every issue raised.</p>
                 
-                <div class="gap-analysis">
-                    <h3>1. Cost & Financial Accessibility</h3>
-                    <p><strong>Focus Group Concern:</strong> "People are leaving because of the cost... we may be pricing ourselves out"</p>
-                    <p><strong>Strategic Plan Gap:</strong> While "Cost and Value" appears as a concern in Group 2, there's limited strategic response to pricing flexibility, sliding scale options, or alternative membership models that participants extensively discussed.</p>
+                <div class="conclusion-grid">
+                    <div class="conclusion-box">
+                        <h3>🎯 Key Strengths</h3>
+                        <ul>
+                            <li>83+ specific actions and tactics (not just 50!)</li>
+                            <li>Innovative solutions: YouTube channel, hybrid tech, AI training</li>
+                            <li>Detailed implementation plans with concrete steps</li>
+                            <li>Strong focus on Brandeis connections and alumni</li>
+                            <li>Balance between tradition and innovation</li>
+                        </ul>
+                    </div>
+                    <div class="conclusion-box">
+                        <h3>💡 Notable Innovations</h3>
+                        <ul>
+                            <li>YouTube course preview channel</li>
+                            <li>DSS expansion to every weekday</li>
+                            <li>Film series partnerships (BJFF, West Newton)</li>
+                            <li>AI workshops for all SGLs</li>
+                            <li>Student intern for social media</li>
+                            <li>One-day courses for retirees</li>
+                        </ul>
+                    </div>
                 </div>
-                
-                <div class="gap-analysis">
-                    <h3>2. Physical Plant & Facility Issues</h3>
-                    <p><strong>Focus Group Concern:</strong> "It's really not good... basement location, poor ventilation, safety concerns, no windows"</p>
-                    <p><strong>Strategic Plan Gap:</strong> "Physical Plant Issues" noted in Group 1, but the strategic plan doesn't clearly address facility relocation or major infrastructure improvements as a strategic priority.</p>
+
+                <div style="margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.2); border-radius: 10px;">
+                    <p style="font-size: 1.3em; font-weight: bold; margin-bottom: 15px;">
+                        🎉 The Tactics/Suggestions field reveals MUCH MORE depth than initially visible!
+                    </p>
+                    <p style="font-size: 1.1em;">
+                        With 83+ total actions and tactics (not just 50), the plan shows extraordinary attention to detail and implementation specifics. BOLLI leadership has clearly thought through HOW to execute each strategy with concrete, actionable steps.
+                    </p>
                 </div>
-                
-                <div class="gap-analysis">
-                    <h3>3. Website & Information Architecture</h3>
-                    <p><strong>Focus Group Concern:</strong> "We have the worst website... none of this is intuitive... people don't know about what's being offered"</p>
-                    <p><strong>Strategic Plan Gap:</strong> While "Information Gaps" and "Communication Failures" are identified, the strategic plan doesn't prioritize comprehensive website redesign or information architecture overhaul.</p>
-                </div>
-                
-                <div class="gap-analysis">
-                    <h3>4. New Member Integration & Onboarding</h3>
-                    <p><strong>Focus Group Concern:</strong> "Nobody talked to me... how to make the adaptation smoother... freshman orientation"</p>
-                    <p><strong>Strategic Plan Gap:</strong> Community building is recognized, but specific onboarding, mentorship, or new member integration programs aren't clearly articulated as strategic initiatives.</p>
-                </div>
-                
-                <div class="gap-analysis">
-                    <h3>5. Competitive Positioning & Marketing</h3>
-                    <p><strong>Focus Group Concern:</strong> "Much more competitive now... we're the expensive one... no marketing at all"</p>
-                    <p><strong>Strategic Plan Gap:</strong> "Marketing & Visibility" and "Competitive Landscape" are noted concerns, but strategic marketing initiatives and competitive positioning strategies aren't clearly defined.</p>
-                </div>
-            </div>
-            
-            <div class="recommendations">
-                <h3>🔍 Recommendations for Strategic Plan Enhancement</h3>
-                
-                <h4>1. Develop Specific Action Items</h4>
-                <ul>
-                    <li>Transform high-level concerns into concrete, measurable initiatives</li>
-                    <li>Create implementation timelines for major areas like website redesign</li>
-                    <li>Establish metrics for community engagement and member satisfaction</li>
-                </ul>
-                
-                <h4>2. Address Financial Sustainability</h4>
-                <ul>
-                    <li>Develop alternative membership models (à la carte, sliding scale, partial memberships)</li>
-                    <li>Create scholarship programs and financial aid strategies</li>
-                    <li>Analyze cost structure and value proposition messaging</li>
-                </ul>
-                
-                <h4>3. Prioritize Member Experience Improvements</h4>
-                <ul>
-                    <li>Comprehensive new member onboarding program</li>
-                    <li>Technology literacy and support programs</li>
-                    <li>Enhanced information systems and communication</li>
-                </ul>
-                
-                <h4>4. Balance Innovation with Community</h4>
-                <ul>
-                    <li>Develop hybrid programming that maximizes both accessibility and community</li>
-                    <li>Create structured social opportunities within educational programming</li>
-                    <li>Maintain peer-learning model while ensuring quality</li>
-                </ul>
-            </div>
-            
-            <div class="analysis-section">
-                <h2>📈 Overall Assessment</h2>
-                <p>The strategic plan demonstrates <strong>good awareness</strong> of the major themes emerging from focus groups, particularly around community building, academic quality, and the Zoom/in-person balance. However, there's a significant gap between <strong>problem identification</strong> and <strong>strategic solution development</strong>.</p>
-                
-                <p>The plan would benefit from:</p>
-                <ul>
-                    <li>More specific, actionable initiatives</li>
-                    <li>Clear prioritization and resource allocation</li>
-                    <li>Metrics and accountability measures</li>
-                    <li>Implementation timelines</li>
-                    <li>Address the "low-hanging fruit" issues that could be resolved quickly</li>
-                </ul>
             </div>
         </div>
     </div>
