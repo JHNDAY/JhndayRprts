@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOLLI Priority Objectives V2 - Interactive Drill-Down</title>
+    <title>BOLLI Strategic Plan - Interactive Drill-Down</title>
     <style>
         * {
             margin: 0;
@@ -52,11 +52,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 30px;
-            padding: 15px 20px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            flex-wrap: wrap;
+            justify-content: center;
         }
         
         .breadcrumb-item {
@@ -131,22 +128,6 @@
         .card:hover {
             transform: translateY(-10px) scale(1.02);
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-        }
-        
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
-        }
-        
-        .card:hover::before {
-            transform: translateX(100%);
         }
         
         .goal-card {
@@ -242,11 +223,6 @@
             border-left-color: #3498db;
         }
         
-        .action-card {
-            min-height: 160px;
-            border-left-color: #27ae60;
-        }
-        
         .priority-badge {
             position: absolute;
             top: 15px;
@@ -264,10 +240,6 @@
         
         .priority-2 {
             background: linear-gradient(135deg, #f39c12, #e67e22);
-        }
-        
-        .priority-3 {
-            background: linear-gradient(135deg, #27ae60, #229954);
         }
         
         .meta-info {
@@ -307,44 +279,8 @@
             opacity: 0.8;
         }
         
-        .fade-in {
-            animation: fadeIn 0.6s ease forwards;
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .slide-in-left {
-            animation: slideInLeft 0.6s ease forwards;
-        }
-        
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-        
         .hidden {
             display: none;
-        }
-        
-        .action-text {
-            font-size: 0.95rem;
-            line-height: 1.5;
-            margin-bottom: 12px;
         }
         
         .objective-code {
@@ -353,269 +289,106 @@
             font-weight: 600;
             margin-bottom: 8px;
         }
+        
+        .details-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .details-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+        }
+        
+        .section-content {
+            color: #555;
+            line-height: 1.7;
+        }
+        
+        .section-content ol {
+            margin-left: 20px;
+        }
+        
+        .section-content li {
+            margin-bottom: 10px;
+        }
+        
+        .meta-info-details {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .details-container {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>BOLLI Priority Objectives</h1>
-            <p>September 19, 2025</p>
+            <h1>BOLLI Strategic Plan</h1>
+            <p>September 18, 2025</p>
             <div class="breadcrumb">
                 <span class="breadcrumb-item active" id="breadcrumb-goals">Goals</span>
                 <span class="breadcrumb-separator">›</span>
                 <span class="breadcrumb-item" id="breadcrumb-objectives">Objectives</span>
                 <span class="breadcrumb-separator">›</span>
-                <span class="breadcrumb-item" id="breadcrumb-actions">Actions</span>
+                <span class="breadcrumb-item" id="breadcrumb-actions">Details</span>
             </div>
         </div>
         
         <button class="back-button" id="back-btn">← Back</button>
         
-        <!-- Level 1: Goals -->
         <div id="level-goals" class="level-container">
             <div class="level-title">Strategic Goals</div>
-            <div class="cards-grid">
-                <div class="card goal-card curriculum" data-goal="curriculum">
-                    <div class="card-title">
-                        <span class="card-icon">📚</span>
-                        Enhance BOLLI Curriculum
-                    </div>
-                    <div class="card-description">
-                        Improve course offerings, increase faculty participation, and modernize educational delivery methods through flexible scheduling and innovative partnerships.
-                    </div>
-                    <div class="card-stats">
-                        <div class="stat-item">
-                            <div class="stat-number">9</div>
-                            <div class="stat-label">Objectives</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">6</div>
-                            <div class="stat-label">Priority 1</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">3</div>
-                            <div class="stat-label">Priority 2</div>
-                        </div>
-                    </div>
-                    <div class="click-hint">Click to explore objectives</div>
-                </div>
-                
-                <div class="card goal-card community" data-goal="community">
-                    <div class="card-title">
-                        <span class="card-icon">👥</span>
-                        Improve Community Within BOLLI
-                    </div>
-                    <div class="card-description">
-                        Foster stronger connections among members through enhanced programming, communication, and volunteer opportunities to build a thriving learning community.
-                    </div>
-                    <div class="card-stats">
-                        <div class="stat-item">
-                            <div class="stat-number">8</div>
-                            <div class="stat-label">Objectives</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">6</div>
-                            <div class="stat-label">Priority 1</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">0</div>
-                            <div class="stat-label">Priority 2</div>
-                        </div>
-                    </div>
-                    <div class="click-hint">Click to explore objectives</div>
-                </div>
-                
-                <div class="card goal-card infrastructure" data-goal="infrastructure">
-                    <div class="card-title">
-                        <span class="card-icon">🏗️</span>
-                        Improve Infrastructure
-                    </div>
-                    <div class="card-description">
-                        Develop new facilities, implement hybrid technology solutions, and enhance organizational systems to support BOLLI's growth and modernization.
-                    </div>
-                    <div class="card-stats">
-                        <div class="stat-item">
-                            <div class="stat-number">3</div>
-                            <div class="stat-label">Objectives</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">3</div>
-                            <div class="stat-label">Priority 1</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">0</div>
-                            <div class="stat-label">Priority 2</div>
-                        </div>
-                    </div>
-                    <div class="click-hint">Click to explore objectives</div>
-                </div>
-                
-                <div class="card goal-card financial" data-goal="financial">
-                    <div class="card-title">
-                        <span class="card-icon">💰</span>
-                        Ensure Financial Sustainability
-                    </div>
-                    <div class="card-description">
-                        Strengthen financial foundation through organizational restructuring, expanded marketing, enhanced fundraising, and strategic growth initiatives.
-                    </div>
-                    <div class="card-stats">
-                        <div class="stat-item">
-                            <div class="stat-number">4</div>
-                            <div class="stat-label">Objectives</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">1</div>
-                            <div class="stat-label">Priority 1</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">0</div>
-                            <div class="stat-label">Priority 2</div>
-                        </div>
-                    </div>
-                    <div class="click-hint">Click to explore objectives</div>
-                </div>
-            </div>
+            <div class="cards-grid" id="goals-grid"></div>
         </div>
         
-        <!-- Level 2: Objectives -->
         <div id="level-objectives" class="level-container hidden">
             <div class="level-title" id="objectives-title">Objectives</div>
-            <div class="cards-grid" id="objectives-grid">
-                <!-- Objectives will be populated dynamically -->
-            </div>
+            <div class="cards-grid" id="objectives-grid"></div>
         </div>
         
-        <!-- Level 3: Actions -->
         <div id="level-actions" class="level-container hidden">
-            <div class="level-title" id="actions-title">Actions</div>
-            <div class="cards-grid" id="actions-grid">
-                <!-- Actions will be populated dynamically -->
-            </div>
+            <div class="level-title" id="actions-title">Details</div>
+            <div id="actions-content"></div>
         </div>
     </div>
 
     <script>
-        // Data structure for the strategic plan
         const strategicPlan = {
             curriculum: {
                 title: "Enhance BOLLI Curriculum",
                 icon: "📚",
                 color: "curriculum",
                 objectives: {
-                    curriculum_planning: {
-                        code: "A",
-                        title: "Intentionally Plan Curriculum",
-                        priority: 1,
-                        timeline: "Fall 2026",
-                        responsible: "CC",
-                        resources: "Modest (outside SGLs). Ted & Robin coordination",
-                        actions: [
-                            "Put out RFP for desired courses (using survey and lottery data) to BOLLI members and advertising outside BOLLI",
-                            "Recruit outside SGLs to match gaps in curriculum"
-                        ]
-                    },
-                    member_participation: {
-                        code: "B",
-                        title: "Increase Participation of Member SGLs",
-                        priority: 1,
-                        timeline: "Fall 2025",
-                        responsible: "SGSC",
-                        resources: "",
-                        actions: [
-                            "Expand and publicize workbook and sessions on course planning",
-                            "Emphasize need for teaching in registration materials and social events like Back to School Brunch",
-                            "Ask SGLs to recruit promising students",
-                            "Coteach with current SGL"
-                        ]
-                    },
-                    flexible_scheduling: {
-                        code: "C",
-                        title: "Experiment with More Flexible Course Schedule",
-                        priority: 2,
-                        timeline: "Spring 2026",
-                        responsible: "CC",
-                        resources: "Minimal",
-                        actions: [
-                            "Pilot several courses outside usual schedule: a.Evening classes b.One-day sessions c. Off cycle starts d. One-two session classes"
-                        ]
-                    },
-                    in_person_classes: {
-                        code: "D",
-                        title: "Increase Number of In Person Classes",
-                        priority: 1,
-                        timeline: "Spring 2026 Summer 2026 Spring 2026 Fall 2027",
-                        responsible: "SGSC and CC",
-                        resources: "",
-                        actions: [
-                            "Actively recruit Brandeis faculty (Network with Brandeis faculty currently teaching at BOLLI for suggestions)",
-                            "Advertise for in person faculty",
-                            "If SGL lists both in person and Zoom, ask them to teach in person",
-                            "Piggy back on existing Brandeis courses to recruit faculty",
-                            "Record in-person classes using Zoom"
-                        ]
-                    },
-                    online_support: {
-                        code: "E",
-                        title: "Improve Support for Online Courses",
-                        priority: 1,
-                        timeline: "Fall 2025 Spring 2026",
-                        responsible: "SGSC",
-                        resources: "",
-                        actions: [
-                            "Reinforce use of checklists in class",
-                            "Revisit appointment of co-hosts",
-                            "Implement standards for tech skills",
-                            "Require digital literacy for Zoom SGLs"
-                        ]
-                    },
-                    nontraditional_courses: {
-                        code: "F",
-                        title: "Add Non-Traditional Courses",
-                        priority: 2,
-                        timeline: "Winter 2025-26 Summer 2026",
-                        responsible: "Ted + committee (incl 1 CC member)",
-                        resources: "",
-                        actions: [
-                            "Explore partnering with theaters, art centers and music venues/tie to cultural events",
-                            "Study catalogs in other programs for ideas for hands-on classes",
-                            "Encourage member SGLs to try out ideas for non-traditional courses",
-                            "Launch film series and discussions using Boston-area film series (BJFF, West Newton)"
-                        ]
-                    },
-                    sgl_competencies: {
-                        code: "G",
-                        title: "Enhance SGL Competencies",
-                        priority: null,
-                        timeline: "",
-                        responsible: "Tech Committee",
-                        resources: "",
-                        actions: [
-                            "Develop program to train SGLs in use of AI in their courses"
-                        ]
-                    },
-                    osher_partnerships: {
-                        code: "H",
-                        title: "Partner with Other Osher Programs",
-                        priority: 2,
-                        timeline: "Spring 2026",
-                        responsible: "Ted + working group",
-                        resources: "",
-                        actions: [
-                            "Explore shared courses with other Boston area OLLIs",
-                            "Pilot small group BOLLI discussions after shared lecture programs, both in person and on Zoom"
-                        ]
-                    },
-                    lecture_program: {
-                        code: "I",
-                        title: "Launch BOLLI Shared Lecture Program",
-                        priority: 3,
-                        timeline: "2027",
-                        responsible: "",
-                        resources: "Considerable",
-                        actions: [
-                            "Speak with our star lecturers about potential programs"
-                        ]
-                    }
+                    A: { title: "Intentionally Plan Curriculum", priority: 1, timeline: "Fall 2026", responsible: "CC", resources: "Modest ($ for outside SGLs). Ted & Robin coordination", actions: ["Put out RFP for desired courses", "Recruit outside and member SGLs to match gaps in curriculum"], tactics: ["Use survey data and focus group results to determine gaps", "Recruit faculty to meet gaps, prioritizing Brandeis faculty"] },
+                    B: { title: "Increase Participation of Member SGLs", priority: 1, timeline: "Fall 2025", responsible: "CC", resources: "Minimal", actions: ["Publicize need for member SGLs and resources currently available for developing courses", "Develop additional incentives and supports for member SGLs"], tactics: ["Expand and publicize workbook and sessions on course planning", "Emphasize need for teaching in registration materials and social events like Back to School Brunch", "Ask SGLs to recruit promising students", "Offer the opportunity to co-teach with experienced SGL"] },
+                    C: { title: "Experiment with More Flexible Course Schedule", priority: 2, timeline: "Spring 2026", responsible: "CC", resources: "Minimal-may be space constraints", actions: ["Pilot several courses outside usual schedule"], tactics: ["Offer 1-2 courses", "Try an evening course", "Allow courses at lengths that do not conform to the 5 and 10 week limit", "Provide summer and winter term classes so that the academic schedule is year round"] },
+                    D: { title: "Increase Number of In Person Classes", priority: 1, timeline: "Spring 2026, Fall 2027", responsible: "CC", resources: "Modest - some cost for outside SGLs", actions: ["Short-term: Steer SGLs who list 'both' toward teaching in person and record in person classes using Zoom", "Longer-term: marketing and recruitment for in-person faculty"], tactics: ["Actively recruit Brandeis faculty (Network with Brandeis faculty currently teaching at BOLLI for suggestions)", "Advertise for in person faculty", "Piggy back on existing Brandeis courses to recruit faculty"] },
+                    E: { title: "Improve Support for Online Courses", priority: 1, timeline: "Fall 2025, Spring 2026", responsible: "SGSC", resources: "", actions: ["Reinforce use of SGL checklists in class", "Revisit appointment and training of co-hosts", "Implement standards for tech skills", "Require digital literacy for Zoom SGLs"], tactics: ["Short-term workshops for tech skills", "One-to-one encouragement of checklists between SGSC liaisons and SGLs", "Recruit co-hosts"] },
+                    F: { title: "Add Non-Traditional Courses", priority: 2, timeline: "Winter 2025-26, Summer 2026", responsible: "Ted + committee (incl 1 CC member)", resources: "", actions: ["Explore partnering with cultural venues", "Encourage member SGLs to try out ideas for non-traditional courses"], tactics: ["Consider theaters, art centers and music venues/tie to cultural events", "Study catalogs in other programs for ideas for hands-on classes", "Launch film series and discussions using Boston-area film series (BJFF, West Newton)"] },
+                    G: { title: "Enhance SGL Competencies", priority: null, timeline: "Winter 2025-26", responsible: "Tech Committee and SGSC", resources: "Moderate: may involve consultant/subscriptions", actions: ["Develop program to train SGLs in use of AI in their courses"], tactics: ["Workshop in AI for all interested SGLs", "Ongoing support through Tech Committee"] },
+                    H: { title: "Partner with Other Osher Programs", priority: 2, timeline: "Spring 2026", responsible: "Ted + working group", resources: "", actions: ["Explore shared courses with other Boston area OLLIs (in person) and other Oshers nationally (online)", "Pilot small group BOLLI discussions after shared lecture programs, both in person and on Zoom"], tactics: [] },
+                    I: { title: "Launch BOLLI Shared Lecture Program", priority: 3, timeline: "2027", responsible: "", resources: "Considerable", actions: ["Plan Zoom large lecture series featuring BOLLI SGLs"], tactics: ["Speak with our star lecturers about potential programs"] }
                 }
             },
             community: {
@@ -623,119 +396,14 @@
                 icon: "👥",
                 color: "community",
                 objectives: {
-                    community_emphasis: {
-                        code: "A",
-                        title: "Emphasize Importance of Community as Key Aspect of BOLLI",
-                        priority: 1,
-                        timeline: "",
-                        responsible: "Membership Committee+",
-                        resources: "",
-                        actions: [
-                            "Describe BOLLI as community of learners in promotional materials",
-                            "Emphasize community in application and explain ways to get involved",
-                            "Create programs for members who joined since Covid to integrate them into community",
-                            "Swag!!!"
-                        ]
-                    },
-                    member_engagement: {
-                        code: "B",
-                        title: "Explore Ways to Draw Members to BOLLI for Both Informal and Formal Programming",
-                        priority: 1,
-                        timeline: "Fall 2025",
-                        responsible: "",
-                        resources: "",
-                        actions: [
-                            "Make nametags visible and available",
-                            "Designate a weekly community time for informal interactions",
-                            "Reinstate practice of in-person class members bringing food each day there are classes or activities"
-                        ]
-                    },
-                    classroom_socialization: {
-                        code: "C",
-                        title: "Use Classroom Experiences to Increase Socialization",
-                        priority: 1,
-                        timeline: "",
-                        responsible: "SGSC",
-                        resources: "",
-                        actions: [
-                            "Encourage small group breakouts and projects",
-                            "Increase field trips and other experiential learning",
-                            "Add breakout sessions for large lectures",
-                            "Require pre-class orientation for introductions"
-                        ]
-                    },
-                    volunteer_program: {
-                        code: "D",
-                        title: "Revitalize Volunteer Program",
-                        priority: 1,
-                        timeline: "",
-                        responsible: "Volunteer coordinator + staff",
-                        resources: "",
-                        actions: [
-                            "Consider ways to emphasize importance of volunteerism to BOLLI community, as well as the benefits of volunteering",
-                            "Enlist membership in new committees and task groups arising out of the Strategic Plan (e.g. catalog, website, marketing)",
-                            "Introduce volunteer work in new member orientation, with presentations from committee chairs",
-                            "Increase incentives to volunteer including more social occasions for committees and task groups",
-                            "Publicize volunteer opportunities in Bulletin (e.g., investment group)",
-                            "Develop training program for volunteer leadership",
-                            "Find ways to use volunteers for short term tasks such as welcoming new members"
-                        ]
-                    },
-                    dss_program: {
-                        code: "E",
-                        title: "Revamp DSS Program",
-                        priority: 1,
-                        timeline: "",
-                        responsible: "DSS committee",
-                        resources: "",
-                        actions: [
-                            "Invite all speakers to be in person and offer Zoom simulcasting",
-                            "Offer program every week day that in person classes are offered",
-                            "Recruit Brandeis faculty as speakers – not necessary to always have big name speaker",
-                            "Provide opportunity for small group discussion after lecture",
-                            "Provide refreshments to encourage members to stick around",
-                            "Consider a lunch and learn group"
-                        ]
-                    },
-                    sig_formation: {
-                        code: "F",
-                        title: "Encourage SIG Formation and Attendance",
-                        priority: null,
-                        timeline: "",
-                        responsible: "Ted + volunteer champions",
-                        resources: "",
-                        actions: [
-                            "Encourage members to form new SIGs with guidance and workbook similar to current one for new SGLs",
-                            "Experiment with evening interest-based gatherings or geographic meet-ups"
-                        ]
-                    },
-                    communication: {
-                        code: "G",
-                        title: "Improve Communication Within BOLLI",
-                        priority: 1,
-                        timeline: "Fall 2025",
-                        responsible: "website committee Marketing committee",
-                        resources: "",
-                        actions: [
-                            "Restore member directory",
-                            "Improve website and course catalog (searchable, with calendar and links to course descriptions and videos; YouTube channel with course previews)",
-                            "Improve and expand new member orientation with in-person meetings and options for mentoring",
-                            "Use BOLLI Bulletin more intentionally to convey volunteer opportunities, policies and schedule reminders",
-                            "More clearly explain lottery system and assist members in using it. FAQ & bulletin blurb"
-                        ]
-                    },
-                    website_catalog: {
-                        code: "H",
-                        title: "Improve Website and Catalog",
-                        priority: 1,
-                        timeline: "Winter 2025-26 Summer 2026",
-                        responsible: "",
-                        resources: "",
-                        actions: [
-                            "Explore ways, both with Brandeis IT and independently, to develop a website appropriate to BOLLI",
-                            "Form a working group to revamp course catalog"
-                        ]
-                    }
+                    A: { title: "Emphasize Importance of Community as Key Aspect of BOLLI", priority: 1, timeline: "", responsible: "Memb. committee", resources: "", actions: ["Promote concept of community in communications inside and outside BOLLI", "Create programs (and enhance current programs) to integrate new members into community"], tactics: ["Describe BOLLI as community of learners in promotional materials", "Emphasize community in application and explain ways to get involved", "Create 'get acquainted' programs for members who joined since COVID", "Encourage members and SGLs to reach out to others and plan social events"] },
+                    B: { title: "Draw Members to BOLLI for Informal and Formal Programming", priority: 1, timeline: "Fall 2025", responsible: "Ted, Robin, Hospitality Group?", resources: "Moderate (food, performers, staff time)", actions: ["Increase in-person events within BOLLI space", "Enhance shared space to be more welcoming to members (food, name tags, music)"], tactics: ["Make nametags visible and available", "Designate a weekly community time for informal interactions", "Reinstate practice of in-person class members bringing food each day there are classes or activities"] },
+                    C: { title: "Use Classroom Experiences to Increase Socialization", priority: 1, timeline: "", responsible: "SGSC", resources: "Minimal", actions: ["Work with SGLs to add social experiences to classes (small groups, field trips, breakout sessions, projects)", "Pre-class orientation sessions"], tactics: ["Breakout sessions for larger lectures", "Strongly encourage pre-class orientation"] },
+                    D: { title: "Revitalize Volunteer Program", priority: 1, timeline: "", responsible: "Volunteer coordinator + staff", resources: "Minimal", actions: ["Communicate volunteer opportunities and benefits widely and often within BOLLI", "Increase incentives to volunteer including more social occasions for committees and task groups"], tactics: ["Consider ways to emphasize importance of volunteerism to BOLLI community, as well as the benefits of volunteering", "Enlist membership in new committees and task groups arising out of the Strategic Plan", "Introduce volunteer work in new member orientation, with presentations from committee chairs", "Publicize volunteer opportunities in Bulletin", "Develop training program for volunteer leadership", "Find ways to use volunteers for short term tasks such as welcoming new members", "Honor volunteers in bulletin"] },
+                    E: { title: "Enhance DSS Program", priority: 1, timeline: "", responsible: "DSS committee", resources: "Small group discussion will need space", actions: ["Pilot hybrid presentation", "Increase frequency of presentations/wider selection of speakers", "Provide opportunity for small group discussion after lecture", "Provide refreshments after speakers"], tactics: ["Invite all speakers to be in person and offer Zoom simulcasting", "Offer program every week day that in person classes are offered", "Recruit Brandeis faculty as speakers – not necessary to always have big name speaker", "Provide refreshments to encourage members to stick around", "Consider a lunch and learn group"] },
+                    F: { title: "Encourage SIG Formation and Attendance", priority: null, timeline: "", responsible: "Ted + volunteer champions", resources: "", actions: ["Encourage members to form new SIGs with guidance and workbook similar to current one for new SGLs", "Experiment with evening interest-based gatherings or geographic meet-ups"], tactics: ["Communicate to members about the value of reaching out and initiating social events and contacts with classmates"] },
+                    G: { title: "Improve Communication Within BOLLI", priority: 1, timeline: "Fall 2025", responsible: "Ted/Robin, Marketing committee", resources: "", actions: ["Restore member directory", "Use BOLLI Bulletin more intentionally for communication"], tactics: ["Improve website and course catalog (searchable, with calendar and links)", "Use BOLLI Bulletin more intentionally to convey volunteer opportunities, policies and schedule reminders", "Improve and expand new member orientation with in-person meetings and options for mentoring", "More clearly explain the lottery system and assist members in using it. FAQ & bulletin blurb"] },
+                    H: { title: "Improve Website, Catalog and Lottery System", priority: 1, timeline: "Winter 2025-26, Summer 2026", responsible: "Marketing committee, Ted, Robin, Tech committee", resources: "Consultant", actions: ["Explore ways, both with Brandeis IT and independently, to develop a website appropriate to BOLLI", "Form a working group to revamp course catalog", "Improve understanding of lottery system", "Consider re-programming lottery system"], tactics: [] }
                 }
             },
             infrastructure: {
@@ -743,45 +411,9 @@
                 icon: "🏗️",
                 color: "infrastructure",
                 objectives: {
-                    space_facilities: {
-                        code: "A",
-                        title: "Vigorously Explore and Implement New Space Possibilities",
-                        priority: 1,
-                        timeline: "",
-                        responsible: "Ted and Marsha",
-                        resources: "Weintraub endowment",
-                        actions: [
-                            "Work with Brandeis leadership to stay informed on plans for Sawyer Road properties",
-                            "Once new space is identified, develop plan for build out of new space",
-                            "Create timeline for move"
-                        ]
-                    },
-                    hybrid_technology: {
-                        code: "B",
-                        title: "Implement Hybrid Technology",
-                        priority: 1,
-                        timeline: "",
-                        responsible: "",
-                        resources: "",
-                        actions: [
-                            "Pilot hybrid courses again",
-                            "Consult with organizations with hybrid courses and identify best practices",
-                            "Pilot hybrid technology and examine effect on class size, logistics and satisfaction",
-                            "Explore temporary hybrid options for current space",
-                            "Explore options for built-in camera, screen etc for new classrooms and gathering space"
-                        ]
-                    },
-                    technology_literacy: {
-                        code: "C",
-                        title: "Improve Technology Literacy",
-                        priority: 1,
-                        timeline: "",
-                        responsible: "",
-                        resources: "",
-                        actions: [
-                            "Enhance digital skills training for members and staff"
-                        ]
-                    }
+                    A: { title: "Vigorously Explore and Implement New Space Possibilities", priority: 1, timeline: "", responsible: "Ted and Marsha", resources: "Weintraub endowment", actions: ["Work with Brandeis leadership to stay informed on plans for Sawyer Road properties", "Once new space is identified, develop plan for build out of new space", "Create timeline for move"], tactics: [] },
+                    B: { title: "Implement Hybrid Technology", priority: 1, timeline: "", responsible: "Tech Committee", resources: "", actions: ["Pilot hybrid courses and examine effect on class size, logistics and satisfaction", "Explore temporary hybrid options for current space and more permanent options as new space becomes available"], tactics: ["Consult with organizations with hybrid courses and identify best practices", "Explore options for built-in camera, screen etc for new classrooms and gathering space"] },
+                    C: { title: "Improve Technology Literacy", priority: 1, timeline: "", responsible: "Tech Committee", resources: "Minimal - training time", actions: ["Offer courses to new and returning SGLs", "Require Zoom proficiency certification for SGLs"], tactics: [] }
                 }
             },
             financial: {
@@ -789,77 +421,18 @@
                 icon: "💰",
                 color: "financial",
                 objectives: {
-                    departmental_affiliation: {
-                        code: "A",
-                        title: "Explore Change in Departmental Affiliation with Brandeis",
-                        priority: 1,
-                        timeline: "",
-                        responsible: "",
-                        resources: "",
-                        actions: [
-                            "With Brandeis leadership, develop transition plan to move from Rabb School to IA"
-                        ]
-                    },
-                    financial_understanding: {
-                        code: "B",
-                        title: "Ensure Ongoing Understanding of Financial Position",
-                        priority: null,
-                        timeline: "",
-                        responsible: "",
-                        resources: "",
-                        actions: [
-                            "Maintain BOLLI balance sheet",
-                            "Develop plan for use of gift and endowment funds",
-                            "Cultivate relationships within IA and Finance to understand financial status and flow of financial information in a timely fashion",
-                            "Understand more clearly current and future financial needs"
-                        ]
-                    },
-                    marketing_expansion: {
-                        code: "C",
-                        title: "Expand Marketing to Attract New Members",
-                        priority: null,
-                        timeline: "",
-                        responsible: "Form Marketing Committee",
-                        resources: "",
-                        actions: [
-                            "Set target membership",
-                            "Form Marketing Committee to develop marketing plan",
-                            "Invite members (via email or BOLLI Bulletin) with marketing experience",
-                            "Create materials to actively recruit members at senior centers, retirement communities, libraries and for general distribution",
-                            "Reach out to past/trial members who did not continue",
-                            "Improve social media presence – student intern?",
-                            "Consider targeted ads in AARP, community publications",
-                            "Develop joint approach with Institutional Advancement and Brandeis National Committee to recruit Brandeis alumni as members and SGLs",
-                            "Offer one day course in topics of interest to retirees, e.g., housing options",
-                            "Market outside Boston area ???"
-                        ]
-                    },
-                    fundraising: {
-                        code: "D",
-                        title: "Ramp Up Fundraising Efforts",
-                        priority: null,
-                        timeline: "",
-                        responsible: "",
-                        resources: "",
-                        actions: [
-                            "Post finalization of strategic plan, launch fundraising campaign",
-                            "Target areas for fundraising",
-                            "Think creatively about philanthropic interests to target (e.g., music courses)",
-                            "Launch annual giving campaign",
-                            "Form Fundraising Committee",
-                            "Invite members (via email or BOLLI Bulletin) with philanthropy capacity and/or fundraising experience"
-                        ]
-                    }
+                    A: { title: "Explore Change in Departmental Affiliation with Brandeis", priority: 1, timeline: "", responsible: "Ted", resources: "", actions: ["With Brandeis leadership, develop transition plan to move from Rabb School to IA"], tactics: [] },
+                    B: { title: "Ensure Ongoing Understanding of Financial Position", priority: 1, timeline: "", responsible: "Finance Committee?", resources: "", actions: ["Maintain BOLLI balance sheet", "Develop plan for use of gift and endowment funds", "Understand more clearly current and future financial needs"], tactics: [] },
+                    C: { title: "Expand Marketing to Attract New Members", priority: 2, timeline: "", responsible: "Marketing Committee", resources: "", actions: ["Set target membership", "Form Marketing Committee", "Improve social media presence"], tactics: ["Develop marketing plan to recruit and retain members", "Create materials to actively recruit members at senior centers, retirement communities, libraries", "Reach out to past/trial members who did not continue", "Consider student intern for social media", "Consider targeted ads in AARP, community publications", "Develop joint approach with Institutional Advancement and Brandeis National Committee", "Offer one day course in topics of interest to retirees", "Market outside Boston area", "Emphasize value of BOLLI as a total program"] },
+                    D: { title: "Ramp Up Fundraising Efforts", priority: null, timeline: "", responsible: "Fundraising Committee", resources: "", actions: ["Form Fundraising Committee", "Post finalization of strategic plan, launch fundraising campaign for targeted areas or projects", "Launch annual giving campaign"], tactics: ["Target areas for fundraising. Think creatively about philanthropic interests to target", "For fundraising committee, invite members with philanthropy capacity and/or fundraising experience", "Consider fundraising to support special programming and scholarship fund"] }
                 }
             }
         };
 
-        // Navigation state
         let currentLevel = 'goals';
         let currentGoal = null;
         let currentObjective = null;
 
-        // Elements
         const backBtn = document.getElementById('back-btn');
         const levelGoals = document.getElementById('level-goals');
         const levelObjectives = document.getElementById('level-objectives');
@@ -867,185 +440,138 @@
         const objectivesTitle = document.getElementById('objectives-title');
         const actionsTitle = document.getElementById('actions-title');
         const objectivesGrid = document.getElementById('objectives-grid');
-        const actionsGrid = document.getElementById('actions-grid');
-
-        // Breadcrumb elements
+        const goalsGrid = document.getElementById('goals-grid');
+        const actionsContent = document.getElementById('actions-content');
         const breadcrumbGoals = document.getElementById('breadcrumb-goals');
         const breadcrumbObjectives = document.getElementById('breadcrumb-objectives');
         const breadcrumbActions = document.getElementById('breadcrumb-actions');
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add click listeners to goal cards
-            document.querySelectorAll('.goal-card').forEach(card => {
-                card.addEventListener('click', function() {
-                    const goalKey = this.getAttribute('data-goal');
-                    showObjectives(goalKey);
-                });
+        function init() {
+            Object.keys(strategicPlan).forEach(goalKey => {
+                const goal = strategicPlan[goalKey];
+                const card = document.createElement('div');
+                card.className = `card goal-card ${goal.color}`;
+                card.innerHTML = `
+                    <div class="card-title">
+                        <span class="card-icon">${goal.icon}</span>
+                        ${goal.title}
+                    </div>
+                    <div class="card-description">
+                        ${goal.title}
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">${Object.keys(goal.objectives).length}</div>
+                            <div class="stat-label">Objectives</div>
+                        </div>
+                    </div>
+                    <div class="click-hint">Click to explore objectives</div>
+                `;
+                card.addEventListener('click', () => showObjectives(goalKey));
+                goalsGrid.appendChild(card);
             });
 
-            // Back button listener
-            backBtn.addEventListener('click', function() {
-                goBack();
+            backBtn.addEventListener('click', goBack);
+            breadcrumbGoals.addEventListener('click', showGoals);
+            breadcrumbObjectives.addEventListener('click', () => {
+                if (currentGoal) showObjectives(currentGoal);
             });
-
-            // Breadcrumb listeners
-            breadcrumbGoals.addEventListener('click', function() {
-                showGoals();
-            });
-
-            breadcrumbObjectives.addEventListener('click', function() {
-                if (currentGoal) {
-                    showObjectives(currentGoal);
-                }
-            });
-        });
+        }
 
         function showGoals() {
             currentLevel = 'goals';
             currentGoal = null;
             currentObjective = null;
-            
-            // Update breadcrumb
             updateBreadcrumb();
-            
-            // Show/hide levels
             levelGoals.classList.remove('hidden');
             levelObjectives.classList.add('hidden');
             levelActions.classList.add('hidden');
             backBtn.style.display = 'none';
-            
-            // Add animation
-            levelGoals.classList.add('fade-in');
         }
 
         function showObjectives(goalKey) {
             currentLevel = 'objectives';
             currentGoal = goalKey;
             currentObjective = null;
-            
             const goal = strategicPlan[goalKey];
             
-            // Update breadcrumb
             updateBreadcrumb();
-            
-            // Update title
             objectivesTitle.textContent = `${goal.icon} ${goal.title} - Objectives`;
-            
-            // Clear and populate objectives grid
             objectivesGrid.innerHTML = '';
             
-            Object.keys(goal.objectives).forEach((objKey, index) => {
-                const objective = goal.objectives[objKey];
-                const actionCount = objective.actions.length;
-                
+            Object.keys(goal.objectives).forEach(objKey => {
+                const obj = goal.objectives[objKey];
                 const card = document.createElement('div');
                 card.className = `card objective-card ${goal.color}`;
-                card.setAttribute('data-objective', objKey);
-                card.style.animationDelay = `${index * 0.1}s`;
                 
                 let priorityBadge = '';
-                if (objective.priority) {
-                    priorityBadge = `<div class="priority-badge priority-${objective.priority}">Priority ${objective.priority}</div>`;
+                if (obj.priority) {
+                    priorityBadge = `<div class="priority-badge priority-${obj.priority}">Priority ${obj.priority}</div>`;
                 }
                 
                 card.innerHTML = `
                     ${priorityBadge}
-                    <div class="objective-code">${objective.code}.</div>
+                    <div class="objective-code">${objKey}.</div>
                     <div class="card-title">
-                        <span class="card-icon">${getObjectiveIcon(objKey)}</span>
-                        ${objective.title}
+                        <span class="card-icon">${goal.icon}</span>
+                        ${obj.title}
                     </div>
                     <div class="card-stats">
                         <div class="stat-item">
-                            <div class="stat-number">${actionCount}</div>
+                            <div class="stat-number">${obj.actions.length}</div>
                             <div class="stat-label">Actions</div>
                         </div>
                     </div>
-                    <div class="click-hint">Click to view actions</div>
+                    <div class="click-hint">Click to view details</div>
                 `;
                 
-                card.addEventListener('click', function() {
-                    showActions(goalKey, objKey);
-                });
-                
+                card.addEventListener('click', () => showActions(goalKey, objKey));
                 objectivesGrid.appendChild(card);
             });
             
-            // Show/hide levels
             levelGoals.classList.add('hidden');
             levelObjectives.classList.remove('hidden');
             levelActions.classList.add('hidden');
             backBtn.style.display = 'block';
-            
-            // Add animation
-            levelObjectives.classList.add('slide-in-left');
         }
 
         function showActions(goalKey, objectiveKey) {
             currentLevel = 'actions';
             currentObjective = objectiveKey;
-            
             const goal = strategicPlan[goalKey];
-            const objective = goal.objectives[objectiveKey];
+            const obj = goal.objectives[objectiveKey];
             
-            // Update breadcrumb
             updateBreadcrumb();
+            actionsTitle.textContent = `${goal.icon} ${obj.title}`;
             
-            // Update title
-            actionsTitle.textContent = `${goal.icon} ${objective.title} - Actions`;
+            let metaInfoHtml = '<div class="meta-info-details"><div class="meta-info">';
+            if (obj.priority) metaInfoHtml += `<span class="meta-tag priority-${obj.priority}">Priority ${obj.priority}</span>`;
+            if (obj.timeline) metaInfoHtml += `<span class="meta-tag timeline">📅 ${obj.timeline}</span>`;
+            if (obj.responsible) metaInfoHtml += `<span class="meta-tag responsible">👤 ${obj.responsible}</span>`;
+            if (obj.resources) metaInfoHtml += `<span class="meta-tag resources">💼 ${obj.resources}</span>`;
+            metaInfoHtml += '</div></div>';
             
-            // Clear and populate actions grid
-            actionsGrid.innerHTML = '';
-            
-            objective.actions.forEach((action, index) => {
-                const card = document.createElement('div');
-                card.className = `card action-card ${goal.color}`;
-                card.style.animationDelay = `${index * 0.1}s`;
-                
-                let priorityBadge = '';
-                if (objective.priority) {
-                    priorityBadge = `<div class="priority-badge priority-${objective.priority}">Priority ${objective.priority}</div>`;
-                }
-                
-                let metaInfo = '';
-                if (objective.timeline || objective.responsible || objective.resources) {
-                    metaInfo = '<div class="meta-info">';
-                    if (objective.timeline) {
-                        metaInfo += `<span class="meta-tag timeline">📅 ${objective.timeline}</span>`;
-                    }
-                    if (objective.responsible) {
-                        metaInfo += `<span class="meta-tag responsible">👤 ${objective.responsible}</span>`;
-                    }
-                    if (objective.resources) {
-                        metaInfo += `<span class="meta-tag resources">💼 ${objective.resources}</span>`;
-                    }
-                    metaInfo += '</div>';
-                }
-                
-                card.innerHTML = `
-                    ${priorityBadge}
-                    <div class="card-title">
-                        <span class="card-icon">${getActionIcon(objective.priority)}</span>
-                        Action ${index + 1}
-                    </div>
-                    <div class="action-text">
-                        ${action}
-                    </div>
-                    ${metaInfo}
-                `;
-                
-                actionsGrid.appendChild(card);
+            let actionsHtml = '<div class="details-section"><div class="section-title">Actions</div><div class="section-content"><ol>';
+            obj.actions.forEach(action => {
+                actionsHtml += `<li>${action}</li>`;
             });
+            actionsHtml += '</ol></div></div>';
             
-            // Show/hide levels
+            let tacticsHtml = '';
+            if (obj.tactics && obj.tactics.length > 0) {
+                tacticsHtml = '<div class="details-section"><div class="section-title">Tactics/Suggestions</div><div class="section-content"><ol>';
+                obj.tactics.forEach(tactic => {
+                    tacticsHtml += `<li>${tactic}</li>`;
+                });
+                tacticsHtml += '</ol></div></div>';
+            }
+            
+            actionsContent.innerHTML = metaInfoHtml + '<div class="details-container">' + actionsHtml + tacticsHtml + '</div>';
+            
             levelGoals.classList.add('hidden');
             levelObjectives.classList.add('hidden');
             levelActions.classList.remove('hidden');
             backBtn.style.display = 'block';
-            
-            // Add animation
-            levelActions.classList.add('fade-in');
         }
 
         function goBack() {
@@ -1057,12 +583,10 @@
         }
 
         function updateBreadcrumb() {
-            // Reset all breadcrumb items
             breadcrumbGoals.classList.remove('active');
             breadcrumbObjectives.classList.remove('active');
             breadcrumbActions.classList.remove('active');
             
-            // Update based on current level
             if (currentLevel === 'goals') {
                 breadcrumbGoals.classList.add('active');
             } else if (currentLevel === 'objectives') {
@@ -1074,44 +598,7 @@
             }
         }
 
-        function getObjectiveIcon(objKey) {
-            const icons = {
-                curriculum_planning: '📋',
-                member_participation: '👨‍🏫',
-                flexible_scheduling: '📅',
-                in_person_classes: '🏫',
-                online_support: '💻',
-                nontraditional_courses: '🎨',
-                sgl_competencies: '🧠',
-                osher_partnerships: '🤝',
-                lecture_program: '🎤',
-                community_emphasis: '🏠',
-                member_engagement: '🤗',
-                classroom_socialization: '👥',
-                volunteer_program: '🙋‍♀️',
-                dss_program: '📢',
-                sig_formation: '👫',
-                communication: '📢',
-                website_catalog: '🌐',
-                space_facilities: '🏢',
-                hybrid_technology: '⚡',
-                technology_literacy: '💡',
-                departmental_affiliation: '🔄',
-                financial_understanding: '📊',
-                marketing_expansion: '📈',
-                fundraising: '💰'
-            };
-            return icons[objKey] || '📌';
-        }
-
-        function getActionIcon(priority) {
-            const icons = {
-                1: '🔥',
-                2: '⚡',
-                3: '📋'
-            };
-            return icons[priority] || '📋';
-        }
+        init();
     </script>
 </body>
 </html>
