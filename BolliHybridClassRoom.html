@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Classroom Technology Assessment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .specs {
+            background: #f8f9fa;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .spec-item {
+            text-align: center;
+        }
+        
+        .spec-item .number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #2a5298;
+        }
+        
+        .spec-item .label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .section:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+        
+        .section-header h2 {
+            font-size: 1.4em;
+        }
+        
+        .section-header .icon {
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+        }
+        
+        .section-header.active .icon {
+            transform: rotate(180deg);
+        }
+        
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: white;
+        }
+        
+        .section-content.active {
+            max-height: 3000px;
+        }
+        
+        .section-inner {
+            padding: 30px;
+        }
+        
+        .product-card {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        
+        .product-card h3 {
+            color: #2a5298;
+            margin-bottom: 10px;
+        }
+        
+        .product-card .price {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #764ba2;
+            margin: 10px 0;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin: 15px 0;
+        }
+        
+        .feature-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th {
+            background: #2a5298;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .package-highlight {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        
+        .package-highlight h3 {
+            font-size: 1.6em;
+            margin-bottom: 15px;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #ffc107;
+            color: #000;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .collapse-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .collapse-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .collapse-btn:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Hybrid Classroom Technology Assessment</h1>
+            <p>Complete System Guide for 35' × 25' Classroom</p>
+        </div>
+        
+        <div class="specs">
+            <div class="spec-item">
+                <div class="number">28</div>
+                <div class="label">Total Students</div>
+            </div>
+            <div class="spec-item">
+                <div class="number">14</div>
+                <div class="label">In-Person</div>
+            </div>
+            <div class="spec-item">
+                <div class="number">14</div>
+                <div class="label">Remote</div>
+            </div>
+            <div class="spec-item">
+                <div class="number">50/50</div>
+                <div class="label">Presentation/Discussion</div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Multi-Stream Technology -->
+            <div class="section">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2>🎥 Multi-Stream Technology Explained</h2>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <p style="font-size: 1.1em; margin-bottom: 20px;">Multi-stream capability allows individual students to appear as separate Zoom participants rather than a single combined video feed.</p>
+                        
+                        <div class="success-box">
+                            <strong>Critical Finding:</strong> Only 4 systems provide genuine multi-stream capability for individual student framing as separate Zoom participants.
+                        </div>
+                        
+                        <table class="comparison-table">
+                            <tr>
+                                <th>System</th>
+                                <th>Streams</th>
+                                <th>Technology</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Logitech Rally Bar</strong></td>
+                                <td><strong>5 streams</strong></td>
+                                <td>RightSight 2 Grid View (4 individuals + 1 room)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Jabra PanaCast 50</strong></td>
+                                <td><strong>2-3 streams</strong></td>
+                                <td>Multi-stream Dynamic Composition</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Neat Bar Pro</strong></td>
+                                <td><strong>3 streams</strong></td>
+                                <td>Neat Symmetry (Zoom only)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Poly Studio X70</strong></td>
+                                <td><strong>2-3 streams</strong></td>
+                                <td>Smart Gallery with dual cameras</td>
+                            </tr>
+                        </table>
+                        
+                        <div class="warning-box">
+                            <strong>Meeting Owl Limitation:</strong> Despite 360° marketing, Meeting Owl does NOT support multi-stream. All 14 in-person students appear as ONE Zoom participant with up to 8 grid boxes within that single feed.
+                        </div>
+                        
+                        <button class="collapse-btn" onclick="toggleSection(this.closest('.section').querySelector('.section-header'))">
+                            Collapse Section ▲
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Room Configuration -->
+            <div class="section">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2>🏗️ Room Configuration Requirements</h2>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <h3>Camera Placement</h3>
+                        <ul class="feature-list">
+                            <li>Mount at front-center of 25-foot width</li>
+                            <li>Height: 7-8 feet above floor</li>
+                            <li>Position as close as possible to display showing remote students</li>
+                            <li>Critical: Systems must cover students 15-25 feet away (second row)</li>
+                        </ul>
+                        
+                        <h3 style="margin-top: 25px;">Dual Display Strategy</h3>
+                        <ul class="feature-list">
+                            <li>Display 1: 75-85" showing remote participant gallery view</li>
+                            <li>Display 2: Presentation content and shared materials</li>
+                            <li>4K resolution essential for 14+ participant views</li>
+                            <li>Mount behind presenter to create unified presence</li>
+                        </ul>
+                        
+                        <h3 style="margin-top: 25px;">Acoustic Treatment</h3>
+                        <ul class="feature-list">
+                            <li>Target: 0.6 seconds or less RT60 for speech clarity</li>
+                            <li>Acoustically-rated ceiling tiles (NRC 0.70-0.95)</li>
+                            <li>Fabric acoustic panels on 20-30% of wall surface</li>
+                            <li>Carpet or rubber chair caps to prevent echo</li>
+                        </ul>
+                        
+                        <h3 style="margin-top: 25px;">Lighting Specifications</h3>
+                        <ul class="feature-list">
+                            <li>300-500 lux at desk level</li>
+                            <li>LED fixtures: 3000-3500K color temperature</li>
+                            <li>CRI 90+ for accurate skin tones</li>
+                            <li>Blackout capability for windows behind students</li>
+                        </ul>
+                        
+                        <button class="collapse-btn" onclick="toggleSection(this.closest('.section').querySelector('.section-header'))">
+                            Collapse Section ▲
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recommended Packages -->
+            <div class="section">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2>📦 Recommended Complete Packages</h2>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <div class="package-highlight">
+                            <h3>Mid-Range / Best Value Package <span class="badge">RECOMMENDED</span></h3>
+                            <div class="price" style="font-size: 1.8em; margin: 15px 0;">$8,400-$10,400</div>
+                            <p style="font-size: 1.1em; margin-bottom: 20px;"><strong>Logitech Rally Bar Complete System</strong></p>
+                            
+                            <ul class="feature-list" style="color: white;">
+                                <li>Logitech Rally Bar: $3,999</li>
+                                <li>Logitech Tap IP Controller: $1,000</li>
+                                <li>2-3 Rally Mic Pods: $600-$1,200</li>
+                                <li>2× 65" 4K displays: $2,000-$3,000</li>
+                                <li>Dedicated Windows PC: $800-$1,200</li>
+                                <li>Zoom Rooms license: $588/year</li>
+                            </ul>
+                            
+                            <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 8px; margin-top: 20px;">
+                                <strong>Why Choose This:</strong> Delivers the most comprehensive multi-stream capability (5 streams) at competitive pricing. Extensively deployed in education with proven reliability.
+                            </div>
+                        </div>
+                        
+                        <div class="product-card">
+                            <h3>Premium / High-End Package</h3>
+                            <div class="price">$11,000-$15,000</div>
+                            <p><strong>Poly Studio X70 Professional System</strong></p>
+                            
+                            <ul class="feature-list">
+                                <li>Poly Studio X70 dual-camera bar: $7,500</li>
+                                <li>Poly TC8 controller: $500</li>
+                                <li>2× 75" 4K commercial displays: $3,000-$4,000</li>
+                                <li>Professional installation: $2,000-$3,000</li>
+                                <li>Zoom Rooms license: $588/year</li>
+                            </ul>
+                            
+                            <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                                <strong>Why Choose This:</strong> Dual 4K cameras provide production-quality coverage. 25+ foot microphone pickup eliminates expansion needs. Premium audio fills large spaces. Enterprise-grade reliability.
+                            </div>
+                        </div>
+                        
+                        <div class="product-card">
+                            <h3>Budget Alternative</h3>
+                            <div class="price">Under $3,000</div>
+                            <p><strong>Huddly L1 + AVer DL30</strong></p>
+                            
+                            <ul class="feature-list">
+                                <li>Huddly L1: $2,100</li>
+                                <li>AVer DL30: $500-$800</li>
+                                <li>Excellent large-room coverage without multi-stream</li>
+                                <li>Proven in university classrooms</li>
+                            </ul>
+                            
+                            <div class="warning-box">
+                                <strong>Trade-off:</strong> No multi-stream capability, but excellent value for whole-class discussion format.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Individual Systems Comparison -->
+            <div class="section">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2>🔍 Detailed System Comparison</h2>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <div class="product-card">
+                            <h3>Logitech Rally Bar <span class="badge">BEST MULTI-STREAM</span></h3>
+                            <div class="price">$3,999</div>
+                            <ul class="feature-list">
+                                <li>5 video streams (4 individuals + 1 room view)</li>
+                                <li>4K camera with 5X optical zoom (15X total)</li>
+                                <li>6 beamforming microphones</li>
+                                <li>2× 8-watt stereo speakers</li>
+                                <li>RightSight 2 AI framing technology</li>
+                                <li>Higher Ed Technology Managers Alliance certified</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="product-card">
+                            <h3>Poly Studio X70 <span class="badge">PREMIUM</span></h3>
+                            <div class="price">$7,500</div>
+                            <ul class="feature-list">
+                                <li>Dual 4K cameras (wide-angle + telephoto)</li>
+                                <li>125° field of view</li>
+                                <li>25+ foot microphone pickup (no expansion needed)</li>
+                                <li>Subwoofer-quality stereo speakers</li>
+                                <li>Smart Gallery: 2-3 streams</li>
+                                <li>DirectorAI automatic framing</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="product-card">
+                            <h3>Jabra PanaCast 50 Room System 2</h3>
+                            <div class="price">$4,899-$5,799</div>
+                            <ul class="feature-list">
+                                <li>180° panoramic view with 3× 13MP cameras</li>
+                                <li>Multi-stream Dynamic Composition: 2-3 streams</li>
+                                <li>8 beamforming microphones</li>
+                                <li>Intelligent Speaker recognizes up to 10 speakers</li>
+                                <li>Built-in whiteboard camera</li>
+                                <li>Lenovo ThinkSmart Core Gen 2 included</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="product-card">
+                            <h3>Neat Bar Pro</h3>
+                            <div class="price">$4,000-$5,000</div>
+                            <ul class="feature-list">
+                                <li>50MP combined camera system</li>
+                                <li>16X hybrid zoom</li>
+                                <li>Neat Symmetry: 3 streams (Zoom only)</li>
+                                <li>16 beamforming + 4 tracking microphones</li>
+                                <li>Designed for large spaces</li>
+                                <li>Multiple university deployments</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="product-card">
+                            <h3>Meeting Owl 4+</h3>
+                            <div class="price">$1,999</div>
+                            <ul class="feature-list">
+                                <li>360° panoramic view with 64MP sensor</li>
+                                <li>8 omnidirectional microphones (18-foot pickup)</li>
+                                <li>10-foot video coverage</li>
+                                <li>Automatic speaker detection</li>
+                            </ul>
+                            <div class="warning-box">
+                                <strong>Critical Limitation:</strong> NO multi-stream support. All 14 students appear as ONE Zoom participant. Not suitable for breakout rooms or individual student spotlighting.
+                            </div>
+                        </div>
+                        
+                        <button class="collapse-btn" onclick="toggleSection(this.closest('.section').querySelector('.section-header'))">
+                            Collapse Section ▲
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Network & Technical Requirements -->
+            <div class="section">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2>🌐 Network & Technical Requirements</h2>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <h3>Bandwidth Requirements</h3>
+                        <ul class="feature-list">
+                            <li>Upload: 30-50 Mbps dedicated (not shared)</li>
+                            <li>Download: 10-15 Mbps for 14 remote feeds</li>
+                            <li>Multi-camera systems add 10-15 Mbps per camera</li>
+                            <li>QoS network configuration prioritizing video traffic</li>
+                        </ul>
+                        
+                        <h3 style="margin-top: 25px;">Network Configuration</h3>
+                        <ul class="feature-list">
+                            <li>Dedicated VLAN for classroom AV equipment</li>
+                            <li>DSCP tagging (Audio: DSCP 46, Video: DSCP 34)</li>
+                            <li>Prioritize UDP ports 8801-8810</li>
+                            <li>Hardwired Ethernet connections (no WiFi)</li>
+                            <li>UPS for clean shutdown protection</li>
+                        </ul>
+                        
+                        <h3 style="margin-top: 25px;">Zoom Rooms License Benefits</h3>
+                        <div class="success-box">
+                            <strong>$49/month ($588/year)</strong>
+                            <ul class="feature-list">
+                                <li>One-tap meeting start (no logins)</li>
+                                <li>Enables multi-stream functionality</li>
+                                <li>Persistent configuration across sessions</li>
+                                <li>Calendar integration</li>
+                                <li>Remote IT management</li>
+                                <li>Dual display support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pedagogical Best Practices -->
+            <div class="section">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2>📚 Pedagogical Best Practices</h2>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <h3>Equitable Participation Strategies</h3>
+                        <ul class="feature-list">
+                            <li>Alternate calling patterns between in-person and remote students</li>
+                            <li>Use participation tracking checklists</li>
+                            <li>Wait 7-10 seconds after questions for chat responses</li>
+                            <li>Assign a "chat monitor" role for remote contributions</li>
+                            <li>Use polling tools (Poll Everywhere, Mentimeter)</li>
+                            <li>Enable Zoom reactions for quick feedback</li>
+                        </ul>
+                        
+                        <h3 style="margin-top: 25px;">Breakout Room Best Practice</h3>
+                        <div class="success-box">
+                            <strong>Recommended Approach:</strong> Have ALL students (including in-person) join Zoom from individual devices with headphones. This enables true mixed breakout rooms with both in-person and remote students as equal participants.
+                        </div>
+                        
+                        <h3 style="margin-top: 25px;">Recording & Compliance</h3>
+                        <ul class="feature-list">
+                            <li>Use Zoom cloud recording (automatic upload)</li>
+                            <li>Record in "Gallery View with Shared Screen" layout</li>
+                            <li>Enable FERPA compliance settings</li>
+                            <li>Limit access to enrolled students only</li>
+                            <li>Set sharing to "authenticated users only"</li>
+                            <li>2-year retention for review</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Final Recommendations -->
+            <div class="section">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2>✅ Final Recommendations</h2>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <div class="success-box">
+                            <h3>Choose Logitech Rally Bar if:</h3>
+                            <ul class="feature-list">
+                                <li>Individual student framing is essential</li>
+                                <li>Breakout room participation by individual in-person students is needed</li>
+                                <li>You want the most equitable hybrid experience (5 streams)</li>
+                                <li>Budget is $8,000-$11,000</li>
+                                <li>Proven education deployments matter</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="success-box">
+                            <h3>Choose Poly Studio X70 if:</h3>
+                            <ul class="feature-list">
+                                <li>Premium audio-visual quality is priority</li>
+                                <li>Production-level coverage matters</li>
+                                <li>You want enterprise reliability and support</li>
+                                <li>No microphone expansion is desired</li>
+                                <li>Budget allows $11,000-$15,000</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="warning-box">
+                            <h3>Important Reality Check</h3>
+                            <p><strong>Current technology cannot automatically frame all 14 in-person students as 14 separate Zoom participants.</strong> The best systems show 4-5 individually framed participants (active speakers) plus room overview.</p>
+                            <p style="margin-top: 10px;">For truly individual representation of every student, have in-person students join Zoom from personal devices with headphones.</p>
+                        </div>
+                        
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px;">
+                            <h3>Pre-Launch Testing Checklist</h3>
+                            <ul class="feature-list">
+                                <li>Full dress rehearsal with actual students</li>
+                                <li>Test from both in-person and remote perspectives</li>
+                                <li>Verify all 14 students visible, especially back row</li>
+                                <li>Confirm audio pickup for soft-spoken students</li>
+                                <li>Practice breakout rooms and content sharing</li>
+                                <li>Test whiteboard capture</li>
+                                <li>Adjust camera positioning and lighting</li>
+                                <li>Optimize Zoom settings based on results</li>
+                            </ul>
+                        </div>
+                        
+                        <button class="collapse-btn" onclick="toggleSection(this.closest('.section').querySelector('.section-header'))">
+                            Collapse Section ▲
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function toggleSection(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.icon');
+            
+            header.classList.toggle('active');
+            content.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
