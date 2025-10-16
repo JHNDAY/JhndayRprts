@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLLI Technology Committee Charter - Visual Overview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 4px solid #667eea;
+        }
+        
+        .header h1 {
+            color: #2d3748;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header h2 {
+            color: #667eea;
+            font-size: 1.5em;
+            font-weight: normal;
+        }
+        
+        .mission-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            text-align: center;
+            font-size: 1.2em;
+            line-height: 1.8;
+        }
+        
+        .org-chart {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin: 40px 0;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .org-box {
+            background: #f7fafc;
+            border: 3px solid #667eea;
+            border-radius: 15px;
+            padding: 20px;
+            min-width: 200px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .org-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .org-box p {
+            color: #4a5568;
+            font-size: 0.9em;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            color: #2d3748;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .icon {
+            font-size: 1.5em;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, #f6f8fb 0%, #ffffff 100%);
+            border-left: 5px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+        
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .card li {
+            padding: 8px 0;
+            color: #4a5568;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .card li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .role-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .role-card {
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .role-card h3 {
+            background: #667eea;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: -25px -25px 20px -25px;
+            font-size: 1.2em;
+        }
+        
+        .role-card ul {
+            list-style: none;
+        }
+        
+        .role-card li {
+            padding: 10px 0;
+            color: #4a5568;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .role-card li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #48bb78;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .authority-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .can-do {
+            background: #f0fff4;
+            border: 3px solid #48bb78;
+            border-radius: 15px;
+            padding: 25px;
+        }
+        
+        .cannot-do {
+            background: #fff5f5;
+            border: 3px solid #f56565;
+            border-radius: 15px;
+            padding: 25px;
+        }
+        
+        .can-do h3 {
+            color: #48bb78;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        .cannot-do h3 {
+            color: #f56565;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        .workflow {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .workflow-step {
+            background: white;
+            border: 3px solid #667eea;
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .workflow-step .number {
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .workflow-step p {
+            color: #2d3748;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .authority-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Technology Committee Charter</h1>
+            <h2>Brandeis Osher Lifelong Learning Institute (BOLLI)</h2>
+        </div>
+        
+        <div class="mission-box">
+            <strong>Mission:</strong> Provide technical support and expertise to BOLLI, its members, and Study Group Leaders through technical assistance, training, and project implementation for approximately 500 retirement-age members.
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title"><span class="icon">👥</span> Organizational Structure</h2>
+            <div class="org-chart">
+                <div class="org-box">
+                    <h3>BOLLI Staff</h3>
+                    <p>Direction & Guidance</p>
+                </div>
+                <div style="display: flex; align-items: center; font-size: 2em; color: #667eea;">→</div>
+                <div class="org-box">
+                    <h3>Committee Chair</h3>
+                    <p>Leadership & Coordination</p>
+                </div>
+                <div style="display: flex; align-items: center; font-size: 2em; color: #667eea;">→</div>
+                <div class="org-box">
+                    <h3>Committee Members</h3>
+                    <p>Volunteer Technical Support</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title"><span class="icon">🛠️</span> Technical Support Services</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Zoom Platform Support</h3>
+                    <ul>
+                        <li>Login and basic features</li>
+                        <li>Muting/unmuting procedures</li>
+                        <li>Electronic hand raising</li>
+                        <li>Screen sharing & presentation</li>
+                        <li>Breakout room management</li>
+                        <li>Study group facilitation</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>Web Technology</h3>
+                    <ul>
+                        <li>Bookmark Zoom links</li>
+                        <li>Build course websites (Google Sites)</li>
+                        <li>Web navigation assistance</li>
+                        <li>Online resource access</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>Documentation & Training</h3>
+                    <ul>
+                        <li>Create how-to guides</li>
+                        <li>Video tutorials</li>
+                        <li>Step-by-step instructions</li>
+                        <li>Maintain support website</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>Educational Seminars</h3>
+                    <ul>
+                        <li>Zoom best practices</li>
+                        <li>PC and device operation</li>
+                        <li>Artificial intelligence</li>
+                        <li>Emerging technologies</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title"><span class="icon">📋</span> Project Responsibilities</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Website Development</h3>
+                    <ul>
+                        <li>Design committee websites</li>
+                        <li>Maintain BOLLI web properties</li>
+                        <li>Ensure accessibility for seniors</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>System Development</h3>
+                    <ul>
+                        <li>Course assignment algorithms</li>
+                        <li>Operational tools</li>
+                        <li>Technology integration</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>Infrastructure Support</h3>
+                    <ul>
+                        <li>Evaluate technology solutions</li>
+                        <li>Implement new platforms</li>
+                        <li>Troubleshoot technical issues</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>Special Projects</h3>
+                    <ul>
+                        <li>Pilot programs</li>
+                        <li>Research emerging tech</li>
+                        <li>Staff-directed initiatives</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title"><span class="icon">🔄</span> Support Workflow</h2>
+            <div class="workflow">
+                <div class="workflow-step">
+                    <div class="number">1</div>
+                    <p>Request Received</p>
+                </div>
+                <div style="font-size: 2em; color: #667eea;">→</div>
+                <div class="workflow-step">
+                    <div class="number">2</div>
+                    <p>Match with Available Member</p>
+                </div>
+                <div style="font-size: 2em; color: #667eea;">→</div>
+                <div class="workflow-step">
+                    <div class="number">3</div>
+                    <p>Provide Support</p>
+                </div>
+                <div style="font-size: 2em; color: #667eea;">→</div>
+                <div class="workflow-step">
+                    <div class="number">4</div>
+                    <p>Document Solution</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title"><span class="icon">👤</span> Roles & Responsibilities</h2>
+            <div class="role-section">
+                <div class="role-card">
+                    <h3>Committee Members</h3>
+                    <ul>
+                        <li>Respond to support requests timely</li>
+                        <li>Communicate availability</li>
+                        <li>Maintain patience and empathy</li>
+                        <li>Document recurring issues</li>
+                        <li>Participate in meetings</li>
+                        <li>Develop technical skills</li>
+                    </ul>
+                </div>
+                
+                <div class="role-card">
+                    <h3>Committee Leadership</h3>
+                    <ul>
+                        <li>Coordinate with BOLLI staff</li>
+                        <li>Facilitate resource assignment</li>
+                        <li>Lead regular meetings</li>
+                        <li>Monitor effectiveness</li>
+                        <li>Identify training needs</li>
+                        <li>Serve as liaison</li>
+                    </ul>
+                </div>
+                
+                <div class="role-card">
+                    <h3>BOLLI Staff</h3>
+                    <ul>
+                        <li>Provide direction and priorities</li>
+                        <li>Approve major projects</li>
+                        <li>Communicate member needs</li>
+                        <li>Provide administrative support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title"><span class="icon">⚖️</span> Authority & Limitations</h2>
+            <div class="authority-grid">
+                <div class="can-do">
+                    <h3>✓ Committee SHALL</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 10px 0; color: #2d7a4f;">✓ Provide technical support and advice</li>
+                        <li style="padding: 10px 0; color: #2d7a4f;">✓ Develop documentation and training</li>
+                        <li style="padding: 10px 0; color: #2d7a4f;">✓ Make technology recommendations</li>
+                    </ul>
+                </div>
+                
+                <div class="cannot-do">
+                    <h3>✗ Committee SHALL NOT</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 10px 0; color: #c53030;">✗ Make purchases or financial commitments</li>
+                        <li style="padding: 10px 0; color: #c53030;">✗ Implement major changes without approval</li>
+                        <li style="padding: 10px 0; color: #c53030;">✗ Access private info without permission</li>
+                        <li style="padding: 10px 0; color: #c53030;">✗ Represent BOLLI with vendors unauthorized</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title"><span class="icon">⭐</span> Standards & Best Practices</h2>
+            <div class="card">
+                <ul>
+                    <li>Maintain confidentiality of member information</li>
+                    <li>Provide patient, respectful assistance for senior audience</li>
+                    <li>Document solutions for knowledge sharing</li>
+                    <li>Follow Brandeis and BOLLI policies on security and privacy</li>
+                    <li>Foster supportive learning environment</li>
+                    <li>Build technical confidence in members</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%); padding: 30px; border-radius: 15px; margin-top: 40px;">
+            <div style="background: rgba(255,255,255,0.95); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                <h2 class="section-title" style="border-color: #9b59b6; color: #8e44ad;">
+                    <span class="icon">🤖</span> AI Support for Study Group Leaders (SGLs)
+                </h2>
+                <div style="background: #fff3cd; border-left: 5px solid #ffc107; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                    <strong>Potential Addition Suggested by John Day</strong>
+                </div>
+                <div class="grid">
+                    <div class="card" style="border-left-color: #9b59b6;">
+                        <h3 style="color: #8e44ad;">Course Creation & Development</h3>
+                        <ul>
+                            <li>Generate course outlines and syllabi</li>
+                            <li>Develop discussion questions and prompts</li>
+                            <li>Create reading lists and resource recommendations</li>
+                            <li>Design curriculum structures for multi-week courses</li>
+                            <li>Adapt content for different learning styles</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card" style="border-left-color: #9b59b6;">
+                        <h3 style="color: #8e44ad;">Information Gathering & Research</h3>
+                        <ul>
+                            <li>Research course topics and current developments</li>
+                            <li>Compile background materials and context</li>
+                            <li>Identify relevant articles, videos, and multimedia</li>
+                            <li>Fact-check and verify information sources</li>
+                            <li>Summarize complex materials for accessibility</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card" style="border-left-color: #9b59b6;">
+                        <h3 style="color: #8e44ad;">Zoom Session Analysis</h3>
+                        <ul>
+                            <li>Analyze session recordings for engagement patterns</li>
+                            <li>Monitor participation levels and interaction quality</li>
+                            <li>Identify technical issues and their frequency</li>
+                            <li>Track discussion flow and time management</li>
+                            <li>Generate insights for course improvement</li>
+                            <li>Assess effectiveness of course administration</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%); padding: 30px; border-radius: 15px; margin-top: 20px;">
+            <div style="background: rgba(255,255,255,0.95); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                <h2 class="section-title" style="border-color: #9b59b6; color: #8e44ad;">
+                    <span class="icon">🎓</span> AI Support for Study Group Members (SGMs)
+                </h2>
+                <div style="background: #fff3cd; border-left: 5px solid #ffc107; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                    <strong>Potential Addition Suggested by John Day</strong>
+                </div>
+                <div class="grid">
+                    <div class="card" style="border-left-color: #9b59b6;">
+                        <h3 style="color: #8e44ad;">History Research Support</h3>
+                        <ul>
+                            <li>Explore historical context and timelines</li>
+                            <li>Compare different historical perspectives</li>
+                            <li>Research primary and secondary sources</li>
+                            <li>Investigate cause-and-effect relationships</li>
+                            <li>Connect historical events to modern contexts</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card" style="border-left-color: #9b59b6;">
+                        <h3 style="color: #8e44ad;">Literature Analysis Tools</h3>
+                        <ul>
+                            <li>Analyze literary themes and motifs</li>
+                            <li>Explore author backgrounds and influences</li>
+                            <li>Compare literary works and movements</li>
+                            <li>Research critical interpretations and reviews</li>
+                            <li>Discover connections between texts</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card" style="border-left-color: #9b59b6;">
+                        <h3 style="color: #8e44ad;">Political Science & Discourse</h3>
+                        <ul>
+                            <li>Research political systems and structures</li>
+                            <li>Analyze policy positions and debates</li>
+                            <li>Compare governance models globally</li>
+                            <li>Investigate civic issues and movements</li>
+                            <li>Explore multiple perspectives on issues</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card" style="border-left-color: #9b59b6;">
+                        <h3 style="color: #8e44ad;">Music Enrichment</h3>
+                        <ul>
+                            <li>Research composers and musical periods</li>
+                            <li>Explore music theory concepts</li>
+                            <li>Discover cultural contexts of musical works</li>
+                            <li>Compare performances and interpretations</li>
+                            <li>Investigate influences between musical styles</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card" style="border-left-color: #9b59b6; margin-top: 20px;">
+                    <h3 style="color: #8e44ad;">Enhanced Learning Experience</h3>
+                    <ul>
+                        <li>Conduct auxiliary research to deepen understanding</li>
+                        <li>Prepare informed questions for discussions</li>
+                        <li>Explore tangential topics of personal interest</li>
+                        <li>Verify information and explore alternative viewpoints</li>
+                        <li>Create personalized study materials and notes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
