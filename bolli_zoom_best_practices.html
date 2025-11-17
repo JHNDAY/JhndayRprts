@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLLI Zoom Best Practices Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: #2c3e50;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .updated-date {
+            font-size: 1rem;
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8eaf6;
+        }
+
+        .section-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .subsection {
+            margin-bottom: 25px;
+            padding-left: 15px;
+        }
+
+        .subsection h3 {
+            color: #764ba2;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .step-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .step-title {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .step-description {
+            margin-top: 8px;
+            color: #555;
+            line-height: 1.7;
+            margin-left: 40px;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .note strong {
+            color: #856404;
+        }
+
+        .warning {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .warning strong {
+            color: #721c24;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .success strong {
+            color: #155724;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .info strong {
+            color: #0c5460;
+        }
+
+        .contact-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .contact-box a {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        .example-box {
+            background: #e8eaf6;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 2px dashed #667eea;
+        }
+
+        .example-box strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .example-box .example-line {
+            margin: 5px 0;
+            padding: 5px 10px;
+            background: white;
+            border-radius: 4px;
+        }
+
+        .collapsible {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .collapsible:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .collapsible:after {
+            content: '\002B';
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .collapsible.active:after {
+            content: "\2212";
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background: #e8eaf6;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .collapsible-content-inner {
+            padding: 20px;
+            color: #2c3e50;
+            line-height: 1.8;
+        }
+
+        .link-box {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+            border: 1px solid #667eea;
+        }
+
+        .link-box a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .link-box a:hover {
+            text-decoration: underline;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #667eea;
+            border-radius: 4px;
+            margin-right: 10px;
+            display: inline-block;
+            position: relative;
+        }
+
+        .checked {
+            background: #28a745;
+            border-color: #28a745;
+        }
+
+        .checked:after {
+            content: '✓';
+            color: white;
+            position: absolute;
+            top: -2px;
+            left: 3px;
+            font-weight: bold;
+        }
+
+        .unchecked {
+            background: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .unchecked:after {
+            content: '✗';
+            color: white;
+            position: absolute;
+            top: -4px;
+            left: 4px;
+            font-weight: bold;
+        }
+
+        .quick-nav {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 2px solid #667eea;
+        }
+
+        .quick-nav h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .quick-nav a {
+            display: block;
+            color: #764ba2;
+            text-decoration: none;
+            padding: 8px 10px;
+            border-radius: 5px;
+            transition: all 0.2s;
+        }
+
+        .quick-nav a:hover {
+            background: #667eea;
+            color: white;
+            padding-left: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📹 BOLLI Zoom Meeting Setup Guide</h1>
+            <p>Best Practices for Setting up BOLLI Zoom Meetings</p>
+            <div class="updated-date">Updated December 29, 2024</div>
+        </div>
+
+        <div class="content">
+            <!-- Quick Navigation -->
+            <div class="quick-nav">
+                <h3>📑 Quick Navigation</h3>
+                <a href="#setup">1. Initial Account Setup</a>
+                <a href="#authentication">2. Authentication & Duo</a>
+                <a href="#meeting-setup">3. Setting up the Meeting</a>
+                <a href="#host-key">4. Obtaining Your Host Key</a>
+                <a href="#starting">5. Starting the Meeting</a>
+                <a href="#sharing">6. Sharing Meeting Link</a>
+                <a href="#recording">7. Recording & Accessing Recordings</a>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="contact-box">
+                <strong>📧 Need Help?</strong>
+                <p>Contact Robin Hershkowitz: <a href="mailto:rhershkowitz@brandeis.edu">rhershkowitz@brandeis.edu</a></p>
+                <p>Your SGSC liaison may also be able to help.</p>
+            </div>
+
+            <!-- Section 1: Create Brandeis Account -->
+            <div id="setup" class="section">
+                <h2><span class="section-number">Step 1</span> Create Your Brandeis Account</h2>
+                
+                <div class="note">
+                    <strong>✓ Skip this section if you already have a Brandeis account</strong>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-title">
+                        <span class="step-number">1</span>
+                        Workday Email Setup
+                    </div>
+                    <div class="step-description">
+                        After receiving an email from Workday, follow the prompts to create a Brandeis username and password.
+                        <div class="warning" style="margin-top: 10px;">
+                            <strong>Haven't received the email?</strong> Email Robin Hershkowitz at <a href="mailto:rhershkowitz@brandeis.edu" style="color: #721c24;">rhershkowitz@brandeis.edu</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-title">
+                        <span class="step-number">2</span>
+                        Reference Documentation
+                    </div>
+                    <div class="step-description">
+                        <div class="link-box">
+                            <a href="https://docs.google.com/document/d/1NYC0eLEBL7ixcuzUGgca9TUg9NdtwapcwwSRXLDdoFY/edit?usp=sharing" target="_blank">View example Workday email →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Authentication -->
+            <div id="authentication" class="section">
+                <h2><span class="section-number">Step 2</span> Setting up Your Authentication</h2>
+                
+                <div class="note">
+                    <strong>✓ You can skip some steps if you already have used your Brandeis account</strong>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-title">
+                        <span class="step-number">3</span>
+                        Log in to Brandeis Zoom
+                    </div>
+                    <div class="step-description">
+                        <ol>
+                            <li>Go to <a href="https://brandeis.zoom.us/signin" target="_blank">https://brandeis.zoom.us/signin</a></li>
+                            <li>Use your Brandeis credentials (@brandeis.edu username and password)</li>
+                            <li>If asked to verify your credentials, log in to your Brandeis email account</li>
+                        </ol>
+                        
+                        <div class="info" style="margin-top: 10px;">
+                            <strong>Accessing Brandeis Gmail:</strong>
+                            <ul>
+                                <li>Go to <a href="http://go.brandeis.edu/gmail" target="_blank">go.brandeis.edu/gmail</a></li>
+                                <li>Use your Brandeis username and password</li>
+                                <li><strong>Tip:</strong> Forward your Brandeis gmail to your regular email account</li>
+                            </ul>
+                            <div class="link-box" style="margin-top: 10px;">
+                                <a href="https://docs.google.com/document/d/1DHXyKvf9fvegiDYfza7GtjPXwsS3tGIyT4fFwugWjG4/edit?usp=sharing" target="_blank">Email forwarding instructions →</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-title">
+                        <span class="step-number">4</span>
+                        Set Up Duo Two-Factor Authentication
+                    </div>
+                    <div class="step-description">
+                        <p>If this is your first time logging into the Brandeis system, you'll need to set up Duo.</p>
+                        
+                        <div class="info" style="margin-top: 10px;">
+                            <strong>Duo Setup Options:</strong>
+                            <ul>
+                                <li><strong>Mobile app</strong> (recommended)</li>
+                                <li><strong>Text message</strong></li>
+                                <li><strong>Phone call</strong></li>
+                            </ul>
+                        </div>
+
+                        <div class="link-box">
+                            <a href="https://www.brandeis.edu/its/services/accounts-access/setting-up-duo.html" target="_blank">Duo setup instructions →</a>
+                        </div>
+
+                        <div class="link-box">
+                            <a href="https://www.brandeis.edu/its/services/accounts-access/two-factor-authentication.html" target="_blank">Why Brandeis uses Duo →</a>
+                        </div>
+
+                        <div class="success" style="margin-top: 10px;">
+                            <strong>💡 Pro Tip:</strong> Choose "remember me for 30 days" so you don't have to deal with Duo each time you login to your Brandeis Zoom account.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-title">
+                        <span class="step-number">5</span>
+                        Workplace Zoom Note
+                    </div>
+                    <div class="step-description">
+                        <div class="info">
+                            Brandeis is now using <strong>Workplace Zoom</strong> for meetings.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Setting up the Meeting -->
+            <div id="meeting-setup" class="section">
+                <h2><span class="section-number">Step 3</span> Setting up the Meeting</h2>
+
+                <div class="step-item">
+                    <div class="step-title">
+                        <span class="step-number">6-7</span>
+                        Create Meeting
+                    </div>
+                    <div class="step-description">
+                        <ol>
+                            <li>Click on <strong>"Meetings"</strong> on the top left of the screen</li>
+                            <li>Use the <strong>blue-outlined button</strong> on the top right: <strong>"Schedule a Meeting"</strong></li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-title">
+                        <span class="step-number">8-12</span>
+                        Basic Meeting Configuration
+                    </div>
+                    <div class="step-description">
+                        <div class="checkbox-item">
+                            <div class="checkbox checked"></div>
+                            <strong>Topic:</strong> Fill in the name of your Class/Special Interest Group
+                        </div>
+                        
+                        <div class="checkbox-item">
+                            <div class="checkbox checked"></div>
+                            <strong>Date & Duration:</strong> Leave the same (doesn't matter for recurring meetings)
+                        </div>
+                        
+                        <div class="checkbox-item">
+                            <div class="checkbox checked"></div>
+                            <strong>Time Zone:</strong> Set your time zone
+                        </div>
+                        
+                        <div class="checkbox-item">
+                            <div class="checkbox checked"></div>
+                            <strong>Recurring meeting:</strong> Check this box
+                        </div>
+                        
+                        <div class="checkbox-item">
+                            <div class="checkbox checked"></div>
+                            <strong>Recurrence:</strong> Choose <strong>"No Fixed Time"</strong> from dropdown
+                        </div>
+
+                        <div class="success" style="margin-top: 15px;">
+                            <strong>🔑 IMPORTANT:</strong> USE THIS LINK FOR YOUR TEST MEETING AND ALL CLASS/SIG MEETINGS. THERE IS NO NEED TO GENERATE A NEW LINK EACH WEEK AS LONG AS YOU CHOOSE RECURRING AND NO FIXED TIME.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-title">
+                        <span class="step-number">13-14</span>
+                        Security Settings
+                    </div>
+                    <div class="step-description">
+                        <div class="checkbox-item">
+                            <div class="checkbox checked"></div>
+                            <strong>Meeting ID:</strong> Generate Automatically
+                        </div>
+                        
+                        <div class="checkbox-item">
+                            <div class="checkbox checked"></div>
+                            <strong>Security - Passcode:</strong> Check this box
+                        </div>
+
+                        <div class="info" style="margin-top: 10px;">
+                            <strong>Passcode Options:</strong>
+                            <ul>
+                                <li>Use the automatically generated passcode, OR</li>
+                                <li>Choose a memorable word (e.g., class "History of Waltham" → passcode "waltham")</li>
+                                <li>The passcode will be automatically embedded into the meeting link</li>
+                                <li>Members should not need to enter it separately</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-title">
+                        <span class="step-number">15-17</span>
+                        Critical Settings Configuration
+                    </div>
+                    <div class="step-description">
+                        <div class="warning">
+                            <strong>⚠️ DO NOT CHECK:</strong>
+                            <div class="checkbox-item">
+                                <div class="checkbox unchecked"></div>
+                                Waiting Room
+                            </div>
+                            <div class="checkbox-item">
+                                <div class="checkbox unchecked"></div>
+                                Require Authentication
+                            </div>
+                        </div>
+
+                        <div class="success" style="margin-top: 15px;">
+                            <strong>✅ SET THESE:</strong>
+                            <div class="checkbox-item">
+                                <div class="checkbox checked"></div>
+                                <strong>Video for Hosts:</strong> ON
+                            </div>
+                            <div class="checkbox-item">
+                                <div class="checkbox checked"></div>
+                                <strong>Video for Participants:</strong> ON
+                            </div>
+                            <div class="checkbox-item">
+                                <div class="checkbox checked"></div>
+                                <strong>Audio:</strong> Both
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-title">
+                        <span class="step-number">18-21</span>
+                        Advanced Options
+                    </div>
+                    <div class="step-description">
+                        <ol>
+                            <li>Scroll down toward the bottom to <strong>Options</strong></li>
+                            <li>Click <strong>Show</strong> for more options</li>
+                        </ol>
+
+                        <div class="info" style="margin-top: 15px;">
+                            <strong>Alternative Hosts:</strong>
+                            <p style="margin-top: 5px;">In the box under Alternative Hosts, enter emails for:</p>
+                            <ul>
+                                <li>Robin Hershkowitz: <a href="mailto:rhershkowitz@brandeis.edu">rhershkowitz@brandeis.edu</a></li>
+                                <li>Dom Restivo: <a href="mailto:drestivo@brandeis.edu">drestivo@brandeis.edu</a></li>
+                            </ul>
+                            <p style="margin-top: 5px;"><em>This allows Robin or Dom to access your meeting if you are not available.</em></p>
+                        </div>
+
+                        <div class="checkbox-item">
+                            <div class="checkbox checked"></div>
+                            <strong>Allow participants to join anytime</strong> (CHECK THIS)
+                        </div>
+
+                        <div class="checkbox-item">
+                            <div class="checkbox checked"></div>
+                            <strong>Automatic Recording - In the Cloud</strong> (if you want recording to start immediately)
+                        </div>
+
+                        <div class="warning" style="margin-top: 10px;">
+                            <strong>LEAVE ALL OTHER BOXES UNCHECKED</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-title">
+                        <span class="step-number">22</span>
+                        Save Your Settings
+                    </div>
+                    <div class="step-description">
+                        <div class="success">
+                            Click the blue button <strong>"SAVE"</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Host Key -->
+            <div id="host-key" class="section">
+                <h2><span class="section-number">Step 4</span> Obtain Your Host Key</h2>
+
+                <div class="step-item">
+                    <div class="step-title">
+                        <span class="step-number">23</span>
+                        Getting Your Host Key
+                    </div>
+                    <div class="step-description">
+                        <ol>
+                            <li>On the left hand side, click the <strong>Profile</strong> tab (above the Meetings tab)</li>
+                            <li>Scroll down to the <strong>Meeting</strong> section</li>
+                            <li>Click the <strong>eyeball icon</strong> in the Host Key row</li>
+                            <li>Write down your <strong>Host Key</strong> (a six digit number)</li>
+                            <li>Keep it handy (maybe on a yellow sticky note)</li>
+                        </ol>
+
+                        <div class="info" style="margin-top: 15px;">
+                            <strong>💡 About Host Keys:</strong>
+                            <ul>
+                                <li>You may change your Host Key to any 6-digit number you prefer</li>
+                                <li>The Host Key allows you to become a Host in your meeting by clicking your link, if you can't log in the normal way</li>
+                                <li>See Step 25 for how to use it in emergency situations</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5: Starting the Meeting -->
+            <div id="starting" class="section">
+                <h2><span class="section-number">Step 5</span> Starting the Meeting</h2>
+
+                <div class="step-item">
+                    <div class="step-title">
+                        <span class="step-number">24</span>
+                        Proper Way to Start Your Meeting
+                    </div>
+                    <div class="step-description">
+                        <div class="success">
+                            <strong>✅ CORRECT METHOD:</strong>
+                            <ol style="margin-top: 10px;">
+                                <li>Go to <a href="http://brandeis.zoom.us/signin" target="_blank">brandeis.zoom.us/signin</a></li>
+                                <li>Login to your account</li>
+                                <li>Find the meeting</li>
+                                <li>Click <strong>START</strong> or <strong>JOIN</strong> (if others are already in the meeting)</li>
+                            </ol>
+                        </div>
+
+                        <div class="warning" style="margin-top: 15px;">
+                            <strong>❌ DO NOT:</strong>
+                            <ul style="margin-top: 10px;">
+                                <li>Click <strong>HOST A MEETING</strong> in the upper right of your screen</li>
+                                <li>Click on the link from an email</li>
+                            </ul>
+                            <p style="margin-top: 10px;"><em>If you do either of these, you will not be the host!</em></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-title">
+                        <span class="step-number">25</span>
+                        Emergency Host Access
+                    </div>
+                    <div class="step-description">
+                        <div class="info">
+                            <strong>🆘 IF YOU ARE UNABLE TO LOG IN TO YOUR MEETING, DO NOT PANIC:</strong>
+                            <ol style="margin-top: 10px;">
+                                <li>Click the link you provided to your class</li>
+                                <li>Join the meeting as a participant</li>
+                                <li>Once in, click the <strong>Participants icon</strong> in the bottom row</li>
+                                <li>This opens the Participants window on the right</li>
+                                <li>At the bottom of the Participants window, click <strong>Claim host</strong> button</li>
+                                <li>Type in your six digit <strong>Host Key</strong> (from step 23)</li>
+                                <li>Click the blue <strong>Claim</strong> button</li>
+                                <li>You're now in as host!</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 6: Sharing Meeting Link -->
+            <div id="sharing" class="section">
+                <h2><span class="section-number">Step 6</span> Sending Meeting Link to Class Participants</h2>
+
+                <div class="contact-box">
+                    <strong>📧 Please copy BOLLI staff on your meeting link email:</strong>
+                    <p><a href="mailto:bolli@brandeis.edu">bolli@brandeis.edu</a> and <a href="mailto:drestivo@brandeis.edu">drestivo@brandeis.edu</a> (Dom Restivo)</p>
+                </div>
+
+                <div class="note" style="margin-bottom: 20px;">
+                    After clicking save, you'll see a page with meeting details. Share the following with your class:
+                    <ul style="margin-top: 10px;">
+                        <li>Meeting link</li>
+                        <li>Meeting ID</li>
+                        <li>Passcode</li>
+                        <li>Dial-in phone number</li>
+                    </ul>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-title">
+                        <span class="step-number">26</span>
+                        Copy Meeting ID
+                    </div>
+                    <div class="step-description">
+                        <p>You'll see "Meeting ID" as the third item (under the Time section)</p>
+                        <p>It will be an 11 digit number, such as: <code>5805 9553 000</code></p>
+                        <p><strong>Copy that into the email</strong></p>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-title">
+                        <span class="step-number">27</span>
+                        Copy Passcode
+                    </div>
+                    <div class="step-description">
+                        <ol>
+                            <li>Next to "Security" you will see a green check mark next to "Passcode"</li>
+                            <li>Click <strong>"Show"</strong> to reveal the Passcode</li>
+                            <li>Copy that into the email</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-title">
+                        <span class="step-number">28</span>
+                        Copy Meeting Link
+                    </div>
+                    <div class="step-description">
+                        <p>You'll see the meeting link next to "Invite Link"</p>
+                        <p>Copy and paste the URL into an email and send it to your class</p>
+                        <div class="example-box">
+                            <strong>Example link format:</strong>
+                            <div class="example-line">
+                                https://brandeis.zoom.us/j/425571679?pwd=TyJSSE9qTVR6NWU3OExMKzFYVGM0Zz09
+                            </div>
+                            <em style="font-size: 0.9rem; color: #666;">This is just an example; it will not work</em>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-title">
+                        <span class="step-number">29</span>
+                        Copy Dial-in Number
+                    </div>
+                    <div class="step-description">
+                        <ol>
+                            <li>To the right of the meeting link, click <strong>"Copy Invitation"</strong></li>
+                            <li>Click on <strong>"Copy Meeting Invitation"</strong> to view the Dial-in Number</li>
+                            <li>You'll see "Or Telephone: Dial:" followed by a list of phone numbers</li>
+                            <li>Copy and paste the <strong>first phone number</strong> into an email to your class</li>
+                        </ol>
+                        <div class="info" style="margin-top: 10px;">
+                            You only need to provide the first phone number
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Example Email -->
+                <button class="collapsible">📧 Complete Email Example</button>
+                <div class="collapsible-content">
+                    <div class="collapsible-content-inner">
+                        <div class="example-box">
+                            <strong>Sample Email to Class:</strong>
+                            <div class="example-line">
+                                <strong>Link:</strong> https://brandeis.zoom.us/j/425571679?pwd=TyJSSE9qTVR6NWU3OExMKzFYVGM0Zz09
+                            </div>
+                            <div class="example-line">
+                                <strong>Call-in number:</strong> 301-715-8592
+                            </div>
+                            <div class="example-line">
+                                <strong>Meeting ID:</strong> 425 571 679
+                            </div>
+                            <div class="example-line">
+                                <strong>Passcode:</strong> lunch
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 7: Recording -->
+            <div id="recording" class="section">
+                <h2><span class="section-number">Step 7</span> About Recording Zoom Meetings</h2>
+
+                <div class="info">
+                    <strong>Recording Policy:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li>As a general matter, your students will appreciate receiving a recording of your class</li>
+                        <li>Classes in which personal information is being shared may be an exception</li>
+                        <li>Please use your discretion and share your policy with your class members</li>
+                        <li>BOLLI members agree to be recorded when they register</li>
+                        <li>If you do record, please inform your class members as a courtesy</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3>Stopping Recording After Class</h3>
+                    <div class="step-item">
+                        <div class="step-description">
+                            <p>At the end of the class session, if you did not record automatically:</p>
+                            <ol style="margin-top: 10px;">
+                                <li>Hit <strong>stop recording</strong> at the bottom center of your screen</li>
+                                <li>This stops the recording for the rest of the time that Zoom is on</li>
+                                <li>Helpful if you have conversations with members after class that you don't need in the recording</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Accessing Your Zoom Recordings</h3>
+                    
+                    <div class="success">
+                        <strong>Cloud Storage:</strong> Your Zoom recordings will be accessible in the cloud for <strong>180 days</strong>
+                    </div>
+
+                    <div class="step-item">
+                        <div class="step-description">
+                            <p><strong>Email Notification:</strong></p>
+                            <ul style="margin-top: 10px;">
+                                <li>You should receive an email from Zoom several hours after the session</li>
+                                <li>Subject line: <code>"Cloud Recording - &lt;Class Name&gt; is now available"</code></li>
+                                <li>Emails go to your <strong>@brandeis.edu</strong> email address</li>
+                            </ul>
+
+                            <div class="info" style="margin-top: 15px;">
+                                <strong>Accessing Brandeis Email:</strong>
+                                <ul style="margin-top: 10px;">
+                                    <li>Go to <a href="https://go.brandeis.edu/gmail" target="_blank">go.brandeis.edu/gmail</a></li>
+                                    <li>Enter your Brandeis username and password</li>
+                                </ul>
+                            </div>
+
+                            <div class="success" style="margin-top: 15px;">
+                                <strong>💡 Better Method:</strong> Avoid accessing your Brandeis email by going directly to the Recordings tab in your Brandeis Zoom Account
+                                <div class="link-box" style="margin-top: 10px;">
+                                    <a href="https://drive.google.com/file/d/16e6nttNNIZ8pLaMavjgPHE6V6JVZ2q7P/view" target="_blank">Direct Recordings access instructions →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Reference Card -->
+            <button class="collapsible">📋 Quick Reference Card - Print & Keep Handy</button>
+            <div class="collapsible-content">
+                <div class="collapsible-content-inner">
+                    <div class="success">
+                        <strong>🔑 Essential Information:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li><strong>Brandeis Zoom:</strong> <a href="https://brandeis.zoom.us/signin" target="_blank">brandeis.zoom.us/signin</a></li>
+                            <li><strong>Brandeis Gmail:</strong> <a href="http://go.brandeis.edu/gmail" target="_blank">go.brandeis.edu/gmail</a></li>
+                            <li><strong>Your Host Key:</strong> _____________ (write it here!)</li>
+                            <li><strong>Robin Hershkowitz:</strong> rhershkowitz@brandeis.edu</li>
+                            <li><strong>Dom Restivo:</strong> drestivo@brandeis.edu</li>
+                        </ul>
+                    </div>
+
+                    <div class="warning" style="margin-top: 20px;">
+                        <strong>⚠️ Common Mistakes to Avoid:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li>❌ DON'T click "Host a Meeting" button</li>
+                            <li>❌ DON'T click meeting link from email to start</li>
+                            <li>❌ DON'T enable Waiting Room</li>
+                            <li>❌ DON'T enable Require Authentication</li>
+                            <li>❌ DON'T create new links each week</li>
+                        </ul>
+                    </div>
+
+                    <div class="success" style="margin-top: 20px;">
+                        <strong>✅ Best Practices:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li>✅ DO use recurring meetings with "No Fixed Time"</li>
+                            <li>✅ DO add Robin & Dom as Alternative Hosts</li>
+                            <li>✅ DO enable "Allow participants to join anytime"</li>
+                            <li>✅ DO keep your Host Key handy</li>
+                            <li>✅ DO login through brandeis.zoom.us to start meetings</li>
+                            <li>✅ DO enable automatic cloud recording</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Collapsible functionality
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('.quick-nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
