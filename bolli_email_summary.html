@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLLI Email Summary - Last 3 Days</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .email-thread {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .thread-title {
+            font-size: 1.5em;
+            color: #1e3c72;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .thread-number {
+            background: #667eea;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .section {
+            margin: 20px 0;
+        }
+        
+        .section-header {
+            font-size: 1.2em;
+            color: #2a5298;
+            margin-bottom: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .section-header::before {
+            content: '▶';
+            color: #667eea;
+            font-size: 0.8em;
+        }
+        
+        .bullet-list {
+            list-style: none;
+            padding-left: 20px;
+        }
+        
+        .bullet-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .bullet-list li::before {
+            content: '•';
+            color: #667eea;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 1.5em;
+            line-height: 1;
+        }
+        
+        .participant {
+            display: inline-block;
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            margin: 2px;
+            font-weight: 500;
+        }
+        
+        .net-effect {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+        
+        .net-effect strong {
+            color: #856404;
+        }
+        
+        .action-items {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 4px;
+        }
+        
+        .action-items h4 {
+            color: #0c5460;
+            margin-bottom: 10px;
+        }
+        
+        .sender-summary {
+            background: #f0f7ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 10px;
+        }
+        
+        .sender-name {
+            font-weight: 600;
+            color: #1e3c72;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .summary-section {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .summary-title {
+            font-size: 1.8em;
+            color: #1e3c72;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .highlight {
+            background: #fffacd;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📧 BOLLI Email Summary</h1>
+            <p>Strategic Planning & Operational Updates - Last 3 Days</p>
+        </div>
+        
+        <div class="content">
+            <!-- Thread 1 -->
+            <div class="email-thread">
+                <div class="thread-title">
+                    <span class="thread-number">1</span>
+                    <span>Modality: Zoom vs In-Person</span>
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <span class="participant">Ted Gilman</span>
+                    <span class="participant">Kate Ehrlich</span>
+                </div>
+                
+                <div class="section">
+                    <div class="section-header">Ted's Initial Concern</div>
+                    <ul class="bullet-list">
+                        <li>Forwards member feedback (Len Aberbach) expressing concern that many choose Zoom because in-person facilities are not yet safe/adequate post-COVID</li>
+                        <li>Suggests polling Zoom members to clarify primary reasons for their choice</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <div class="section-header">Kate's Response with Data</div>
+                    <ul class="bullet-list">
+                        <li>BOLLI has already collected this data in big surveys and end-of-term surveys</li>
+                        <li><strong>Main reasons for choosing Zoom:</strong>
+                            <ul style="list-style: none; padding-left: 20px; margin-top: 8px;">
+                                <li>⏱️ Time (especially commuting time)</li>
+                                <li>🏠 Convenience</li>
+                                <li>🏥 Health concerns</li>
+                            </ul>
+                        </li>
+                        <li>Members choose courses primarily based on <span class="highlight">topic and SGL first</span>, then consider modality</li>
+                        <li>References individual comments from May 2024 survey</li>
+                    </ul>
+                </div>
+                
+                <div class="net-effect">
+                    <strong>Net Effect:</strong> Survey data confirms member concerns about facilities and health remain real. Primary drivers for Zoom participation are time, convenience, and health considerations.
+                </div>
+            </div>
+            
+            <!-- Thread 2 -->
+            <div class="email-thread">
+                <div class="thread-title">
+                    <span class="thread-number">2</span>
+                    <span>SPG Breakout Feedback: Curriculum & Community</span>
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <span class="participant">Kate Ehrlich</span>
+                    <span class="participant">Ted Gilman</span>
+                </div>
+                
+                <div class="section">
+                    <div class="section-header">Curriculum Requests</div>
+                    <ul class="bullet-list">
+                        <li>Strong interest in more <span class="highlight">science-oriented courses</span> (quantum physics, gene editing)</li>
+                        <li>Previous courses taught by Brandeis grad students were highly successful</li>
+                        <li>HILR model suggested: weekly science talks by members with professional backgrounds (lighter lift than full courses, builds community)</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <div class="section-header">Community Building Ideas</div>
+                    <ul class="bullet-list">
+                        <li>Small discussion groups around NYT opinion pieces</li>
+                        <li>Games group (Wordle, Scrabble, crosswords)</li>
+                        <li>Language group for foreign-language conversation or literature (Steven Ostrow has working model)</li>
+                        <li>Appreciation when SGLs open Zoom sessions early for pre-class social chat</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <div class="section-header">Infrastructure Needs</div>
+                    <ul class="bullet-list">
+                        <li><strong style="color: #d32f2f;">Critical:</strong> Better microphones at Turner Street</li>
+                        <li><strong style="color: #d32f2f;">Critical:</strong> T-coil compatibility for hearing aids</li>
+                        <li>Some members avoid in-person courses because hearing others is too difficult</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <div class="section-header">Ted's Breakout Group</div>
+                    <ul class="bullet-list">
+                        <li>Mostly individual complaints about personal challenges</li>
+                        <li>Little that organization could practically address</li>
+                        <li>No major new action items</li>
+                    </ul>
+                </div>
+                
+                <div class="net-effect">
+                    <strong>Net Effect:</strong> Substantive input for adding science content, community-building small groups/SIGs, and critical accessibility improvements for in-person sessions (microphones and hearing aid compatibility).
+                </div>
+            </div>
+            
+            <!-- Thread 3 -->
+            <div class="email-thread">
+                <div class="thread-title">
+                    <span class="thread-number">3</span>
+                    <span>Strategic Plan: Next Steps & Deliverables</span>
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <span class="participant">David Rattner</span>
+                    <span class="participant">Ted Gilman</span>
+                    <span class="participant">Marsha Semuels</span>
+                </div>
+                
+                <div class="section">
+                    <div class="section-header">David's Initial Request</div>
+                    <ul class="bullet-list">
+                        <li>Emphasizes need for <span class="highlight">milestones and measurable deliverables</span></li>
+                        <li>Wants to prioritize a few top-priority items</li>
+                        <li>Philosophy: under-promise, over-deliver, hold BOLLI accountable</li>
+                    </ul>
+                </div>
+                
+                <div class="action-items">
+                    <h4>Ted's Concrete Action Plan</h4>
+                    <ul class="bullet-list">
+                        <li><strong>Revise and finalize</strong> strategic plan draft</li>
+                        <li><strong>Send materials to John</strong> (recordings, notes) for AI analysis to produce priority list</li>
+                        <li><strong>Add explicit content on:</strong>
+                            <ul style="list-style: none; padding-left: 20px; margin-top: 5px;">
+                                <li>✓ Diversity</li>
+                                <li>✓ Disability in the classroom</li>
+                            </ul>
+                        </li>
+                        <li><strong>Work with IA</strong> to set up 25th anniversary campaign</li>
+                        <li><strong>Call for volunteers</strong> in next newsletter:
+                            <ul style="list-style: none; padding-left: 20px; margin-top: 5px;">
+                                <li>• "Here's what BOLLI needs..."</li>
+                                <li>• "What do you know? What can you do?"</li>
+                                <li>• Mini survey to collect skills/interests</li>
+                            </ul>
+                        </li>
+                        <li><strong>Appoint</strong> volunteer coordinator</li>
+                        <li>Create <span class="highlight">timeline of activities</span> driven by the plan (committees, hybrid tech logistics, etc.)</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <div class="section-header">Materials Routing (Marsha's Clarification)</div>
+                    <ul class="bullet-list">
+                        <li><strong>Recordings →</strong> Send directly to John</li>
+                        <li><strong>Whiteboard/handwritten notes →</strong> Send to Marsha for consolidation</li>
+                        <li><strong>Consolidated notes →</strong> Marsha sends to John for AI processing</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <div class="section-header">David's Response</div>
+                    <ul class="bullet-list">
+                        <li>"Sounds good!" - endorses Ted's proposed actions</li>
+                    </ul>
+                </div>
+                
+                <div class="net-effect">
+                    <strong>Net Effect:</strong> Clear consensus on using AI (through John) to synthesize priorities, with explicit implementation path for plan revisions, diversity/disability additions, anniversary campaign, and volunteer pipeline. Materials routing is now clearly defined.
+                </div>
+            </div>
+            
+            <!-- Thread 4 -->
+            <div class="email-thread">
+                <div class="thread-title">
+                    <span class="thread-number">4</span>
+                    <span>AI Course Guide Discussion</span>
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <span class="participant">David Rattner</span>
+                </div>
+                
+                <div class="section">
+                    <ul class="bullet-list">
+                        <li>AI course guide concept is moving forward</li>
+                        <li>David aligned with Marlene's proposal</li>
+                        <li>Now explicitly awaiting input from <span class="highlight">John and Ollie</span> before formal adoption</li>
+                    </ul>
+                </div>
+                
+                <div class="net-effect">
+                    <strong>Net Effect:</strong> The AI course guide proposal is progressing and needs your feedback (along with Ollie's) before implementation.
+                </div>
+            </div>
+            
+            <!-- Summary by Sender -->
+            <div class="summary-section">
+                <div class="summary-title">📨 Activity by Sender</div>
+                
+                <div class="sender-summary">
+                    <span class="sender-name">Ted Gilman (tgilman@brandeis.edu)</span>
+                    <ul class="bullet-list">
+                        <li>Shared member feedback about Zoom modality and health/safety concerns</li>
+                        <li>Reported on breakout session findings</li>
+                        <li>Outlined concrete next steps for Strategic Plan implementation</li>
+                        <li>Defined role for AI analysis in prioritization</li>
+                    </ul>
+                </div>
+                
+                <div class="sender-summary">
+                    <span class="sender-name">Kate Ehrlich (katee1248@gmail.com)</span>
+                    <ul class="bullet-list">
+                        <li>Provided detailed survey findings on Zoom preferences</li>
+                        <li>Delivered comprehensive SPG breakout notes on curriculum, community, and infrastructure</li>
+                        <li>Highlighted critical accessibility issues (microphones, hearing aid compatibility)</li>
+                    </ul>
+                </div>
+                
+                <div class="sender-summary">
+                    <span class="sender-name">David Rattner (rattnerdavid@gmail.com)</span>
+                    <ul class="bullet-list">
+                        <li>Emphasized need for milestones, deliverables, and accountability</li>
+                        <li>Endorsed Ted's action plan</li>
+                        <li>Signaled alignment on AI Course Guide and requested input from John and Ollie</li>
+                    </ul>
+                </div>
+                
+                <div class="sender-summary">
+                    <span class="sender-name">Marsha Semuels (mhsemuels@gmail.com)</span>
+                    <ul class="bullet-list">
+                        <li>Clarified logistics for materials routing</li>
+                        <li>Established workflow: recordings to John, handwritten notes through Marsha for consolidation, then to John for AI processing</li>
+                    </ul>
+                </div>
+                
+                <div class="sender-summary">
+                    <span class="sender-name">Judy Feldman (judyfeldman1944@gmail.com)</span>
+                    <ul class="bullet-list">
+                        <li>Appears as CC recipient only - no standalone emails in this period</li>
+                    </ul>
+                </div>
+                
+                <div class="sender-summary">
+                    <span class="sender-name">Oliver Curme (ocurme@gmail.com)</span>
+                    <ul class="bullet-list">
+                        <li>Appears as CC recipient only - no standalone emails in this period</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Key Takeaways -->
+            <div class="summary-section" style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);">
+                <div class="summary-title">🎯 Key Takeaways</div>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+                    <h3 style="color: #1e3c72; margin-bottom: 10px;">Your Action Items</h3>
+                    <ul class="bullet-list">
+                        <li>Receive recordings and consolidated notes for AI analysis</li>
+                        <li>Generate prioritized list from Strategic Planning materials</li>
+                        <li>Provide input on AI Course Guide proposal (along with Ollie)</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+                    <h3 style="color: #1e3c72; margin-bottom: 10px;">Major Themes</h3>
+                    <ul class="bullet-list">
+                        <li><strong>Accessibility:</strong> Critical need for better audio infrastructure at Turner Street</li>
+                        <li><strong>Content Expansion:</strong> Strong demand for science courses and community-building activities</li>
+                        <li><strong>Strategic Planning:</strong> Moving from discussion to implementation with clear milestones</li>
+                        <li><strong>Volunteer Mobilization:</strong> New initiative to recruit and coordinate member volunteers</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px;">
+                    <h3 style="color: #1e3c72; margin-bottom: 10px;">Timeline Implications</h3>
+                    <ul class="bullet-list">
+                        <li>Strategic Plan finalization in progress</li>
+                        <li>Volunteer call going into next newsletter</li>
+                        <li>25th anniversary campaign coordination with IA to begin</li>
+                        <li>AI Course Guide awaiting final input before adoption</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
