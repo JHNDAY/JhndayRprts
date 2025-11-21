@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLLI Strategic Plan Town Hall - Zoom Session Visualization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid #2a5298;
+        }
+
+        h1 {
+            color: #1e3c72;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .session-meta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #555;
+            font-size: 1.1em;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #1e3c72;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 5px solid #2a5298;
+        }
+
+        .speakers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .speaker-card {
+            background: white;
+            border: 2px solid #2a5298;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .speaker-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .speaker-name {
+            font-weight: bold;
+            color: #1e3c72;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .speaker-count {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+            padding-bottom: 30px;
+            border-left: 3px solid #2a5298;
+            margin-left: 20px;
+        }
+
+        .timeline-item:last-child {
+            border-left: 3px solid transparent;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -8px;
+            top: 5px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #2a5298;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #2a5298;
+        }
+
+        .timeline-time {
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            display: inline-block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .timeline-speaker {
+            font-weight: bold;
+            color: #1e3c72;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+
+        .timeline-content {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            line-height: 1.7;
+            color: #333;
+        }
+
+        .key-themes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .theme-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .theme-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .theme-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .theme-items {
+            list-style: none;
+        }
+
+        .theme-items li {
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .theme-items li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .strategic-goals {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .goal-item {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border-left: 5px solid #2a5298;
+        }
+
+        .goal-number {
+            background: #2a5298;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .goal-title {
+            display: inline;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+
+        .quotes-container {
+            display: grid;
+            gap: 25px;
+        }
+
+        .quote-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid #2a5298;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .quote-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .quote-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .quote-icon {
+            font-size: 2.5em;
+            margin-right: 15px;
+            color: #2a5298;
+        }
+
+        .quote-speaker-info {
+            flex: 1;
+        }
+
+        .quote-speaker-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 5px;
+        }
+
+        .quote-timestamp {
+            color: #666;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        .quote-text {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #333;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .quote-text::before {
+            content: '"';
+            font-size: 4em;
+            color: #2a5298;
+            opacity: 0.2;
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            font-family: Georgia, serif;
+        }
+
+        .quote-context {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(42, 82, 152, 0.1);
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #555;
+        }
+
+        .quote-context strong {
+            color: #1e3c72;
+        }
+
+        .navigation {
+            position: sticky;
+            top: 20px;
+            background: rgba(255,255,255,0.95);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .nav-button {
+            background: #2a5298;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background: #1e3c72;
+        }
+
+        .nav-button.active {
+            background: #667eea;
+        }
+
+        .view-section {
+            display: none;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .session-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 BOLLI Strategic Plan Town Hall</h1>
+            <div class="session-meta">
+                <div class="meta-item">📅 Community Meeting</div>
+                <div class="meta-item">💻 Zoom Session</div>
+                <div class="meta-item">⏱️ Duration: ~33 minutes</div>
+                <div class="meta-item">👥 Multiple Breakout Rooms</div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-button active" onclick="showView('overview')">Overview</button>
+            <button class="nav-button" onclick="showView('timeline')">Timeline</button>
+            <button class="nav-button" onclick="showView('quotes')">Key Quotes</button>
+            <button class="nav-button" onclick="showView('themes')">Key Themes</button>
+            <button class="nav-button" onclick="showView('goals')">Strategic Goals</button>
+        </div>
+
+        <div id="overview" class="view-section active">
+            <div class="dashboard">
+                <div class="stat-card">
+                    <div class="stat-number">10</div>
+                    <div class="stat-label">Speakers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Strategic Goals</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">33</div>
+                    <div class="stat-label">Minutes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">25th</div>
+                    <div class="stat-label">Anniversary Year</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Session Overview</h2>
+                <div class="timeline-content">
+                    <p><strong>Purpose:</strong> Rollout of BOLLI's draft Strategic Plan for the next 5 years, following an in-person meeting held two days prior.</p>
+                    <p style="margin-top: 15px;"><strong>Format:</strong> Presentation by Executive Director Ted Gilman, followed by breakout room discussions with Strategic Planning Committee members, and concluding with whole-group reflections.</p>
+                    <p style="margin-top: 15px;"><strong>Context:</strong> This planning initiative marks BOLLI's approach to its 25th anniversary, addressing evolving needs post-pandemic and integrating new technologies while maintaining community values.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Participants</h2>
+                <div class="speakers-grid">
+                    <div class="speaker-card">
+                        <div class="speaker-name">Ted Gilman</div>
+                        <div class="speaker-count">Executive Director<br>Primary Presenter</div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-name">Marcia Samuels</div>
+                        <div class="speaker-count">Co-Chair<br>Planning Committee</div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-name">John Day</div>
+                        <div class="speaker-count">Planning Committee<br>Member</div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-name">David Moskowitz</div>
+                        <div class="speaker-count">Community<br>Participant</div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-name">Ron Levy</div>
+                        <div class="speaker-count">Community<br>Participant</div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-name">Joyce Hollman</div>
+                        <div class="speaker-count">Session<br>Participant</div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-name">Robin Hershkowitz</div>
+                        <div class="speaker-count">Technical<br>Support</div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-name">Others</div>
+                        <div class="speaker-count">Beth Davis, Peter Gordon<br>Kay Collins, Sunny Adler, Laurel Hellerstein</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="timeline" class="view-section">
+            <div class="section">
+                <h2 class="section-title">Session Timeline</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">00:00 - 00:19</div>
+                        <div class="timeline-speaker">Ted Gilman</div>
+                        <div class="timeline-content">
+                            Opening remarks and welcome. Introduction to the Strategic Plan rollout as a community meeting on Zoom, following an in-person session two days prior.
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">00:21 - 01:04</div>
+                        <div class="timeline-speaker">Ted Gilman</div>
+                        <div class="timeline-content">
+                            Outline of session structure: presentation of plan highlights, breakout rooms for small group discussions with Strategic Planning Committee members, and reconvening for final thoughts. Screen sharing initiated.
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">01:07 - 01:11</div>
+                        <div class="timeline-speaker">Joyce Hollman & Kay Collins</div>
+                        <div class="timeline-content">
+                            Confirmation that strategic plan slide is visible to participants.
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">01:12 - 02:36</div>
+                        <div class="timeline-speaker">Ted Gilman</div>
+                        <div class="timeline-content">
+                            <strong>Personal context:</strong> Reflection on being hired a year ago with assignment to create strategic plan. Acknowledgment of Strategic Planning Committee members: Marcia Samuels (co-chair), Ali Kerm, <strong>John Day</strong>, Kate Ehrlich, Judy Feldman, and David Ratner. Introduction to BOLLI's 25th anniversary as context for planning.
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">02:36 - 02:39</div>
+                        <div class="timeline-speaker">Peter Gordon</div>
+                        <div class="timeline-content">
+                            Brief interjection about growth and renewal.
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">02:39 - 16:11</div>
+                        <div class="timeline-speaker">Ted Gilman</div>
+                        <div class="timeline-content">
+                            <strong>Major presentation segment covering:</strong>
+                            <ul style="margin-top: 10px; line-height: 1.8;">
+                                <li><strong>Why Now?</strong> 25th anniversary, evolving needs, new technologies, post-pandemic realities, hybrid learning</li>
+                                <li><strong>Planning Process:</strong> Committee formed July-October, data sources including 2024 membership survey, suggestion box, peer comparisons, SWOT analysis</li>
+                                <li><strong>SWOT Findings:</strong> Strengths (high-quality courses, peer learning, community); Challenges (substandard facilities, insufficient in-person options, technology gaps, communication issues, post-pandemic community cohesion)</li>
+                                <li><strong>Mission Statement:</strong> Promoting welcoming, congenial, stimulating experience through exceptional teaching and cultural/social activities</li>
+                                <li><strong>Four Strategic Goals:</strong>
+                                    <ol style="margin-left: 20px; margin-top: 10px;">
+                                        <li>Enhancing curriculum (RFPs for courses, increase member SGLs, flexible scheduling, enlarge SGL toolbox, add AI training, non-traditional courses, partnerships)</li>
+                                        <li>Strengthen community (emphasize community messaging, expand orientation/mentorship, informal gatherings, field trips, enhance Distinguished Speaker Series)</li>
+                                        <li>Infrastructure strengthening (physical, technological, organizational)</li>
+                                        <li>Financial stability</li>
+                                    </ol>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">16:11 - 16:12</div>
+                        <div class="timeline-speaker">Sunny Adler</div>
+                        <div class="timeline-content">
+                            Brief affirmation.
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">16:12 - 29:40</div>
+                        <div class="timeline-speaker">Ted Gilman (continued)</div>
+                        <div class="timeline-content">
+                            Extended presentation segment (content truncated in transcript).
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">30:44 - 30:59</div>
+                        <div class="timeline-speaker">David Moskowitz</div>
+                        <div class="timeline-content">
+                            Question about class size flexibility and registration processes - if a class can have up to 20 but only 15 choose it, how is this handled?
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">30:59 - 31:08</div>
+                        <div class="timeline-speaker">Ted Gilman</div>
+                        <div class="timeline-content">
+                            Response about classroom sizing flexibility. Suggests this as good topic for breakout groups to explore different perspectives.
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">31:08 - 31:20</div>
+                        <div class="timeline-speaker">Ron Levy & Ted Gilman</div>
+                        <div class="timeline-content">
+                            Ron humorously encourages not having a breakout group of 72 people. Ted agrees to transition into breakout groups.
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">33:08 - 33:14</div>
+                        <div class="timeline-speaker">Laurel Hellerstein & Robin Hershkowitz</div>
+                        <div class="timeline-content">
+                            Technical support: Request to return to breakout room, with Robin (technical host) managing room assignments.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotes" class="view-section">
+            <div class="section">
+                <h2 class="section-title">💬 Key Quotes & Memorable Moments</h2>
+                <div class="quotes-container">
+                    
+                    <div class="quote-card">
+                        <div class="quote-header">
+                            <div class="quote-icon">🎯</div>
+                            <div class="quote-speaker-info">
+                                <div class="quote-speaker-name">Ted Gilman, Executive Director</div>
+                                <div class="quote-timestamp">01:12 - 02:36</div>
+                            </div>
+                        </div>
+                        <div class="quote-text">
+                            It's really funny to be doing this, for you all, because, when I got hired a little over a year ago, the assignment for my presentation was to come up with a strategic plan for BOLLI. And I did it, but not knowing anything about BOLLI, and now here we are, more than a year later... and here we have a draft strategic plan.
+                        </div>
+                        <div class="quote-context">
+                            <strong>Context:</strong> Ted reflects on his journey from newcomer to leader, acknowledging the learning curve and collaborative process. This personal touch humanizes the planning process.
+                        </div>
+                    </div>
+
+                    <div class="quote-card">
+                        <div class="quote-header">
+                            <div class="quote-icon">🏛️</div>
+                            <div class="quote-speaker-info">
+                                <div class="quote-speaker-name">Ted Gilman</div>
+                                <div class="quote-timestamp">02:39 - 16:11</div>
+                            </div>
+                        </div>
+                        <div class="quote-text">
+                            People's needs and expectations are evolving. Everybody... members are... we're all influenced by new technologies, generational change, post-pandemic realities. Hybrid learning is something that's in the margins, but we'd like to center it a little bit.
+                        </div>
+                        <div class="quote-context">
+                            <strong>Context:</strong> Articulating the rationale for the strategic plan—acknowledging that BOLLI must adapt to changing realities while maintaining its core mission.
+                        </div>
+                    </div>
+
+                    <div class="quote-card">
+                        <div class="quote-header">
+                            <div class="quote-icon">🏢</div>
+                            <div class="quote-speaker-info">
+                                <div class="quote-speaker-name">Ted Gilman</div>
+                                <div class="quote-timestamp">02:39 - 16:11</div>
+                            </div>
+                        </div>
+                        <div class="quote-text">
+                            If you only do BOLLI on Zoom, you have not had the pleasure of coming to 60 Turner Street, and experiencing the substandard facilities there. I am working really hard to try and push Brandeis to get us into new space, but I have very little leverage. We are their tenant, and they are our landlord.
+                        </div>
+                        <div class="quote-context">
+                            <strong>Context:</strong> Ted's candid acknowledgment of facilities challenges shows transparency about limitations while advocating for members' interests. The humor masks a serious infrastructure issue.
+                        </div>
+                    </div>
+
+                    <div class="quote-card">
+                        <div class="quote-header">
+                            <div class="quote-icon">📚</div>
+                            <div class="quote-speaker-info">
+                                <div class="quote-speaker-name">Ted Gilman</div>
+                                <div class="quote-timestamp">02:39 - 16:11</div>
+                            </div>
+                        </div>
+                        <div class="quote-text">
+                            The mission of BOLLI is to promote a welcoming, congenial, and stimulating experience for lifelong learners. This mission is accomplished through exceptional teaching, intellectually enriching courses, and a variety of cultural and social activities.
+                        </div>
+                        <div class="quote-context">
+                            <strong>Context:</strong> The core mission statement—reminder that all strategic initiatives must serve these fundamental values of welcome, intellectual rigor, and community.
+                        </div>
+                    </div>
+
+                    <div class="quote-card">
+                        <div class="quote-header">
+                            <div class="quote-icon">🚀</div>
+                            <div class="quote-speaker-info">
+                                <div class="quote-speaker-name">Ted Gilman</div>
+                                <div class="quote-timestamp">02:39 - 16:11</div>
+                            </div>
+                        </div>
+                        <div class="quote-text">
+                            We want to experiment with flexible scheduling... doing mini-courses over a couple of sessions, rather than just limiting ourselves to 5 sessions or 10 sessions, we can go, you know, there are numbers between 5 and 10 and beyond.
+                        </div>
+                        <div class="quote-context">
+                            <strong>Context:</strong> Signaling a shift from rigid structures to flexibility—humor about "numbers between 5 and 10" emphasizes the simplicity of the innovation while challenging traditional assumptions.
+                        </div>
+                    </div>
+
+                    <div class="quote-card">
+                        <div class="quote-header">
+                            <div class="quote-icon">🤖</div>
+                            <div class="quote-speaker-info">
+                                <div class="quote-speaker-name">Ted Gilman</div>
+                                <div class="quote-timestamp">02:39 - 16:11</div>
+                            </div>
+                        </div>
+                        <div class="quote-text">
+                            SGLs have become quite proficient with Zoom, but there's a lot more than Zoom available, and we need to provide additional support that will allow instructors to concentrate on the content of their courses... support for digital literacy and instruction in AI tools, which is something we've heard you demand.
+                        </div>
+                        <div class="quote-context">
+                            <strong>Context:</strong> Recognition that technology literacy is member-driven demand, not top-down imposition. Directly relevant to John Day's work developing AI education at BOLLI.
+                        </div>
+                    </div>
+
+                    <div class="quote-card">
+                        <div class="quote-header">
+                            <div class="quote-icon">🤝</div>
+                            <div class="quote-speaker-info">
+                                <div class="quote-speaker-name">Ted Gilman</div>
+                                <div class="quote-timestamp">02:39 - 16:11</div>
+                            </div>
+                        </div>
+                        <div class="quote-text">
+                            There's no reason that you can't teach with a friend or a colleague or someone who shares an interest. We're going to encourage co-teaching.
+                        </div>
+                        <div class="quote-context">
+                            <strong>Context:</strong> Challenging the single-instructor model and promoting collaborative teaching—acknowledging that peer learning extends to instructors themselves.
+                        </div>
+                    </div>
+
+                    <div class="quote-card">
+                        <div class="quote-header">
+                            <div class="quote-icon">🎭</div>
+                            <div class="quote-speaker-info">
+                                <div class="quote-speaker-name">Ted Gilman</div>
+                                <div class="quote-timestamp">02:39 - 16:11</div>
+                            </div>
+                        </div>
+                        <div class="quote-text">
+                            I know that there are a couple of SGLs who actually hold sessions prior to their first session, and that the purpose of that is to get the meet-and-greet stuff out of the way before the academic content is addressed, and that's something that we will encourage classes to do more regularly.
+                        </div>
+                        <div class="quote-context">
+                            <strong>Context:</strong> Highlighting innovative practices already happening—validating instructor creativity while suggesting broader adoption. Separating social connection from content delivery.
+                        </div>
+                    </div>
+
+                    <div class="quote-card">
+                        <div class="quote-header">
+                            <div class="quote-icon">❓</div>
+                            <div class="quote-speaker-info">
+                                <div class="quote-speaker-name">David Moskowitz</div>
+                                <div class="quote-timestamp">29:40 - 30:19</div>
+                            </div>
+                        </div>
+                        <div class="quote-text">
+                            Before COVID, we put 20 in those classrooms. Now, I know that COVID is still, quote, an issue for some, or whatever, but it really greatly reduced from what we faced many, many years ago... why can't we just move back to the 20 people in the classrooms?
+                        </div>
+                        <div class="quote-context">
+                            <strong>Context:</strong> David raises a practical question about capacity constraints, expressing frustration with post-COVID adaptations that may no longer be necessary—reflecting tension between caution and return to normalcy.
+                        </div>
+                    </div>
+
+                    <div class="quote-card">
+                        <div class="quote-header">
+                            <div class="quote-icon">⚖️</div>
+                            <div class="quote-speaker-info">
+                                <div class="quote-speaker-name">Ted Gilman (responding to David)</div>
+                                <div class="quote-timestamp">30:20 - 30:44</div>
+                            </div>
+                        </div>
+                        <div class="quote-text">
+                            The sort of... "Why can't we just go back?" is attractive to some and not appealing to others. So you are expressing one view, but there are other people who may feel the diametric opposite to how you're feeling, David. So that's why we need to talk about this stuff and see where the... it's not that we're taking a vote and that 51% want.
+                        </div>
+                        <div class="quote-context">
+                            <strong>Context:</strong> Ted demonstrates inclusive leadership—acknowledging diverse perspectives without dismissing concerns. Signals that strategic planning isn't about majority rule but finding balance among competing values.
+                        </div>
+                    </div>
+
+                    <div class="quote-card">
+                        <div class="quote-header">
+                            <div class="quote-icon">👥</div>
+                            <div class="quote-speaker-info">
+                                <div class="quote-speaker-name">David Moskowitz (follow-up)</div>
+                                <div class="quote-timestamp">30:44 - 30:59</div>
+                            </div>
+                        </div>
+                        <div class="quote-text">
+                            I understand dialogue is good, but I'm just saying, you know, has that been discussed, or you advertise that a class says, I don't know how that works, but if you say a class can have up to 20, and then people don't choose it, and then it turns out only 15 people choose it, then, you know, you're...
+                        </div>
+                        <div class="quote-context">
+                            <strong>Context:</strong> David's pragmatic concern about registration logistics and capacity planning—highlighting operational complexities behind seemingly simple decisions.
+                        </div>
+                    </div>
+
+                    <div class="quote-card">
+                        <div class="quote-header">
+                            <div class="quote-icon">🎪</div>
+                            <div class="quote-speaker-info">
+                                <div class="quote-speaker-name">Ron Levy</div>
+                                <div class="quote-timestamp">31:08 - 31:12</div>
+                            </div>
+                        </div>
+                        <div class="quote-text">
+                            Yeah, so I encourage us not to have a breakout group of 72 people.
+                        </div>
+                        <div class="quote-context">
+                            <strong>Context:</strong> Ron's humor breaks tension after David's pointed questions, signaling it's time to move from plenary to small group discussions. Shows community comfort with gentle redirection.
+                        </div>
+                    </div>
+
+                    <div class="quote-card">
+                        <div class="quote-header">
+                            <div class="quote-icon">🔧</div>
+                            <div class="quote-speaker-info">
+                                <div class="quote-speaker-name">Laurel Hellerstein & Robin Hershkowitz</div>
+                                <div class="quote-timestamp">33:08 - 33:14</div>
+                            </div>
+                        </div>
+                        <div class="quote-text">
+                            "Robin, can you put me back into my breakout room?" / "What room are you in? Do you remember?"
+                        </div>
+                        <div class="quote-context">
+                            <strong>Context:</strong> The human side of hybrid/virtual meetings—technical challenges that are part of BOLLI's reality. Robin's patient troubleshooting shows the support infrastructure needed for effective online learning.
+                        </div>
+                    </div>
+
+                    <div class="quote-card">
+                        <div class="quote-header">
+                            <div class="quote-icon">🎓</div>
+                            <div class="quote-speaker-info">
+                                <div class="quote-speaker-name">Ted Gilman</div>
+                                <div class="quote-timestamp">01:12 - 02:36</div>
+                            </div>
+                        </div>
+                        <div class="quote-text">
+                            Thank you especially to the Strategic Planning Group members. Marcia Samuels was my co-chair in this endeavor, and we were joined by Ali Kerm, John Day, Kate Ehrlich, Judy Feldman, and David Ratner. So, those are the folks who, if you have complaints, go ahead and you can hit any of us.
+                        </div>
+                        <div class="quote-context">
+                            <strong>Context:</strong> Ted's humor acknowledges accountability while celebrating the collaborative effort. Notable that John Day was part of this strategic planning committee, bringing his pedagogical innovation expertise to organizational planning.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="themes" class="view-section">
+            <div class="section">
+                <h2 class="section-title">Key Themes & Insights</h2>
+                <div class="key-themes">
+                    <div class="theme-card">
+                        <div class="theme-icon">🎯</div>
+                        <div class="theme-title">Planning Process</div>
+                        <ul class="theme-items">
+                            <li>Committee formed July-October 2024</li>
+                            <li>Data-driven: 2024 membership survey</li>
+                            <li>Community input: suggestion box</li>
+                            <li>Peer comparisons with other OSHER programs</li>
+                            <li>Traditional SWOT analysis</li>
+                            <li>Goal: Final plan by end of calendar year</li>
+                        </ul>
+                    </div>
+
+                    <div class="theme-card">
+                        <div class="theme-icon">💪</div>
+                        <div class="theme-title">BOLLI's Strengths</div>
+                        <ul class="theme-items">
+                            <li>High-quality, wide-ranging curriculum</li>
+                            <li>Diverse intellectual stimulation</li>
+                            <li>Distinguished Speaker Series</li>
+                            <li>Shared interest groups</li>
+                            <li>Peer learning tradition</li>
+                            <li>Strong sense of community</li>
+                        </ul>
+                    </div>
+
+                    <div class="theme-card">
+                        <div class="theme-icon">⚠️</div>
+                        <div class="theme-title">Current Challenges</div>
+                        <ul class="theme-items">
+                            <li>Substandard facilities at 60 Turner Street</li>
+                            <li>Insufficient in-person course options</li>
+                            <li>Gaps in course offerings</li>
+                            <li>Technology literacy gaps</li>
+                            <li>Communication frequency/channels</li>
+                            <li>Post-pandemic community cohesion</li>
+                        </ul>
+                    </div>
+
+                    <div class="theme-card">
+                        <div class="theme-icon">🚀</div>
+                        <div class="theme-title">Innovation Focus</div>
+                        <ul class="theme-items">
+                            <li>Hybrid learning models</li>
+                            <li>AI tools and digital literacy</li>
+                            <li>Flexible scheduling (mini-courses)</li>
+                            <li>Co-teaching opportunities</li>
+                            <li>Evening classes</li>
+                            <li>Non-traditional course formats</li>
+                        </ul>
+                    </div>
+
+                    <div class="theme-card">
+                        <div class="theme-icon">🤝</div>
+                        <div class="theme-title">Community Building</div>
+                        <ul class="theme-items">
+                            <li>Emphasize community in all messaging</li>
+                            <li>Expand orientation/mentorship</li>
+                            <li>Informal gatherings (lunch, coffee)</li>
+                            <li>Pre-class social sessions</li>
+                            <li>Field trips and breakout sessions</li>
+                            <li>Post-lecture small group discussions</li>
+                        </ul>
+                    </div>
+
+                    <div class="theme-card">
+                        <div class="theme-icon">🔗</div>
+                        <div class="theme-title">Partnerships</div>
+                        <ul class="theme-items">
+                            <li>Local cultural institutions (theaters, museums)</li>
+                            <li>Other OSHER programs (Dartmouth collaboration)</li>
+                            <li>Brandeis faculty and graduate students</li>
+                            <li>External instructors when needed</li>
+                            <li>Experiential learning opportunities</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="goals" class="view-section">
+            <div class="section">
+                <h2 class="section-title">Four Strategic Goals</h2>
+                <div class="strategic-goals">
+                    <div class="goal-item">
+                        <span class="goal-number">1</span>
+                        <span class="goal-title">Enhancing the Curriculum</span>
+                        <ul style="margin-top: 15px; line-height: 1.8;">
+                            <li><strong>Issue RFPs</strong> for desired courses to fill gaps</li>
+                            <li><strong>Increase member SGLs:</strong> Recruitment, training, mentorship, co-teaching</li>
+                            <li><strong>Flexible scheduling:</strong> Mini-courses, varied session lengths, evening classes, summer/winter sessions</li>
+                            <li><strong>Enlarge SGL toolbox:</strong> Beyond Zoom - trained co-hosts, digital literacy support, AI tools instruction</li>
+                            <li><strong>Add non-traditional courses:</strong> Research other programs, partner with cultural institutions</li>
+                            <li><strong>Expand partnerships:</strong> Other OSHER programs, Dartmouth lecture series on AI</li>
+                        </ul>
+                    </div>
+
+                    <div class="goal-item">
+                        <span class="goal-number">2</span>
+                        <span class="goal-title">Strengthening Community</span>
+                        <ul style="margin-top: 15px; line-height: 1.8;">
+                            <li><strong>Emphasize community</strong> in all messaging and materials</li>
+                            <li><strong>Expand orientation/mentorship</strong> at all program stages</li>
+                            <li><strong>Informal interactions:</strong> Before/after classes, lunch gatherings, coffee hours, name tags</li>
+                            <li><strong>Classroom experiences:</strong> Field trips, breakout sessions, social components</li>
+                            <li><strong>Pre-session meet-and-greets</strong> to separate social from academic content</li>
+                            <li><strong>Enhance Distinguished Speaker Series:</strong> Hybrid events, expanded range and frequency, post-lecture discussions</li>
+                            <li><strong>Address integration challenges</strong> for new members post-COVID</li>
+                        </ul>
+                    </div>
+
+                    <div class="goal-item">
+                        <span class="goal-number">3</span>
+                        <span class="goal-title">Strengthening Infrastructure</span>
+                        <ul style="margin-top: 15px; line-height: 1.8;">
+                            <li><strong>Physical:</strong> Advocate for improved facilities beyond 60 Turner Street</li>
+                            <li><strong>Technological:</strong> Enhance digital tools and platforms for learning</li>
+                            <li><strong>Organizational:</strong> Improve communication systems and community coordination</li>
+                        </ul>
+                    </div>
+
+                    <div class="goal-item">
+                        <span class="goal-number">4</span>
+                        <span class="goal-title">Ensuring Financial Stability</span>
+                        <ul style="margin-top: 15px; line-height: 1.8;">
+                            <li><strong>Goal:</strong> Continue in good financial health into the future</li>
+                            <li>Support organizational growth and renewal</li>
+                            <li>Enable program innovations and expansions</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 15px; margin-top: 30px;">
+                    <h3 style="font-size: 1.5em; margin-bottom: 15px;">Mission Statement</h3>
+                    <p style="font-size: 1.1em; line-height: 1.8; font-style: italic;">
+                        "The mission of BOLLI is to promote a welcoming, congenial, and stimulating experience for lifelong learners. This mission is accomplished through exceptional teaching, intellectually enriching courses, and a variety of cultural and social activities."
+                    </p>
+                    <p style="margin-top: 20px; font-size: 1.05em; line-height: 1.8;">
+                        <strong>Vision:</strong> To create a member-driven community in which academic excellence, transformational experiences, and meaningful connections thrive, aligned with Brandeis University's ideals of inclusion, truth, and justice.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showView(viewId) {
+            // Hide all views
+            const views = document.querySelectorAll('.view-section');
+            views.forEach(view => view.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.nav-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected view
+            document.getElementById(viewId).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
