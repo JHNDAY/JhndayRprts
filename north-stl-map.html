@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>North St. Louis 1943-1952 | Family History Map</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Serif+4:wght@400;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sepia-dark: #2a1f14;
+            --sepia-medium: #5c4a3a;
+            --sepia-light: #d4c4a8;
+            --cream: #f5f0e1;
+            --paper: #faf6eb;
+            --accent-red: #8b3a3a;
+            --accent-gold: #c9a227;
+            --ink: #1a1612;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Serif 4', Georgia, serif;
+            background: var(--cream);
+            color: var(--ink);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: var(--sepia-dark);
+            color: var(--cream);
+            padding: 1.5rem 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 0.15em;
+        }
+
+        .map-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .map-wrapper {
+            position: relative;
+            background: #e8dcc8;
+            border: 4px solid var(--sepia-medium);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .map-svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .location-card {
+            position: absolute;
+            background: var(--paper);
+            padding: 1rem;
+            border-radius: 6px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            max-width: 220px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s, transform 0.3s;
+            pointer-events: none;
+            z-index: 100;
+            border-left: 3px solid var(--accent-gold);
+        }
+
+        .location-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .location-card h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            color: var(--sepia-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .location-card .tag {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.7rem;
+            color: var(--accent-red);
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .location-card p {
+            font-size: 0.85rem;
+            color: var(--sepia-medium);
+            line-height: 1.4;
+        }
+
+        .location-card a {
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--accent-red);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .location-card a:hover {
+            text-decoration: underline;
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: var(--paper);
+            border-top: 3px solid var(--accent-gold);
+            margin-top: 2rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .legend-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .info-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 6px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--accent-gold);
+        }
+
+        .info-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--sepia-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card .subtitle {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.75rem;
+            color: var(--accent-red);
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+        }
+
+        .info-card p {
+            font-size: 0.95rem;
+            color: var(--sepia-medium);
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+        }
+
+        .info-card .distance {
+            font-weight: 600;
+            color: var(--accent-gold);
+        }
+
+        .info-card a {
+            color: var(--accent-red);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .info-card a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--sepia-medium);
+            font-size: 0.9rem;
+        }
+
+        footer .note {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1>North St. Louis • Your Family's Neighborhood</h1>
+        <p>1943 — 1952 • Prairie Avenue & Surroundings</p>
+    </header>
+
+    <div class="map-container">
+        <div class="map-wrapper">
+            <svg class="map-svg" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                <!-- Background -->
+                <rect width="800" height="600" fill="#e8dcc8"/>
+                
+                <!-- Grid pattern for streets -->
+                <defs>
+                    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#d4c4a8" stroke-width="1"/>
+                    </pattern>
+                </defs>
+                <rect width="800" height="600" fill="url(#grid)"/>
+                
+                <!-- Major Streets -->
+                <!-- Grand Boulevard (vertical) -->
+                <rect x="180" y="0" width="12" height="600" fill="#c9b896"/>
+                <text x="186" y="590" font-family="Bebas Neue, sans-serif" font-size="10" fill="#8b7355" transform="rotate(-90, 186, 590)">GRAND BLVD</text>
+                
+                <!-- Natural Bridge (horizontal) -->
+                <rect x="0" y="320" width="800" height="10" fill="#c9b896"/>
+                <text x="650" y="315" font-family="Bebas Neue, sans-serif" font-size="10" fill="#8b7355">NATURAL BRIDGE AVE</text>
+                
+                <!-- Dodier Street -->
+                <rect x="0" y="420" width="400" height="6" fill="#d4c4a8"/>
+                <text x="100" y="415" font-family="Bebas Neue, sans-serif" font-size="9" fill="#a08060">DODIER ST</text>
+                
+                <!-- Labadie Avenue -->
+                <rect x="200" y="220" width="600" height="6" fill="#d4c4a8"/>
+                <text x="450" y="215" font-family="Bebas Neue, sans-serif" font-size="9" fill="#a08060">LABADIE AVE</text>
+                
+                <!-- Prairie Avenue -->
+                <rect x="350" y="0" width="6" height="400" fill="#d4c4a8"/>
+                <text x="360" y="180" font-family="Bebas Neue, sans-serif" font-size="9" fill="#a08060" transform="rotate(90, 360, 180)">PRAIRIE AVE</text>
+                
+                <!-- Lee Avenue -->
+                <rect x="400" y="150" width="400" height="5" fill="#d4c4a8"/>
+                <text x="550" y="145" font-family="Bebas Neue, sans-serif" font-size="8" fill="#a08060">LEE AVE</text>
+                
+                <!-- Cottage Avenue -->
+                <rect x="200" y="380" width="400" height="5" fill="#d4c4a8"/>
+                <text x="350" y="375" font-family="Bebas Neue, sans-serif" font-size="8" fill="#a08060">COTTAGE AVE</text>
+                
+                <!-- Fairground Park -->
+                <rect x="240" y="180" width="200" height="130" rx="8" fill="#7cb07c" opacity="0.5"/>
+                <rect x="240" y="180" width="200" height="130" rx="8" fill="none" stroke="#4a8b4a" stroke-width="2"/>
+                <text x="280" y="250" font-family="Playfair Display, serif" font-size="14" font-weight="bold" fill="#2d5a2d">FAIRGROUND</text>
+                <text x="305" y="268" font-family="Playfair Display, serif" font-size="14" font-weight="bold" fill="#2d5a2d">PARK</text>
+                <!-- Pool representation -->
+                <ellipse cx="340" cy="235" rx="40" ry="15" fill="#6ba3c9" opacity="0.6"/>
+                <text x="315" y="238" font-family="Source Serif 4, serif" font-size="8" fill="#3d6b8a">Pool</text>
+                
+                <!-- Walking route (dashed) -->
+                <path d="M 500 155 L 440 200 L 350 280 L 200 420" 
+                      fill="none" stroke="#c9a227" stroke-width="3" stroke-dasharray="8,4" opacity="0.7"/>
+                
+                <!-- Compass Rose -->
+                <g transform="translate(720, 80)">
+                    <circle cx="0" cy="0" r="30" fill="#faf6eb" stroke="#8b7355" stroke-width="1"/>
+                    <text x="0" y="-15" text-anchor="middle" font-family="Bebas Neue, sans-serif" font-size="14" fill="#5c4a3a">N</text>
+                    <text x="0" y="22" text-anchor="middle" font-family="Bebas Neue, sans-serif" font-size="10" fill="#8b7355">S</text>
+                    <text x="-18" y="4" text-anchor="middle" font-family="Bebas Neue, sans-serif" font-size="10" fill="#8b7355">W</text>
+                    <text x="18" y="4" text-anchor="middle" font-family="Bebas Neue, sans-serif" font-size="10" fill="#8b7355">E</text>
+                    <polygon points="0,-8 3,0 0,8 -3,0" fill="#c41e3a"/>
+                </g>
+                
+                <!-- Scale -->
+                <g transform="translate(50, 550)">
+                    <line x1="0" y1="0" x2="100" y2="0" stroke="#5c4a3a" stroke-width="2"/>
+                    <line x1="0" y1="-5" x2="0" y2="5" stroke="#5c4a3a" stroke-width="2"/>
+                    <line x1="100" y1="-5" x2="100" y2="5" stroke="#5c4a3a" stroke-width="2"/>
+                    <text x="50" y="15" text-anchor="middle" font-family="Source Serif 4, serif" font-size="10" fill="#5c4a3a">≈ 0.5 miles</text>
+                </g>
+                
+                <!-- Location Markers -->
+                
+                <!-- 1. Prairie Avenue (Home) - RED -->
+                <g transform="translate(500, 155)" class="marker" data-location="prairie">
+                    <circle cx="0" cy="0" r="18" fill="#c41e3a" stroke="white" stroke-width="3"/>
+                    <text x="0" y="5" text-anchor="middle" font-size="14">🏠</text>
+                    <text x="25" y="5" font-family="Playfair Display, serif" font-size="11" font-weight="bold" fill="#2a1f14">Prairie Ave</text>
+                    <text x="25" y="18" font-family="Source Serif 4, serif" font-size="9" fill="#5c4a3a">(Your Home)</text>
+                </g>
+                
+                <!-- 2. Fairground Park - GREEN -->
+                <g transform="translate(340, 200)" class="marker" data-location="fairground">
+                    <circle cx="0" cy="0" r="16" fill="#228b22" stroke="white" stroke-width="3"/>
+                    <text x="0" y="5" text-anchor="middle" font-size="12">🌳</text>
+                </g>
+                
+                <!-- 3. Sportsman's Park - BLUE -->
+                <g transform="translate(186, 420)" class="marker" data-location="sportsmans">
+                    <circle cx="0" cy="0" r="18" fill="#1e3a8a" stroke="white" stroke-width="3"/>
+                    <text x="0" y="5" text-anchor="middle" font-size="14">⚾</text>
+                    <text x="25" y="0" font-family="Playfair Display, serif" font-size="11" font-weight="bold" fill="#2a1f14">Sportsman's Park</text>
+                    <text x="25" y="13" font-family="Source Serif 4, serif" font-size="9" fill="#5c4a3a">Grand & Dodier</text>
+                </g>
+                
+                <!-- 4. Shelley House - BROWN -->
+                <g transform="translate(280, 223)" class="marker" data-location="shelley">
+                    <circle cx="0" cy="0" r="14" fill="#8b4513" stroke="white" stroke-width="2"/>
+                    <text x="0" y="4" text-anchor="middle" font-size="11">⚖️</text>
+                </g>
+                
+                <!-- 5. Sumner High School - BROWN -->
+                <g transform="translate(320, 383)" class="marker" data-location="sumner">
+                    <circle cx="0" cy="0" r="14" fill="#8b4513" stroke="white" stroke-width="2"/>
+                    <text x="0" y="4" text-anchor="middle" font-size="11">🎓</text>
+                    <text x="20" y="4" font-family="Source Serif 4, serif" font-size="9" fill="#5c4a3a">Sumner High</text>
+                </g>
+                
+                <!-- 6. The Ville - PURPLE -->
+                <g transform="translate(260, 350)" class="marker" data-location="ville">
+                    <circle cx="0" cy="0" r="14" fill="#6b21a8" stroke="white" stroke-width="2"/>
+                    <text x="0" y="4" text-anchor="middle" font-size="10">🏘️</text>
+                    <text x="-40" y="4" font-family="Bebas Neue, sans-serif" font-size="10" fill="#6b21a8">THE VILLE</text>
+                </g>
+                
+                <!-- 7. O'Fallon - PURPLE -->
+                <g transform="translate(550, 100)" class="marker" data-location="ofallon">
+                    <circle cx="0" cy="0" r="14" fill="#6b21a8" stroke="white" stroke-width="2"/>
+                    <text x="0" y="4" text-anchor="middle" font-size="10">🏘️</text>
+                    <text x="20" y="4" font-family="Bebas Neue, sans-serif" font-size="10" fill="#6b21a8">O'FALLON</text>
+                </g>
+                
+                <!-- 8. Natural Bridge Commercial -->
+                <g transform="translate(500, 323)" class="marker" data-location="naturalbridge">
+                    <circle cx="0" cy="0" r="12" fill="#8b4513" stroke="white" stroke-width="2"/>
+                    <text x="0" y="4" text-anchor="middle" font-size="10">🏪</text>
+                </g>
+
+                <!-- Title cartouche -->
+                <g transform="translate(580, 480)">
+                    <rect x="0" y="0" width="200" height="100" rx="4" fill="#faf6eb" stroke="#c9a227" stroke-width="2"/>
+                    <text x="100" y="30" text-anchor="middle" font-family="Playfair Display, serif" font-size="14" font-weight="bold" fill="#2a1f14">NORTH ST. LOUIS</text>
+                    <text x="100" y="50" text-anchor="middle" font-family="Bebas Neue, sans-serif" font-size="11" fill="#8b3a3a" letter-spacing="0.1em">MISSOURI</text>
+                    <line x1="40" y1="60" x2="160" y2="60" stroke="#c9a227" stroke-width="1"/>
+                    <text x="100" y="78" text-anchor="middle" font-family="Source Serif 4, serif" font-size="10" fill="#5c4a3a">1943 — 1952</text>
+                    <text x="100" y="92" text-anchor="middle" font-family="Source Serif 4, serif" font-size="9" font-style="italic" fill="#8b7355">Family History Map</text>
+                </g>
+            </svg>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-dot" style="background: #c41e3a;"></div>
+                <span>Prairie Avenue (Home)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: #228b22;"></div>
+                <span>Fairground Park</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: #1e3a8a;"></div>
+                <span>Sportsman's Park</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: #8b4513;"></div>
+                <span>Historic Landmarks</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: #6b21a8;"></div>
+                <span>Neighborhoods</span>
+            </div>
+            <div class="legend-item">
+                <span style="color: #c9a227; font-weight: 600;">- - -</span>
+                <span>Walking Route</span>
+            </div>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>🏠 Prairie Avenue</h3>
+                <div class="subtitle">YOUR FAMILY'S HOME • 1943-1952</div>
+                <p>Your family lived here during the pivotal years of WWII through the early 1950s. This was a working-class neighborhood of brick flats connected by streetcar lines.</p>
+                <p class="distance">Born here: November 23, 1951</p>
+            </div>
+
+            <div class="info-card">
+                <h3>⚾ Sportsman's Park</h3>
+                <div class="subtitle">2911 N. GRAND BLVD • 1881-1966</div>
+                <p>Home to both the Cardinals and Browns. The only all-St. Louis World Series was played here in October 1944. More pro baseball games were played at this site than anywhere else in America.</p>
+                <p class="distance">~1.2 miles from Prairie Ave</p>
+                <a href="https://en.wikipedia.org/wiki/Sportsman%27s_Park" target="_blank">Learn more →</a>
+            </div>
+
+            <div class="info-card">
+                <h3>🌳 Fairground Park</h3>
+                <div class="subtitle">132 ACRES • EST. 1856</div>
+                <p>The shared green space for all surrounding communities. Featured a 440-foot swimming pool—one of the largest municipal pools in the Midwest. Site of the 1949 pool riot during integration.</p>
+                <p class="distance">~0.3 miles from Prairie Ave</p>
+                <a href="https://www.tclf.org/fairground-park" target="_blank">Learn more →</a>
+            </div>
+
+            <div class="info-card">
+                <h3>⚖️ Shelley House</h3>
+                <div class="subtitle">4600 LABADIE AVE • SUPREME COURT</div>
+                <p>J.D. and Ethel Shelley purchased this home in August 1945. Their fight went to the Supreme Court, resulting in the landmark Shelley v. Kraemer (1948) decision that struck down enforcement of racial covenants.</p>
+                <a href="https://www.stlouis-mo.gov/government/departments/planning/cultural-resources/preservation-plan/part-i-african-american-experience.cfm" target="_blank">Learn more →</a>
+            </div>
+
+            <div class="info-card">
+                <h3>🎓 Sumner High School</h3>
+                <div class="subtitle">4248 COTTAGE AVE • EST. 1875</div>
+                <p>First high school for Black students west of the Mississippi. Enrolled ~5,000 students in the 1940s-50s. Alumni include Chuck Berry (1944), Tina Turner, Arthur Ashe, and Dick Gregory.</p>
+                <a href="https://en.wikipedia.org/wiki/The_Ville,_St._Louis" target="_blank">Learn more →</a>
+            </div>
+
+            <div class="info-card">
+                <h3>🏘️ The Neighborhoods</h3>
+                <div class="subtitle">A DIVIDED COMMUNITY</div>
+                <p><strong>The Ville:</strong> By the 1940s, 95% African American—the center of Black culture in St. Louis.</p>
+                <p><strong>O'Fallon:</strong> Working-class white neighborhood of German and Irish families—"a lunchpail neighborhood."</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p class="note">For the families who called Prairie Avenue home</p>
+        <p>A family history research project • Born November 23, 1951</p>
+    </footer>
+
+</body>
+</html>

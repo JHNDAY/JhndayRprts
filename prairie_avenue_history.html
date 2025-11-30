@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prairie Avenue Corridor: St. Louis 1943-1952</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #8b0000 0%, #cd5c5c 100%);
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #fff;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .subtitle {
+            font-size: 1.4em;
+            color: #ffe4e1;
+            font-style: italic;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h2 {
+            color: #cd5c5c;
+            font-size: 2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #8b0000;
+            padding-bottom: 10px;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #8b0000 0%, #cd5c5c 100%);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-date {
+            flex: 1;
+            text-align: right;
+            padding-right: 40px;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #cd5c5c;
+        }
+
+        .timeline-item:nth-child(even) .timeline-date {
+            text-align: left;
+            padding-left: 40px;
+            padding-right: 0;
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: rgba(205, 92, 92, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #8b0000;
+            margin-left: 40px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 0;
+            margin-right: 40px;
+            border-left: none;
+            border-right: 4px solid #8b0000;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #8b0000;
+            border: 4px solid #cd5c5c;
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.2) 0%, rgba(205, 92, 92, 0.2) 100%);
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid rgba(205, 92, 92, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(139, 0, 0, 0.3);
+        }
+
+        a .stat-card:hover {
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.3) 0%, rgba(205, 92, 92, 0.3) 100%);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #cd5c5c;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            color: #e0e0e0;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .comparison-table th {
+            background: #8b0000;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-size: 1.1em;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(205, 92, 92, 0.2);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: rgba(205, 92, 92, 0.05);
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(205, 92, 92, 0.15);
+        }
+
+        .institution-card {
+            background: rgba(139, 0, 0, 0.1);
+            border-left: 5px solid #cd5c5c;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .institution-card h3 {
+            color: #cd5c5c;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+
+        .highlight-box {
+            background: rgba(255, 69, 0, 0.2);
+            border: 2px solid #ff4500;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .highlight-box h3 {
+            color: #ff6347;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .key-facts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .key-fact {
+            background: rgba(205, 92, 92, 0.15);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #cd5c5c;
+        }
+
+        .key-fact strong {
+            color: #cd5c5c;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item,
+            .timeline-item:nth-child(even) {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .timeline-date,
+            .timeline-item:nth-child(even) .timeline-date {
+                text-align: left;
+                padding: 0 0 10px 60px;
+            }
+
+            .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                margin: 0 0 0 60px;
+                border-left: 4px solid #8b0000;
+                border-right: none;
+            }
+
+            .timeline-marker {
+                left: 30px;
+            }
+        }
+
+        .legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Prairie Avenue Corridor</h1>
+            <div class="subtitle">St. Louis, Missouri • 1943–1952</div>
+            <div class="subtitle" style="font-size: 1em; margin-top: 10px;">A family history of working-class St. Louis during the pivotal years of World War II, civil rights victories, and urban transformation</div>
+        </header>
+
+        <div class="section">
+            <h2>Executive Summary</h2>
+            <p style="font-size: 1.1em; margin-bottom: 20px;">
+                The Prairie Avenue corridor in North St. Louis underwent dramatic transformation between 1943 and 1952, 
+                transitioning from a confident, segregated working-class white neighborhood to a community in racial and social flux. 
+                This period witnessed three pivotal events that forever altered the neighborhood's trajectory.
+            </p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">9</div>
+                    <div class="stat-label">Years of Transformation</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Defining Events</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">MLB Players from Beaumont (1944)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">440 ft</div>
+                    <div class="stat-label">Fairground Pool Diameter</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Timeline of Critical Events</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-date">1943</div>
+                    <div class="timeline-content">
+                        <h3>Wartime Peak</h3>
+                        <p>Maximum industrial employment and housing density. Prairie Avenue serves as a thriving working-class neighborhood with virtually no vacancy.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-date">1944</div>
+                    <div class="timeline-content">
+                        <h3>Baseball Glory</h3>
+                        <p>Beaumont High School produces five future MLB players in a single year, including Hall of Fame manager Earl Weaver. Peak community pride.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-date">1946</div>
+                    <div class="timeline-content">
+                        <h3>Modern Transit Arrives</h3>
+                        <p>New streamlined PCC streetcars introduced on Grand and Natural Bridge lines, connecting the neighborhood to the broader city.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-date">March 1948</div>
+                    <div class="timeline-content">
+                        <h3>🌪️ <a href="https://www.ksdk.com/article/news/local/70-years-later-remembering-the-deadly-bunker-hill-tornado/63-530002240" target="_blank" style="color: #fff; text-decoration: underline;">The Tornado (F4)</a></h3>
+                        <p>Devastating tornado tears through O'Fallon Park and Fairground neighborhoods, damaging the sturdy brick housing stock and creating a localized housing crisis.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-date">May 1948</div>
+                    <div class="timeline-content">
+                        <h3>⚖️ <a href="https://en.wikipedia.org/wiki/Shelley_v._Kraemer" target="_blank" style="color: #fff; text-decoration: underline;">Shelley v. Kraemer</a></h3>
+                        <p>Supreme Court strikes down enforcement of restrictive covenants. The legal barrier at Taylor Avenue dissolves, opening O'Fallon to Black homebuyers.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-date">June 21, 1949</div>
+                    <div class="timeline-content">
+                        <h3>🔥 <a href="https://en.wikipedia.org/wiki/Fairground_Park_riot" target="_blank" style="color: #fff; text-decoration: underline;">Fairground Park Riot</a></h3>
+                        <p>Massive white mob violently attacks Black swimmers at the municipal pool. Violence spills onto Prairie Avenue with assaults on streetcars and buses. Only 7 arrests despite hundreds of assaults.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-date">1950</div>
+                    <div class="timeline-content">
+                        <h3>Pool Integration & "Pool Flight"</h3>
+                        <p>Federal court mandates pool integration. White attendance collapses immediately. The phenomenon of "pool flight" presages residential white flight.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-date">1952</div>
+                    <div class="timeline-content">
+                        <h3>Suburban Transition</h3>
+                        <p>Streetcar-to-bus conversion ("bustitution") accelerates suburban sprawl. White families increasingly depart for North County suburbs like Florissant and Jennings.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>The Three Defining Events</h2>
+            
+            <div class="highlight-box">
+                <h3>1. <a href="https://commonreader.wustl.edu/the-long-reconstruction-of-fairground-park/" target="_blank" style="color: #ff6347; text-decoration: underline;">The Tornado of March 1948</a></h3>
+                <p><strong>Impact:</strong> An F4 tornado devastated the physically robust brick housing stock, described by witnesses as sounding like "40 freight trains." The timing was catastrophic—occurring just two months before the Shelley decision, it created a localized housing crisis that made homeowners more vulnerable to real estate speculation and blockbusting tactics.</p>
+                <div class="key-facts">
+                    <div class="key-fact">
+                        <strong>Classification</strong>
+                        F4 Tornado (Violent)
+                    </div>
+                    <div class="key-fact">
+                        <strong>Path</strong>
+                        Through O'Fallon & Fairground Parks
+                    </div>
+                    <div class="key-fact">
+                        <strong>Result</strong>
+                        Significant fatalities & widespread damage
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h3>2. <a href="https://www.thesaintlouisstory.org/history-1/1950-blockbusting" target="_blank" style="color: #ff6347; text-decoration: underline;">Shelley v. Kraemer</a> (May 3, 1948)</h3>
+                <p><strong>Impact:</strong> This Supreme Court ruling made enforcement of restrictive covenants unconstitutional, effectively dissolving the legal "white noose" around The Ville. Black middle-class families, who had been saving money with nowhere to spend it, immediately began purchasing homes in the O'Fallon and Fairground neighborhoods.</p>
+                <div class="key-facts">
+                    <div class="key-fact">
+                        <strong>Case Location</strong>
+                        4600 Labadie Avenue (Greater Ville)
+                    </div>
+                    <div class="key-fact">
+                        <strong>Legal Basis</strong>
+                        14th Amendment violation
+                    </div>
+                    <div class="key-fact">
+                        <strong>Immediate Effect</strong>
+                        Blockbusting & panic selling
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="border-color: #ff0000;">
+                <h3>3. <a href="https://nextstl.com/2010/12/fairground-park-the-history-we-choose-to-forget/" target="_blank" style="color: #ff6347; text-decoration: underline;">Fairground Park Riot</a> (June 21, 1949)</h3>
+                <p><strong>Impact:</strong> The violent culmination of racial tensions. When 30-40 Black teenagers entered the newly integrated pool, thousands of white residents formed a mob, attacking swimmers with baseball bats, bricks, and pipes. The violence spread to Prairie Avenue, where mobs stopped streetcars and buses to assault Black passengers.</p>
+                <div class="key-facts">
+                    <div class="key-fact">
+                        <strong>Trigger</strong>
+                        Pool integration order (June 21)
+                    </div>
+                    <div class="key-fact">
+                        <strong>False Rumor</strong>
+                        Black man killed white woman
+                    </div>
+                    <div class="key-fact">
+                        <strong>Police Response</strong>
+                        Only 7 arrests made
+                    </div>
+                    <div class="key-fact">
+                        <strong>Long-term Result</strong>
+                        "Pool flight" → White flight
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Comparative Demographics: <a href="https://en.wikipedia.org/wiki/The_Ville,_St._Louis" target="_blank" style="color: #cd5c5c; text-decoration: none;">The Ville</a> vs. <a href="https://www.stlouis-mo.gov/live-work/community/neighborhoods/o-fallon/ofallon-overview.cfm" target="_blank" style="color: #cd5c5c; text-decoration: none;">O'Fallon</a>/<a href="https://www.stlouis-mo.gov/live-work/community/neighborhoods/fairground/fairground-overview.cfm" target="_blank" style="color: #cd5c5c; text-decoration: none;">Fairground</a></h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>The Ville (West of Taylor)</th>
+                        <th>O'Fallon/Fairground (East of Taylor)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Dominant Race (1945)</strong></td>
+                        <td>African American (90%+)</td>
+                        <td>White (95%+)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Class Structure</strong></td>
+                        <td>Mixed: Elite/Middle Class & Working Class</td>
+                        <td>Working Class (Union Labor/Industrial)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Key Institutions</strong></td>
+                        <td>Sumner High School<br>Homer G. Phillips Hospital</td>
+                        <td>Beaumont High School<br>Holy Name of Jesus Church</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Housing Type</strong></td>
+                        <td>Dense brick flats (often overcrowded)</td>
+                        <td>Brick bungalows, 2-4 family flats</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Population Pressure</strong></td>
+                        <td>38,000 new Black residents (1940-1950)<br>Fixed available land</td>
+                        <td>Near-zero vacancy until 1948<br>High density</td>
+                    </tr>
+                    <tr>
+                        <td><strong>1952 Trend</strong></td>
+                        <td>Expanding eastward due to overcrowding</td>
+                        <td>Experiencing White Flight & Blockbusting</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Institutional Anchors</h2>
+            <p style="margin-bottom: 20px;">Two primary institutions organized community life and identity:</p>
+            
+            <div class="institution-card">
+                <h3>🏫 <a href="https://en.wikipedia.org/wiki/Beaumont_High_School_(St._Louis)" target="_blank" style="color: #cd5c5c; text-decoration: none;">Beaumont High School</a> (est. 1926)</h3>
+                <p><strong>Location:</strong> 3836 Natural Bridge Avenue</p>
+                <p><strong>Mascot:</strong> The "Bluejacket" (Navy sailor) - resonated deeply during WWII</p>
+                <p style="margin-top: 10px;"><strong>Notable Achievement:</strong> The 1944 baseball team produced five future Major League players in a single year:</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><a href="https://en.wikipedia.org/wiki/Earl_Weaver" target="_blank" style="color: #cd5c5c; text-decoration: underline;">Earl Weaver</a> (Hall of Fame manager)</li>
+                    <li><a href="https://en.wikipedia.org/wiki/Roy_Sievers" target="_blank" style="color: #cd5c5c; text-decoration: underline;">Roy Sievers</a> (1949 AL Rookie of the Year)</li>
+                    <li>Jim Goodwin</li>
+                    <li>Bob Wiesler</li>
+                    <li>Bobby Hofman</li>
+                </ul>
+                <p style="margin-top: 10px;"><em>This athletic dominance provided profound community pride and cohesion for white residents.</em></p>
+            </div>
+
+            <div class="institution-card">
+                <h3>⛪ Most Holy Name of Jesus Church</h3>
+                <p><strong>Location:</strong> 2047 East Grand Boulevard</p>
+                <p><strong>Style:</strong> Italianate with pink capitals against white walls</p>
+                <p style="margin-top: 10px;"><strong>Community Role:</strong> Organized family life through parish picnics and festivals. The "Seminary Picnic" featured live chickens, fresh corn, and produce cooked in iron kettles. By the 1940s, these events drew crowds from across the city.</p>
+                <p style="margin-top: 10px;"><em>Parish records show over 500 families at peak, with decline beginning in late 1940s as families moved to North County suburbs.</em></p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>The Built Environment (c. 1950)</h2>
+            <div class="key-facts">
+                <div class="key-fact">
+                    <strong>St. Louis Brick</strong>
+                    Red clay brick, locally sourced. Created visual uniformity and exceptional durability.
+                </div>
+                <div class="key-fact">
+                    <strong>"Flounder" Houses</strong>
+                    1.5 story, shed roof, alley-facing. Maximized density on narrow lots.
+                </div>
+                <div class="key-fact">
+                    <strong><a href="https://en.wikipedia.org/wiki/Streetcars_in_St._Louis" target="_blank" style="color: #cd5c5c; text-decoration: underline;">PCC Streetcars</a></strong>
+                    Streamlined, Art Deco rail cars. Defined the auditory landscape of the neighborhood.
+                </div>
+                <div class="key-fact">
+                    <strong>Commercial Nodes</strong>
+                    Corner taverns, bakeries, "Chop Suey" restaurants. Proprietors lived upstairs.
+                </div>
+                <div class="key-fact">
+                    <strong>Fairground Park</strong>
+                    Former Civil War encampment (Benton Barracks). Featured massive pool, bear pits, baseball diamonds.
+                </div>
+                <div class="key-fact">
+                    <strong>Housing Density</strong>
+                    Virtually zero vacancy 1943-1948. Basements and attics converted to apartments.
+                </div>
+            </div>
+
+            <div style="margin-top: 30px; padding: 20px; background: rgba(139, 0, 0, 0.2); border-radius: 10px;">
+                <h3 style="color: #cd5c5c; margin-bottom: 15px;">The "Urban Prairie" Paradox</h3>
+                <p><strong>1950 Reality:</strong> Prairie Avenue was an impermeable canyon of brick with virtually no green space—a testament to high-density urban living.</p>
+                <p style="margin-top: 10px;"><strong>2020+ Reality:</strong> Many blocks have been demolished, returning the land to a grassy, vacant state—ironically resembling the 18th-century "Grand Prairie" that gave the area its name.</p>
+                <p style="margin-top: 10px; font-style: italic;">This emptiness is a result of the events of 1943-1952, not the natural state of the area.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Social Composition: Internal Divisions</h2>
+            <p style="margin-bottom: 20px;">The white population was not monolithic. Internal class and ethnic hierarchies created additional tensions:</p>
+            
+            <div class="institution-card">
+                <h3>The "Hoosier" Migration</h3>
+                <p>A critical and often overlooked demographic shift: white rural migrants from the Ozarks (southern Missouri and Arkansas) seeking wartime industrial employment. Derogatorily termed "Hoosiers," they settled in lower-rent flats and clashed with established German/Irish homeowners who viewed them as culturally inferior.</p>
+                <p style="margin-top: 10px;"><strong>Impact:</strong> Added internal class friction and volatility to the neighborhood's social dynamics.</p>
+            </div>
+
+            <div class="institution-card">
+                <h3>Occupational Profile</h3>
+                <p><strong>Primary Industries:</strong> Machinists, brewers, shoe factory workers (International Shoe), railway clerks</p>
+                <p style="margin-top: 10px;"><strong>Union Culture:</strong> Heavy union presence with memories of the violent <a href="https://en.wikipedia.org/wiki/St._Louis_streetcar_strike_of_1900" target="_blank" style="color: #cd5c5c; text-decoration: underline;">1900 Streetcar Strike</a> still circulating in family lore, contributing to militant defensiveness regarding territory and jobs.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><a href="https://www.archcitydefenders.org/wp-content/uploads/2019/03/Segregation-in-St.-Louis-Dismantling-the-Divide.pdf" target="_blank" style="color: #cd5c5c; text-decoration: none;">Mechanisms of Segregation</a></h2>
+            <div class="key-facts">
+                <div class="key-fact">
+                    <strong>Restrictive Covenants</strong>
+                    Clauses in property deeds prohibiting sale to "persons not of the Caucasian race." Formed a "white noose" around The Ville.
+                </div>
+                <div class="key-fact">
+                    <strong>Real Estate Exchange (1941)</strong>
+                    Explicitly expanded the "restricted" zone to include areas west of Grand Avenue.
+                </div>
+                <div class="key-fact">
+                    <strong>Redlining</strong>
+                    HOLC maps coded Prairie Avenue as "declining" not due to housing quality, but "threat" of racial infiltration.
+                </div>
+                <div class="key-fact">
+                    <strong>Blockbusting (post-1948)</strong>
+                    Agents used scare tactics—Black women with strollers, cars with loud music—to panic white homeowners into selling cheap.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>The Neighborhoods</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card" style="text-align: left;">
+                    <h3 style="color: #cd5c5c; margin-bottom: 15px;">The Ville & Greater Ville</h3>
+                    <p>By the 1940s, The Ville was <strong style="color: #cd5c5c;">95% African American</strong>—the undisputed center of Black culture in St. Louis. Home to Sumner High School, which enrolled approximately 5,000 students and produced graduates including Chuck Berry (class of 1944).</p>
+                    <p style="margin-top: 10px;"><a href="https://en.wikipedia.org/wiki/The_Ville,_St._Louis" target="_blank" style="color: #cd5c5c; text-decoration: underline;">Learn more →</a></p>
+                </div>
+
+                <div class="stat-card" style="text-align: left;">
+                    <h3 style="color: #cd5c5c; margin-bottom: 15px;">O'Fallon & College Hill</h3>
+                    <p>Predominantly white working-class neighborhoods surrounding Fairground Park, populated by families of German and Irish descent. Contemporary accounts described residents as <strong style="color: #cd5c5c;">"a European ethnic mix, a lunchpail neighborhood."</strong></p>
+                    <p style="margin-top: 10px;"><a href="https://www.stlouis-mo.gov/archive/neighborhood-histories-norbury-wayman/fairgrounds/text11.htm" target="_blank" style="color: #cd5c5c; text-decoration: underline;">Learn more →</a></p>
+                </div>
+
+                <div class="stat-card" style="text-align: left;">
+                    <h3 style="color: #cd5c5c; margin-bottom: 15px;">Fairground Park</h3>
+                    <p>The 132-acre park was the shared green space for all surrounding communities. Originally the site of the St. Louis Agricultural and Mechanical Fair (1856-1902), it featured one of the largest municipal pools in the Midwest at 440 feet long.</p>
+                    <p style="margin-top: 10px;"><a href="https://www.tclf.org/fairground-park" target="_blank" style="color: #cd5c5c; text-decoration: underline;">Learn more →</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Explore the Archives</h2>
+            <p style="margin-bottom: 30px; font-size: 1.1em;">Discover primary sources and historic photographs from the era:</p>
+            
+            <div class="stats-grid">
+                <a href="https://mohistory.org/collections" target="_blank" style="text-decoration: none;">
+                    <div class="stat-card" style="text-align: left; transition: all 0.3s ease;">
+                        <div style="font-size: 2.5em; margin-bottom: 15px;">📷</div>
+                        <h3 style="color: #cd5c5c; margin-bottom: 10px;">Missouri History Museum</h3>
+                        <p>350,000+ photographs online, including St. Louis neighborhood collections</p>
+                    </div>
+                </a>
+
+                <a href="https://digital.shsmo.org/" target="_blank" style="text-decoration: none;">
+                    <div class="stat-card" style="text-align: left; transition: all 0.3s ease;">
+                        <div style="font-size: 2.5em; margin-bottom: 15px;">🗂️</div>
+                        <h3 style="color: #cd5c5c; margin-bottom: 10px;">State Historical Society</h3>
+                        <p>40,000+ digitized images including 1953 aerial photographs</p>
+                    </div>
+                </a>
+
+                <a href="https://www.flickr.com/photos/mohistory/albums/72157612292100138/" target="_blank" style="text-decoration: none;">
+                    <div class="stat-card" style="text-align: left; transition: all 0.3s ease;">
+                        <div style="font-size: 2.5em; margin-bottom: 15px;">🏘️</div>
+                        <h3 style="color: #cd5c5c; margin-bottom: 10px;">Old North St. Louis Album</h3>
+                        <p>Historic photographs of north St. Louis neighborhoods on Flickr</p>
+                    </div>
+                </a>
+
+                <a href="https://www.sos.mo.gov/mdh/" target="_blank" style="text-decoration: none;">
+                    <div class="stat-card" style="text-align: left; transition: all 0.3s ease;">
+                        <div style="font-size: 2.5em; margin-bottom: 15px;">📜</div>
+                        <h3 style="color: #cd5c5c; margin-bottom: 10px;">Missouri Digital Heritage</h3>
+                        <p>9+ million records from state archives and libraries</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Conclusion: The Threshold of Change</h2>
+            <p style="font-size: 1.1em; line-height: 1.8;">
+                The year 1952 marks the end of the "old" Prairie Avenue. In 1943, residents lived in a segregated, 
+                confident industrial fortress. By 1952, they lived in a state of siege mentality, calculating down payments 
+                for suburban bungalows in Florissant or Jennings.
+            </p>
+            <p style="font-size: 1.1em; line-height: 1.8; margin-top: 20px;">
+                Black families moving in inherited world-class infrastructure—schools like Beaumont, parks like Fairground—that 
+                was simultaneously being abandoned by the capital and political will required to maintain it.
+            </p>
+            <p style="font-size: 1.1em; line-height: 1.8; margin-top: 20px; font-style: italic; color: #cd5c5c;">
+                <strong>The decade of 1943–1952 was not merely a transition; it was the hinge upon which the history of modern St. Louis turned.</strong>
+            </p>
+        </div>
+
+        <div class="section" style="text-align: center; padding: 40px;">
+            <p style="font-size: 0.9em; color: #999;">
+                Based on comprehensive historical research of the Prairie Avenue Corridor, St. Louis, Missouri<br>
+                Examining the period 1943-1952 through archival sources, census data, and oral histories
+            </p>
+        </div>
+    </div>
+</body>
+</html>
