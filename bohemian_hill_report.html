@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Bohemian Hill and the Brick City: 1950-1960</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="none"/><path d="M0,50 Q25,45 50,50 T100,50" stroke="rgba(255,255,255,0.05)" stroke-width="2" fill="none"/></svg>');
+            opacity: 0.3;
+        }
+
+        h1 {
+            font-size: 3.2em;
+            margin-bottom: 15px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 1.6em;
+            font-style: italic;
+            opacity: 0.95;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .era {
+            font-size: 1.3em;
+            color: #ffd700;
+            font-weight: bold;
+            margin-top: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .intro-panel {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-left: 6px solid #e74c3c;
+        }
+
+        .intro-panel h2 {
+            color: #e74c3c;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .intro-panel p {
+            font-size: 1.15em;
+            line-height: 1.9;
+            margin-bottom: 15px;
+        }
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+        }
+
+        .section-card:hover::before {
+            width: 6px;
+        }
+
+        .section-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .section-card.expanded {
+            grid-column: 1 / -1;
+            background: #f8f9fa;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-icon {
+            font-size: 2.5em;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .section-title-area {
+            flex: 1;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .section-number {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        .toggle-icon {
+            font-size: 1.8em;
+            color: #667eea;
+            transition: transform 0.4s ease;
+            flex-shrink: 0;
+        }
+
+        .section-card.expanded .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .section-description {
+            color: #555;
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s ease;
+        }
+
+        .section-card.expanded .section-details {
+            max-height: 10000px;
+        }
+
+        .details-content {
+            padding-top: 30px;
+            border-top: 3px solid #e0e0e0;
+        }
+
+        .details-content h3 {
+            color: #e74c3c;
+            margin: 25px 0 15px 0;
+            font-size: 1.5em;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 8px;
+        }
+
+        .details-content h4 {
+            color: #3498db;
+            margin: 20px 0 10px 0;
+            font-size: 1.2em;
+        }
+
+        .details-content p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .details-content ul {
+            margin: 15px 0 15px 30px;
+        }
+
+        .details-content li {
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+            font-size: 1.05em;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #ffd700 0%, #ffed4e 100%);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #1a1a2e;
+        }
+
+        .year {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .quote-box {
+            background: #fff9e6;
+            border-left: 5px solid #f39c12;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-style: italic;
+            color: #7f6d3c;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #e8f4f8 0%, #d4e9f2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #3498db;
+        }
+
+        .stat-box strong {
+            color: #2980b9;
+            font-size: 1.1em;
+        }
+
+        .emphasis {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .term {
+            color: #16a085;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        .external-link {
+            color: #3498db;
+            text-decoration: none;
+            border-bottom: 2px dotted #3498db;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .external-link:hover {
+            color: #2980b9;
+            border-bottom: 2px solid #2980b9;
+            background: rgba(52, 152, 219, 0.1);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .external-link::after {
+            content: " 🔗";
+            font-size: 0.8em;
+            opacity: 0.6;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .info-box h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: white;
+            font-style: italic;
+            background: rgba(0,0,0,0.2);
+            border-radius: 15px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .section-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏛️ The Bohemian Hill and the Brick City</h1>
+            <div class="subtitle">A Socio-Spatial History of the Soulard-Lafayette Borderlands</div>
+            <div class="era">1950-1960: The Indian Summer of Traditional Urbanism</div>
+        </header>
+
+        <div class="intro-panel">
+            <h2>The Urban Palimpsest of Mid-Century St. Louis</h2>
+            <p>
+                The urban landscape of St. Louis in the 1950s was a study in density, contradiction, and impending transformation. 
+                The residential nexus between the historic <a href="https://www.stlouis-mo.gov/government/departments/planning/cultural-resources/city-landmarks/Soulard-Neighborhood.cfm" target="_blank" class="external-link">Soulard district</a> and <a href="https://www.lafayettesquare.org/history/" target="_blank" class="external-link">Lafayette Square</a>—bounded by Park Avenue to the north 
+                and 14th Street to the west—exemplified this complex narrative.
+            </p>
+            <p>
+                This exhaustive analysis reconstructs the working-class residential experience during the critical decade of 1950 to 1960, 
+                serving as the historical fulcrum between dense, pedestrian-oriented pre-war urbanism and the automobile-centric fracturing 
+                that would follow Interstate Highway construction.
+            </p>
+            <p class="emphasis">
+                The neighborhood was not the "slum" depicted by contemporary technocrats, but a highly cohesive, functional "urban village" 
+                characterized by deep Czech ethnic roots and a distinct working-class morality—experiencing its "Indian Summer" even as 
+                the shadow of the Ozark Expressway (later <a href="https://en.wikipedia.org/wiki/Interstate_55_in_Missouri" target="_blank" class="external-link">I-55</a>) began to lengthen over the row houses.
+            </p>
+        </div>
+
+        <div class="section-grid">
+            <!-- Section 1: Built Environment -->
+            <div class="section-card">
+                <div class="section-header" onclick="toggleSection(this.parentElement)">
+                    <div class="section-icon">🧱</div>
+                    <div class="section-title-area">
+                        <div class="section-title">The Built Environment</div>
+                        <div class="section-number">Section 2: Historical Morphology</div>
+                    </div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="section-description" onclick="toggleSection(this.parentElement)">
+                    The physical character shaped by red clay geology and the Great Cyclone of 1896, 
+                    creating the distinctive "Red Brick City" streetscape of multi-family flats and mousehole entryways.
+                </div>
+                <div class="section-details">
+                    <div class="details-content">
+                        <h3>The Legacy of the 1896 Cyclone and Brick Vernacular</h3>
+                        <p>
+                            The physical character of the neighborhood in the 1950s was determined by two factors: the geologic abundance 
+                            of <span class="highlight">red clay</span> which made St. Louis a brick city, and the <a href="https://en.wikipedia.org/wiki/1896_St._Louis%E2%80%93East_St._Louis_tornado" target="_blank" class="external-link"><span class="year">Great Cyclone of 1896</span></a> 
+                            which leveled much of the area, necessitating rapid, dense rebuilding at the turn of the century.
+                        </p>
+
+                        <h4>Dominant Residential Typology: The Multi-Family Flat</h4>
+                        <p>
+                            Unlike New York tenements (often six stories or higher), the St. Louis "flat" was typically two or three stories, 
+                            with a family occupying each floor. These structures featured the distinct St. Louis <span class="term">"mousehole" entryways</span>—arched 
+                            brick gangways leading to rear courtyards.
+                        </p>
+
+                        <div class="two-column">
+                            <div class="info-box">
+                                <h4>The Streetscape</h4>
+                                <p>A walk down 11th Street or Menard Street in 1950 would reveal a continuous street wall. There were no setbacks; 
+                                front doors opened almost directly onto the sidewalk, fostering intense intimacy between the private sphere of the 
+                                home and the public sphere of the street.</p>
+                            </div>
+                            <div class="info-box">
+                                <h4>Alley Dwellings</h4>
+                                <p><a href="https://www.loc.gov/collections/sanborn-maps/" target="_blank" class="external-link">Sanborn maps</a> reveal "flounder" houses—unique St. Louis structures with single-slope shed roofs built in rear lots, 
+                                facing the alley. By the 1950s, these provided ultra-low-cost housing, creating hidden population density within block interiors.</p>
+                            </div>
+                        </div>
+
+                        <h3>Infrastructure and Zoning</h3>
+                        <p>The 1950s neighborhood was a <span class="emphasis">mixed-use ecosystem</span>. Zoning laws had not yet strictly segregated 
+                        commercial and residential functions. The corner tavern, bakery, and small machine shop coexisted with housing.</p>
+
+                        <div class="stat-box">
+                            <strong>Density:</strong> Population density in Census Tracts 12A and 12B exceeded <span class="highlight">15,000 persons per square mile</span>, 
+                            among the highest in the city. This density was supported by a robust streetcar network.
+                        </div>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Feature</th>
+                                    <th>1950 Condition</th>
+                                    <th>Impact on Daily Life</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Paving</strong></td>
+                                    <td>Cobblestone/Granite Pavers</td>
+                                    <td>Distinct auditory landscape; slowed traffic, allowing street play</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Lighting</strong></td>
+                                    <td>Converting to Electric Arc</td>
+                                    <td>"Street corner society" gathered under specific light poles</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Sewage</strong></td>
+                                    <td>Combined Sewer System</td>
+                                    <td>Prone to backups during heavy rains</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Heating</strong></td>
+                                    <td>Coal Transitioning to Gas</td>
+                                    <td>Coal chutes standard; soot was constant domestic battle for housewives</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Demographics -->
+            <div class="section-card">
+                <div class="section-header" onclick="toggleSection(this.parentElement)">
+                    <div class="section-icon">👥</div>
+                    <div class="section-title-area">
+                        <div class="section-title">The Czech Core & Ethnic Succession</div>
+                        <div class="section-number">Section 3: Demographic Profile</div>
+                    </div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="section-description" onclick="toggleSection(this.parentElement)">
+                    The twilight of the Bohemian enclave centered on St. John Nepomuk Church, as Appalachian 
+                    migration brings new demographics and cultural friction to the established Czech community.
+                </div>
+                <div class="section-details">
+                    <div class="details-content">
+                        <h3>The Czech Core and St. John Nepomuk</h3>
+                        <p>
+                            The cultural anchor was indisputably <a href="https://www.stjohnnepomukstl.org/history" target="_blank" class="external-link"><span class="highlight">St. John Nepomuk Catholic Church</span></a> at 11th and Lafayette. 
+                            Founded in <span class="year">1854</span> as the first Czech parish in America, it remained the spiritual and social center 
+                            in the 1950s, even as ethnic composition began to shift.
+                        </p>
+
+                        <h4>The "Old Guard"</h4>
+                        <p>
+                            In 1950, the neighborhood retained a significant population of first- and second-generation Czech immigrants. 
+                            For these families, the neighborhood was not a transit zone but a <span class="emphasis">permanent home</span>. Life revolved 
+                            around the parish hall, the <a href="https://en.wikipedia.org/wiki/Sokol" target="_blank" class="external-link">Sokol gymnastic societies</a>, and benevolent associations.
+                        </p>
+
+                        <div class="quote-box">
+                            "Czech was still spoken in the local butcher shops and at high mass, creating a linguistic barrier that strengthened 
+                            internal community bonds while isolating the neighborhood from the creeping anglicization of the suburbs."
+                        </div>
+
+                        <p>
+                            City directories from 1954 list numerous surnames such as <span class="term">Dolezal, Novak, and Vlasak</span> residing 
+                            in the immediate blocks around the church.
+                        </p>
+
+                        <h3>The Appalachian Migration and Ethnic Succession</h3>
+                        <p>
+                            By the mid-1950s, a new demographic force was reshaping the area. Post-war industrial demand attracted a massive influx 
+                            of rural migrants from the Missouri Ozarks and Arkansas.
+                        </p>
+
+                        <h4>The "Hoosier" Phenomenon</h4>
+                        <p>
+                            In St. Louis sociology, these white working-class migrants were often derogatorily referred to as <span class="term">"Hoosiers"</span> 
+                            (a term carrying specific class-based stigma regarding rural poverty, distinct from its usage in Indiana).
+                        </p>
+
+                        <div class="stat-box">
+                            <strong>Cultural Friction:</strong> The arrival of rural families with large numbers of children and different concepts of 
+                            domestic upkeep created tension with established, fastidious Czech homeowners. The meticulous window boxes of Bohemian 
+                            grandmothers contrasted with the more transient, rough-hewn lifestyle of new renters.
+                        </div>
+
+                        <h3>Socio-Economic Status</h3>
+                        <p>The 1950 Census classifies the area as predominantly <span class="highlight">"Lower Middle Class" to "Working Class."</span></p>
+
+                        <h4>Occupational Profile</h4>
+                        <p>Primary male occupations listed in the 1954 Polk's Directory for residents of S. 14th Street include:</p>
+                        <ul>
+                            <li><strong>Brewer</strong> (<a href="https://en.wikipedia.org/wiki/Anheuser-Busch" target="_blank" class="external-link">Anheuser-Busch</a> was nearby)</li>
+                            <li><strong>Machinist</strong></li>
+                            <li><strong>Truck Driver</strong></li>
+                            <li><strong>Hospital Orderly</strong></li>
+                        </ul>
+
+                        <h4>Female Labor</h4>
+                        <p>
+                            A high percentage of women worked outside the home, largely due to proximity of City Hospital (nursing, laundry, food service) 
+                            and remaining garment factories on Washington Avenue. This dual-income necessity distinguished them from the single-income 
+                            suburban ideal of the era.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: City Hospital -->
+            <div class="section-card">
+                <div class="section-header" onclick="toggleSection(this.parentElement)">
+                    <div class="section-icon">🏥</div>
+                    <div class="section-title-area">
+                        <div class="section-title">The Institutional Behemoth</div>
+                        <div class="section-number">Section 4: City Hospital No. 1</div>
+                    </div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="section-description" onclick="toggleSection(this.parentElement)">
+                    City Hospital's overwhelming physical presence and economic dominance, serving as both 
+                    employer and constant reminder of mortality for the surrounding neighborhood.
+                </div>
+                <div class="section-details">
+                    <div class="details-content">
+                        <h3>The Physical Presence</h3>
+                        <p>
+                            Dominating the eastern skyline was the City Hospital complex (now <a href="https://en.wikipedia.org/wiki/City_Hospital_(St._Louis)" target="_blank" class="external-link">The Georgian</a>). In the 1950s, this was not a condo 
+                            development but a bustling, overcrowded municipal charity hospital.
+                        </p>
+
+                        <div class="two-column">
+                            <div class="info-box">
+                                <h4>Scale</h4>
+                                <p>The complex comprised over a dozen buildings, including the main administration building, isolation wards, 
+                                and the laundry plant. It was a city within a city.</p>
+                            </div>
+                            <div class="info-box">
+                                <h4>Shadow of Mortality</h4>
+                                <p>For residents of Lafayette Avenue and 14th Street, the hospital was a constant reminder of life's fragility. 
+                                Ambulance sirens were the soundtrack of the neighborhood.</p>
+                            </div>
+                        </div>
+
+                        <p>
+                            The hospital served the indigent and emergency cases of the city, meaning the streets around it were frequently 
+                            traversed by the desperate and the injured.
+                        </p>
+
+                        <h3>Economic Symbiosis</h3>
+                        <p>The hospital was also the <span class="highlight">economic engine</span> of the immediate vicinity.</p>
+
+                        <h4>Employment</h4>
+                        <p>
+                            Hundreds of neighborhood residents worked as orderlies, cooks, janitors, and nurses. The shift changes at the hospital 
+                            dictated the rhythm of local taverns and diners.
+                        </p>
+
+                        <div class="stat-box">
+                            <strong>The "Lunch Pail" Economy:</strong> Small diners along Park Avenue catered specifically to hospital staff and visitors. 
+                            The economic viability of the 14th Street commercial corridor was inextricably linked to the hospital's payroll.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Commercial Life -->
+            <div class="section-card">
+                <div class="section-header" onclick="toggleSection(this.parentElement)">
+                    <div class="section-icon">🏪</div>
+                    <div class="section-title-area">
+                        <div class="section-title">Commercial Life & The 14th Street Corridor</div>
+                        <div class="section-number">Section 5: Neighborhood Economy</div>
+                    </div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="section-description" onclick="toggleSection(this.parentElement)">
+                    The dense ecosystem of taverns, butchers, and bakeries along South 14th Street, 
+                    and the vital Saturday ritual at Soulard Farmers Market.
+                </div>
+                <div class="section-details">
+                    <div class="details-content">
+                        <h3>The Neighborhood High Street</h3>
+                        <p>
+                            South 14th Street served as the commercial spine. A review of the 1954 City Directory reveals a dense ecosystem 
+                            of small businesses:
+                        </p>
+
+                        <ul>
+                            <li><strong>Grocery/Meats:</strong> Independent butchers (often German or Czech) who offered credit to locals</li>
+                            <li><strong>Taverns:</strong> St. Louis had an exceptionally high number of taverns per capita. On 14th Street, corners were 
+                            anchored by establishments like "Stan's Place" or "The Bohemian Club"—not merely bars but <span class="emphasis">community 
+                            living rooms</span> where union politics, <a href="https://en.wikipedia.org/wiki/St._Louis_Cardinals" target="_blank" class="external-link">Cardinals</a> baseball scores, and neighborhood gossip were exchanged</li>
+                            <li><strong>Hardware and Dry Goods:</strong> Stores selling specific repair parts needed for the aging brick housing stock</li>
+                        </ul>
+
+                        <h3>Soulard Market: The Agrarian Interface</h3>
+                        <p>
+                            Just south of the mapped area lay the <a href="https://www.soulardmarket.com/history/" target="_blank" class="external-link">Soulard Farmers Market</a>. In the 1950s, this was not a tourist destination but a 
+                            <span class="highlight">functional wholesale and retail market</span>.
+                        </p>
+
+                        <h4>The Saturday Ritual</h4>
+                        <p>
+                            For families in the neighborhood, Saturday morning shopping at Soulard was mandatory. It offered fresh produce at prices 
+                            significantly lower than emerging supermarkets (like Kroger or A&P).
+                        </p>
+
+                        <div class="quote-box">
+                            "The market was a zone of intense social interaction where the urban working class met rural truck farmers. The chaotic 
+                            energy of the market, with live poultry and open-air stalls, stood in sharp contrast to the sanitized, packaged experience 
+                            of the suburbs."
+                        </div>
+
+                        <h3>Commercial Mix on S. 14th Street (1954)</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Business Type</th>
+                                    <th>Count (Est.)</th>
+                                    <th>Social Function</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Taverns/Saloons</strong></td>
+                                    <td class="year">12</td>
+                                    <td>Centers of male socialization, union news, political organizing</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Grocery/Butcher</strong></td>
+                                    <td class="year">8</td>
+                                    <td>Female socialization nodes; sources of informal credit</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Bakeries</strong></td>
+                                    <td class="year">3</td>
+                                    <td>Cultural retention (Czech pastries/breads)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Hardware/Repair</strong></td>
+                                    <td class="year">4</td>
+                                    <td>Support for DIY maintenance of aging housing stock</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Confectionaries</strong></td>
+                                    <td class="year">5</td>
+                                    <td>"Penny candy" stores serving large youth population</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5: Residential Experience -->
+            <div class="section-card">
+                <div class="section-header" onclick="toggleSection(this.parentElement)">
+                    <div class="section-icon">🏠</div>
+                    <div class="section-title-area">
+                        <div class="section-title">Life in the "Flats"</div>
+                        <div class="section-number">Section 6: The Residential Experience</div>
+                    </div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="section-description" onclick="toggleSection(this.parentElement)">
+                    The intimate spatial reality of railroad flats, stoop culture, and the child's domain 
+                    in alleyways—the social architecture of dense urban living.
+                </div>
+                <div class="section-details">
+                    <div class="details-content">
+                        <h3>Spatial Constraints and Gender Roles</h3>
+                        <p>
+                            The interior of a typical railroad flat on Menard or 11th Street in 1955 shaped the family dynamic.
+                        </p>
+
+                        <h4>The Kitchen as Hearth</h4>
+                        <p>
+                            With limited central heating, the kitchen (often housing a coal or gas stove) was the center of activity. Homework, 
+                            sewing, and socialization happened here. The "parlor" was often shut off to save heat, used only for wakes or formal visits.
+                        </p>
+
+                        <h4>The Stoop Culture</h4>
+                        <div class="stat-box">
+                            Because apartments were small and hot in the St. Louis summer, life spilled onto the limestone front steps (stoops). 
+                            <strong>Women controlled this space during the day</strong>, creating a surveillance network that monitored children and strangers. 
+                            This <span class="term">"eyes on the street"</span> phenomenon ensured high security despite the poverty.
+                        </div>
+
+                        <h3>The Child's Domain</h3>
+                        <p>
+                            For children growing up in the 1950s, the neighborhood was a vast playground. The alleys, paved with bricks, were arenas 
+                            for <span class="term">"corkball"</span> and <span class="term">"fuzzball"</span>—distinctly St. Louis variations of baseball 
+                            adapted to confined urban spaces.
+                        </p>
+
+                        <h4>Territoriality</h4>
+                        <p>
+                            Kids knew the invisible boundaries. Crossing Park Avenue might mean entering a rival gang's territory (often defined by 
+                            parish boundaries). The proximity to industrial zones and the riverfront provided dangerous but alluring zones for exploration.
+                        </p>
+
+                        <div class="quote-box">
+                            "The alleys were the true highways of childhood—brick-paved corridors where games, fights, and discoveries unfolded away 
+                            from adult supervision but within earshot of watchful mothers on the stoops."
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 6: Urban Renewal -->
+            <div class="section-card">
+                <div class="section-header" onclick="toggleSection(this.parentElement)">
+                    <div class="section-icon">🚧</div>
+                    <div class="section-title-area">
+                        <div class="section-title">The Beginning of the End</div>
+                        <div class="section-number">Section 7: Urban Renewal & The Highway</div>
+                    </div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="section-description" onclick="toggleSection(this.parentElement)">
+                    The tragic "blight" designation and Interstate 55 construction that displaced thousands, 
+                    severing the Bohemian Hill and destroying the urban village piece by piece.
+                </div>
+                <div class="section-details">
+                    <div class="details-content">
+                        <h3>The "Blight" Designation</h3>
+                        <p>
+                            The tragedy of the neighborhood in the late 1950s was its classification by the <a href="https://en.wikipedia.org/wiki/Urban_renewal" target="_blank" class="external-link">City Plan Commission</a>. Using criteria 
+                            that penalized mixed-use and age, the area was designated as <span class="emphasis">"blighted" or "obsolete."</span>
+                        </p>
+
+                        <h4>The Logic of Erasure</h4>
+                        <div class="stat-box">
+                            Planners viewed the dense, alley-facing housing and the mixture of taverns and homes as disorderly. <strong>The very features 
+                            that residents valued</strong> (walkability, cheap rent, community) were viewed by the state as symptoms of decay.
+                        </div>
+
+                        <p>
+                            The <span class="year">1955 Bond Issue</span>: St. Louis voters passed a massive bond issue for "civic improvement," 
+                            which allocated funds for slum clearance and highway construction. This signed the death warrant for the eastern half 
+                            of the neighborhood.
+                        </p>
+
+                        <h3>The Interstate 55 Cut</h3>
+                        <p>
+                            In the mid-1950s, this was the "Ozark Expressway" project. The construction created a wound through the heart of the neighborhood.
+                        </p>
+
+                        <h4>The Displacement</h4>
+                        <ul>
+                            <li>To build the highway, the state exercised eminent domain, <span class="highlight">seizing hundreds of homes</span></li>
+                            <li>The path was chosen specifically because it ran through politically weak working-class neighborhoods</li>
+                        </ul>
+
+                        <h4>Severance</h4>
+                        <p>
+                            The highway construction physically severed the seamless connection between the Soulard market area and the Lafayette Square 
+                            residential district. The "Bohemian Hill" was effectively bisected. St. John Nepomuk survived, but much of its parish 
+                            territory was bulldozed, leading to a permanent loss of parishioners and the disintegration of the tight-knit Czech community.
+                        </p>
+
+                        <h4>Psychological Toll</h4>
+                        <div class="quote-box">
+                            "Historical records from 1958-1960 describe the 'interim' period—the time between condemnation and demolition. Landlords 
+                            stopped maintenance; families moved out, leaving vacant shells that attracted arson and vandalism. The neighborhood didn't 
+                            just die; it was dismantled piece by piece, creating a trauma that lingered in the collective memory of the displaced families."
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 7: Visual Documentation -->
+            <div class="section-card">
+                <div class="section-header" onclick="toggleSection(this.parentElement)">
+                    <div class="section-icon">📸</div>
+                    <div class="section-title-area">
+                        <div class="section-title">Visual Documentation Analysis</div>
+                        <div class="section-number">Section 8: Archival Evidence</div>
+                    </div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="section-description" onclick="toggleSection(this.parentElement)">
+                    Sanborn Fire Insurance maps, City Plan Commission land use maps, and street photography 
+                    that document the dense, vibrant neighborhood before its erasure.
+                </div>
+                <div class="section-details">
+                    <div class="details-content">
+                        <h3>Maps</h3>
+                        
+                        <h4>1909 vs. 1958 Sanborn Maps</h4>
+                        <p>
+                            Comparing these two sets reveals the density. The 1950-era maps show a neighborhood saturated with structures—backyard sheds, 
+                            coal bins, commercial additions. By the 1958 updates, large swathes are marked <span class="emphasis">"Vacant - To Be Demolished"</span> 
+                            along the highway right-of-way.
+                        </p>
+
+                        <h4>City Plan Commission Land Use Maps (1955)</h4>
+                        <p>
+                            These maps color-code the neighborhood. The area is a mosaic of "Multi-Family Residential" (Brown) and "Commercial" (Red), 
+                            visualizing the mixed-use vibrancy that zoning laws sought to eliminate.
+                        </p>
+
+                        <h3>Photography</h3>
+
+                        <h4>The "Sweitzer" Collection</h4>
+                        <p>
+                            Historical photographers like Sweitzer documented St. Louis street life. Photos from this era show S. 14th Street as a 
+                            canyon of signage—neon beer signs (Falstaff, Griesedieck), hanging produce scales, and awnings.
+                        </p>
+
+                        <h4>Block Surveys</h4>
+                        <div class="quote-box">
+                            "The Land Clearance for Redevelopment Authority (LCRA) took photos of every building slated for demolition. These photos, 
+                            often kept in the Missouri Historical Society, are clinical 'mugshots' of buildings. They show the gritty reality: 
+                            soot-stained brick, peeling paint, but also the signs of life—tricycles on porches, laundry lines zigzagging across alleys."
+                        </div>
+
+                        <div class="stat-box">
+                            <strong>Archival Resources:</strong> The <a href="https://mohistory.org/" target="_blank" class="external-link">Missouri Historical Society</a> maintains extensive photographic collections documenting 
+                            the neighborhood in its final years, providing invaluable visual evidence of the dense, functional urban fabric before its destruction.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 8: Statistical Data -->
+            <div class="section-card">
+                <div class="section-header" onclick="toggleSection(this.parentElement)">
+                    <div class="section-icon">📊</div>
+                    <div class="section-title-area">
+                        <div class="section-title">Statistical Appendix</div>
+                        <div class="section-number">Section 10: Demographic Data</div>
+                    </div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="section-description" onclick="toggleSection(this.parentElement)">
+                    Detailed census tract data from 1950 documenting population density, ethnic composition, 
+                    occupancy rates, and housing conditions compared to citywide averages.
+                </div>
+                <div class="section-details">
+                    <div class="details-content">
+                        <h3>Demographic Profile (1950 Census Tract Data)</h3>
+                        <p><a href="https://www.census.gov/library/publications/1952/dec/population-vol-3.html" target="_blank" class="external-link">Census Tracts 12A and 12B</a> covering the Soulard/Lafayette Fringe area</p>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Metric</th>
+                                    <th>Tract 12A/12B</th>
+                                    <th>St. Louis City Average</th>
+                                    <th>Analysis</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Population Density</strong></td>
+                                    <td class="year">~16,500 / sq mile</td>
+                                    <td>~11,000 / sq mile</td>
+                                    <td>Extremely high density due to tenement/flat housing</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Foreign Born %</strong></td>
+                                    <td class="year">12%</td>
+                                    <td>5%</td>
+                                    <td>Primary: Czech, German, Polish. Retained ethnic enclave status longer than western neighborhoods</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Owner Occupancy</strong></td>
+                                    <td class="year">28%</td>
+                                    <td>35%</td>
+                                    <td>Primarily a rental district, increasing vulnerability to displacement</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Median Education</strong></td>
+                                    <td class="year">8.2 Years</td>
+                                    <td>8.8 Years</td>
+                                    <td>Reflects working-class/laborer demographic</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Heating w/o Central</strong></td>
+                                    <td class="year">65%</td>
+                                    <td>40%</td>
+                                    <td>Indicates older housing stock reliant on coal/space heaters</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Key Findings</h3>
+                        <ul>
+                            <li><strong>Extreme Density:</strong> The neighborhood's population density was 50% higher than the city average, reflecting 
+                            the intensive use of multi-family flats and alley dwellings</li>
+                            <li><strong>Ethnic Persistence:</strong> The 12% foreign-born population (more than double the city average) demonstrates 
+                            the neighborhood's continued role as an ethnic enclave</li>
+                            <li><strong>Rental Vulnerability:</strong> With only 28% owner-occupancy, the neighborhood was particularly vulnerable to 
+                            displacement through highway construction and urban renewal</li>
+                            <li><strong>Working-Class Character:</strong> Lower education levels and reliance on coal/space heating clearly identify 
+                            this as a working-class district</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="intro-panel" style="border-left-color: #e74c3c;">
+            <h2>Conclusion: A Memorial to Severed Urban Tissue</h2>
+            <p>
+                The neighborhood surrounding St. John Nepomuk and City Hospital in the 1950s was a functioning organism of the industrial city. 
+                It was a place where the "working-class experience" was defined by a specific geography of intimacy. The high density, the reliance 
+                on walking, and the deep ethnic networks created a social safety net that money could not buy.
+            </p>
+            <p>
+                However, the 1950s were also the decade of its undoing. The very density that sustained the community was diagnosed as a pathology 
+                by the architects of the "New St. Louis." The construction of the interstate and the urban renewal campaigns of the late 50s did not 
+                fix the "slum"; they destroyed a village.
+            </p>
+            <p class="emphasis">
+                For the families who lived there, the 1950s were the final chapter of a way of life that connected the Old World of the Bohemian 
+                diaspora with the grimy, vibrant reality of the American industrial metropolis. The map is not just a guide to streets; it is a 
+                memorial to a severed urban tissue.
+            </p>
+        </div>
+
+        <footer>
+            <p>A comprehensive socio-spatial history of the Soulard-Lafayette Borderlands</p>
+            <p style="margin-top: 10px; font-size: 1.2em;">🏛️ 1950-1960: The Indian Summer of Traditional Urbanism 🏛️</p>
+            <p style="margin-top: 15px;">Click any section to explore detailed historical analysis</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleSection(card) {
+            const wasExpanded = card.classList.contains('expanded');
+            
+            // Close all cards
+            document.querySelectorAll('.section-card').forEach(c => {
+                c.classList.remove('expanded');
+            });
+            
+            // If it wasn't expanded, expand it
+            if (!wasExpanded) {
+                card.classList.add('expanded');
+                // Smooth scroll to the expanded card after expansion animation
+                setTimeout(() => {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 300);
+            }
+        }
+    </script>
+</body>
+</html>
