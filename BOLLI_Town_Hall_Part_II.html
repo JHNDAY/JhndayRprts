@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLLI Town Hall Part II - Key Themes Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .section h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+        }
+        
+        .icon {
+            font-size: 1.2em;
+            margin-right: 15px;
+        }
+        
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .theme-card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .theme-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+        
+        .theme-card h3 {
+            color: #2a5298;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .theme-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .theme-card li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #333;
+        }
+        
+        .theme-card li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .priority-high {
+            border-left: 4px solid #dc3545;
+        }
+        
+        .priority-medium {
+            border-left: 4px solid #ffc107;
+        }
+        
+        .priority-low {
+            border-left: 4px solid #28a745;
+        }
+        
+        .strength {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+        
+        .challenge {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+        
+        .opportunity {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+        }
+        
+        .quote {
+            background: white;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-style: italic;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .quote-author {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #2a5298;
+            font-style: normal;
+        }
+        
+        .priority-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .badge-high {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .badge-medium {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        .badge-low {
+            background: #28a745;
+            color: white;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .action-items {
+            background: #e8f4f8;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .action-items h4 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .action-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .action-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #667eea;
+            border-radius: 4px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .contributor-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .contributor {
+            background: #667eea;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .theme-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 BOLLI Town Hall Part II</h1>
+            <p>Strategic Planning Discussion Analysis</p>
+        </div>
+        
+        <div class="content">
+            <!-- Key Statistics -->
+            <div class="section">
+                <h2><span class="icon">📊</span>Session Overview</h2>
+                <div class="stats-container">
+                    <div class="stat-box">
+                        <div class="stat-number">7</div>
+                        <div class="stat-label">Discussion Groups</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">BOLLI Members</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">53</div>
+                        <div class="stat-label">New Members</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">70%</div>
+                        <div class="stat-label">Retention Rate</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Major Themes -->
+            <div class="section">
+                <h2><span class="icon">🎯</span>Major Themes & Priorities</h2>
+                <div class="theme-grid">
+                    <div class="theme-card priority-high">
+                        <span class="priority-badge badge-high">HIGH PRIORITY</span>
+                        <h3>🔗 Community Connection</h3>
+                        <ul>
+                            <li>Member directory (phone, email, address)</li>
+                            <li>Name tags worn consistently on campus</li>
+                            <li>"Facebook-type" platform for engagement</li>
+                            <li>Better ways to connect new and existing members</li>
+                        </ul>
+                        <div class="quote">
+                            "People don't know who you are. There's a lot of coming and going."
+                            <div class="quote-author">— Discussion feedback</div>
+                        </div>
+                    </div>
+
+                    <div class="theme-card priority-high">
+                        <span class="priority-badge badge-high">HIGH PRIORITY</span>
+                        <h3>🖥️ Technology & Digital Literacy</h3>
+                        <ul>
+                            <li>Drop-in tech support sessions</li>
+                            <li>Basic skills training (downloads, bookmarks)</li>
+                            <li>Hybrid options for DSS lectures</li>
+                            <li>Recording and preservation of courses</li>
+                            <li>Better Zoom management skills</li>
+                        </ul>
+                        <div class="quote">
+                            "An hour a week... people could just drop in and figure out how to improve their skills, whether it was something as simple as downloading documents, bookmarking websites."
+                            <div class="quote-author">— Barb Thomas (volunteer)</div>
+                        </div>
+                    </div>
+
+                    <div class="theme-card priority-medium">
+                        <span class="priority-badge badge-medium">MEDIUM PRIORITY</span>
+                        <h3>📚 Course & Content Management</h3>
+                        <ul>
+                            <li>Library of recorded course sessions</li>
+                            <li>Catalog of course websites and reading lists</li>
+                            <li>Balance course capacity with growth</li>
+                            <li>Expanded trial membership benefits</li>
+                        </ul>
+                    </div>
+
+                    <div class="theme-card priority-medium">
+                        <span class="priority-badge badge-medium">MEDIUM PRIORITY</span>
+                        <h3>👥 Special Interest Groups (SIGs)</h3>
+                        <ul>
+                            <li>Clear process for setting up SIGs</li>
+                            <li>Support structure for new SIGs</li>
+                            <li>Travel SIG suggested (Mount Auburn Cemetery example)</li>
+                            <li>Better promotion of existing SIGs</li>
+                        </ul>
+                    </div>
+
+                    <div class="theme-card priority-medium">
+                        <span class="priority-badge badge-medium">MEDIUM PRIORITY</span>
+                        <h3>💰 Economic & Membership</h3>
+                        <ul>
+                            <li>Cost structure comparison with other BOLLIs</li>
+                            <li>Trial-to-member conversion improvement</li>
+                            <li>Marketing to senior care communities</li>
+                            <li>Pricing model transparency</li>
+                        </ul>
+                    </div>
+
+                    <div class="theme-card priority-high">
+                        <span class="priority-badge badge-high">CRITICAL</span>
+                        <h3>🤝 Volunteer Engagement</h3>
+                        <ul>
+                            <li>Survey all 500+ members for skills/availability</li>
+                            <li>Standing committees vs. project-based work</li>
+                            <li>Better matching of volunteers to opportunities</li>
+                            <li>Recognition of volunteer contributions</li>
+                        </ul>
+                        <div class="quote">
+                            "What can you contribute to BOLLI? What do you know, and what can you do? It's real simple, right?"
+                            <div class="quote-author">— Barb Thomas</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Challenges -->
+            <div class="section challenge">
+                <h2><span class="icon">⚠️</span>Key Challenges Identified</h2>
+                
+                <div class="action-items">
+                    <h4>Implementation Concerns</h4>
+                    <div class="action-item">
+                        <div class="action-checkbox"></div>
+                        <div><strong>Scope & Prioritization:</strong> "The strategic plan's wonderful. But how on earth are you going to do this, and how are you going to prioritize it?" (Margaret Mukherjee)</div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-checkbox"></div>
+                        <div><strong>Resource Constraints:</strong> Plan appears very ambitious with questions about volunteer capacity and task management</div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-checkbox"></div>
+                        <div><strong>Privacy/Legal Issues:</strong> Member directory blocked by university policy and privacy concerns</div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-checkbox"></div>
+                        <div><strong>Course Capacity:</strong> "If we get 30 or 40 people... will there be enough courses?"</div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-checkbox"></div>
+                        <div><strong>Tech Infrastructure:</strong> Zoom management, hybrid capabilities, recording systems need improvement</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Strengths & What's Working -->
+            <div class="section strength">
+                <h2><span class="icon">✨</span>Strengths & What's Working Well</h2>
+                
+                <div class="theme-grid">
+                    <div class="theme-card">
+                        <h3>📈 Improved Metrics</h3>
+                        <ul>
+                            <li>Retention/conversion up to ~70% (from much lower)</li>
+                            <li>New trial membership model more inclusive</li>
+                            <li>Trial members can now take 5 or 10-week courses</li>
+                            <li>Full-term access to SIGs and lectures</li>
+                        </ul>
+                    </div>
+
+                    <div class="theme-card">
+                        <h3>💪 Strong Community Spirit</h3>
+                        <ul>
+                            <li>Enthusiastic participation in town halls</li>
+                            <li>Many volunteers already active</li>
+                            <li>Lively small group discussions</li>
+                            <li>22-year members still deeply engaged</li>
+                        </ul>
+                    </div>
+
+                    <div class="theme-card">
+                        <h3>🎯 Active Committees</h3>
+                        <ul>
+                            <li>Membership committee tracking metrics</li>
+                            <li>Strategic planning group engaged</li>
+                            <li>Technology committee addressing needs</li>
+                            <li>Leadership open to feedback</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="quote">
+                    "4 o'clock is a hard time of the day to set aside, and we've had great participation, both a lot of people and rarely enthusiastic participation, wonderful ideas."
+                    <div class="quote-author">— Marcia (Co-chair)</div>
+                </div>
+            </div>
+
+            <!-- Opportunities -->
+            <div class="section opportunity">
+                <h2><span class="icon">🚀</span>Opportunities for Growth</h2>
+                
+                <div class="theme-grid">
+                    <div class="theme-card">
+                        <h3>🎓 Educational Outreach</h3>
+                        <ul>
+                            <li>Partner with senior care communities</li>
+                            <li>Hebrew Senior Life, North Hill, Opus, Newbridge</li>
+                            <li>LaSalle (education credit requirements)</li>
+                            <li>Young Charles communities</li>
+                        </ul>
+                    </div>
+
+                    <div class="theme-card">
+                        <h3>🌐 Digital Transformation</h3>
+                        <ul>
+                            <li>Hybrid model for all lectures/DSS</li>
+                            <li>Course recording library</li>
+                            <li>Digital resource catalog</li>
+                            <li>Tech literacy program</li>
+                        </ul>
+                    </div>
+
+                    <div class="theme-card">
+                        <h3>👥 Volunteer Mobilization</h3>
+                        <ul>
+                            <li>Skills inventory of 500+ members</li>
+                            <li>Project-based engagement</li>
+                            <li>Clearer volunteer pathways</li>
+                            <li>Recognition programs</li>
+                        </ul>
+                    </div>
+
+                    <div class="theme-card">
+                        <h3>🎨 New Programming</h3>
+                        <ul>
+                            <li>Travel SIG development</li>
+                            <li>Tech drop-in sessions</li>
+                            <li>Expanded trial offerings</li>
+                            <li>Intergenerational connections</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Immediate Action Items -->
+            <div class="section">
+                <h2><span class="icon">✅</span>Recommended Immediate Actions</h2>
+                
+                <div class="action-items">
+                    <h4>Quick Wins (Next 30 Days)</h4>
+                    <div class="action-item">
+                        <div class="action-checkbox"></div>
+                        <div><strong>Email Survey:</strong> Send skills/availability survey to all 500+ members</div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-checkbox"></div>
+                        <div><strong>Name Tag Policy:</strong> Reinstate requirement for wearing name tags on campus</div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-checkbox"></div>
+                        <div><strong>Directory Research:</strong> Work with John Rudy and Barb Thomas on legal/privacy solutions</div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-checkbox"></div>
+                        <div><strong>Tech Support Pilot:</strong> Launch weekly drop-in tech help sessions</div>
+                    </div>
+                </div>
+
+                <div class="action-items">
+                    <h4>Medium-Term (60-90 Days)</h4>
+                    <div class="action-item">
+                        <div class="action-checkbox"></div>
+                        <div><strong>Hybrid DSS:</strong> Implement technology for hybrid Distinguished Speaker Series</div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-checkbox"></div>
+                        <div><strong>SIG Guidelines:</strong> Create clear documentation for starting new SIGs</div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-checkbox"></div>
+                        <div><strong>Course Archive:</strong> Develop system for cataloging recorded courses and websites</div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-checkbox"></div>
+                        <div><strong>Marketing Plan:</strong> Outreach strategy for senior care communities</div>
+                    </div>
+                </div>
+
+                <div class="action-items">
+                    <h4>Strategic Planning (Year 1-3)</h4>
+                    <div class="action-item">
+                        <div class="action-checkbox"></div>
+                        <div><strong>Prioritization Framework:</strong> Create year 1, 2, 3 implementation timeline with task assignments</div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-checkbox"></div>
+                        <div><strong>Member Directory:</strong> Navigate legal/privacy concerns for full directory implementation</div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-checkbox"></div>
+                        <div><strong>Digital Platform:</strong> Evaluate options for member connection platform</div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-checkbox"></div>
+                        <div><strong>Capacity Planning:</strong> Ensure course offerings scale with membership growth</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Contributors -->
+            <div class="section">
+                <h2><span class="icon">🌟</span>Active Contributors & Volunteers</h2>
+                <p>The following members offered expertise and volunteered during the town hall:</p>
+                <div class="contributor-list">
+                    <div class="contributor">Barb Thomas - Tech Support</div>
+                    <div class="contributor">John Rudy - Privacy/Legal</div>
+                    <div class="contributor">David Ratner - Group 7 Rep</div>
+                    <div class="contributor">Tamara Chernow - Membership</div>
+                    <div class="contributor">Ron Levy - 22-year veteran</div>
+                    <div class="contributor">Helen Abrams - Travel SIG</div>
+                    <div class="contributor">Margaret Mukherjee - Strategic Focus</div>
+                    <div class="contributor">Kate - Membership Committee</div>
+                    <div class="contributor">Ted - Executive Director</div>
+                    <div class="contributor">Marcia - Co-chair</div>
+                    <div class="contributor">Robin - Facilitator</div>
+                </div>
+            </div>
+
+            <!-- Closing Insights -->
+            <div class="section">
+                <h2><span class="icon">💡</span>Key Insights & Observations</h2>
+                
+                <div class="quote">
+                    "The strategic plan's wonderful. But how on earth are you going to do this, and how are you going to prioritize it? You must have tasks."
+                    <div class="quote-author">— Margaret Mukherjee's essential question</div>
+                </div>
+
+                <div class="theme-card" style="margin-top: 20px;">
+                    <h3>Balance of Ambition vs. Reality</h3>
+                    <p>The town hall revealed a productive tension between the ambitious strategic plan and practical implementation concerns. While enthusiasm is high and ideas are plentiful, there's a clear need for:</p>
+                    <ul>
+                        <li>Concrete prioritization and phasing</li>
+                        <li>Task assignments and ownership</li>
+                        <li>Resource assessment (volunteer capacity)</li>
+                        <li>Quick wins to build momentum</li>
+                        <li>Clear measurement of success</li>
+                    </ul>
+                </div>
+
+                <div class="theme-card" style="margin-top: 20px;">
+                    <h3>Community-First Approach</h3>
+                    <p>The strongest theme across all discussions was connection—members want to know each other better, help each other with technology, and contribute their skills. The directory issue, while complex, keeps surfacing as a fundamental need.</p>
+                </div>
+
+                <div class="theme-card" style="margin-top: 20px;">
+                    <h3>Volunteer Energy Untapped</h3>
+                    <p>Barb Thomas's suggestion to survey all members about their skills and availability represents a significant opportunity. With 500+ members, there's likely considerable expertise waiting to be engaged—the challenge is matching needs to capabilities systematically.</p>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div style="text-align: center; padding: 30px; color: #666; border-top: 2px solid #eee; margin-top: 40px;">
+                <p><strong>BOLLI Town Hall Part II Analysis</strong></p>
+                <p>Strategic Planning Discussion • Breakout Groups Summary</p>
+                <p style="margin-top: 15px; font-size: 0.9em;">This visualization captures themes, challenges, and opportunities identified during the town hall discussion.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
