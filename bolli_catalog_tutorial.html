@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLLI Catalog Tutorial - Interactive Learning & Assessment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+
+        .header-links {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .header-link {
+            color: white;
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .header-link:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .progress-bar {
+            background: #f8f9fa;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            border: 2px solid #e9ecef;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .module {
+            margin-bottom: 50px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 6px solid #667eea;
+        }
+
+        .module.completed {
+            border-left-color: #28a745;
+            background: #f0f9f4;
+        }
+
+        .module h2 {
+            color: #1e3c72;
+            font-size: 2em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .module-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2em;
+        }
+
+        .module.completed .module-number {
+            background: #28a745;
+        }
+
+        .objective-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .objective-box h3 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .objective-box ul {
+            margin-left: 20px;
+            color: #495057;
+        }
+
+        .objective-box li {
+            margin-bottom: 8px;
+        }
+
+        .exercise {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+        }
+
+        .exercise h4 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .exercise-icon {
+            font-size: 1.5em;
+        }
+
+        .task-list {
+            counter-reset: task-counter;
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .task-list li {
+            counter-increment: task-counter;
+            margin-bottom: 20px;
+            padding-left: 45px;
+            position: relative;
+            color: #495057;
+            line-height: 1.8;
+        }
+
+        .task-list li::before {
+            content: counter(task-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9em;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: start;
+            gap: 12px;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .checkbox-item:hover {
+            background: #e9ecef;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-top: 4px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .checkbox-item.checked {
+            background: #d4edda;
+            border: 2px solid #28a745;
+        }
+
+        .tip-box {
+            background: #fff9e6;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .tip-box h4 {
+            color: #856404;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .assessment-box {
+            background: #e7f3ff;
+            border-left: 4px solid #0066cc;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+        }
+
+        .assessment-box h4 {
+            color: #004085;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .rating-group {
+            margin-bottom: 25px;
+        }
+
+        .rating-question {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 10px;
+        }
+
+        .rating-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .rating-option {
+            padding: 10px 20px;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .rating-option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .rating-option.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 1em;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        textarea:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+
+        .button {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .button-secondary {
+            background: #6c757d;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #28a745;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .scenario-box {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            border: 2px solid #667eea;
+            margin: 20px 0;
+        }
+
+        .scenario-box h4 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .scenario-persona {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .completion-badge {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border-radius: 12px;
+            margin: 30px 0;
+            display: none;
+        }
+
+        .completion-badge.show {
+            display: block;
+        }
+
+        .completion-badge h3 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .badge-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
+
+        .feature-highlight {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .feature-highlight h5 {
+            color: #17a2b8;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .module {
+                padding: 20px;
+            }
+
+            .task-list li {
+                padding-left: 40px;
+            }
+
+            .rating-options {
+                flex-direction: column;
+            }
+
+            .rating-option {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 BOLLI Catalog Tutorial</h1>
+            <p>Interactive Learning & Assessment Guide</p>
+            <div class="header-links">
+                <a href="https://jhnday.github.io/JhndayRprts/bolli_catalog_spring_2026" class="header-link">📖 Open Catalog</a>
+                <a href="https://jhnday.github.io/JhndayRprts/BOLLI_Catalog_User_Guide" class="header-link">📘 User Guide</a>
+            </div>
+        </header>
+
+        <div class="content">
+            <!-- Progress Bar -->
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar">0% Complete</div>
+            </div>
+
+            <!-- Introduction -->
+            <div class="module">
+                <h2>
+                    <span class="module-number">📋</span>
+                    Welcome to the Tutorial
+                </h2>
+                <div class="objective-box">
+                    <h3>🎯 What You'll Learn</h3>
+                    <p>This interactive tutorial will guide you through all features of the BOLLI Spring 2026 Catalog. You'll complete hands-on exercises and provide feedback to help us assess the catalog's usefulness and accuracy.</p>
+                    <p style="margin-top: 15px;"><strong>Tutorial Structure:</strong></p>
+                    <ul>
+                        <li>5 learning modules with practical exercises</li>
+                        <li>Real-world scenarios to practice with</li>
+                        <li>Assessment questions throughout</li>
+                        <li>Completion badge upon finishing</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Time Required:</strong> 20-30 minutes</p>
+                </div>
+
+                <div class="tip-box">
+                    <h4>💡 Before You Start</h4>
+                    <p><strong>Open the catalog in a new tab</strong> so you can reference it while working through exercises. Click the "Open Catalog" button above.</p>
+                </div>
+
+                <button class="button" onclick="startTutorial()">Start Tutorial</button>
+            </div>
+
+            <!-- Module 1: Understanding the Calendar Grid -->
+            <div class="module" id="module1" style="display: none;">
+                <h2>
+                    <span class="module-number">1</span>
+                    Understanding the Dynamic Calendar Grid
+                </h2>
+
+                <div class="objective-box">
+                    <h3>📚 Learning Objectives</h3>
+                    <ul>
+                        <li>Understand how the calendar grid organizes courses by day and time</li>
+                        <li>Learn how to read course counts in each cell</li>
+                        <li>Discover how the calendar updates dynamically with filters</li>
+                    </ul>
+                </div>
+
+                <div class="feature-highlight">
+                    <h5>🔑 Key Concept: Dynamic Calendar</h5>
+                    <p>The calendar grid shows how many courses are offered at each day/time combination. When you apply filters (modality, category, or search), the numbers update instantly to show only matching courses.</p>
+                </div>
+
+                <div class="exercise">
+                    <h4><span class="exercise-icon">✏️</span> Exercise 1: Exploring the Calendar</h4>
+                    <p style="margin-bottom: 15px;">Complete these tasks in the catalog (open in another tab):</p>
+                    
+                    <ol class="task-list">
+                        <li>
+                            <strong>Locate the calendar grid</strong> at the top of the catalog page. Notice it shows days (Monday-Friday) across the top and periods (1-3) down the left side.
+                            <div class="checkbox-item" onclick="toggleCheck(this, 'task1-1')">
+                                <input type="checkbox" id="task1-1">
+                                <label>I found the calendar grid</label>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Observe the course counts.</strong> Look at Monday, Period 1. How many courses are shown? Note that different days/times have different numbers.
+                            <div class="checkbox-item" onclick="toggleCheck(this, 'task1-2')">
+                                <input type="checkbox" id="task1-2">
+                                <label>I see the course counts in each cell</label>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Test dynamic filtering.</strong> Select "Zoom" from the Modality filter. Watch how all the numbers in the calendar change to show only Zoom courses.
+                            <div class="checkbox-item" onclick="toggleCheck(this, 'task1-3')">
+                                <input type="checkbox" id="task1-3">
+                                <label>I filtered to Zoom and saw the calendar update</label>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Try category filtering.</strong> Select "Literature" from the Category filter. Notice how the calendar shows only literature courses now.
+                            <div class="checkbox-item" onclick="toggleCheck(this, 'task1-4')">
+                                <input type="checkbox" id="task1-4">
+                                <label>I filtered by category and the calendar updated</label>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Clear your filters.</strong> Set both filters back to "All Modalities" and "All Categories" to see all courses again.
+                            <div class="checkbox-item" onclick="toggleCheck(this, 'task1-5')">
+                                <input type="checkbox" id="task1-5">
+                                <label>I cleared the filters</label>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="assessment-box">
+                    <h4>📊 Assessment: Calendar Grid Usefulness</h4>
+                    
+                    <div class="rating-group">
+                        <div class="rating-question">How easy was it to understand the calendar grid?</div>
+                        <div class="rating-options">
+                            <div class="rating-option" onclick="selectRating(this, 'calendar-ease', 'Very Easy')">Very Easy</div>
+                            <div class="rating-option" onclick="selectRating(this, 'calendar-ease', 'Easy')">Easy</div>
+                            <div class="rating-option" onclick="selectRating(this, 'calendar-ease', 'Moderate')">Moderate</div>
+                            <div class="rating-option" onclick="selectRating(this, 'calendar-ease', 'Difficult')">Difficult</div>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <div class="rating-question">How useful is the dynamic calendar feature (updating as you filter)?</div>
+                        <div class="rating-options">
+                            <div class="rating-option" onclick="selectRating(this, 'calendar-useful', 'Extremely Useful')">Extremely Useful</div>
+                            <div class="rating-option" onclick="selectRating(this, 'calendar-useful', 'Very Useful')">Very Useful</div>
+                            <div class="rating-option" onclick="selectRating(this, 'calendar-useful', 'Somewhat Useful')">Somewhat Useful</div>
+                            <div class="rating-option" onclick="selectRating(this, 'calendar-useful', 'Not Useful')">Not Useful</div>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <div class="rating-question">Did the calendar display accurate information?</div>
+                        <div class="rating-options">
+                            <div class="rating-option" onclick="selectRating(this, 'calendar-accurate', 'Yes, completely accurate')">Yes, completely accurate</div>
+                            <div class="rating-option" onclick="selectRating(this, 'calendar-accurate', 'Mostly accurate')">Mostly accurate</div>
+                            <div class="rating-option" onclick="selectRating(this, 'calendar-accurate', 'Some inaccuracies')">Some inaccuracies</div>
+                            <div class="rating-option" onclick="selectRating(this, 'calendar-accurate', 'Not accurate')">Not accurate</div>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <div class="rating-question">Additional comments about the calendar grid (optional):</div>
+                        <textarea id="calendar-comments" placeholder="Share any observations, issues, or suggestions about the calendar feature..."></textarea>
+                    </div>
+                </div>
+
+                <button class="button" onclick="completeModule(1)">Complete Module 1</button>
+            </div>
+
+            <!-- Module 2: Filtering and Search -->
+            <div class="module" id="module2" style="display: none;">
+                <h2>
+                    <span class="module-number">2</span>
+                    Filtering and Search
+                </h2>
+
+                <div class="objective-box">
+                    <h3>📚 Learning Objectives</h3>
+                    <ul>
+                        <li>Master all filter options (modality, category, search)</li>
+                        <li>Learn to combine multiple filters effectively</li>
+                        <li>Practice using search to find specific topics or leaders</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-box">
+                    <h4>🎭 Scenario: Finding Your Ideal Course</h4>
+                    <div class="scenario-persona">
+                        <p><strong>Your situation:</strong> You prefer online learning (Zoom), are interested in history courses, and want something related to American history. You're available Monday through Wednesday.</p>
+                    </div>
+                    <p>Let's use filters to find courses that match these criteria.</p>
+                </div>
+
+                <div class="exercise">
+                    <h4><span class="exercise-icon">✏️</span> Exercise 2: Multi-Filter Search</h4>
+                    
+                    <ol class="task-list">
+                        <li>
+                            <strong>Filter by modality.</strong> Select "Zoom" from the Modality dropdown. Notice the calendar shows only Zoom courses.
+                            <div class="checkbox-item" onclick="toggleCheck(this, 'task2-1')">
+                                <input type="checkbox" id="task2-1">
+                                <label>Filtered to Zoom courses</label>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Add category filter.</strong> While keeping Zoom selected, choose "History" from the Category filter. Watch both the calendar and course list update.
+                            <div class="checkbox-item" onclick="toggleCheck(this, 'task2-2')">
+                                <input type="checkbox" id="task2-2">
+                                <label>Added History category filter</label>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Use the search box.</strong> Type "American" in the search box. See how the results narrow further to show only courses mentioning American history.
+                            <div class="checkbox-item" onclick="toggleCheck(this, 'task2-3')">
+                                <input type="checkbox" id="task2-3">
+                                <label>Used search to find "American" courses</label>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Check the calendar.</strong> Look at Monday, Tuesday, and Wednesday in the calendar. The numbers show only courses matching all your filters.
+                            <div class="checkbox-item" onclick="toggleCheck(this, 'task2-4')">
+                                <input type="checkbox" id="task2-4">
+                                <label>Reviewed filtered calendar results</label>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Click a calendar cell.</strong> Click on a day/time that shows courses. This adds a time filter to your existing filters.
+                            <div class="checkbox-item" onclick="toggleCheck(this, 'task2-5')">
+                                <input type="checkbox" id="task2-5">
+                                <label>Selected a specific day/time in the calendar</label>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Clear all filters.</strong> Click "Clear Selection" button, then reset modality and category to "All," and clear the search box.
+                            <div class="checkbox-item" onclick="toggleCheck(this, 'task2-6')">
+                                <input type="checkbox" id="task2-6">
+                                <label>Reset all filters to default</label>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="assessment-box">
+                    <h4>📊 Assessment: Filter Functionality</h4>
+                    
+                    <div class="rating-group">
+                        <div class="rating-question">How intuitive was combining multiple filters?</div>
+                        <div class="rating-options">
+                            <div class="rating-option" onclick="selectRating(this, 'filter-intuitive', 'Very Intuitive')">Very Intuitive</div>
+                            <div class="rating-option" onclick="selectRating(this, 'filter-intuitive', 'Intuitive')">Intuitive</div>
+                            <div class="rating-option" onclick="selectRating(this, 'filter-intuitive', 'Somewhat Confusing')">Somewhat Confusing</div>
+                            <div class="rating-option" onclick="selectRating(this, 'filter-intuitive', 'Confusing')">Confusing</div>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <div class="rating-question">Did the search function work as expected?</div>
+                        <div class="rating-options">
+                            <div class="rating-option" onclick="selectRating(this, 'search-work', 'Yes, perfectly')">Yes, perfectly</div>
+                            <div class="rating-option" onclick="selectRating(this, 'search-work', 'Mostly')">Mostly</div>
+                            <div class="rating-option" onclick="selectRating(this, 'search-work', 'Had issues')">Had issues</div>
+                            <div class="rating-option" onclick="selectRating(this, 'search-work', 'Did not work')">Did not work</div>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <div class="rating-question">Comments about filter accuracy or issues (optional):</div>
+                        <textarea id="filter-comments" placeholder="Share any issues you encountered or suggestions for improvement..."></textarea>
+                    </div>
+                </div>
+
+                <button class="button" onclick="completeModule(2)">Complete Module 2</button>
+            </div>
+
+            <!-- Module 3: Course Details -->
+            <div class="module" id="module3" style="display: none;">
+                <h2>
+                    <span class="module-number">3</span>
+                    Viewing Course Details
+                </h2>
+
+                <div class="objective-box">
+                    <h3>📚 Learning Objectives</h3>
+                    <ul>
+                        <li>Learn to expand and collapse course cards</li>
+                        <li>Understand all course information sections</li>
+                        <li>Practice navigating to leader biographies</li>
+                    </ul>
+                </div>
+
+                <div class="feature-highlight">
+                    <h5>🔑 Key Information in Each Course</h5>
+                    <p>Every course card shows: Title, Leader (with bio link), Modality badge, Duration, Category tag, and expandable sections for Description, Leadership Style, Materials, and Preparation Time.</p>
+                </div>
+
+                <div class="exercise">
+                    <h4><span class="exercise-icon">✏️</span> Exercise 3: Exploring Course Information</h4>
+                    
+                    <ol class="task-list">
+                        <li>
+                            <strong>Find a course card.</strong> Scroll to any day section and locate a course card. Notice the modality badge (colored with icon).
+                            <div class="checkbox-item" onclick="toggleCheck(this, 'task3-1')">
+                                <input type="checkbox" id="task3-1">
+                                <label>Located a course card and identified its modality</label>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Expand course details.</strong> Click anywhere on the course card to expand it. Review all four sections: Description, Leadership Style, Course Materials, and Preparation Time.
+                            <div class="checkbox-item" onclick="toggleCheck(this, 'task3-2')">
+                                <input type="checkbox" id="task3-2">
+                                <label>Expanded a course and read all detail sections</label>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Check preparation time.</strong> Find the "Preparation Time" section. This tells you how much weekly work is expected outside of class.
+                            <div class="checkbox-item" onclick="toggleCheck(this, 'task3-3')">
+                                <input type="checkbox" id="task3-3">
+                                <label>Found and understood the preparation time requirement</label>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>View leader biography.</strong> Click the "View Bio →" link next to the leader's name. The page scrolls to their biography.
+                            <div class="checkbox-item" onclick="toggleCheck(this, 'task3-4')">
+                                <input type="checkbox" id="task3-4">
+                                <label>Successfully navigated to a leader's biography</label>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Use Expand All.</strong> Click the "Expand All Courses" button to see all course details at once. Try using your browser's Find (Ctrl/Cmd+F) to search.
+                            <div class="checkbox-item" onclick="toggleCheck(this, 'task3-5')">
+                                <input type="checkbox" id="task3-5">
+                                <label>Used Expand All and browser search</label>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Collapse everything.</strong> Click "Expand All Courses" again (now labeled "Collapse All Courses") to close all course details.
+                            <div class="checkbox-item" onclick="toggleCheck(this, 'task3-6')">
+                                <input type="checkbox" id="task3-6">
+                                <label>Collapsed all courses</label>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="assessment-box">
+                    <h4>📊 Assessment: Course Information Quality</h4>
+                    
+                    <div class="rating-group">
+                        <div class="rating-question">Was the course information comprehensive and helpful?</div>
+                        <div class="rating-options">
+                            <div class="rating-option" onclick="selectRating(this, 'info-comprehensive', 'Very Comprehensive')">Very Comprehensive</div>
+                            <div class="rating-option" onclick="selectRating(this, 'info-comprehensive', 'Adequate')">Adequate</div>
+                            <div class="rating-option" onclick="selectRating(this, 'info-comprehensive', 'Lacking Detail')">Lacking Detail</div>
+                            <div class="rating-option" onclick="selectRating(this, 'info-comprehensive', 'Insufficient')">Insufficient</div>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <div class="rating-question">Were the modality badges (In-Person/Zoom/Hybrid) clear and easy to understand?</div>
+                        <div class="rating-options">
+                            <div class="rating-option" onclick="selectRating(this, 'modality-clear', 'Very Clear')">Very Clear</div>
+                            <div class="rating-option" onclick="selectRating(this, 'modality-clear', 'Clear')">Clear</div>
+                            <div class="rating-option" onclick="selectRating(this, 'modality-clear', 'Somewhat Unclear')">Somewhat Unclear</div>
+                            <div class="rating-option" onclick="selectRating(this, 'modality-clear', 'Unclear')">Unclear</div>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <div class="rating-question">Did you find any inaccurate or misleading course information?</div>
+                        <div class="rating-options">
+                            <div class="rating-option" onclick="selectRating(this, 'info-accurate', 'No issues')">No issues</div>
+                            <div class="rating-option" onclick="selectRating(this, 'info-accurate', 'Minor issues')">Minor issues</div>
+                            <div class="rating-option" onclick="selectRating(this, 'info-accurate', 'Some inaccuracies')">Some inaccuracies</div>
+                            <div class="rating-option" onclick="selectRating(this, 'info-accurate', 'Major issues')">Major issues</div>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <div class="rating-question">If you found inaccuracies, please describe them (optional):</div>
+                        <textarea id="accuracy-comments" placeholder="Describe any incorrect or misleading information you noticed..."></textarea>
+                    </div>
+                </div>
+
+                <button class="button" onclick="completeModule(3)">Complete Module 3</button>
+            </div>
+
+            <!-- Module 4: Real-World Scenario -->
+            <div class="module" id="module4" style="display: none;">
+                <h2>
+                    <span class="module-number">4</span>
+                    Real-World Planning Scenario
+                </h2>
+
+                <div class="objective-box">
+                    <h3>📚 Learning Objectives</h3>
+                    <ul>
+                        <li>Apply all learned skills to a realistic scenario</li>
+                        <li>Practice constraint-based course planning</li>
+                        <li>Evaluate the catalog's effectiveness for decision-making</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-box">
+                    <h4>🎭 Planning Scenario</h4>
+                    <div class="scenario-persona">
+                        <p><strong>Your Profile:</strong></p>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>You want to take 2-3 courses this semester</li>
+                            <li>You prefer in-person courses but will consider Zoom</li>
+                            <li>You're interested in Art, Literature, or Music</li>
+                            <li>You can only attend Tuesday and Thursday classes</li>
+                            <li>You prefer courses with less than 2 hours weekly preparation</li>
+                        </ul>
+                    </div>
+                    <p><strong>Your Goal:</strong> Find 2-3 courses that meet all your criteria and don't conflict in schedule.</p>
+                </div>
+
+                <div class="exercise">
+                    <h4><span class="exercise-icon">✏️</span> Exercise 4: Complete Course Selection</h4>
+                    
+                    <ol class="task-list">
+                        <li>
+                            <strong>Start with day filtering.</strong> Use the calendar to look only at Tuesday and Thursday columns. What time periods have the most options?
+                            <div class="checkbox-item" onclick="toggleCheck(this, 'task4-1')">
+                                <input type="checkbox" id="task4-1">
+                                <label>Reviewed Tuesday and Thursday options</label>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Apply category filter.</strong> Choose one of your interest areas (Art, Literature, or Music) from the Category filter.
+                            <div class="checkbox-item" onclick="toggleCheck(this, 'task4-2')">
+                                <input type="checkbox" id="task4-2">
+                                <label>Filtered by one of my interest categories</label>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Explore Tuesday courses.</strong> Click on Tuesday cells in the calendar. Expand courses and check their preparation time requirements.
+                            <div class="checkbox-item" onclick="toggleCheck(this, 'task4-3')">
+                                <input type="checkbox" id="task4-3">
+                                <label>Found at least one Tuesday course with low prep time</label>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Find Thursday courses.</strong> Clear calendar selection, then click Thursday cells. Look for courses that don't conflict with your Tuesday selection.
+                            <div class="checkbox-item" onclick="toggleCheck(this, 'task4-4')">
+                                <input type="checkbox" id="task4-4">
+                                <label>Found at least one non-conflicting Thursday course</label>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Consider a third course.</strong> Try a different category or search for a specific topic. Find one more course that fits your schedule.
+                            <div class="checkbox-item" onclick="toggleCheck(this, 'task4-5')">
+                                <input type="checkbox" id="task4-5">
+                                <label>Identified a potential third course</label>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Review your selections.</strong> Write down or remember the course titles/codes you selected for the next assessment.
+                            <div class="checkbox-item" onclick="toggleCheck(this, 'task4-6')">
+                                <input type="checkbox" id="task4-6">
+                                <label>Finalized my course selections</label>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="assessment-box">
+                    <h4>📊 Assessment: Catalog Effectiveness</h4>
+                    
+                    <div class="rating-group">
+                        <div class="rating-question">How easy was it to find courses meeting your specific constraints?</div>
+                        <div class="rating-options">
+                            <div class="rating-option" onclick="selectRating(this, 'finding-ease', 'Very Easy')">Very Easy</div>
+                            <div class="rating-option" onclick="selectRating(this, 'finding-ease', 'Easy')">Easy</div>
+                            <div class="rating-option" onclick="selectRating(this, 'finding-ease', 'Somewhat Difficult')">Somewhat Difficult</div>
+                            <div class="rating-option" onclick="selectRating(this, 'finding-ease', 'Very Difficult')">Very Difficult</div>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <div class="rating-question">Did the catalog provide enough information to make confident course selections?</div>
+                        <div class="rating-options">
+                            <div class="rating-option" onclick="selectRating(this, 'info-confidence', 'Definitely')">Definitely</div>
+                            <div class="rating-option" onclick="selectRating(this, 'info-confidence', 'Mostly')">Mostly</div>
+                            <div class="rating-option" onclick="selectRating(this, 'info-confidence', 'Somewhat')">Somewhat</div>
+                            <div class="rating-option" onclick="selectRating(this, 'info-confidence', 'Not Really')">Not Really</div>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <div class="rating-question">How would you improve the course selection process?</div>
+                        <textarea id="improvement-suggestions" placeholder="Share your suggestions for making the catalog more helpful..."></textarea>
+                    </div>
+                </div>
+
+                <button class="button" onclick="completeModule(4)">Complete Module 4</button>
+            </div>
+
+            <!-- Module 5: Overall Assessment -->
+            <div class="module" id="module5" style="display: none;">
+                <h2>
+                    <span class="module-number">5</span>
+                    Overall Catalog Assessment
+                </h2>
+
+                <div class="objective-box">
+                    <h3>📚 Final Evaluation</h3>
+                    <p>Now that you've explored all features, please provide your overall assessment of the BOLLI Spring 2026 Catalog.</p>
+                </div>
+
+                <div class="assessment-box">
+                    <h4>📊 Comprehensive Assessment</h4>
+                    
+                    <div class="rating-group">
+                        <div class="rating-question">Overall, how useful is this catalog compared to traditional course listings?</div>
+                        <div class="rating-options">
+                            <div class="rating-option" onclick="selectRating(this, 'overall-useful', 'Much More Useful')">Much More Useful</div>
+                            <div class="rating-option" onclick="selectRating(this, 'overall-useful', 'Somewhat More Useful')">Somewhat More Useful</div>
+                            <div class="rating-option" onclick="selectRating(this, 'overall-useful', 'About the Same')">About the Same</div>
+                            <div class="rating-option" onclick="selectRating(this, 'overall-useful', 'Less Useful')">Less Useful</div>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <div class="rating-question">Rate the accuracy of information in the catalog (1-10):</div>
+                        <div class="rating-options">
+                            <div class="rating-option" onclick="selectRating(this, 'accuracy-rating', '10')">10 - Perfect</div>
+                            <div class="rating-option" onclick="selectRating(this, 'accuracy-rating', '9')">9</div>
+                            <div class="rating-option" onclick="selectRating(this, 'accuracy-rating', '8')">8</div>
+                            <div class="rating-option" onclick="selectRating(this, 'accuracy-rating', '7')">7</div>
+                            <div class="rating-option" onclick="selectRating(this, 'accuracy-rating', '6')">6</div>
+                            <div class="rating-option" onclick="selectRating(this, 'accuracy-rating', '5')">5</div>
+                            <div class="rating-option" onclick="selectRating(this, 'accuracy-rating', '1-4')">1-4 - Poor</div>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <div class="rating-question">Which feature did you find MOST valuable?</div>
+                        <div class="rating-options">
+                            <div class="rating-option" onclick="selectRating(this, 'most-valuable', 'Dynamic Calendar')">Dynamic Calendar</div>
+                            <div class="rating-option" onclick="selectRating(this, 'most-valuable', 'Filter System')">Filter System</div>
+                            <div class="rating-option" onclick="selectRating(this, 'most-valuable', 'Search Function')">Search Function</div>
+                            <div class="rating-option" onclick="selectRating(this, 'most-valuable', 'Course Details')">Course Details</div>
+                            <div class="rating-option" onclick="selectRating(this, 'most-valuable', 'Leader Biographies')">Leader Biographies</div>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <div class="rating-question">Which feature needs the MOST improvement?</div>
+                        <div class="rating-options">
+                            <div class="rating-option" onclick="selectRating(this, 'needs-improvement', 'Dynamic Calendar')">Dynamic Calendar</div>
+                            <div class="rating-option" onclick="selectRating(this, 'needs-improvement', 'Filter System')">Filter System</div>
+                            <div class="rating-option" onclick="selectRating(this, 'needs-improvement', 'Search Function')">Search Function</div>
+                            <div class="rating-option" onclick="selectRating(this, 'needs-improvement', 'Course Details')">Course Details</div>
+                            <div class="rating-option" onclick="selectRating(this, 'needs-improvement', 'Leader Biographies')">Leader Biographies</div>
+                            <div class="rating-option" onclick="selectRating(this, 'needs-improvement', 'All work well')">All work well</div>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <div class="rating-question">Would you recommend this catalog format to other BOLLI members?</div>
+                        <div class="rating-options">
+                            <div class="rating-option" onclick="selectRating(this, 'recommend', 'Definitely')">Definitely</div>
+                            <div class="rating-option" onclick="selectRating(this, 'recommend', 'Probably')">Probably</div>
+                            <div class="rating-option" onclick="selectRating(this, 'recommend', 'Maybe')">Maybe</div>
+                            <div class="rating-option" onclick="selectRating(this, 'recommend', 'No')">No</div>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <div class="rating-question">What missing features would make the catalog more useful?</div>
+                        <textarea id="missing-features" placeholder="List any features or capabilities you wish the catalog had..."></textarea>
+                    </div>
+
+                    <div class="rating-group">
+                        <div class="rating-question">Additional comments, concerns, or praise:</div>
+                        <textarea id="final-comments" placeholder="Share any other thoughts about your experience with the catalog..."></textarea>
+                    </div>
+                </div>
+
+                <button class="button" onclick="completeTutorial()">Complete Tutorial</button>
+            </div>
+
+            <!-- Completion Badge -->
+            <div class="completion-badge" id="completionBadge">
+                <div class="badge-icon">🏆</div>
+                <h3>Congratulations!</h3>
+                <p>You've completed the BOLLI Catalog Tutorial</p>
+                <p style="margin-top: 15px; font-size: 0.9em;">Your assessment files have been downloaded. Thank you for your valuable feedback!</p>
+                <div style="margin-top: 25px;">
+                    <button class="button" onclick="downloadResults()">Download Files Again</button>
+                    <button class="button" onclick="downloadJSONResults()" style="margin-left: 10px;">Download JSON Data</button>
+                    <button class="button button-secondary" onclick="window.print()" style="margin-left: 10px;">Print Certificate</button>
+                </div>
+                <p style="margin-top: 15px; opacity: 0.9; font-size: 0.9em;">
+                    <strong>Files Downloaded:</strong><br>
+                    • Detailed Results (all module responses)<br>
+                    • Executive Summary (key findings)
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let currentModule = 0;
+        let completedModules = [];
+        let assessmentData = {
+            timestamp: new Date().toISOString(),
+            participantId: 'P-' + Date.now(),
+            modules: {}
+        };
+
+        function startTutorial() {
+            currentModule = 1;
+            document.querySelector('.module').style.display = 'none';
+            showModule(1);
+            updateProgress();
+            
+            // Initialize assessment data
+            assessmentData.startTime = new Date().toISOString();
+        }
+
+        function showModule(moduleNum) {
+            document.getElementById('module' + moduleNum).style.display = 'block';
+            document.getElementById('module' + moduleNum).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function toggleCheck(element, checkboxId) {
+            const checkbox = document.getElementById(checkboxId);
+            checkbox.checked = !checkbox.checked;
+            
+            if (checkbox.checked) {
+                element.classList.add('checked');
+            } else {
+                element.classList.remove('checked');
+            }
+            
+            // Save checkbox state
+            if (!assessmentData.modules['module' + currentModule]) {
+                assessmentData.modules['module' + currentModule] = { tasks: {} };
+            }
+            assessmentData.modules['module' + currentModule].tasks[checkboxId] = checkbox.checked;
+        }
+
+        function selectRating(element, questionId, value) {
+            // Deselect siblings
+            const siblings = element.parentElement.querySelectorAll('.rating-option');
+            siblings.forEach(sib => sib.classList.remove('selected'));
+            
+            // Select this one
+            element.classList.add('selected');
+            
+            // Store the response
+            assessmentData[questionId] = value;
+            
+            // Also store in current module
+            if (!assessmentData.modules['module' + currentModule]) {
+                assessmentData.modules['module' + currentModule] = { ratings: {} };
+            }
+            if (!assessmentData.modules['module' + currentModule].ratings) {
+                assessmentData.modules['module' + currentModule].ratings = {};
+            }
+            assessmentData.modules['module' + currentModule].ratings[questionId] = value;
+        }
+
+        function saveModuleData(moduleNum) {
+            // Gather any text inputs for this module
+            const textareas = document.querySelectorAll('#module' + moduleNum + ' textarea');
+            textareas.forEach(textarea => {
+                if (textarea.value) {
+                    assessmentData[textarea.id] = textarea.value;
+                    if (!assessmentData.modules['module' + moduleNum].textResponses) {
+                        assessmentData.modules['module' + moduleNum].textResponses = {};
+                    }
+                    assessmentData.modules['module' + moduleNum].textResponses[textarea.id] = textarea.value;
+                }
+            });
+            
+            // Record completion time
+            assessmentData.modules['module' + moduleNum].completedAt = new Date().toISOString();
+        }
+
+        function saveCumulativeResults() {
+            // Generate cumulative results file with all data collected so far
+            const results = generateCumulativeResultsFile();
+            downloadFile(results, 'bolli-catalog-results-' + assessmentData.participantId + '.txt');
+        }
+
+        function generateCumulativeResultsFile() {
+            let report = 'BOLLI CATALOG TUTORIAL - DETAILED RESULTS FILE\n';
+            report += '='.repeat(80) + '\n\n';
+            
+            report += 'PARTICIPANT ID: ' + assessmentData.participantId + '\n';
+            report += 'Started: ' + assessmentData.startTime + '\n';
+            if (assessmentData.completedAt) {
+                report += 'Completed: ' + assessmentData.completedAt + '\n';
+                const startTime = new Date(assessmentData.startTime);
+                const endTime = new Date(assessmentData.completedAt);
+                const duration = Math.round((endTime - startTime) / 1000 / 60);
+                report += 'Duration: ' + duration + ' minutes\n';
+            } else {
+                report += 'Status: In Progress (Last updated: ' + new Date().toISOString() + ')\n';
+            }
+            report += 'Modules Completed: ' + completedModules.length + ' of 5\n';
+            report += '\n' + '='.repeat(80) + '\n\n';
+            
+            // Module-by-module detailed results
+            for (let i = 1; i <= 5; i++) {
+                const moduleData = assessmentData.modules['module' + i];
+                if (moduleData) {
+                    const moduleNames = {
+                        1: 'Dynamic Calendar Grid',
+                        2: 'Filtering and Search',
+                        3: 'Course Details',
+                        4: 'Real-World Planning Scenario',
+                        5: 'Overall Catalog Assessment'
+                    };
+                    
+                    report += 'MODULE ' + i + ': ' + moduleNames[i] + '\n';
+                    report += '-'.repeat(80) + '\n';
+                    
+                    if (moduleData.completedAt) {
+                        report += 'Completed At: ' + moduleData.completedAt + '\n\n';
+                    }
+                    
+                    // Tasks
+                    if (moduleData.tasks) {
+                        report += 'Tasks Completed:\n';
+                        let completedCount = 0;
+                        let totalCount = 0;
+                        for (const [taskId, completed] of Object.entries(moduleData.tasks)) {
+                            totalCount++;
+                            if (completed) completedCount++;
+                            report += '  ' + taskId + ': ' + (completed ? '✓' : '✗') + '\n';
+                        }
+                        report += '  Completion Rate: ' + completedCount + '/' + totalCount + 
+                                 ' (' + Math.round((completedCount/totalCount)*100) + '%)\n\n';
+                    }
+                    
+                    // Ratings
+                    if (moduleData.ratings) {
+                        report += 'Assessment Ratings:\n';
+                        for (const [question, answer] of Object.entries(moduleData.ratings)) {
+                            report += '  Q: ' + formatQuestionName(question) + '\n';
+                            report += '  A: ' + answer + '\n\n';
+                        }
+                    }
+                    
+                    // Text responses
+                    if (moduleData.textResponses) {
+                        report += 'Detailed Feedback:\n';
+                        for (const [fieldId, response] of Object.entries(moduleData.textResponses)) {
+                            if (response.trim()) {
+                                report += '  Q: ' + formatQuestionName(fieldId) + '\n';
+                                report += '  A: ' + response.replace(/\n/g, '\n     ') + '\n\n';
+                            }
+                        }
+                    }
+                    
+                    report += '\n';
+                }
+            }
+            
+            report += '='.repeat(80) + '\n';
+            report += 'END OF DETAILED RESULTS\n';
+            report += '='.repeat(80) + '\n';
+            
+            return report;
+        }
+
+        function generateSummaryFile() {
+            let summary = 'BOLLI CATALOG TUTORIAL - EXECUTIVE SUMMARY\n';
+            summary += '='.repeat(80) + '\n\n';
+            
+            summary += 'PARTICIPANT OVERVIEW\n';
+            summary += '-'.repeat(80) + '\n';
+            summary += 'Participant ID: ' + assessmentData.participantId + '\n';
+            summary += 'Tutorial Started: ' + assessmentData.startTime + '\n';
+            summary += 'Tutorial Completed: ' + assessmentData.completedAt + '\n';
+            
+            const startTime = new Date(assessmentData.startTime);
+            const endTime = new Date(assessmentData.completedAt);
+            const duration = Math.round((endTime - startTime) / 1000 / 60);
+            summary += 'Total Duration: ' + duration + ' minutes\n';
+            summary += 'Modules Completed: ' + completedModules.length + ' of 5\n\n';
+            
+            // Overall task completion
+            let totalTasks = 0;
+            let totalCompleted = 0;
+            for (let i = 1; i <= 5; i++) {
+                const moduleData = assessmentData.modules['module' + i];
+                if (moduleData && moduleData.tasks) {
+                    for (const completed of Object.values(moduleData.tasks)) {
+                        totalTasks++;
+                        if (completed) totalCompleted++;
+                    }
+                }
+            }
+            summary += 'Overall Task Completion: ' + totalCompleted + '/' + totalTasks + 
+                      ' (' + Math.round((totalCompleted/totalTasks)*100) + '%)\n\n';
+            
+            summary += '='.repeat(80) + '\n\n';
+            
+            // Key Assessment Findings
+            summary += 'KEY ASSESSMENT FINDINGS\n';
+            summary += '-'.repeat(80) + '\n\n';
+            
+            summary += 'USABILITY ASSESSMENT:\n';
+            if (assessmentData['calendar-ease']) {
+                summary += '  • Calendar Grid Understanding: ' + assessmentData['calendar-ease'] + '\n';
+            }
+            if (assessmentData['filter-intuitive']) {
+                summary += '  • Filter Intuitiveness: ' + assessmentData['filter-intuitive'] + '\n';
+            }
+            if (assessmentData['finding-ease']) {
+                summary += '  • Course Finding Ease: ' + assessmentData['finding-ease'] + '\n';
+            }
+            
+            summary += '\nFEATURE EFFECTIVENESS:\n';
+            if (assessmentData['calendar-useful']) {
+                summary += '  • Dynamic Calendar Usefulness: ' + assessmentData['calendar-useful'] + '\n';
+            }
+            if (assessmentData['search-work']) {
+                summary += '  • Search Function: ' + assessmentData['search-work'] + '\n';
+            }
+            if (assessmentData['info-comprehensive']) {
+                summary += '  • Information Comprehensiveness: ' + assessmentData['info-comprehensive'] + '\n';
+            }
+            if (assessmentData['modality-clear']) {
+                summary += '  • Modality Badge Clarity: ' + assessmentData['modality-clear'] + '\n';
+            }
+            
+            summary += '\nACCURACY ASSESSMENT:\n';
+            if (assessmentData['calendar-accurate']) {
+                summary += '  • Calendar Accuracy: ' + assessmentData['calendar-accurate'] + '\n';
+            }
+            if (assessmentData['info-accurate']) {
+                summary += '  • Course Information Accuracy: ' + assessmentData['info-accurate'] + '\n';
+            }
+            if (assessmentData['accuracy-rating']) {
+                summary += '  • Overall Accuracy Rating: ' + assessmentData['accuracy-rating'] + '/10\n';
+            }
+            
+            summary += '\nOVERALL EVALUATION:\n';
+            if (assessmentData['overall-useful']) {
+                summary += '  • Overall Usefulness vs Traditional: ' + assessmentData['overall-useful'] + '\n';
+            }
+            if (assessmentData['info-confidence']) {
+                summary += '  • Confidence in Selections: ' + assessmentData['info-confidence'] + '\n';
+            }
+            if (assessmentData['recommend']) {
+                summary += '  • Would Recommend: ' + assessmentData['recommend'] + '\n';
+            }
+            
+            summary += '\nFEATURE PREFERENCES:\n';
+            if (assessmentData['most-valuable']) {
+                summary += '  • Most Valuable Feature: ' + assessmentData['most-valuable'] + '\n';
+            }
+            if (assessmentData['needs-improvement']) {
+                summary += '  • Feature Needing Improvement: ' + assessmentData['needs-improvement'] + '\n';
+            }
+            
+            summary += '\n' + '-'.repeat(80) + '\n\n';
+            
+            // User feedback highlights
+            summary += 'USER FEEDBACK HIGHLIGHTS\n';
+            summary += '-'.repeat(80) + '\n\n';
+            
+            if (assessmentData['calendar-comments'] && assessmentData['calendar-comments'].trim()) {
+                summary += 'Calendar Grid Comments:\n';
+                summary += '  ' + assessmentData['calendar-comments'].replace(/\n/g, '\n  ') + '\n\n';
+            }
+            
+            if (assessmentData['filter-comments'] && assessmentData['filter-comments'].trim()) {
+                summary += 'Filter Comments:\n';
+                summary += '  ' + assessmentData['filter-comments'].replace(/\n/g, '\n  ') + '\n\n';
+            }
+            
+            if (assessmentData['accuracy-comments'] && assessmentData['accuracy-comments'].trim()) {
+                summary += 'Accuracy Issues:\n';
+                summary += '  ' + assessmentData['accuracy-comments'].replace(/\n/g, '\n  ') + '\n\n';
+            }
+            
+            if (assessmentData['improvement-suggestions'] && assessmentData['improvement-suggestions'].trim()) {
+                summary += 'Improvement Suggestions:\n';
+                summary += '  ' + assessmentData['improvement-suggestions'].replace(/\n/g, '\n  ') + '\n\n';
+            }
+            
+            if (assessmentData['missing-features'] && assessmentData['missing-features'].trim()) {
+                summary += 'Missing Features Requested:\n';
+                summary += '  ' + assessmentData['missing-features'].replace(/\n/g, '\n  ') + '\n\n';
+            }
+            
+            if (assessmentData['final-comments'] && assessmentData['final-comments'].trim()) {
+                summary += 'Final Comments:\n';
+                summary += '  ' + assessmentData['final-comments'].replace(/\n/g, '\n  ') + '\n\n';
+            }
+            
+            summary += '='.repeat(80) + '\n';
+            summary += 'END OF SUMMARY\n';
+            summary += '='.repeat(80) + '\n';
+            
+            return summary;
+        }
+
+        function formatQuestionName(id) {
+            // Convert IDs to readable format
+            const names = {
+                'calendar-ease': 'How easy was it to understand the calendar grid?',
+                'calendar-useful': 'How useful is the dynamic calendar feature?',
+                'calendar-accurate': 'Did the calendar display accurate information?',
+                'calendar-comments': 'Additional comments about the calendar grid',
+                'filter-intuitive': 'How intuitive was combining multiple filters?',
+                'search-work': 'Did the search function work as expected?',
+                'filter-comments': 'Comments about filter accuracy or issues',
+                'info-comprehensive': 'Was the course information comprehensive?',
+                'modality-clear': 'Were the modality badges clear?',
+                'info-accurate': 'Did you find any inaccurate information?',
+                'accuracy-comments': 'Description of inaccuracies found',
+                'finding-ease': 'How easy was it to find courses meeting constraints?',
+                'info-confidence': 'Did the catalog provide enough information?',
+                'improvement-suggestions': 'How would you improve the course selection process?',
+                'overall-useful': 'Overall usefulness compared to traditional listings',
+                'accuracy-rating': 'Rate the accuracy of information (1-10)',
+                'most-valuable': 'Which feature did you find MOST valuable?',
+                'needs-improvement': 'Which feature needs the MOST improvement?',
+                'recommend': 'Would you recommend this catalog format?',
+                'missing-features': 'What missing features would make the catalog more useful?',
+                'final-comments': 'Additional comments, concerns, or praise'
+            };
+            return names[id] || id;
+        }
+
+        function downloadFile(content, filename) {
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        function completeModule(moduleNum) {
+            // Save current module data
+            saveModuleData(moduleNum);
+            
+            // Mark as completed
+            const module = document.getElementById('module' + moduleNum);
+            module.classList.add('completed');
+            completedModules.push(moduleNum);
+            
+            // Show success message (no file download until end)
+            const successMsg = document.createElement('div');
+            successMsg.className = 'success-message show';
+            successMsg.innerHTML = '<strong>✓ Module Completed!</strong> Your responses have been saved. Moving to next module...';
+            module.appendChild(successMsg);
+            
+            // Show next module after delay
+            setTimeout(() => {
+                if (moduleNum < 5) {
+                    currentModule = moduleNum + 1;
+                    showModule(currentModule);
+                    updateProgress();
+                }
+            }, 1500);
+        }
+
+        function updateProgress() {
+            const progress = (completedModules.length / 5) * 100;
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = progress + '%';
+            progressBar.textContent = Math.round(progress) + '% Complete';
+        }
+
+        function completeTutorial() {
+            // Gather text responses
+            assessmentData['calendar-comments'] = document.getElementById('calendar-comments')?.value || '';
+            assessmentData['filter-comments'] = document.getElementById('filter-comments')?.value || '';
+            assessmentData['accuracy-comments'] = document.getElementById('accuracy-comments')?.value || '';
+            assessmentData['improvement-suggestions'] = document.getElementById('improvement-suggestions')?.value || '';
+            assessmentData['missing-features'] = document.getElementById('missing-features')?.value || '';
+            assessmentData['final-comments'] = document.getElementById('final-comments')?.value || '';
+            
+            // Save final module
+            saveModuleData(5);
+            
+            // Mark as completed
+            completedModules.push(5);
+            document.getElementById('module5').classList.add('completed');
+            assessmentData.completedAt = new Date().toISOString();
+            updateProgress();
+            
+            // Save final cumulative results
+            saveCumulativeResults();
+            
+            // Generate and save summary file
+            const summary = generateSummaryFile();
+            downloadFile(summary, 'bolli-catalog-summary-' + assessmentData.participantId + '.txt');
+            
+            // Show completion badge
+            setTimeout(() => {
+                document.getElementById('completionBadge').classList.add('show');
+                document.getElementById('completionBadge').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 1000);
+        }
+
+        function downloadResults() {
+            // Download both files
+            saveCumulativeResults();
+            const summary = generateSummaryFile();
+            downloadFile(summary, 'bolli-catalog-summary-' + assessmentData.participantId + '.txt');
+        }
+
+        function downloadJSONResults() {
+            // Provide JSON version for data analysis
+            const jsonData = JSON.stringify(assessmentData, null, 2);
+            downloadFile(jsonData, 'bolli-catalog-data-' + assessmentData.participantId + '.json');
+        }
+    </script>
+</body>
+</html>
