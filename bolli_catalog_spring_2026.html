@@ -639,7 +639,7 @@
             </div>
 
             <div class="filter-controls">
-                <button class="clear-selection" onclick="clearScheduleSelection()">Clear Selection</button>
+                <button class="clear-selection" onclick="clearSelection()">Clear Selection</button>
 
                 <div class="filter-group">
                     <label>Modality</label>
@@ -656,7 +656,7 @@
                     <select id="categoryFilter">
                         <option value="">All Categories</option>
                         <option value="Literature">Literature</option>
-                        <option value="History">History & Government</option>
+                        <option value="History & Government">History & Government</option>
                         <option value="Art">Art</option>
                         <option value="Music">Music</option>
                         <option value="Science">Science</option>
@@ -2364,6 +2364,29 @@
             renderBiographies();
             attachBioSearchListener();
         });
-    </script>
+    
+        function clearSelection() {
+            // Clear all filters
+    selectedDay = null;
+    selectedCategory = null;
+    selectedPeriod = null;
+    
+    // Reset dropdown filters
+    document.getElementById('modalityFilter').value = '';
+    document.getElementById('categoryFilter').value = '';
+    document.getElementById('searchBox').value = '';
+    
+    // Remove active class from all buttons
+    document.querySelectorAll('.day-button, .category-button, .grid-cell').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Refresh display
+    applyFilters();
+    
+    console.log('Selection cleared');
+        }
+    
+</script>
 </body>
 </html>
