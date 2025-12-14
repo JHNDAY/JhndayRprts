@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join BOLLI Current Events - AI-Enhanced Political Discussion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+            color: #2d3748;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.4);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "🌐";
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-size: 4em;
+            opacity: 0.2;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        header::after {
+            content: "🌐";
+            position: absolute;
+            bottom: 20px;
+            left: 40px;
+            font-size: 4em;
+            opacity: 0.2;
+            animation: float 3s ease-in-out infinite 1.5s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        header h1 {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        header .subtitle {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        header .tagline {
+            font-size: 1.2em;
+            font-style: italic;
+            opacity: 0.95;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            display: inline-block;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 50px 40px;
+            text-align: center;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .hero-section h2 {
+            color: #2a5298;
+            font-size: 2.5em;
+            margin-bottom: 25px;
+        }
+        
+        .hero-section p {
+            font-size: 1.3em;
+            color: #4a5568;
+            max-width: 900px;
+            margin: 0 auto 30px;
+            line-height: 1.8;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.4em;
+            font-weight: bold;
+            margin: 20px 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+            animation: pulse-glow 2s infinite;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(231, 76, 60, 0.6);
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4); }
+            50% { box-shadow: 0 6px 30px rgba(231, 76, 60, 0.7); }
+        }
+        
+        .cta-secondary {
+            background: linear-gradient(45deg, #4299e1, #3182ce);
+            box-shadow: 0 6px 20px rgba(66, 153, 225, 0.4);
+        }
+        
+        @keyframes pulse-glow-blue {
+            0%, 100% { box-shadow: 0 6px 20px rgba(66, 153, 225, 0.4); }
+            50% { box-shadow: 0 6px 30px rgba(66, 153, 225, 0.7); }
+        }
+        
+        .cta-secondary:hover {
+            box-shadow: 0 10px 30px rgba(66, 153, 225, 0.6);
+        }
+        
+        .innovation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 50px 40px;
+        }
+        
+        .innovation-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 15px;
+            padding: 35px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-top: 5px solid #667eea;
+        }
+        
+        .innovation-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+        
+        .innovation-card.ai {
+            border-top-color: #9b59b6;
+        }
+        
+        .innovation-card.visual {
+            border-top-color: #e74c3c;
+        }
+        
+        .innovation-card.interactive {
+            border-top-color: #3498db;
+        }
+        
+        .innovation-card h3 {
+            color: #2a5298;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .innovation-card .icon {
+            font-size: 2.5em;
+            margin-right: 15px;
+        }
+        
+        .innovation-card p {
+            font-size: 1.1em;
+            color: #4a5568;
+            line-height: 1.7;
+        }
+        
+        .innovation-card ul {
+            list-style: none;
+            margin-top: 15px;
+            padding: 0;
+        }
+        
+        .innovation-card li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 1.05em;
+        }
+        
+        .innovation-card li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+        
+        .murrow-section {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .murrow-section::before {
+            content: "📻";
+            position: absolute;
+            top: 50%;
+            left: 5%;
+            transform: translateY(-50%);
+            font-size: 8em;
+            opacity: 0.1;
+        }
+        
+        .murrow-section::after {
+            content: "🎙️";
+            position: absolute;
+            top: 50%;
+            right: 5%;
+            transform: translateY(-50%);
+            font-size: 8em;
+            opacity: 0.1;
+        }
+        
+        .murrow-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .murrow-section p {
+            font-size: 1.3em;
+            max-width: 800px;
+            margin: 0 auto 20px;
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .murrow-quote {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px auto;
+            max-width: 700px;
+            font-style: italic;
+            font-size: 1.2em;
+            border-left: 5px solid #e74c3c;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .examples-section {
+            padding: 50px 40px;
+            background: #f8f9fa;
+        }
+        
+        .examples-section h2 {
+            text-align: center;
+            color: #2a5298;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+        }
+        
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .example-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-left: 6px solid #667eea;
+        }
+        
+        .example-card h3 {
+            color: #2a5298;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        
+        .example-card .date {
+            display: inline-block;
+            background: linear-gradient(45deg, #4299e1, #3182ce);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .example-card p {
+            color: #4a5568;
+            font-size: 1.05em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .example-highlights {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .example-highlights h4 {
+            color: #2a5298;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .example-highlights ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .example-highlights li {
+            padding: 5px 0;
+            padding-left: 25px;
+            position: relative;
+            font-size: 0.95em;
+        }
+        
+        .example-highlights li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .features-section {
+            padding: 50px 40px;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+        }
+        
+        .features-section h2 {
+            text-align: center;
+            color: #2a5298;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .feature-box {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .feature-box .emoji {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .feature-box h4 {
+            color: #2a5298;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+        
+        .feature-box p {
+            color: #4a5568;
+            font-size: 1em;
+        }
+        
+        .meeting-info {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            padding: 40px;
+            margin: 40px;
+            border-radius: 15px;
+            border-left: 8px solid #ff9800;
+        }
+        
+        .meeting-info h3 {
+            color: #e65100;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .meeting-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+        
+        .detail-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .detail-box h4 {
+            color: #2a5298;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .detail-box p {
+            color: #4a5568;
+            font-size: 1.05em;
+        }
+        
+        .testimonial-section {
+            padding: 50px 40px;
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+        }
+        
+        .testimonial-section h2 {
+            text-align: center;
+            color: #2a5298;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+        }
+        
+        .testimonial {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #9b59b6;
+        }
+        
+        .testimonial p {
+            font-size: 1.15em;
+            font-style: italic;
+            color: #4a5568;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        
+        .testimonial .attribution {
+            text-align: right;
+            color: #2a5298;
+            font-weight: bold;
+            font-style: normal;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        footer h3 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        
+        footer p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        
+        .footer-link {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 20px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5em;
+            }
+            
+            .innovation-grid, .example-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-button {
+                display: block;
+                margin: 10px auto;
+            }
+        }
+        
+        .collapsible-section {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .collapsible-section h2 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .collapsible-section h2::after {
+            content: "▼";
+            margin-left: 15px;
+            font-size: 0.6em;
+            transition: transform 0.3s ease;
+        }
+        
+        .collapsible-section.collapsed h2::after {
+            transform: rotate(-90deg);
+        }
+        
+        .collapsible-content {
+            max-height: 5000px;
+            overflow: hidden;
+            transition: max-height 0.5s ease, opacity 0.5s ease;
+            opacity: 1;
+        }
+        
+        .collapsible-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+        }
+    </style>
+    <script>
+        function toggleCollapse(sectionId) {
+            const content = document.getElementById(sectionId);
+            if (!content) return;
+            
+            const header = content.previousElementSibling;
+            if (!header) return;
+            
+            content.classList.toggle('collapsed');
+            header.classList.toggle('collapsed');
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌍 BOLLI Current Events</h1>
+            <div class="subtitle">AI-Enhanced Political Discussion & Analysis</div>
+            <div class="tagline">
+                "Where cutting-edge technology meets thoughtful discourse"
+            </div>
+        </header>
+        
+        <div class="hero-section">
+            <h2>Join the Future of Current Events Discussion</h2>
+            <p>
+                Experience a revolutionary approach to understanding our complex world. Our weekly sessions combine 
+                traditional thoughtful discourse with innovative AI tools, creating a unique learning environment 
+                where technology enhances—not replaces—human insight and conversation.
+            </p>
+            <a href="https://jhnday.github.io/CrntEvnts/current_affairs_central.html" class="cta-button cta-secondary" target="_blank">
+                📚 Explore Our Portal
+            </a>
+            <a href="https://jhnday.github.io/CrntEvnts/ce_portal_user_guide" class="cta-button cta-secondary" target="_blank">
+                📖 Portal User Guide
+            </a>
+        </div>
+        
+        <div class="innovation-grid">
+            <div class="innovation-card ai">
+                <h3><span class="icon">🤖</span> AI-Powered Analysis</h3>
+                <p>
+                    We harness Claude AI to create comprehensive session summaries, analyze trending news, 
+                    and synthesize complex information from multiple sources. Every discussion is documented 
+                    with interactive visualizations that capture key themes, debates, and insights.
+                </p>
+                <ul>
+                    <li>Automatic session transcription & summarization</li>
+                    <li>Real-time trend analysis of current events</li>
+                    <li>Multi-source news aggregation & synthesis</li>
+                    <li>Interactive discussion archives</li>
+                </ul>
+            </div>
+            
+            <div class="innovation-card visual">
+                <h3><span class="icon">📊</span> Visual Knowledge Base</h3>
+                <p>
+                    Our Current Affairs portal serves as a living knowledge base, featuring beautifully designed 
+                    visualizations of each session. Topics are organized thematically with color-coded cards, 
+                    quote highlights, and timeline views that make complex discussions easy to navigate and review.
+                </p>
+                <ul>
+                    <li>Professionally designed session summaries</li>
+                    <li>Searchable discussion archives</li>
+                    <li>Thematic organization & tagging</li>
+                    <li>Video recordings with timestamps</li>
+                </ul>
+            </div>
+            
+            <div class="innovation-card interactive">
+                <h3><span class="icon">🎯</span> Curated Resources</h3>
+                <p>
+                    Before each session, we compile trending news, expert commentary from thought leaders like 
+                    Tom Friedman and Heather Cox Richardson, and relevant background materials. Everything you 
+                    need to participate meaningfully is at your fingertips.
+                </p>
+                <ul>
+                    <li>Weekly trending news digests</li>
+                    <li>Expert commentary collections</li>
+                    <li>Background research materials</li>
+                    <li>Historical context & analysis</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="murrow-section">
+            <h2>🎙️ Meet Ed Murrow: Our AI Avatar</h2>
+            <p>
+                In a groundbreaking innovation, we occasionally welcome Ed Murrow—an AI avatar embodying 
+                the legendary broadcaster's analytical style and journalistic integrity—to participate in 
+                our discussions. Drawing on vast knowledge of history and current events, Ed provides unique 
+                perspectives that enrich our conversations.
+            </p>
+            <div class="murrow-quote">
+                "Good night, and good luck."<br>
+                <small>— Ed Murrow's classic sign-off, now brought to life through AI</small>
+            </div>
+            <p>
+                This integration of AI as an active participant represents a pioneering approach to 
+                lifelong learning, demonstrating how technology can enhance rather than diminish 
+                meaningful human dialogue.
+            </p>
+        </div>
+        
+        <div class="examples-section" id="recent-sessions-section">
+            <div class="collapsible-section collapsed" onclick="toggleCollapse('recent-sessions-section')">
+                <h2>Recent Sessions: A Glimpse Into Our Discussions</h2>
+            </div>
+            
+            <div class="collapsible-content collapsed" id="recent-sessions-section">
+                <div class="example-grid">
+                <div class="example-card">
+                    <span class="date">November 11, 2025</span>
+                    <h3>Working Class Politics & Global Strategy</h3>
+                    <p>
+                        Featured discussion of Nobel Prize winner Daron Acemoglu's framework for working-class 
+                        liberalism, strategic analysis of Jack Smith's legal positioning, and global hotspots 
+                        including Sudan, Ukraine, and Syria.
+                    </p>
+                    <div class="example-highlights">
+                        <h4>Key Highlights:</h4>
+                        <ul>
+                            <li>Democratic messaging strategy for 2026</li>
+                            <li>The "Vance Question" and succession scenarios</li>
+                            <li>Ed Murrow AI avatar participation</li>
+                            <li>Tom Friedman's "Polycene Era" analysis</li>
+                        </ul>
+                    </div>
+                    <a href="https://jhnday.github.io/CrntEvnts/Current_Events_Discussion_-_November_11_2025_Visual" class="cta-button cta-secondary" target="_blank" style="margin-top: 15px; display: inline-block; font-size: 1em; padding: 12px 25px;">
+                        📊 See the Session Visualized
+                    </a>
+                </div>
+                
+                <div class="example-card">
+                    <span class="date">November 25, 2025</span>
+                    <h3>Technology, Geopolitics & Institutional Resilience</h3>
+                    <p>
+                        Explored AI data center energy solutions, Iran's existential water crisis, Ukraine 
+                        peace negotiations, and signs of pushback against authoritarianism including MTG's 
+                        dramatic exit from Congress.
+                    </p>
+                    <div class="example-highlights">
+                        <h4>Key Highlights:</h4>
+                        <ul>
+                            <li>Geothermal energy's locational flexibility for data centers</li>
+                            <li>Tehran's 10 million person relocation crisis</li>
+                            <li>Debate: Pragmatism vs. principle on Ukraine</li>
+                            <li>January 6th pardons "basket of deplorables"</li>
+                        </ul>
+                    </div>
+                    <a href="https://jhnday.github.io/CrntEvnts/Current_Events_Discussion_-_November_25__2025" class="cta-button cta-secondary" target="_blank" style="margin-top: 15px; display: inline-block; font-size: 1em; padding: 12px 25px;">
+                        📊 See the Session Visualized
+                    </a>
+                </div>
+                
+                <div class="example-card">
+                    <span class="date">December 9, 2025</span>
+                    <h3>American History, Supreme Court & National Character</h3>
+                    <p>
+                        Deep dive into Ken Burns' American Revolution series, concerns about expanding 
+                        presidential power, gerrymandering impacts, and the tension between teaching 
+                        difficult historical truths while fostering civic pride.
+                    </p>
+                    <div class="example-highlights">
+                        <h4>Key Highlights:</h4>
+                        <ul>
+                            <li>Supreme Court's partisan application of precedent</li>
+                            <li>Research funding redistribution to red states</li>
+                            <li>Balancing patriotism with historical honesty</li>
+                            <li>Cautious hope: "Move forward past the Trump years"</li>
+                        </ul>
+                    </div>
+                    <a href="https://jhnday.github.io/CrntEvnts/current_events_discussion_dec09_2025" class="cta-button cta-secondary" target="_blank" style="margin-top: 15px; display: inline-block; font-size: 1em; padding: 12px 25px;">
+                        📊 See the Session Visualized
+                    </a>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+        <div class="features-section" id="unique-section">
+            <div class="collapsible-section collapsed" onclick="toggleCollapse('unique-section')">
+                <h2>What Makes Our Group Unique</h2>
+            </div>
+            
+            <div class="collapsible-content collapsed" id="unique-section">
+                <div class="features-grid">
+                <div class="feature-box">
+                    <span class="emoji">💡</span>
+                    <h4>Intellectual Rigor</h4>
+                    <p>Sophisticated analysis drawing on economics, history, and geopolitics</p>
+                </div>
+                
+                <div class="feature-box">
+                    <span class="emoji">🌐</span>
+                    <h4>Global Perspective</h4>
+                    <p>From Tehran to Ukraine, we explore international issues in depth</p>
+                </div>
+                
+                <div class="feature-box">
+                    <span class="emoji">🔍</span>
+                    <h4>Multiple Viewpoints</h4>
+                    <p>Respectful debate between pragmatists and principled voices</p>
+                </div>
+                
+                <div class="feature-box">
+                    <span class="emoji">📚</span>
+                    <h4>Historical Context</h4>
+                    <p>Every issue placed within broader historical patterns</p>
+                </div>
+                
+                <div class="feature-box">
+                    <span class="emoji">🎨</span>
+                    <h4>Creative Expression</h4>
+                    <p>Political satire, musical parodies, and cultural commentary</p>
+                </div>
+                
+                <div class="feature-box">
+                    <span class="emoji">🤝</span>
+                    <h4>Community</h4>
+                    <p>A supportive environment for lifelong learners to connect</p>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+        <div id="brand-section" style="display: block; max-width: 100%; margin-top: 0; padding: 60px 40px; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);">
+            <div class="collapsible-section collapsed" onclick="toggleCollapse('brand-section')">
+                <h2 style="text-align: center; color: #2a5298; font-size: 2.8em; margin-bottom: 50px; border-bottom: 3px solid #667eea; display: inline-block; padding-bottom: 15px; width: 100%;">
+                    The Current Events Brand
+                </h2>
+            </div>
+            
+            <div class="collapsible-content collapsed" id="brand-section">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto;">
+                <div style="background: white; border-radius: 15px; padding: 35px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); border-left: 6px solid #667eea; transition: transform 0.3s ease;">
+                    <h3 style="color: #2a5298; font-size: 1.8em; margin-bottom: 15px; display: flex; align-items: center;">
+                        <span style="font-size: 1.5em; margin-right: 15px;">📊</span>
+                        Interactive Features
+                    </h3>
+                    <p style="color: #4a5568; font-size: 1.15em; line-height: 1.8;">
+                        Explore our data visualizations and interactive content that bring political analysis to life.
+                    </p>
+                </div>
+
+                <div style="background: white; border-radius: 15px; padding: 35px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); border-left: 6px solid #28a745; transition: transform 0.3s ease;">
+                    <h3 style="color: #2a5298; font-size: 1.8em; margin-bottom: 15px; display: flex; align-items: center;">
+                        <span style="font-size: 1.5em; margin-right: 15px;">📈</span>
+                        Data-Driven Analysis
+                    </h3>
+                    <p style="color: #4a5568; font-size: 1.15em; line-height: 1.8;">
+                        Our content is backed by comprehensive research and data visualization to help you understand complex political issues.
+                    </p>
+                </div>
+
+                <div style="background: white; border-radius: 15px; padding: 35px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); border-left: 6px solid #e74c3c; transition: transform 0.3s ease;">
+                    <h3 style="color: #2a5298; font-size: 1.8em; margin-bottom: 15px; display: flex; align-items: center;">
+                        <span style="font-size: 1.5em; margin-right: 15px;">💬</span>
+                        Engaged Discussion
+                    </h3>
+                    <p style="color: #4a5568; font-size: 1.15em; line-height: 1.8;">
+                        We inspire thoughtful dialogue and respectful debate, fostering a community where diverse perspectives can be shared and explored constructively.
+                    </p>
+                </div>
+
+                <div style="background: white; border-radius: 15px; padding: 35px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); border-left: 6px solid #9b59b6; transition: transform 0.3s ease;">
+                    <h3 style="color: #2a5298; font-size: 1.8em; margin-bottom: 15px; display: flex; align-items: center;">
+                        <span style="font-size: 1.5em; margin-right: 15px;">🎨</span>
+                        Creative Content
+                    </h3>
+                    <p style="color: #4a5568; font-size: 1.15em; line-height: 1.8;">
+                        From Tom Lehrer tributes to original political satire, we blend analysis with creative expression.
+                    </p>
+                </div>
+            </div>
+            
+            <div style="max-width: 650px; margin: 40px auto 0; background: white; border-radius: 15px; padding: 35px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); border-left: 6px solid #ffc107; text-align: center;">
+                <h3 style="color: #2a5298; font-size: 1.8em; margin-bottom: 15px; display: flex; align-items: center; justify-content: center;">
+                    <span style="font-size: 1.5em; margin-right: 15px;">⚖️</span>
+                    Balanced Perspective
+                </h3>
+                <p style="color: #4a5568; font-size: 1.15em; line-height: 1.8;">
+                    We strive to present multiple viewpoints and encourage critical thinking about current events.
+                </p>
+            </div>
+            </div>
+        </div>
+        
+        
+        <footer>
+            <h3>Ready to Join the Conversation?</h3>
+            <p>
+                Be part of BOLLI's most innovative discussion group—where tradition meets technology, 
+                and thoughtful discourse shapes our understanding of a complex world.
+            </p>
+            
+            <h3 style="margin-top: 30px;">📅 Meeting Information</h3>
+            <div class="meeting-details">
+                <div class="detail-box">
+                    <h4>⏰ When</h4>
+                    <p>Weekly sessions<br>Check portal for schedule</p>
+                </div>
+                <div class="detail-box">
+                    <h4>📍 Where</h4>
+                    <p>Online via Zoom - launched from the Portal<br>(Hybrid options in development)</p>
+                </div>
+                <div class="detail-box">
+                    <h4>⏱️ Duration</h4>
+                    <p>Typically 70-80 minutes<br>Engaging discussions</p>
+                </div>
+                <div class="detail-box">
+                    <h4>🎓 Prerequisites</h4>
+                    <p>Open to all BOLLI members<br>No special background required</p>
+                </div>
+            </div>
+            
+            <div class="footer-links" style="margin-top: 30px;">
+                <a href="https://mail.google.com/mail/?view=cm&to=jhnday@gmail.com,sally_fleschner@yahoo.com,george.model@gmail.com" class="footer-link" target="_blank">Contact Us to Be Included on the Meeting List</a>
+                <a href="https://jhnday.github.io/CrntEvnts/current_affairs_central.html" class="footer-link" target="_blank">Join the Meeting from the Portal</a>
+            </div>
+            
+            <p style="margin-top: 30px; opacity: 0.8; font-size: 1em;">
+                BOLLI Current Events Discussion Group<br>
+                Innovating Lifelong Learning Through AI-Enhanced Discourse
+            </p>
+      
