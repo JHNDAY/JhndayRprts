@@ -611,6 +611,68 @@
             outline: none;
         }
 
+        .add-to-my-courses-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .add-to-my-courses-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .add-to-my-courses-btn:active {
+            transform: translateY(0);
+        }
+
+        .my-courses-header-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            margin-left: 15px;
+            transition: background 0.3s;
+            display: inline-block;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .my-courses-header-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .course-count-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75em;
+            font-weight: 700;
+            border: 2px solid white;
+        }
+
         @media (max-width: 768px) {
             .bio-grid {
                 grid-template-columns: 1fr;
@@ -630,6 +692,10 @@
                    onmouseout="this.style.background='rgba(255,255,255,0.2)'">
                     📘 View User Guide
                 </a>
+                <button id="myCoursesBtn" class="my-courses-header-btn" onclick="openMyCourses()">
+                    📚 My Courses
+                    <span id="courseCountBadge" class="course-count-badge" style="display: none;">0</span>
+                </button>
             </p>
         </header>
 
@@ -2077,8 +2143,8 @@
                 <div class="course-card" onclick="toggleCourse('${course.code}')">
                     <div class="course-header ${course.modality}">
                         <div class="course-title">
-                            <span>${course.code.replace('-s26', '')} - ${course.title}</span>
-                            <span class="course-code">${course.code}</span>
+                            <span>${course.title}</span>
+                            <span class="course-code">${course.code.replace('-s26', '')}</span>
                         </div>
                         <div class="course-meta">
                             <div class="meta-item">
@@ -2117,6 +2183,11 @@
                         <div class="detail-section">
                             <h4>Preparation Time</h4>
                             <p>${course.prepTime}</p>
+                        </div>
+                        <div class="detail-section">
+                            <button class="add-to-my-courses-btn" onclick="event.stopPropagation(); addToMyCourses('${course.code}')">
+                                📚 Add to My Courses
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -2282,11 +2353,460 @@
             });
         }
 
+        // My Courses functionality
+        function updateCourseCountBadge() {
+            const myCourses = JSON.parse(localStorage.getItem('myCourses') || '[]');
+            const badge = document.getElementById('courseCountBadge');
+            if (badge) {
+                if (myCourses.length > 0) {
+                    badge.textContent = myCourses.length;
+                    badge.style.display = 'flex';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+        }
+
+        function addToMyCourses(courseCode) {
+            const course = courses.find(c => c.code === courseCode);
+            if (!course) return;
+
+            // Get existing courses from localStorage
+            let myCourses = JSON.parse(localStorage.getItem('myCourses') || '[]');
+            
+            // Check if course already exists
+            if (myCourses.find(c => c.code === courseCode)) {
+                alert('This course is already in My Courses!');
+                return;
+            }
+
+            // Add the course
+            myCourses.push(course);
+            localStorage.setItem('myCourses', JSON.stringify(myCourses));
+            
+            // Update the badge count
+            updateCourseCountBadge();
+            
+            const courseCount = myCourses.length;
+            alert(`✓ "${course.title}" has been added to My Courses!\n\nYou now have ${courseCount} course${courseCount === 1 ? '' : 's'} selected.\n\nClick "My Courses" button to view and download your schedule.`);
+        }
+
+        function openMyCourses() {
+            const myCourses = JSON.parse(localStorage.getItem('myCourses') || '[]');
+            
+            if (myCourses.length === 0) {
+                alert('You haven\'t added any courses yet! Click "Add to My Courses" on course cards to build your schedule.');
+                return;
+            }
+
+            // Generate HTML for My Courses
+            let html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My BOLLI Courses - Spring 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 30px;
+        }
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .course-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: move;
+            transition: all 0.2s;
+        }
+        .course-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .course-card.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+        .course-card.drag-over {
+            border-color: #667eea;
+            border-style: dashed;
+            background: #f0f4ff;
+        }
+        .drag-handle {
+            color: #6c757d;
+            font-size: 1.2em;
+            cursor: grab;
+            margin-right: 10px;
+            user-select: none;
+        }
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        .course-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #1e3c72;
+            flex: 1;
+        }
+        .course-code {
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-left: 15px;
+        }
+        .course-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95em;
+        }
+        .detail-section {
+            margin-top: 15px;
+        }
+        .detail-section h4 {
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+        .detail-section p {
+            color: #495057;
+            line-height: 1.6;
+        }
+        .modality-badge {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .in-person { background: #ffd93d; color: #333; }
+        .zoom { background: #6bcf7f; color: white; }
+        .hybrid { background: #6dd5ed; color: white; }
+        .remove-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 20px;
+            margin-right: 10px;
+        }
+        .remove-btn:hover {
+            background: #c82333;
+        }
+        .show-description-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+        .show-description-btn:hover {
+            background: #5568d3;
+        }
+        .course-details-collapsible {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .course-details-collapsible.expanded {
+            max-height: 2000px;
+        }
+        .button-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .clear-all-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 20px;
+            margin-right: 10px;
+        }
+        .clear-all-btn:hover {
+            background: #5a6268;
+        }
+        .download-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .download-btn:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 My BOLLI Courses</h1>
+            <p>Spring 2026 - Your Selected Courses</p>
+            <p style="font-size: 0.9em; margin-top: 10px; opacity: 0.9;">💡 Drag and drop courses to reorder them</p>
+        </header>
+        
+        <button class="download-btn" onclick="downloadPage()">💾 Download My Courses</button>
+        <button class="clear-all-btn" onclick="clearAllCourses()">Clear All Courses</button>
+        
+        <div id="courses-container">
+`;
+
+            // Add each course
+            myCourses.forEach(course => {
+                const modalityLabel = course.modality === 'in-person' ? '🏛️ In-Person' :
+                                    course.modality === 'zoom' ? '💻 Zoom' : '🔀 Hybrid';
+                
+                html += `
+            <div class="course-card" draggable="true" data-code="${course.code}">
+                <div class="course-header">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="course-title">${course.title}</div>
+                    </div>
+                    <div class="course-code">${course.code.replace('-s26', '')}</div>
+                </div>
+                <div class="course-meta">
+                    <div class="meta-item">
+                        <strong>👤 Leader:</strong> ${course.leader}
+                    </div>
+                    <div class="meta-item">
+                        <strong>📅 Day/Time:</strong> ${course.day}, ${course.time}
+                    </div>
+                    <div class="meta-item">
+                        <strong>📆 Duration:</strong> ${course.weeks}
+                    </div>
+                    <div class="meta-item">
+                        <span class="modality-badge ${course.modality}">${modalityLabel}</span>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center; margin-top: 10px;">
+                    <button class="show-description-btn" onclick="toggleDetails('${course.code}')">
+                        <span id="toggle-icon-${course.code}">▼</span> Show Description
+                    </button>
+                    <button class="remove-btn" style="margin: 0;" onclick="removeCourse('${course.code}')">
+                        🗑️ Remove
+                    </button>
+                </div>
+                <div id="details-${course.code}" class="course-details-collapsible">
+                    <div class="detail-section">
+                        <h4>Description</h4>
+                        <p>${course.description}</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4>Leadership Style</h4>
+                        <p>${course.style}</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4>Course Materials</h4>
+                        <p>${course.materials}</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4>Preparation Time</h4>
+                        <p>${course.prepTime}</p>
+                    </div>
+                </div>
+            </div>
+`;
+            });
+
+            html += `
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+        function toggleDetails(courseCode) {
+            const details = document.getElementById('details-' + courseCode);
+            const icon = document.getElementById('toggle-icon-' + courseCode);
+            const button = event.target.closest('button');
+            
+            if (details.classList.contains('expanded')) {
+                details.classList.remove('expanded');
+                icon.textContent = '▼';
+                button.innerHTML = '<span id="toggle-icon-' + courseCode + '">▼</span> Show Description';
+            } else {
+                details.classList.add('expanded');
+                icon.textContent = '▲';
+                button.innerHTML = '<span id="toggle-icon-' + courseCode + '">▲</span> Hide Description';
+            }
+        }
+        
+        function downloadPage() {
+            const html = document.documentElement.outerHTML;
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'MyCourses.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        function removeCourse(courseCode) {
+            let myCourses = JSON.parse(localStorage.getItem('myCourses') || '[]');
+            myCourses = myCourses.filter(c => c.code !== courseCode);
+            localStorage.setItem('myCourses', JSON.stringify(myCourses));
+            location.reload();
+        }
+        
+        function clearAllCourses() {
+            if (confirm('Are you sure you want to remove all courses from My Courses?')) {
+                localStorage.removeItem('myCourses');
+                location.reload();
+            }
+        }
+        
+        // Drag and drop functionality
+        let draggedElement = null;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const courseCards = document.querySelectorAll('.course-card');
+            
+            courseCards.forEach(card => {
+                card.addEventListener('dragstart', function(e) {
+                    draggedElement = this;
+                    this.classList.add('dragging');
+                    e.dataTransfer.effectAllowed = 'move';
+                });
+                
+                card.addEventListener('dragend', function(e) {
+                    this.classList.remove('dragging');
+                    document.querySelectorAll('.course-card').forEach(c => {
+                        c.classList.remove('drag-over');
+                    });
+                    
+                    // Save the new order
+                    saveNewOrder();
+                });
+                
+                card.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    
+                    if (this !== draggedElement) {
+                        this.classList.add('drag-over');
+                    }
+                });
+                
+                card.addEventListener('dragleave', function(e) {
+                    this.classList.remove('drag-over');
+                });
+                
+                card.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    
+                    if (this !== draggedElement) {
+                        const container = document.getElementById('courses-container');
+                        const allCards = Array.from(container.querySelectorAll('.course-card'));
+                        const draggedIndex = allCards.indexOf(draggedElement);
+                        const targetIndex = allCards.indexOf(this);
+                        
+                        if (draggedIndex < targetIndex) {
+                            this.parentNode.insertBefore(draggedElement, this.nextSibling);
+                        } else {
+                            this.parentNode.insertBefore(draggedElement, this);
+                        }
+                    }
+                });
+            });
+        });
+        
+        function saveNewOrder() {
+            const container = document.getElementById('courses-container');
+            const cards = container.querySelectorAll('.course-card');
+            const newOrder = Array.from(cards).map(card => card.getAttribute('data-code'));
+            
+            let myCourses = JSON.parse(localStorage.getItem('myCourses') || '[]');
+            
+            // Reorder the courses array based on the new order
+            const reorderedCourses = [];
+            newOrder.forEach(code => {
+                const course = myCourses.find(c => c.code === code);
+                if (course) reorderedCourses.push(course);
+            });
+            
+            localStorage.setItem('myCourses', JSON.stringify(reorderedCourses));
+        }
+    <\/script>
+</body>
+</html>`;
+
+            // Open in new window
+            const newWindow = window.open();
+            newWindow.document.write(html);
+            newWindow.document.close();
+        }
+
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             initializePage();
             renderBiographies();
             attachBioSearchListener();
+            updateCourseCountBadge();
         });
     </script>
 </body>
