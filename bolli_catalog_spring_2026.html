@@ -696,6 +696,10 @@
                     📚 My Courses
                     <span id="courseCountBadge" class="course-count-badge" style="display: none;">0</span>
                 </button>
+                <button id="myFeedbackBtn" class="my-courses-header-btn" onclick="openFeedbackForm()">
+                    💬 My Feedback
+                    <span id="feedbackCountBadge" class="course-count-badge" style="display: none;">0</span>
+                </button>
             </p>
         </header>
 
@@ -2353,6 +2357,327 @@
             });
         }
 
+        // My Feedback functionality
+        function updateFeedbackCountBadge() {
+            const myFeedback = JSON.parse(localStorage.getItem('myFeedback') || '[]');
+            const badge = document.getElementById('feedbackCountBadge');
+            if (badge) {
+                if (myFeedback.length > 0) {
+                    badge.textContent = myFeedback.length;
+                    badge.style.display = 'flex';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+        }
+
+        function openFeedbackForm() {
+            const myFeedback = JSON.parse(localStorage.getItem('myFeedback') || '[]');
+            
+            // Generate HTML for Feedback Form
+            let html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLLI Catalog Feedback</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 30px;
+        }
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .feedback-form {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #495057;
+        }
+        select, input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 1em;
+            font-family: inherit;
+        }
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        select:focus, input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1em;
+            transition: transform 0.2s;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+        .feedback-list {
+            margin-top: 30px;
+        }
+        .feedback-item {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .feedback-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        .feedback-type {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .type-issue {
+            background: #ffc107;
+            color: #333;
+        }
+        .type-suggestion {
+            background: #28a745;
+            color: white;
+        }
+        .feedback-date {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+        .feedback-text {
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+            margin-top: 10px;
+        }
+        .delete-btn:hover {
+            background: #c82333;
+        }
+        .download-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 20px;
+            margin-right: 10px;
+        }
+        .download-btn:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+        .clear-all-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .clear-all-btn:hover {
+            background: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💬 BOLLI Catalog Feedback</h1>
+            <p>Share your issues and suggestions to help improve the catalog</p>
+        </header>
+        
+        <div class="feedback-form">
+            <h2 style="margin-bottom: 20px; color: #1e3c72;">Submit New Feedback</h2>
+            <form onsubmit="submitFeedback(event)">
+                <div class="form-group">
+                    <label>Type</label>
+                    <select id="feedbackType" required>
+                        <option value="">Select type...</option>
+                        <option value="issue">🐛 Issue</option>
+                        <option value="suggestion">💡 Suggestion</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Your Name (Optional)</label>
+                    <input type="text" id="feedbackName" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label>Your Email (Optional)</label>
+                    <input type="email" id="feedbackEmail" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label>Feedback Details</label>
+                    <textarea id="feedbackText" required placeholder="Describe your issue or suggestion..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Submit Feedback</button>
+            </form>
+        </div>
+        
+        <button class="download-btn" onclick="downloadFeedback()">💾 Download All Feedback</button>
+        <button class="clear-all-btn" onclick="clearAllFeedback()">Clear All Feedback</button>
+        
+        <div class="feedback-list">
+            <h2 style="margin-bottom: 20px; color: #1e3c72;">Your Feedback (${myFeedback.length})</h2>
+            <div id="feedback-container">
+`;
+
+            // Add each feedback item
+            myFeedback.forEach((feedback, index) => {
+                const typeClass = feedback.type === 'issue' ? 'type-issue' : 'type-suggestion';
+                const typeLabel = feedback.type === 'issue' ? '🐛 Issue' : '💡 Suggestion';
+                
+                html += `
+            <div class="feedback-item">
+                <div class="feedback-header">
+                    <div>
+                        <span class="feedback-type ${typeClass}">${typeLabel}</span>
+                        ${feedback.name ? `<span style="margin-left: 10px; font-weight: 600;">by ${feedback.name}</span>` : ''}
+                    </div>
+                    <span class="feedback-date">${feedback.date}</span>
+                </div>
+                ${feedback.email ? `<div style="color: #6c757d; font-size: 0.9em; margin-bottom: 8px;">📧 ${feedback.email}</div>` : ''}
+                <div class="feedback-text">${feedback.text}</div>
+                <button class="delete-btn" onclick="deleteFeedback(${index})">Delete</button>
+            </div>
+`;
+            });
+
+            html += `
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function submitFeedback(event) {
+            event.preventDefault();
+            
+            const type = document.getElementById('feedbackType').value;
+            const name = document.getElementById('feedbackName').value;
+            const email = document.getElementById('feedbackEmail').value;
+            const text = document.getElementById('feedbackText').value;
+            
+            const feedback = {
+                type: type,
+                name: name,
+                email: email,
+                text: text,
+                date: new Date().toLocaleString()
+            };
+            
+            let myFeedback = JSON.parse(localStorage.getItem('myFeedback') || '[]');
+            myFeedback.push(feedback);
+            localStorage.setItem('myFeedback', JSON.stringify(myFeedback));
+            
+            alert('✓ Thank you! Your feedback has been submitted.');
+            location.reload();
+        }
+        
+        function deleteFeedback(index) {
+            if (confirm('Are you sure you want to delete this feedback?')) {
+                let myFeedback = JSON.parse(localStorage.getItem('myFeedback') || '[]');
+                myFeedback.splice(index, 1);
+                localStorage.setItem('myFeedback', JSON.stringify(myFeedback));
+                location.reload();
+            }
+        }
+        
+        function clearAllFeedback() {
+            if (confirm('Are you sure you want to delete all feedback?')) {
+                localStorage.removeItem('myFeedback');
+                location.reload();
+            }
+        }
+        
+        function downloadFeedback() {
+            const html = document.documentElement.outerHTML;
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'BOLLI_Catalog_Feedback.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    <\/script>
+</body>
+</html>`;
+
+            // Open in new window
+            const newWindow = window.open();
+            if (newWindow) {
+                newWindow.document.write(html);
+                newWindow.document.close();
+            } else {
+                alert('Please allow popups for this site to open the feedback form.\\n\\nOr try using the My Feedback button again.');
+            }
+        }
+
         // My Courses functionality
         function updateCourseCountBadge() {
             const myCourses = JSON.parse(localStorage.getItem('myCourses') || '[]');
@@ -2797,8 +3122,12 @@
 
             // Open in new window
             const newWindow = window.open();
-            newWindow.document.write(html);
-            newWindow.document.close();
+            if (newWindow) {
+                newWindow.document.write(html);
+                newWindow.document.close();
+            } else {
+                alert('Please allow popups for this site to open My Courses.\\n\\nOr try using the My Courses button again.');
+            }
         }
 
         // Initialize on page load
@@ -2807,6 +3136,7 @@
             renderBiographies();
             attachBioSearchListener();
             updateCourseCountBadge();
+            updateFeedbackCountBadge();
         });
     </script>
 </body>
