@@ -2421,6 +2421,32 @@
             border-radius: 8px;
             margin-bottom: 30px;
         }
+        .feedback-form-collapsible {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .feedback-form-collapsible.expanded {
+            max-height: 800px;
+        }
+        .toggle-form-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1em;
+            margin-bottom: 20px;
+            transition: background 0.2s;
+        }
+        .toggle-form-btn:hover {
+            background: #5568d3;
+        }
+        .no-download {
+            /* This class marks sections to exclude from download */
+        }
         .form-group {
             margin-bottom: 20px;
         }
@@ -2550,9 +2576,13 @@
             <p>Share your issues and suggestions to help improve the catalog</p>
         </header>
         
-        <div class="feedback-form">
-            <h2 style="margin-bottom: 20px; color: #1e3c72;">Submit New Feedback</h2>
-            <form onsubmit="submitFeedback(event)">
+        <button class="toggle-form-btn" onclick="toggleFeedbackForm()">
+            <span id="form-toggle-icon">▼</span> Submit New Feedback
+        </button>
+        
+        <div id="feedback-form-section" class="feedback-form-collapsible no-download">
+            <div class="feedback-form">
+                <form onsubmit="submitFeedback(event)">
                 <div class="form-group">
                     <label>Type</label>
                     <select id="feedbackType" required>
@@ -2575,6 +2605,7 @@
                 </div>
                 <button type="submit" class="submit-btn">Submit Feedback</button>
             </form>
+            </div>
         </div>
         
         <button class="download-btn" onclick="downloadFeedback()">💾 Download All Feedback</button>
@@ -2612,6 +2643,22 @@
     </div>
     
     <script>
+        function toggleFeedbackForm() {
+            const formSection = document.getElementById('feedback-form-section');
+            const icon = document.getElementById('form-toggle-icon');
+            const button = event.target.closest('button');
+            
+            if (formSection.classList.contains('expanded')) {
+                formSection.classList.remove('expanded');
+                icon.textContent = '▼';
+                button.innerHTML = '<span id="form-toggle-icon">▼</span> Submit New Feedback';
+            } else {
+                formSection.classList.add('expanded');
+                icon.textContent = '▲';
+                button.innerHTML = '<span id="form-toggle-icon">▲</span> Hide Form';
+            }
+        }
+        
         function submitFeedback(event) {
             event.preventDefault();
             
@@ -2653,7 +2700,18 @@
         }
         
         function downloadFeedback() {
-            const html = document.documentElement.outerHTML;
+            // Clone the document
+            const clone = document.documentElement.cloneNode(true);
+            
+            // Remove all elements with class 'no-download'
+            const noDownloadElements = clone.querySelectorAll('.no-download');
+            noDownloadElements.forEach(el => el.remove());
+            
+            // Also remove the toggle button
+            const toggleBtn = clone.querySelector('.toggle-form-btn');
+            if (toggleBtn) toggleBtn.remove();
+            
+            const html = clone.outerHTML;
             const blob = new Blob([html], { type: 'text/html' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
