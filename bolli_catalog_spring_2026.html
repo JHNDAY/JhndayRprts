@@ -2954,6 +2954,73 @@
             flex-wrap: wrap;
             align-items: center;
         }
+        .bio-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .bio-modal.show {
+            display: flex;
+        }
+        .bio-card-modal {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        .bio-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        .bio-close:hover {
+            background: #c82333;
+        }
+        .bio-card-modal h3 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        .bio-card-modal p {
+            line-height: 1.8;
+            color: #495057;
+        }
+        .bio-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .bio-link:hover {
+            color: #5568d3;
+            text-decoration: underline;
+        }
         .clear-all-btn {
             background: #6c757d;
             color: white;
@@ -3014,6 +3081,7 @@
                 <div class="course-meta">
                     <div class="meta-item">
                         <strong>👤 Leader:</strong> ${course.leader}
+                        <a class="bio-link" onclick="showBioModal('${course.leader.replace(/'/g, "\\'")}'); event.stopPropagation();" style="margin-left: 8px;">📖 Bio</a>
                     </div>
                     <div class="meta-item">
                         <strong>📅 Day/Time:</strong> ${course.day}, ${course.time}
@@ -3059,7 +3127,34 @@
         </div>
     </div>
     
+    <!-- Bio Modal -->
+    <div id="bioModal" class="bio-modal" onclick="if(event.target.id === 'bioModal') closeBioModal()">
+        <div class="bio-card-modal">
+            <button class="bio-close" onclick="closeBioModal()">×</button>
+            <h3 id="bioName"></h3>
+            <p id="bioText"></p>
+        </div>
+    </div>
+    
     <script type="text/javascript">
+        const biographies = ${JSON.stringify(biographies)};
+        
+        function showBioModal(leaderName) {
+            const modal = document.getElementById('bioModal');
+            const nameEl = document.getElementById('bioName');
+            const textEl = document.getElementById('bioText');
+            
+            nameEl.textContent = '👨‍🏫 ' + leaderName;
+            textEl.textContent = biographies[leaderName] || 'Biography not available.';
+            
+            modal.classList.add('show');
+        }
+        
+        function closeBioModal() {
+            const modal = document.getElementById('bioModal');
+            modal.classList.remove('show');
+        }
+        
         function toggleDetails(courseCode) {
             const details = document.getElementById('details-' + courseCode);
             const icon = document.getElementById('toggle-icon-' + courseCode);
