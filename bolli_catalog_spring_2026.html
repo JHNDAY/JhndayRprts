@@ -3185,26 +3185,114 @@
         }
         
         function removeCourse(courseCode) {
-            let myCourses = JSON.parse(localStorage.getItem('myCourses') || '[]');
-            myCourses = myCourses.filter(c => c.code !== courseCode);
-            localStorage.setItem('myCourses', JSON.stringify(myCourses));
-            location.reload();
+            if (confirm('Remove this course from My Courses?')) {
+                let myCourses = JSON.parse(localStorage.getItem('myCourses') || '[]');
+                myCourses = myCourses.filter(c => c.code !== courseCode);
+                localStorage.setItem('myCourses', JSON.stringify(myCourses));
+                
+                // Check if there are still courses
+                if (myCourses.length === 0) {
+                    alert('All courses removed. Closing My Courses.');
+                    window.close();
+                } else {
+                    // Regenerate the page
+                    regeneratePage();
+                }
+            }
         }
         
         function clearAllCourses() {
             if (confirm('Are you sure you want to remove all courses from My Courses?')) {
                 localStorage.removeItem('myCourses');
-                location.reload();
+                alert('All courses cleared. Closing My Courses.');
+                window.close();
             }
+        }
+        
+        function regeneratePage() {
+            const myCourses = JSON.parse(localStorage.getItem('myCourses') || '[]');
+            
+            // Regenerate the courses HTML
+            let coursesHTML = '';
+            myCourses.forEach(course => {
+                const modalityLabel = course.modality === 'in-person' ? '🏛️ In-Person' :
+                                    course.modality === 'zoom' ? '💻 Zoom' : '🔀 Hybrid';
+                
+                coursesHTML += \`
+            <div class="course-card" draggable="true" data-code="\${course.code}">
+                <div class="course-header">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="course-title">\${course.title}</div>
+                    </div>
+                    <div class="course-code">\${course.code.replace('-s26', '')}</div>
+                </div>
+                <div class="course-meta">
+                    <div class="meta-item">
+                        <strong>👤 Leader:</strong> \${course.leader}
+                        <a class="bio-link" onclick="showBioModal('\${course.leader.replace(/'/g, "\\\\'")}'); event.stopPropagation();" style="margin-left: 8px;">📖 Bio</a>
+                    </div>
+                    <div class="meta-item">
+                        <strong>📅 Day/Time:</strong> \${course.day}, \${course.time}
+                    </div>
+                    <div class="meta-item">
+                        <strong>📆 Duration:</strong> \${course.weeks}
+                    </div>
+                    <div class="meta-item">
+                        <span class="modality-badge \${course.modality}">\${modalityLabel}</span>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center; margin-top: 10px;">
+                    <button class="show-description-btn" onclick="toggleDetails('\${course.code}')">
+                        <span id="toggle-icon-\${course.code}">▼</span> Show Description
+                    </button>
+                    <button class="remove-btn" style="margin: 0;" onclick="removeCourse('\${course.code}')">
+                        🗑️ Remove
+                    </button>
+                </div>
+                <div id="details-\${course.code}" class="course-details-collapsible">
+                    <div class="detail-section">
+                        <h4>Description</h4>
+                        <p>\${course.description}</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4>Leadership Style</h4>
+                        <p>\${course.style}</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4>Course Materials</h4>
+                        <p>\${course.materials}</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4>Preparation Time</h4>
+                        <p>\${course.prepTime}</p>
+                    </div>
+                </div>
+            </div>
+\`;
+            });
+            
+            // Update the container
+            document.getElementById('courses-container').innerHTML = coursesHTML;
+            
+            // Reattach drag and drop listeners
+            attachDragListeners();
         }
         
         // Drag and drop functionality
         let draggedElement = null;
         
-        document.addEventListener('DOMContentLoaded', function() {
+        function attachDragListeners() {
             const courseCards = document.querySelectorAll('.course-card');
             
             courseCards.forEach(card => {
+                // Remove old listeners by cloning (clean slate)
+                const newCard = card.cloneNode(true);
+                card.parentNode.replaceChild(newCard, card);
+            });
+            
+            // Reattach to new cards
+            document.querySelectorAll('.course-card').forEach(card => {
                 card.addEventListener('dragstart', function(e) {
                     draggedElement = this;
                     this.classList.add('dragging');
@@ -3251,6 +3339,10 @@
                     }
                 });
             });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            attachDragListeners();
         });
         
         function saveNewOrder() {
