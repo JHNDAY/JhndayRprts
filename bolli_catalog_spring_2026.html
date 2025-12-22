@@ -2495,6 +2495,30 @@
             border-radius: 8px;
             padding: 20px;
             margin-bottom: 15px;
+            cursor: move;
+            transition: all 0.2s;
+        }
+        .feedback-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .feedback-item.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+        .feedback-item.drag-over {
+            border-color: #667eea;
+            border-style: dashed;
+            background: #f0f4ff;
+        }
+        .feedback-drag-handle {
+            color: #6c757d;
+            font-size: 1.2em;
+            cursor: grab;
+            margin-right: 10px;
+            user-select: none;
+        }
+        .feedback-drag-handle:active {
+            cursor: grabbing;
         }
         .feedback-header {
             display: flex;
@@ -2574,6 +2598,7 @@
         <header>
             <h1>💬 BOLLI Catalog Feedback</h1>
             <p>Share your issues and suggestions to help improve the catalog</p>
+            <p style="font-size: 0.9em; margin-top: 10px; opacity: 0.9;">💡 Drag and drop feedback items to reorder them</p>
         </header>
         
         <button class="toggle-form-btn" onclick="toggleFeedbackForm()">
@@ -2622,11 +2647,14 @@
                 const typeLabel = feedback.type === 'issue' ? '🐛 Issue' : '💡 Suggestion';
                 
                 html += `
-            <div class="feedback-item">
+            <div class="feedback-item" draggable="true" data-index="${index}">
                 <div class="feedback-header">
-                    <div>
-                        <span class="feedback-type ${typeClass}">${typeLabel}</span>
-                        ${feedback.name ? `<span style="margin-left: 10px; font-weight: 600;">by ${feedback.name}</span>` : ''}
+                    <div style="display: flex; align-items: center;">
+                        <span class="feedback-drag-handle">⋮⋮</span>
+                        <div>
+                            <span class="feedback-type ${typeClass}">${typeLabel}</span>
+                            ${feedback.name ? `<span style="margin-left: 10px; font-weight: 600;">by ${feedback.name}</span>` : ''}
+                        </div>
                     </div>
                     <span class="feedback-date">${feedback.date}</span>
                 </div>
@@ -2688,16 +2716,133 @@
                 let myFeedback = JSON.parse(localStorage.getItem('myFeedback') || '[]');
                 myFeedback.splice(index, 1);
                 localStorage.setItem('myFeedback', JSON.stringify(myFeedback));
-                location.reload();
+                
+                if (myFeedback.length === 0) {
+                    alert('All feedback deleted. Closing feedback page.');
+                    window.close();
+                } else {
+                    regenerateFeedbackPage();
+                }
             }
         }
         
         function clearAllFeedback() {
             if (confirm('Are you sure you want to delete all feedback?')) {
                 localStorage.removeItem('myFeedback');
-                location.reload();
+                alert('All feedback cleared. Closing feedback page.');
+                window.close();
             }
         }
+        
+        function regenerateFeedbackPage() {
+            const myFeedback = JSON.parse(localStorage.getItem('myFeedback') || '[]');
+            
+            let feedbackHTML = '';
+            myFeedback.forEach((feedback, index) => {
+                const typeClass = feedback.type === 'issue' ? 'type-issue' : 'type-suggestion';
+                const typeLabel = feedback.type === 'issue' ? '🐛 Issue' : '💡 Suggestion';
+                
+                feedbackHTML += \`
+            <div class="feedback-item" draggable="true" data-index="\${index}">
+                <div class="feedback-header">
+                    <div style="display: flex; align-items: center;">
+                        <span class="feedback-drag-handle">⋮⋮</span>
+                        <div>
+                            <span class="feedback-type \${typeClass}">\${typeLabel}</span>
+                            \${feedback.name ? \`<span style="margin-left: 10px; font-weight: 600;">by \${feedback.name}</span>\` : ''}
+                        </div>
+                    </div>
+                    <span class="feedback-date">\${feedback.date}</span>
+                </div>
+                \${feedback.email ? \`<div style="color: #6c757d; font-size: 0.9em; margin-bottom: 8px;">📧 \${feedback.email}</div>\` : ''}
+                <div class="feedback-text">\${feedback.text}</div>
+                <button class="delete-btn" onclick="deleteFeedback(\${index})">Delete</button>
+            </div>
+\`;
+            });
+            
+            document.getElementById('feedback-container').innerHTML = feedbackHTML;
+            
+            // Update count
+            document.querySelector('.feedback-list h2').textContent = 'Your Feedback (' + myFeedback.length + ')';
+            
+            // Reattach drag listeners
+            attachFeedbackDragListeners();
+        }
+        
+        // Drag and drop for feedback
+        let draggedFeedback = null;
+        
+        function attachFeedbackDragListeners() {
+            const feedbackItems = document.querySelectorAll('.feedback-item');
+            
+            feedbackItems.forEach(item => {
+                const newItem = item.cloneNode(true);
+                item.parentNode.replaceChild(newItem, item);
+            });
+            
+            document.querySelectorAll('.feedback-item').forEach(item => {
+                item.addEventListener('dragstart', function(e) {
+                    draggedFeedback = this;
+                    this.classList.add('dragging');
+                    e.dataTransfer.effectAllowed = 'move';
+                });
+                
+                item.addEventListener('dragend', function(e) {
+                    this.classList.remove('dragging');
+                    document.querySelectorAll('.feedback-item').forEach(i => {
+                        i.classList.remove('drag-over');
+                    });
+                    saveFeedbackOrder();
+                });
+                
+                item.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    if (this !== draggedFeedback) {
+                        this.classList.add('drag-over');
+                    }
+                });
+                
+                item.addEventListener('dragleave', function(e) {
+                    this.classList.remove('drag-over');
+                });
+                
+                item.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    if (this !== draggedFeedback) {
+                        const container = document.getElementById('feedback-container');
+                        const allItems = Array.from(container.querySelectorAll('.feedback-item'));
+                        const draggedIndex = allItems.indexOf(draggedFeedback);
+                        const targetIndex = allItems.indexOf(this);
+                        
+                        if (draggedIndex < targetIndex) {
+                            this.parentNode.insertBefore(draggedFeedback, this.nextSibling);
+                        } else {
+                            this.parentNode.insertBefore(draggedFeedback, this);
+                        }
+                    }
+                });
+            });
+        }
+        
+        function saveFeedbackOrder() {
+            const container = document.getElementById('feedback-container');
+            const items = container.querySelectorAll('.feedback-item');
+            const newOrder = Array.from(items).map(item => parseInt(item.getAttribute('data-index')));
+            
+            let myFeedback = JSON.parse(localStorage.getItem('myFeedback') || '[]');
+            const reorderedFeedback = [];
+            newOrder.forEach(index => {
+                if (myFeedback[index]) reorderedFeedback.push(myFeedback[index]);
+            });
+            
+            localStorage.setItem('myFeedback', JSON.stringify(reorderedFeedback));
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            attachFeedbackDragListeners();
+        });
         
         function downloadFeedback() {
             // Clone the document
