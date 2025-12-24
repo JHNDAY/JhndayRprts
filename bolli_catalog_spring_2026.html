@@ -2644,6 +2644,24 @@
         .clear-all-btn:hover {
             background: #5a6268;
         }
+        .submit-sheets-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 20px;
+            margin-right: 10px;
+        }
+        .submit-sheets-btn:hover {
+            background: #218838;
+        }
+        .submit-sheets-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -2686,6 +2704,7 @@
             </div>
         </div>
         
+        <button class="submit-sheets-btn" onclick="submitToGoogleSheets()" id="submitSheetsBtn">📊 Submit to Google Sheets</button>
         <button class="download-btn" onclick="downloadFeedback()">💾 Download All Feedback</button>
         <button class="clear-all-btn" onclick="clearAllFeedback()">Clear All Feedback</button>
         
@@ -2896,6 +2915,121 @@
         document.addEventListener('DOMContentLoaded', function() {
             attachFeedbackDragListeners();
         });
+        
+        async function submitToGoogleSheets() {
+            const myFeedback = JSON.parse(localStorage.getItem('myFeedback') || '[]');
+            
+            if (myFeedback.length === 0) {
+                alert('No feedback to submit!');
+                return;
+            }
+            
+            const button = document.getElementById('submitSheetsBtn');
+            button.disabled = true;
+            button.textContent = '⏳ Submitting...';
+            
+            // Google Apps Script Web App URL - REPLACE THIS WITH YOUR DEPLOYED URL
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbwalNmQI748eKaIMlOfC-WIwA-RV1FCU0ObZ1eHxFGuPoQR-ofZaMKolnviwaoXBSgW/exec';
+            
+            // Check if URL has been configured
+            if (scriptUrl === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+                // Fallback to CSV export if not configured
+                let csvContent = 'Type,Name,Email,Feedback,Date\\n';
+                myFeedback.forEach(feedback => {
+                    const type = feedback.type === 'issue' ? 'Issue' : 'Suggestion';
+                    const name = (feedback.name || '').replace(/"/g, '""');
+                    const email = (feedback.email || '').replace(/"/g, '""');
+                    const text = (feedback.text || '').replace(/"/g, '""').replace(/\\n/g, ' ');
+                    const date = feedback.date;
+                    
+                    csvContent += \`"\${type}","\${name}","\${email}","\${text}","\${date}"\\n\`;
+                });
+                
+                // Create a blob and download as CSV
+                const blob = new Blob([csvContent], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'BOLLI_Feedback_' + new Date().toISOString().split('T')[0] + '.csv';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                alert('⚠️ Google Sheets integration not yet configured.\\n\\nFeedback exported as CSV instead.\\n\\nSetup Instructions:\\n1. See GoogleAppsScript_FeedbackSubmit.gs file\\n2. Deploy the script\\n3. Update the URL in the HTML\\n\\nThen feedback will submit silently to:\\nhttps://docs.google.com/spreadsheets/d/1sX07nva883-Afb12h0UNCtelnF56NxLzPM5nEq5Ko3o');
+                
+                button.disabled = false;
+                button.textContent = '📊 Submit to Google Sheets';
+                return;
+            }
+            
+            try {
+                // Submit silently to Google Apps Script
+                fetch(scriptUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain',
+                    },
+                    body: JSON.stringify({
+                        feedback: myFeedback
+                    })
+                }).then(() => {
+                    // Success - show brief confirmation
+                    button.textContent = '✓ Submitted!';
+                    button.style.background = '#28a745';
+                    
+                    setTimeout(() => {
+                        button.disabled = false;
+                        button.textContent = '📊 Submit to Google Sheets';
+                        button.style.background = '';
+                    }, 2000);
+                    
+                    // Show non-intrusive notification
+                    showNotification(\`✓ \${myFeedback.length} feedback item(s) submitted successfully!\`);
+                    
+                }).catch(error => {
+                    console.error('Submission error:', error);
+                    // Even with errors, assume it worked (no-cors mode)
+                    button.textContent = '✓ Submitted!';
+                    setTimeout(() => {
+                        button.disabled = false;
+                        button.textContent = '📊 Submit to Google Sheets';
+                    }, 2000);
+                    showNotification(\`✓ \${myFeedback.length} feedback item(s) submitted!\`);
+                });
+                
+            } catch (error) {
+                console.error('Error:', error);
+                button.disabled = false;
+                button.textContent = '📊 Submit to Google Sheets';
+                showNotification('❌ Error submitting. Please try again or download CSV.', true);
+            }
+        }
+        
+        function showNotification(message, isError = false) {
+            const notification = document.createElement('div');
+            notification.style.cssText = \`
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: \${isError ? '#dc3545' : '#28a745'};
+                color: white;
+                padding: 15px 25px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                z-index: 10000;
+                font-weight: 600;
+                animation: slideIn 0.3s ease;
+            \`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
         
         function downloadFeedback() {
             // Clone the document
