@@ -2781,14 +2781,19 @@
             
             alert('✓ Thank you! Your feedback has been submitted.');
             
-            // Clear the form
-            document.getElementById('feedbackType').value = 'suggestion';
-            document.getElementById('feedbackName').value = '';
-            document.getElementById('feedbackEmail').value = '';
-            document.getElementById('feedbackText').value = '';
+            // Update the parent window's feedback count badge if it exists
+            if (window.opener && !window.opener.closed) {
+                try {
+                    if (typeof window.opener.updateFeedbackCountBadge === 'function') {
+                        window.opener.updateFeedbackCountBadge();
+                    }
+                } catch(e) {
+                    console.log('Could not update parent window');
+                }
+            }
             
-            // Regenerate the feedback list
-            regenerateFeedbackPage();
+            // Close the feedback window
+            window.close();
         }
         
         function deleteFeedback(index) {
@@ -2796,6 +2801,17 @@
                 let myFeedback = JSON.parse(localStorage.getItem('myFeedback') || '[]');
                 myFeedback.splice(index, 1);
                 localStorage.setItem('myFeedback', JSON.stringify(myFeedback));
+                
+                // Update parent window badge
+                if (window.opener && !window.opener.closed) {
+                    try {
+                        if (typeof window.opener.updateFeedbackCountBadge === 'function') {
+                            window.opener.updateFeedbackCountBadge();
+                        }
+                    } catch(e) {
+                        console.log('Could not update parent window');
+                    }
+                }
                 
                 if (myFeedback.length === 0) {
                     alert('All feedback deleted. Closing feedback page.');
@@ -2809,6 +2825,18 @@
         function clearAllFeedback() {
             if (confirm('Are you sure you want to delete all feedback?')) {
                 localStorage.removeItem('myFeedback');
+                
+                // Update parent window badge
+                if (window.opener && !window.opener.closed) {
+                    try {
+                        if (typeof window.opener.updateFeedbackCountBadge === 'function') {
+                            window.opener.updateFeedbackCountBadge();
+                        }
+                    } catch(e) {
+                        console.log('Could not update parent window');
+                    }
+                }
+                
                 alert('All feedback cleared. Closing feedback page.');
                 window.close();
             }
