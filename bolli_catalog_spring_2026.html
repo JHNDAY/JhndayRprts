@@ -2780,7 +2780,15 @@
             localStorage.setItem('myFeedback', JSON.stringify(myFeedback));
             
             alert('✓ Thank you! Your feedback has been submitted.');
-            location.reload();
+            
+            // Clear the form
+            document.getElementById('feedbackType').value = 'suggestion';
+            document.getElementById('feedbackName').value = '';
+            document.getElementById('feedbackEmail').value = '';
+            document.getElementById('feedbackText').value = '';
+            
+            // Regenerate the feedback list
+            regenerateFeedbackPage();
         }
         
         function deleteFeedback(index) {
