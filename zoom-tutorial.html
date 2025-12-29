@@ -91,11 +91,12 @@
 
         .section {
             background: white;
-            padding: 50px;
+            padding: 0;
             border-radius: 16px;
             margin-bottom: 40px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
         }
 
         .section:hover {
@@ -103,13 +104,66 @@
             box-shadow: 0 8px 30px rgba(0,0,0,0.12);
         }
 
+        .section-header {
+            padding: 40px 50px;
+            cursor: pointer;
+            user-select: none;
+            background: linear-gradient(135deg, #f9f9f9 0%, #ffffff 100%);
+            border-bottom: 2px solid var(--light-border);
+            transition: background 0.3s ease;
+            position: relative;
+        }
+
+        .section-header:hover {
+            background: linear-gradient(135deg, #f5f5f5 0%, #fafafa 100%);
+        }
+
+        .section-header h2 {
+            margin: 0;
+            padding: 0;
+            border: none;
+        }
+
+        .section.collapsed .section-header {
+            border-bottom: none;
+        }
+
+        .toggle-icon {
+            position: absolute;
+            right: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.8em;
+            color: var(--accent-teal);
+            transition: transform 0.3s ease;
+            font-weight: 700;
+        }
+
+        .section.collapsed .toggle-icon {
+            transform: translateY(-50%) rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 50px;
+            max-height: 10000px;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.5s ease, opacity 0.3s ease;
+            opacity: 1;
+        }
+
+        .section.collapsed .section-content {
+            max-height: 0;
+            padding: 0 50px;
+            opacity: 0;
+        }
+
         h2 {
             font-family: 'Libre Baskerville', serif;
             font-size: 2.2em;
             color: var(--primary-blue);
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 3px solid var(--accent-teal);
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
             display: flex;
             align-items: center;
             gap: 15px;
@@ -336,8 +390,21 @@
                 font-size: 2em;
             }
 
-            .section {
+            .section-header {
                 padding: 30px 20px;
+                padding-right: 60px;
+            }
+
+            .section-content {
+                padding: 30px 20px;
+            }
+
+            .section.collapsed .section-content {
+                padding: 0 20px;
+            }
+
+            .toggle-icon {
+                right: 20px;
             }
 
             h2 {
@@ -384,7 +451,46 @@
         .section:nth-child(2) { animation-delay: 0.1s; }
         .section:nth-child(3) { animation-delay: 0.2s; }
         .section:nth-child(4) { animation-delay: 0.3s; }
+        .section:nth-child(5) { animation-delay: 0.4s; }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handlers to all section headers
+            const sections = document.querySelectorAll('.section');
+            
+            sections.forEach(section => {
+                const header = section.querySelector('.section-header');
+                if (header) {
+                    header.addEventListener('click', function() {
+                        section.classList.toggle('collapsed');
+                        const isExpanded = !section.classList.contains('collapsed');
+                        header.setAttribute('aria-expanded', isExpanded.toString());
+                    });
+                }
+            });
+
+            // Optional: Add keyboard navigation
+            sections.forEach(section => {
+                const header = section.querySelector('.section-header');
+                if (header) {
+                    header.setAttribute('tabindex', '0');
+                    header.setAttribute('role', 'button');
+                    // Set initial aria-expanded based on collapsed class
+                    const isExpanded = !section.classList.contains('collapsed');
+                    header.setAttribute('aria-expanded', isExpanded.toString());
+                    
+                    header.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            section.classList.toggle('collapsed');
+                            const isExpanded = !section.classList.contains('collapsed');
+                            header.setAttribute('aria-expanded', isExpanded.toString());
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 </head>
 <body>
     <div class="container">
@@ -398,8 +504,12 @@
         </div>
 
         <!-- Section 1: View Transitions -->
-        <div class="section">
-            <h2><span class="section-number">1</span> Transitioning Between Gallery and Presentation Views</h2>
+        <div class="section collapsed">
+            <div class="section-header">
+                <h2><span class="section-number">1</span> Transitioning Between Gallery and Presentation Views</h2>
+                <div class="toggle-icon">▼</div>
+            </div>
+            <div class="section-content">
             
             <p>Understanding how Zoom handles different views is essential for seamless course delivery. When you or a participant shares content, Zoom automatically adjusts the layout to prioritize that shared content.</p>
 
@@ -444,11 +554,16 @@
             <div class="key-point">
                 <strong>Important:</strong> While the transition happens automatically when screen sharing starts or stops, you can always manually override this using the tabs in the upper left corner.
             </div>
+            </div>
         </div>
 
         <!-- Section 2: View Controls -->
-        <div class="section">
-            <h2><span class="section-number">2</span> Using the View Controls (Upper Right Corner)</h2>
+        <div class="section collapsed">
+            <div class="section-header">
+                <h2><span class="section-number">2</span> Using the View Controls (Upper Right Corner)</h2>
+                <div class="toggle-icon">▼</div>
+            </div>
+            <div class="section-content">
             
             <p>The View button in the upper right corner gives you powerful options to customize how you see your meeting, regardless of what others are seeing. These controls are especially useful when you need to adapt to different teaching scenarios.</p>
 
@@ -498,11 +613,16 @@
             <div class="key-point">
                 <strong>Remember:</strong> Your view choice is personal—changing your view doesn't affect what participants see. You can use Speaker View while your students remain in Gallery View, or vice versa.
             </div>
+            </div>
         </div>
 
         <!-- Section 3: Toolbar Icons -->
-        <div class="section">
-            <h2><span class="section-number">3</span> Understanding the Meeting Toolbar</h2>
+        <div class="section collapsed">
+            <div class="section-header">
+                <h2><span class="section-number">3</span> Understanding the Meeting Toolbar</h2>
+                <div class="toggle-icon">▼</div>
+            </div>
+            <div class="section-content">
             
             <p>The toolbar at the bottom of your Zoom window contains all the essential meeting controls. Hover over any icon to see its name and function. Here's a comprehensive guide to each button:</p>
 
@@ -572,11 +692,16 @@
             <div class="tip-box">
                 The toolbar auto-hides after a few seconds of inactivity. Just move your mouse to the bottom of the screen to make it reappear. You can also keep it always visible by clicking the "..." More button and selecting "Always Show Meeting Controls".
             </div>
+            </div>
         </div>
 
         <!-- Quick Reference Section -->
-        <div class="section">
-            <h2><span class="section-number">✓</span> Quick Reference Guide</h2>
+        <div class="section collapsed">
+            <div class="section-header">
+                <h2><span class="section-number">✓</span> Quick Reference Guide</h2>
+                <div class="toggle-icon">▼</div>
+            </div>
+            <div class="section-content">
             
             <h3>Pre-Session Checklist</h3>
             <div class="step-container">
@@ -602,6 +727,7 @@
 
             <div class="key-point">
                 <strong>Final Tip:</strong> Practice makes perfect! Try hosting a test meeting with a colleague or friend to experiment with all these features in a low-pressure environment before your first real session.
+            </div>
             </div>
         </div>
 
