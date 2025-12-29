@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoom Meeting Navigation Tutorial - BOLLI SGL Training</title>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #2D5F8D;
+            --accent-teal: #3A8891;
+            --warm-gray: #F5F3F0;
+            --dark-text: #2C2C2C;
+            --medium-gray: #666;
+            --light-border: #D4CFC8;
+            --highlight-yellow: #FFF4DC;
+            --success-green: #4A7C59;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            line-height: 1.7;
+            color: var(--dark-text);
+            background: linear-gradient(135deg, #F8F6F4 0%, #E8E4DF 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-teal) 100%);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(45, 95, 141, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        h1 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.95;
+            font-weight: 400;
+            position: relative;
+        }
+
+        .intro-section {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-left: 5px solid var(--accent-teal);
+        }
+
+        .intro-section p {
+            font-size: 1.15em;
+            line-height: 1.8;
+            color: var(--medium-gray);
+        }
+
+        .section {
+            background: white;
+            padding: 50px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        h2 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 2.2em;
+            color: var(--primary-blue);
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid var(--accent-teal);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-number {
+            background: var(--accent-teal);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        h3 {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.5em;
+            color: var(--primary-blue);
+            margin: 35px 0 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h3::before {
+            content: '▸';
+            color: var(--accent-teal);
+            font-size: 1.2em;
+        }
+
+        .step-container {
+            margin: 25px 0;
+            padding: 25px;
+            background: var(--warm-gray);
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-teal);
+        }
+
+        .step-container h4 {
+            color: var(--primary-blue);
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .step-container p {
+            font-size: 1.05em;
+            line-height: 1.8;
+            color: var(--dark-text);
+        }
+
+        .key-point {
+            background: var(--highlight-yellow);
+            padding: 20px 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 4px solid #F4A624;
+        }
+
+        .key-point strong {
+            color: var(--primary-blue);
+            font-size: 1.1em;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #E8F5F0 0%, #D4EDE4 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border-left: 4px solid var(--success-green);
+        }
+
+        .tip-box::before {
+            content: '💡 Pro Tip: ';
+            font-weight: 700;
+            color: var(--success-green);
+            font-size: 1.1em;
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .icon-card {
+            background: var(--warm-gray);
+            padding: 25px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .icon-card:hover {
+            border-color: var(--accent-teal);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(58, 136, 145, 0.15);
+        }
+
+        .icon-name {
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-size: 1.15em;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .icon-description {
+            color: var(--medium-gray);
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .view-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .view-card {
+            background: var(--warm-gray);
+            padding: 30px;
+            border-radius: 12px;
+            border-top: 4px solid var(--accent-teal);
+        }
+
+        .view-card h4 {
+            color: var(--primary-blue);
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .view-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .view-card li {
+            padding: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .view-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success-green);
+            font-weight: 700;
+        }
+
+        .workflow-steps {
+            counter-reset: step-counter;
+            margin: 30px 0;
+        }
+
+        .workflow-step {
+            counter-increment: step-counter;
+            padding: 25px;
+            margin: 20px 0;
+            background: white;
+            border-radius: 12px;
+            border: 2px solid var(--light-border);
+            position: relative;
+            padding-left: 80px;
+        }
+
+        .workflow-step::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--accent-teal);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.3em;
+        }
+
+        .shortcut {
+            background: var(--primary-blue);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            font-weight: 600;
+            display: inline-block;
+            margin: 0 4px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--medium-gray);
+            font-size: 0.95em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            header {
+                padding: 40px 25px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .section {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 1.6em;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .view-comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .icon-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .workflow-step {
+                padding-left: 20px;
+                padding-top: 70px;
+            }
+
+            .workflow-step::before {
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .section:nth-child(2) { animation-delay: 0.1s; }
+        .section:nth-child(3) { animation-delay: 0.2s; }
+        .section:nth-child(4) { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Zoom Meeting Navigation Tutorial</h1>
+            <p class="subtitle">Master the Essential Controls for Effective Virtual Teaching</p>
+        </header>
+
+        <div class="intro-section">
+            <p>This tutorial will help you navigate Zoom's interface with confidence, whether you're hosting interactive discussions or delivering presentations. You'll learn how to smoothly transition between views, optimize your screen layout, and efficiently use all the meeting controls at your fingertips.</p>
+        </div>
+
+        <!-- Section 1: View Transitions -->
+        <div class="section">
+            <h2><span class="section-number">1</span> Transitioning Between Gallery and Presentation Views</h2>
+            
+            <p>Understanding how Zoom handles different views is essential for seamless course delivery. When you or a participant shares content, Zoom automatically adjusts the layout to prioritize that shared content.</p>
+
+            <div style="background: linear-gradient(135deg, #2D5F8D 0%, #3A8891 100%); color: white; padding: 30px 35px; border-radius: 12px; margin: 30px 0; text-align: center; box-shadow: 0 6px 25px rgba(45, 95, 141, 0.3);">
+                <div style="font-size: 1.4em; font-weight: 700; margin-bottom: 15px; letter-spacing: 0.5px;">📊 Visual Reference</div>
+                <p style="font-size: 1.15em; margin-bottom: 20px; line-height: 1.6;">For a visual demonstration of these view transitions, see this:</p>
+                <a href="https://docs.google.com/presentation/d/e/2PACX-1vR27gCAvBXTck8yNvKmStYdTZQKSnQl4nbOI-kN6C7w095QWFgcAURH9nB7vBHx0f0MmXrrbdAdWAWk/pub?start=false&loop=false&delayms=3000" target="_blank" style="display: inline-block; background: white; color: #2D5F8D; padding: 15px 35px; border-radius: 8px; font-weight: 700; font-size: 1.2em; text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.3s ease;">Illustrated Presentation Guide →</a>
+            </div>
+
+            <h3>Default Gallery View (No Screen Share Active)</h3>
+            <div class="step-container">
+                <p>When no one is sharing their screen, Zoom displays all participants in a gallery layout. This is ideal for discussion-based sessions where you want to see everyone's engagement and reactions.</p>
+            </div>
+
+            <h3>Automatic Transition to Presentation Mode</h3>
+            <div class="workflow-steps">
+                <div class="workflow-step">
+                    <strong>When screen sharing begins:</strong> The shared content automatically becomes the primary focus and fills the main screen area. Participant videos move to a smaller strip at the top of the screen.
+                </div>
+                <div class="workflow-step">
+                    <strong>Host visibility:</strong> As the host, you'll see your own shared content prominently displayed, just as your participants see it. This helps you present more effectively.
+                </div>
+                <div class="workflow-step">
+                    <strong>To stop sharing:</strong> Click the red "Stop Share" button that appears at the top center of your screen. This returns everyone to gallery view.
+                </div>
+            </div>
+
+            <h3>Manual View Switching</h3>
+            <div class="step-container">
+                <p>While Zoom automatically adjusts views when screen sharing starts or stops, you can also manually transition between Gallery and Presentation modes at any time. Look for the tabs in the upper left side of the top menu, next to the "Zoom Meeting" label:</p>
+                <ul style="list-style: none; padding-left: 20px; margin-top: 15px;">
+                    <li style="padding: 8px 0;"><strong>Meeting tab:</strong> Click this to view Gallery View (all participants)</li>
+                    <li style="padding: 8px 0;"><strong>Person's Presentation tab:</strong> Click this to view the shared content when someone is presenting</li>
+                </ul>
+                <p style="margin-top: 15px;">This gives you flexibility to switch your own view without affecting what others see or interrupting the screen sharing.</p>
+            </div>
+
+            <div class="tip-box">
+                Practice transitioning between views before your first session. Share a simple document or your desktop, then stop sharing, so you're comfortable with the flow. Also experiment with manually clicking between the Meeting and Presentation tabs.
+            </div>
+
+            <div class="key-point">
+                <strong>Important:</strong> While the transition happens automatically when screen sharing starts or stops, you can always manually override this using the tabs in the upper left corner.
+            </div>
+        </div>
+
+        <!-- Section 2: View Controls -->
+        <div class="section">
+            <h2><span class="section-number">2</span> Using the View Controls (Upper Right Corner)</h2>
+            
+            <p>The View button in the upper right corner gives you powerful options to customize how you see your meeting, regardless of what others are seeing. These controls are especially useful when you need to adapt to different teaching scenarios.</p>
+
+            <h3>Accessing View Options</h3>
+            <div class="step-container">
+                <h4>Location</h4>
+                <p>Look for the "View" button in the upper right corner of your Zoom window, next to the minimize and close buttons. It typically shows a grid icon or the word "View".</p>
+            </div>
+
+            <h3>Available View Modes</h3>
+            <div class="view-comparison">
+                <div class="view-card">
+                    <h4>Speaker View</h4>
+                    <ul>
+                        <li>Highlights the active speaker in a large window</li>
+                        <li>Other participants appear in smaller thumbnails</li>
+                        <li>Best for: Lecture-style presentations or when one person is primarily speaking</li>
+                        <li>Automatically switches focus to whoever is talking</li>
+                    </ul>
+                </div>
+                <div class="view-card">
+                    <h4>Gallery View</h4>
+                    <ul>
+                        <li>Shows all participants in equally-sized tiles</li>
+                        <li>Can display up to 49 participants per screen</li>
+                        <li>Best for: Interactive discussions and small group engagement</li>
+                        <li>Helps you monitor student participation and engagement</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>When Screen Sharing is Active</h3>
+            <div class="step-container">
+                <p>You get additional view options when content is being shared:</p>
+                <ul style="list-style: none; padding-left: 20px;">
+                    <li style="padding: 8px 0;"><strong>Side-by-Side Mode:</strong> Splits your screen between the shared content and participant videos</li>
+                    <li style="padding: 8px 0;"><strong>Standard Mode:</strong> Shared content fills the screen with participants in a small strip at the top</li>
+                    <li style="padding: 8px 0;"><strong>Minimize Participants:</strong> Temporarily hide participant videos to focus entirely on shared content</li>
+                </ul>
+            </div>
+
+            <div class="tip-box">
+                If you're using dual monitors, you can have participants on one screen and shared content on the other. Enable this in Settings > General > "Use dual monitors".
+            </div>
+
+            <h3>View Preferences That Persist</h3>
+            <div class="key-point">
+                <strong>Remember:</strong> Your view choice is personal—changing your view doesn't affect what participants see. You can use Speaker View while your students remain in Gallery View, or vice versa.
+            </div>
+        </div>
+
+        <!-- Section 3: Toolbar Icons -->
+        <div class="section">
+            <h2><span class="section-number">3</span> Understanding the Meeting Toolbar</h2>
+            
+            <p>The toolbar at the bottom of your Zoom window contains all the essential meeting controls. Hover over any icon to see its name and function. Here's a comprehensive guide to each button:</p>
+
+            <div class="icon-grid">
+                <div class="icon-card">
+                    <span class="icon-name">🎤 Audio (Mute/Unmute)</span>
+                    <p class="icon-description">Controls your microphone. Click to mute/unmute yourself. The up arrow (^) opens audio settings where you can select your microphone, test your speaker volume, and join audio by computer or phone.</p>
+                </div>
+
+                <div class="icon-card">
+                    <span class="icon-name">📹 Video (Start/Stop)</span>
+                    <p class="icon-description">Controls your camera. Click to turn video on or off. The up arrow (^) lets you choose a virtual background, touch up your appearance, or select a different camera if you have multiple options.</p>
+                </div>
+
+                <div class="icon-card">
+                    <span class="icon-name">💬 Chat</span>
+                    <p class="icon-description">Opens the text chat panel. Send messages to everyone or privately to specific participants. Useful for sharing links, collecting questions, or side conversations that don't interrupt the flow.</p>
+                </div>
+
+                <div class="icon-card">
+                    <span class="icon-name">😊 React</span>
+                    <p class="icon-description">Provides quick emoji reactions (thumbs up, clapping, heart) that appear briefly on your video. Useful for quick non-verbal feedback without unmuting. Also access "Raise Hand" to signal you want to speak.</p>
+                </div>
+
+                <div class="icon-card">
+                    <span class="icon-name">🟢 Share Screen</span>
+                    <p class="icon-description">Lets you share your screen, a specific window, a whiteboard, or even your iPhone/iPad screen. Click "New Share" to choose what to share. Essential for presentations, demonstrations, and collaborative work.</p>
+                </div>
+
+                <div class="icon-card">
+                    <span class="icon-name">🤖 AI Companion</span>
+                    <p class="icon-description">Zoom's AI assistant that can generate meeting summaries, answer questions about the meeting content, and help catch up on what you missed. Available with certain Zoom plans.</p>
+                </div>
+
+                <div class="icon-card">
+                    <span class="icon-name">ℹ️ Meeting Info</span>
+                    <p class="icon-description">Displays key meeting details including the meeting ID, passcode, and invitation link. Useful for sharing with latecomers or troubleshooting connection issues.</p>
+                </div>
+
+                <div class="icon-card">
+                    <span class="icon-name">👥 Participants</span>
+                    <p class="icon-description">Opens the participants panel showing who's in the meeting. As host, you can mute others, rename participants, assign co-hosts, and manage breakout rooms from here.</p>
+                </div>
+
+                <div class="icon-card">
+                    <span class="icon-name">⋯ More</span>
+                    <p class="icon-description">Access additional features like recording the meeting, enabling closed captions, starting polls, creating breakout rooms, and adjusting various meeting settings.</p>
+                </div>
+
+                <div class="icon-card">
+                    <span class="icon-name">🔴 Leave/End</span>
+                    <p class="icon-description">Leave the meeting as a participant, or end it for everyone as the host. As host, you'll be prompted to assign a new host or end the meeting for all participants.</p>
+                </div>
+            </div>
+
+            <h3>Essential Keyboard Shortcuts</h3>
+            <div class="step-container">
+                <p>These shortcuts can help you navigate more efficiently during live sessions:</p>
+                <ul style="list-style: none; padding-left: 0; margin-top: 15px;">
+                    <li style="padding: 10px 0;"><span class="shortcut">Alt + A</span> (Windows) or <span class="shortcut">⌘ + Shift + A</span> (Mac) - Mute/unmute audio</li>
+                    <li style="padding: 10px 0;"><span class="shortcut">Alt + V</span> (Windows) or <span class="shortcut">⌘ + Shift + V</span> (Mac) - Start/stop video</li>
+                    <li style="padding: 10px 0;"><span class="shortcut">Alt + S</span> (Windows) or <span class="shortcut">⌘ + Shift + S</span> (Mac) - Share screen</li>
+                    <li style="padding: 10px 0;"><span class="shortcut">Alt + H</span> (Windows) or <span class="shortcut">⌥ + Y</span> (Mac) - Raise/lower hand</li>
+                </ul>
+            </div>
+
+            <div class="tip-box">
+                The toolbar auto-hides after a few seconds of inactivity. Just move your mouse to the bottom of the screen to make it reappear. You can also keep it always visible by clicking the "..." More button and selecting "Always Show Meeting Controls".
+            </div>
+        </div>
+
+        <!-- Quick Reference Section -->
+        <div class="section">
+            <h2><span class="section-number">✓</span> Quick Reference Guide</h2>
+            
+            <h3>Pre-Session Checklist</h3>
+            <div class="step-container">
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="padding: 8px 0;">☐ Test your audio and video before the session starts</li>
+                    <li style="padding: 8px 0;">☐ Have your presentation materials ready to share</li>
+                    <li style="padding: 8px 0;">☐ Choose your preferred view (Gallery or Speaker)</li>
+                    <li style="padding: 8px 0;">☐ Familiarize yourself with screen sharing controls</li>
+                    <li style="padding: 8px 0;">☐ Review participant management features if hosting</li>
+                </ul>
+            </div>
+
+            <h3>During Your Session</h3>
+            <div class="step-container">
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="padding: 8px 0;">☐ Use Gallery View for interactive discussions</li>
+                    <li style="padding: 8px 0;">☐ Switch to screen sharing when presenting materials</li>
+                    <li style="padding: 8px 0;">☐ Monitor the chat for questions and comments</li>
+                    <li style="padding: 8px 0;">☐ Watch for raised hands in the Participants panel</li>
+                    <li style="padding: 8px 0;">☐ Use keyboard shortcuts for quick controls</li>
+                </ul>
+            </div>
+
+            <div class="key-point">
+                <strong>Final Tip:</strong> Practice makes perfect! Try hosting a test meeting with a colleague or friend to experiment with all these features in a low-pressure environment before your first real session.
+            </div>
+        </div>
+
+        <footer>
+            <p>Created for BOLLI Study Group Leaders | AI Integration Training Program</p>
+            <p style="margin-top: 10px; opacity: 0.7;">For questions or additional support, please reach out to your program coordinator</p>
+        </footer>
+    </div>
+</body>
+</html>
