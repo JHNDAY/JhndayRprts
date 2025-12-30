@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Your Proposal - Interactive Guide with AI Integration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header .quote {
+            font-style: italic;
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-top: 20px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .section-header:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .section-header h2 {
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-header .icon {
+            margin-right: 15px;
+            font-size: 1.3em;
+        }
+
+        .section-header .toggle {
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+        }
+
+        .section-header.active .toggle {
+            transform: rotate(180deg);
+        }
+
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            background: white;
+        }
+
+        .section-content.active {
+            max-height: 5000px;
+        }
+
+        .section-inner {
+            padding: 30px;
+        }
+
+        .subsection {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 5px;
+        }
+
+        .subsection h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .subsection p, .subsection ul {
+            margin: 10px 0;
+            color: #555;
+        }
+
+        .subsection ul {
+            padding-left: 25px;
+        }
+
+        .subsection li {
+            margin: 8px 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid #fdcb6e;
+        }
+
+        .example-box {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid #4caf50;
+        }
+
+        .example-box h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .key-points {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .key-points h4 {
+            color: #1565c0;
+            margin-bottom: 10px;
+        }
+
+        .expand-all {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .footer {
+            background: #2d3436;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .footer p {
+            margin: 5px 0;
+            opacity: 0.8;
+        }
+
+        /* AI Integration Styles */
+        .ai-integration-banner {
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 184, 148, 0.3);
+        }
+
+        .ai-integration-banner h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .ai-section {
+            background: #fff;
+            border: 3px solid #00b894;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 8px 25px rgba(0, 184, 148, 0.15);
+        }
+
+        .ai-section-header {
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .ai-section-header h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .ai-section-meta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+            font-size: 0.95em;
+        }
+
+        .ai-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ai-objectives {
+            margin-bottom: 30px;
+        }
+
+        .ai-objectives h3 {
+            color: #00b894;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #00b894;
+        }
+
+        .objectives-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .objectives-list li {
+            padding: 15px 20px;
+            margin: 10px 0;
+            background: #f8f9fa;
+            border-left: 4px solid #00b894;
+            border-radius: 5px;
+            position: relative;
+            padding-left: 50px;
+            transition: all 0.3s ease;
+            scroll-margin-top: 100px;
+        }
+
+        .objectives-list li:hover {
+            background: #e8f5f2;
+            transform: translateX(5px);
+        }
+
+        .objectives-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 18px;
+            color: #00b894;
+            font-weight: bold;
+            font-size: 1.4em;
+        }
+
+        .objectives-list li:target {
+            background: #d4edda;
+            border-left-width: 6px;
+            animation: highlight 1.5s ease;
+        }
+
+        @keyframes highlight {
+            0%, 100% { box-shadow: 0 0 0 rgba(0, 184, 148, 0); }
+            50% { box-shadow: 0 0 20px rgba(0, 184, 148, 0.5); }
+        }
+
+        .ai-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9em;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 184, 148, 0.3);
+        }
+
+        .ai-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 184, 148, 0.4);
+        }
+
+        .ai-link:before {
+            content: "🤖 ";
+        }
+
+        .tools-section {
+            background: #fff5e6;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .tools-title {
+            font-weight: 600;
+            color: #e67e22;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .tools-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tool-tag {
+            background: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: #e67e22;
+            font-size: 0.9em;
+            border: 2px solid #e67e22;
+        }
+
+        .back-link {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 6px 14px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-size: 0.85em;
+            margin-right: 10px;
+            margin-top: 5px;
+            border: 2px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .clear-selection-btn {
+            text-align: center;
+            margin-bottom: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .clear-selection-btn button {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .clear-selection-btn button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .objective-highlighted {
+            background: #d4edda !important;
+            border-left-width: 6px !important;
+            box-shadow: 0 0 20px rgba(0, 184, 148, 0.5) !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Building Your Proposal</h1>
+            <p class="quote">Interactive Guide with AI Integration Training</p>
+            <p class="quote">"A goal without a plan is just a wish." – Antoine de Saint-Exupéry</p>
+        </div>
+
+        <div class="content">
+            <div class="ai-integration-banner">
+                <h3>🎓 AI Integration Training Program</h3>
+                <p>This guide includes links to relevant AI learning objectives from Session 1 of the SGL AI Integration Course. Click the AI links to see how each step connects to your AI training!</p>
+            </div>
+
+            <div class="expand-all">
+                <button class="btn" onclick="toggleAll()">Expand All Sections</button>
+            </div>
+
+            <!-- Section 1: Determine Your Goals -->
+            <div class="section" id="section-goals">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2><span class="icon">🎯</span> Determining Your Goals</h2>
+                    <span class="toggle">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <p class="quote">"If you don't know where you are going, any road will get you there." – Lewis Carroll</p>
+                        
+                        <p>Before diving into the content, take a step back. What do you want students to walk away with? Your answer shapes everything—from the syllabus to the teaching style.</p>
+
+                        <a href="#ai-objective-research" class="ai-link">See how AI can help with topic research and outline generation</a>
+
+                        <div class="subsection">
+                            <h3>🧭 Three Fundamental Questions</h3>
+                            <ul>
+                                <li><strong>What do you want students to know?</strong> (Content/facts)</li>
+                                <li><strong>What do you want students to be able to do?</strong> (Skills/thinking)</li>
+                                <li><strong>What do you want students to experience?</strong> (Feeling/transformation)</li>
+                            </ul>
+                        </div>
+
+                        <div class="example-box">
+                            <h4>Example: Film History Course</h4>
+                            <ul>
+                                <li><strong>Know:</strong> Key movements, directors, and films from silent era to present</li>
+                                <li><strong>Do:</strong> Analyze visual storytelling; make connections between films and historical context</li>
+                                <li><strong>Experience:</strong> Appreciation for how cinema shapes and reflects culture; confidence in discussing films critically</li>
+                            </ul>
+                        </div>
+
+                        <div class="subsection">
+                            <h3>📝 Write It Down</h3>
+                            <p>Once you have clarity, write 1-2 sentences summarizing your course goals. This becomes your North Star when making decisions about content, pacing, and format.</p>
+                        </div>
+
+                        <div class="highlight-box">
+                            <h4>💡 Pro Tip:</h4>
+                            <p>Keep your goals visible as you plan. When you're tempted to include that "really cool tangent," ask: Does this serve my goals?</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Define Your Audience -->
+            <div class="section" id="section-audience">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2><span class="icon">👥</span> Defining Your Audience</h2>
+                    <span class="toggle">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <p class="quote">"Know your audience." – Every communication expert ever</p>
+                        
+                        <p>BOLLI students aren't blank slates—they come with rich life experience, curiosity, and preferences. Understanding them helps you pitch the right tone, depth, and pace.</p>
+
+                        <a href="#ai-objective-curriculum" class="ai-link">Learn how AI helps develop curriculum materials efficiently</a>
+
+                        <div class="subsection">
+                            <h3>🎓 Who Are Your Students?</h3>
+                            <p>Consider their:</p>
+                            <ul>
+                                <li><strong>Background knowledge:</strong> Are they beginners, enthusiasts, or experts in your topic?</li>
+                                <li><strong>Interests & motivations:</strong> Why might they take this course? Intellectual curiosity? Social connection? Personal enrichment?</li>
+                                <li><strong>Learning preferences:</strong> Do they love deep reading or prefer discussion-based exploration?</li>
+                            </ul>
+                        </div>
+
+                        <div class="subsection">
+                            <h3>⚖️ Balancing Expectations</h3>
+                            <p>Not everyone will come with the same level of preparation. Some strategies:</p>
+                            <ul>
+                                <li>If the course requires prior knowledge, state it clearly in the description (e.g., "familiarity with basic economics is helpful").</li>
+                                <li>If you want to welcome everyone, design for a range: offer background readings for newcomers, deeper dives for experienced learners.</li>
+                                <li>Make the first session an equalizer—an overview that brings everyone to a shared starting point.</li>
+                            </ul>
+                        </div>
+
+                        <div class="example-box">
+                            <h4>Example: Philosophy Course</h4>
+                            <p><strong>Open approach:</strong> "No prior philosophy required! We'll start with accessible texts and build from there."</p>
+                            <p><strong>Focused approach:</strong> "This course assumes familiarity with Kant and Hegel. We'll dive into advanced critiques from the start."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Course Format -->
+            <div class="section" id="section-format">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2><span class="icon">📅</span> Thinking About Your Course Format</h2>
+                    <span class="toggle">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <p class="quote">"The medium is the message." – Marshall McLuhan</p>
+                        
+                        <p>Course format isn't just logistics—it shapes the learning experience. A 5-week intensive feels different from a leisurely 10-week exploration.</p>
+
+                        <a href="#ai-objective-curriculum" class="ai-link">Discover how AI streamlines course development for different formats</a>
+
+                        <div class="subsection">
+                            <h3>🗓️ Standard Formats at BOLLI</h3>
+                            <ul>
+                                <li><strong>5-Week Course:</strong> Focused and intense; great for a single text, concept, or theme</li>
+                                <li><strong>10-Week Course:</strong> Room for breadth and depth; can cover multiple themes or texts with space for reflection</li>
+                            </ul>
+                        </div>
+
+                        <div class="subsection">
+                            <h3>⏰ Session Length & Frequency</h3>
+                            <ul>
+                                <li><strong>90-minute sessions:</strong> Standard; allows for lecture + discussion</li>
+                                <li><strong>2-hour sessions:</strong> More room for activities, group work, or in-depth discussion</li>
+                            </ul>
+                        </div>
+
+                        <div class="subsection">
+                            <h3>🏢 Delivery Mode</h3>
+                            <ul>
+                                <li><strong>In-person:</strong> Best for interactive, discussion-heavy courses</li>
+                                <li><strong>Zoom:</strong> Accessible; works well for lecture-based or smaller discussion groups</li>
+                                <li><strong>Hybrid:</strong> Offers flexibility but requires careful planning</li>
+                            </ul>
+                        </div>
+
+                        <div class="key-points">
+                            <h4>Matching Format to Content:</h4>
+                            <ul>
+                                <li><strong>5-week intensive:</strong> Single novel study, focused historical event, specific philosophical question</li>
+                                <li><strong>10-week survey:</strong> Multiple authors, thematic exploration across time, complex topic requiring buildup</li>
+                            </ul>
+                        </div>
+
+                        <div class="highlight-box">
+                            <h4>💡 Pro Tip:</h4>
+                            <p>If you're torn between 5 and 10 weeks, ask: Is this a "deep dive" or a "landscape view"? The answer will guide your choice.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Narrow Realistic Scope -->
+            <div class="section" id="section-scope">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2><span class="icon">✂️</span> Narrowing to a Realistic Scope</h2>
+                    <span class="toggle">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <p class="quote">"Perfection is achieved not when there is nothing more to add, but when there is nothing left to take away." – Antoine de Saint-Exupéry</p>
+                        
+                        <p>One of the hardest parts of course design is saying no. You can't cover everything, and that's okay. A well-scoped course gives students depth over breadth.</p>
+
+                        <a href="#ai-objective-research" class="ai-link">Use AI to help research and refine your course outline</a>
+
+                        <div class="subsection">
+                            <h3>🚫 Common Pitfalls</h3>
+                            <ul>
+                                <li><strong>The "Everything" Trap:</strong> Trying to cover an entire field or history in one course (e.g., "World History from Ancient Times to Today")</li>
+                                <li><strong>The "Greatest Hits" Problem:</strong> Cramming in too many famous works/figures without time to engage meaningfully</li>
+                                <li><strong>The "Perfectionist's Dilemma":</strong> Believing students need exhaustive background before discussing the "real" material</li>
+                            </ul>
+                        </div>
+
+                        <div class="subsection">
+                            <h3>✅ Strategies for Narrowing Scope</h3>
+                            
+                            <div style="margin: 20px 0;">
+                                <h4>1. Start with Your Big Question</h4>
+                                <p>What's the central question or theme? Let that be your filter.</p>
+                                <div class="example-box">
+                                    <strong>Broad:</strong> "American Literature"<br>
+                                    <strong>Focused:</strong> "How did American writers respond to industrialization?"
+                                </div>
+                            </div>
+
+                            <div style="margin: 20px 0;">
+                                <h4>2. Choose Depth Over Coverage</h4>
+                                <p>It's better to read one novel deeply than to skim five.</p>
+                            </div>
+
+                            <div style="margin: 20px 0;">
+                                <h4>3. Embrace the Representative Example</h4>
+                                <p>You don't need to cover every philosopher—pick one or two as case studies that illuminate broader themes.</p>
+                            </div>
+
+                            <div style="margin: 20px 0;">
+                                <h4>4. Trust the Learners</h4>
+                                <p>BOLLI students can handle complexity. You don't need to "dumb it down" or over-explain. Dive in.</p>
+                            </div>
+                        </div>
+
+                        <div class="example-box">
+                            <h4>Example: From Overwhelming to Focused</h4>
+                            <p><strong>Too broad:</strong> "The History of Democracy"</p>
+                            <p><strong>Narrowed:</strong> "How Athens Invented Democracy—and Why It Failed"</p>
+                            <p><em>Focus on a single historical case allows for rich discussion of democracy's strengths and vulnerabilities.</em></p>
+                        </div>
+
+                        <div class="highlight-box">
+                            <h4>✂️ The "One Less Thing" Rule:</h4>
+                            <p>Whatever you think you can cover, do one less thing. Students will thank you for the breathing room.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5: Teaching Method -->
+            <div class="section" id="section-method">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2><span class="icon">🎓</span> Selecting Your Teaching Method</h2>
+                    <span class="toggle">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <p class="quote">"Tell me and I forget, teach me and I may remember, involve me and I learn." – Benjamin Franklin</p>
+                        
+                        <p>How you teach matters as much as what you teach. BOLLI offers flexibility: you can lecture, facilitate discussions, lead activities, or blend methods.</p>
+
+                        <a href="#ai-objective-prompting" class="ai-link">Master AI prompting to create effective teaching materials</a>
+                        <a href="#ai-objective-discussion" class="ai-link">Generate discussion questions with AI assistance</a>
+
+                        <div class="subsection">
+                            <h3>📖 Lecture-Based Learning</h3>
+                            <p>The SGL presents material through structured talks, often with slides or visuals.</p>
+                            
+                            <div class="key-points">
+                                <h4>When it works well:</h4>
+                                <ul>
+                                    <li>Complex topics requiring expert explanation</li>
+                                    <li>Introducing new material or historical background</li>
+                                    <li>Large groups where discussion is harder to manage</li>
+                                </ul>
+                            </div>
+
+                            <div class="key-points">
+                                <h4>Best Practices:</h4>
+                                <ul>
+                                    <li>Keep segments to 15-20 minutes before shifting to Q&A or activity</li>
+                                    <li>Use visuals to illustrate concepts</li>
+                                    <li>Build in pauses for questions and reflection</li>
+                                    <li>End with a thought-provoking question to prime discussion</li>
+                                </ul>
+                            </div>
+
+                            <div class="example-box">
+                                <h4>Example: Art History Course</h4>
+                                <p>SGL presents 20 minutes on Renaissance techniques, then shows multiple paintings and asks students to identify those techniques in action.</p>
+                            </div>
+                        </div>
+
+                        <div class="subsection">
+                            <h3>💬 Facilitated Discussion</h3>
+                            <p>A structured process where the SGL guides group conversation to achieve specific goals.</p>
+                            
+                            <div class="key-points">
+                                <h4>Benefits:</h4>
+                                <ul>
+                                    <li>Involves the class in the learning experience</li>
+                                    <li>Achieves shared understanding</li>
+                                    <li>Enables analysis and problem-solving</li>
+                                    <li>Creates learning dialogue among participants</li>
+                                </ul>
+                            </div>
+
+                            <div class="key-points">
+                                <h4>Facilitator Role:</h4>
+                                <ul>
+                                    <li>Guide conversation toward specific goals</li>
+                                    <li>Encourage participation from all</li>
+                                    <li>Ask probing questions</li>
+                                    <li>Moderate to ensure all voices are heard</li>
+                                    <li>Get participants to listen and respond to <em>each other</em></li>
+                                </ul>
+                            </div>
+
+                            <div class="example-box">
+                                <h4>Example: Short Story Course</h4>
+                                <p>SGL asks a series of questions that lead the group through the story. Their collective exploration leads to understanding from multiple perspectives.</p>
+                            </div>
+
+                            <p><em>More information about creating good facilitated discussions is provided in Week 4.</em></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 6: Course Description -->
+            <div class="section" id="section-description">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2><span class="icon">✍️</span> Creating an Enticing Course Description</h2>
+                    <span class="toggle">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <p class="quote">"Packaging can be theater, it can create a story." – Steve Jobs</p>
+                        
+                        <p>Your course description is like a movie trailer—it should spark curiosity, highlight benefits, and give a taste without revealing everything.</p>
+
+                        <a href="#ai-objective-prompting" class="ai-link">Use effective AI prompting for compelling course descriptions</a>
+
+                        <div class="key-points">
+                            <h4>Step-by-Step Guide:</h4>
+                            
+                            <div style="margin: 20px 0;">
+                                <h4>1️⃣ Start with a Hook</h4>
+                                <p>Open with a compelling question, surprising fact, or vivid image.</p>
+                                <div class="example-box">
+                                    <strong>Examples:</strong>
+                                    <ul>
+                                        <li>"What do Homer's 'Odyssey' and your daily commute have in common?"</li>
+                                        <li>"Tired of surface-level conversations about race, gender, and power? This course goes deeper."</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div style="margin: 20px 0;">
+                                <h4>2️⃣ Clarify the Purpose</h4>
+                                <p>Briefly state what the course is about. Be specific but accessible—avoid jargon unless your audience expects it.</p>
+                                <div class="example-box">
+                                    <strong>Example:</strong> "Explore the unspoken rules of social life through literature, film, and lived experience."
+                                </div>
+                            </div>
+
+                            <div style="margin: 20px 0;">
+                                <h4>3️⃣ Show What's in It for Them</h4>
+                                <p>What skills will they gain? What questions will they explore? What transformations might they experience?</p>
+                                <div class="example-box">
+                                    <strong>Example:</strong> "You'll leave with a new lens for interpreting stories—and your own life."
+                                </div>
+                            </div>
+
+                            <div style="margin: 20px 0;">
+                                <h4>4️⃣ Highlight Key Features</h4>
+                                <p>Name formats (discussion-based? project-driven?), notable texts or themes, or anything else that sets the course apart.</p>
+                                <div class="example-box">
+                                    <strong>Example:</strong> "We'll read a mix of classic and contemporary texts, hold collaborative discussions, and create space for reflection and personal connection."
+                                </div>
+                            </div>
+
+                            <div style="margin: 20px 0;">
+                                <h4>5️⃣ Be Clear About Requirements</h4>
+                                <p>Make people feel welcome OR state necessary prerequisites clearly.</p>
+                                <div class="example-box">
+                                    <strong>Welcoming:</strong> "No prior experience with philosophy or literature is required—just curiosity and a willingness to dive in."<br><br>
+                                    <strong>With Prerequisites:</strong> "This hands-on AI course requires familiarity with using internet browsers like Safari or Chrome."
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="example-box">
+                            <h4>📝 Full Sample: "Stories to Live By"</h4>
+                            
+                            <p><strong>Hook:</strong> What if the stories we tell shape the world we live in?</p>
+                            
+                            <p>In this course, we'll explore how narrative—and who gets to tell it—shapes identity, culture, and power. Through literature, film, and personal reflection, we'll examine how stories help us make sense of the world—and how they can also limit or liberate our thinking.</p>
+                            
+                            <p>We'll begin with Chimamanda Ngozi Adichie's TED Talk, "The Danger of a Single Story," as a foundation for discussing the stakes of storytelling in everyday life. From there, we'll read a mix of texts—ranging from fiction and memoir to essays and visual narratives—that open up alternative ways of seeing and being:</p>
+                            
+                            <ul>
+                                <li><strong>James Baldwin's</strong> <em>The Fire Next Time</em>, a searing meditation on race, faith, and the American dream</li>
+                                <li><strong>Maxine Hong Kingston's</strong> <em>The Woman Warrior</em>, which blends memoir and myth to explore silence, voice, and cultural inheritance</li>
+                                <li><strong>Claudia Rankine's</strong> <em>Citizen: An American Lyric</em>, a hybrid text of poetry, essay, and visual art that confronts the insidiousness of everyday racism</li>
+                                <li><strong>Jordan Peele's film</strong> <em>Get Out</em>, offering a sharp cultural critique through the lens of horror and satire</li>
+                            </ul>
+                            
+                            <p>Together, we'll examine how personal and collective stories are shaped by race, gender, memory, and power—and how they in turn shape us. You'll be invited to connect these works to your own life experiences through discussion and short reflective writings.</p>
+                            
+                            <p><strong>No prior experience with literature, theory, or storytelling is required—just curiosity and a willingness to engage.</strong></p>
+                        </div>
+
+                        <div class="highlight-box">
+                            <h4>📎 Additional Resources:</h4>
+                            <p>More <a href="https://docs.google.com/document/d/1DBFXMtj1YhWSskgG6HRFWzV3PzcSGXEKfqUgYh6MJsU/edit?usp=sharing" target="_blank">good examples from recent BOLLI terms</a> are available.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI INTEGRATION SECTION -->
+            <div class="ai-section">
+                <div class="ai-section-header">
+                    <h2>🤖 AI Integration Training: Session 1</h2>
+                    <p style="font-size: 1.1em; margin-top: 10px;">AI Foundations & Course Development</p>
+                    <div class="ai-section-meta">
+                        <div class="ai-meta-item">
+                            <span>📍</span>
+                            <span>Online (Zoom)</span>
+                        </div>
+                        <div class="ai-meta-item">
+                            <span>⏱️</span>
+                            <span>120 minutes</span>
+                        </div>
+                        <div class="ai-meta-item">
+                            <span>📅</span>
+                            <span>Late January</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ai-objectives">
+                    <h3>Learning Objectives</h3>
+                    <p style="margin-bottom: 20px; color: #555;">These objectives show how AI can enhance each step of the course development process outlined above. Click the links below each objective to see where this skill applies in your course building process:</p>
+                    
+                    <!-- Clear Selection Button -->
+                    <div id="clearSelectionBtn" class="clear-selection-btn" style="display: none;">
+                        <button onclick="clearSelection()">✕ Clear Selection</button>
+                    </div>
+                    
+                    <ul class="objectives-list">
+                        <li id="ai-objective-rag">
+                            Understand how generative AI works and why grounding it in authoritative sources through Retrieval Augmented Generation (RAG) is essential for credible course development
+                            <div style="margin-top: 10px;">
+                                <a href="#section-goals" class="back-link">📍 Applied in: Determining Your Goals</a>
+                            </div>
+                        </li>
+                        <li id="ai-objective-prompting">
+                            Master effective prompting techniques for different AI tools (Claude, ChatGPT, Gemini)
+                            <div style="margin-top: 10px;">
+                                <a href="#section-method" class="back-link">📍 Applied in: Teaching Method</a>
+                                <a href="#section-description" class="back-link">📍 Applied in: Course Description</a>
+                            </div>
+                        </li>
+                        <li id="ai-objective-research">
+                            Use AI to research topics and generate course outlines
+                            <div style="margin-top: 10px;">
+                                <a href="#section-goals" class="back-link">📍 Applied in: Determining Your Goals</a>
+                                <a href="#section-scope" class="back-link">📍 Applied in: Narrowing Scope</a>
+                            </div>
+                        </li>
+                        <li id="ai-objective-discussion">
+                            Create reading guides and discussion questions with AI assistance
+                            <div style="margin-top: 10px;">
+                                <a href="#section-method" class="back-link">📍 Applied in: Teaching Method</a>
+                            </div>
+                        </li>
+                        <li id="ai-objective-curriculum">
+                            Develop curriculum materials efficiently for 5-week and 10-week courses
+                            <div style="margin-top: 10px;">
+                                <a href="#section-audience" class="back-link">📍 Applied in: Defining Your Audience</a>
+                                <a href="#section-format" class="back-link">📍 Applied in: Course Format</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tools-section">
+                    <div class="tools-title">🛠️ Tools Covered in Session 1</div>
+                    <div class="tools-list">
+                        <div class="tool-tag">Claude</div>
+                        <div class="tool-tag">ChatGPT</div>
+                        <div class="tool-tag">Gemini</div>
+                        <div class="tool-tag">Browser Management</div>
+                        <div class="tool-tag">Document Upload</div>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 25px;">
+                    <h4>🎯 Connection to Course Building Process</h4>
+                    <p>The learning objectives above directly support the course development process outlined in the sections above. Click any AI link throughout this guide to see the specific connection!</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <p>Interactive Summary of "Building Your Proposal" from Ready, Set, Go! BOLLI Course Development Guide</p>
+            <p>Enhanced with AI Integration Training from SGL AI Integration Course</p>
+            <p>Click section headers to expand and explore detailed content</p>
+        </div>
+    </div>
+
+    <script>
+        let allExpanded = false;
+        let currentlyHighlighted = null;
+
+        function toggleSection(header) {
+            const section = header.parentElement;
+            const content = section.querySelector('.section-content');
+            const isActive = header.classList.contains('active');
+            
+            if (isActive) {
+                header.classList.remove('active');
+                content.classList.remove('active');
+            } else {
+                header.classList.add('active');
+                content.classList.add('active');
+            }
+        }
+
+        function toggleAll() {
+            const headers = document.querySelectorAll('.section-header');
+            const contents = document.querySelectorAll('.section-content');
+            const button = document.querySelector('.expand-all .btn');
+            
+            allExpanded = !allExpanded;
+            
+            headers.forEach(header => {
+                if (allExpanded) {
+                    header.classList.add('active');
+                } else {
+                    header.classList.remove('active');
+                }
+            });
+            
+            contents.forEach(content => {
+                if (allExpanded) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+            
+            button.textContent = allExpanded ? 'Collapse All Sections' : 'Expand All Sections';
+        }
+
+        function clearSelection() {
+            if (currentlyHighlighted) {
+                currentlyHighlighted.classList.remove('objective-highlighted');
+                currentlyHighlighted = null;
+            }
+            // Hide the clear button
+            document.getElementById('clearSelectionBtn').style.display = 'none';
+        }
+
+        // Smooth scrolling for AI links
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle links FROM Building Proposal TO AI objectives
+            document.querySelectorAll('a[href^="#ai-objective-"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Clear any previous highlight
+                    clearSelection();
+                    
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
+                        // Add persistent highlight
+                        targetElement.classList.add('objective-highlighted');
+                        currentlyHighlighted = targetElement;
+                        
+                        // Show the clear button
+                        setTimeout(() => {
+                            document.getElementById('clearSelectionBtn').style.display = 'block';
+                        }, 500);
+                    }
+                });
+            });
+
+            // Handle links FROM AI objectives BACK TO Building Proposal sections
+            document.querySelectorAll('a[href^="#section-"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Clear selection when navigating away
+                    clearSelection();
+                    
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        const header = targetSection.querySelector('.section-header');
+                        const content = targetSection.querySelector('.section-content');
+                        
+                        // Auto-expand the section if it's collapsed
+                        if (!header.classList.contains('active')) {
+                            header.classList.add('active');
+                            content.classList.add('active');
+                        }
+                        
+                        // Scroll to the section
+                        setTimeout(() => {
+                            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            
+                            // Add temporary highlight to the section
+                            const originalBorder = targetSection.style.borderColor;
+                            targetSection.style.transition = 'border-color 0.5s, box-shadow 0.5s';
+                            targetSection.style.borderColor = '#667eea';
+                            targetSection.style.boxShadow = '0 5px 25px rgba(102, 126, 234, 0.4)';
+                            
+                            setTimeout(() => {
+                                targetSection.style.borderColor = originalBorder;
+                                targetSection.style.boxShadow = '';
+                            }, 2000);
+                        }, 100);
+                    }
+                });
+            });
+        });
+
+        // Optional: Add smooth scrolling for better UX
+        document.querySelectorAll('.section-header').forEach(header => {
+            header.addEventListener('click', function() {
+                setTimeout(() => {
+                    if (this.classList.contains('active')) {
+                        this.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>
