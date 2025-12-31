@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Your Proposal - Interactive Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header .quote {
+            font-style: italic;
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-top: 20px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .section-header:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .section-header h2 {
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-header .icon {
+            margin-right: 15px;
+            font-size: 1.3em;
+        }
+
+        .section-header .toggle {
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+        }
+
+        .section-header.active .toggle {
+            transform: rotate(180deg);
+        }
+
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            background: white;
+        }
+
+        .section-content.active {
+            max-height: 5000px;
+        }
+
+        .section-inner {
+            padding: 30px;
+        }
+
+        .subsection {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 5px;
+        }
+
+        .subsection h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .subsection p, .subsection ul {
+            margin: 10px 0;
+            color: #555;
+        }
+
+        .subsection ul {
+            padding-left: 25px;
+        }
+
+        .subsection li {
+            margin: 8px 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid #fdcb6e;
+        }
+
+        .example-box {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid #4caf50;
+        }
+
+        .example-box h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .key-points {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .key-points h4 {
+            color: #1565c0;
+            margin-bottom: 10px;
+        }
+
+        .expand-all {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #f5f7fa;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .section-header h2 {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Building Your Proposal</h1>
+            <p class="quote">"If you want to build a ship, don't drum up people together to collect wood and don't assign them tasks and work, but rather teach them to long for the endless immensity of the sea."<br>– Antoine de Saint-Exupéry</p>
+        </div>
+
+        <div class="content">
+            <div class="expand-all">
+                <button class="btn" onclick="toggleAll()">Expand All Sections</button>
+            </div>
+
+            <!-- Section 1: Overview -->
+            <div class="section">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2><span class="icon">📋</span> Overview & To-Do List</h2>
+                    <span class="toggle">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <p><strong>Goal:</strong> Transform your course idea into a structured proposal by developing objectives, choosing materials, and crafting an engaging description.</p>
+                        
+                        <div class="highlight-box">
+                            <h4>📝 Your To-Do Checklist:</h4>
+                            <ul>
+                                <li>Read all sections and consider how they apply to your course ideas</li>
+                                <li>Review "What Makes a Good SGL?" guidelines</li>
+                                <li>Draft course objectives for two of your ideas</li>
+                                <li>Explore your teaching approach: lecture, facilitated discussion, or combination</li>
+                                <li>Identify primary sources (books, films, articles, videos, websites)</li>
+                                <li>Draft a compelling course description (250 words max for proposal)</li>
+                                <li>Discuss ideas with your mentor and bring up questions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Course Objectives -->
+            <div class="section">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2><span class="icon">🎯</span> Creating Course Objectives</h2>
+                    <span class="toggle">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <p>Course objectives define what participants should know or be able to do by the end of your course. They guide your entire course design process.</p>
+                        
+                        <div class="key-points">
+                            <h4>Key Questions to Ask:</h4>
+                            <ul>
+                                <li>What should participants know by the end of the course?</li>
+                                <li>What should they be able to do?</li>
+                                <li>What skills, facts, or theories will they gain?</li>
+                            </ul>
+                        </div>
+
+                        <div class="example-box">
+                            <h4>Example: Objectives for "Ready, Set, Go!" Workbook</h4>
+                            <p>Participants will engage in a process to design a new BOLLI course:</p>
+                            <ul>
+                                <li>Generate ideas and shape concept</li>
+                                <li>Explore different class delivery models</li>
+                                <li>Create an enticing course description and objectives</li>
+                                <li>Develop and divide material into logical sessions to create a syllabus</li>
+                                <li>Engage with other prospective member SGLs</li>
+                                <li>Understand how to inspire and moderate class discussions</li>
+                                <li>Learn about available resources for help</li>
+                            </ul>
+                            <p><strong>Outcome:</strong> By the end, you will be ready to prepare and submit your proposal.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Course Development Approaches -->
+            <div class="section">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2><span class="icon">🗺️</span> Approaches to Course Development</h2>
+                    <span class="toggle">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <div class="subsection">
+                            <h3>📐 Begin with the End in Mind (Understanding by Design)</h3>
+                            <p>Your course objectives guide course design, helping you refine your topic and eliminate material that doesn't support these objectives.</p>
+                            
+                            <div class="key-points">
+                                <h4>Process:</h4>
+                                <ol>
+                                    <li><strong>Decide</strong> what you want students to learn (facts, skills, theories)</li>
+                                    <li><strong>Use objectives</strong> to figure out how to structure the course</li>
+                                    <li><strong>Plan backwards</strong> from desired outcomes to current starting point</li>
+                                </ol>
+                            </div>
+                            
+                            <p><strong>Resource:</strong> Washington State University's "<a href="https://li.wsu.edu/2019/09/06/backward-design-a-planning-framework/" target="_blank">Backward Design: A Planning Framework</a>" provides an in-depth guide.</p>
+                        </div>
+
+                        <div class="subsection">
+                            <h3>📖 Narrative Arc Approach</h3>
+                            <p>Think of your course as having a narrative arc—a sequence of topics that build upon each other toward a desired end.</p>
+                            
+                            <div class="example-box">
+                                <h4>Mountain Hike Analogy:</h4>
+                                <p>Think of your course as a 10-day hike in the mountains:</p>
+                                <ul>
+                                    <li>Each class takes you through different terrain to a different place</li>
+                                    <li>All classes are connected as you climb</li>
+                                    <li>Look back to see where you've been</li>
+                                    <li>Look ahead to see where you're going</li>
+                                    <li>Each class builds on previous learning</li>
+                                    <li>By the summit (end), there's synthesis where pieces fit together</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="key-points">
+                                <h4>Structure:</h4>
+                                <ul>
+                                    <li><strong>Beginning:</strong> Introduce foundation concepts</li>
+                                    <li><strong>Middle:</strong> Develop and explore themes progressively</li>
+                                    <li><strong>End:</strong> Synthesize learning and achieve objectives</li>
+                                </ul>
+                            </div>
+                            
+                            <p><em>Note: Even with a narrative arc, you still want clear course objectives to ensure the "hike" reaches the summit.</em></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Choose Your Materials -->
+            <div class="section">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2><span class="icon">📚</span> Choose Your Materials</h2>
+                    <span class="toggle">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <div class="subsection">
+                            <h3>📖 Primary Source Approach</h3>
+                            <p>Pick a primary source (book, play, movie, series) and let it structure your course organization.</p>
+                            
+                            <div class="key-points">
+                                <h4>Single Source:</h4>
+                                <ul>
+                                    <li>Author has done the organization for you</li>
+                                    <li>Ideal for literature courses</li>
+                                    <li>Class time spent deciphering meaning</li>
+                                    <li><strong>Benefit:</strong> Built-in structure</li>
+                                    <li><strong>Drawback:</strong> Only one perspective (consider supplementing)</li>
+                                </ul>
+                            </div>
+
+                            <div class="example-box">
+                                <h4>Examples:</h4>
+                                <ul>
+                                    <li><strong>Single Work:</strong> "Joseph Mitchell's New York" or "Old Crimes: Stories of Jill McCorkle"</li>
+                                    <li><strong>Comparative:</strong> "Representations of Female Defiance: Jane Eyre and Wide Sargasso Sea"</li>
+                                    <li><strong>Thematic:</strong> Short story course on motherhood</li>
+                                    <li><strong>Perfect Fit:</strong> "The Age of Choice" (5 chapters = 5 weeks)</li>
+                                    <li><strong>Supplemented:</strong> "Private Lives of the Impressionists" (book + articles + videos)</li>
+                                </ul>
+                            </div>
+
+                            <div class="highlight-box">
+                                <h4>💡 Tip for Discussion:</h4>
+                                <p>Add contrasting viewpoints through supplementary readings to create discussion and even healthy controversy in your classes.</p>
+                            </div>
+                        </div>
+
+                        <div class="subsection">
+                            <h3>🌐 Open Source Approach</h3>
+                            <p>Collect a variety of readings, websites, academic papers, and videos, then curate the most fascinating content into a cohesive collection.</p>
+                            
+                            <div class="key-points">
+                                <h4>Process:</h4>
+                                <ul>
+                                    <li>Research widely across multiple sources</li>
+                                    <li>Borrow organizing principles from relevant books</li>
+                                    <li>Create your own website with summaries and links</li>
+                                    <li>Stitch together the most compelling materials</li>
+                                </ul>
+                            </div>
+
+                            <div class="key-points">
+                                <h4>Trade-offs:</h4>
+                                <ul>
+                                    <li><strong>Benefits:</strong>
+                                        <ul>
+                                            <li>Maximum flexibility</li>
+                                            <li>Combine diverse amazing materials</li>
+                                            <li>Unique perspective and organization</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>Considerations:</strong>
+                                        <ul>
+                                            <li>Takes longer to research and assemble</li>
+                                            <li>More preparation required</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="example-box">
+                                <h4>Examples:</h4>
+                                <ul>
+                                    <li>"The Indo-Europeans" (comprehensive website)</li>
+                                    <li>"City Visions: Three Great Cities Seen Through Artists' Eyes"</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5: Classroom Style -->
+            <div class="section">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2><span class="icon">🎭</span> Classroom Style</h2>
+                    <span class="toggle">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <p><strong>Consider:</strong> Are you a subject matter expert eager to share knowledge, or a guide facilitating shared learning? Perhaps a combination?</p>
+                        
+                        <div class="subsection">
+                            <h3>🎤 Lecture Format</h3>
+                            <p>Instructor does most of the talking, often with slides.</p>
+                            
+                            <div class="key-points">
+                                <h4>When Appropriate:</h4>
+                                <ul>
+                                    <li>Esoteric or arcane subjects</li>
+                                    <li>When lecturer has significantly more expertise</li>
+                                </ul>
+                            </div>
+
+                            <div class="highlight-box">
+                                <h4>⚠️ Danger:</h4>
+                                <p>Failing to keep participants engaged. Students may drift off, check phones, or multitask.</p>
+                            </div>
+
+                            <div class="key-points">
+                                <h4>Making Lectures Work:</h4>
+                                <ul>
+                                    <li><strong>Stop frequently</strong> to invite participation</li>
+                                    <li><strong>Take down slides</strong> so everyone can see each other</li>
+                                    <li><strong>Encourage discussion,</strong> not just Q&A</li>
+                                    <li><strong>Be a storyteller</strong> – weave stories and examples into teaching</li>
+                                    <li><strong>Invite contribution</strong> from participants to each other, not just to you</li>
+                                </ul>
+                            </div>
+
+                            <div class="example-box">
+                                <h4>Best BOLLI Lecturers:</h4>
+                                <p>They are storytellers who leave behind dry textbook material and weave engaging narratives, stop for comments, and encourage participant-to-participant interaction.</p>
+                            </div>
+                        </div>
+
+                        <div class="subsection">
+                            <h3>💬 Facilitated Discussion</h3>
+                            <p>A structured process where the SGL guides group conversation to achieve specific goals.</p>
+                            
+                            <div class="key-points">
+                                <h4>Benefits:</h4>
+                                <ul>
+                                    <li>Involves the class in the learning experience</li>
+                                    <li>Achieves shared understanding</li>
+                                    <li>Enables analysis and problem-solving</li>
+                                    <li>Creates learning dialogue among participants</li>
+                                </ul>
+                            </div>
+
+                            <div class="key-points">
+                                <h4>Facilitator Role:</h4>
+                                <ul>
+                                    <li>Guide conversation toward specific goals</li>
+                                    <li>Encourage participation from all</li>
+                                    <li>Ask probing questions</li>
+                                    <li>Moderate to ensure all voices are heard</li>
+                                    <li>Get participants to listen and respond to <em>each other</em></li>
+                                </ul>
+                            </div>
+
+                            <div class="example-box">
+                                <h4>Example: Short Story Course</h4>
+                                <p>SGL asks a series of questions that lead the group through the story. Their collective exploration leads to understanding from multiple perspectives.</p>
+                            </div>
+
+                            <p><em>More information about creating good facilitated discussions is provided in Week 4.</em></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 6: Course Description -->
+            <div class="section">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2><span class="icon">✍️</span> Creating an Enticing Course Description</h2>
+                    <span class="toggle">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <p class="quote">"Packaging can be theater, it can create a story." – Steve Jobs</p>
+                        
+                        <p>Your course description is like a movie trailer—it should spark curiosity, highlight benefits, and give a taste without revealing everything.</p>
+
+                        <div class="key-points">
+                            <h4>Step-by-Step Guide:</h4>
+                            
+                            <div style="margin: 20px 0;">
+                                <h4>1️⃣ Start with a Hook</h4>
+                                <p>Open with a compelling question, surprising fact, or vivid image.</p>
+                                <div class="example-box">
+                                    <strong>Examples:</strong>
+                                    <ul>
+                                        <li>"What do Homer's 'Odyssey' and your daily commute have in common?"</li>
+                                        <li>"Tired of surface-level conversations about race, gender, and power? This course goes deeper."</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div style="margin: 20px 0;">
+                                <h4>2️⃣ Clarify the Purpose</h4>
+                                <p>Briefly state what the course is about. Be specific but accessible—avoid jargon unless your audience expects it.</p>
+                                <div class="example-box">
+                                    <strong>Example:</strong> "Explore the unspoken rules of social life through literature, film, and lived experience."
+                                </div>
+                            </div>
+
+                            <div style="margin: 20px 0;">
+                                <h4>3️⃣ Show What's in It for Them</h4>
+                                <p>What skills will they gain? What questions will they explore? What transformations might they experience?</p>
+                                <div class="example-box">
+                                    <strong>Example:</strong> "You'll leave with a new lens for interpreting stories—and your own life."
+                                </div>
+                            </div>
+
+                            <div style="margin: 20px 0;">
+                                <h4>4️⃣ Highlight Key Features</h4>
+                                <p>Name formats (discussion-based? project-driven?), notable texts or themes, or anything else that sets the course apart.</p>
+                                <div class="example-box">
+                                    <strong>Example:</strong> "We'll read a mix of classic and contemporary texts, hold collaborative discussions, and create space for reflection and personal connection."
+                                </div>
+                            </div>
+
+                            <div style="margin: 20px 0;">
+                                <h4>5️⃣ Be Clear About Requirements</h4>
+                                <p>Make people feel welcome OR state necessary prerequisites clearly.</p>
+                                <div class="example-box">
+                                    <strong>Welcoming:</strong> "No prior experience with philosophy or literature is required—just curiosity and a willingness to dive in."<br><br>
+                                    <strong>With Prerequisites:</strong> "This hands-on AI course requires familiarity with using internet browsers like Safari or Chrome."
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="example-box">
+                            <h4>📝 Full Sample: "Stories to Live By"</h4>
+                            
+                            <p><strong>Hook:</strong> What if the stories we tell shape the world we live in?</p>
+                            
+                            <p>In this course, we'll explore how narrative—and who gets to tell it—shapes identity, culture, and power. Through literature, film, and personal reflection, we'll examine how stories help us make sense of the world—and how they can also limit or liberate our thinking.</p>
+                            
+                            <p>We'll begin with Chimamanda Ngozi Adichie's TED Talk, "The Danger of a Single Story," as a foundation for discussing the stakes of storytelling in everyday life. From there, we'll read a mix of texts—ranging from fiction and memoir to essays and visual narratives—that open up alternative ways of seeing and being:</p>
+                            
+                            <ul>
+                                <li><strong>James Baldwin's</strong> <em>The Fire Next Time</em>, a searing meditation on race, faith, and the American dream</li>
+                                <li><strong>Maxine Hong Kingston's</strong> <em>The Woman Warrior</em>, which blends memoir and myth to explore silence, voice, and cultural inheritance</li>
+                                <li><strong>Claudia Rankine's</strong> <em>Citizen: An American Lyric</em>, a hybrid text of poetry, essay, and visual art that confronts the insidiousness of everyday racism</li>
+                                <li><strong>Jordan Peele's film</strong> <em>Get Out</em>, offering a sharp cultural critique through the lens of horror and satire</li>
+                            </ul>
+                            
+                            <p>Together, we'll examine how personal and collective stories are shaped by race, gender, memory, and power—and how they in turn shape us. You'll be invited to connect these works to your own life experiences through discussion and short reflective writings.</p>
+                            
+                            <p><strong>No prior experience with literature, theory, or storytelling is required—just curiosity and a willingness to engage.</strong></p>
+                        </div>
+
+                        <div class="highlight-box">
+                            <h4>📎 Additional Resources:</h4>
+                            <p>More <a href="https://docs.google.com/document/d/1DBFXMtj1YhWSskgG6HRFWzV3PzcSGXEKfqUgYh6MJsU/edit?usp=sharing" target="_blank">good examples from recent BOLLI terms</a> are available.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <p>Interactive Summary of "Building Your Proposal" from Ready, Set, Go! BOLLI Course Development Guide</p>
+            <p>Click section headers to expand and explore detailed content</p>
+        </div>
+    </div>
+
+    <script>
+        let allExpanded = false;
+
+        function toggleSection(header) {
+            const section = header.parentElement;
+            const content = section.querySelector('.section-content');
+            const isActive = header.classList.contains('active');
+            
+            if (isActive) {
+                header.classList.remove('active');
+                content.classList.remove('active');
+            } else {
+                header.classList.add('active');
+                content.classList.add('active');
+            }
+        }
+
+        function toggleAll() {
+            const headers = document.querySelectorAll('.section-header');
+            const contents = document.querySelectorAll('.section-content');
+            const button = document.querySelector('.expand-all .btn');
+            
+            allExpanded = !allExpanded;
+            
+            headers.forEach(header => {
+                if (allExpanded) {
+                    header.classList.add('active');
+                } else {
+                    header.classList.remove('active');
+                }
+            });
+            
+            contents.forEach(content => {
+                if (allExpanded) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+            
+            button.textContent = allExpanded ? 'Collapse All Sections' : 'Expand All Sections';
+        }
+
+        // Optional: Add smooth scrolling for better UX
+        document.querySelectorAll('.section-header').forEach(header => {
+            header.addEventListener('click', function() {
+                setTimeout(() => {
+                    if (this.classList.contains('active')) {
+                        this.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>
