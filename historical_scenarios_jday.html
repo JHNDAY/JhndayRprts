@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historical Scenarios: Research Guide</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .subtitle {
+            font-style: italic;
+            color: #666;
+            margin-top: -20px;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .period-section {
+            background: white;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .period-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-size: 1.3em;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+        
+        .period-header:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+        
+        .period-content {
+            padding: 20px;
+            display: none;
+        }
+        
+        .period-content.active {
+            display: block;
+        }
+        
+        .scenario-section {
+            margin-bottom: 15px;
+            border-left: 4px solid #3498db;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        
+        .scenario-header {
+            padding: 12px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #2c3e50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s ease;
+        }
+        
+        .scenario-header:hover {
+            background: #e9ecef;
+        }
+        
+        .scenario-content {
+            padding: 15px;
+            display: none;
+            background: white;
+        }
+        
+        .scenario-content.active {
+            display: block;
+        }
+        
+        .detail-section {
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .detail-header {
+            background: #e9ecef;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #495057;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 3px;
+        }
+        
+        .detail-header:hover {
+            background: #dee2e6;
+        }
+        
+        .detail-content {
+            padding: 15px;
+            display: none;
+        }
+        
+        .detail-content.active {
+            display: block;
+        }
+        
+        .summary-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        
+        .topics-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .topics-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .topics-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #3498db;
+            font-weight: bold;
+        }
+        
+        .rhymes-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        
+        .rhymes-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .rhymes-list li {
+            padding: 6px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .rhymes-list li:before {
+            content: "♦";
+            position: absolute;
+            left: 0;
+            color: #ff9800;
+            font-weight: bold;
+        }
+        
+        .toggle-icon {
+            font-size: 0.8em;
+            transition: transform 0.3s ease;
+        }
+        
+        .toggle-icon.rotated {
+            transform: rotate(90deg);
+        }
+        
+        .expand-all-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-bottom: 20px;
+            transition: background 0.3s ease;
+        }
+        
+        .expand-all-btn:hover {
+            background: #2980b9;
+        }
+        
+        .scenario-title {
+            font-size: 1.1em;
+        }
+        
+        .date-range {
+            font-size: 0.9em;
+            color: #666;
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+    <h1>Historical Scenarios: A Research Guide</h1>
+    <p class="subtitle">"History doesn't repeat itself, but it often rhymes." — Exploring patterns from Rome to the present</p>
+    
+    <button class="expand-all-btn" onclick="toggleAll()">Expand All Sections</button>
+    
+    <!-- HUNNIC AND VANDAL INVASIONS -->
+    <div class="period-section">
+        <div class="period-header" onclick="togglePeriod(this)">
+            <span>Hunnic and Vandal Invasions: Pressure at the Borders</span>
+            <span class="toggle-icon">▶</span>
+        </div>
+        <div class="period-content">
+            
+            <!-- Scenario 1 -->
+            <div class="scenario-section">
+                <div class="scenario-header" onclick="toggleScenario(this)">
+                    <span class="scenario-title">Scenario 1: Rome's Immigration Crisis <span class="date-range">(370-455 CE)</span></span>
+                    <span class="toggle-icon">▶</span>
+                </div>
+                <div class="scenario-content">
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Summary & Context</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <div class="summary-box">
+                                <p>The Gothic refugees crossing the Danube in 376 CE weren't invaders initially—they were climate refugees fleeing the Huns, seeking asylum within Roman borders. Rome's inconsistent response, alternating between integration attempts and exploitation, ultimately destabilized both the newcomers and the empire itself.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Topics to Investigate</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <ul class="topics-list">
+                                <li>How did Roman attitudes toward "barbarians" shift when they became essential to military recruitment?</li>
+                                <li>What role did local versus imperial authority play in managing border populations?</li>
+                                <li>How did economic pressures (land distribution, labor markets) interact with cultural fears?</li>
+                                <li>What happened when Rome tried to maintain a two-tier citizenship system?</li>
+                                <li>How did religious differences (Arian Christianity vs. Orthodox) complicate integration?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Rhymes with U.S. History (1865-present)</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <div class="rhymes-box">
+                                <ul class="rhymes-list">
+                                    <li>Post-Civil War questions about incorporating formerly enslaved people into citizenship</li>
+                                    <li>Late 19th/early 20th century immigration waves and nativist responses</li>
+                                    <li>Bracero program and agricultural labor dependencies</li>
+                                    <li>Contemporary debates about borders, asylum, and paths to citizenship</li>
+                                    <li>Tension between federal immigration policy and local enforcement/resistance</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <!-- Scenario 2 -->
+            <div class="scenario-section">
+                <div class="scenario-header" onclick="toggleScenario(this)">
+                    <span class="scenario-title">Scenario 2: The Outsourcing of Imperial Defense <span class="date-range">(400-476 CE)</span></span>
+                    <span class="toggle-icon">▶</span>
+                </div>
+                <div class="scenario-content">
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Summary & Context</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <div class="summary-box">
+                                <p>Rome increasingly relied on federated "barbarian" troops and generals to defend the empire, creating power-sharing arrangements that gradually shifted real authority away from traditional Roman institutions.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Topics to Investigate</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <ul class="topics-list">
+                                <li>When does pragmatic delegation become loss of sovereignty?</li>
+                                <li>How did economic constraints drive military outsourcing decisions?</li>
+                                <li>What happened to civic identity when defense became privatized?</li>
+                                <li>How did wealth concentration affect Rome's ability to field citizen armies?</li>
+                                <li>What role did corruption in military contracting play?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Rhymes with U.S. History (1865-present)</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <div class="rhymes-box">
+                                <ul class="rhymes-list">
+                                    <li>Military-industrial complex and private military contractors</li>
+                                    <li>Shift from citizen-soldier model to professional/volunteer military</li>
+                                    <li>Economic inequality and who serves in the military</li>
+                                    <li>Outsourcing of government functions to private sector</li>
+                                    <li>Questions about civic duty versus market-based solutions</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <!-- FALL AND RISE OF ISLAM -->
+    <div class="period-section">
+        <div class="period-header" onclick="togglePeriod(this)">
+            <span>Fall and Rise of Islam: Civilizational Transformation</span>
+            <span class="toggle-icon">▶</span>
+        </div>
+        <div class="period-content">
+            
+            <!-- Scenario 3 -->
+            <div class="scenario-section">
+                <div class="scenario-header" onclick="toggleScenario(this)">
+                    <span class="scenario-title">Scenario 3: Rapid Expansion and Governance Challenges <span class="date-range">(632-750 CE)</span></span>
+                    <span class="toggle-icon">▶</span>
+                </div>
+                <div class="scenario-content">
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Summary & Context</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <div class="summary-box">
+                                <p>Within a century, Islamic expansion created an empire stretching from Spain to Central Asia. The challenge shifted from conquest to administration: how to govern diverse populations, integrate new converts while managing tensions with established communities, and maintain coherence across vast distances.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Topics to Investigate</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <ul class="topics-list">
+                                <li>How did early Islamic administration adapt Persian, Byzantine, and other existing systems?</li>
+                                <li>What were the economic incentives and disincentives for conversion?</li>
+                                <li>How did the empire manage linguistic and cultural diversity?</li>
+                                <li>What tensions arose between Arab identity and universal Islamic identity?</li>
+                                <li>How did different regions develop distinct interpretations while maintaining connection to the center?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Rhymes with U.S. History (1865-present)</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <div class="rhymes-box">
+                                <ul class="rhymes-list">
+                                    <li>Post-Civil War Reconstruction: rapid reintegration of Southern states</li>
+                                    <li>U.S. territorial expansion and governance of new territories (Philippines, Puerto Rico, Hawaii)</li>
+                                    <li>Managing diversity within an expanding federal system</li>
+                                    <li>Tensions between assimilation and pluralism</li>
+                                    <li>Federal authority versus state/local autonomy</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <!-- Scenario 4 -->
+            <div class="scenario-section">
+                <div class="scenario-header" onclick="toggleScenario(this)">
+                    <span class="scenario-title">Scenario 4: The Abbasid Golden Age and Its Fragmentation <span class="date-range">(750-1258 CE)</span></span>
+                    <span class="toggle-icon">▶</span>
+                </div>
+                <div class="scenario-content">
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Summary & Context</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <div class="summary-box">
+                                <p>The Abbasid era saw extraordinary intellectual, scientific, and commercial achievement even as political unity fractured. The caliphate maintained cultural prestige while real power devolved to regional authorities.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Topics to Investigate</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <ul class="topics-list">
+                                <li>What enabled cultural flourishing during political decentralization?</li>
+                                <li>How did trade networks function across politically fragmented regions?</li>
+                                <li>What was the relationship between religious authority and political power?</li>
+                                <li>How did translation movements and cross-cultural exchange drive innovation?</li>
+                                <li>What factors turned cosmopolitan centers into sites of sectarian conflict?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Rhymes with U.S. History (1865-present)</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <div class="rhymes-box">
+                                <ul class="rhymes-list">
+                                    <li>Gilded Age: economic dynamism amid political corruption and inequality</li>
+                                    <li>American cultural dominance even as political consensus fragments</li>
+                                    <li>Role of universities and research institutions as centers of innovation</li>
+                                    <li>Tensions between national identity and regional/cultural differences</li>
+                                    <li>Contemporary polarization amid continued economic and cultural productivity</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <!-- CONVIVENCIA -->
+    <div class="period-section">
+        <div class="period-header" onclick="togglePeriod(this)">
+            <span>Convivencia: Coexistence and Its Limits</span>
+            <span class="toggle-icon">▶</span>
+        </div>
+        <div class="period-content">
+            
+            <!-- Scenario 5 -->
+            <div class="scenario-section">
+                <div class="scenario-header" onclick="toggleScenario(this)">
+                    <span class="scenario-title">Scenario 5: Iberian Multicultural Experiment <span class="date-range">(711-1492)</span></span>
+                    <span class="toggle-icon">▶</span>
+                </div>
+                <div class="scenario-content">
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Summary & Context</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <div class="summary-box">
+                                <p>Medieval Iberia saw periods of remarkable interfaith cooperation among Muslims, Christians, and Jews, alongside episodes of persecution and forced conversion. The question isn't whether convivencia was real, but under what conditions it flourished or collapsed.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Topics to Investigate</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <ul class="topics-list">
+                                <li>What legal and social structures enabled periods of coexistence?</li>
+                                <li>How did economic interdependence affect intergroup relations?</li>
+                                <li>What triggered shifts from tolerance to persecution?</li>
+                                <li>How did intellectual and cultural exchange function in multilingual contexts?</li>
+                                <li>What role did political calculations play in protection or persecution of minorities?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Rhymes with U.S. History (1865-present)</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <div class="rhymes-box">
+                                <ul class="rhymes-list">
+                                    <li>Jim Crow versus Civil Rights: varying regimes of racial control and liberation</li>
+                                    <li>Immigration and ethnic diversity: successful integration versus nativist backlash</li>
+                                    <li>Religious pluralism and periodic anti-Semitism, Islamophobia, anti-Catholicism</li>
+                                    <li>Regional variations in tolerance (urban versus rural, different regions)</li>
+                                    <li>Economic competition and scapegoating during downturns</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <!-- Scenario 6 -->
+            <div class="scenario-section">
+                <div class="scenario-header" onclick="toggleScenario(this)">
+                    <span class="scenario-title">Scenario 6: The Reconquista and the Costs of Purity <span class="date-range">(1212-1614)</span></span>
+                    <span class="toggle-icon">▶</span>
+                </div>
+                <div class="scenario-content">
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Summary & Context</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <div class="summary-box">
+                                <p>As Christian kingdoms conquered Muslim territories, initial pragmatism gave way to demands for religious uniformity. The expulsion of Jews (1492) and Moriscos (1609-1614) achieved religious homogeneity at enormous economic and cultural cost.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Topics to Investigate</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <ul class="topics-list">
+                                <li>How did military conquest transition to cultural suppression?</li>
+                                <li>What was the economic impact of expelling skilled populations?</li>
+                                <li>How did the Inquisition function as both religious and political tool?</li>
+                                <li>What role did anxieties about "purity of blood" (limpieza de sangre) play?</li>
+                                <li>How did Spain's pursuit of religious unity affect its global position?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Rhymes with U.S. History (1865-present)</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <div class="rhymes-box">
+                                <ul class="rhymes-list">
+                                    <li>Post-Reconstruction abandonment of racial equality for white unity</li>
+                                    <li>Nativist movements and restrictive immigration laws (1920s quota system)</li>
+                                    <li>Red Scares and loyalty tests</li>
+                                    <li>Japanese internment and suspicion of "enemy" populations</li>
+                                    <li>Contemporary debates about who counts as "real Americans"</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <!-- EUROPEAN DECLINE AND RENEWAL -->
+    <div class="period-section">
+        <div class="period-header" onclick="togglePeriod(this)">
+            <span>European Decline and Renewal</span>
+            <span class="toggle-icon">▶</span>
+        </div>
+        <div class="period-content">
+            
+            <!-- Scenario 7 -->
+            <div class="scenario-section">
+                <div class="scenario-header" onclick="toggleScenario(this)">
+                    <span class="scenario-title">Scenario 7: The Thirty Years' War and Westphalian Order <span class="date-range">(1618-1648)</span></span>
+                    <span class="toggle-icon">▶</span>
+                </div>
+                <div class="scenario-content">
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Summary & Context</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <div class="summary-box">
+                                <p>Religious conflict devastated Central Europe, killing perhaps a third of the German population. The Peace of Westphalia established principles of state sovereignty and religious tolerance born from exhaustion and pragmatic necessity.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Topics to Investigate</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <ul class="topics-list">
+                                <li>How did religious conflict become intertwined with political and economic grievances?</li>
+                                <li>What role did foreign intervention play in prolonging the conflict?</li>
+                                <li>How did demographic catastrophe reshape social and economic structures?</li>
+                                <li>What made compromise possible after decades of total war?</li>
+                                <li>How did the new order balance competing sovereignty claims?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Rhymes with U.S. History (1865-present)</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <div class="rhymes-box">
+                                <ul class="rhymes-list">
+                                    <li>Civil War: total war, constitutional crisis, and reconstruction of federal order</li>
+                                    <li>Balance between ideological commitment and pragmatic compromise</li>
+                                    <li>Foreign intervention in domestic conflicts (or lack thereof)</li>
+                                    <li>Post-war constitutional settlements and their limitations</li>
+                                    <li>Cycles of centralization and devolution of power</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <!-- Scenario 8 -->
+            <div class="scenario-section">
+                <div class="scenario-header" onclick="toggleScenario(this)">
+                    <span class="scenario-title">Scenario 8: Post-WWI/WWII: Collapse and Reconstruction <span class="date-range">(1914-1991)</span></span>
+                    <span class="toggle-icon">▶</span>
+                </div>
+                <div class="scenario-content">
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Summary & Context</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <div class="summary-box">
+                                <p>European powers that dominated the globe in 1914 destroyed themselves in two world wars, then rebuilt as welfare states within an American-led order, eventually creating the European Union as an unprecedented experiment in shared sovereignty.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Topics to Investigate</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <ul class="topics-list">
+                                <li>How did total war transform state capacity and citizen expectations?</li>
+                                <li>What enabled cooperation among former enemies?</li>
+                                <li>How did decolonization reshape European identity and economics?</li>
+                                <li>What tensions exist between national sovereignty and supranational institutions?</li>
+                                <li>How did the Cold War structure European reconstruction?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Rhymes with U.S. History (1865-present)</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <div class="rhymes-box">
+                                <ul class="rhymes-list">
+                                    <li>U.S. rise to global dominance while Europe declined</li>
+                                    <li>New Deal/Great Society: expanded state role following crisis</li>
+                                    <li>Post-Cold War attempts at "new world order"</li>
+                                    <li>Tensions between federal power and states' rights</li>
+                                    <li>Contemporary questions about U.S. global role and domestic priorities</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <!-- BRITISH RISE AND FALL -->
+    <div class="period-section">
+        <div class="period-header" onclick="togglePeriod(this)">
+            <span>British Rise and Fall</span>
+            <span class="toggle-icon">▶</span>
+        </div>
+        <div class="period-content">
+            
+            <!-- Scenario 9 -->
+            <div class="scenario-section">
+                <div class="scenario-header" onclick="toggleScenario(this)">
+                    <span class="scenario-title">Scenario 9: Empire and Its Contradictions <span class="date-range">(1707-1947)</span></span>
+                    <span class="toggle-icon">▶</span>
+                </div>
+                <div class="scenario-content">
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Summary & Context</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <div class="summary-box">
+                                <p>Britain built the world's largest empire while developing parliamentary democracy at home, creating tensions between liberal values domestically and authoritarian rule abroad. The same period saw industrialization transform British society and global economic patterns.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Topics to Investigate</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <ul class="topics-list">
+                                <li>How did empire shape British domestic politics and identity?</li>
+                                <li>What was the relationship between free trade ideology and imperial power?</li>
+                                <li>How did different regions of empire experience British rule differently?</li>
+                                <li>What role did racial theories play in justifying imperial hierarchies?</li>
+                                <li>How did anti-colonial movements interact with British domestic reform movements?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Rhymes with U.S. History (1865-present)</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <div class="rhymes-box">
+                                <ul class="rhymes-list">
+                                    <li>U.S. imperial expansion (formal and informal) alongside democratic rhetoric</li>
+                                    <li>Industrialization and its social dislocations</li>
+                                    <li>Racial hierarchies at home and abroad</li>
+                                    <li>Tension between isolationist and interventionist impulses</li>
+                                    <li>American exceptionalism as ideology justifying global role</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <!-- Scenario 10 -->
+            <div class="scenario-section">
+                <div class="scenario-header" onclick="toggleScenario(this)">
+                    <span class="scenario-title">Scenario 10: Managed Decline and Reinvention <span class="date-range">(1945-present)</span></span>
+                    <span class="toggle-icon">▶</span>
+                </div>
+                <div class="scenario-content">
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Summary & Context</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <div class="summary-box">
+                                <p>Britain's relatively peaceful transition from empire to European middle power involved welfare state construction, immigration from former colonies, deindustrialization, financial sector growth, and ongoing questions about national identity and global role.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Topics to Investigate</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <ul class="topics-list">
+                                <li>How did Britain manage the psychology of diminished status?</li>
+                                <li>What happened when colonial subjects became metropolitan citizens?</li>
+                                <li>How did loss of manufacturing base affect working-class communities?</li>
+                                <li>What role did nostalgia for imperial past play in contemporary politics?</li>
+                                <li>How did Britain navigate between European integration and "special relationship" with U.S.?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <div class="detail-header" onclick="toggleDetail(this)">
+                            <span>Rhymes with U.S. History (1865-present)</span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="detail-content">
+                            <div class="rhymes-box">
+                                <ul class="rhymes-list">
+                                    <li>Post-Cold War questions about U.S. global role</li>
+                                    <li>Deindustrialization of Rust Belt and its political consequences</li>
+                                    <li>Immigration and changing demographics creating identity anxieties</li>
+                                    <li>Nostalgia politics and "Make America Great Again" impulses</li>
+                                    <li>Debates about international institutions versus national sovereignty</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <script>
+        let allExpanded = false;
+        
+        function togglePeriod(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.toggle-icon');
+            content.classList.toggle('active');
+            icon.classList.toggle('rotated');
+        }
+        
+        function toggleScenario(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.toggle-icon');
+            content.classList.toggle('active');
+            icon.classList.toggle('rotated');
+        }
+        
+        function toggleDetail(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.toggle-icon');
+            content.classList.toggle('active');
+            icon.classList.toggle('rotated');
+        }
+        
+        function toggleAll() {
+            allExpanded = !allExpanded;
+            const button = document.querySelector('.expand-all-btn');
+            
+            // Toggle all period sections
+            document.querySelectorAll('.period-content').forEach(content => {
+                if (allExpanded) {
+                    content.classList.add('active');
+                    content.previousElementSibling.querySelector('.toggle-icon').classList.add('rotated');
+                } else {
+                    content.classList.remove('active');
+                    content.previousElementSibling.querySelector('.toggle-icon').classList.remove('rotated');
+                }
+            });
+            
+            // Toggle all scenario sections
+            document.querySelectorAll('.scenario-content').forEach(content => {
+                if (allExpanded) {
+                    content.classList.add('active');
+                    content.previousElementSibling.querySelector('.toggle-icon').classList.add('rotated');
+                } else {
+                    content.classList.remove('active');
+                    content.previousElementSibling.querySelector('.toggle-icon').classList.remove('rotated');
+                }
+            });
+            
+            // Toggle all detail sections
+            document.querySelectorAll('.detail-content').forEach(content => {
+                if (allExpanded) {
+                    content.classList.add('active');
+                    content.previousElementSibling.querySelector('.toggle-icon').classList.add('rotated');
+                } else {
+                    content.classList.remove('active');
+                    content.previousElementSibling.querySelector('.toggle-icon').classList.remove('rotated');
+                }
+            });
+            
+            button.textContent = allExpanded ? 'Collapse All Sections' : 'Expand All Sections';
+        }
+    </script>
+</body>
+</html>
