@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Guide: The Fall of Rome by Nick Holmes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #2c1810 0%, #1a1a2e 100%);
+            color: #e8dcc0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 15px;
+            border: 3px solid #d4af37;
+        }
+        
+        h1 {
+            color: #d4af37;
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
+        }
+        
+        .subtitle {
+            font-size: 1.4em;
+            color: #c9a961;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        
+        .book-info {
+            font-size: 1.1em;
+            color: #b8a07e;
+            margin-top: 15px;
+        }
+        
+        .nav-menu {
+            background: rgba(0,0,0,0.5);
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            border: 2px solid #8b7355;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .nav-btn {
+            background: linear-gradient(135deg, #6b5344 0%, #4a3728 100%);
+            color: #d4af37;
+            padding: 12px 20px;
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1em;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .nav-btn:hover {
+            background: linear-gradient(135deg, #8b6f47 0%, #6b5344 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+        
+        .section {
+            background: rgba(0,0,0,0.4);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            border: 2px solid #8b7355;
+        }
+        
+        h2 {
+            color: #d4af37;
+            font-size: 2em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #8b7355;
+        }
+        
+        h3 {
+            color: #c9a961;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+        }
+        
+        h4 {
+            color: #b8a07e;
+            font-size: 1.2em;
+            margin: 15px 0 10px 0;
+        }
+        
+        .emperor-card {
+            background: linear-gradient(135deg, rgba(139, 115, 85, 0.2) 0%, rgba(74, 55, 40, 0.2) 100%);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 6px solid #ffd700;
+            transition: all 0.3s;
+        }
+        
+        .emperor-card:hover {
+            background: linear-gradient(135deg, rgba(139, 115, 85, 0.35) 0%, rgba(74, 55, 40, 0.35) 100%);
+            transform: translateX(5px);
+        }
+        
+        .emperor-name {
+            font-size: 1.6em;
+            color: #ffd700;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .emperor-dates {
+            color: #a0a0a0;
+            font-style: italic;
+            margin-bottom: 12px;
+        }
+        
+        .emperor-reign {
+            color: #d4af37;
+            margin-bottom: 12px;
+        }
+        
+        .tribe-card {
+            background: rgba(139, 0, 0, 0.15);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 5px solid #dc143c;
+        }
+        
+        .tribe-name {
+            font-size: 1.3em;
+            color: #ff6b6b;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .battle-card {
+            background: rgba(75, 0, 130, 0.15);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 5px solid #9370db;
+        }
+        
+        .battle-name {
+            font-size: 1.3em;
+            color: #ba9fd4;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .battle-date {
+            color: #9370db;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 50px;
+            margin: 30px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #d4af37 0%, #8b7355 100%);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: rgba(139, 115, 85, 0.1);
+            border-radius: 8px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -37px;
+            top: 20px;
+            width: 14px;
+            height: 14px;
+            background: #d4af37;
+            border: 3px solid #1a1a2e;
+            border-radius: 50%;
+        }
+        
+        .timeline-year {
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 8px;
+        }
+        
+        .key-themes {
+            background: rgba(212, 175, 55, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #d4af37;
+            margin: 20px 0;
+        }
+        
+        .key-themes h4 {
+            color: #d4af37;
+            margin-bottom: 15px;
+        }
+        
+        .key-themes ul {
+            list-style-position: inside;
+            padding-left: 10px;
+        }
+        
+        .key-themes li {
+            margin: 10px 0;
+            padding-left: 10px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(0,0,0,0.3);
+        }
+        
+        th {
+            background: rgba(139, 115, 85, 0.4);
+            color: #d4af37;
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #8b7355;
+        }
+        
+        td {
+            padding: 12px;
+            border: 1px solid #8b7355;
+        }
+        
+        tr:hover {
+            background: rgba(139, 115, 85, 0.2);
+        }
+        
+        .highlight-box {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .warning-box {
+            background: rgba(220, 20, 60, 0.1);
+            border: 2px solid #dc143c;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .info-box {
+            background: rgba(65, 105, 225, 0.1);
+            border: 2px solid #4169e1;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .quick-ref {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .ref-card {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #8b7355;
+        }
+        
+        .ref-title {
+            color: #d4af37;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                flex-direction: column;
+            }
+            
+            .timeline {
+                padding-left: 30px;
+            }
+            
+            .timeline::before {
+                left: 10px;
+            }
+            
+            .timeline-item::before {
+                left: -27px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Study Guide</h1>
+            <div class="subtitle">The Fall of Rome: End of a Superpower</div>
+            <div class="book-info">by Nick Holmes<br>
+            Book 2 in the Fall of the Roman Empire Series<br>
+            Covering: Constantine the Great (306 CE) → Sack of Rome (410 CE)</div>
+        </header>
+        
+        <div class="nav-menu">
+            <a class="nav-btn" href="#overview">Overview</a>
+            <a class="nav-btn" href="#emperors">Emperors</a>
+            <a class="nav-btn" href="#tribes">Tribal Migrations</a>
+            <a class="nav-btn" href="#battles">Major Battles</a>
+            <a class="nav-btn" href="#timeline">Timeline</a>
+            <a class="nav-btn" href="#characters">Key Characters</a>
+        </div>
+        
+        <!-- OVERVIEW SECTION -->
+        <section id="overview" class="section">
+            <h2>📖 Book Overview & Context</h2>
+            
+            <div class="key-themes">
+                <h4>Holmes's Central Thesis</h4>
+                <ul>
+                    <li><strong>Climate Change as Driver:</strong> A catastrophic megadrought on the Asian steppes in the 4th century forced mass migrations westward</li>
+                    <li><strong>Domino Effect:</strong> The Huns' westward movement pushed Germanic tribes into the Roman Empire</li>
+                    <li><strong>Internal Weakness:</strong> Rome was already weakened by wars with Persia, making it vulnerable</li>
+                    <li><strong>Leadership Failures:</strong> Poor political decisions and military tactical errors compounded the crisis</li>
+                    <li><strong>Religious Upheaval:</strong> The rise of Christianity and religious conflicts added to instability</li>
+                </ul>
+            </div>
+            
+            <div class="highlight-box">
+                <h4>The Period in Context</h4>
+                <p><strong>Where We Are in History:</strong> This book picks up after the "Crisis of the Third Century" (covered in Holmes's first book, <em>The Roman Revolution</em>). The empire has been reformed by Diocletian and Constantine, Christianity has been legalized, but new existential threats are emerging.</p>
+                <p><strong>The Arc:</strong> Constantine's reforms → Dynasty struggles → Rise of powerful generals → East-West divide → Barbarian invasions → The catastrophic sack of Rome in 410 CE</p>
+                <p><strong>Why 410 Matters:</strong> Rome hadn't been sacked in 800 years. This event shattered the psychological invincibility of Rome and marked a point of no return for the Western Empire.</p>
+            </div>
+        </section>
+        
+        <!-- EMPERORS SECTION -->
+        <section id="emperors" class="section">
+            <h2>👑 The Emperors (306-410 CE)</h2>
+            
+            <h3>The Constantinian Dynasty (306-363)</h3>
+            
+            <div class="emperor-card">
+                <div class="emperor-name">Constantine I "the Great"</div>
+                <div class="emperor-dates">c. 272-337 CE</div>
+                <div class="emperor-reign">Emperor: 306-337 CE (sole ruler from 324)</div>
+                <div>
+                    <h4>Rise to Power:</h4>
+                    <p>Son of Constantius Chlorus (one of the Tetrarchs). Proclaimed emperor by troops in York, Britain upon his father's death. Defeated rival Maxentius at Battle of Milvian Bridge (312 CE) after reportedly seeing a vision of the Cross. Gradually eliminated other rivals to become sole emperor in 324.</p>
+                    
+                    <h4>Major Achievements:</h4>
+                    <ul>
+                        <li><strong>Legalized Christianity (Edict of Milan, 313):</strong> Ended persecution, began imperial patronage of the Church</li>
+                        <li><strong>Council of Nicaea (325):</strong> Convened first ecumenical council to address theological disputes (Arianism)</li>
+                        <li><strong>Founded Constantinople (330):</strong> Established "New Rome" on site of Byzantium as eastern capital</li>
+                        <li><strong>Reformed the Army:</strong> Created mobile field armies (comitatenses) separate from border troops (limitanei)</li>
+                        <li><strong>Administrative Reforms:</strong> Continued Diocletian's division of provinces, reformed currency</li>
+                    </ul>
+                    
+                    <h4>Military Campaigns:</h4>
+                    <ul>
+                        <li>Civil wars against Maxentius, Licinius (rival emperors)</li>
+                        <li>Campaigns against Franks and Alemanni on Rhine frontier</li>
+                        <li>Gothic campaigns on the Danube</li>
+                        <li>Prepared for war with Persia (died before it could begin)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="emperor-card">
+                <div class="emperor-name">Constantine II</div>
+                <div class="emperor-dates">316-340 CE</div>
+                <div class="emperor-reign">Co-Emperor: 337-340 CE (ruled Gaul, Britain, Spain)</div>
+                <div>
+                    <h4>Rise to Power:</h4>
+                    <p>Eldest son of Constantine I. Named Caesar in 317. Upon Constantine's death, empire was divided among his three sons. Constantine II received the western provinces.</p>
+                    
+                    <h4>Reign & Death:</h4>
+                    <p>Attempted to assert authority over his younger brother Constans. Invaded Italy in 340 but was ambushed and killed near Aquileia. His territories were absorbed by Constans.</p>
+                </div>
+            </div>
+            
+            <div class="emperor-card">
+                <div class="emperor-name">Constantius II</div>
+                <div class="emperor-dates">317-361 CE</div>
+                <div class="emperor-reign">Co-Emperor: 337-350 CE; Sole Emperor: 350-361 CE (ruled East)</div>
+                <div>
+                    <h4>Rise to Power:</h4>
+                    <p>Second son of Constantine I. Named Caesar in 324. Received the Eastern provinces after his father's death. Became sole emperor after death of his brothers.</p>
+                    
+                    <h4>Major Events:</h4>
+                    <ul>
+                        <li><strong>Wars with Persia:</strong> Constant warfare with Sassanid Empire under Shapur II</li>
+                        <li><strong>Religious Conflicts:</strong> Strongly supported Arianism, persecuted Nicene Christians</li>
+                        <li><strong>Usurpation of Magnentius (350-353):</strong> Civil war in the West, defeated usurper at Battle of Mursa Major (351)</li>
+                        <li><strong>Elevated Julian as Caesar (355):</strong> Sent cousin Julian to defend Gaul</li>
+                        <li><strong>Conflict with Julian:</strong> When Julian was proclaimed emperor by troops (360), Constantius marched west but died en route in 361</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="emperor-card">
+                <div class="emperor-name">Constans I</div>
+                <div class="emperor-dates">c. 323-350 CE</div>
+                <div class="emperor-reign">Co-Emperor: 337-350 CE (ruled Italy, Illyricum, Africa)</div>
+                <div>
+                    <h4>Rise to Power:</h4>
+                    <p>Youngest son of Constantine I. Initially received Italy and Africa, acquired Constantine II's territories after his death in 340.</p>
+                    
+                    <h4>Reign & Death:</h4>
+                    <p>Campaigned successfully in Britain (343) and against Franks. Became unpopular with army. Overthrown and killed by usurper Magnentius in 350.</p>
+                </div>
+            </div>
+            
+            <div class="emperor-card">
+                <div class="emperor-name">Julian "the Apostate"</div>
+                <div class="emperor-dates">331-363 CE</div>
+                <div class="emperor-reign">Caesar: 355-360 CE; Emperor: 360-363 CE</div>
+                <div>
+                    <h4>Rise to Power:</h4>
+                    <p>Cousin of Constantius II (grandson of Constantius Chlorus). Appointed Caesar and sent to defend Gaul against Germanic invasions. Proclaimed emperor by troops at Paris in 360. Became sole emperor when Constantius died in 361.</p>
+                    
+                    <h4>Major Achievements & Policies:</h4>
+                    <ul>
+                        <li><strong>Military Success in Gaul:</strong> Defeated Alemanni at Battle of Strasbourg (357), restored Rhine frontier</li>
+                        <li><strong>Attempted Pagan Revival:</strong> Tried to restore traditional Roman religion, hence "Apostate"</li>
+                        <li><strong>Administrative Reforms:</strong> Reduced imperial bureaucracy, cut taxes</li>
+                        <li><strong>Persian Campaign (363):</strong> Ambitious invasion of Sassanid Persia</li>
+                    </ul>
+                    
+                    <h4>Death:</h4>
+                    <p>Mortally wounded during retreat from Persia in 363. Died aged 31, ending the Constantinian dynasty. Succeeded by Jovian (who ruled only 8 months).</p>
+                </div>
+            </div>
+            
+            <h3>The Valentinian Dynasty (364-392)</h3>
+            
+            <div class="emperor-card">
+                <div class="emperor-name">Valentinian I</div>
+                <div class="emperor-dates">321-375 CE</div>
+                <div class="emperor-reign">Western Emperor: 364-375 CE</div>
+                <div>
+                    <h4>Rise to Power:</h4>
+                    <p>Military officer chosen as emperor by the army after Jovian's sudden death. Appointed his brother Valens as co-emperor for the East.</p>
+                    
+                    <h4>Major Achievements:</h4>
+                    <ul>
+                        <li><strong>Defended Western Frontiers:</strong> Campaigned successfully against Alemanni, Quadi, Sarmatians</li>
+                        <li><strong>Fortification Program:</strong> Strengthened Rhine and Danube defenses</li>
+                        <li><strong>Religious Tolerance:</strong> Relatively tolerant of both Nicene and Arian Christians</li>
+                        <li><strong>Administrative Reforms:</strong> Efficient government, protected peasants from corruption</li>
+                    </ul>
+                    
+                    <h4>Death:</h4>
+                    <p>Died of stroke in 375 while meeting with Quadi envoys. Succeeded by his sons Gratian and Valentinian II.</p>
+                </div>
+            </div>
+            
+            <div class="emperor-card">
+                <div class="emperor-name">Valens</div>
+                <div class="emperor-dates">328-378 CE</div>
+                <div class="emperor-reign">Eastern Emperor: 364-378 CE</div>
+                <div>
+                    <h4>Rise to Power:</h4>
+                    <p>Brother of Valentinian I. Made co-emperor to rule the East.</p>
+                    
+                    <h4>Major Events:</h4>
+                    <ul>
+                        <li><strong>Wars with Persia:</strong> Treaty with Persia in 370 freed resources for other frontiers</li>
+                        <li><strong>Religious Policies:</strong> Supported Arianism, persecuted Nicene Christians</li>
+                        <li><strong>Gothic Crisis (376):</strong> Allowed Goths to cross Danube as refugees fleeing the Huns</li>
+                        <li><strong>Gothic Revolt:</strong> Goths rebelled due to Roman mistreatment</li>
+                    </ul>
+                    
+                    <h4>Death at Adrianople (378):</h4>
+                    <p><strong>THE PIVOTAL DISASTER:</strong> Led army against Gothic forces at Adrianople (modern Edirne, Turkey). Against advice, attacked before Western reinforcements arrived. Roman army was annihilated—worst defeat since Cannae. Valens was killed, body never found. Two-thirds of Eastern army destroyed. This catastrophe opened the way for Gothic settlement within the empire and demonstrated Roman vulnerability.</p>
+                </div>
+            </div>
+            
+            <div class="emperor-card">
+                <div class="emperor-name">Gratian</div>
+                <div class="emperor-dates">359-383 CE</div>
+                <div class="emperor-reign">Western Emperor: 367-383 CE (co-emperor from 367, senior from 375)</div>
+                <div>
+                    <h4>Rise to Power:</h4>
+                    <p>Son of Valentinian I. Made co-emperor as child in 367. Became senior Western emperor at age 16 upon father's death in 375.</p>
+                    
+                    <h4>Major Decisions:</h4>
+                    <ul>
+                        <li><strong>Appointed Theodosius (379):</strong> After Adrianople disaster, elevated Theodosius as Eastern emperor to handle Gothic crisis</li>
+                        <li><strong>Religious Policies:</strong> Strong supporter of Nicene Christianity, removed Altar of Victory from Senate</li>
+                        <li><strong>Rejected "Pontifex Maximus" title:</strong> First emperor to refuse traditional pagan religious role</li>
+                    </ul>
+                    
+                    <h4>Death:</h4>
+                    <p>Overthrown and killed by usurper Magnus Maximus in 383. Theodosius later defeated Maximus.</p>
+                </div>
+            </div>
+            
+            <div class="emperor-card">
+                <div class="emperor-name">Valentinian II</div>
+                <div class="emperor-dates">371-392 CE</div>
+                <div class="emperor-reign">Western Co-Emperor: 375-392 CE</div>
+                <div>
+                    <h4>Rise to Power:</h4>
+                    <p>Younger son of Valentinian I. Proclaimed emperor at age 4 by army upon father's death. Ruled under regents and dominated by stronger figures.</p>
+                    
+                    <h4>Reign:</h4>
+                    <p>Largely powerless throughout reign. After Gratian's death, controlled only Italy while Magnus Maximus held Gaul. After Theodosius defeated Maximus (388), remained junior partner to Theodosius.</p>
+                    
+                    <h4>Death:</h4>
+                    <p>Found hanged in 392—officially suicide but likely murdered by Arbogast, his Frankish general. Led to final showdown between Theodosius and Western usurpers.</p>
+                </div>
+            </div>
+            
+            <h3>The Theodosian Dynasty (379-450)</h3>
+            
+            <div class="emperor-card">
+                <div class="emperor-name">Theodosius I "the Great"</div>
+                <div class="emperor-dates">347-395 CE</div>
+                <div class="emperor-reign">Eastern Emperor: 379-392 CE; Sole Emperor: 392-395 CE</div>
+                <div>
+                    <h4>Rise to Power:</h4>
+                    <p>Spanish military commander, son of general Count Theodosius. Appointed Eastern emperor by Gratian in 379 to deal with Gothic crisis after Adrianople. Not related to Constantine's family—rose through Valentinian dynasty system.</p>
+                    
+                    <h4>Major Achievements:</h4>
+                    <ul>
+                        <li><strong>Gothic Settlement (382):</strong> After years of warfare, negotiated treaty allowing Goths to settle in empire as foederati (allied troops)</li>
+                        <li><strong>Religious Policies:</strong> Made Nicene Christianity the official state religion (Edict of Thessalonica, 380)</li>
+                        <li><strong>Council of Constantinople (381):</strong> Second ecumenical council, condemned Arianism</li>
+                        <li><strong>Defeated Western Usurpers:</strong> Defeated Magnus Maximus (388) and Eugenius (394)</li>
+                        <li><strong>Final Division of Empire (395):</strong> Upon death, divided empire between sons Arcadius (East) and Honorius (West)</li>
+                    </ul>
+                    
+                    <h4>Key Personnel Appointments:</h4>
+                    <ul>
+                        <li>Appointed Stilicho as guardian of Honorius and magister militum</li>
+                        <li>Married his niece Serena to Stilicho</li>
+                        <li>Made arrangements for succession that would shape the coming catastrophe</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="warning-box">
+                <h4>⚠️ The Permanent Division (395 CE)</h4>
+                <p>When Theodosius I died in 395, he split the empire between his two sons:</p>
+                <ul>
+                    <li><strong>Arcadius (age 17):</strong> Got the wealthy East with capital at Constantinople</li>
+                    <li><strong>Honorius (age 10):</strong> Got the vulnerable West with capital at Ravenna</li>
+                </ul>
+                <p>Though presented as administrative convenience, this division became permanent. The two halves increasingly acted as separate states, often working at cross-purposes. The Eastern court's rivalry with Stilicho would prove catastrophic for the West.</p>
+            </div>
+            
+            <div class="emperor-card">
+                <div class="emperor-name">Arcadius</div>
+                <div class="emperor-dates">377-408 CE</div>
+                <div class="emperor-reign">Eastern Emperor: 395-408 CE</div>
+                <div>
+                    <h4>Rise to Power:</h4>
+                    <p>Elder son of Theodosius I. Became Eastern emperor at age 17 upon father's death.</p>
+                    
+                    <h4>Reign Characteristics:</h4>
+                    <p><strong>Weak, Dominated Ruler:</strong> Never exercised real power. Completely controlled by succession of court figures: Rufinus (395), Eutropius (395-399), then his wife Empress Aelia Eudoxia (400-404). His reign exemplifies the shift of power from emperor to court officials and bureaucrats.</p>
+                    
+                    <h4>Major Events of His Reign:</h4>
+                    <ul>
+                        <li><strong>Assassination of Rufinus (395):</strong> His Praetorian Prefect killed by Gothic troops</li>
+                        <li><strong>Rise and Fall of Eutropius (395-399):</strong> Eunuch chamberlain became consul (unprecedented), then executed</li>
+                        <li><strong>Conflict: Eudoxia vs. John Chrysostom (400-404):</strong> Power struggle between empress and patriarch</li>
+                        <li><strong>Eastern Opposition to Stilicho:</strong> Eastern court consistently undermined Western regent</li>
+                    </ul>
+                    
+                    <h4>Legacy:</h4>
+                    <p>Died in 408 (same year as Stilicho). The East survived despite his weakness because of its wealth and bureaucratic strength. His son Theodosius II continued the dynasty.</p>
+                </div>
+            </div>
+            
+            <div class="emperor-card">
+                <div class="emperor-name">Honorius</div>
+                <div class="emperor-dates">384-423 CE</div>
+                <div class="emperor-reign">Western Emperor: 395-423 CE</div>
+                <div>
+                    <h4>Rise to Power:</h4>
+                    <p>Younger son of Theodosius I. Became Western emperor at age 10 upon father's death. Ruled under regency of Stilicho.</p>
+                    
+                    <h4>Reign Characteristics:</h4>
+                    <p><strong>Weak, Easily Manipulated:</strong> Throughout his reign, Honorius was dominated by stronger personalities. First by Stilicho (395-408), then by court officials who convinced him to execute Stilicho. Known for being more concerned with his pet chickens than governing.</p>
+                    
+                    <h4>The Catastrophic Decision (408):</h4>
+                    <p><strong>Execution of Stilicho:</strong> In 408, convinced by court advisors that Stilicho was plotting to place his son on throne, Honorius ordered his guardian and de facto ruler arrested and executed. This removed the only competent military leader defending the West and triggered a massacre of "barbarian" soldiers' families, driving thousands to join Alaric.</p>
+                    
+                    <h4>The Sack of Rome (410):</h4>
+                    <p>After Stilicho's death, Alaric besieged Rome three times. On August 24, 410, the Goths sacked the city—first time in 800 years. Honorius, safe in Ravenna, reportedly cared more about his chickens.</p>
+                    
+                    <h4>Later Reign:</h4>
+                    <p>Continued to reign in name until 423, but empire was effectively governed by others. His incompetence accelerated the Western Empire's collapse.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- TRIBAL MIGRATIONS SECTION -->
+        <section id="tribes" class="section">
+            <h2>⚔️ The Tribal Migrations & Invasions</h2>
+            
+            <div class="info-box">
+                <h4>The Domino Effect: Climate-Driven Migrations</h4>
+                <p><strong>Holmes's Key Argument:</strong> A catastrophic megadrought on the Asian steppes in the 4th century CE forced the Huns westward in search of new pastures. This created a domino effect, pushing Germanic tribes into Roman territory where they came into inevitable conflict with an empire already weakened by Persian wars.</p>
+            </div>
+            
+            <h3>The Major Players</h3>
+            
+            <div class="tribe-card">
+                <div class="tribe-name">The Huns</div>
+                <h4>Origins & Impact:</h4>
+                <p>Nomadic steppe people from Central Asia, possibly originating near modern Mongolia/Kazakhstan. Their westward migration (c. 370s CE) triggered the Gothic migrations.</p>
+                
+                <h4>Characteristics:</h4>
+                <ul>
+                    <li><strong>Mounted Archers:</strong> Superior cavalry tactics, composite bows</li>
+                    <li><strong>Psychological Warfare:</strong> Romans found them terrifying and alien</li>
+                    <li><strong>Decentralized:</strong> In this period, not yet unified under single leadership (Attila comes later, in Book 3)</li>
+                </ul>
+                
+                <h4>Impact on Rome:</h4>
+                <p>The Huns didn't directly invade the empire in this period—their primary impact was pushing other tribes (Goths, Vandals, Alans) into Roman territory. They created the refugee crisis that led to Adrianople.</p>
+            </div>
+            
+            <div class="tribe-card">
+                <div class="tribe-name">The Goths (Visigoths & Ostrogoths)</div>
+                <h4>Origins:</h4>
+                <p>Germanic peoples originally from Scandinavia, by 4th century settled north of the Danube in modern Ukraine/Romania. Split into two main groups:</p>
+                <ul>
+                    <li><strong>Tervingi/Visigoths:</strong> "Western" Goths</li>
+                    <li><strong>Greuthungi/Ostrogoths:</strong> "Eastern" Goths</li>
+                </ul>
+                
+                <h4>Key Events:</h4>
+                <ul>
+                    <li><strong>376 CE - The Refugee Crisis:</strong> Fleeing Huns, asked permission to cross Danube into empire. Emperor Valens allowed it. Roman officials exploited and mistreated them.</li>
+                    <li><strong>378 CE - Battle of Adrianople:</strong> Rebelled against mistreatment, annihilated Roman army and killed Emperor Valens</li>
+                    <li><strong>382 CE - Treaty with Theodosius:</strong> Settled as foederati (allied troops) within empire, required to provide military service</li>
+                    <li><strong>395-410 CE - Under Alaric:</strong> Invaded Italy repeatedly under Alaric I, eventually sacked Rome in 410</li>
+                </ul>
+                
+                <h4>Significance:</h4>
+                <p>The Goths were the first major "barbarian" group to permanently settle inside the empire's borders as a distinct people maintaining their identity. They demonstrated Rome's inability to control or assimilate tribal groups as it once had.</p>
+            </div>
+            
+            <div class="tribe-card">
+                <div class="tribe-name">The Vandals</div>
+                <h4>Origins:</h4>
+                <p>Germanic tribe from modern Poland/Germany area. Also displaced westward by Hun migrations.</p>
+                
+                <h4>In This Period:</h4>
+                <p>Beginning to pressure Roman frontiers, particularly on the Rhine. Cross the Rhine in 406 CE (just outside this book's timeframe), will eventually reach Spain and North Africa.</p>
+                
+                <h4>Later Significance:</h4>
+                <p>Will become major threat in North Africa, sacking Rome again in 455 CE (covered in later books of Holmes's series).</p>
+            </div>
+            
+            <div class="tribe-card">
+                <div class="tribe-name">The Alans</div>
+                <h4>Origins:</h4>
+                <p>Iranian-speaking nomadic people from the steppes, also displaced by Huns.</p>
+                
+                <h4>Characteristics:</h4>
+                <ul>
+                    <li>Expert cavalry</li>
+                    <li>Often allied with other migrating groups (Goths, Vandals)</li>
+                    <li>Some groups entered Roman service as cavalry units</li>
+                </ul>
+            </div>
+            
+            <div class="tribe-card">
+                <div class="tribe-name">Germanic Tribes on Rhine/Danube Frontiers</div>
+                <h4>Multiple Groups:</h4>
+                <ul>
+                    <li><strong>Alemanni:</strong> Central-South German confederation, constant pressure on upper Rhine and Raetia. Defeated by Julian at Strasbourg (357 CE)</li>
+                    <li><strong>Franks:</strong> Lower Rhine region, mixture of allies and enemies. Eventually will found Frankish kingdoms</li>
+                    <li><strong>Saxons:</strong> Raided Britain and northern Gaul</li>
+                    <li><strong>Burgundians:</strong> Another group displaced by Hun migrations, will settle in Gaul</li>
+                    <li><strong>Quadi & Sarmatians:</strong> Middle Danube tribes, wars with Valentinian I</li>
+                </ul>
+            </div>
+            
+            <h3>The Migration Pattern</h3>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">c. 350s-370s CE</div>
+                    <strong>Climate Crisis Begins:</strong> Megadrought on Asian steppes forces Huns westward seeking new pastures and resources.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">c. 370s CE</div>
+                    <strong>Huns Arrive in Europe:</strong> Hun invasion of Gothic territories north of Black Sea. Ostrogoths conquered first, then Visigoths flee westward.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">376 CE</div>
+                    <strong>Gothic Refugee Crisis:</strong> Goths petition Emperor Valens for asylum across Danube. Granted permission but then exploited and starved by corrupt Roman officials.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">377-378 CE</div>
+                    <strong>Gothic Revolt:</strong> Desperate Goths rebel, raid Thrace. Roman attempts to suppress rebellion fail.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">378 CE</div>
+                    <strong>Adrianople Catastrophe:</strong> Emperor Valens and two-thirds of Eastern army destroyed. Goths now inside empire with no way to expel them.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">382 CE</div>
+                    <strong>First Gothic Settlement:</strong> Theodosius I negotiates treaty—Goths settled as foederati. Precedent set for tribal settlement within empire.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">395 CE onward</div>
+                    <strong>Ongoing Pressure:</strong> Goths under Alaric invade Italy repeatedly. Other tribes continue pressuring Rhine-Danube frontiers. Western empire increasingly unable to defend multiple fronts.
+                </div>
+            </div>
+        </section>
+        
+        <!-- BATTLES SECTION -->
+        <section id="battles" class="section">
+            <h2>⚔️ Major Battles & Military Campaigns</h2>
+            
+            <div class="battle-card">
+                <div class="battle-name">Battle of Milvian Bridge</div>
+                <div class="battle-date">October 28, 312 CE</div>
+                <h4>Combatants:</h4>
+                <p><strong>Constantine vs. Maxentius</strong> (rival claimant to Western throne)</p>
+                
+                <h4>Context:</h4>
+                <p>Part of civil wars following collapse of Tetrarchy. Constantine invaded Italy to eliminate Maxentius and claim sole control of West.</p>
+                
+                <h4>The Battle:</h4>
+                <p>Fought at Milvian Bridge on outskirts of Rome. Constantine reportedly saw vision of Christian cross with words "In this sign, conquer" before battle. Maxentius's forces routed, Maxentius drowned in Tiber River.</p>
+                
+                <h4>Significance:</h4>
+                <ul>
+                    <li>Constantine became dominant Western emperor</li>
+                    <li>Constantine attributed victory to Christian God—began his patronage of Christianity</li>
+                    <li>Turning point in Christianity becoming imperial religion</li>
+                </ul>
+            </div>
+            
+            <div class="battle-card">
+                <div class="battle-name">Battle of Chrysopolis</div>
+                <div class="battle-date">September 18, 324 CE</div>
+                <h4>Combatants:</h4>
+                <p><strong>Constantine vs. Licinius</strong> (Eastern emperor, Constantine's last rival)</p>
+                
+                <h4>Context:</h4>
+                <p>Final showdown between Constantine and Licinius for control of entire empire.</p>
+                
+                <h4>Result:</h4>
+                <p>Constantine victorious. Licinius surrendered, later executed. Constantine became sole emperor of reunited empire.</p>
+                
+                <h4>Significance:</h4>
+                <p>End of divided rule from Tetrarchy. Constantine supreme, able to implement his vision for Christian empire.</p>
+            </div>
+            
+            <div class="battle-card">
+                <div class="battle-name">Battle of Strasbourg (Argentoratum)</div>
+                <div class="battle-date">August 357 CE</div>
+                <h4>Combatants:</h4>
+                <p><strong>Julian (as Caesar) vs. Alemanni confederation</strong></p>
+                
+                <h4>Context:</h4>
+                <p>Germanic Alemanni had invaded Gaul. Julian, recently appointed Caesar by Constantius II, sent to restore order with small force.</p>
+                
+                <h4>The Battle:</h4>
+                <p>Near modern Strasbourg. Julian's ~13,000 Romans faced ~35,000 Alemanni. Despite being outnumbered, Roman discipline and Julian's tactical skill won the day. Alemanni king Chnodomar captured.</p>
+                
+                <h4>Significance:</h4>
+                <ul>
+                    <li>Restored Rhine frontier security</li>
+                    <li>Established Julian's military reputation</li>
+                    <li>Demonstrated Roman tactics could still defeat "barbarians" when well-led</li>
+                    <li>Gave Julian the prestige and army loyalty that led to his elevation as emperor</li>
+                </ul>
+            </div>
+            
+            <div class="battle-card">
+                <div class="battle-name">Julian's Persian Campaign</div>
+                <div class="battle-date">March-June 363 CE</div>
+                <h4>Context:</h4>
+                <p>After becoming sole emperor, Julian launched ambitious invasion of Sassanid Persian Empire, Rome's eternal eastern rival.</p>
+                
+                <h4>The Campaign:</h4>
+                <ul>
+                    <li>Massive invasion force (~65,000 men) invaded Mesopotamia</li>
+                    <li>Initial successes: defeated Persians at Battle of Ctesiphon</li>
+                    <li>Failed to take Persian capital Ctesiphon</li>
+                    <li>Supply problems forced retreat</li>
+                    <li>Persians harassed retreating Romans</li>
+                </ul>
+                
+                <h4>Julian's Death:</h4>
+                <p>Mortally wounded in skirmish during retreat (possibly by Persian arrow, possibly by Christian Roman soldier—sources disagree). Died June 26, 363, aged 31.</p>
+                
+                <h4>Significance:</h4>
+                <ul>
+                    <li>End of Constantinian dynasty</li>
+                    <li>Successor Jovian forced to sign humiliating peace treaty, surrendering territory</li>
+                    <li>Demonstrated continued danger of Persian frontier</li>
+                    <li>Resources wasted in failed campaign left empire vulnerable elsewhere</li>
+                </ul>
+            </div>
+            
+            <div class="battle-card">
+                <div class="battle-name">Battle of Mursa Major</div>
+                <div class="battle-date">September 28, 351 CE</div>
+                <h4>Combatants:</h4>
+                <p><strong>Constantius II vs. Magnentius</strong> (Western usurper who killed Constans)</p>
+                
+                <h4>The Battle:</h4>
+                <p>One of bloodiest battles of the entire century. Near modern Osijek, Croatia. Both sides suffered massive casualties—reportedly 54,000 total dead.</p>
+                
+                <h4>Result:</h4>
+                <p>Narrow victory for Constantius. Magnentius fled, eventually committed suicide in 353.</p>
+                
+                <h4>Significance:</h4>
+                <ul>
+                    <li>Constantius reunited empire but at terrible cost</li>
+                    <li>Loss of so many trained Roman soldiers weakened empire's defensive capacity</li>
+                    <li>Demonstrated destructiveness of civil wars draining resources from frontier defense</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <h4>⚠️ THE BATTLE OF ADRIANOPLE - August 9, 378 CE</h4>
+                <p><strong>THE TURNING POINT: Rome's Worst Defeat Since Cannae</strong></p>
+                
+                <h4>Background:</h4>
+                <p>Gothic refugees admitted in 376 were mistreated by corrupt officials, leading to revolt. By 378, Gothic forces under Fritigern ravaging Thrace.</p>
+                
+                <h4>The Disaster:</h4>
+                <ul>
+                    <li><strong>Roman Forces:</strong> Emperor Valens with ~15,000-20,000 troops (estimates vary)</li>
+                    <li><strong>Gothic Forces:</strong> Similar numbers, but included cavalry that arrived during battle</li>
+                    <li><strong>Valens's Fatal Mistake:</strong> Against advice, attacked immediately without waiting for Western reinforcements from Gratian. Wanted sole glory.</li>
+                    <li><strong>The Battle:</strong> Romans attacked Gothic wagon circle. Gothic cavalry arrived mid-battle, encircled Romans. Roman infantry slaughtered.</li>
+                    <li><strong>Casualties:</strong> Two-thirds of Eastern army destroyed. Emperor Valens killed (body never found). Numerous senior officers dead.</li>
+                </ul>
+                
+                <h4>Why It Matters:</h4>
+                <ul>
+                    <li><strong>Demonstrated Roman Vulnerability:</strong> Showed disciplined Roman legions could be utterly defeated by "barbarians"</li>
+                    <li><strong>Loss of Manpower:</strong> Eastern army devastated, took years to rebuild</li>
+                    <li><strong>Psychological Impact:</strong> Shattered myth of Roman invincibility</li>
+                    <li><strong>Gothic Presence:</strong> No force available to expel Goths from empire—they were now permanent residents</li>
+                    <li><strong>Strategic Shift:</strong> Led to Theodosius's treaty (382) settling Goths as foederati—precedent for tribal settlement within empire</li>
+                    <li><strong>Tactical Lessons:</strong> Demonstrated importance of cavalry over infantry—shift in military doctrine</li>
+                </ul>
+                
+                <p><strong>Holmes's Emphasis:</strong> This battle gets an entire chapter because it was the point of no return. Before Adrianople, Roman recovery was possible. After, the empire's ability to control its own territory was permanently compromised.</p>
+            </div>
+            
+            <div class="battle-card">
+                <div class="battle-name">Battle of the Frigidus</div>
+                <div class="battle-date">September 5-6, 394 CE</div>
+                <h4>Combatants:</h4>
+                <p><strong>Theodosius I vs. Eugenius</strong> (Western usurper) and his general Arbogast</p>
+                
+                <h4>Context:</h4>
+                <p>After Valentinian II's death (392), Frankish general Arbogast elevated Eugenius as puppet emperor. Theodosius marched west to restore order.</p>
+                
+                <h4>Religious Dimension:</h4>
+                <p>Portrayed as Christian (Theodosius) vs. Pagan (Eugenius/Arbogast revived pagan symbols). Final major battle with religious overtones.</p>
+                
+                <h4>The Battle:</h4>
+                <p>Fought near Frigidus River (modern Slovenia). Fierce two-day battle. Gothic foederati under Alaric fought in Theodosius's army, suffered heavy casualties. Theodosius victorious.</p>
+                
+                <h4>Significance:</h4>
+                <ul>
+                    <li>Theodosius briefly reunited entire empire (last time)</li>
+                    <li>Cemented Christianity's dominance—no more pagan revival attempts</li>
+                    <li>Gothic casualties bred resentment—Alaric later claimed Goths used as cannon fodder</li>
+                    <li>Theodosius died 5 months later, empire divided between his sons</li>
+                </ul>
+            </div>
+            
+            <div class="battle-card">
+                <div class="battle-name">Alaric's Italian Campaigns</div>
+                <div class="battle-date">401-410 CE</div>
+                <h4>Series of Invasions:</h4>
+                
+                <p><strong>First Invasion (401-403):</strong></p>
+                <ul>
+                    <li>Alaric invaded Italy with Gothic army</li>
+                    <li>Defeated by Stilicho at Pollentia (402) and Verona (403)</li>
+                    <li>Alaric withdrew but not destroyed</li>
+                </ul>
+                
+                <p><strong>After Stilicho's Execution (408):</strong></p>
+                <ul>
+                    <li>Alaric returned, now with thousands of "barbarian" soldiers whose families were massacred</li>
+                    <li>Besieged Rome three times (408, 409, 410)</li>
+                    <li>Honorius in Ravenna refused to negotiate seriously</li>
+                </ul>
+                
+                <p><strong>The Sack of Rome - August 24, 410 CE:</strong></p>
+                <ul>
+                    <li>After third siege, Rome's gates opened (possibly betrayed from inside)</li>
+                    <li>Goths sacked city for three days</li>
+                    <li>First time Rome had been captured in 800 years (since Gauls in 390 BCE)</li>
+                    <li>Relatively restrained sacking—Alaric was Christian, forbade destruction of churches</li>
+                    <li>Psychological impact enormous across Roman world</li>
+                </ul>
+                
+                <h4>Significance:</h4>
+                <ul>
+                    <li>Demonstrated Western Empire's helplessness</li>
+                    <li>Shattered Rome's aura of invincibility</li>
+                    <li>Prompted St. Augustine to write "City of God" defending Christianity</li>
+                    <li>Point of no return for Western Empire</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- TIMELINE SECTION -->
+        <section id="timeline" class="section">
+            <h2>📅 Complete Timeline: Constantine to the Sack of Rome</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">306 CE</div>
+                    <strong>Constantine Proclaimed Emperor</strong> - By troops in York after death of his father Constantius Chlorus. Begins civil wars to consolidate power.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">312 CE</div>
+                    <strong>Battle of Milvian Bridge</strong> - Constantine defeats Maxentius outside Rome after vision of the cross. Beginning of Constantine's patronage of Christianity.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">313 CE</div>
+                    <strong>Edict of Milan</strong> - Constantine and Licinius proclaim religious toleration, legalizing Christianity and ending persecution.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">324 CE</div>
+                    <strong>Constantine Defeats Licinius</strong> - Becomes sole emperor. Begins massive patronage of Christianity, building programs.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">325 CE</div>
+                    <strong>Council of Nicaea</strong> - First ecumenical council convened by Constantine. Condemned Arianism, established Nicene Creed.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">330 CE</div>
+                    <strong>Constantinople Founded</strong> - Constantine dedicates "New Rome" as eastern capital on site of Byzantium. Will outlast Western Empire by 1000+ years.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">337 CE</div>
+                    <strong>Constantine Dies</strong> - Empire divided among three sons: Constantine II (West), Constantius II (East), Constans (Center).
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">340 CE</div>
+                    <strong>Constantine II Killed</strong> - Invades Italy to fight Constans, killed in ambush. Constans absorbs his territories.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">350 CE</div>
+                    <strong>Constans Overthrown</strong> - Killed by usurper Magnentius. Triggers civil war.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">351 CE</div>
+                    <strong>Battle of Mursa Major</strong> - Constantius II defeats Magnentius in bloodiest battle of century. Massive casualties weaken empire.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">c. 350s CE</div>
+                    <strong>Megadrought Begins</strong> - Climate crisis on Asian steppes forces Huns to migrate westward, initiating domino effect.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">355 CE</div>
+                    <strong>Julian Appointed Caesar</strong> - Constantius II sends cousin Julian to defend Gaul against Germanic invasions.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">357 CE</div>
+                    <strong>Battle of Strasbourg</strong> - Julian defeats Alemanni, restores Rhine frontier, gains military fame.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">360 CE</div>
+                    <strong>Julian Proclaimed Emperor</strong> - Troops elevate him to augustus. Constantius marches west to fight him.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">361 CE</div>
+                    <strong>Constantius II Dies</strong> - En route to fight Julian. Julian becomes sole emperor, attempts pagan revival ("the Apostate").
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">363 CE</div>
+                    <strong>Julian Dies in Persia</strong> - Killed during retreat from failed Persian invasion. Constantinian dynasty ends. Jovian becomes emperor.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">364 CE</div>
+                    <strong>Valentinian I Becomes Emperor</strong> - After Jovian's death. Appoints brother Valens as Eastern co-emperor. Valentinian dynasty begins.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">c. 370s CE</div>
+                    <strong>Huns Invade Gothic Territories</strong> - Hunnic invasion north of Black Sea destroys Gothic kingdoms, forces Goths westward.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">375 CE</div>
+                    <strong>Valentinian I Dies</strong> - Succeeded by sons Gratian (senior) and Valentinian II (junior, age 4).
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">376 CE</div>
+                    <strong>Gothic Refugee Crisis</strong> - Fleeing Huns, Goths petition Emperor Valens for asylum. Granted entry across Danube but then exploited by corrupt officials.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">377 CE</div>
+                    <strong>Gothic Revolt Begins</strong> - Starving, mistreated Goths rebel against Romans, begin raiding Thrace.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">378 CE - August 9</div>
+                    <strong>BATTLE OF ADRIANOPLE - THE CATASTROPHE</strong> - Emperor Valens and two-thirds of Eastern army annihilated by Goths. Worst Roman defeat since Cannae. Valens killed. Empire's vulnerability exposed. Goths now permanent presence inside empire.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">379 CE</div>
+                    <strong>Theodosius I Appointed Emperor</strong> - Gratian elevates Spanish general Theodosius to Eastern throne to deal with Gothic crisis.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">380 CE</div>
+                    <strong>Edict of Thessalonica</strong> - Theodosius makes Nicene Christianity the official state religion. Paganism and heresy increasingly suppressed.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">381 CE</div>
+                    <strong>Council of Constantinople</strong> - Second ecumenical council. Arianism condemned. Nicene Christianity cemented as orthodoxy.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">382 CE</div>
+                    <strong>Gothic Settlement Treaty</strong> - After years of warfare, Theodosius negotiates treaty with Goths. Settled inside empire as foederati (federated allies) required to provide military service. Dangerous precedent.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">383 CE</div>
+                    <strong>Gratian Overthrown</strong> - Western emperor killed by usurper Magnus Maximus.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">388 CE</div>
+                    <strong>Theodosius Defeats Maximus</strong> - Marches west, defeats usurper, restores Valentinian II as Western emperor.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">392 CE</div>
+                    <strong>Valentinian II Dies</strong> - Found hanged (likely murdered). General Arbogast elevates Eugenius as puppet emperor.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">394 CE</div>
+                    <strong>Battle of the Frigidus</strong> - Theodosius defeats Eugenius/Arbogast. Last major battle with pagan-Christian overtones. Goths under Alaric suffer heavy casualties. Theodosius briefly reunites entire empire (last time).
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">395 CE - January</div>
+                    <strong>Theodosius I Dies</strong> - Divides empire between sons Arcadius (17, East) and Honorius (10, West). Division becomes permanent. Stilicho appointed guardian of Honorius.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">395 CE - November</div>
+                    <strong>Rufinus Assassinated</strong> - Eastern Praetorian Prefect killed by Gothic troops, possibly at Stilicho's instigation. Eutropius rises to power in Constantinople.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">395-401 CE</div>
+                    <strong>Alaric's Rise</strong> - Gothic leader (who fought for Rome at Frigidus) rebels, ravages Greece and Balkans. Eastern Empire unable or unwilling to stop him.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">399 CE</div>
+                    <strong>Fall of Eutropius</strong> - Powerful eunuch chamberlain (first to become consul) falls from grace, executed. Empress Eudoxia ascendant in Constantinople.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">400-404 CE</div>
+                    <strong>Eudoxia vs. John Chrysostom</strong> - Power struggle between empress and Patriarch of Constantinople over luxury and morality. Chrysostom deposed and exiled.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">401-403 CE</div>
+                    <strong>Alaric Invades Italy</strong> - First invasion of Italy. Defeated by Stilicho at Pollentia (402) and Verona (403), but not destroyed.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">408 CE - August</div>
+                    <strong>STILICHO EXECUTED</strong> - The Catastrophic Blunder: Honorius, convinced by court advisors that Stilicho is plotting treason, orders his arrest and execution. The only competent defender of the West is removed.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">408 CE</div>
+                    <strong>"Barbarian" Massacre</strong> - Following Stilicho's death, families of "barbarian" soldiers in Roman service are massacred. Thousands of soldiers defect to Alaric. Roman army dissolves.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">408 CE</div>
+                    <strong>Arcadius Dies</strong> - Eastern emperor dies. Succeeded by son Theodosius II (age 7). East continues under court control.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">408-410 CE</div>
+                    <strong>Alaric's Sieges of Rome</strong> - Alaric, now reinforced by defectors, besieges Rome three times. Honorius in Ravenna refuses to negotiate seriously.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">410 CE - August 24</div>
+                    <strong>THE SACK OF ROME</strong> - After third siege, Rome's gates open (likely betrayal). Alaric's Goths sack the Eternal City for three days. First capture in 800 years. Psychological shock across Roman world. Augustine begins writing "City of God." Western Empire's collapse now inevitable.
+                </div>
+            </div>
+        </section>
+        
+        <!-- KEY CHARACTERS SECTION -->
+        <section id="characters" class="section">
+            <h2>🎭 Key Characters Reference</h2>
+            
+            <h3>Power Brokers & Military Leaders</h3>
+            
+            <div class="quick-ref">
+                <div class="ref-card">
+                    <div class="ref-title">Stilicho (c. 359-408)</div>
+                    <p><strong>Role:</strong> Magister Militum (Master of Soldiers), Regent of the West</p>
+                    <p><strong>Background:</strong> Half-Vandal general who married Theodosius's niece Serena. Appointed guardian of young Honorius.</p>
+                    <p><strong>Significance:</strong> De facto ruler of West for 13 years. Only competent military leader. His execution triggered the catastrophe.</p>
+                </div>
+                
+                <div class="ref-card">
+                    <div class="ref-title">Alaric I (c. 370-410)</div>
+                    <p><strong>Role:</strong> King of the Visigoths</p>
+                    <p><strong>Background:</strong> Fought for Rome at Battle of Frigidus (394), then turned against empire when Goths felt exploited.</p>
+                    <p><strong>Significance:</strong> Led the sack of Rome in 410, shattering the empire's psychological invincibility.</p>
+                </div>
+                
+                <div class="ref-card">
+                    <div class="ref-title">Rufinus (d. 395)</div>
+                    <p><strong>Role:</strong> Praetorian Prefect of the East</p>
+                    <p><strong>Background:</strong> Powerful bureaucrat who controlled young Arcadius after 395 division.</p>
+                    <p><strong>Death:</strong> Assassinated by Gothic troops (possibly at Stilicho's instigation), ending his brief dominance.</p>
+                </div>
+                
+                <div class="ref-card">
+                    <div class="ref-title">Eutropius (d. 399)</div>
+                    <p><strong>Role:</strong> Grand Chamberlain, Consul</p>
+                    <p><strong>Background:</strong> Eunuch who rose to unprecedented power at Eastern court, even becoming consul (399).</p>
+                    <p><strong>Significance:</strong> Exemplified the shift of power from emperors to court officials. Fell due to opposition from Empress Eudoxia.</p>
+                </div>
+                
+                <div class="ref-card">
+                    <div class="ref-title">Aelia Eudoxia (c. 380-404)</div>
+                    <p><strong>Role:</strong> Augusta (Empress) of the East</p>
+                    <p><strong>Background:</strong> Wife of Arcadius, possibly of Frankish origin. Unlike her weak husband, politically ambitious and active.</p>
+                    <p><strong>Significance:</strong> Led faction that destroyed Eutropius. Battled John Chrysostom. One of few truly powerful women in late Roman politics.</p>
+                </div>
+                
+                <div class="ref-card">
+                    <div class="ref-title">Arbogast (d. 394)</div>
+                    <p><strong>Role:</strong> Frankish General, Magister Militum</p>
+                    <p><strong>Background:</strong> Frank in Roman service who became commander in West.</p>
+                    <p><strong>Significance:</strong> Likely murdered Valentinian II (392), elevated Eugenius as puppet. Defeated by Theodosius at Frigidus, committed suicide.</p>
+                </div>
+            </div>
+            
+            <h3>Church Figures</h3>
+            
+            <div class="quick-ref">
+                <div class="ref-card">
+                    <div class="ref-title">John Chrysostom (c. 347-407)</div>
+                    <p><strong>Role:</strong> Patriarch of Constantinople</p>
+                    <p><strong>Nickname:</strong> "Golden-mouthed" for his eloquent preaching</p>
+                    <p><strong>Conflict:</strong> Criticized luxury and corruption, including Empress Eudoxia. She had him deposed and exiled (404). Later made saint.</p>
+                </div>
+                
+                <div class="ref-card">
+                    <div class="ref-title">Ambrose of Milan (c. 340-397)</div>
+                    <p><strong>Role:</strong> Bishop of Milan</p>
+                    <p><strong>Significance:</strong> Powerful churchman who influenced emperors. Famously made Theodosius do penance for massacre at Thessalonica (390).</p>
+                </div>
+                
+                <div class="ref-card">
+                    <div class="ref-title">Augustine of Hippo (354-430)</div>
+                    <p><strong>Role:</strong> Bishop of Hippo (North Africa)</p>
+                    <p><strong>Significance:</strong> Wrote "City of God" after 410 sack to defend Christianity against pagan claims that abandoning old gods caused Rome's fall. Most influential Christian theologian.</p>
+                </div>
+            </div>
+            
+            <h3>Gothic & "Barbarian" Leaders</h3>
+            
+            <div class="quick-ref">
+                <div class="ref-card">
+                    <div class="ref-title">Fritigern (d. c. 380)</div>
+                    <p><strong>Role:</strong> Gothic Leader</p>
+                    <p><strong>Significance:</strong> Led Gothic revolt after 376. Commander at Battle of Adrianople (378). Negotiated with Theodosius for settlement.</p>
+                </div>
+                
+                <div class="ref-card">
+                    <div class="ref-title">Radagaisus (d. 406)</div>
+                    <p><strong>Role:</strong> Gothic King</p>
+                    <p><strong>Significance:</strong> Led massive invasion of Italy (405-406). Defeated and executed by Stilicho—last major victory before Stilicho's fall.</p>
+                </div>
+            </div>
+            
+            <h3>Persian Rulers</h3>
+            
+            <div class="quick-ref">
+                <div class="ref-card">
+                    <div class="ref-title">Shapur II (309-379)</div>
+                    <p><strong>Role:</strong> Sassanid Persian Emperor</p>
+                    <p><strong>Significance:</strong> Long-reigning Persian shah who fought constantwars with Rome. Defeated Julian's invasion (363). Kept Eastern Empire constantly threatened.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- FINAL SUMMARY -->
+        <section class="section">
+            <h2>🎯 Holmes's Key Takeaways</h2>
+            
+            <div class="highlight-box">
+                <h4>The Perfect Storm: Why Rome Fell in This Period</h4>
+                <ol style="line-height: 2; padding-left: 30px;">
+                    <li><strong>Climate-Driven Migration:</strong> Megadrought forced Huns west, creating domino effect pushing Germanic tribes into empire</li>
+                    <li><strong>Weakened by Persia:</strong> Constant eastern warfare drained resources and attention</li>
+                    <li><strong>Adrianople Catastrophe (378):</strong> Destroyed Eastern army, demonstrated Roman vulnerability, made Gothic settlement inevitable</li>
+                    <li><strong>Weak Leadership:</strong> Arcadius and Honorius were puppets, real power held by court factions who often worked at cross-purposes</li>
+                    <li><strong>East-West Rivalry:</strong> Division in 395 became permanent split, Eastern court undermined Western defense</li>
+                    <li><strong>The Insider/Outsider Problem:</strong> Stilicho's "barbarian" heritage made him vulnerable despite competence</li>
+                    <li><strong>Catastrophic Scapegoating:</strong> Execution of Stilicho (408) removed only competent defender, triggered defections to Alaric</li>
+                    <li><strong>Religious Upheaval:</strong> Christian-pagan conflicts, theological disputes added instability</li>
+                    <li><strong>Tactical Errors:</strong> Repeated military blunders (Valens at Adrianople, Honorius's refusal to negotiate)</li>
+                    <li><strong>Institutional Decay:</strong> Power shifted from emperors to court officials—empire no longer capable of decisive action</li>
+                </ol>
+            </div>
+            
+            <div class="warning-box">
+                <h4>The Arc of Collapse</h4>
+                <p><strong>306:</strong> Constantine rises—empire still powerful, about to be reformed and Christianized</p>
+                <p><strong>378:</strong> Adrianople—the point where recovery becomes unlikely</p>
+                <p><strong>395:</strong> Division—East and West increasingly separate states</p>
+                <p><strong>408:</strong> Stilicho's execution—removal of last defense</p>
+                <p><strong>410:</strong> Sack of Rome—psychological point of no return, though Western Empire limps on until 476</p>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
