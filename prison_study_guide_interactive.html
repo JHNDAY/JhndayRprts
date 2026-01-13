@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prison: Chapter One Study Guide - Interactive</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8eef3 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .header .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .intro {
+            padding: 30px 40px;
+            background: #f8f9fa;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .intro h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .content {
+            padding: 20px 40px 40px;
+        }
+
+        .section {
+            margin-bottom: 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+        }
+
+        .section-header {
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white;
+            padding: 18px 25px;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .section-header:hover {
+            background: linear-gradient(to right, #5568d3, #654096);
+        }
+
+        .section-title {
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        .toggle-icon {
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+        }
+
+        .section.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: white;
+        }
+
+        .section.active .section-content {
+            max-height: 10000px;
+        }
+
+        .section-inner {
+            padding: 30px;
+        }
+
+        .section-inner h3 {
+            color: #667eea;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 1.4em;
+            border-bottom: 2px solid #e1e8ed;
+            padding-bottom: 8px;
+        }
+
+        .section-inner h4 {
+            color: #764ba2;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.15em;
+        }
+
+        .section-inner p {
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+
+        .section-inner ul, .section-inner ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        .section-inner li {
+            margin-bottom: 8px;
+        }
+
+        .section-inner strong {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .highlight-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .expand-all-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 1em;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .expand-all-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.6em;
+            }
+            
+            .section-title {
+                font-size: 1.1em;
+            }
+            
+            .container {
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .expand-all-btn {
+                bottom: 15px;
+                right: 15px;
+                padding: 12px 20px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Prison: Book I of The Beulah Quintet</h1>
+            <div class="subtitle">Chapter One Study Guide - Religious and Social Movements of 1640s England</div>
+        </div>
+
+        <div class="intro">
+            <h2>Historical Context (1634-1649)</h2>
+            <p>Mary Lee Settle's "Prison" is set during the English Civil War, a period when England experienced what one historian called "the world turned upside down." The novel follows Johnny Church, a young man seeking freedom who becomes caught in the clash between revolutionary ideals and the brutal realities of power. Understanding the religious and social movements of this era is essential to comprehending not just this novel, but the entire Beulah Quintet, as these struggles over freedom, conscience, and authority echo through all five books.</p>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">I. THE MAJOR POWER BLOCS</div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <h3>A. Royalists (Cavaliers)</h3>
+                        <ul>
+                            <li><strong>Core Belief:</strong> Divine Right of Kings - the monarch's authority comes directly from God</li>
+                            <li><strong>Religious Affiliation:</strong> Anglican (Church of England with episcopal structure)</li>
+                            <li><strong>Led by:</strong> King Charles I</li>
+                            <li><strong>Support Base:</strong> Traditional nobility, gentry, high churchmen</li>
+                            <li><strong>Key Issue:</strong> Archbishop William Laud's attempt to enforce Anglo-Catholic liturgy and suppress Puritanism</li>
+                        </ul>
+
+                        <h3>B. Parliamentarians (Roundheads)</h3>
+                        <ul>
+                            <li><strong>Core Belief:</strong> Parliament should limit royal power; common law over divine right</li>
+                            <li><strong>Religious Character:</strong> Predominantly Puritan, but divided into factions</li>
+                            <li><strong>Led by:</strong> Oliver Cromwell (emerged as military and political leader)</li>
+                            <li><strong>Support Base:</strong> Urban merchants, lesser gentry, religious dissenters, New Model Army</li>
+                            <li><strong>Key Tension:</strong> Unity against the King masked deep internal divisions about what should follow</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">II. THE PURITAN SPECTRUM: From Unity to Fragmentation</div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <div class="highlight-box">
+                            <strong>The Fundamental Puritan Impulse:</strong> All Puritans sought to "purify" the Church of England from Catholic practices and believed in Calvinist predestination. But they disagreed profoundly on how to structure the church and society.
+                        </div>
+
+                        <h3>A. Presbyterians</h3>
+                        <h4>Ecclesiology (Church Structure):</h4>
+                        <ul>
+                            <li>Wanted a national church governed by hierarchy of elders (presbyters)</li>
+                            <li>Based on Scottish model - synods, presbyteries, local sessions</li>
+                            <li>Church and state should be separate but church should enforce religious uniformity</li>
+                        </ul>
+
+                        <h4>Key Characteristics:</h4>
+                        <ul>
+                            <li>Most conservative of Parliamentary factions</li>
+                            <li>Supported by Scottish Covenanters (critical alliance for Parliament)</li>
+                            <li>Wanted to negotiate with Charles I to end war quickly</li>
+                            <li>Opposed religious toleration</li>
+                            <li>Dominant in Parliament after 1643 Solemn League and Covenant with Scotland</li>
+                        </ul>
+
+                        <h4>Leading Figures:</h4>
+                        <p>Edward Reynolds, Samuel Rutherford (Scottish)</p>
+
+                        <div class="info-box">
+                            <strong>John Milton's Critique:</strong> "New Presbyter is but old Priest writ large" - accused them of replacing Anglican tyranny with Presbyterian tyranny
+                        </div>
+
+                        <h3>B. Independents (Congregationalists)</h3>
+                        <h4>Ecclesiology:</h4>
+                        <ul>
+                            <li>Each congregation should be autonomous - "gathered churches" of visible saints</li>
+                            <li>No hierarchy above the local congregation</li>
+                            <li>Separation of church and state</li>
+                            <li>Religious liberty and toleration (at least for Protestants)</li>
+                        </ul>
+
+                        <h4>Key Characteristics:</h4>
+                        <ul>
+                            <li>More radical politically and militarily</li>
+                            <li>Dominant in the New Model Army</li>
+                            <li>Wanted vigorous prosecution of war to force terms on defeated King</li>
+                            <li>Supported "experimental predestinarianism" - dramatic conversion experiences</li>
+                            <li>Under Cromwell, allowed diversity: ministers could organize churches as Presbyterian, Independent, or Baptist</li>
+                        </ul>
+
+                        <h4>Leading Figures:</h4>
+                        <p>Oliver Cromwell, Thomas Goodwin, John Owen, Sir Henry Vane the Younger</p>
+
+                        <h4>Evolution:</h4>
+                        <p>Some Independents became Quakers; movement emphasized individual conscience</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">III. THE RADICAL MOVEMENTS: Dreams of Freedom and Equality</div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <p style="font-style: italic; margin-bottom: 20px;">These movements emerged from the collapse of censorship, widespread military mobilization, and the questioning of all traditional authority. They represent what Johnny Church seeks and what ultimately destroys him.</p>
+
+                        <h3>A. The Levellers (1647-1649)</h3>
+                        <h4>Core Vision: Political democracy and legal equality</h4>
+
+                        <h4>Key Demands:</h4>
+                        <ul>
+                            <li>Universal manhood suffrage (though still excluding servants and those on poor relief)</li>
+                            <li>Equality before the law</li>
+                            <li>Religious toleration</li>
+                            <li>Written constitution</li>
+                            <li>Abolition of monarchy and House of Lords</li>
+                            <li>Independent juries</li>
+                            <li>End to imprisonment for debt</li>
+                            <li>Against common ownership (unlike Diggers) - supported private property</li>
+                        </ul>
+
+                        <h4>Organization:</h4>
+                        <ul>
+                            <li>National structure with offices in London inns (The Rosemary Branch in Islington)</li>
+                            <li>Identified by sea-green ribbons and rosemary sprigs in hats</li>
+                            <li>Published "The Moderate" newspaper (July 1648-September 1649)</li>
+                            <li>Used petitions and pamphlets as political weapons</li>
+                        </ul>
+
+                        <h4>Major Documents:</h4>
+                        <ul>
+                            <li>"An Agreement of the People" (1647, 1649) - proposed constitution</li>
+                            <li>"Large Petition" (1648)</li>
+                            <li>Putney Debates (1647) - confrontation with Cromwell over franchise</li>
+                        </ul>
+
+                        <h4>Leading Figures:</h4>
+                        <ul>
+                            <li>John Lilburne (1615-1657) - later became Quaker</li>
+                            <li>Richard Overton</li>
+                            <li>William Walwyn</li>
+                            <li>Captain William Thompson</li>
+                        </ul>
+
+                        <div class="warning-box">
+                            <h4>Destruction:</h4>
+                            <ul>
+                                <li><strong>Burford Mutiny (May 1649):</strong> Cromwell crushed Leveller-aligned troops; 340 soldiers defeated</li>
+                                <li>Three leaders shot on May 17, 1649: William Thompson's brother, Corporal Perkins, and <strong>John Church</strong></li>
+                                <li>This destroyed Leveller support in the New Model Army</li>
+                                <li>The movement represented the "freeborn Englishman's" aspirations but was crushed by the very army that had defeated the King</li>
+                            </ul>
+                        </div>
+
+                        <h4>Historical Significance:</h4>
+                        <p>Influenced American Revolution and modern democratic movements; Tony Benn cited them as influence on Christian socialism</p>
+
+                        <h3>B. The Diggers (True Levellers) (1649-1652)</h3>
+                        <h4>Core Vision: Agrarian communism - abolition of private property in land</h4>
+
+                        <h4>Theological Foundation:</h4>
+                        <ul>
+                            <li>Based on Acts 4:32 - early Christians "had all things in common"</li>
+                            <li>Land belongs to all people and should be used for common benefit</li>
+                            <li>Private property is the root of tyranny and sin</li>
+                            <li>Rejected hierarchy, privilege, and property</li>
+                        </ul>
+
+                        <h4>Actions:</h4>
+                        <ul>
+                            <li>April 1649: Began planting vegetables on common land at St. George's Hill, Surrey</li>
+                            <li>Invited all to "come in and help them" with promise of "meat, drink, and clothes"</li>
+                            <li>Established communes in Surrey, Buckinghamshire, Northamptonshire, Leicestershire, Gloucestershire, Nottinghamshire</li>
+                        </ul>
+
+                        <h4>Leader: Gerrard Winstanley (c. 1609-1676)</h4>
+                        <ul>
+                            <li>Religious visionary and social reformer</li>
+                            <li>Major work: "The Law of Freedom" (1652) - outlined utopian communist state</li>
+                            <li>Condemned Ranters for immorality</li>
+                        </ul>
+
+                        <h4>Key Documents:</h4>
+                        <ul>
+                            <li>"The True Levellers Standard Advanced" (1649)</li>
+                            <li>"Truth Lifting up its Head above Scandals" (1649)</li>
+                            <li>"The New Law of Righteousness" (1649)</li>
+                        </ul>
+
+                        <h4>Persecution and Failure:</h4>
+                        <ul>
+                            <li>Systematic harassment by local landowner Francis Drake</li>
+                            <li>Organized gang attacks, beatings, arson</li>
+                            <li>Court case where Diggers forbidden to speak in defense</li>
+                            <li>Falsely accused of being sexually libertine Ranters</li>
+                            <li>Crops uprooted, buildings burned</li>
+                            <li>Finished by early 1650s</li>
+                            <li>Left children to parish care when colonies failed</li>
+                        </ul>
+
+                        <h4>Legacy:</h4>
+                        <p>Influenced 19th-century socialist doctrine; Annual Diggers' Festival in Winstanley's hometown of Wigan; Folk song "The Diggers' Song" remains popular in radical circles</p>
+
+                        <h3>C. The Ranters (1649-1650)</h3>
+                        <h4>Core Beliefs (Highly Controversial):</h4>
+                        <ul>
+                            <li>Antinomianism: believers not bound by moral law</li>
+                            <li>Pantheism: God in everything</li>
+                            <li>Sin is impossible for the truly enlightened</li>
+                            <li>Radical spiritual freedom leading to sexual and social libertinism</li>
+                            <li>Anticipated imminent millennial future</li>
+                            <li>All hierarchy, privilege, and property would be swept away</li>
+                        </ul>
+
+                        <h4>Nature of Movement:</h4>
+                        <ul>
+                            <li>Not a unified sect or party</li>
+                            <li>"Loose cluster of individual cells" with similar ideas</li>
+                            <li>Existence disputed by some historians (J.C. Davis argues they were largely invented by conservatives to discredit opponents)</li>
+                            <li>But contemporaries - both radicals and conservatives - described encountering them</li>
+                        </ul>
+
+                        <h4>Leading Figure:</h4>
+                        <p>Abiezer Coppe (1619-1672) - Claimed overthrow of king and lords foreshadowed greater revolution; Most interesting pamphleteer</p>
+
+                        <h4>Suppression:</h4>
+                        <ul>
+                            <li>1650 Act of Parliament banned Ranter pamphlets and condemned their beliefs</li>
+                            <li>Ideas lived on throughout 1650s in Quaker and other radical writings</li>
+                        </ul>
+
+                        <h3>D. The Quakers (Society of Friends) (late 1640s onward)</h3>
+                        <h4>Founder: George Fox (preached in 1640s)</h4>
+
+                        <h4>Core Beliefs:</h4>
+                        <ul>
+                            <li>"Inner Light" - Christ fully present in all believers</li>
+                            <li>Direct access to God without intermediaries</li>
+                            <li>Each individual can lead themselves spiritually</li>
+                            <li>Peace testimony (pacifism)</li>
+                            <li>Refusal of state control over conscience</li>
+                            <li>No hierarchical leadership structure</li>
+                        </ul>
+
+                        <h4>Evolution:</h4>
+                        <ul>
+                            <li>Initially had no structure</li>
+                            <li>Gradually developed disciplined networks</li>
+                            <li>Many former Levellers (including John Lilburne) and Ranters became Quakers</li>
+                            <li>Shift from political activism to quietism after radical defeats</li>
+                        </ul>
+
+                        <h4>Treatment:</h4>
+                        <ul>
+                            <li>Cromwell sympathetic but they faced repeated prosecutions</li>
+                            <li>Bushel's Case (1670) inspired practice of jury nullification</li>
+                            <li>Survived when other radical movements did not</li>
+                        </ul>
+
+                        <div class="info-box">
+                            <strong>Historical Significance:</strong> Still exist as religious movement; influenced enduring tradition of dissent
+                        </div>
+
+                        <h3>E. Fifth Monarchists (1651-1660s)</h3>
+                        <h4>Core Belief: Millenarianism based on Book of Daniel</h4>
+
+                        <h4>Vision:</h4>
+                        <ul>
+                            <li>Four world empires (Babylonian, Persian, Greek, Roman) would be followed by fifth monarchy</li>
+                            <li>Fifth monarchy = reign of Christ on earth - imminent</li>
+                            <li>Old Testament model for government, law, society</li>
+                            <li>Rule by "visible saints" - godly elite</li>
+                            <li>Theocratic governance</li>
+                            <li>Rejected secular kingship as usurping Christ</li>
+                        </ul>
+
+                        <h4>Political Activity:</h4>
+                        <ul>
+                            <li>Most politicized of religious movements</li>
+                            <li>Dozen Fifth Monarchists in Barebones Parliament (1653)</li>
+                            <li>Welcomed Cromwell's dissolution of Rump Parliament (April 1653)</li>
+                            <li>Turned against Cromwell when he became Lord Protector (December 1653)</li>
+                            <li>Viewed him as "agent of Antichrist" - veiled monarchy</li>
+                            <li>Pushed for sweeping reforms: law reform, abolition of taxes and tithes, relief of poor</li>
+                        </ul>
+
+                        <h4>Leading Figures:</h4>
+                        <ul>
+                            <li>Thomas Harrison - Major-General, regicide (signed Charles I's death warrant)</li>
+                            <li>John Carew - regicide</li>
+                        </ul>
+
+                        <h4>Contradictions:</h4>
+                        <ul>
+                            <li>Demanded social reforms similar to Levellers and Diggers</li>
+                            <li>But rejected democratic values</li>
+                            <li>Looked for rule by godly elite, not popular sovereignty</li>
+                            <li>Guaranteed better life only for those "willing to live quietly under new order"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">IV. THE WESTMINSTER ASSEMBLY (1643-1653): The Arena of Conflict</div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <p><strong>Purpose:</strong> Called by Parliament to reform Church of England</p>
+                        <p><strong>Composition:</strong> Divided into four groups representing the spectrum of Puritan opinion</p>
+
+                        <h3>The Four Parties:</h3>
+
+                        <h4>1. Episcopalians (Led by James Ussher, Archbishop of Armagh)</h4>
+                        <ul>
+                            <li>Supported moderate episcopal polity</li>
+                            <li>Wanted reformed bishops</li>
+                        </ul>
+
+                        <h4>2. Presbyterians (Led by Edward Reynolds; Scottish Commissioners George Gillespie, Samuel Rutherford)</h4>
+                        <ul>
+                            <li>Favored presbyterian polity</li>
+                            <li>Most numerous in Assembly</li>
+                            <li>Wanted church-state separation but religious uniformity enforced by state</li>
+                        </ul>
+
+                        <h4>3. Independents (Led by Thomas Goodwin)</h4>
+                        <ul>
+                            <li>Favored congregationalist polity</li>
+                            <li>Religious liberty</li>
+                            <li>"Dissenting Brethren" - small but determined</li>
+                        </ul>
+
+                        <h4>4. Erastians (Led by John Lightfoot)</h4>
+                        <ul>
+                            <li>Believed church structure "adiaphora" - matters indifferent</li>
+                            <li>Should be determined by state</li>
+                            <li>Church subordinate to state (caesaropapism)</li>
+                        </ul>
+
+                        <h3>Achievements and Failures:</h3>
+
+                        <h4>Agreement:</h4>
+                        <ul>
+                            <li>Westminster Confession of Faith (1646) - doctrinally consistent Reformed theology</li>
+                            <li>Directory of Public Worship (1645)</li>
+                            <li>Adopted by Church of Scotland</li>
+                            <li>Westminster Standards</li>
+                        </ul>
+
+                        <h4>Disagreement:</h4>
+                        <ul>
+                            <li>Church polity remained contested by Independents until 1660</li>
+                            <li>Parliament needed Scottish military help, so adopted Solemn League and Covenant (1643)</li>
+                            <li>Committed England to presbyterian form close to Scotland's</li>
+                            <li>But local implementation left to authorities - incomplete reform</li>
+                            <li>Church of England never developed complete presbyterian hierarchy</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">V. KEY THEMES IN "PRISON" AND THE QUINTET</div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <h3>A. The Paradox of Freedom</h3>
+                        <p>The central irony of the English Revolution: seeking freedom from one prison, people create another. Johnny Church moves from:</p>
+                        <ol>
+                            <li>Imprisonment by father and tradition</li>
+                            <li>Oxford privilege</li>
+                            <li>Puritan idealism in Cromwell's army</li>
+                            <li>Questioning Cromwell's limitations on freedom</li>
+                            <li>Literal prison and execution</li>
+                        </ol>
+                        <div class="highlight-box">
+                            <strong>Settle's Theme:</strong> "With each successive grasp at freedom, he escapes one form of captivity only to be confined by another."
+                        </div>
+
+                        <h3>B. The Betrayal of Ideals</h3>
+                        <ul>
+                            <li>Levellers, Diggers, and other radicals fought for freedom of conscience</li>
+                            <li>Cromwell's New Model Army crushed them in the name of "godly" minority</li>
+                            <li>"The liberty of the people of God" (the elect) trumped civil liberties of the nation</li>
+                            <li>This pattern echoes through American history in the Quintet</li>
+                        </ul>
+
+                        <h3>C. The Roots of American Freedom</h3>
+                        <p><strong>Settle's Purpose:</strong> Examine origins of American ideas of freedom, liberty, and conscience</p>
+                        <h4>The Connection:</h4>
+                        <ul>
+                            <li>These conflicts led to substantial migrations to North America</li>
+                            <li>Settlers brought both ideals and contradictions</li>
+                            <li>The Beulah Quintet traces how these struggles for freedom shape American character through centuries</li>
+                            <li>Pattern of rebellion against status quo repeats in each generation</li>
+                        </ul>
+
+                        <h3>D. The Danger of Theocracy</h3>
+                        <ul>
+                            <li>Argument for theocracy "failed to convince enough of the various groupings"</li>
+                            <li>No Puritan religious settlement matched Cromwell's political power</li>
+                            <li>Religious certainty led to intolerance and violence</li>
+                            <li>Fifth Monarchists: religious vision incompatible with democratic values</li>
+                        </ul>
+
+                        <h3>E. Religious Liberty vs. Political Freedom</h3>
+                        <div class="warning-box">
+                            <h4>The Tragic Choice:</h4>
+                            <ul>
+                                <li>1640 revolt began with unity: majority opposed arbitrary rule, insisted on political liberties</li>
+                                <li>Events led to seizure of power by Cromwell's New Model Army</li>
+                                <li>Religious liberty (for the elect) placed above political freedom (for all)</li>
+                                <li>1660: Levellers, Presbyterians, and Royalists combined to restore Charles II - preferring monarchical tyranny to military-religious dictatorship</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">VI. THE TRUE INCIDENT BEHIND "PRISON"</div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <p>The novel is based on an actual event from the English Civil War:</p>
+                        <ul>
+                            <li>Soldier questions Cromwell about limitations on freedoms they fought for</li>
+                            <li>Made example of to discourage other soldiers from championing their rights</li>
+                            <li>Executed (shot at Burford with other Leveller mutineers)</li>
+                            <li>Johnny Church's story embodies this historical moment</li>
+                        </ul>
+                        <div class="highlight-box">
+                            <strong>Significance:</strong> The crushing of the Levellers marked the defeat of democratic aspirations within the Revolution - shift from political activism to religious quietism or emigration.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">VII. CONNECTIONS TO LATER VOLUMES OF THE QUINTET</div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <h3>Book 2: O Beulah Land (1754-1774)</h3>
+                        <ul>
+                            <li>Johnny Church's descendants seek freedom and land in Virginia backcountry</li>
+                            <li>Carry forward both ideals and contradictions</li>
+                            <li>Build estate named "Beulah" through conquest and settlement</li>
+                            <li>Revolutionary War looms</li>
+                        </ul>
+
+                        <h3>Book 3: Know Nothing (1837-1861)</h3>
+                        <ul>
+                            <li>Slavery and freedom in antebellum America</li>
+                            <li>Johnny Catlett forced to fight for Confederacy</li>
+                            <li>Contradictions of freedom in society built on bondage</li>
+                        </ul>
+
+                        <h3>Book 4: The Scapegoat (1912)</h3>
+                        <ul>
+                            <li>Labor organizing at Seven Stars Coal Mine</li>
+                            <li>Echoes of Levellers and Diggers in industrial struggles</li>
+                            <li>One day's events refract inner lives caught in power struggles</li>
+                        </ul>
+
+                        <h3>Book 5: The Killing Ground (1978-1980)</h3>
+                        <ul>
+                            <li>Hannah McKarkle (Settle's alter ego, author of previous four books) returns to West Virginia</li>
+                            <li>Investigates her brother Johnny's death</li>
+                            <li>Reflects on personal and historical tragedies</li>
+                            <li>1978 visit includes churchyard where Jonathan Church was shot in 1649</li>
+                            <li>"Repetitions of character-types throughout history"</li>
+                            <li>Strain of rebellion against status quo runs through all</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">VIII. CRITICAL RELIGIOUS AND POLITICAL VOCABULARY</div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <h3>Theological Terms:</h3>
+                        <ul>
+                            <li><strong>Predestination:</strong> Calvinist belief that God has already chosen who will be saved</li>
+                            <li><strong>Experimental Predestinarianism:</strong> Belief you can have assurance of election through dramatic conversion experience</li>
+                            <li><strong>Antinomianism:</strong> Belief that those saved by grace are not bound by moral law</li>
+                            <li><strong>Covenant Theology:</strong> God's relationship with humanity through covenants</li>
+                            <li><strong>Visible Saints:</strong> Those who show external evidence of being among the elect</li>
+                            <li><strong>Gathered Churches:</strong> Congregations of only converted believers (vs. national church including everyone)</li>
+                        </ul>
+
+                        <h3>Political Terms:</h3>
+                        <ul>
+                            <li><strong>Divine Right of Kings:</strong> Monarch's authority comes directly from God, not answerable to people</li>
+                            <li><strong>Royal Prerogative:</strong> King's special powers and privileges</li>
+                            <li><strong>Common Law:</strong> Traditional law of England, developed through court decisions</li>
+                            <li><strong>Freeborn Englishman:</strong> Traditional English liberties and rights</li>
+                            <li><strong>Agreement of the People:</strong> Leveller proposed constitution</li>
+                            <li><strong>Solemn League and Covenant (1643):</strong> Alliance between English Parliament and Scottish Presbyterians</li>
+                        </ul>
+
+                        <h3>Church Structure Terms:</h3>
+                        <ul>
+                            <li><strong>Episcopal:</strong> Governed by bishops in hierarchy</li>
+                            <li><strong>Presbyterian:</strong> Governed by elders in system of assemblies</li>
+                            <li><strong>Congregational/Independent:</strong> Each local church autonomous</li>
+                            <li><strong>Erastian:</strong> Church subordinate to state</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">IX. QUESTIONS FOR REFLECTION AS YOU READ</div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <ol>
+                            <li><strong>Freedom and Constraint:</strong> How does Johnny Church seek freedom? What new "prisons" does he encounter with each choice?</li>
+                            
+                            <li><strong>Idealism vs. Reality:</strong> How do the beautiful ideals of the Levellers, Diggers, and other radicals clash with political realities?</li>
+                            
+                            <li><strong>Power and Betrayal:</strong> Why does Cromwell, who fought for liberty, crush those demanding the freedoms he promised?</li>
+                            
+                            <li><strong>Religious Certainty:</strong> How does religious conviction justify both liberation and oppression?</li>
+                            
+                            <li><strong>Seeds of America:</strong> What aspects of these English struggles will the colonists carry to America? Which will they perpetuate and which will they transform?</li>
+                            
+                            <li><strong>Repeating Patterns:</strong> Can you see character types and conflicts that might repeat through the subsequent volumes spanning 1754-1980?</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">X. FURTHER READING</div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <h3>On the English Civil War and Radicalism:</h3>
+                        <ul>
+                            <li>Christopher Hill, <em>The World Turned Upside Down: Radical Ideas during the English Revolution</em> (1972)</li>
+                            <li>A.L. Morton, <em>The World of the Ranters: Religious Radicalism in the English Revolution</em> (1970)</li>
+                            <li>Brian Manning, <em>The English People and the English Revolution</em> (1976)</li>
+                            <li>Bernard Capp, <em>The Fifth Monarchy Men</em> (1972)</li>
+                        </ul>
+
+                        <h3>On the Beulah Quintet:</h3>
+                        <ul>
+                            <li>Brian Rosenberg, <em>Mary Lee Settle's Beulah Quintet: The Price of Freedom</em> (1991)</li>
+                            <li>George Garrett, <em>Understanding Mary Lee Settle</em> (1988)</li>
+                        </ul>
+
+                        <h3>Primary Sources:</h3>
+                        <ul>
+                            <li>Gerrard Winstanley, <em>The Law of Freedom</em> (1652)</li>
+                            <li>John Lilburne and the Levellers, <em>An Agreement of the People</em></li>
+                            <li>Westminster Confession of Faith (1646)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">CONCLUDING NOTE</div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="section-content">
+                    <div class="section-inner">
+                        <p>Mary Lee Settle spent the late 1940s researching 17th-century England at the British Library, finding "an embarrassment of riches" relating to early Virginia and the roots of American democracy. <em>Prisons</em> (her personal favorite of the Quintet) captures both "the promise and tragedy" of this revolutionary moment.</p>
+                        
+                        <p>The religious and social movements of the 1640s represent humanity's perennial struggle: the desire for freedom clashing with the human tendency to create new forms of bondage. Johnny Church's journey from privilege to idealism to execution embodies the paradox that runs through all of American history - that the pursuit of freedom for oneself often means denying it to others, and that today's liberators become tomorrow's oppressors.</p>
+                        
+                        <div class="highlight-box">
+                            <p><strong>As you read the first chapter,</strong> watch for how Settle introduces these tensions through Johnny Church's world - the family he rebels against, the religious movements that attract and repel him, and the political forces that will ultimately destroy him. These opening pages set the pattern for the entire Quintet: the American character formed by the "braided paradox" of hope looking forward and memory looking back, each guided by its own myth.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="expand-all-btn" onclick="toggleAll()">Expand All</button>
+
+    <script>
+        // Get all section headers
+        const sectionHeaders = document.querySelectorAll('.section-header');
+        let allExpanded = false;
+
+        // Add click event to each section header
+        sectionHeaders.forEach(header => {
+            header.addEventListener('click', function() {
+                const section = this.parentElement;
+                section.classList.toggle('active');
+            });
+        });
+
+        // Toggle all sections
+        function toggleAll() {
+            const sections = document.querySelectorAll('.section');
+            const btn = document.querySelector('.expand-all-btn');
+            
+            allExpanded = !allExpanded;
+            
+            sections.forEach(section => {
+                if (allExpanded) {
+                    section.classList.add('active');
+                    btn.textContent = 'Collapse All';
+                } else {
+                    section.classList.remove('active');
+                    btn.textContent = 'Expand All';
+                }
+            });
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            // Press 'E' to expand all, 'C' to collapse all
+            if (e.key === 'e' || e.key === 'E') {
+                if (!allExpanded) toggleAll();
+            } else if (e.key === 'c' || e.key === 'C') {
+                if (allExpanded) toggleAll();
+            }
+        });
+    </script>
+</body>
+</html>
