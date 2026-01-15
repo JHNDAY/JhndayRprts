@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dog-Friendly Parks in Sarasota, FL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+        
+        .legend {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .legend h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+        }
+        
+        .legend-icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .off-leash { background: #28a745; }
+        .leash-required { background: #ffc107; color: #333 !important; }
+        
+        .park-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .park-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .park-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+        
+        .park-type-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .park-name {
+            color: #333;
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            padding-right: 80px;
+        }
+        
+        .park-address {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .park-address::before {
+            content: "📍";
+            margin-right: 8px;
+        }
+        
+        .park-size {
+            background: #f0f0f0;
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .park-description {
+            color: #555;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+        
+        .park-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .feature-tag {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85em;
+        }
+        
+        .map-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .map-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .park-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐕 Dog-Friendly Parks in Sarasota, FL</h1>
+        <p class="subtitle">Great places to walk and play with your furry friends</p>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">16+</div>
+                <div class="stat-label">Dog-Friendly Parks</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">5</div>
+                <div class="stat-label">Off-Leash Paw Parks</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">Dog-Friendly Beach</div>
+            </div>
+        </div>
+        
+        <div class="legend">
+            <h3>Park Types</h3>
+            <div class="legend-item">
+                <div class="legend-icon off-leash">🐕</div>
+                <span><strong>Off-Leash Paw Parks:</strong> Fenced areas where dogs can play off-leash with separate sections for large and small dogs</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-icon leash-required">🦮</div>
+                <span><strong>Dog-Friendly Parks:</strong> Dogs welcome but must remain on a 6-foot leash at all times</span>
+            </div>
+        </div>
+        
+        <div class="park-grid">
+            
+            <!-- 17th Street Paw Park -->
+            <div class="park-card">
+                <div class="park-type-badge off-leash">OFF-LEASH</div>
+                <h2 class="park-name">17th Street Paw Park</h2>
+                <div class="park-address">4570 & 4730 17th St, Sarasota, FL 34235</div>
+                <div class="park-size">📏 Part of 96-acre park complex</div>
+                <p class="park-description">One of Sarasota's largest and most popular off-leash dog parks. Features expansive separate areas for large and small dogs (20 lbs or less), plenty of shade, water stations, and agility equipment on the large dog side. The park has double-gated entries for safety and ample parking.</p>
+                <div class="park-features">
+                    <span class="feature-tag">Agility Equipment</span>
+                    <span class="feature-tag">Water Stations</span>
+                    <span class="feature-tag">Shade</span>
+                    <span class="feature-tag">Waste Bags</span>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=4570+17th+St+Sarasota+FL+34235" class="map-button" target="_blank">📍 Open in Google Maps</a>
+            </div>
+            
+            <!-- Arlington Paw Park -->
+            <div class="park-card">
+                <div class="park-type-badge off-leash">OFF-LEASH</div>
+                <h2 class="park-name">Arlington Paw Park</h2>
+                <div class="park-address">2650 Waldemere St, Sarasota, FL 34239</div>
+                <div class="park-size">📏 Medium-sized (repurposed baseball field)</div>
+                <p class="park-description">Located at Arlington Park & Aquatic Complex, this fenced dog park is a converted baseball field with separate areas for small and large dogs. Features semi-shaded spaces, water stations, doggy pools for hot days, and plenty of free tennis balls from the nearby courts. Popular with friendly regulars in mornings and evenings.</p>
+                <div class="park-features">
+                    <span class="feature-tag">Doggy Pools</span>
+                    <span class="feature-tag">Water Hoses</span>
+                    <span class="feature-tag">0.5 Mile Trail</span>
+                    <span class="feature-tag">Tennis Balls</span>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=2650+Waldemere+St+Sarasota+FL+34239" class="map-button" target="_blank">📍 Open in Google Maps</a>
+            </div>
+            
+            <!-- Lakeview Paw Park -->
+            <div class="park-card">
+                <div class="park-type-badge off-leash">OFF-LEASH</div>
+                <h2 class="park-name">Lakeview Paw Park</h2>
+                <div class="park-address">7150 Lago St, Sarasota, FL 34241</div>
+                <div class="park-size">📏 2 acres (within 16-acre Lakeview Park)</div>
+                <p class="park-description">A shaded sanctuary perfect for hot Florida days. Features mulchy terrain with completely shaded space, separate fenced areas for small (under 20 lbs) and large dogs, agility equipment including adjustable hurdles and weave poles, drinking station with doggy hose. Connected to scenic Lakeview Park with walking trails and ponds.</p>
+                <div class="park-features">
+                    <span class="feature-tag">Full Shade</span>
+                    <span class="feature-tag">Agility Equipment</span>
+                    <span class="feature-tag">Walking Trails</span>
+                    <span class="feature-tag">Scenic Views</span>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=7150+Lago+St+Sarasota+FL+34241" class="map-button" target="_blank">📍 Open in Google Maps</a>
+            </div>
+            
+            <!-- Bay Street Park -->
+            <div class="park-card">
+                <div class="park-type-badge off-leash">OFF-LEASH</div>
+                <h2 class="park-name">Bay Street Park</h2>
+                <div class="park-address">300 Bay St, Osprey, FL 34229</div>
+                <div class="park-size">📏 19 acres (1-acre dog park)</div>
+                <p class="park-description">This versatile park features both a dedicated 1-acre off-leash dog park and dog-friendly walking trails (leashed). The fenced dog park has separate areas for large and small dogs with dog exercise equipment, water fountains, and shaded seating. Dogs must be leashed in all other park areas. Includes picnic facilities, restrooms, and unpaved walking trails.</p>
+                <div class="park-features">
+                    <span class="feature-tag">Exercise Equipment</span>
+                    <span class="feature-tag">Water Fountains</span>
+                    <span class="feature-tag">Picnic Areas</span>
+                    <span class="feature-tag">Trails</span>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=300+Bay+St+Osprey+FL+34229" class="map-button" target="_blank">📍 Open in Google Maps</a>
+            </div>
+            
+            <!-- Brohard Paw Park & Beach -->
+            <div class="park-card">
+                <div class="park-type-badge off-leash">OFF-LEASH BEACH</div>
+                <h2 class="park-name">Brohard Paw Park & Beach</h2>
+                <div class="park-address">1850 S Harbor Dr, Venice, FL 34285</div>
+                <div class="park-size">📏 Fenced park + beach area</div>
+                <p class="park-description">Sarasota County's ONLY off-leash dog beach! Rated #1 Best Dog Friendly Beach in Florida (2021). Features a fenced dog play area with separate sections for small and large dogs, plus a boardwalk connecting to the off-leash beach section where dogs can run and play in the surf. Includes drinking fountains, showers for rinsing off, picnic tables, and benches.</p>
+                <div class="park-features">
+                    <span class="feature-tag">Beach Access</span>
+                    <span class="feature-tag">Dog Showers</span>
+                    <span class="feature-tag">Water Fountains</span>
+                    <span class="feature-tag">Parking</span>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=1850+S+Harbor+Dr+Venice+FL+34285" class="map-button" target="_blank">📍 Open in Google Maps</a>
+            </div>
+            
+            <!-- Gillespie Park -->
+            <div class="park-card">
+                <div class="park-type-badge off-leash">OFF-LEASH</div>
+                <h2 class="park-name">Canine Club at Gillespie Park</h2>
+                <div class="park-address">710 N Osprey Ave, Sarasota, FL 34236</div>
+                <div class="park-size">📏 Small off-leash area</div>
+                <p class="park-description">Located within Gillespie Park in downtown Sarasota, this fenced dog park features two separate runs for small and large dogs with shaded seating for pet parents. Great for quick socialization and exercise. Open 5 AM to 11 PM daily (closed Tuesdays).</p>
+                <div class="park-features">
+                    <span class="feature-tag">Downtown Location</span>
+                    <span class="feature-tag">Shaded Seating</span>
+                    <span class="feature-tag">Water Available</span>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=710+N+Osprey+Ave+Sarasota+FL+34236" class="map-button" target="_blank">📍 Open in Google Maps</a>
+            </div>
+            
+            <!-- Woodmere Paw Park -->
+            <div class="park-card">
+                <div class="park-type-badge off-leash">OFF-LEASH</div>
+                <h2 class="park-name">Woodmere Paw Park</h2>
+                <div class="park-address">3951 Woodmere Park Blvd, Venice, FL 34293</div>
+                <div class="park-size">📏 2.5 acres (within 36-acre park)</div>
+                <p class="park-description">Located in southeastern Venice off Jacaranda Boulevard, this off-leash area is part of the larger Woodmere Park complex. Features separate fenced areas for small and large dogs, shade structures, benches, water stations, and waste bag stations. The park also includes walking trails, playground, tennis courts, and indoor gymnasium.</p>
+                <div class="park-features">
+                    <span class="feature-tag">Shade Structures</span>
+                    <span class="feature-tag">Water Stations</span>
+                    <span class="feature-tag">Waste Bags</span>
+                    <span class="feature-tag">Parking</span>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=3951+Woodmere+Park+Blvd+Venice+FL+34293" class="map-button" target="_blank">📍 Open in Google Maps</a>
+            </div>
+            
+            <!-- Pioneer Park -->
+            <div class="park-card">
+                <div class="park-type-badge leash-required">LEASH REQUIRED</div>
+                <h2 class="park-name">Pioneer Park</h2>
+                <div class="park-address">1260 12th St, Sarasota, FL 34236</div>
+                <div class="park-size">📏 One city block</div>
+                <p class="park-description">Historic downtown park with dog-friendly walking paths (leashed). Features a scenic trail, shaded seating areas, basketball and tennis courts, tree-top inspired playground, and historic buildings including the Bidwell-Wood House, Crocker Memorial Church, and Pioneer Whitaker Cemetery. Wheelchair accessible with lighting for evening visits. A peaceful urban park for leisurely walks.</p>
+                <div class="park-features">
+                    <span class="feature-tag">Historic Site</span>
+                    <span class="feature-tag">Walking Trail</span>
+                    <span class="feature-tag">Shaded Areas</span>
+                    <span class="feature-tag">Basketball/Tennis</span>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=1260+12th+St+Sarasota+FL+34236" class="map-button" target="_blank">📍 Open in Google Maps</a>
+            </div>
+            
+            <!-- Ackerman Park -->
+            <div class="park-card">
+                <div class="park-type-badge leash-required">LEASH REQUIRED</div>
+                <h2 class="park-name">Ackerman Park</h2>
+                <div class="park-address">Sarasota, FL</div>
+                <div class="park-size">📏 Small neighborhood park</div>
+                <p class="park-description">A free public park that welcomes leashed dogs. Features fishing access, picnicking areas, pavilion for shade breaks, and walking trails. Also includes a playground for kids, making it a great family destination.</p>
+                <div class="park-features">
+                    <span class="feature-tag">Fishing</span>
+                    <span class="feature-tag">Trails</span>
+                    <span class="feature-tag">Pavilion</span>
+                    <span class="feature-tag">Playground</span>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Ackerman+Park+Sarasota+FL" class="map-button" target="_blank">📍 Open in Google Maps</a>
+            </div>
+            
+            <!-- Bee Ridge Park -->
+            <div class="park-card">
+                <div class="park-type-badge leash-required">LEASH REQUIRED</div>
+                <h2 class="park-name">Bee Ridge Park</h2>
+                <div class="park-address">4430 S Lockwood Ridge Rd, Sarasota, FL 34231</div>
+                <div class="park-size">📏 Community park</div>
+                <p class="park-description">Dog-friendly community park requiring leashes at all times. Features a lovely community garden, grills for cookouts, picnic areas, softball and volleyball fields, and a playground for children. Great for leisurely walks and family gatherings.</p>
+                <div class="park-features">
+                    <span class="feature-tag">Community Garden</span>
+                    <span class="feature-tag">Sports Fields</span>
+                    <span class="feature-tag">Grills</span>
+                    <span class="feature-tag">Playground</span>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=4430+S+Lockwood+Ridge+Rd+Sarasota+FL+34231" class="map-button" target="_blank">📍 Open in Google Maps</a>
+            </div>
+            
+            <!-- Bayfront Park Longboat Key -->
+            <div class="park-card">
+                <div class="park-type-badge off-leash">OFF-LEASH AREA</div>
+                <h2 class="park-name">Bayfront Park</h2>
+                <div class="park-address">4052 Gulf of Mexico Dr, Longboat Key, FL</div>
+                <div class="park-size">📏 Waterfront park</div>
+                <p class="park-description">Located on Longboat Key with stunning bay views. Features a designated off-leash dog park where pups can run freely, plus fishing pier, picnic areas, boat and kayak launch sites, paved walking trails, and playground for kids. Dogs must be leashed in areas outside the designated dog park.</p>
+                <div class="park-features">
+                    <span class="feature-tag">Bay Views</span>
+                    <span class="feature-tag">Boat Launch</span>
+                    <span class="feature-tag">Fishing Pier</span>
+                    <span class="feature-tag">Paved Trails</span>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=4052+Gulf+of+Mexico+Dr+Longboat+Key+FL" class="map-button" target="_blank">📍 Open in Google Maps</a>
+            </div>
+            
+            <!-- Colonial Oaks Park -->
+            <div class="park-card">
+                <div class="park-type-badge leash-required">LEASH REQUIRED</div>
+                <h2 class="park-name">Colonial Oaks Park</h2>
+                <div class="park-address">5300 Colonial Oaks Blvd, Sarasota, FL 34231</div>
+                <div class="park-size">📏 Community park</div>
+                <p class="park-description">Dog-friendly park requiring leashes at all times. Features basketball court, pickleball area, picnic zones, multi-purpose field, and playground for children. A well-rounded community park perfect for family outings with your dog.</p>
+                <div class="park-features">
+                    <span class="feature-tag">Basketball</span>
+                    <span class="feature-tag">Pickleball</span>
+                    <span class="feature-tag">Multi-purpose Field</span>
+                    <span class="feature-tag">Playground</span>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=5300+Colonial+Oaks+Blvd+Sarasota+FL+34231" class="map-button" target="_blank">📍 Open in Google Maps</a>
+            </div>
+            
+            <!-- Urfer Family Park -->
+            <div class="park-card">
+                <div class="park-type-badge leash-required">LEASH REQUIRED</div>
+                <h2 class="park-name">Urfer Family Park</h2>
+                <div class="park-address">Sarasota, FL</div>
+                <div class="park-size">📏 55 acres</div>
+                <p class="park-description">Large dog-friendly park requiring leashes. Features fenced dog park area, disc golf course, canoe and kayak launch sites, picnic spots, and pavilion for shade. The park offers scenic natural areas blending history with outdoor recreation. Home to Dr. C.B. Wilson's historic 1906 house.</p>
+                <div class="park-features">
+                    <span class="feature-tag">Disc Golf</span>
+                    <span class="feature-tag">Kayak Launch</span>
+                    <span class="feature-tag">Picnic Areas</span>
+                    <span class="feature-tag">Historic Site</span>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Urfer+Family+Park+Sarasota+FL" class="map-button" target="_blank">📍 Open in Google Maps</a>
+            </div>
+            
+            <!-- Bird Key Park -->
+            <div class="park-card">
+                <div class="park-type-badge leash-required">LEASH REQUIRED</div>
+                <h2 class="park-name">Bird Key Park</h2>
+                <div class="park-address">Bird Key, Sarasota, FL</div>
+                <div class="park-size">📏 Waterfront park</div>
+                <p class="park-description">Scenic waterfront park on Bird Key island in Sarasota Bay. Leashed dogs welcome throughout the park. Features beach area, walking paths along the water, pavilions, picnic tables, drinking fountains, and stunning views of Sarasota Bay. Perfect for peaceful walks with your dog.</p>
+                <div class="park-features">
+                    <span class="feature-tag">Beach Area</span>
+                    <span class="feature-tag">Bay Views</span>
+                    <span class="feature-tag">Walking Paths</span>
+                    <span class="feature-tag">Pavilions</span>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Bird+Key+Park+Sarasota+FL" class="map-button" target="_blank">📍 Open in Google Maps</a>
+            </div>
+            
+            <!-- Cherokee Street Park -->
+            <div class="park-card">
+                <div class="park-type-badge leash-required">LEASH REQUIRED</div>
+                <h2 class="park-name">Cherokee Street Park</h2>
+                <div class="park-address">67 Cherokee St, Englewood, FL 34223</div>
+                <div class="park-size">📏 Small waterfront park</div>
+                <p class="park-description">Dogs must be on leash during their entire visit. Features grills for outdoor cooking, fishing pier for anglers, pavilion for shade and relaxation, and walking areas around the grounds. Great spot for a waterfront walk followed by a picnic.</p>
+                <div class="park-features">
+                    <span class="feature-tag">Fishing Pier</span>
+                    <span class="feature-tag">Grills</span>
+                    <span class="feature-tag">Pavilion</span>
+                    <span class="feature-tag">Water Access</span>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=67+Cherokee+St+Englewood+FL+34223" class="map-button" target="_blank">📍 Open in Google Maps</a>
+            </div>
+            
+            <!-- Nathan Benderson Park -->
+            <div class="park-card">
+                <div class="park-type-badge leash-required">LEASH REQUIRED</div>
+                <h2 class="park-name">Nathan Benderson Park</h2>
+                <div class="park-address">5851 Nathan Benderson Cir, Sarasota, FL</div>
+                <div class="park-size">📏 600+ acres with 400-acre lake</div>
+                <p class="park-description">One of Sarasota's must-see parks featuring a massive 400-acre lake. Leashed dogs welcome on the extensive walking and biking trails. World-class rowing and water sports facility conveniently located near I-75 and UTC Mall. Perfect for long scenic walks with beautiful water views.</p>
+                <div class="park-features">
+                    <span class="feature-tag">Lake Views</span>
+                    <span class="feature-tag">Walking Trails</span>
+                    <span class="feature-tag">Biking Paths</span>
+                    <span class="feature-tag">Water Sports Viewing</span>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=5851+Nathan+Benderson+Cir+Sarasota+FL" class="map-button" target="_blank">📍 Open in Google Maps</a>
+            </div>
+            
+        </div>
+        
+        <div style="margin-top: 40px; padding: 25px; background: #f8f9fa; border-radius: 15px; border-left: 5px solid #667eea;">
+            <h3 style="color: #333; margin-bottom: 15px;">🐾 Important Reminders</h3>
+            <ul style="color: #555; line-height: 2;">
+                <li><strong>Dog Parks (Off-Leash):</strong> Dogs must be licensed with current vaccinations. Keep dogs leashed when entering/exiting. Dogs must be under voice command at all times. Clean up after your dog.</li>
+                <li><strong>Dog-Friendly Parks (Leashed):</strong> Dogs must be on a hand-held leash (6 feet maximum). Pick up after your pet and dispose of waste properly.</li>
+                <li><strong>All Parks:</strong> Bring fresh water for your dog, especially on hot days. Watch for aggressive behavior and remove your dog if needed. Dogs not allowed in playgrounds or athletic fields.</li>
+                <li><strong>Hours:</strong> Most parks open from 6-7 AM until sunset. Check individual park websites for specific hours.</li>
+            </ul>
+        </div>
+        
+        <div style="margin-top: 30px; text-align: center; color: #666; font-size: 0.9em;">
+            <p>For the most current information about park hours, rules, and amenities, visit <a href="https://www.sarasotacountyparks.com" style="color: #667eea;">Sarasota County Parks</a></p>
+            <p style="margin-top: 10px;">Last updated: January 2026</p>
+        </div>
+    </div>
+</body>
+</html>
