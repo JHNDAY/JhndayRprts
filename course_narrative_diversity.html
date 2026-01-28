@@ -85,6 +85,60 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Course Catalogue View */
+        .catalogue-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .catalogue-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-top: 5px solid #667eea;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .catalogue-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .sgl-name {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .course-title {
+            font-size: 1.15em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .topic-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .course-description {
+            color: #555;
+            line-height: 1.7;
+            font-size: 0.95em;
+        }
+
         /* Matrix View */
         .matrix-grid {
             display: grid;
@@ -260,12 +314,105 @@
         <p class="subtitle">Exploring the Rich Spectrum of BOLLI Course Proposals</p>
 
         <div class="viz-tabs">
-            <button class="tab-button active" onclick="showTab('matrix')">Pedagogical Matrix</button>
+            <button class="tab-button active" onclick="showTab('catalogue')">Course Catalogue</button>
+            <button class="tab-button" onclick="showTab('matrix')">Pedagogical Matrix</button>
             <button class="tab-button" onclick="showTab('constellation')">Subject Constellation</button>
         </div>
 
+        <!-- COURSE CATALOGUE VIEW -->
+        <div id="catalogue" class="viz-panel active">
+            <div class="insight-box">
+                <div class="insight-title">📚 Course Catalogue Overview</div>
+                <div class="insight-text">
+                    Six Study Group Leaders bringing diverse expertise and passion to BOLLI's learning community. 
+                    From ancient philosophy to contemporary memoir, from historical analysis to personal transformation—
+                    each course reflects its leader's unique voice and pedagogical vision.
+                </div>
+            </div>
+
+            <div class="catalogue-grid">
+                <div class="catalogue-card">
+                    <div class="sgl-name">Henry Morris</div>
+                    <div class="course-title">Radical Jewish Philosophies: A Legacy of Spinoza</div>
+                    <span class="topic-badge">Philosophy & Religion</span>
+                    <div class="course-description">
+                        Explores the evolution of contemporary radical Jewish philosophies (Reconstructionism, neo-Hasidism/Renewal, 
+                        Feminism/LGBTQ movements) and traces their roots to Spinoza's 17th-century critique of traditional Judaism. 
+                        Through systematic examination of three central concepts—God, Torah, and Israel—students discover how Jewish 
+                        ideas evolve in response to new social and historical situations, with Spinoza's philosophy serving as a 
+                        continuing catalyst for this transformation.
+                    </div>
+                </div>
+
+                <div class="catalogue-card">
+                    <div class="sgl-name">Kate (Ehrlich) Seideman</div>
+                    <div class="course-title">Women Fighting Injustice</div>
+                    <span class="topic-badge">History & Film Studies</span>
+                    <div class="course-description">
+                        Through five fiction films from the US, England, and Australia, this course examines historical examples of 
+                        women confronting issues of suffrage, workplace discrimination, and abuse. Rather than focusing on individual 
+                        heroism, the course explores the complex group dynamics of protest movements—how women organize, navigate 
+                        leadership challenges, manage internal conflicts, develop strategies, and mobilize resources to work 
+                        effectively for their rights.
+                    </div>
+                </div>
+
+                <div class="catalogue-card">
+                    <div class="sgl-name">Judy Feldman</div>
+                    <div class="course-title">My Good Bright Wolf: Understanding Anorexia Through Memoir</div>
+                    <span class="topic-badge">Psychology & Health</span>
+                    <div class="course-description">
+                        A close reading of Sarah Moss's memoir provides students with deep understanding of the psychological, 
+                        medical, and sociological aspects of anorexia and its treatment. The course examines early signs, family 
+                        dynamics, life-cycle triggers, social pressures, treatment approaches, and recovery challenges. Students 
+                        also explore how memoir serves as both therapy and education for patients and families dealing with this 
+                        complex illness.
+                    </div>
+                </div>
+
+                <div class="catalogue-card">
+                    <div class="sgl-name">Ollie Curme</div>
+                    <div class="course-title">Understanding and Navigating Dysfunctional Family Relationships</div>
+                    <span class="topic-badge">Psychology & Personal Growth</span>
+                    <div class="course-description">
+                        A 10-week exploration of major psychological frameworks for understanding family dysfunction, including Bowen 
+                        Family Systems Theory, Attachment Theory, and concepts like intergenerational trauma, narcissistic family 
+                        systems, and codependency. Participants engage with theoretical frameworks while discussing their own 
+                        experiences, examining topics from psychological boundaries and communication patterns to managing toxic 
+                        relationships, estrangement, and paths toward healing.
+                    </div>
+                </div>
+
+                <div class="catalogue-card">
+                    <div class="sgl-name">Michael Sherrow</div>
+                    <div class="course-title">Louisiana Purchase & Lewis and Clark Expedition</div>
+                    <span class="topic-badge">American History</span>
+                    <div class="course-description">
+                        A PowerPoint-driven exploration of one of America's most consequential territorial acquisitions and the 
+                        legendary expedition that followed. The course traces Indian and French history of the territory, the fur 
+                        trade as commodity, French colonial ambitions, the French and Indian War, Jefferson's vision, Napoleon's 
+                        problems, the purchase itself, and the complete Lewis and Clark journey from preparation through aftermath. 
+                        Rich with graphics and historical detail.
+                    </div>
+                </div>
+
+                <div class="catalogue-card">
+                    <div class="sgl-name">Marlene Hobel</div>
+                    <div class="course-title">Grit & Grace: Short Stories of Larry Brown & Tim Gautreaux</div>
+                    <span class="topic-badge">Literature & Southern Studies</span>
+                    <div class="course-description">
+                        An examination of two contemporary masters of Southern storytelling who write from the working-class South 
+                        but with strikingly different literary styles. Larry Brown's dirty realism offers raw, unflinching portraits 
+                        of lives on the edge, while Tim Gautreaux's comic realism illuminates moments of grace and resilience amid 
+                        failure. Reading these writers side by side, students explore how style, worldview, and region shape literary 
+                        portrayals of class, family, masculinity, and morality in late 20th-century Southern literature.
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- MATRIX VIEW -->
-        <div id="matrix" class="viz-panel active">
+        <div id="matrix" class="viz-panel">
             <div class="insight-box">
                 <div class="insight-title">💡 Key Insight: Pedagogical Diversity</div>
                 <div class="insight-text">
