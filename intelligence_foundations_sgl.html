@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foundations: Intelligence & Conversation - BOLLI AI Training</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #667eea;
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+        
+        .intro-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf3 100%);
+            border-left: 6px solid #667eea;
+            padding: 25px;
+            margin-bottom: 40px;
+            border-radius: 10px;
+            font-size: 1.15em;
+            line-height: 1.8;
+        }
+        
+        .foundation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .foundation-card {
+            background: white;
+            border: 3px solid #667eea;
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .foundation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .foundation-card h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .icon {
+            font-size: 2.5em;
+            margin-right: 15px;
+        }
+        
+        .collapse-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            gap: 8px;
+        }
+        
+        .collapse-button-bottom {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            gap: 8px;
+        }
+        
+        .foundation-card.expanded .collapse-button-bottom {
+            display: flex;
+        }
+        
+        .collapse-button:hover,
+        .collapse-button-bottom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .collapse-button:active,
+        .collapse-button-bottom:active {
+            transform: translateY(0);
+        }
+        
+        .collapse-icon {
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+        
+        .foundation-card.expanded .collapse-icon {
+            transform: rotate(180deg);
+        }
+        
+        .card-summary {
+            font-size: 1.2em;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .card-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+        
+        .foundation-card.expanded .card-content {
+            max-height: 3000px;
+        }
+        
+        .detail-section {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 2px solid #e8ecf3;
+        }
+        
+        .detail-section h3 {
+            color: #764ba2;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            line-height: 1.4;
+        }
+        
+        .detail-section h3::before {
+            content: "▸";
+            margin-right: 10px;
+            color: #667eea;
+            flex-shrink: 0;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border: 2px solid #e8ecf3;
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 1.2em;
+        }
+        
+        .comparison-table td {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f5f7fa;
+        }
+        
+        .strength-box {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);
+            border-left: 5px solid #ff9800;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-size: 1.1em;
+            line-height: 1.7;
+        }
+        
+        .strength-box strong {
+            color: #e65100;
+        }
+        
+        .example-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-left: 5px solid #4caf50;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        
+        .example-box h4 {
+            color: #2e7d32;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        
+        .example-box p {
+            font-size: 1.1em;
+            line-height: 1.7;
+            color: #1b5e20;
+        }
+        
+        .conversation-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin: 25px 0;
+            padding: 25px;
+            background: #f5f7fa;
+            border-radius: 10px;
+        }
+        
+        .flow-item {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .flow-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        .flow-label {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .flow-desc {
+            font-size: 1em;
+            color: #666;
+        }
+        
+        .flow-arrow {
+            font-size: 3em;
+            color: #764ba2;
+            flex: 0;
+        }
+        
+        .word-meaning-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .meaning-card {
+            background: white;
+            border: 2px solid #e8ecf3;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .meaning-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+        
+        .meaning-card h4 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 12px;
+        }
+        
+        .meaning-card p {
+            font-size: 1.05em;
+            line-height: 1.6;
+            color: #555;
+        }
+        
+        .synthesis-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-top: 40px;
+        }
+        
+        .synthesis-section h2 {
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .synthesis-content {
+            font-size: 1.2em;
+            line-height: 1.9;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .synthesis-content p {
+            margin-bottom: 20px;
+        }
+        
+        .key-insight {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 5px solid white;
+        }
+        
+        .key-insight strong {
+            font-size: 1.15em;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 968px) {
+            .foundation-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .word-meaning-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .conversation-flow {
+                flex-direction: column;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+                margin: 15px 0;
+            }
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 Foundations: Intelligence & Conversation</h1>
+        <div class="subtitle">Understanding How AI Enhances Your Course Development</div>
+        
+        <div class="intro-box">
+            <strong>For Study Group Leaders:</strong> Before we dive into specific AI tools and techniques, it's essential to understand the fundamental principles that make AI a powerful partner in course development. These four foundational concepts explain <em>why</em> AI works the way it does and <em>how</em> it complements your expertise as an educator. Think of this as learning the "grammar" of AI interaction—once you understand these basics, everything else becomes clearer and more intuitive.
+        </div>
+        
+        <div class="foundation-grid">
+            <!-- Digital vs Organic Intelligence -->
+            <div class="foundation-card">
+                <h2>
+                    <span><span class="icon">🤝</span>Digital & Organic Intelligence</span>
+                </h2>
+                <div class="card-summary">
+                    Two different kinds of "smart" that work brilliantly together
+                </div>
+                <button class="collapse-button" onclick="toggleCard(this)">
+                    <span class="collapse-text">Learn More</span>
+                    <span class="collapse-icon">▼</span>
+                </button>
+                <div class="card-content">
+                    <div class="detail-section">
+                        <h3>What This Means for You</h3>
+                        <p style="font-size: 1.1em; line-height: 1.7; color: #333;">
+                            As an SGL, you possess <span class="highlight">organic intelligence</span>—your deep subject expertise, pedagogical experience, understanding of your audience, and intuitive sense of what works in a classroom. AI brings <span class="highlight">digital intelligence</span>—vast information processing, pattern recognition across millions of texts, and tireless ability to organize, draft, and iterate.
+                        </p>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3>Complementary Strengths</h3>
+                        <table class="comparison-table">
+                            <tr>
+                                <th>Your Organic Intelligence</th>
+                                <th>AI's Digital Intelligence</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Wisdom & Judgment:</strong> Decades of learning, teaching experience, knowing what engages older adults</td>
+                                <td><strong>Pattern Recognition:</strong> Analyzing millions of course structures, identifying effective frameworks</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Contextual Understanding:</strong> Knowing BOLLI culture, student backgrounds, institutional dynamics</td>
+                                <td><strong>Information Synthesis:</strong> Rapidly connecting concepts across disciplines, finding relevant sources</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Creative Vision:</strong> Your unique teaching perspective, storytelling ability, course personality</td>
+                                <td><strong>Organizational Power:</strong> Structuring ideas, creating multiple variations, formatting materials</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Emotional Intelligence:</strong> Reading student needs, adjusting on the fly, building community</td>
+                                <td><strong>Consistent Output:</strong> Never tired, always ready to help, patient with iterations</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3>The Partnership Model</h3>
+                        <div class="strength-box">
+                            <strong>AI doesn't replace your expertise—it amplifies it.</strong> Think of digital intelligence as a research assistant who's read everything but needs your judgment to know what matters. Your organic intelligence provides the "why" and the "so what"; AI provides the "how" and the "help me organize this."
+                        </div>
+                        
+                        <div class="example-box">
+                            <h4>Course Development Example:</h4>
+                            <p><strong>You bring:</strong> "I want to teach about the fall of the Roman Republic, focusing on how political dysfunction mirrors modern concerns, targeting students who love history but may not know the details."</p>
+                            <p><strong>AI brings:</strong> "Here are 6 different ways to structure that course, each emphasizing different aspects. Here's how each session could progress. Here are key figures to focus on. Here are contemporary parallels to explore."</p>
+                            <p><strong>Together you create:</strong> A course that reflects your wisdom about teaching and your passion for the subject, but structured more efficiently than you could have done alone.</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="collapse-button-bottom" onclick="toggleCard(this)">
+                    <span class="collapse-text">Show Less</span>
+                    <span class="collapse-icon">▼</span>
+                </button>
+            </div>
+            
+            <!-- Importance of Conversation -->
+            <div class="foundation-card">
+                <h2>
+                    <span><span class="icon">💬</span>Importance of Conversation</span>
+                </h2>
+                <div class="card-summary">
+                    AI works through dialogue, not commands—just like teaching
+                </div>
+                <button class="collapse-button" onclick="toggleCard(this)">
+                    <span class="collapse-text">Learn More</span>
+                    <span class="collapse-icon">▼</span>
+                </button>
+                <div class="card-content">
+                    <div class="detail-section">
+                        <h3>Why Conversation Matters</h3>
+                        <p style="font-size: 1.1em; line-height: 1.7; color: #333;">
+                            Unlike traditional software where you click buttons and fill forms, AI interaction is fundamentally <span class="highlight">conversational</span>. This is actually perfect for SGLs, because conversation is what you do best! You don't need to learn programming or master complex interfaces—you just need to talk to AI the way you'd talk to a teaching assistant.
+                        </p>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3>The Conversation Flow</h3>
+                        <div class="conversation-flow">
+                            <div class="flow-item">
+                                <div class="flow-icon">🎯</div>
+                                <div class="flow-label">Initial Prompt</div>
+                                <div class="flow-desc">Share your thoughts, even messy ones</div>
+                            </div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-item">
+                                <div class="flow-icon">✨</div>
+                                <div class="flow-label">AI Response</div>
+                                <div class="flow-desc">Organized output based on your input</div>
+                            </div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-item">
+                                <div class="flow-icon">🔄</div>
+                                <div class="flow-label">Refinement</div>
+                                <div class="flow-desc">Iterate until it's exactly right</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3>Conversation ≠ Perfection</h3>
+                        <div class="strength-box">
+                            <strong>Your first prompt doesn't need to be perfect.</strong> In fact, "messy" prompts are often better! AI can sort through your stream of consciousness, identify the key ideas, and organize them coherently. This is why we emphasize "fruit salad" prompts—throw in all your ingredients, and AI helps you make the salad.
+                        </div>
+                        
+                        <div class="example-box">
+                            <h4>Real SGL Conversation:</h4>
+                            <p><strong>First message:</strong> "I'm thinking about teaching climate change but not just the science, more like how we got here historically and why it's so hard to fix, maybe 4-5 weeks, audience is probably folks who watch the news but feel overwhelmed..."</p>
+                            <p><strong>Follow-up:</strong> "That's good but can you emphasize the political economy aspect more? And maybe add a session on local solutions?"</p>
+                            <p><strong>Third iteration:</strong> "Perfect! Now can you turn this into a course proposal format with session descriptions?"</p>
+                            <p style="margin-top: 15px;"><em>Notice: Each message builds on the previous one. Nothing is wasted. The conversation naturally refines the course.</em></p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3>Conversation Enables Learning</h3>
+                        <p style="font-size: 1.1em; line-height: 1.7; color: #333;">
+                            Because AI interaction is conversational, you learn <em>while</em> developing your course. Ask "why did you structure it that way?" or "what else could work?" and AI explains its reasoning. This is fundamentally different from clicking buttons—it's collaborative exploration that builds your skills with each interaction.
+                        </p>
+                    </div>
+                </div>
+                <button class="collapse-button-bottom" onclick="toggleCard(this)">
+                    <span class="collapse-text">Show Less</span>
+                    <span class="collapse-icon">▼</span>
+                </button>
+            </div>
+            
+            <!-- Balancing Strengths -->
+            <div class="foundation-card">
+                <h2>
+                    <span><span class="icon">⚖️</span>Balancing the Strengths</span>
+                </h2>
+                <div class="card-summary">
+                    Knowing when to lead and when to let AI do the heavy lifting
+                </div>
+                <button class="collapse-button" onclick="toggleCard(this)">
+                    <span class="collapse-text">Learn More</span>
+                    <span class="collapse-icon">▼</span>
+                </button>
+                <div class="card-content">
+                    <div class="detail-section">
+                        <h3>The Balance Principle</h3>
+                        <p style="font-size: 1.1em; line-height: 1.7; color: #333;">
+                            Effective AI partnership means understanding which tasks play to each intelligence's strengths. You shouldn't try to do what AI does better, and AI can't do what requires your human judgment. The art is knowing which is which—and that's what this training teaches.
+                        </p>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3>Task-by-Task Balance</h3>
+                        <table class="comparison-table">
+                            <tr>
+                                <th>Course Development Task</th>
+                                <th>Who Leads?</th>
+                                <th>Why?</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Identifying course topic & vision</strong></td>
+                                <td style="background: #fff3e0;">👤 You Lead</td>
+                                <td>Requires passion, expertise, understanding of BOLLI audience</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Brainstorming structure options</strong></td>
+                                <td style="background: #e1f5fe;">🤖 AI Leads</td>
+                                <td>Can generate multiple frameworks quickly for you to evaluate</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Selecting pedagogical approach</strong></td>
+                                <td style="background: #fff3e0;">👤 You Lead</td>
+                                <td>Your teaching experience tells you what works for your style</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Drafting session descriptions</strong></td>
+                                <td style="background: #e1f5fe;">🤖 AI Leads</td>
+                                <td>Can create consistent, well-formatted text quickly</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Finding current resources</strong></td>
+                                <td style="background: #e1f5fe;">🤖 AI Leads (with RAG)</td>
+                                <td>Can search and synthesize from current sources</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Evaluating resource quality</strong></td>
+                                <td style="background: #fff3e0;">👤 You Lead</td>
+                                <td>Requires scholarly judgment and source credibility assessment</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Creating reading questions</strong></td>
+                                <td style="background: #e8f5e9;">⚖️ Collaborative</td>
+                                <td>AI generates options, you refine based on student needs</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Adjusting for class dynamics</strong></td>
+                                <td style="background: #fff3e0;">👤 You Lead</td>
+                                <td>Requires real-time human judgment and emotional intelligence</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3>Red Flags: When Balance Is Off</h3>
+                        <div class="strength-box">
+                            <strong>You're asking AI to do too much when:</strong> You accept AI's first output without critique, let AI make pedagogical decisions you should make, or use AI-generated content without adding your voice and personality.
+                        </div>
+                        <div class="strength-box" style="background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%); border-color: #e53935;">
+                            <strong>You're not using AI enough when:</strong> You're spending hours on formatting and organization, reinventing structures that could be templated, or avoiding technology because tasks feel overwhelming.
+                        </div>
+                        <div class="strength-box" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-color: #4caf50;">
+                            <strong>You've found the balance when:</strong> Course development feels like an energizing collaboration, you're spending more time on creative vision than logistics, and the final product sounds distinctly like you (not generic AI).
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3>Practical Balancing Strategy</h3>
+                        <div class="example-box">
+                            <h4>The "Three-Pass" Method:</h4>
+                            <p><strong>Pass 1 (You Lead):</strong> Share your vision, expertise, and rough ideas with AI. This is your "fruit salad" prompt.</p>
+                            <p><strong>Pass 2 (AI Leads):</strong> Let AI organize, structure, draft, and generate options based on your input.</p>
+                            <p><strong>Pass 3 (You Lead):</strong> Critique, refine, personalize, and finalize based on your pedagogical judgment.</p>
+                            <p style="margin-top: 15px;"><em>This rhythm—you lead, AI leads, you lead—creates balanced partnership.</em></p>
+                        </div>
+                    </div>
+                </div>
+                <button class="collapse-button-bottom" onclick="toggleCard(this)">
+                    <span class="collapse-text">Show Less</span>
+                    <span class="collapse-icon">▼</span>
+                </button>
+            </div>
+            
+            <!-- Meaning of Words -->
+            <div class="foundation-card">
+                <h2>
+                    <span><span class="icon">📖</span>Meaning of Words</span>
+                </h2>
+                <div class="card-summary">
+                    How AI learns meaning from patterns—a three-level understanding
+                </div>
+                <button class="collapse-button" onclick="toggleCard(this)">
+                    <span class="collapse-text">Learn More</span>
+                    <span class="collapse-icon">▼</span>
+                </button>
+                <div class="card-content">
+                    <div class="detail-section">
+                        <h3>Words Are the Interface</h3>
+                        <p style="font-size: 1.1em; line-height: 1.7; color: #333;">
+                            To understand how AI processes your prompts, we need to think about meaning at three different levels. Let's use a simple example—the word "dog"—to see how meaning works in AI, from concrete to complex.
+                        </p>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3>Level 1: The Concrete Instance</h3>
+                        <div class="example-box">
+                            <h4>Example: "dog"</h4>
+                            <p style="font-size: 1.1em; line-height: 1.7;">
+                                At the most basic level, "dog" refers to a specific, concrete thing: a four-legged domesticated animal, genus Canis. This is the dictionary definition—the literal, denotative meaning. When you write "I want to teach about dogs," AI recognizes this as the animal.
+                            </p>
+                        </div>
+                        <div class="strength-box">
+                            <strong>For course development:</strong> When you use concrete, specific words—"Roman Republic," "climate change," "watercolor painting"—AI has clear, unambiguous concepts to work with. This is your foundation.
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3>Level 2: Contextual Transformation</h3>
+                        <div class="example-box">
+                            <h4>Example: "You sly dog!"</h4>
+                            <p style="font-size: 1.1em; line-height: 1.7;">
+                                Now watch what happens when context changes everything. "You sly dog!" doesn't refer to an animal at all—it's about a person behaving cleverly or cunningly. The word "dog" has been completely transformed by the context around it: the word "sly," the exclamation point, the phrase structure.
+                            </p>
+                        </div>
+                        <div class="strength-box">
+                            <strong>For course development:</strong> This is why <span class="highlight">context matters so much</span> in your prompts. The same words mean different things based on what surrounds them. "Revolution" means one thing when discussing astronomy, another in political history, and something else entirely in technology. When you give AI context—"I'm teaching BOLLI students," "focus on social impact," "emphasize contemporary relevance"—you're transforming how every word in your prompt gets interpreted.
+                        </div>
+                        <p style="font-size: 1.1em; line-height: 1.7; color: #333; margin-top: 15px;">
+                            This is why "fruit salad" prompts work! Even messy, stream-of-consciousness input provides contextual clues that help AI understand <em>which</em> meaning you intend for each word.
+                        </p>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3>Level 3: The Vast Corpus of Patterns</h3>
+                        <div class="example-box">
+                            <h4>Example: All the ways "dog" appears in millions of texts</h4>
+                            <p style="font-size: 1.1em; line-height: 1.7; margin-bottom: 12px;">
+                                Here's where AI's true power lies. During training, the AI has encountered "dog" in millions of different contexts across countless texts:
+                            </p>
+                            <ul style="font-size: 1.05em; line-height: 1.8; color: #333; margin-left: 20px;">
+                                <li>"dog" near "bark," "fetch," "leash," "veterinarian" (animal context)</li>
+                                <li>"dog" near "sly," "crafty," "cunning" (personality metaphor)</li>
+                                <li>"hot dog" near "baseball," "mustard," "bun" (food context)</li>
+                                <li>"dog days of summer" near "heat," "lazy," "August" (idiomatic usage)</li>
+                                <li>"underdog" near "competition," "victory," "unlikely" (metaphorical status)</li>
+                                <li>"dog-eared pages" near "book," "worn," "well-read" (descriptive metaphor)</li>
+                            </ul>
+                        </div>
+                        <div class="strength-box">
+                            <strong>The key insight:</strong> AI doesn't have a definition of "dog" like a dictionary does. Instead, it has learned <span class="highlight">statistical patterns</span> about how "dog" appears in relationship to millions of other words across billions of sentences. When you use a word in your prompt, AI activates all the patterns it has learned about that word and uses surrounding context to figure out which patterns are relevant.
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3>What This Means for Your Prompts</h3>
+                        <table class="comparison-table">
+                            <tr>
+                                <th>Understanding</th>
+                                <th>Practical Application</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Level 1: Concrete words</strong> give AI clear reference points</td>
+                                <td>Use specific nouns: "Renaissance art," not "old painting styles"</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Level 2: Context</strong> tells AI which meaning you intend</td>
+                                <td>Provide surrounding details: "For older adult learners interested in..." shapes interpretation</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Level 3: Corpus patterns</strong> let AI draw on vast knowledge</td>
+                                <td>AI knows how concepts typically relate because it has seen millions of examples</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3>Two Critical Word Challenges in Course Development</h3>
+                        <div class="example-box">
+                            <h4>Challenge 1: Using Words to Identify Relationships</h4>
+                            <p style="font-size: 1.05em; line-height: 1.7;">
+                                When structuring your course, you need words to describe how concepts relate to each other. The AI uses its corpus knowledge to understand relationship words: "leads to," "contrasts with," "builds upon," "provides context for."
+                            </p>
+                            <p style="margin-top: 10px;"><strong>Example:</strong> "Start with Enlightenment philosophy <em>because it sets up</em> our discussion of American Revolution <em>which then contrasts with</em> French Revolution outcomes."</p>
+                            <p style="margin-top: 10px; font-style: italic; color: #764ba2;">The relationship words (in italics) tell AI how to structure your course logic.</p>
+                        </div>
+                        
+                        <div class="example-box">
+                            <h4>Challenge 2: Using Words to Find Facts</h4>
+                            <p style="font-size: 1.05em; line-height: 1.7;">
+                                With RAG (Research mode), you search for current information using words. Your search terms activate different patterns in the corpus, which determines what gets retrieved. Too generic and you get irrelevant results; too specific and you miss important connections.
+                            </p>
+                            <p style="margin-top: 10px;"><strong>Generic:</strong> "climate" → returns everything from weather to office climates to political climates</p>
+                            <p><strong>Targeted:</strong> "climate policy implementation challenges" → returns scholarly articles, policy documents, and expert analysis</p>
+                            <p style="margin-top: 10px; font-style: italic; color: #764ba2;">The corpus patterns help AI understand what you're really looking for.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3>Why This Matters for SGLs</h3>
+                        <div class="strength-box">
+                            <strong>Your advantage:</strong> As an educator, you already understand how context shapes meaning—it's what you do when you explain concepts to students! When a BOLLI student asks about "revolution," you naturally clarify: "Do you mean political revolution, industrial revolution, or scientific revolution?" You're already expert at using words precisely and providing context.
+                        </div>
+                        <div class="strength-box" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-color: #4caf50;">
+                            <strong>The transition:</strong> Working with AI just means applying those same language skills in a slightly different way. Instead of clarifying for a student, you're providing context for a system that has seen millions of examples but needs you to specify which patterns are relevant. You're not learning a new skill—you're adapting an existing one.
+                        </div>
+                    </div>
+                </div>
+                <button class="collapse-button-bottom" onclick="toggleCard(this)">
+                    <span class="collapse-text">Show Less</span>
+                    <span class="collapse-icon">▼</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Synthesis Section -->
+        <div class="synthesis-section">
+            <h2>🌟 Bringing It All Together</h2>
+            <div class="synthesis-content">
+                <p>
+                    These four foundations work together to create a powerful framework for AI-enhanced course development:
+                </p>
+                
+                <div class="key-insight">
+                    <strong>Digital + Organic Intelligence</strong>
+                    Your expertise provides vision and judgment; AI provides organization and output. Neither works as well alone.
+                </div>
+                
+                <div class="key-insight">
+                    <strong>Through Conversation</strong>
+                    You communicate your expertise through natural dialogue, iterating toward excellence rather than trying to get it perfect on the first try.
+                </div>
+                
+                <div class="key-insight">
+                    <strong>With Balanced Partnership</strong>
+                    You make the creative and pedagogical decisions; AI handles the formatting, organization, and grunt work—each playing to its strengths.
+                </div>
+                
+                <div class="key-insight">
+                    <strong>Using Words Precisely</strong>
+                    Your language skills—specificity, context, structure, tone—directly translate into better AI outputs. This is learnable and improvable.
+                </div>
+                
+                <p style="margin-top: 30px; font-size: 1.15em;">
+                    <strong>What This Means for Your Course Development:</strong> You're not learning to "use AI" in some abstract sense. You're learning to partner with a tool that amplifies your existing strengths—your subject expertise, your teaching experience, your understanding of older adult learners. The technical aspects are secondary to this fundamental partnership model. Master these four concepts, and the rest of AI training becomes intuitive.
+                </p>
+                
+                <p style="margin-top: 20px; font-style: italic; text-align: center; font-size: 1.1em;">
+                    Ready to apply these foundations? The next sessions will show you exactly how to put these principles into practice for course proposal development, analysis, and optimization.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function toggleCard(button) {
+            // Get the parent card
+            const card = button.closest('.foundation-card');
+            const isExpanded = card.classList.contains('expanded');
+            
+            // Toggle the card
+            card.classList.toggle('expanded');
+            
+            // Update ALL buttons in this card (both top and bottom)
+            const allButtons = card.querySelectorAll('.collapse-button, .collapse-button-bottom');
+            allButtons.forEach(btn => {
+                const textSpan = btn.querySelector('.collapse-text');
+                if (isExpanded) {
+                    textSpan.textContent = 'Learn More';
+                } else {
+                    textSpan.textContent = 'Show Less';
+                }
+            });
+            
+            // Update aria attribute
+            card.setAttribute('aria-expanded', card.classList.contains('expanded') ? 'true' : 'false');
+            
+            // Scroll to top of card if closing from bottom button
+            if (isExpanded && button.classList.contains('collapse-button-bottom')) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+        
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.foundation-card.expanded').forEach(card => {
+                    const allButtons = card.querySelectorAll('.collapse-button, .collapse-button-bottom');
+                    allButtons.forEach(btn => {
+                        const textSpan = btn.querySelector('.collapse-text');
+                        textSpan.textContent = 'Learn More';
+                    });
+                    card.classList.remove('expanded');
+                    card.setAttribute('aria-expanded', 'false');
+                });
+            }
+        });
+        
+        // Add aria labels for accessibility
+        document.querySelectorAll('.foundation-card').forEach(card => {
+            card.setAttribute('aria-expanded', 'false');
+            
+            const allButtons = card.querySelectorAll('.collapse-button, .collapse-button-bottom');
+            allButtons.forEach(button => {
+                button.setAttribute('aria-label', 'Expand section to learn more');
+            });
+        });
+    </script>
+</body>
+</html>

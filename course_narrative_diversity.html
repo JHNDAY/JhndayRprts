@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Narrative Diversity | BOLLI SGL AI Training</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .viz-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            background: #f0f0f0;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .tab-button:hover {
+            background: #e0e0e0;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #764ba2;
+        }
+
+        .viz-panel {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .viz-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Matrix View */
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: 200px repeat(6, 1fr);
+            gap: 2px;
+            background: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .course-leader {
+            color: #764ba2;
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 0.95em;
+        }
+
+        .matrix-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 10px;
+            font-weight: 600;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .matrix-row-label {
+            background: #f5f7fa;
+            padding: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            font-size: 0.9em;
+        }
+
+        .matrix-cell {
+            background: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 60px;
+        }
+
+        .matrix-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .matrix-dot:hover {
+            transform: scale(1.5);
+        }
+
+        .dot-high {
+            background: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+        }
+
+        .dot-medium {
+            background: #a78bfa;
+        }
+
+        .dot-low {
+            background: #e0e7ff;
+        }
+
+        /* Constellation View */
+        .constellation-svg {
+            width: 100%;
+            height: 700px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .course-node {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .course-node:hover circle {
+            stroke-width: 4;
+            filter: brightness(1.2);
+        }
+
+        .course-label {
+            font-size: 16px;
+            font-weight: 700;
+            pointer-events: none;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .course-subtitle {
+            font-size: 12px;
+            font-weight: 400;
+            pointer-events: none;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+
+        .dimension-axis {
+            stroke: rgba(255,255,255,0.2);
+            stroke-width: 2;
+            stroke-dasharray: 5,5;
+        }
+
+        .axis-label {
+            fill: rgba(255,255,255,0.6);
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* Legend */
+        .legend {
+            background: #f5f7fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .legend-title {
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .legend-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .insight-box {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+
+        .insight-title {
+            font-weight: 700;
+            color: #f59e0b;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .insight-text {
+            color: #444;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Course Narrative Diversity</h1>
+        <p class="subtitle">Exploring the Rich Spectrum of BOLLI Course Proposals</p>
+
+        <div class="viz-tabs">
+            <button class="tab-button active" onclick="showTab('matrix')">Pedagogical Matrix</button>
+            <button class="tab-button" onclick="showTab('constellation')">Subject Constellation</button>
+        </div>
+
+        <!-- MATRIX VIEW -->
+        <div id="matrix" class="viz-panel active">
+            <div class="insight-box">
+                <div class="insight-title">💡 Key Insight: Pedagogical Diversity</div>
+                <div class="insight-text">
+                    Different courses employ vastly different learning approaches. Understanding these patterns helps 
+                    SGLs identify which AI capabilities (research, analysis, discussion facilitation, content organization) 
+                    will be most valuable for their specific pedagogical approach.
+                </div>
+            </div>
+
+            <div class="matrix-grid">
+                <div class="matrix-header">Approach</div>
+                <div class="matrix-header">Morris</div>
+                <div class="matrix-header">Seideman</div>
+                <div class="matrix-header">Feldman</div>
+                <div class="matrix-header">Curme</div>
+                <div class="matrix-header">Sherrow</div>
+                <div class="matrix-header">Hobel</div>
+
+                <div class="matrix-row-label">Historical Analysis</div>
+                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+
+                <div class="matrix-row-label">Close Reading</div>
+                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+
+                <div class="matrix-row-label">Personal Reflection</div>
+                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+
+                <div class="matrix-row-label">Discussion-Based</div>
+                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+
+                <div class="matrix-row-label">Visual/Media</div>
+                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+
+                <div class="matrix-row-label">Theoretical Framework</div>
+                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+
+                <div class="matrix-row-label">Comparative Analysis</div>
+                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+            </div>
+
+            <div class="legend">
+                <div class="legend-title">Intensity Key</div>
+                <div class="legend-items">
+                    <div class="legend-item">
+                        <div class="legend-color dot-high"></div>
+                        <span>Central to course design</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color dot-medium"></div>
+                        <span>Significant element</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color dot-low"></div>
+                        <span>Minor or absent</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONSTELLATION VIEW -->
+        <div id="constellation" class="viz-panel">
+            <div class="insight-box">
+                <div class="insight-title">💡 Key Insight: Subject Matter Diversity</div>
+                <div class="insight-text">
+                    These courses span multiple academic disciplines, time periods, and cultural contexts. This constellation 
+                    view reveals clustering patterns and connections between seemingly disparate subjects—useful for identifying 
+                    opportunities for cross-course dialogue and interdisciplinary AI-assisted research.
+                </div>
+            </div>
+
+            <svg class="constellation-svg" id="constellationSvg"></svg>
+
+            <div class="legend">
+                <div class="legend-title">Course Positioning</div>
+                <div class="legend-items">
+                    <div class="legend-item">
+                        <span><strong>X-Axis:</strong> Time Period (Historical ← → Contemporary)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span><strong>Y-Axis:</strong> Focus (Individual ← → Collective)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span><strong>Color:</strong> Primary discipline or theme</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all panels
+            document.querySelectorAll('.viz-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            
+            // Remove active state from all buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected panel
+            document.getElementById(tabName).classList.add('active');
+            
+            // Activate clicked button
+            event.target.classList.add('active');
+
+            // Initialize constellation if that tab is shown
+            if (tabName === 'constellation') {
+                createConstellation();
+            }
+        }
+
+        function createConstellation() {
+            const svg = document.getElementById('constellationSvg');
+            if (svg.children.length > 0) return; // Already created
+
+            const width = svg.clientWidth;
+            const height = 700;
+
+            // Course data with better spacing and positioning
+            const courses = [
+                {
+                    name: 'Morris',
+                    full: 'Radical Jewish',
+                    subtitle: 'Philosophies',
+                    x: 200, y: 180,
+                    color: '#8b5cf6',
+                    radius: 45
+                },
+                {
+                    name: 'Seideman',
+                    full: 'Women Fighting',
+                    subtitle: 'Injustice',
+                    x: 500, y: 150,
+                    color: '#ec4899',
+                    radius: 40
+                },
+                {
+                    name: 'Feldman',
+                    full: 'My Good',
+                    subtitle: 'Bright Wolf',
+                    x: 950, y: 220,
+                    color: '#10b981',
+                    radius: 38
+                },
+                {
+                    name: 'Curme',
+                    full: 'Dysfunctional',
+                    subtitle: 'Families',
+                    x: 1150, y: 400,
+                    color: '#f59e0b',
+                    radius: 35
+                },
+                {
+                    name: 'Sherrow',
+                    full: 'Louisiana Purchase',
+                    subtitle: 'Lewis & Clark',
+                    x: 250, y: 520,
+                    color: '#3b82f6',
+                    radius: 32
+                },
+                {
+                    name: 'Hobel',
+                    full: 'Grit & Grace',
+                    subtitle: 'Southern Stories',
+                    x: 700, y: 500,
+                    color: '#ef4444',
+                    radius: 48
+                }
+            ];
+
+            // Draw axes
+            const axisGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            
+            // Horizontal axis
+            const hLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            hLine.setAttribute('x1', '80');
+            hLine.setAttribute('y1', height/2);
+            hLine.setAttribute('x2', width - 80);
+            hLine.setAttribute('y2', height/2);
+            hLine.setAttribute('class', 'dimension-axis');
+            axisGroup.appendChild(hLine);
+
+            // Vertical axis
+            const vLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            vLine.setAttribute('x1', width/2);
+            vLine.setAttribute('y1', '60');
+            vLine.setAttribute('x2', width/2);
+            vLine.setAttribute('y2', height - 60);
+            vLine.setAttribute('class', 'dimension-axis');
+            axisGroup.appendChild(vLine);
+
+            // Axis labels
+            const labels = [
+                { text: 'Historical', x: 150, y: height/2 - 20 },
+                { text: 'Contemporary', x: width - 200, y: height/2 - 20 },
+                { text: 'Individual Focus', x: width/2 + 15, y: height - 25 },
+                { text: 'Collective Focus', x: width/2 + 15, y: 40 }
+            ];
+
+            labels.forEach(label => {
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', label.x);
+                text.setAttribute('y', label.y);
+                text.setAttribute('class', 'axis-label');
+                text.textContent = label.text;
+                axisGroup.appendChild(text);
+            });
+
+            svg.appendChild(axisGroup);
+
+            // Draw courses
+            courses.forEach((course, index) => {
+                const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                group.setAttribute('class', 'course-node');
+
+                // Outer glow circle
+                const glow = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                glow.setAttribute('cx', course.x);
+                glow.setAttribute('cy', course.y);
+                glow.setAttribute('r', course.radius + 5);
+                glow.setAttribute('fill', course.color);
+                glow.setAttribute('opacity', '0.3');
+                group.appendChild(glow);
+
+                // Main circle
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', course.x);
+                circle.setAttribute('cy', course.y);
+                circle.setAttribute('r', course.radius);
+                circle.setAttribute('fill', course.color);
+                circle.setAttribute('stroke', 'white');
+                circle.setAttribute('stroke-width', '3');
+                group.appendChild(circle);
+
+                // Name label (above circle)
+                const nameText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                nameText.setAttribute('x', course.x);
+                nameText.setAttribute('y', course.y - course.radius - 25);
+                nameText.setAttribute('text-anchor', 'middle');
+                nameText.setAttribute('class', 'course-label');
+                nameText.setAttribute('fill', 'white');
+                nameText.textContent = course.name;
+                group.appendChild(nameText);
+
+                // Course title line 1
+                const titleText1 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                titleText1.setAttribute('x', course.x);
+                titleText1.setAttribute('y', course.y + course.radius + 20);
+                titleText1.setAttribute('text-anchor', 'middle');
+                titleText1.setAttribute('class', 'course-subtitle');
+                titleText1.setAttribute('fill', 'rgba(255,255,255,0.8)');
+                titleText1.textContent = course.full;
+                group.appendChild(titleText1);
+
+                // Course title line 2
+                const titleText2 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                titleText2.setAttribute('x', course.x);
+                titleText2.setAttribute('y', course.y + course.radius + 36);
+                titleText2.setAttribute('text-anchor', 'middle');
+                titleText2.setAttribute('class', 'course-subtitle');
+                titleText2.setAttribute('fill', 'rgba(255,255,255,0.8)');
+                titleText2.textContent = course.subtitle;
+                group.appendChild(titleText2);
+
+                // Title attribute for tooltip
+                const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+                title.textContent = course.name + ': ' + course.full + ' ' + course.subtitle;
+                group.appendChild(title);
+
+                svg.appendChild(group);
+            });
+        }
+    </script>
+</body>
+</html>
