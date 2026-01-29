@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 01: AI Foundations & Course Development Syllabus</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+
+        .header-meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .header-meta .meta-item {
+            color: white;
+            font-size: 0.95em;
+        }
+
+        .session-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-top: 5px solid #667eea;
+        }
+
+        .session-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .session-number {
+            font-size: 3em;
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 20px;
+            min-width: 80px;
+        }
+
+        .session-title-group {
+            flex: 1;
+        }
+
+        .session-title {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .session-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .meta-icon {
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+
+        .session-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.3em;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .section-title.collapsible {
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title.collapsible:hover {
+            color: #764ba2;
+        }
+
+        .toggle-icon {
+            font-size: 0.8em;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-icon.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        .collapsible-content {
+            max-height: 2000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .collapsible-content.collapsed {
+            max-height: 0;
+        }
+
+        .objectives-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .objectives-list li {
+            margin-bottom: 10px;
+        }
+
+        .objective-header {
+            padding: 12px 0;
+            padding-left: 35px;
+            position: relative;
+            color: #555;
+            line-height: 1.6;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .objective-header:hover {
+            color: #667eea;
+        }
+
+        .objective-header:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .objective-toggle {
+            margin-left: 8px;
+            font-size: 0.7em;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .objective-toggle.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        .objective-details {
+            max-height: 1000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding-left: 35px;
+            margin-top: 10px;
+        }
+
+        .objective-details.collapsed {
+            max-height: 0;
+            margin-top: 0;
+        }
+
+        .objective-details-content {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .activity-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #764ba2;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .activity-icon {
+            margin-right: 10px;
+            font-size: 1.3em;
+        }
+
+        .activity-description {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .activity-time {
+            margin-top: 10px;
+            font-size: 0.85em;
+            color: #764ba2;
+            font-weight: 600;
+        }
+
+        .tools-section {
+            background: #fff5e6;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .tools-title {
+            font-weight: 600;
+            color: #e67e22;
+            margin-bottom: 10px;
+        }
+
+        .tools-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tool-tag {
+            background: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: #e67e22;
+            font-size: 0.9em;
+            border: 2px solid #e67e22;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .session-card {
+                padding: 25px;
+            }
+
+            .session-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .session-number {
+                margin-bottom: 15px;
+            }
+
+            .activities-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 SGL AI Integration Training</h1>
+            <p class="subtitle">Session 01: AI Foundations & Course Development Syllabus</p>
+            <div class="header-meta">
+                <div class="meta-item">
+                    <span class="meta-icon">🖥️</span>
+                    <span>Online (Zoom)</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-icon">📅</span>
+                    <span>February 12</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-icon">🕐</span>
+                    <span>1:00-3:00 PM</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-icon">⏱️</span>
+                    <span>120 minutes</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="session-card">
+            <div class="session-section">
+                <div class="section-title">Learning Objectives</div>
+                <ul class="objectives-list">
+                    <li>
+                        <div class="objective-header" onclick="toggleObjective('obj1')">
+                            Understand how generative AI works and why grounding it in authoritative sources through Retrieval Augmented Generation (RAG) is essential for credible course development
+                            <span class="objective-toggle collapsed" id="obj1-icon">▼</span>
+                        </div>
+                        <div class="objective-details collapsed" id="obj1-details">
+                            <div class="objective-details-content">
+                                <span style="font-size: 1.5em;">⚡</span> <a href="https://jhnday.github.io/JhndayRprts/generative_ai_rag_comparison" target="_blank" style="color: #667eea; text-decoration: none; font-weight: 600;">From Generative AI to Retrieval Augmented Generation RAG</a>
+                                <br><br>
+                                <span style="font-size: 1.5em;">📖</span> <a href="https://jhnday.github.io/JhndayRprts/ai_two_modes" target="_blank" style="color: #667eea; text-decoration: none; font-weight: 600;">How to Use AI</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="objective-header" onclick="toggleObjective('obj2')">
+                            Master effective prompting techniques for different AI tools (Claude, ChatGPT, Gemini)
+                            <span class="objective-toggle collapsed" id="obj2-icon">▼</span>
+                        </div>
+                        <div class="objective-details collapsed" id="obj2-details">
+                            <div class="objective-details-content">
+                                Details will be added here.
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="objective-header" onclick="toggleObjective('obj3')">
+                            Use AI to research topics and generate course outlines
+                            <span class="objective-toggle collapsed" id="obj3-icon">▼</span>
+                        </div>
+                        <div class="objective-details collapsed" id="obj3-details">
+                            <div class="objective-details-content">
+                                Details will be added here.
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="objective-header" onclick="toggleObjective('obj4')">
+                            Create reading guides and discussion questions with AI assistance
+                            <span class="objective-toggle collapsed" id="obj4-icon">▼</span>
+                        </div>
+                        <div class="objective-details collapsed" id="obj4-details">
+                            <div class="objective-details-content">
+                                Details will be added here.
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="objective-header" onclick="toggleObjective('obj5')">
+                            Develop curriculum materials efficiently for 5-week and 10-week courses
+                            <span class="objective-toggle collapsed" id="obj5-icon">▼</span>
+                        </div>
+                        <div class="objective-details collapsed" id="obj5-details">
+                            <div class="objective-details-content">
+                                Details will be added here.
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="session-section">
+                <div class="section-title collapsible" onclick="toggleSection('activities')">
+                    <span class="toggle-icon" id="activities-icon">▼</span>
+                    <span>Session Activities</span>
+                </div>
+                <div class="collapsible-content collapsed" id="activities-content">
+                    <div class="activities-grid">
+                    <div class="activity-card">
+                        <div class="activity-title">
+                            <span class="activity-icon">🎯</span>
+                            <span>AI Literacy Fundamentals</span>
+                        </div>
+                        <div class="activity-description">
+                            Brief introduction to how AI chatbots work, their capabilities, and limitations. Focus on building confidence, not technical details.
+                        </div>
+                        <div class="activity-time">15 minutes</div>
+                    </div>
+
+                    <div class="activity-card">
+                        <div class="activity-title">
+                            <span class="activity-icon">💬</span>
+                            <span>Prompting Workshop</span>
+                        </div>
+                        <div class="activity-description">
+                            Live demonstrations of effective prompting. SGLs practice with their own course topics in breakout rooms.
+                        </div>
+                        <div class="activity-time">30 minutes</div>
+                    </div>
+
+                    <div class="activity-card">
+                        <div class="activity-title">
+                            <span class="activity-icon">📚</span>
+                            <span>Course Content Creation</span>
+                        </div>
+                        <div class="activity-description">
+                            Hands-on: Generate a course outline, create discussion questions, and summarize a complex text using AI.
+                        </div>
+                        <div class="activity-time">35 minutes</div>
+                    </div>
+
+                    <div class="activity-card">
+                        <div class="activity-title">
+                            <span class="activity-icon">🔧</span>
+                            <span>Technical Skills Practice</span>
+                        </div>
+                        <div class="activity-description">
+                            Screen sharing demonstration: uploading documents, managing multiple tools, organizing AI conversations.
+                        </div>
+                        <div class="activity-time">20 minutes</div>
+                    </div>
+
+                    <div class="activity-card">
+                        <div class="activity-title">
+                            <span class="activity-icon">💡</span>
+                            <span>Use Case Exploration</span>
+                        </div>
+                        <div class="activity-description">
+                            SGLs share their specific course needs. Group brainstorms AI solutions for real challenges.
+                        </div>
+                        <div class="activity-time">15 minutes</div>
+                    </div>
+
+                    <div class="activity-card">
+                        <div class="activity-title">
+                            <span class="activity-icon">❓</span>
+                            <span>Q&A and Next Steps</span>
+                        </div>
+                        <div class="activity-description">
+                            Open discussion, troubleshooting, and assignment of practice homework for Session 2.
+                        </div>
+                        <div class="activity-time">5 minutes</div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tools-section">
+                <div class="tools-title">🛠️ Tools Covered</div>
+                <div class="tools-list">
+                    <div class="tool-tag">Claude</div>
+                    <div class="tool-tag">ChatGPT</div>
+                    <div class="tool-tag">Gemini</div>
+                    <div class="tool-tag">Browser Management</div>
+                    <div class="tool-tag">Document Upload</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSection(sectionId) {
+            const content = document.getElementById(sectionId + '-content');
+            const icon = document.getElementById(sectionId + '-icon');
+            
+            content.classList.toggle('collapsed');
+            icon.classList.toggle('collapsed');
+        }
+
+        function toggleObjective(objId) {
+            const details = document.getElementById(objId + '-details');
+            const icon = document.getElementById(objId + '-icon');
+            
+            details.classList.toggle('collapsed');
+            icon.classList.toggle('collapsed');
+        }
+    </script>
+</body>
+</html>
