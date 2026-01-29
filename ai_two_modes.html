@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI's Two Powerful Modes - BOLLI Training</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.95;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .intro-section {
+            background: #f8f9ff;
+            border-left: 5px solid #667eea;
+            padding: 30px;
+            margin-bottom: 40px;
+            border-radius: 10px;
+            font-size: 1.2em;
+        }
+        
+        .intro-section strong {
+            color: #667eea;
+            font-size: 1.1em;
+        }
+        
+        .mode-card {
+            border: 3px solid #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .mode-body {
+            padding: 25px;
+            background: white;
+        }
+        
+        .mode-body h3 {
+            color: #667eea;
+            margin: 20px 0 10px 0;
+            font-size: 1.3em;
+        }
+        
+        .mode-2 .mode-body h3 {
+            color: #f5576c;
+        }
+        
+        .mode-body p {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            line-height: 1.7;
+        }
+        
+        .mode-body ul {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .mode-body li {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        
+        .prompt-box {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            font-style: italic;
+            font-size: 1.15em;
+            color: #555;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .prompt-label {
+            font-weight: bold;
+            color: #667eea;
+            font-style: normal;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .response-box {
+            background: #fff;
+            border-left: 5px solid #764ba2;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-size: 1.1em;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        @media (max-width: 900px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .comparison-item {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .comparison-item h3 {
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        .mode-1-bg {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+        }
+        
+        .mode-2-bg {
+            background: linear-gradient(135deg, #f093fb15 0%, #f5576c15 100%);
+        }
+        
+        .collapsible {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            cursor: pointer;
+            padding: 20px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            font-size: 1.3em;
+            font-weight: bold;
+            border-radius: 10px;
+            margin: 15px 0 5px 0;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .collapsible:hover {
+            opacity: 0.9;
+        }
+        
+        .collapsible:after {
+            content: '\002B';
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        
+        .collapsible.active:after {
+            content: "\2212";
+        }
+        
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #f8f9ff;
+            border-radius: 0 0 10px 10px;
+        }
+        
+        .collapsible-content-inner {
+            padding: 25px;
+            font-size: 1.1em;
+            line-height: 1.7;
+        }
+        
+        .key-point {
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            font-size: 1.2em;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        .key-point strong {
+            font-size: 1.3em;
+            display: block;
+            margin-bottom: 15px;
+        }
+        
+        .when-to-use {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        @media (max-width: 900px) {
+            .when-to-use {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .use-case-card {
+            border-radius: 15px;
+            padding: 25px;
+            color: white;
+        }
+        
+        .use-case-1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .use-case-2 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .use-case-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        .use-case-card ul {
+            margin-left: 20px;
+        }
+        
+        .use-case-card li {
+            margin-bottom: 12px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        
+        .footer {
+            background: #f8f9ff;
+            padding: 30px;
+            text-align: center;
+            margin-top: 40px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            color: #667eea;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 AI's Two Powerful Modes</h1>
+            <p>Understanding When AI Thinks With You vs. Researches For You</p>
+        </div>
+        
+        <div class="content">
+            <div class="intro-section">
+                <strong>The Good News:</strong> You don't need perfect prompts! AI excels at taking your "fruit salad" of ideas—even stream-of-consciousness thoughts—and producing organized, useful output. But understanding AI's two modes helps you get even better results.
+            </div>
+            
+            <button class="collapsible">🧠 Mode 1: Thinking With Me</button>
+            <div class="collapsible-content">
+                <div class="collapsible-content-inner">
+                    <div class="mode-card mode-1" style="margin: 0;">
+                        <div class="mode-body">
+                            <h3>What It Does:</h3>
+                            <p>The AI organizes, analyzes, and develops ideas using knowledge from its training.</p>
+                            
+                            <h3>Think of it like:</h3>
+                            <p>A knowledgeable colleague who remembers and organizes ideas from their expertise</p>
+                            
+                            <h3>Best For:</h3>
+                            <ul>
+                                <li>Brainstorming course structures</li>
+                                <li>Refining learning objectives</li>
+                                <li>Developing thematic connections</li>
+                                <li>Organizing messy ideas into coherent plans</li>
+                                <li>Exploring concepts and relationships</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="collapsible">🔍 Mode 2: Research For Me</button>
+            <div class="collapsible-content">
+                <div class="collapsible-content-inner">
+                    <div class="mode-card mode-2" style="margin: 0;">
+                        <div class="mode-body">
+                            <h3>What It Does:</h3>
+                            <p>The AI searches external sources (the web), then reads and synthesizes what it finds.</p>
+                            
+                            <h3>Think of it like:</h3>
+                            <p>That same colleague going to the library, finding relevant sources, and explaining what they found</p>
+                            
+                            <h3>Best For:</h3>
+                            <ul>
+                                <li>Current events and recent news</li>
+                                <li>Specific facts and statistics</li>
+                                <li>Finding authoritative sources</li>
+                                <li>Verifying up-to-date information</li>
+                                <li>Discovering new resources</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="collapsible">📝 See It In Action: Same Messy Prompt, Two Modes</button>
+            <div class="collapsible-content">
+                <div class="collapsible-content-inner">
+                    <div class="prompt-box">
+                        <span class="prompt-label">Your "Fruit Salad" Prompt:</span>
+                        "I want to teach about American architecture but not sure how to organize it... maybe chronological? or by style? thinking about colonial, Victorian, modern... also how cities developed, Frank Lloyd Wright was important, sustainability is relevant now, students might be interested in local examples..."
+                    </div>
+                    
+                    <div class="comparison-grid">
+                        <div class="comparison-item mode-1-bg">
+                            <h3 style="color: #667eea;">🧠 Mode 1 Response:</h3>
+                            <p><strong>Thinking With You</strong></p>
+                            <p>AI organizes your ideas into a coherent structure:</p>
+                            <ul>
+                                <li>Suggests thematic organization (form, function, cultural context)</li>
+                                <li>Connects Wright to broader modernist movement</li>
+                                <li>Links historical styles to contemporary sustainability</li>
+                                <li>Proposes local examples as case studies</li>
+                                <li>Creates learning arc from past to present</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="comparison-item mode-2-bg">
+                            <h3 style="color: #f5576c;">🔍 Mode 2 Response:</h3>
+                            <p><strong>Research For You</strong></p>
+                            <p>AI searches and finds current information:</p>
+                            <ul>
+                                <li>Recent articles on Wright's influence</li>
+                                <li>Current sustainable architecture examples</li>
+                                <li>Local architectural tours and resources</li>
+                                <li>New books and documentaries on the topic</li>
+                                <li>Contemporary architects working in traditional styles</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="collapsible">How Do I Choose Which Mode to Use?</button>
+            <div class="collapsible-content">
+                <div class="collapsible-content-inner">
+                    <div class="when-to-use">
+                        <div class="use-case-card use-case-1">
+                            <h3>Use "Thinking With Me" When:</h3>
+                            <ul>
+                                <li>You need help organizing your thoughts</li>
+                                <li>You're developing course structure or learning objectives</li>
+                                <li>You want to explore connections between ideas</li>
+                                <li>You're brainstorming or refining concepts</li>
+                                <li>The topic is established knowledge (not breaking news)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="use-case-card use-case-2">
+                            <h3>Use "Research For Me" When:</h3>
+                            <ul>
+                                <li>You need current events or recent developments</li>
+                                <li>You want specific facts, dates, or statistics</li>
+                                <li>You're looking for authoritative sources to cite</li>
+                                <li>You need to verify or fact-check information</li>
+                                <li>You want to discover new resources or materials</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Pro Tip:</strong>
+                        Often you'll use both! Start with Mode 1 to organize your thinking, then switch to Mode 2 to fill in current facts and find resources.
+                    </div>
+                </div>
+            </div>
+            
+            <button class="collapsible">Real Example: Developing a Course on Climate Change</button>
+            <div class="collapsible-content">
+                <div class="collapsible-content-inner">
+                    <div class="prompt-box">
+                        <span class="prompt-label">Your Initial Prompt (Mode 1 - No Search):</span>
+                        "I want to create a course about climate change for BOLLI students. Not sure if I should focus on science, policy, local impacts, or solutions. Students have varying knowledge levels. Want it engaging but not overwhelming..."
+                    </div>
+                    
+                    <div class="response-box">
+                        <strong>AI helps you organize:</strong>
+                        <ul>
+                            <li>Suggests starting with basic science foundation</li>
+                            <li>Proposes local impacts as immediate connection point</li>
+                            <li>Recommends balancing challenges with actionable solutions</li>
+                            <li>Creates scaffolded approach for varying knowledge levels</li>
+                            <li>Links science → local impacts → policy → solutions</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="prompt-box" style="margin-top: 30px;">
+                        <span class="prompt-label">Your Follow-Up Prompt (Mode 2 - With Search):</span>
+                        "What are the latest climate initiatives in Massachusetts? Any recent local success stories I could include?"
+                    </div>
+                    
+                    <div class="response-box">
+                        <strong>AI searches and finds:</strong>
+                        <ul>
+                            <li>Current state climate legislation</li>
+                            <li>Recent renewable energy projects in the region</li>
+                            <li>Local community climate initiatives</li>
+                            <li>Recent news articles and authoritative sources</li>
+                            <li>Upcoming climate events or speakers</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="collapsible">The "Fruit Salad" Secret: Why Messy Prompts Work</button>
+            <div class="collapsible-content">
+                <div class="collapsible-content-inner">
+                    <p><strong>Here's what makes AI different from traditional search:</strong></p>
+                    
+                    <p>Traditional search engines need precise keywords. You have to think like a computer.</p>
+                    
+                    <p><strong>AI is different:</strong> It understands meaning and context, not just keywords. Your stream-of-consciousness thoughts actually help because they reveal:</p>
+                    
+                    <ul>
+                        <li><strong>Your uncertainties</strong> → AI addresses them directly</li>
+                        <li><strong>Your priorities</strong> → AI emphasizes what matters to you</li>
+                        <li><strong>Your constraints</strong> → AI works within your parameters</li>
+                        <li><strong>Your audience</strong> → AI adapts to your students' needs</li>
+                    </ul>
+                    
+                    <div class="key-point" style="margin-top: 25px;">
+                        <strong>You Already Have the Core Skill:</strong>
+                        If you can explain what you're thinking about to a colleague—even in a rambling way—you can prompt AI effectively. The messiness isn't a problem; it's information!
+                    </div>
+                </div>
+            </div>
+            
+            <button class="collapsible">Quick Reference: Mode Selector</button>
+            <div class="collapsible-content">
+                <div class="collapsible-content-inner">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">Ask yourself:</h3>
+                    
+                    <p style="font-size: 1.2em; margin-bottom: 20px;"><strong>"Do I need information from the past year or specific current facts?"</strong></p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                        <div style="background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%); padding: 20px; border-radius: 10px; text-align: center;">
+                            <p style="font-size: 1.3em; margin-bottom: 10px;">❌ <strong>No</strong></p>
+                            <p style="color: #667eea; font-weight: bold;">Use Mode 1</p>
+                            <p style="color: #667eea;">"Thinking With Me"</p>
+                            <p style="margin-top: 10px; font-size: 0.95em;">Just start talking to Claude—no special setup needed</p>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #f093fb20 0%, #f5576c20 100%); padding: 20px; border-radius: 10px; text-align: center;">
+                            <p style="font-size: 1.3em; margin-bottom: 10px;">✅ <strong>Yes</strong></p>
+                            <p style="color: #f5576c; font-weight: bold;">Use Mode 2</p>
+                            <p style="color: #f5576c;">"Research For Me"</p>
+                            <p style="margin-top: 10px; font-size: 0.95em;">Turn on web search in your Claude settings</p>
+                        </div>
+                    </div>
+                    
+                    <div class="key-point" style="margin-top: 30px;">
+                        <strong>Remember:</strong> Both modes handle messy prompts beautifully. The only difference is whether AI uses its training knowledge or searches the web for current information.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer">
+                The power of AI isn't in perfect prompts—it's in its ability to understand your intent and help you think more clearly. Trust the "fruit salad" approach!
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Collapsible functionality
+        const collapsibles = document.querySelectorAll('.collapsible');
+        
+        collapsibles.forEach(button => {
+            button.addEventListener('click', function() {
+                this.classList.toggle('active');
+                const content = this.nextElementSibling;
+                
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        });
+    </script>
+</body>
+</html>
