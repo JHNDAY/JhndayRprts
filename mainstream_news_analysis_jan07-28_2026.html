@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mainstream News Analysis - January 7-28, 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .newsletter {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .header .date {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .header .subtitle {
+            font-size: 1rem;
+            opacity: 0.8;
+            font-style: italic;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 30px;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+            padding: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background-color 0.3s ease;
+            border-radius: 5px;
+            background: #f8f9fa;
+        }
+
+        .section-title:hover {
+            background-color: #e9ecef;
+        }
+
+        .section-content {
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            overflow: hidden;
+        }
+
+        .section-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+        }
+
+        .section-content.expanded {
+            max-height: 8000px;
+            opacity: 1;
+        }
+
+        .story {
+            margin-bottom: 25px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 3px solid #3498db;
+        }
+
+        .story-headline {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .story-content {
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .quote {
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 15px 20px;
+            margin: 15px 0;
+            font-style: italic;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .citation {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        .key-facts {
+            background: #f0f8ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .key-facts-title {
+            font-weight: bold;
+            color: #2980b9;
+            margin-bottom: 10px;
+        }
+
+        .fact-list {
+            list-style-position: inside;
+            color: #555;
+            padding-left: 15px;
+        }
+
+        .fact-list li {
+            margin-bottom: 8px;
+        }
+
+        .stats-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .breakdown-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .breakdown-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .breakdown-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .expand-icon {
+            font-size: 1.2rem;
+        }
+
+        .collapse-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 15px;
+            transition: transform 0.2s ease;
+        }
+
+        .collapse-button:hover {
+            transform: scale(1.05);
+        }
+
+        .source-link {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .source-link:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .source-note {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .source-note strong {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.6rem;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+            }
+
+            .breakdown-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script>
+        function toggleSection(sectionId) {
+            const content = document.getElementById(sectionId);
+            const icon = content.previousElementSibling.querySelector('.expand-icon');
+            
+            if (content.classList.contains('collapsed')) {
+                content.classList.remove('collapsed');
+                content.classList.add('expanded');
+                icon.textContent = '▼';
+            } else {
+                content.classList.remove('expanded');
+                content.classList.add('collapsed');
+                icon.textContent = '▶';
+            }
+        }
+
+        // All sections start collapsed
+    </script>
+</head>
+<body>
+    <div class="newsletter">
+        <div class="header">
+            <h1>Mainstream News Analysis</h1>
+            <p class="date">January 7-28, 2026</p>
+            <p class="subtitle">Topics Discussed in Current Events Group</p>
+        </div>
+
+        <div class="content">
+            <!-- Alex Pretti Killing -->
+            <div class="section">
+                <div class="section-title" onclick="toggleSection('pretti-section')">
+                    Alex Pretti: VA Nurse Killed by Border Patrol in Minneapolis
+                    <span class="expand-icon">▶</span>
+                </div>
+                
+                <div class="section-content collapsed" id="pretti-section">
+                    <div class="story">
+                        <div class="story-headline">
+                            ICU Nurse Shot 10 Times During Anti-ICE Protest
+                        </div>
+                        <div class="story-content">
+                            On January 24, 2026, Alex Jeffrey Pretti, a 37-year-old intensive care nurse for the US Department of Veterans Affairs, was shot multiple times and killed by US Customs and Border Protection agents in Minneapolis. <a href="https://en.wikipedia.org/wiki/Killing_of_Alex_Pretti" class="source-link">Wikipedia</a> and <a href="https://www.pbs.org/newshour/nation/man-shot-and-killed-by-federal-officers-in-minnesota-was-an-icu-nurse-his-parents-say" class="source-link">PBS News</a> reported Pretti was filming law enforcement with his phone and directing traffic when he was surrounded by agents.
+                        </div>
+
+                        <div class="stats-box">
+                            <div class="stats-number">10 shots</div>
+                            <div>Fired in less than 5 seconds</div>
+                        </div>
+
+                        <div class="story-content">
+                            <a href="https://abcnews.go.com/Politics/minute-minute-timeline-fatal-shooting-alex-pretti-federal/story?id=129547199" class="source-link">ABC News</a> conducted forensic audio analysis showing 10 shots were fired in less than five seconds. Video recordings verified by Reuters, BBC, Wall Street Journal, and AP showed Pretti standing between an agent and a woman the agent had pushed, putting his arm around the woman before being pepper-sprayed and wrestled to the ground.
+                        </div>
+
+                        <div class="quote">
+                            "The nation's nurses, who make it their mission to care for and save human lives, are horrified and outraged that immigration agents have once again committed cold-blooded murder of a public observer who posed no threat to them."
+                        </div>
+                        <div class="citation">— National Nurses United statement</div>
+
+                        <div class="citation">Sources: <a href="https://en.wikipedia.org/wiki/Killing_of_Alex_Pretti" class="source-link">Wikipedia</a>, <a href="https://www.pbs.org/newshour/nation/man-shot-and-killed-by-federal-officers-in-minnesota-was-an-icu-nurse-his-parents-say" class="source-link">PBS News</a>, <a href="https://abcnews.go.com/Politics/minute-minute-timeline-fatal-shooting-alex-pretti-federal/story?id=129547199" class="source-link">ABC News</a></div>
+                    </div>
+
+                    <div class="story">
+                        <div class="story-headline">
+                            Investigation: Accidental Discharge May Have Triggered Shooting
+                        </div>
+                        <div class="story-content">
+                            <a href="https://www.foxnews.com/us/dhs-probes-whether-agents-killed-va-nurse-accidental-discharge-minneapolis-ice-raid" class="source-link">Fox News</a> reported on January 27 that DHS is investigating whether an accidental discharge of Pretti's own firearm, after it was taken from him by an agent, may have led other agents to believe they were under fire.
+                        </div>
+
+                        <div class="key-facts">
+                            <div class="key-facts-title">Key Details from Investigation:</div>
+                            <ul class="fact-list">
+                                <li>Pretti legally carried a Sig Sauer P320 pistol</li>
+                                <li>Weapon was taken from him by agents before shooting</li>
+                                <li>Accidental discharge occurred while in agent's possession</li>
+                                <li>Sources say agents thought they were being fired upon</li>
+                                <li>Footage shows agent disarmed Pretti shortly before he was killed</li>
+                            </ul>
+                        </div>
+
+                        <div class="quote">
+                            "None of those agents should've had their gun out. It's a confluence of them being asked to do enforcement work that they are not trained for."
+                        </div>
+                        <div class="citation">— Source familiar with investigation, New York Post</div>
+
+                        <div class="citation">Sources: <a href="https://www.foxnews.com/us/dhs-probes-whether-agents-killed-va-nurse-accidental-discharge-minneapolis-ice-raid" class="source-link">Fox News</a></div>
+                    </div>
+
+                    <div class="story">
+                        <div class="story-headline">
+                            Who Was Alex Pretti: Green Bay Native, ICU Nurse, Union Advocate
+                        </div>
+                        <div class="story-content">
+                            <a href="https://www.wpr.org/news/alex-jeffrey-pretti-ice-shooting-officer-minneapolis-icu-nurse" class="source-link">Wisconsin Public Radio</a> and <a href="https://www.mprnews.org/story/2026/01/26/health-care-community-mourns-alex-pretti-va-nurse-killed-saturday-by-federal-agent" class="source-link">Minnesota Public Radio</a> reported that Pretti was born in Park Ridge, IL, grew up in Green Bay, WI, and graduated from Preble High School in 2006.
+                        </div>
+
+                        <div class="key-facts">
+                            <div class="key-facts-title">Background:</div>
+                            <ul class="fact-list">
+                                <li>University of Minnesota graduate (Biology, Society and Environment, 2011)</li>
+                                <li>VA clinical research assistant since 2014</li>
+                                <li>Registered nurse in Minnesota since 2021</li>
+                                <li>ICU nurse at Minneapolis VA Health Care System</li>
+                                <li>Member of American Federation of Government Employees (AFGE)</li>
+                                <li>Green Bay Boy Choir member and former Boy Scout</li>
+                            </ul>
+                        </div>
+
+                        <div class="quote">
+                            "He cared about people deeply and he was very upset with what was happening in Minneapolis and throughout the United States with ICE, as millions of other people are upset."
+                        </div>
+                        <div class="citation">— Michael Pretti, Alex's father</div>
+
+                        <div class="citation">Sources: <a href="https://www.wpr.org/news/alex-jeffrey-pretti-ice-shooting-officer-minneapolis-icu-nurse" class="source-link">Wisconsin Public Radio</a>, <a href="https://www.mprnews.org/story/2026/01/26/health-care-community-mourns-alex-pretti-va-nurse-killed-saturday-by-federal-agent" class="source-link">MPR News</a></div>
+                    </div>
+
+                    <div class="story">
+                        <div class="story-headline">
+                            Contradicting Narratives: DHS Claims vs. Video Evidence
+                        </div>
+                        <div class="story-content">
+                            Homeland Security Secretary Kristi Noem initially claimed Pretti "violently resisted" arrest and "brandished" a gun at officers. <a href="https://www.washingtonpost.com/nation/2026/01/24/alex-pretti-minneapolis-shooting-victim/" class="source-link">The Washington Post</a> reported that Pretti's family "sharply disputed the Trump administration's version of the shooting."
+                        </div>
+
+                        <div class="quote">
+                            "There has been no evidence that NPR has verified of Pretti brandishing his handgun at any time during the encounter with federal agents."
+                        </div>
+                        <div class="citation">— NPR reporting, January 24, 2026</div>
+
+                        <div class="story-content">
+                            <a href="https://www.thefire.org/news/alex-pretti-shooting-and-growing-strain-first-amendment" class="source-link">Foundation for Individual Rights and Expression (FIRE)</a> stated: "Trump administration officials have shown little interest in waiting for that process to unfold. Instead, they have rushed to defend the shooting and lock in a narrative that portrays Pretti as someone who wanted to murder law enforcement."
+                        </div>
+
+                        <div class="citation">Sources: <a href="https://www.washingtonpost.com/nation/2026/01/24/alex-pretti-minneapolis-shooting-victim/" class="source-link">Washington Post</a>, <a href="https://www.npr.org/2026/01/24/nx-s1-5684002/ice-minnesota-minneapolis-renee-macklin-good-ruby-ridge-idaho-deadly-force" class="source-link">NPR</a>, <a href="https://www.thefire.org/news/alex-pretti-shooting-and-growing-strain-first-amendment" class="source-link">FIRE</a></div>
+                    </div>
+
+                    <div class="story">
+                        <div class="story-headline">
+                            Immediate Aftermath: Candlelight Vigils and $1M GoFundMe
+                        </div>
+                        <div class="story-content">
+                            <a href="https://en.wikipedia.org/wiki/Killing_of_Alex_Pretti" class="source-link">Wikipedia</a> documented that thousands attended candlelight vigils across the Twin Cities on the night of the shooting. A GoFundMe fundraiser for Pretti's family reached $1,000,000 by January 25, 2026.
+                        </div>
+
+                        <div class="story-content">
+                            On January 26, protesters gathered outside a hotel where ICE agents were staying. About an hour into the protest, several demonstrators entered the hotel vestibule while others threw objects at windows and vandalized the building with graffiti.
+                        </div>
+
+                        <div class="citation">Sources: <a href="https://en.wikipedia.org/wiki/Killing_of_Alex_Pretti" class="source-link">Wikipedia</a></div>
+                    </div>
+                    
+                    <button class="collapse-button" onclick="toggleSection('pretti-section')">
+                        <span>▲</span> Collapse Section
+                    </button>
+                </div>
+            </div>
+
+            <!-- Renée Good Killing -->
+            <div class="section">
+                <div class="section-title" onclick="toggleSection('good-section')">
+                    Renée Good: First Minneapolis Homicide of 2026
+                    <span class="expand-icon">▶</span>
+                </div>
+                
+                <div class="section-content collapsed" id="good-section">
+                    <div class="story">
+                        <div class="story-headline">
+                            Mother of Three Shot in Her Car by ICE Agent
+                        </div>
+                        <div class="story-content">
+                            On January 7, 2026, Renée Nicole Macklin Good, a 37-year-old American woman, was fatally shot in Minneapolis by ICE agent Jonathan Ross. <a href="https://en.wikipedia.org/wiki/Killing_of_Ren%C3%A9e_Good" class="source-link">Wikipedia</a> and <a href="https://abcnews.go.com/US/minneapolis-ice-shooting-minute-minute-timeline-renee-nicole/story?id=129021809" class="source-link">ABC News</a> reported that Good was in her Honda Pilot stopped sideways in the street when Ross circled her vehicle and fired three shots as she began moving forward.
+                        </div>
+
+                        <div class="stats-box">
+                            <div class="stats-number">399 milliseconds</div>
+                            <div>Between first and second gunshots</div>
+                        </div>
+
+                        <div class="story-content">
+                            <a href="https://abcnews.go.com/US/minneapolis-ice-shooting-minute-minute-timeline-renee-nicole/story?id=129021809" class="source-link">ABC News metadata analysis</a> showed 399 milliseconds between the first two shots and 299 milliseconds between the second and third shots. Video showed Good turning her steering wheel to the right, away from the agent, just over one second before the first shot.
+                        </div>
+
+                        <div class="quote">
+                            "Having seen the video myself, I want to tell everybody directly that is bullshit" and "To ICE, get the fuck out of Minneapolis."
+                        </div>
+                        <div class="citation">— Minneapolis Mayor Jacob Frey, responding to DHS claims Good tried to run over agent</div>
+
+                        <div class="citation">Sources: <a href="https://en.wikipedia.org/wiki/Killing_of_Ren%C3%A9e_Good" class="source-link">Wikipedia</a>, <a href="https://abcnews.go.com/US/minneapolis-ice-shooting-minute-minute-timeline-renee-nicole/story?id=129021809" class="source-link">ABC News</a></div>
+                    </div>
+
+                    <div class="story">
+                        <div class="story-headline">
+                            Only Minneapolis Homicide in First Week of 2026
+                        </div>
+                        <div class="story-content">
+                            <a href="https://www.snopes.com/fact-check/renee-good-ice-shooting-2026-minneapolis-homicides/" class="source-link">Snopes</a> verified that Good's shooting was the only recorded homicide in Minneapolis from January 1-7, 2026. The Minneapolis Police Department confirmed "no shootings in 2026 recorded in Minneapolis prior to Jan. 7, 2026."
+                        </div>
+
+                        <div class="story-content">
+                            <a href="https://en.wikipedia.org/wiki/Killing_of_Ren%C3%A9e_Good" class="source-link">Wikipedia</a> noted that Good's killing was the ninth time in five states and Washington, D.C., that ICE agents had opened fire on people since September 2025. Four other people had been killed during federal deportation operations before Good.
+                        </div>
+
+                        <div class="citation">Sources: <a href="https://www.snopes.com/fact-check/renee-good-ice-shooting-2026-minneapolis-homicides/" class="source-link">Snopes</a>, <a href="https://en.wikipedia.org/wiki/Killing_of_Ren%C3%A9e_Good" class="source-link">Wikipedia</a></div>
+                    </div>
+
+                    <div class="story">
+                        <div class="story-headline">
+                            Who Was Renée Good: English Graduate, Poet, Devoted Mother
+                        </div>
+                        <div class="story-content">
+                            <a href="https://www.nbcnews.com/news/us-news/renee-nicole-good-minneapolis-ice-shooting-victim-caring-neighbor-rcna252901" class="source-link">NBC News</a> and <a href="https://www.cnn.com/2026/01/08/us/renee-nicole-good-minneapolis-ice-shooting-hnk" class="source-link">CNN</a> reported that Good graduated from Old Dominion University in Norfolk, Virginia, in December 2020 with a degree in English.
+                        </div>
+
+                        <div class="quote">
+                            "Renee was one of the kindest people I've ever known. She was extremely compassionate. She's taken care of people all her life. She was loving, forgiving and affectionate. She was an amazing human being."
+                        </div>
+                        <div class="citation">— Donna Ganger, Renée's mother, to Minnesota Star Tribune</div>
+
+                        <div class="story-content">
+                            Good had three children including a 6-year-old son she had just dropped off at school before encountering ICE agents. She lived in the Twin Cities with her partner Becca Good and had recently moved from Canada.
+                        </div>
+
+                        <div class="citation">Sources: <a href="https://www.nbcnews.com/news/us-news/renee-nicole-good-minneapolis-ice-shooting-victim-caring-neighbor-rcna252901" class="source-link">NBC News</a>, <a href="https://www.cnn.com/2026/01/08/us/renee-nicole-good-minneapolis-ice-shooting-hnk" class="source-link">CNN</a></div>
+                    </div>
+
+                    <div class="story">
+                        <div class="story-headline">
+                            Officer's Body Camera Footage Raises Training Questions
+                        </div>
+                        <div class="story-content">
+                            <a href="https://www.npr.org/2026/01/10/g-s1-105387/new-video-minnesota-shooting-officer-perspective" class="source-link">NPR</a> obtained video from ICE officer Jonathan Ross showing him circling Good's vehicle while filming with his cellphone in one hand and holding his gun in the other.
+                        </div>
+
+                        <div class="quote">
+                            "Now that we can see he's holding a gun in one hand and a cellphone in the other filming, I want to see the officer training that permits that."
+                        </div>
+                        <div class="citation">— Geoff Alpert, criminology professor, University of South Carolina</div>
+
+                        <div class="quote">
+                            "If you are an officer who views this woman as a threat, you don't have one hand on a cellphone. You don't walk around this supposed weapon, casually filming."
+                        </div>
+                        <div class="citation">— John P. Gross, professor, University of Wisconsin Law School</div>
+
+                        <div class="citation">Sources: <a href="https://www.npr.org/2026/01/10/g-s1-105387/new-video-minnesota-shooting-officer-perspective" class="source-link">NPR</a></div>
+                    </div>
+
+                    <div class="story">
+                        <div class="story-headline">
+                            Immediate Response: School Closures and Governor's Proclamation
+                        </div>
+                        <div class="story-content">
+                            <a href="https://www.mprnews.org/story/2026/01/07/shooting-south-minneapolis-ice-agents-federal-operation" class="source-link">Minnesota Public Radio</a> reported that Minneapolis Public Schools canceled classes for the rest of the week as a precautionary measure, offering an online option through February 12.
+                        </div>
+
+                        <div class="story-content">
+                            Minnesota Governor Tim Walz proclaimed January 9, 2026, to be "Renee Good Day." <a href="https://en.wikipedia.org/wiki/Killing_of_Ren%C3%A9e_Good" class="source-link">Wikipedia</a> reported that Politico documented the killing kicked off efforts by state legislators nationwide to limit cooperation with and increase oversight of ICE.
+                        </div>
+
+                        <div class="citation">Sources: <a href="https://www.mprnews.org/story/2026/01/07/shooting-south-minneapolis-ice-agents-federal-operation" class="source-link">MPR News</a>, <a href="https://en.wikipedia.org/wiki/Killing_of_Ren%C3%A9e_Good" class="source-link">Wikipedia</a></div>
+                    </div>
+                    
+                    <button class="collapse-button" onclick="toggleSection('good-section')">
+                        <span>▲</span> Collapse Section
+                    </button>
+                </div>
+            </div>
+
+            <!-- Operation Metro Surge -->
+            <div class="section">
+                <div class="section-title" onclick="toggleSection('operation-section')">
+                    Operation Metro Surge: Unprecedented Immigration Enforcement
+                    <span class="expand-icon">▶</span>
+                </div>
+                
+                <div class="section-content collapsed" id="operation-section">
+                    <div class="story">
+                        <div class="story-headline">
+                            2,000 Federal Agents Deployed to Twin Cities
+                        </div>
+                        <div class="story-content">
+                            On January 6, 2026, <a href="https://en.wikipedia.org/wiki/Killing_of_Ren%C3%A9e_Good" class="source-link">DHS announced</a> what it called the largest immigration enforcement operation ever carried out, sending 2,000 agents to the Minneapolis–Saint Paul metropolitan area.
+                        </div>
+
+                        <div class="breakdown-grid">
+                            <div class="breakdown-item">
+                                <div class="breakdown-label">Agents Deployed</div>
+                                <div class="breakdown-value">2,000</div>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-label">Training Period</div>
+                                <div class="breakdown-value">48 days</div>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-label">ICE Shootings Since Sept 2025</div>
+                                <div class="breakdown-value">9</div>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-label">Fatalities</div>
+                                <div class="breakdown-value">6</div>
+                            </div>
+                        </div>
+
+                        <div class="quote">
+                            "People in our neighborhood have been terrorized by ICE for six weeks."
+                        </div>
+                        <div class="citation">— Eyewitness to Renée Good shooting</div>
+
+                        <div class="citation">Sources: <a href="https://en.wikipedia.org/wiki/Killing_of_Ren%C3%A9e_Good" class="source-link">Wikipedia</a></div>
+                    </div>
+
+                    <div class="story">
+                        <div class="story-headline">
+                            ICE Deaths in Custody: At Least Six Already in 2026
+                        </div>
+                        <div class="story-content">
+                            <a href="https://www.aljazeera.com/news/2026/1/27/us-witnessed-many-ice-related-deaths-in-2026-here-are-their-stories" class="source-link">Al Jazeera</a> reported on January 27 that at least six immigrants have died in ICE custody already in 2026, with a seventh person fatally shot by an off-duty ICE officer. Last year, 32 deaths were reported in ICE custody.
+                        </div>
+
+                        <div class="story-content">
+                            The report documented that while most deaths were due to health complications, some detainees' families have made accusations of abuse and medical neglect against ICE.
+                        </div>
+
+                        <div class="citation">Sources: <a href="https://www.aljazeera.com/news/2026/1/27/us-witnessed-many-ice-related-deaths-in-2026-here-are-their-stories" class="source-link">Al Jazeera</a></div>
+                    </div>
+
+                    <div class="story">
+                        <div class="story-headline">
+                            Minnesota National Guard Activated
+                        </div>
+                        <div class="story-content">
+                            <a href="https://www.pbs.org/newshour/nation/man-shot-and-killed-by-federal-officers-in-minnesota-was-an-icu-nurse-his-parents-say" class="source-link">PBS News</a> reported that Governor Tim Walz activated the Minnesota National Guard to assist local police amid growing protests. Guard troops were deployed both to shooting sites and to the federal Whipple Building where officials squared off with protesters daily.
+                        </div>
+
+                        <div class="quote">
+                            "Minnesotans and our local law enforcement have done everything we can to deescalate. The federal government must deescalate. I once again call on the President to remove the 3,000 agents from Minnesota who are sowing chaos and violence."
+                        </div>
+                        <div class="citation">— Governor Tim Walz</div>
+
+                        <div class="citation">Sources: <a href="https://www.pbs.org/newshour/nation/man-shot-and-killed-by-federal-officers-in-minnesota-was-an-icu-nurse-his-parents-say" class="source-link">PBS News</a></div>
+                    </div>
+                    
+                    <button class="collapse-button" onclick="toggleSection('operation-section')">
+                        <span>▲</span> Collapse Section
+                    </button>
+                </div>
+            </div>
+
+            <!-- Congressional and Political Response -->
+            <div class="section">
+                <div class="section-title" onclick="toggleSection('congress-section')">
+                    Bipartisan Congressional Response & Political Fallout
+                    <span class="expand-icon">▶</span>
+                </div>
+                
+                <div class="section-content collapsed" id="congress-section">
+                    <div class="story">
+                        <div class="story-headline">
+                            Republicans Join Democrats in Calling for Investigations
+                        </div>
+                        <div class="story-content">
+                            <a href="https://www.npr.org/2026/01/24/nx-s1-5684002/ice-minnesota-minneapolis-renee-macklin-good-ruby-ridge-idaho-deadly-force" class="source-link">NPR</a> reported on January 26 that "a handful of federal Republican lawmakers are publicly calling for independent, transparent or joint state-and-federal investigations into Pretti's shooting."
+                        </div>
+
+                        <div class="key-facts">
+                            <div class="key-facts-title">Republican Senators Criticizing ICE Actions:</div>
+                            <ul class="fact-list">
+                                <li><strong>Tom Tillis (R-NC):</strong> Called for investigation</li>
+                                <li><strong>Bill Cassidy (R-LA):</strong> Expressed concerns</li>
+                                <li><strong>Thomas Massie (R-KY):</strong> Spoke out against tactics</li>
+                            </ul>
+                        </div>
+
+                        <div class="story-content">
+                            Rep. Andrew Garbarino (R-NY), chair of the committee overseeing DHS, sent a letter requesting three top DHS officials appear for questioning before the committee.
+                        </div>
+
+                        <div class="citation">Sources: <a href="https://www.npr.org/2026/01/24/nx-s1-5684002/ice-minnesota-minneapolis-renee-macklin-good-ruby-ridge-idaho-deadly-force" class="source-link">NPR</a></div>
+                    </div>
+
+                    <div class="story">
+                        <div class="story-headline">
+                            Democratic Calls for ICE Abolition and Noem Impeachment
+                        </div>
+                        <div class="story-content">
+                            <a href="https://www.pbs.org/newshour/nation/man-shot-and-killed-by-federal-officers-in-minnesota-was-an-icu-nurse-his-parents-say" class="source-link">PBS News</a> reported that Congressman Robert Garcia, the top Democrat on the House Oversight Committee, called for ICE to be "abolished" and for Homeland Security Secretary Kristi Noem to be impeached.
+                        </div>
+
+                        <div class="quote">
+                            "Trump has created a militarized police force accountable only to him and ready to murder people in our streets."
+                        </div>
+                        <div class="citation">— Rep. Robert Garcia (D-CA)</div>
+
+                        <div class="story-content">
+                            Reps. Delia Ramirez (D-IL) and Seth Magaziner (D-RI) co-sponsored the DHS Use of Force Oversight Act to establish a baseline policy for use of force.
+                        </div>
+
+                        <div class="citation">Sources: <a href="https://www.pbs.org/newshour/nation/man-shot-and-killed-by-federal-officers-in-minnesota-was-an-icu-nurse-his-parents-say" class="source-link">PBS News</a>, <a href="https://www.npr.org/2026/01/24/nx-s1-5684002/ice-minnesota-minneapolis-renee-macklin-good-ruby-ridge-idaho-deadly-force" class="source-link">NPR</a></div>
+                    </div>
+
+                    <div class="story">
+                        <div class="story-headline">
+                            Senate Democrats Block DHS Funding
+                        </div>
+                        <div class="story-content">
+                            Senate Democrats took action to block Department of Homeland Security funding in response to the killings, forcing the issue back to the House for another vote. The move represented one of the few legislative tools available to the minority party to express opposition to ICE operations.
+                        </div>
+
+                        <div class="citation">Sources: Discussion group references to contemporary reporting</div>
+                    </div>
+                    
+                    <button class="collapse-button" onclick="toggleSection('congress-section')">
+                        <span>▲</span> Collapse Section
+                    </button>
+                </div>
+            </div>
+
+            <!-- Cultural and Media Response -->
+            <div class="section">
+                <div class="section-title" onclick="toggleSection('culture-section')">
+                    Cultural Response: Springsteen Song & Media Analysis
+                    <span class="expand-icon">▶</span>
+                </div>
+                
+                <div class="section-content collapsed" id="culture-section">
+                    <div class="story">
+                        <div class="story-headline">
+                            Bruce Springsteen Releases "Streets of Minneapolis"
+                        </div>
+                        <div class="story-content">
+                            <a href="https://en.wikipedia.org/wiki/Killing_of_Ren%C3%A9e_Good" class="source-link">Wikipedia</a> reported that on January 28, 2026, Bruce Springsteen released a protest song titled "Streets of Minneapolis" in response to Operation Metro Surge, memorializing the lives of Renée Good and Alex Pretti.
+                        </div>
+
+                        <div class="story-content">
+                            The song's release marked a rare instance of immediate artistic response to a developing political crisis, echoing Springsteen's history of protest music dating back to "Born in the U.S.A." and other politically charged works.
+                        </div>
+
+                        <div class="citation">Sources: <a href="https://en.wikipedia.org/wiki/Killing_of_Ren%C3%A9e_Good" class="source-link">Wikipedia</a></div>
+                    </div>
+
+                    <div class="story">
+                        <div class="story-headline">
+                            Media Commentary: "Speedrunning the Martin Niemöller Poem"
+                        </div>
+                        <div class="story-content">
+                            <a href="https://en.wikipedia.org/wiki/Killing_of_Ren%C3%A9e_Good" class="source-link">Wikipedia</a> documented that New York Times columnist Michelle Goldberg wrote: "It's as if the right is speedrunning the Martin Niemöller poem that begins, 'First they came for the Communists.' ICE's invasion of Minneapolis started with the demonization of Somali immigrants. It took only weeks for conservative demagogues to direct their venom toward the middle-class women of the Resistance."
+                        </div>
+
+                        <div class="quote">
+                            "What made Good's killing such a shock is that we're not used to seeing law enforcement violence against middle-class white mothers."
+                        </div>
+                        <div class="citation">— Michelle Goldberg, New York Times</div>
+
+                        <div class="citation">Sources: <a href="https://en.wikipedia.org/wiki/Killing_of_Ren%C3%A9e_Good" class="source-link">Wikipedia (citing New York Times)</a></div>
+                    </div>
+
+                    <div class="story">
+                        <div class="story-headline">
+                            Jennifer Rubin: "Why Alex Pretti's Murder Counted More"
+                        </div>
+                        <div class="story-content">
+                            Conservative columnist Jennifer Rubin introduced the term "AWFUL" (Affluent White Female Urban Liberal) in analyzing why Pretti's killing broke through to broader audiences in ways previous ICE shootings had not.
+                        </div>
+
+                        <div class="quote">
+                            "Sadly, a larger swath of Americans, white men and gun owners, for example, might only have been stirred when the victim turned out to be someone who closely resembled themselves and people they know."
+                        </div>
+                        <div class="citation">— Jennifer Rubin, The Contrarian</div>
+
+                        <div class="quote">
+                            "The moral disgrace comes from refusing to recognize that those bearing little or no similarity to us deserve respect, care, and defense simply because they're human."
+                        </div>
+                        <div class="citation">— Jennifer Rubin, The Contrarian</div>
+
+                        <div class="citation">Sources: Discussion group references to Rubin's contemporary column</div>
+                    </div>
+
+                    <div class="story">
+                        <div class="story-headline">
+                            Historical Parallels: Emmett Till and Kent State
+                        </div>
+                        <div class="story-content">
+                            Media commentary and political discussions drew comparisons between Alex Pretti's killing and two watershed moments in American history: Emmett Till's murder in 1955 and the Kent State shootings in 1970.
+                        </div>
+
+                        <div class="key-facts">
+                            <div class="key-facts-title">Historical Comparisons:</div>
+                            <ul class="fact-list">
+                                <li><strong>Emmett Till (1955):</strong> Mother's open-casket funeral changed national conscience on race</li>
+                                <li><strong>Kent State (1970):</strong> National Guard shooting of students galvanized anti-war movement</li>
+                                <li><strong>Alex Pretti (2026):</strong> Question: "Are we witnessing the moment when enough people say not one more?"</li>
+                            </ul>
+                        </div>
+
+                        <div class="story-content">
+                            Analysts noted key differences: Unlike Kent State victims, Pretti was a grown man who chose to be at the protest. Unlike Till, Pretti was white and a military veteran. But the central question remained: Would this become the tipping point that makes the political cost of the status quo unbearable?
+                        </div>
+
+                        <div class="citation">Sources: Discussion group analysis and media commentary</div>
+                    </div>
+                    
+                    <button class="collapse-button" onclick="toggleSection('culture-section')">
+                        <span>▲</span> Collapse Section
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="source-note">
+                <strong>Newsletter compiled from:</strong> Mainstream media coverage of topics discussed in the January 28, 2026 Current Events session. All stories represent actual news coverage from the period January 7-28, 2026.<br><br>
+                
+                <strong>Publications Referenced:</strong><br>
+                • <a href="https://www.pbs.org/" class="source-link" style="color: #3498db;">PBS News</a> - Comprehensive shooting coverage<br>
+                • <a href="https://www.npr.org/" class="source-link" style="color: #3498db;">NPR</a> - In-depth analysis and investigation<br>
+                • <a href="https://abcnews.go.com/" class="source-link" style="color: #3498db;">ABC News</a> - Forensic audio analysis and timeline<br>
+                • <a href="https://www.nbcnews.com/" class="source-link" style="color: #3498db;">NBC News</a> - Victim profiles and family interviews<br>
+                • <a href="https://www.cnn.com/" class="source-link" style="color: #3498db;">CNN</a> - Live coverage and political analysis<br>
+                • <a href="https://www.foxnews.com/" class="source-link" style="color: #3498db;">Fox News</a> - DHS investigation details<br>
+                • <a href="https://www.washingtonpost.com/" class="source-link" style="color: #3498db;">Washington Post</a> - Family responses<br>
+                • <a href="https://www.aljazeera.com/" class="source-link" style="color: #3498db;">Al Jazeera</a> - ICE custody deaths reporting<br>
+                • <a href="https://www.mprnews.org/" class="source-link" style="color: #3498db;">Minnesota Public Radio</a> - Local coverage and community response<br>
+                • <a href="https://www.wpr.org/" class="source-link" style="color: #3498db;">Wisconsin Public Radio</a> - Background on Alex Pretti<br>
+                • <a href="https://www.snopes.com/" class="source-link" style="color: #3498db;">Snopes</a> - Fact-checking Minneapolis homicide statistics<br><br>
+
+                <strong>Organizations & Analysis:</strong><br>
+                • <a href="https://www.nationalnursesunited.org/" class="source-link" style="color: #3498db;">National Nurses United</a> - Union response to Pretti killing<br>
+                • <a href="https://www.thefire.org/" class="source-link" style="color: #3498db;">Foundation for Individual Rights and Expression (FIRE)</a> - First Amendment analysis<br>
+                • <a href="https://en.wikipedia.org/" class="source-link" style="color: #3498db;">Wikipedia</a> - Comprehensive timeline aggregation<br><br>
+
+                <strong>Methodology:</strong> This analysis examines mainstream media coverage of the ICE shootings of Renée Good (January 7) and Alex Pretti (January 24) and the resulting Operation Metro Surge crisis. All citations link to actual news stories and verified sources published between January 7-28, 2026. The visualization synthesizes reporting from major news organizations, local media, fact-checkers, and advocacy groups to provide comprehensive context for the issues discussed by the Current Events group.<br><br>
+                
+                <em>This newsletter compiles mainstream media perspectives on the Minneapolis ICE shootings crisis for educational and analytical purposes. All source links direct to original reporting from established news organizations and verified sources.</em>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
