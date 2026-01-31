@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLLI Technology Committee - Meeting Visualization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .meeting-info {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 15px 30px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1em;
+            font-weight: 600;
+            color: #495057;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            background: #e9ecef;
+        }
+
+        .tab.active {
+            background: white;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .participants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .participant-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .participant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .participant-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .participant-role {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .participant-background {
+            color: #495057;
+            margin-bottom: 15px;
+        }
+
+        .expertise-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .tag {
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .timeline-time {
+            min-width: 120px;
+            font-weight: bold;
+            color: #667eea;
+            padding-right: 20px;
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .timeline-speaker {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .timeline-text {
+            color: #495057;
+            line-height: 1.8;
+        }
+
+        .themes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .theme-card {
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s;
+        }
+
+        .theme-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .theme-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .theme-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .theme-description {
+            color: #495057;
+            margin-bottom: 15px;
+        }
+
+        .theme-participants {
+            font-size: 0.9em;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .action-items {
+            list-style: none;
+        }
+
+        .action-item {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s;
+        }
+
+        .action-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .action-priority {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .insights {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .insights-title {
+            color: #856404;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .insights-title::before {
+            content: "💡";
+            margin-right: 10px;
+            font-size: 1.5em;
+        }
+
+        .insights ul {
+            margin-left: 20px;
+            color: #856404;
+        }
+
+        .insights li {
+            margin-bottom: 10px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px;
+            font-size: 1em;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .highlight {
+            background: yellow;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        @media (max-width: 768px) {
+            .participants-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .tab {
+                padding: 12px 15px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 BOLLI Technology Committee</h1>
+            <div class="meeting-info">First Meeting • 89 minutes • 6 Participants</div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('overview')">📊 Overview</button>
+            <button class="tab" onclick="showTab('participants')">👥 Participants</button>
+            <button class="tab" onclick="showTab('themes')">💡 Key Themes</button>
+            <button class="tab" onclick="showTab('timeline')">⏱️ Timeline</button>
+            <button class="tab" onclick="showTab('actions')">✅ Action Items</button>
+        </div>
+
+        <div class="content">
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <h2 style="color: #2c3e50; margin-bottom: 20px;">Meeting Overview</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">Participants</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">89</div>
+                        <div class="stat-label">Minutes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Key Themes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">Action Items</div>
+                    </div>
+                </div>
+
+                <div class="insights">
+                    <div class="insights-title">Key Takeaways</div>
+                    <ul>
+                        <li><strong>Diverse Technical Expertise:</strong> The committee brings together physics education, data science, AI literacy, software development, production support, and political research backgrounds.</li>
+                        <li><strong>Balanced Approach:</strong> Committee recognized the importance of not over-relying on technology—use what works, whether high-tech or simple email and Word docs.</li>
+                        <li><strong>Focus on User Experience:</strong> Strong emphasis on helping end users (particularly older adults) with practical technology challenges.</li>
+                        <li><strong>Knowledge Sharing Priority:</strong> Ted Gilman emphasized YouTube recordings and Zoom best practices as top priorities from the charter.</li>
+                        <li><strong>Collaborative Spirit:</strong> Members expressed willingness to learn from each other and help with implementation, despite varying technical comfort levels.</li>
+                        <li><strong>AI Integration:</strong> John Day is developing AI tools for SGLs and will demonstrate visualization capabilities for meeting transcripts.</li>
+                        <li><strong>Cross-OLLI Collaboration:</strong> Saul interested in sharing course materials and research across different OLLI programs.</li>
+                        <li><strong>Practical Focus:</strong> Committee will tackle specific, achievable goals rather than trying to address everything in the charter immediately.</li>
+                    </ul>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <h3 style="color: #2c3e50; margin-bottom: 15px;">Meeting Structure</h3>
+                    <p>The first Technology Committee meeting focused on introductions and understanding member backgrounds. Carl Lazarus, as chair, guided the group through self-introductions that revealed a wealth of complementary expertise. The discussion naturally evolved into identifying priorities from the committee charter, with particular emphasis on YouTube recording protocols and Zoom best practices. Members engaged in candid discussion about the appropriate use of technology, with Jerry advocating for pragmatism over complexity. The meeting concluded with plans to continue meeting (tentatively Fridays at noon) and for John Day to demonstrate AI-powered meeting transcript visualization.</p>
+                </div>
+            </div>
+
+            <!-- Participants Tab -->
+            <div id="participants" class="tab-content">
+                <h2 style="color: #2c3e50; margin-bottom: 20px;">Committee Members</h2>
+                
+                <div class="participants-grid">
+                    <div class="participant-card">
+                        <div class="participant-name">Carl Lazarus</div>
+                        <div class="participant-role">Committee Chair</div>
+                        <div class="participant-background">
+                            <strong>Background:</strong> Undergraduate degree in chemistry, PhD program in biochemistry (left to pursue computers). Worked on software development and management starting in early 1970s. Experience with startups, networks. Retired for 14 years.
+                            <br><br>
+                            <strong>Current Role:</strong> Leading the Technology Committee, balancing innovation with practical implementation. Coordinating with Ted Gilman on strategic priorities.
+                        </div>
+                        <div class="expertise-tags">
+                            <span class="tag">Software Development</span>
+                            <span class="tag">Management</span>
+                            <span class="tag">Networks</span>
+                            <span class="tag">Strategic Planning</span>
+                        </div>
+                    </div>
+
+                    <div class="participant-card">
+                        <div class="participant-name">John Rudy</div>
+                        <div class="participant-role">Technical Manager</div>
+                        <div class="participant-background">
+                            <strong>Background:</strong> Transitioned from hands-on technical work to management. Still involved in technical discussions but no longer personally solving technical issues.
+                            <br><br>
+                            <strong>Current Focus:</strong> Contributing ideas and discussion to the committee, providing management perspective on technology implementation.
+                        </div>
+                        <div class="expertise-tags">
+                            <span class="tag">Technical Management</span>
+                            <span class="tag">Strategic Oversight</span>
+                        </div>
+                    </div>
+
+                    <div class="participant-card">
+                        <div class="participant-name">Jerry</div>
+                        <div class="participant-role">Physics Educator</div>
+                        <div class="participant-background">
+                            <strong>Background:</strong> Former high school physics teacher who emphasized lecture demonstrations. Taught at BOLLI in person before pandemic. Has experience teaching from Los Angeles remotely.
+                            <br><br>
+                            <strong>Current Interest:</strong> User experience and Zoom etiquette (avoiding bright windows, proper camera angles, video management). Advocates for using technology judiciously—preferring email and Word docs over complex solutions when they work better.
+                        </div>
+                        <div class="expertise-tags">
+                            <span class="tag">Physics Education</span>
+                            <span class="tag">Remote Teaching</span>
+                            <span class="tag">User Experience</span>
+                            <span class="tag">Zoom Etiquette</span>
+                            <span class="tag">Pragmatism</span>
+                        </div>
+                    </div>
+
+                    <div class="participant-card">
+                        <div class="participant-name">John Day</div>
+                        <div class="participant-role">AI Educator & Data Scientist</div>
+                        <div class="participant-background">
+                            <strong>Background:</strong> PhD in statistical physics/biophysics (1979). 41-year career at Raytheon (contemporary with John Rudy), transitioning from design to data science. Designed data systems for manufacturing and design data analysis.
+                            <br><br>
+                            <strong>Current Projects:</strong> Teaching AI courses at BOLLI (Carl and others have taken them). Giving one-day SGL course on February 12 about using AI to create curricula. Plans to teach history course on knowledge transmission from Roman Empire to Galileo. Demonstrated AI meeting transcript visualization capabilities.
+                        </div>
+                        <div class="expertise-tags">
+                            <span class="tag">Statistical Physics</span>
+                            <span class="tag">Data Science</span>
+                            <span class="tag">AI Education</span>
+                            <span class="tag">Course Development</span>
+                            <span class="tag">History</span>
+                        </div>
+                    </div>
+
+                    <div class="participant-card">
+                        <div class="participant-name">Barb Thomas</div>
+                        <div class="participant-role">Implementation Specialist</div>
+                        <div class="participant-background">
+                            <strong>Background:</strong> Technical and system support at Fidelity Investments for many years. Led production support team of 33-35 people supporting high-availability AAA application. Experience with all levels of users (end, middle, advanced).
+                            <br><br>
+                            <strong>Current Strengths:</strong> Stays current with technology, learns continuously. Teaches Apple tips and tricks to seniors at Legacy Place Apple Store. Self-describes as "implementer" who "does the dirty work." Emphasized Zoom is just one component of broader technology needs.
+                        </div>
+                        <div class="expertise-tags">
+                            <span class="tag">Production Support</span>
+                            <span class="tag">User Training</span>
+                            <span class="tag">Implementation</span>
+                            <span class="tag">Mobile Technology</span>
+                            <span class="tag">Senior Support</span>
+                        </div>
+                    </div>
+
+                    <div class="participant-card">
+                        <div class="participant-name">Saul Schapiro</div>
+                        <div class="participant-role">Research & Content Developer</div>
+                        <div class="participant-background">
+                            <strong>Background:</strong> Long-time BOLLI SGL teaching political issues. Currently teaching on religion and politics in American history (1600s-2025/Project 2025). Uses AI tools extensively for research.
+                            <br><br>
+                            <strong>Current Challenge:</strong> Uses only 10% of research in classes—wants to share remaining 90% with other BOLLI students and SGLs at other OLLI programs. Interested in modern technology solutions for cross-OLLI collaboration and knowledge sharing beyond traditional website approaches.
+                        </div>
+                        <div class="expertise-tags">
+                            <span class="tag">Political Research</span>
+                            <span class="tag">AI Tools</span>
+                            <span class="tag">Course Development</span>
+                            <span class="tag">Cross-OLLI Collaboration</span>
+                            <span class="tag">Knowledge Management</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Themes Tab -->
+            <div id="themes" class="tab-content">
+                <h2 style="color: #2c3e50; margin-bottom: 20px;">Key Discussion Themes</h2>
+                
+                <div class="themes-grid">
+                    <div class="theme-card">
+                        <div class="theme-icon">🎥</div>
+                        <div class="theme-title">YouTube Recording Protocols</div>
+                        <div class="theme-description">
+                            Ted Gilman's top priority from the charter. Need to establish clear guidelines for recording BOLLI sessions and posting to YouTube. Committee discussed privacy concerns (speaker vs. attendee consent), technical requirements, and implementation challenges.
+                        </div>
+                        <div class="theme-participants">Led by: Carl • Discussed by: All members</div>
+                    </div>
+
+                    <div class="theme-card">
+                        <div class="theme-icon">💻</div>
+                        <div class="theme-title">Zoom Best Practices</div>
+                        <div class="theme-description">
+                            Second priority from Ted. Covers user etiquette (lighting, camera angles, video management) and effective facilitation. Jerry emphasized practical tips like avoiding bright windows and proper camera positioning. Need comprehensive guide for SGLs.
+                        </div>
+                        <div class="theme-participants">Led by: Jerry • Priority: Ted Gilman</div>
+                    </div>
+
+                    <div class="theme-card">
+                        <div class="theme-icon">⚖️</div>
+                        <div class="theme-title">Technology Pragmatism</div>
+                        <div class="theme-description">
+                            Important philosophical discussion: Just because technology exists doesn't mean it's the best solution. Jerry's experience with Google Drive and websites showed that simpler tools (email, Word) can be more effective. Committee agreed to use technology judiciously.
+                        </div>
+                        <div class="theme-participants">Led by: Jerry • Agreed by: Carl, others</div>
+                    </div>
+
+                    <div class="theme-card">
+                        <div class="theme-icon">🤖</div>
+                        <div class="theme-title">AI Integration</div>
+                        <div class="theme-description">
+                            John Day demonstrated AI capabilities for meeting analysis and visualization. Teaching SGLs how to use AI for curriculum development (Feb 12 course). Saul using ChatGPT for research. Committee exploring AI to enhance rather than replace traditional methods.
+                        </div>
+                        <div class="theme-participants">Led by: John Day • Used by: Saul</div>
+                    </div>
+
+                    <div class="theme-card">
+                        <div class="theme-icon">🤝</div>
+                        <div class="theme-title">Knowledge Sharing</div>
+                        <div class="theme-description">
+                            Saul raised challenge of sharing extensive course research (90% unused) with BOLLI members and other OLLI programs. Committee discussed modern approaches beyond traditional websites. Connects to broader goal of cross-institutional collaboration.
+                        </div>
+                        <div class="theme-participants">Led by: Saul • Supported by: Committee</div>
+                    </div>
+
+                    <div class="theme-card">
+                        <div class="theme-icon">👥</div>
+                        <div class="theme-title">User-Centered Support</div>
+                        <div class="theme-description">
+                            Strong emphasis on supporting varied user skill levels. Barb's experience with 85-year-olds highlights need for patient, practical guidance. Committee brings range of expertise to help different user populations effectively navigate technology.
+                        </div>
+                        <div class="theme-participants">Led by: Barb • Relevant to: All members</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline Tab -->
+            <div id="timeline" class="tab-content">
+                <h2 style="color: #2c3e50; margin-bottom: 20px;">Meeting Timeline</h2>
+                <input type="text" class="search-box" id="timelineSearch" placeholder="Search timeline..." onkeyup="searchTimeline()">
+                
+                <div class="timeline" id="timelineContainer">
+                    <div class="timeline-item">
+                        <div class="timeline-time">00:00-00:22</div>
+                        <div class="timeline-content">
+                            <div class="timeline-speaker">JOHN RUDY - Introduction</div>
+                            <div class="timeline-text">Introduced himself as manager who transitioned from hands-on technical work. Still involved in technical discussions but no longer personally solves technical issues. Here for ideas and discussion, not implementation.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-time">00:35-03:27</div>
+                        <div class="timeline-content">
+                            <div class="timeline-speaker">JERRY - Teaching Background & User Experience Focus</div>
+                            <div class="timeline-text">Former high school physics teacher. Emphasized challenges of moving lecture demonstrations to Zoom. Discussed advantages of remote teaching (accessibility from different locations). Shared Zoom mistakes and learning experiences. Expressed interest in user experience and etiquette guidelines—avoiding bright windows, proper camera angles, not walking with video on. Similar to John Rudy, was once "the techie" but others have surpassed him.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-time">03:48-05:10</div>
+                        <div class="timeline-content">
+                            <div class="timeline-speaker">JOHN DAY - Career Trajectory & AI Expertise</div>
+                            <div class="timeline-text">PhD in statistical physics/biophysics (1979). Took right turn from academic career to Raytheon (41 years). Transitioned from design to data science. After retirement, got deeply involved in AI. Has taught two AI courses at BOLLI (Carl and others participated). Plans to teach history course on knowledge transmission from Roman Empire to Galileo.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-time">05:16-06:26</div>
+                        <div class="timeline-content">
+                            <div class="timeline-speaker">JOHN DAY - SGL AI Course Announcement</div>
+                            <div class="timeline-text">Announced one-day course for SGLs on February 12th focused on using AI to create course curriculums and gather course information. Follow-up sessions planned. Expressed keen interest in history and literature when AI work settles down.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-time">06:31-07:06</div>
+                        <div class="timeline-content">
+                            <div class="timeline-speaker">BARB THOMAS - Meeting Clarification</div>
+                            <div class="timeline-text">Noted being "token female" in group. Read the charter before meeting. Asked about meeting goals—wanting to understand if first meeting was just background introductions or would also cover charter discussion.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-time">07:13-07:29</div>
+                        <div class="timeline-content">
+                            <div class="timeline-speaker">CARL LAZARUS - Meeting Agenda</div>
+                            <div class="timeline-text">Clarified meeting would cover both backgrounds and charter discussion. Planned to discuss what to accomplish in current term versus future projects.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-time">07:29-09:09</div>
+                        <div class="timeline-content">
+                            <div class="timeline-speaker">BARB THOMAS - Technical Support Background</div>
+                            <div class="timeline-text">Extensive technical and system support background at Fidelity Investments. Led production support team of 33-35 people for high-availability application. Keeps up-to-date with technology, constantly learning. Teaches Apple tips/tricks at Legacy Place to help seniors (like 85-year-olds with large fonts). Experienced with varied user skill levels. Self-describes as implementer—"in the trenches," doing the "dirty work." Believes Zoom is just one minor component of broader technology needs.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-time">09:17-12:46</div>
+                        <div class="timeline-content">
+                            <div class="timeline-speaker">SAUL SCHAPIRO - Research Sharing Challenge</div>
+                            <div class="timeline-text">Long-time SGL teaching political issues. Currently teaching religion and politics in American history (1600s-2025/Project 2025). Uses ChatGPT and AI tools extensively for research. Faces challenge: uses only 10% of gathered information in 10-week class. Wants to share remaining 90% with BOLLI members and SGLs at other OLLI programs. Interested in cross-OLLI collaboration to share research and learn from others. Initially considered website with traditional links, but now realizes AI offers better modern solutions for collaboration and knowledge sharing.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-time">12:50-13:52</div>
+                        <div class="timeline-content">
+                            <div class="timeline-speaker">JERRY - Technology Pragmatism Warning</div>
+                            <div class="timeline-text">Important caution: Just because technology is available doesn't mean it's most effective. Shared experience with Google Drive and website creation—spent enormous time on minutiae (aligning, font sizes) and found email and Word documents worked just as effectively. Advocates asking whether technology is most effective way to get information across before implementing it.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-time">13:52-16:20</div>
+                        <div class="timeline-content">
+                            <div class="timeline-speaker">CARL LAZARUS - Background & Committee Initiation</div>
+                            <div class="timeline-text">Undergraduate chemistry degree, PhD program in biochemistry (left lab for computers). Worked on software development/management from early 1970s. Experience at startups, networks. Retired 14 years. Interested in making technology work better but agrees with Jerry about judicious use. Notes expertise has declined or world has moved on. Acknowledges both problem-seeking-solution and solution-seeking-problem approaches have value, but requires care. Was approached to start committee, has talked with Ted Gilman about priorities.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-time">17:24-17:58</div>
+                        <div class="timeline-content">
+                            <div class="timeline-speaker">BARB THOMAS & CARL LAZARUS - Ted's Priorities</div>
+                            <div class="timeline-text">Barb asked what Ted emphasized from charter. Carl explained Ted's top two priorities: (1) YouTube recordings and (2) Zoom best practices. Ted emphasized these over other charter items.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-time">18:25-19:52</div>
+                        <div class="timeline-content">
+                            <div class="timeline-speaker">Discussion - YouTube Recording Challenges</div>
+                            <div class="timeline-text">Committee discussed complexities of YouTube posting. Barb noted YouTube recording seems straightforward technically. Jerry raised important question: Do you need speaker permission or attendee permission? This became key issue—privacy concerns and consent requirements for recording and posting sessions.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-time">85:31-87:39</div>
+                        <div class="timeline-content">
+                            <div class="timeline-speaker">JOHN DAY - AI Demonstration Offer</div>
+                            <div class="timeline-text">Offered to demonstrate what he's working on for AI literacy revolution. Asked Carl to send meeting audio file (will be available a couple hours after meeting in Zoom with transcription). Will create visualization/demonstration for the group showing AI capabilities for meeting analysis.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-time">88:18-89:01</div>
+                        <div class="timeline-content">
+                            <div class="timeline-speaker">Meeting Conclusion - Next Steps</div>
+                            <div class="timeline-text">Saul suggested picking a Friday at noon for next meeting. Group agreed to tentative Friday noon schedule. Carl will send out invitation. Members thanked each other and said goodbye.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions Tab -->
+            <div id="actions" class="tab-content">
+                <h2 style="color: #2c3e50; margin-bottom: 20px;">Action Items & Next Steps</h2>
+                
+                <ul class="action-items">
+                    <li class="action-item">
+                        <span class="action-priority">HIGH</span>
+                        <strong>Carl:</strong> Send meeting audio file to John Day for AI visualization demonstration
+                    </li>
+                    <li class="action-item">
+                        <span class="action-priority">HIGH</span>
+                        <strong>Committee:</strong> Develop YouTube recording protocols and guidelines (Ted's #1 priority)
+                        <br><em>Key issue to address: Speaker vs. attendee permission requirements</em>
+                    </li>
+                    <li class="action-item">
+                        <span class="action-priority">HIGH</span>
+                        <strong>Committee:</strong> Create comprehensive Zoom best practices guide (Ted's #2 priority)
+                        <br><em>Include: lighting, camera angles, video management, etiquette for participants and SGLs</em>
+                    </li>
+                    <li class="action-item">
+                        <span class="action-priority">MEDIUM</span>
+                        <strong>John Day:</strong> Demonstrate AI meeting visualization capabilities to committee
+                        <br><em>Showcase how AI can analyze and present meeting content</em>
+                    </li>
+                    <li class="action-item">
+                        <span class="action-priority">MEDIUM</span>
+                        <strong>Carl:</strong> Schedule next meeting (tentatively Friday at noon)
+                    </li>
+                    <li class="action-item">
+                        <span class="action-priority">MEDIUM</span>
+                        <strong>Committee:</strong> Determine scope—what to tackle now vs. future projects from charter
+                    </li>
+                    <li class="action-item">
+                        <span class="action-priority">MEDIUM</span>
+                        <strong>Committee:</strong> Explore solutions for knowledge sharing across BOLLI and other OLLI programs
+                        <br><em>Address Saul's challenge of sharing unused research materials</em>
+                    </li>
+                    <li class="action-item">
+                        <span class="action-priority">INFO</span>
+                        <strong>John Day:</strong> Giving one-day SGL course on February 12th about using AI for curriculum development
+                    </li>
+                </ul>
+
+                <div class="insights" style="margin-top: 30px;">
+                    <div class="insights-title">Strategic Considerations</div>
+                    <ul>
+                        <li><strong>Balance technology with simplicity:</strong> Committee agreed not all problems require high-tech solutions. Need to evaluate effectiveness vs. complexity.</li>
+                        <li><strong>User-centered approach:</strong> Keep focus on helping SGLs and students at various skill levels rather than implementing technology for its own sake.</li>
+                        <li><strong>Prioritize Ted's requests:</strong> YouTube protocols and Zoom best practices are top priorities, but should be accomplished thoughtfully.</li>
+                        <li><strong>Leverage diverse expertise:</strong> Team has complementary skills—use strategically (Barb for implementation, John Day for AI, Jerry for user experience, etc.).</li>
+                        <li><strong>Document and share:</strong> Create resources that can help broader BOLLI community and potentially other OLLI programs.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        function searchTimeline() {
+            const searchTerm = document.getElementById('timelineSearch').value.toLowerCase();
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            timelineItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                    // Highlight matching text
+                    if (searchTerm.length > 2) {
+                        highlightText(item, searchTerm);
+                    }
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function highlightText(element, searchTerm) {
+            // Simple highlighting - in production, would use more sophisticated approach
+            const textElements = element.querySelectorAll('.timeline-text, .timeline-speaker');
+            textElements.forEach(el => {
+                const originalText = el.getAttribute('data-original') || el.innerHTML;
+                if (!el.getAttribute('data-original')) {
+                    el.setAttribute('data-original', el.innerHTML);
+                }
+                
+                const regex = new RegExp(`(${searchTerm})`, 'gi');
+                el.innerHTML = originalText.replace(regex, '<span class="highlight">$1</span>');
+            });
+        }
+    </script>
+</body>
+</html>
