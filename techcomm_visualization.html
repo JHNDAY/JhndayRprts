@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLLI Technology Committee - Meeting Visualization</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --burgundy: #6B2737;
+            --deep-red: #8B3A4C;
+            --forest: #2D5016;
+            --cream: #F9F6F1;
+            --warm-white: #FFF9F2;
+            --charcoal: #2C2C2C;
+            --light-gray: #E8E4DD;
+            --gold: #C9A961;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 100%);
+            color: var(--charcoal);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--burgundy) 0%, var(--deep-red) 100%);
+            color: var(--warm-white);
+            padding: 3rem 2rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-family: 'Crimson Text', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .meeting-meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .meta-icon {
+            width: 20px;
+            height: 20px;
+            opacity: 0.8;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .controls {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(107, 39, 55, 0.1);
+            animation: fadeIn 1s ease-out 0.6s both;
+        }
+
+        .controls h2 {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.8rem;
+            color: var(--burgundy);
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-btn {
+            background: var(--light-gray);
+            border: 2px solid transparent;
+            padding: 0.6rem 1.5rem;
+            border-radius: 24px;
+            cursor: pointer;
+            font-family: 'Work Sans', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .filter-btn.active {
+            background: var(--burgundy);
+            color: white;
+            border-color: var(--burgundy);
+        }
+
+        .speaker-filters {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .speaker-btn {
+            background: white;
+            border: 2px solid var(--light-gray);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Work Sans', sans-serif;
+            font-weight: 400;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .speaker-btn::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .speaker-btn.carl::before { background: #8B3A4C; }
+        .speaker-btn.john-rudy::before { background: #2D5016; }
+        .speaker-btn.jerry::before { background: #C9A961; }
+        .speaker-btn.john-day::before { background: #4A7C59; }
+        .speaker-btn.barb::before { background: #B85450; }
+        .speaker-btn.saul::before { background: #5B6F8C; }
+
+        .speaker-btn.active {
+            background: var(--burgundy);
+            color: white;
+            border-color: var(--burgundy);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 60px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--burgundy), var(--gold));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            animation: fadeInLeft 0.6s ease-out both;
+        }
+
+        .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.15s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.2s; }
+        .timeline-item:nth-child(4) { animation-delay: 0.25s; }
+        .timeline-item:nth-child(5) { animation-delay: 0.3s; }
+
+        .timeline-marker {
+            position: absolute;
+            left: -51px;
+            top: 8px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid var(--burgundy);
+            box-shadow: 0 0 0 4px rgba(107, 39, 55, 0.1);
+            z-index: 2;
+        }
+
+        .timeline-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.8rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--light-gray);
+        }
+
+        .timeline-card:hover {
+            transform: translateX(4px);
+            box-shadow: 0 8px 24px rgba(107, 39, 55, 0.15);
+        }
+
+        .timeline-card.carl { border-left-color: #8B3A4C; }
+        .timeline-card.john-rudy { border-left-color: #2D5016; }
+        .timeline-card.jerry { border-left-color: #C9A961; }
+        .timeline-card.john-day { border-left-color: #4A7C59; }
+        .timeline-card.barb { border-left-color: #B85450; }
+        .timeline-card.saul { border-left-color: #5B6F8C; }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .speaker-info h3 {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.5rem;
+            color: var(--burgundy);
+            margin-bottom: 0.3rem;
+        }
+
+        .timestamp {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+            background: var(--light-gray);
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+        }
+
+        .card-content {
+            color: var(--charcoal);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .topics {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .topic-tag {
+            background: var(--cream);
+            border: 1px solid var(--light-gray);
+            padding: 0.4rem 1rem;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            color: var(--charcoal);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .topic-tag:hover {
+            background: var(--burgundy);
+            color: white;
+            border-color: var(--burgundy);
+        }
+
+        .summary-section {
+            background: linear-gradient(135deg, var(--forest) 0%, #3D6B24 100%);
+            color: var(--warm-white);
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+
+        .summary-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .summary-section h2 {
+            font-family: 'Crimson Text', serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--warm-white);
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .summary-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .summary-card h3 {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--gold);
+        }
+
+        .summary-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .summary-card li {
+            padding-left: 1.5rem;
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        .summary-card li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        .stats-bar {
+            display: flex;
+            gap: 2rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Crimson Text', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--burgundy);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .timeline { padding-left: 40px; }
+            .timeline::before { left: 10px; }
+            .timeline-marker { left: -41px; }
+            .summary-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1>Technology Committee</h1>
+            <div class="subtitle">First Meeting - Strategic Planning & Charter Discussion</div>
+            <div class="meeting-meta">
+                <div class="meta-item">
+                    <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                    </svg>
+                    <span>BOLLI Session</span>
+                </div>
+                <div class="meta-item">
+                    <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    <span>1h 28m duration</span>
+                </div>
+                <div class="meta-item">
+                    <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                    <span>6 participants</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-value">6</div>
+                <div class="stat-label">Speakers</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">88</div>
+                <div class="stat-label">Minutes</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">12</div>
+                <div class="stat-label">Key Topics</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">8</div>
+                <div class="stat-label">Action Items</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <h2>Filter Discussion</h2>
+            
+            <div class="filter-group">
+                <button class="filter-btn active" data-filter="all">All Content</button>
+                <button class="filter-btn" data-filter="introductions">Introductions</button>
+                <button class="filter-btn" data-filter="charter">Charter Discussion</button>
+                <button class="filter-btn" data-filter="technical">Technical Issues</button>
+                <button class="filter-btn" data-filter="planning">Planning</button>
+            </div>
+
+            <h3 style="font-family: 'Crimson Text', serif; font-size: 1.3rem; margin: 1.5rem 0 1rem; color: var(--burgundy);">Filter by Speaker</h3>
+            <div class="speaker-filters">
+                <button class="speaker-btn carl" data-speaker="carl">Carl Lazarus</button>
+                <button class="speaker-btn john-rudy" data-speaker="john-rudy">John Rudy</button>
+                <button class="speaker-btn jerry" data-speaker="jerry">Jerry</button>
+                <button class="speaker-btn john-day" data-speaker="john-day">John Day</button>
+                <button class="speaker-btn barb" data-speaker="barb">Barb Thomas</button>
+                <button class="speaker-btn saul" data-speaker="saul">Saul Schapiro</button>
+            </div>
+        </div>
+
+        <div class="timeline" id="timeline">
+            <!-- Introduction Section -->
+            <div class="timeline-item" data-topics="introductions" data-speaker="john-rudy">
+                <div class="timeline-marker"></div>
+                <div class="timeline-card john-rudy">
+                    <div class="card-header">
+                        <div class="speaker-info">
+                            <h3>John Rudy</h3>
+                        </div>
+                        <span class="timestamp">00:00:00</span>
+                    </div>
+                    <div class="card-content">
+                        "I became a manager. What I've found over the years is that I'm still involved in lots of technical stuff, but I'm no longer the person who can personally solve the technical issues. So I'm here for ideas and discussion, but not for implementation."
+                    </div>
+                    <div class="topics">
+                        <span class="topic-tag">Introductions</span>
+                        <span class="topic-tag">Role Definition</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-topics="introductions technical" data-speaker="jerry">
+                <div class="timeline-marker"></div>
+                <div class="timeline-card jerry">
+                    <div class="card-header">
+                        <div class="speaker-info">
+                            <h3>Jerry</h3>
+                        </div>
+                        <span class="timestamp">00:00:35</span>
+                    </div>
+                    <div class="card-content">
+                        Former high school physics teacher who emphasized lecture demonstrations. Notes the challenges of teaching on Zoom vs. in-person but found unexpected advantages - can teach from Los Angeles, students can avoid difficult commutes. More interested in user experience and etiquette: "not sitting in front of a bright window because your face turns black... not putting your laptop much lower than you, because then we're counting nostril hairs."
+                    </div>
+                    <div class="topics">
+                        <span class="topic-tag">Introductions</span>
+                        <span class="topic-tag">Zoom Best Practices</span>
+                        <span class="topic-tag">User Experience</span>
+                        <span class="topic-tag">Teaching Background</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-topics="introductions charter" data-speaker="john-day">
+                <div class="timeline-marker"></div>
+                <div class="timeline-card john-day">
+                    <div class="card-header">
+                        <div class="speaker-info">
+                            <h3>John Day</h3>
+                        </div>
+                        <span class="timestamp">00:03:49</span>
+                    </div>
+                    <div class="card-content">
+                        PhD in statistical physics (1979), worked at Raytheon for 41 years starting in design, then migrating into data science. Spent most of career designing data systems for manufacturing. In retirement, deeply involved in AI - has taught two courses, offering a one-day course for SGLs on February 12th focused on how SGLs can use AI to create course curriculums. Also has keen interest in history and literature, wants to teach about the transmission of knowledge from the Roman Empire to Galileo.
+                    </div>
+                    <div class="topics">
+                        <span class="topic-tag">Introductions</span>
+                        <span class="topic-tag">AI Literacy</span>
+                        <span class="topic-tag">Data Science</span>
+                        <span class="topic-tag">Course Development</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-topics="introductions charter" data-speaker="barb">
+                <div class="timeline-marker"></div>
+                <div class="timeline-card barb">
+                    <div class="card-header">
+                        <div class="speaker-info">
+                            <h3>Barb Thomas</h3>
+                        </div>
+                        <span class="timestamp">00:06:31</span>
+                    </div>
+                    <div class="card-content">
+                        Background in technical support and system support for all kinds of users at Fidelity Investments, managing a 33-35 person production support team for high-availability applications. Stays current with technology, helps seniors with their phones and devices. "I'm an implementer. I'm in the trenches. I do the work. I do the dirty work." Believes Zoom is just one minor component - there are many other technology issues to address.
+                    </div>
+                    <div class="topics">
+                        <span class="topic-tag">Introductions</span>
+                        <span class="topic-tag">Technical Support</span>
+                        <span class="topic-tag">Implementation</span>
+                        <span class="topic-tag">User Training</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-topics="introductions charter" data-speaker="saul">
+                <div class="timeline-marker"></div>
+                <div class="timeline-card saul">
+                    <div class="card-header">
+                        <div class="speaker-info">
+                            <h3>Saul Schapiro</h3>
+                        </div>
+                        <span class="timestamp">00:09:17</span>
+                    </div>
+                    <div class="card-content">
+                        Long-time SGL teaching political issues courses, currently doing "History of Religion and Politics in America" from 1600s to Project 2025. Uses ChatGPT and AI tools for extensive research but can only use about 10% of gathered information in class. Wrestling with how to share the other 90% and interested in connecting with comparable courses in other OLLI programs. Sees need for modern technology solutions beyond traditional website links to facilitate cross-program collaboration and knowledge sharing.
+                    </div>
+                    <div class="topics">
+                        <span class="topic-tag">Introductions</span>
+                        <span class="topic-tag">AI Tools</span>
+                        <span class="topic-tag">Knowledge Sharing</span>
+                        <span class="topic-tag">Cross-OLLI Collaboration</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-topics="technical charter" data-speaker="jerry">
+                <div class="timeline-marker"></div>
+                <div class="timeline-card jerry">
+                    <div class="card-header">
+                        <div class="speaker-info">
+                            <h3>Jerry - Technology Caution</h3>
+                        </div>
+                        <span class="timestamp">00:12:50</span>
+                    </div>
+                    <div class="card-content">
+                        Important perspective: "Just because the technology is available doesn't necessarily mean it's the most effective way to go about something." Shares experience with Google Drive and websites - spent enormous time on minutiae (aligning things, font sizes, formatting) and found emails and Word documents just as effective. Advocates for evaluating whether technology is the most effective way to get information across.
+                    </div>
+                    <div class="topics">
+                        <span class="topic-tag">Technology Philosophy</span>
+                        <span class="topic-tag">Effectiveness</span>
+                        <span class="topic-tag">Practical Solutions</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-topics="introductions charter" data-speaker="carl">
+                <div class="timeline-marker"></div>
+                <div class="timeline-card carl">
+                    <div class="card-header">
+                        <div class="speaker-info">
+                            <h3>Carl Lazarus - Committee Chair</h3>
+                        </div>
+                        <span class="timestamp">00:13:52</span>
+                    </div>
+                    <div class="card-content">
+                        Undergraduate degree in chemistry, was in PhD biochemistry program but decided he didn't like the lab. Followed computer interest starting in 1970-71. Worked on software development, managed software teams, worked at startup companies, dealt with networks. Retired for 17+ years - some expertise has declined or the world has moved on. Interested in both making technology work better for BOLLI and helping people use what exists more effectively.
+                    </div>
+                    <div class="topics">
+                        <span class="topic-tag">Introductions</span>
+                        <span class="topic-tag">Software Development</span>
+                        <span class="topic-tag">Committee Leadership</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charter Discussion -->
+            <div class="timeline-item" data-topics="charter planning" data-speaker="carl">
+                <div class="timeline-marker"></div>
+                <div class="timeline-card carl">
+                    <div class="card-header">
+                        <div class="speaker-info">
+                            <h3>Committee Charter Discussion</h3>
+                        </div>
+                        <span class="timestamp">00:14:30</span>
+                    </div>
+                    <div class="card-content">
+                        <strong>Charter Overview:</strong> Committee has broad mandate including evaluating available technology, recommending improvements, providing support, training, documentation. Key tension: must balance providing direct support vs. implementing improvements vs. advocacy for technology changes. Concern about taking on too much - needs to focus on achievable goals for the term.
+                    </div>
+                    <div class="topics">
+                        <span class="topic-tag">Charter</span>
+                        <span class="topic-tag">Strategic Planning</span>
+                        <span class="topic-tag">Scope Definition</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Discussions -->
+            <div class="timeline-item" data-topics="technical charter" data-speaker="carl">
+                <div class="timeline-marker"></div>
+                <div class="timeline-card carl">
+                    <div class="card-header">
+                        <div class="speaker-info">
+                            <h3>Key Technical Areas Identified</h3>
+                        </div>
+                        <span class="timestamp">00:20:00 - 00:45:00</span>
+                    </div>
+                    <div class="card-content">
+                        <strong>Major Topics Discussed:</strong>
+                        <ul style="margin-top: 0.8rem; padding-left: 1.5rem;">
+                            <li><strong>Zoom Capabilities:</strong> Training needs, closed captioning, breakout rooms, chat features, recording and transcription</li>
+                            <li><strong>Accessibility:</strong> Hard of hearing support, visual impairments, screen readers, keyboard navigation</li>
+                            <li><strong>Documentation:</strong> Need for guides on Zoom features, best practices, etiquette</li>
+                            <li><strong>Training Programs:</strong> For SGLs and members on various technology tools</li>
+                            <li><strong>Course Material Sharing:</strong> Systems for sharing research and materials between instructors and across OLLI programs</li>
+                        </ul>
+                    </div>
+                    <div class="topics">
+                        <span class="topic-tag">Zoom Training</span>
+                        <span class="topic-tag">Accessibility</span>
+                        <span class="topic-tag">Documentation</span>
+                        <span class="topic-tag">Knowledge Sharing</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-topics="technical" data-speaker="barb">
+                <div class="timeline-marker"></div>
+                <div class="timeline-card barb">
+                    <div class="card-header">
+                        <div class="speaker-info">
+                            <h3>Barb - Accessibility Focus</h3>
+                        </div>
+                        <span class="timestamp">00:35:15</span>
+                    </div>
+                    <div class="card-content">
+                        Strong emphasis on accessibility needs - not just for Zoom but across all BOLLI technology. Points out that accessibility requirements go beyond just hard of hearing to include visual impairments, motor control issues, cognitive considerations. Advocates for comprehensive accessibility review of all technology platforms used by BOLLI.
+                    </div>
+                    <div class="topics">
+                        <span class="topic-tag">Accessibility</span>
+                        <span class="topic-tag">Universal Design</span>
+                        <span class="topic-tag">User Needs</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-topics="technical charter" data-speaker="john-day">
+                <div class="timeline-marker"></div>
+                <div class="timeline-card john-day">
+                    <div class="card-header">
+                        <div class="speaker-info">
+                            <h3>John Day - AI Tools Demonstration</h3>
+                        </div>
+                        <span class="timestamp">01:10:00</span>
+                    </div>
+                    <div class="card-content">
+                        Offers to demonstrate what's possible with AI tools using meeting transcripts. Requests Carl download and send the VTT (transcription) file from Zoom after the meeting is transcribed. Plans to show the group capabilities for analyzing and visualizing meeting content, potentially valuable for documentation and knowledge sharing.
+                    </div>
+                    <div class="topics">
+                        <span class="topic-tag">AI Tools</span>
+                        <span class="topic-tag">Meeting Transcription</span>
+                        <span class="topic-tag">Documentation</span>
+                        <span class="topic-tag">Demonstration</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Items and Next Steps -->
+            <div class="timeline-item" data-topics="planning" data-speaker="carl">
+                <div class="timeline-marker"></div>
+                <div class="timeline-card carl">
+                    <div class="card-header">
+                        <div class="speaker-info">
+                            <h3>Action Items & Next Steps</h3>
+                        </div>
+                        <span class="timestamp">01:20:00 - End</span>
+                    </div>
+                    <div class="card-content">
+                        <strong>Committee agreed on:</strong>
+                        <ul style="margin-top: 0.8rem; padding-left: 1.5rem;">
+                            <li>Carl will download and send VTT transcription file to John Day</li>
+                            <li>John Day will demonstrate AI capabilities with meeting transcript</li>
+                            <li>Next meeting scheduled for approximately one month (Friday at noon or 3pm to be confirmed)</li>
+                            <li>Need to prioritize achievable goals for the term vs. future projects</li>
+                            <li>Focus areas to explore: Zoom training, accessibility, documentation, knowledge sharing systems</li>
+                            <li>Balance between direct support, implementation, and advocacy roles</li>
+                        </ul>
+                    </div>
+                    <div class="topics">
+                        <span class="topic-tag">Action Items</span>
+                        <span class="topic-tag">Next Steps</span>
+                        <span class="topic-tag">Planning</span>
+                        <span class="topic-tag">Meeting Schedule</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="summary-section">
+        <div class="summary-content">
+            <h2>Meeting Summary & Key Themes</h2>
+            
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <h3>Committee Composition</h3>
+                    <p>Diverse expertise including physics education, data science/AI, software development, technical support, and political science instruction. Team brings both technical depth and user-focused perspectives.</p>
+                </div>
+
+                <div class="summary-card">
+                    <h3>Core Tensions</h3>
+                    <ul>
+                        <li>Balancing implementation vs. advocacy roles</li>
+                        <li>Technology for its own sake vs. practical effectiveness</li>
+                        <li>Broad charter vs. achievable term goals</li>
+                        <li>BOLLI-specific needs vs. cross-OLLI collaboration</li>
+                    </ul>
+                </div>
+
+                <div class="summary-card">
+                    <h3>Priority Areas</h3>
+                    <ul>
+                        <li>Zoom training and best practices</li>
+                        <li>Accessibility across all platforms</li>
+                        <li>Documentation and user guides</li>
+                        <li>Knowledge sharing systems</li>
+                        <li>AI tools for education</li>
+                    </ul>
+                </div>
+
+                <div class="summary-card">
+                    <h3>Philosophical Insight</h3>
+                    <p>Jerry's reminder that "just because the technology is available doesn't mean it's the most effective way" provides crucial grounding - the committee should evaluate technology adoption based on actual effectiveness, not novelty.</p>
+                </div>
+
+                <div class="summary-card">
+                    <h3>Emerging Opportunities</h3>
+                    <ul>
+                        <li>AI for course development (John Day's work)</li>
+                        <li>Cross-OLLI knowledge sharing (Saul's vision)</li>
+                        <li>Meeting transcription analysis</li>
+                        <li>Comprehensive accessibility review</li>
+                    </ul>
+                </div>
+
+                <div class="summary-card">
+                    <h3>Next Meeting Focus</h3>
+                    <p>Scheduled for ~1 month from now. Will include demonstration of AI tools applied to meeting transcript, continued charter discussion, and prioritization of term goals vs. longer-term initiatives.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const speakerBtns = document.querySelectorAll('.speaker-btn');
+        const timelineItems = document.querySelectorAll('.timeline-item');
+
+        let activeFilter = 'all';
+        let activeSpeaker = null;
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeFilter = btn.dataset.filter;
+                applyFilters();
+            });
+        });
+
+        speakerBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (btn.classList.contains('active')) {
+                    btn.classList.remove('active');
+                    activeSpeaker = null;
+                } else {
+                    speakerBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    activeSpeaker = btn.dataset.speaker;
+                }
+                applyFilters();
+            });
+        });
+
+        function applyFilters() {
+            timelineItems.forEach(item => {
+                const topics = item.dataset.topics || '';
+                const speaker = item.dataset.speaker || '';
+                
+                let showByTopic = activeFilter === 'all' || topics.includes(activeFilter);
+                let showBySpeaker = !activeSpeaker || speaker === activeSpeaker;
+                
+                if (showByTopic && showBySpeaker) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        }
+
+        // Smooth scroll for topic tags
+        document.querySelectorAll('.topic-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                const topic = this.textContent.toLowerCase().trim();
+                const matchingFilter = Array.from(filterBtns).find(btn => 
+                    btn.dataset.filter.toLowerCase().includes(topic) ||
+                    topic.includes(btn.dataset.filter.toLowerCase())
+                );
+                
+                if (matchingFilter) {
+                    matchingFilter.click();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
