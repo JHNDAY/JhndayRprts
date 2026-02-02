@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Religion and Politics in the United States, 1600-2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #8B4513;
+            border-bottom: 3px solid #8B4513;
+            padding-bottom: 15px;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        
+        .course-info {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-left: 4px solid #8B4513;
+            margin-bottom: 30px;
+        }
+        
+        .course-info p {
+            margin: 5px 0;
+            font-weight: bold;
+        }
+        
+        .week-section {
+            margin: 40px 0;
+            page-break-inside: avoid;
+        }
+        
+        .week-header {
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            color: white;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            transition: background 0.3s ease;
+        }
+        
+        .week-header:hover {
+            background: linear-gradient(135deg, #A0522D 0%, #8B4513 100%);
+        }
+        
+        .week-header::after {
+            content: "▼";
+            position: absolute;
+            right: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .week-header.collapsed::after {
+            transform: rotate(-90deg);
+        }
+        
+        .week-content {
+            display: block;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.4s ease;
+        }
+        
+        .week-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+        }
+        
+        .objectives {
+            background-color: #e8f4f8;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4682B4;
+        }
+        
+        .objectives h3 {
+            color: #4682B4;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .objectives ul {
+            margin-left: 20px;
+        }
+        
+        .objectives li {
+            margin: 8px 0;
+        }
+        
+        .session-content {
+            background-color: #fefefe;
+            padding: 15px;
+            border: 1px solid #ddd;
+        }
+        
+        .session-content h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .content-item {
+            margin: 12px 0 12px 20px;
+            position: relative;
+        }
+        
+        .content-item::before {
+            content: "▸";
+            position: absolute;
+            left: -15px;
+            color: #8B4513;
+        }
+        
+        .time {
+            color: #666;
+            font-style: italic;
+            font-size: 0.9em;
+        }
+        
+        .sub-items {
+            margin-left: 25px;
+            margin-top: 8px;
+        }
+        
+        .sub-items div {
+            margin: 5px 0;
+            color: #555;
+        }
+        
+        .sub-items div::before {
+            content: "−";
+            margin-right: 8px;
+            color: #A0522D;
+        }
+        
+        .scaffolding {
+            background-color: #fff8e1;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid #FFA500;
+        }
+        
+        .scaffolding h4 {
+            color: #FF8C00;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+        
+        .themes-section {
+            background-color: #f0f8f0;
+            padding: 20px;
+            margin: 40px 0;
+            border: 2px solid #228B22;
+        }
+        
+        .themes-section h2 {
+            color: #228B22;
+            margin-bottom: 20px;
+        }
+        
+        .theme {
+            margin: 20px 0;
+        }
+        
+        .theme h3 {
+            color: #2E8B57;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .theme-item {
+            margin: 5px 0 5px 20px;
+            color: #555;
+        }
+        
+        .assessment-section {
+            background-color: #fef5e7;
+            padding: 20px;
+            margin: 40px 0;
+            border: 2px solid #D4AF37;
+        }
+        
+        .assessment-section h2 {
+            color: #B8860B;
+            margin-bottom: 20px;
+        }
+        
+        .assessment-section h3 {
+            color: #CD853F;
+            margin: 15px 0 10px 0;
+            font-size: 1.1em;
+        }
+        
+        .separator {
+            text-align: center;
+            color: #8B4513;
+            margin: 30px 0;
+            font-size: 1.5em;
+            letter-spacing: 3px;
+        }
+        
+        @media print {
+            body {
+                background-color: white;
+            }
+            .container {
+                box-shadow: none;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Religion and Politics in the United States, 1600-2026</h1>
+        <div class="subtitle">A 10-Week Course Outline</div>
+        <div class="subtitle">Spring 2026</div>
+        
+        <div class="course-info">
+            <p>COURSE STRUCTURE: 10 weeks, 90-minute sessions</p>
+            <p>PEDAGOGICAL APPROACH: Chronological progression with thematic scaffolding</p>
+        </div>
+        
+        <div style="text-align: center; margin: 20px 0;">
+            <button onclick="expandAll()" style="background: #8B4513; color: white; border: none; padding: 10px 20px; margin: 0 10px; cursor: pointer; font-size: 1em; border-radius: 5px;">Expand All</button>
+            <button onclick="collapseAll()" style="background: #A0522D; color: white; border: none; padding: 10px 20px; margin: 0 10px; cursor: pointer; font-size: 1em; border-radius: 5px;">Collapse All</button>
+        </div>
+
+        <div class="separator">═══════════════════════════════════════════════</div>
+
+        <!-- WEEK 1 -->
+        <div class="week-section">
+            <div class="week-header collapsed" onclick="toggleWeek(this)">WEEK 1: FOUNDATIONS - DEFINING RELIGION AND POLITICS</div>
+            
+            <div class="week-content collapsed">
+                <div class="objectives">
+                    <h3>LEARNING OBJECTIVES:</h3>
+                    <ul>
+                        <li>Establish working definitions of "religion" and "politics" in American context</li>
+                        <li>Introduce the analytical framework for the course</li>
+                        <li>Preview major themes and tensions that will recur throughout 400 years</li>
+                    </ul>
+                </div>
+                
+                <div class="session-content">
+                    <h3>SESSION CONTENT:</h3>
+                    <div class="content-item">Course overview and expectations <span class="time">(15 min)</span></div>
+                    <div class="content-item">What do we mean by "religion"? Beyond denominations to worldview, community, and moral authority <span class="time">(30 min)</span></div>
+                    <div class="content-item">What do we mean by "politics"? Power, governance, social order, and contested values <span class="time">(20 min)</span></div>
+                    <div class="content-item">Introduction to key tensions:
+                        <div class="sub-items">
+                            <div>Individual conscience vs. communal order</div>
+                            <div>Religious freedom vs. religious establishment</div>
+                            <div>Prophetic witness vs. cultural accommodation</div>
+                            <div>Progress vs. tradition</div>
+                        </div>
+                    </div>
+                    <div class="content-item">Preview of the course arc: How will we trace these themes? <span class="time">(25 min)</span></div>
+                </div>
+                
+                <div class="scaffolding">
+                    <h4>SCAFFOLDING FOR WEEK 2:</h4>
+                    <p>This foundational week establishes the analytical vocabulary and framework students will apply throughout the course. By ending with preview of tensions, students are prepared to see these patterns recurring in colonial America.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="separator">═══════════════════════════════════════════════</div>
+
+        <!-- WEEK 2 -->
+        <div class="week-section">
+            <div class="week-header collapsed" onclick="toggleWeek(this)">WEEK 2: COLONIAL FOUNDATIONS (1600-1740)</div>
+            
+            <div class="week-content collapsed">
+                <div class="objectives">
+                    <h3>LEARNING OBJECTIVES:</h3>
+                    <ul>
+                        <li>Understand the diverse religious motivations for colonization</li>
+                        <li>Analyze early experiments in religious governance and their political consequences</li>
+                        <li>Trace the origins of American religious pluralism and its challenges</li>
+                    </ul>
+                </div>
+                
+                <div class="session-content">
+                    <h3>SESSION CONTENT:</h3>
+                    <div class="content-item">Puritans in Massachusetts Bay: "City upon a Hill" as political theology <span class="time">(20 min)</span></div>
+                    <div class="content-item">Pilgrims and the Mayflower Compact: Covenant theology in practice</div>
+                    <div class="content-item">Roger Williams and Rhode Island: First experiment in separation of church and state</div>
+                    <div class="content-item">Pennsylvania Quakers: Religious toleration as political principle</div>
+                    <div class="content-item">Maryland: Catholic experiment and its failure</div>
+                    <div class="content-item">Virginia: Anglican establishment and emerging tensions <span class="time">(20 min)</span></div>
+                    <div class="content-item">The diversity problem: How did colonies handle religious difference? Persecution, toleration, indifference <span class="time">(25 min)</span></div>
+                    <div class="content-item">Anne Hutchinson, Salem witch trials: Religion, gender, and political power <span class="time">(25 min)</span></div>
+                </div>
+                
+                <div class="scaffolding">
+                    <h4>SCAFFOLDING FOR WEEK 3:</h4>
+                    <p>Students now understand the fundamental tension between religious establishment and religious freedom that characterized the colonies. This sets up the First Great Awakening as a force that would transform this landscape.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="separator">═══════════════════════════════════════════════</div>
+
+        <!-- WEEK 3 -->
+        <div class="week-section">
+            <div class="week-header collapsed" onclick="toggleWeek(this)">WEEK 3: THE FIRST GREAT AWAKENING AND REVOLUTION (1740-1790)</div>
+            
+            <div class="week-content collapsed">
+                <div class="objectives">
+                    <h3>LEARNING OBJECTIVES:</h3>
+                    <ul>
+                        <li>Analyze how religious revivalism created new political consciousness</li>
+                        <li>Understand the relationship between evangelical religion and revolutionary ideology</li>
+                        <li>Trace the democratizing effects of religious enthusiasm</li>
+                    </ul>
+                </div>
+                
+                <div class="session-content">
+                    <h3>SESSION CONTENT:</h3>
+                    <div class="content-item">What was the Great Awakening? Jonathan Edwards, George Whitefield, and the "new birth" <span class="time">(20 min)</span></div>
+                    <div class="content-item">Political implications of religious revival:
+                        <div class="sub-items">
+                            <div>Challenge to established religious authority</div>
+                            <div>Creation of voluntary associations</div>
+                            <div>Emphasis on individual choice and conscience</div>
+                            <div>Cross-class, cross-regional networks</div>
+                        </div>
+                        <span class="time">(25 min)</span>
+                    </div>
+                    <div class="content-item">New Light vs. Old Light: Religious division as rehearsal for political division</div>
+                    <div class="content-item">From religious liberty to political liberty: The conceptual connections <span class="time">(20 min)</span></div>
+                    <div class="content-item">The Black Church origins: African Americans and the Awakening <span class="time">(15 min)</span></div>
+                    <div class="content-item">Setting the stage: How the Awakening prepared colonists for revolutionary thought <span class="time">(10 min)</span></div>
+                </div>
+                
+                <div class="scaffolding">
+                    <h4>SCAFFOLDING FOR WEEK 4:</h4>
+                    <p>Students see how religious transformation can drive political transformation. This prepares them to understand how the Founders navigated religious diversity while creating a new government.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="separator">═══════════════════════════════════════════════</div>
+
+        <!-- WEEK 4 -->
+        <div class="week-section">
+            <div class="week-header collapsed" onclick="toggleWeek(this)">WEEK 4: THE FOUNDING FATHERS, THE CONSTITUTION, AND RELIGIOUS FREEDOM</div>
+            
+            <div class="week-content collapsed">
+                <div class="objectives">
+                    <h3>LEARNING OBJECTIVES:</h3>
+                    <ul>
+                        <li>Analyze the religious beliefs and motivations of key Founders</li>
+                        <li>Understand the competing visions of church-state relations at the founding</li>
+                        <li>Examine how the First Amendment emerged from religious and political negotiation</li>
+                    </ul>
+                </div>
+                
+                <div class="session-content">
+                    <h3>SESSION CONTENT:</h3>
+                    <div class="content-item">The religious landscape in 1787: Diversity as political problem and opportunity <span class="time">(15 min)</span></div>
+                    <div class="content-item">Religious views of key Founders:
+                        <div class="sub-items">
+                            <div>Deists (Jefferson, Franklin): Nature's God and reason</div>
+                            <div>Orthodox Christians (John Adams, John Jay)</div>
+                            <div>Skeptics and the "wall of separation"</div>
+                        </div>
+                        <span class="time">(20 min)</span>
+                    </div>
+                    <div class="content-item">State establishments and the problem of national religion</div>
+                    <div class="content-item">The Constitutional Convention: Why no religious test? <span class="time">(15 min)</span></div>
+                    <div class="content-item">The First Amendment: "Congress shall make no law..."
+                        <div class="sub-items">
+                            <div>Establishment Clause: Whose interpretation?</div>
+                            <div>Free Exercise Clause: What are its limits?</div>
+                            <div>The tension between the two clauses</div>
+                        </div>
+                        <span class="time">(25 min)</span>
+                    </div>
+                    <div class="content-item">What they created: Disestablishment without secularization <span class="time">(15 min)</span></div>
+                </div>
+                
+                <div class="scaffolding">
+                    <h4>SCAFFOLDING FOR WEEK 5:</h4>
+                    <p>Students now understand the constitutional framework that would govern church-state relations. This sets up the Second Great Awakening as a test of whether religion would thrive or wither without government support.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="separator">═══════════════════════════════════════════════</div>
+
+        <!-- WEEK 5 -->
+        <div class="week-section">
+            <div class="week-header collapsed" onclick="toggleWeek(this)">WEEK 5: THE SECOND GREAT AWAKENING AND ANTEBELLUM REFORM (1790-1860)</div>
+            
+            <div class="week-content collapsed">
+                <div class="objectives">
+                    <h3>LEARNING OBJECTIVES:</h3>
+                    <ul>
+                        <li>Understand how disestablishment energized American religion</li>
+                        <li>Analyze the relationship between evangelical religion and social reform movements</li>
+                        <li>Examine how the same religious impulses could lead to both progressive and reactionary politics</li>
+                    </ul>
+                </div>
+                
+                <div class="session-content">
+                    <h3>SESSION CONTENT:</h3>
+                    <div class="content-item">The Second Great Awakening: Voluntary religion and explosive growth <span class="time">(15 min)</span></div>
+                    <div class="content-item">The "Burned-Over District" and religious innovation: Mormons, Millerites, spiritualists</div>
+                    <div class="content-item">Camp meetings and democratic religion</div>
+                    <div class="content-item">The reform impulse: Perfectionism and the Kingdom of God on Earth <span class="time">(20 min)</span></div>
+                    <div class="content-item">Abolition as religious crusade:
+                        <div class="sub-items">
+                            <div>Quakers and early abolition</div>
+                            <div>William Lloyd Garrison and radical abolition</div>
+                            <div>Frederick Douglass and the prophetic critique</div>
+                            <div>John Brown: Terrorist or martyr?</div>
+                        </div>
+                        <span class="time">(25 min)</span>
+                    </div>
+                    <div class="content-item">Women's rights and religion: Seneca Falls and the evangelical connection</div>
+                    <div class="content-item">Temperance: Religion and social control <span class="time">(15 min)</span></div>
+                    <div class="content-item">The other side: Pro-slavery theology and biblical interpretation <span class="time">(15 min)</span></div>
+                </div>
+                
+                <div class="scaffolding">
+                    <h4>SCAFFOLDING FOR WEEK 6:</h4>
+                    <p>Students see how religion can be a force for both liberation and oppression, for reform and reaction. This prepares them for the post-Civil War period when these tensions intensify.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="separator">═══════════════════════════════════════════════</div>
+
+        <!-- WEEK 6 -->
+        <div class="week-section">
+            <div class="week-header collapsed" onclick="toggleWeek(this)">WEEK 6: CIVIL WAR TO WORLD WAR I - RELIGION IN THE GILDED AGE (1865-1920)</div>
+            
+            <div class="week-content collapsed">
+                <div class="objectives">
+                    <h3>LEARNING OBJECTIVES:</h3>
+                    <ul>
+                        <li>Analyze how religion responded to industrialization, immigration, and modernization</li>
+                        <li>Understand the emergence of the Social Gospel and its critics</li>
+                        <li>Examine the cultural wars of the early 20th century</li>
+                    </ul>
+                </div>
+                
+                <div class="session-content">
+                    <h3>SESSION CONTENT:</h3>
+                    <div class="content-item">Civil War as religious watershed: Lost Cause theology vs. Battle Hymn of the Republic <span class="time">(15 min)</span></div>
+                    <div class="content-item">The KKK as religious organization: Protestant nationalism and white supremacy</div>
+                    <div class="content-item">Immigration and religious anxiety: Catholics, Jews, and the "real America" <span class="time">(20 min)</span></div>
+                    <div class="content-item">Social Gospel: Walter Rauschenbusch and progressive Christianity</div>
+                    <div class="content-item">Prohibition: Religion, reform, and government power <span class="time">(20 min)</span></div>
+                    <div class="content-item">Women's suffrage: Religious arguments for and against</div>
+                    <div class="content-item">The Scopes Trial (1925): Science, religion, and public education <span class="time">(20 min)</span></div>
+                    <div class="content-item">Fundamentalism emerges: Defending orthodoxy in a changing world</div>
+                    <div class="content-item">Charles Coughlin and the radio priest: Religion, populism, and fascism <span class="time">(15 min)</span></div>
+                </div>
+                
+                <div class="scaffolding">
+                    <h4>SCAFFOLDING FOR WEEK 7:</h4>
+                    <p>Students understand how modernization created religious and political anxiety. This sets up the post-WWII period when "godless communism" would create new alliances.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="separator">═══════════════════════════════════════════════</div>
+
+        <!-- WEEK 7 -->
+        <div class="week-section">
+            <div class="week-header collapsed" onclick="toggleWeek(this)">WEEK 7: POSTWAR CONSENSUS AND CIVIL RIGHTS (1945-1970)</div>
+            
+            <div class="week-content collapsed">
+                <div class="objectives">
+                    <h3>LEARNING OBJECTIVES:</h3>
+                    <ul>
+                        <li>Understand the Cold War religious consensus and its political uses</li>
+                        <li>Analyze the Black Church as the moral and organizational center of Civil Rights</li>
+                        <li>Examine the relationship between religious authority and social change</li>
+                    </ul>
+                </div>
+                
+                <div class="session-content">
+                    <h3>SESSION CONTENT:</h3>
+                    <div class="content-item">"Godless Communism" and the religious Cold War <span class="time">(15 min)</span></div>
+                    <div class="content-item">Eisenhower's civil religion: "Under God," "In God We Trust," and generic faith</div>
+                    <div class="content-item">Billy Graham: Evangelical revival and political access <span class="time">(15 min)</span></div>
+                    <div class="content-item">The paradox: Religious consensus and religious anxiety</div>
+                    <div class="content-item">Catholic moment: JFK and the question of divided loyalty <span class="time">(15 min)</span></div>
+                    <div class="content-item">The Black Church and Civil Rights:
+                        <div class="sub-items">
+                            <div>Theological foundations: Exodus, Prophets, Social Gospel</div>
+                            <div>Martin Luther King Jr.: Beloved Community and nonviolent resistance</div>
+                            <div>Malcolm X and the Nation of Islam: Alternative vision</div>
+                            <div>Local churches as organizing centers</div>
+                        </div>
+                        <span class="time">(30 min)</span>
+                    </div>
+                    <div class="content-item">White religious response: From support to "southern strategy"</div>
+                    <div class="content-item">The turning point: How did religious coalitions shift? <span class="time">(10 min)</span></div>
+                </div>
+                
+                <div class="scaffolding">
+                    <h4>SCAFFOLDING FOR WEEK 8:</h4>
+                    <p>Students see how the Civil Rights movement represented both the apex of religious progressivism and the catalyst for conservative religious mobilization. This directly sets up the rise of the Religious Right.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="separator">═══════════════════════════════════════════════</div>
+
+        <!-- WEEK 8 -->
+        <div class="week-section">
+            <div class="week-header collapsed" onclick="toggleWeek(this)">WEEK 8: THE RISE OF THE RELIGIOUS RIGHT (1970-2000)</div>
+            
+            <div class="week-content collapsed">
+                <div class="objectives">
+                    <h3>LEARNING OBJECTIVES:</h3>
+                    <ul>
+                        <li>Analyze the factors that led to evangelical political mobilization</li>
+                        <li>Understand the alliance between religious conservatives and Republican politics</li>
+                        <li>Examine the role of abortion, school prayer, and sexuality in political realignment</li>
+                    </ul>
+                </div>
+                
+                <div class="session-content">
+                    <h3>SESSION CONTENT:</h3>
+                    <div class="content-item">The myth and reality: Was it abortion? Was it segregation?
+                        <div class="sub-items">
+                            <div>Roe v. Wade and the mobilization narrative</div>
+                            <div>Bob Jones University, tax exemptions, and the real catalyst</div>
+                            <div>How abortion became the unifying issue</div>
+                        </div>
+                        <span class="time">(20 min)</span>
+                    </div>
+                    <div class="content-item">The Moral Majority: Jerry Falwell and political organization <span class="time">(15 min)</span></div>
+                    <div class="content-item">Reagan coalition: How evangelicals became Republican <span class="time">(15 min)</span></div>
+                    <div class="content-item">School prayer, "secular humanism," and the culture wars</div>
+                    <div class="content-item">Rise of megachurches and the prosperity gospel</div>
+                    <div class="content-item">Pat Robertson, James Dobson, and the institutionalization of religious conservatism <span class="time">(15 min)</span></div>
+                    <div class="content-item">The Christian Coalition: Electoral politics and grassroots organizing</div>
+                    <div class="content-item">The other side: Religious Left and why it failed to compete <span class="time">(10 min)</span></div>
+                    <div class="content-item">Consequences: How this alliance reshaped both religion and politics <span class="time">(15 min)</span></div>
+                </div>
+                
+                <div class="scaffolding">
+                    <h4>SCAFFOLDING FOR WEEK 9:</h4>
+                    <p>Students now understand the institutional and ideological foundations of the current religious-political alignment. This prepares them to analyze the Trump era and its relationship to this longer history.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="separator">═══════════════════════════════════════════════</div>
+
+        <!-- WEEK 9 -->
+        <div class="week-section">
+            <div class="week-header collapsed" onclick="toggleWeek(this)">WEEK 9: MAGA, THE SUPREME COURT, AND CONTEMPORARY CRISIS (2000-2026)</div>
+            
+            <div class="week-content collapsed">
+                <div class="objectives">
+                    <h3>LEARNING OBJECTIVES:</h3>
+                    <ul>
+                        <li>Analyze the transformation of the Religious Right in the Trump era</li>
+                        <li>Understand the Catholic conservative legal movement and the Supreme Court</li>
+                        <li>Examine Project 2025 as culmination of decades of religious-political strategy</li>
+                    </ul>
+                </div>
+                
+                <div class="session-content">
+                    <h3>SESSION CONTENT:</h3>
+                    <div class="content-item">From "values voters" to Trump: The transformation
+                        <div class="sub-items">
+                            <div>How did evangelicals justify Trump?</div>
+                            <div>"He fights" vs. "moral character"</div>
+                            <div>Transactional politics and prophetic witness</div>
+                        </div>
+                        <span class="time">(15 min)</span>
+                    </div>
+                    <div class="content-item">The Supreme Court as religious project:
+                        <div class="sub-items">
+                            <div>The Federalist Society and originalism</div>
+                            <div>Opus Dei and Catholic conservatism</div>
+                            <div>Six Catholic justices: What does it mean?</div>
+                            <div>Overturning Roe, dismantling the administrative state, and the conservative legal agenda</div>
+                        </div>
+                        <span class="time">(25 min)</span>
+                    </div>
+                    <div class="content-item">Christian nationalism: Is America a "Christian nation"?
+                        <div class="sub-items">
+                            <div>Seven Mountains Mandate</div>
+                            <div>Dominionism and theocracy</div>
+                            <div>January 6 and religious imagery</div>
+                        </div>
+                        <span class="time">(20 min)</span>
+                    </div>
+                    <div class="content-item">Project 2025: Religion and authoritarian governance <span class="time">(15 min)</span></div>
+                    <div class="content-item">Immigration, climate change, and religious divides</div>
+                    <div class="content-item">The resistance: Religious opposition to Trump and MAGA <span class="time">(15 min)</span></div>
+                </div>
+                
+                <div class="scaffolding">
+                    <h4>SCAFFOLDING FOR WEEK 10:</h4>
+                    <p>Students have the historical context and analytical tools to synthesize what they've learned and grapple with fundamental questions about meaning and trajectory.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="separator">═══════════════════════════════════════════════</div>
+
+        <!-- WEEK 10 -->
+        <div class="week-section">
+            <div class="week-header collapsed" onclick="toggleWeek(this)">WEEK 10: MEANING, MODERNITY, AND THE FUTURE</div>
+            
+            <div class="week-content collapsed">
+                <div class="objectives">
+                    <h3>LEARNING OBJECTIVES:</h3>
+                    <ul>
+                        <li>Synthesize the course themes and identify recurring patterns</li>
+                        <li>Analyze competing narratives about religion and politics in America</li>
+                        <li>Develop informed perspectives on current debates and future possibilities</li>
+                    </ul>
+                </div>
+                
+                <div class="session-content">
+                    <h3>SESSION CONTENT:</h3>
+                    <div class="content-item">What have we learned? Recurring patterns across 400 years:
+                        <div class="sub-items">
+                            <div>Religion as force for liberation and oppression</div>
+                            <div>The impossibility of separating religion from politics</div>
+                            <div>The danger and necessity of religious engagement in public life</div>
+                            <div>The evolution of the "wall of separation"</div>
+                        </div>
+                        <span class="time">(20 min)</span>
+                    </div>
+                    <div class="content-item">Competing narratives about America:
+                        <div class="sub-items">
+                            <div>Christian nation vs. secular republic</div>
+                            <div>Declension narrative vs. progress narrative</div>
+                            <div>Pluralism vs. particularism</div>
+                        </div>
+                        <span class="time">(20 min)</span>
+                    </div>
+                    <div class="content-item">The current moment in historical perspective:
+                        <div class="sub-items">
+                            <div>Is this time different? How?</div>
+                            <div>What does the long view tell us about our current crisis?</div>
+                            <div>The demography of American religion: What comes next?</div>
+                        </div>
+                        <span class="time">(20 min)</span>
+                    </div>
+                    <div class="content-item">The future:
+                        <div class="sub-items">
+                            <div>The "nones" and the decline of religious affiliation</div>
+                            <div>Multiracial democracy and religious pluralism</div>
+                            <div>Climate crisis and religious response</div>
+                            <div>Technology, AI, and the future of meaning</div>
+                            <div>What role should religion play in American public life?</div>
+                        </div>
+                        <span class="time">(30 min)</span>
+                    </div>
+                    <div class="content-item">Final discussion: What does this history mean for you as citizens?</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="separator">═══════════════════════════════════════════════</div>
+
+        <!-- THEMES SECTION -->
+        <div class="themes-section">
+            <h2>COURSE-LONG SCAFFOLDING THEMES</h2>
+            <p>These themes are introduced in Week 1 and revisited throughout:</p>
+            
+            <div class="theme">
+                <h3>1. TENSION BETWEEN INDIVIDUAL AND COMMUNITY</h3>
+                <div class="theme-item">Week 2: Colonial religious experiments</div>
+                <div class="theme-item">Week 3: Individual awakening vs. church authority</div>
+                <div class="theme-item">Week 4: Individual rights vs. majority rule</div>
+                <div class="theme-item">Week 5: Abolitionist conscience vs. social order</div>
+                <div class="theme-item">Week 7: Individual conscience in Civil Rights</div>
+                <div class="theme-item">Week 8-9: Individual freedom vs. Christian nation</div>
+            </div>
+            
+            <div class="theme">
+                <h3>2. ESTABLISHMENT VS. DISESTABLISHMENT</h3>
+                <div class="theme-item">Week 2: Colonial establishments</div>
+                <div class="theme-item">Week 4: Constitutional settlement</div>
+                <div class="theme-item">Week 5: Voluntary religion flourishes</div>
+                <div class="theme-item">Week 6-9: Cultural establishment vs. legal disestablishment</div>
+                <div class="theme-item">Week 10: What comes after cultural establishment?</div>
+            </div>
+            
+            <div class="theme">
+                <h3>3. RELIGION AS REFORM VS. RELIGION AS REACTION</h3>
+                <div class="theme-item">Week 3: Awakening as democratization</div>
+                <div class="theme-item">Week 5: Abolition and pro-slavery theology</div>
+                <div class="theme-item">Week 6: Social Gospel and fundamentalism</div>
+                <div class="theme-item">Week 7: Civil Rights and white resistance</div>
+                <div class="theme-item">Week 8-9: Liberation theology and Christian nationalism</div>
+            </div>
+            
+            <div class="theme">
+                <h3>4. PROPHETIC WITNESS VS. CULTURAL ACCOMMODATION</h3>
+                <div class="theme-item">Week 5: John Brown vs. mainstream abolition</div>
+                <div class="theme-item">Week 7: MLK vs. white moderates</div>
+                <div class="theme-item">Week 8: Moral Majority vs. mainline churches</div>
+                <div class="theme-item">Week 9: Never Trump evangelicals vs. court evangelicals</div>
+            </div>
+        </div>
+
+        <div class="separator">═══════════════════════════════════════════════</div>
+
+        <!-- ASSESSMENT SECTION -->
+        <div class="assessment-section">
+            <h2>ASSESSMENT AND PARTICIPATION SUGGESTIONS</h2>
+            <p>Given the BOLLI context (adult learners, no formal grades):</p>
+            
+            <h3>WEEKLY PREPARATION:</h3>
+            <div class="content-item">Brief readings assigned (primary sources when possible)</div>
+            <div class="content-item">Discussion questions posted in advance</div>
+            <div class="content-item">Optional supplementary materials for deeper engagement</div>
+            
+            <h3>IN-CLASS STRUCTURE (suggested for each 90-minute session):</h3>
+            <div class="content-item">Brief recap and connection to previous week <span class="time">(5-10 min)</span></div>
+            <div class="content-item">Presentation of historical content <span class="time">(40-50 min)</span></div>
+            <div class="content-item">Small group or full group discussion <span class="time">(25-30 min)</span></div>
+            <div class="content-item">Preview of next week and scaffolding connection <span class="time">(5-10 min)</span></div>
+            
+            <h3>OPTIONAL ENRICHMENT:</h3>
+            <div class="content-item">Documentary viewing suggestions</div>
+            <div class="content-item">Museum/site visits (if local)</div>
+            <div class="content-item">Guest speakers from religious communities</div>
+            <div class="content-item">Primary source analysis workshops</div>
+        </div>
+
+        <div class="separator">═══════════════════════════════════════════════</div>
+
+    </div>
+    
+    <script>
+        function toggleWeek(header) {
+            // Toggle the header's collapsed class
+            header.classList.toggle('collapsed');
+            
+            // Find the associated content div (next sibling)
+            const content = header.nextElementSibling;
+            
+            // Toggle the content's collapsed class
+            if (content && content.classList.contains('week-content')) {
+                content.classList.toggle('collapsed');
+            }
+        }
+        
+        // Optional: Expand all or collapse all functionality
+        function expandAll() {
+            document.querySelectorAll('.week-header').forEach(header => {
+                header.classList.remove('collapsed');
+            });
+            document.querySelectorAll('.week-content').forEach(content => {
+                content.classList.remove('collapsed');
+            });
+        }
+        
+        function collapseAll() {
+            document.querySelectorAll('.week-header').forEach(header => {
+                header.classList.add('collapsed');
+            });
+            document.querySelectorAll('.week-content').forEach(content => {
+                content.classList.add('collapsed');
+            });
+        }
+    </script>
+</body>
+</html>
