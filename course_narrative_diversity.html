@@ -142,7 +142,7 @@
         /* Matrix View */
         .matrix-grid {
             display: grid;
-            grid-template-columns: 200px repeat(7, 1fr);
+            grid-template-columns: 200px repeat(9, 1fr);
             gap: 2px;
             background: #ddd;
             border-radius: 10px;
@@ -206,6 +206,17 @@
 
         .dot-low {
             background: #e0e7ff;
+        }
+
+        .dot-corrected {
+            background: #10b981;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
         /* Constellation View */
@@ -306,11 +317,42 @@
             color: #444;
             line-height: 1.6;
         }
+
+        .correction-box {
+            background: #d1fae5;
+            border-left: 4px solid #10b981;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+
+        .correction-title {
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .correction-text {
+            color: #444;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .correction-list {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .correction-list li {
+            margin-bottom: 8px;
+            color: #555;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Course Narrative Diversity</h1>
+        <h1>Course Narrative Diversity (Revised)</h1>
         <p class="subtitle">Exploring the Rich Spectrum of BOLLI Course Proposals</p>
 
         <div class="viz-tabs">
@@ -324,8 +366,8 @@
             <div class="insight-box">
                 <div class="insight-title">📚 Course Catalogue Overview</div>
                 <div class="insight-text">
-                    Seven Study Group Leaders bringing diverse expertise and passion to BOLLI's learning community. 
-                    From ancient Rome to contemporary memoir, from Jewish philosophy to Southern literature—
+                    Nine Study Group Leaders bringing diverse expertise and passion to BOLLI's learning community. 
+                    From ancient Rome to contemporary politics, from Jewish philosophy to Trump-era language—
                     each course reflects its leader's unique voice and pedagogical vision.
                 </div>
             </div>
@@ -422,11 +464,63 @@
                         metropolis.
                     </div>
                 </div>
+
+                <div class="catalogue-card">
+                    <div class="sgl-name">Saul Shapiro</div>
+                    <div class="course-title">Religion and Politics</div>
+                    <span class="topic-badge">American History & Political Science</span>
+                    <div class="course-description">
+                        A sweeping 400-year examination of religion's profound influence on American politics, from the Puritans and 
+                        Pilgrims to Project 2025. The course traces how religious movements have shaped—and been shaped by—political 
+                        developments including abolition, women's suffrage, Civil Rights, and contemporary battles over church-state 
+                        separation. Through chronological study spanning the Colonial period, Great Awakenings, Civil War era, and the 
+                        modern alliance of Christian Evangelicals with the political right, students explore how religious institutions 
+                        and beliefs have served as both progressive and reactionary forces in American democracy.
+                    </div>
+                </div>
+
+                <div class="catalogue-card">
+                    <div class="sgl-name">Lois Ambosh</div>
+                    <div class="course-title">War of Words: Language, Culture, and Public Policy in the Trump Era</div>
+                    <span class="topic-badge">Linguistics & Cultural Studies</span>
+                    <div class="course-description">
+                        How has the Trump decade fundamentally reshaped American language, culture, and civic discourse? This course 
+                        examines the seismic changes in how Americans speak, debate, and understand each other through multiple lenses: 
+                        social media algorithms, meme culture, visual language, censorship and book banning, conspiracy theories, and 
+                        the attention economy. From permission structures in political speech to the pace of linguistic change in the 
+                        digital age, students analyze Trump's pervasive impact on norms, monuments, patriotism, and the very words we're 
+                        allowed to use—then envision what the next decade might bring for American democracy and their grandchildren's 
+                        future.
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- MATRIX VIEW -->
         <div id="matrix" class="viz-panel">
+            <div class="correction-box">
+                <div class="correction-title">✓ Corrections Based on SGL Feedback</div>
+                <div class="correction-text">
+                    This revised matrix corrects a key limitation of AI narrative analysis: <strong>written course descriptions don't 
+                    always make pedagogical methods explicit</strong>. The original matrix, based solely on narrative text, 
+                    underestimated the discussion-intensive nature of several courses.
+                </div>
+                <div class="correction-text"><strong>What Changed (green dots):</strong></div>
+                <ul class="correction-list">
+                    <li><strong>Marlene Hobel (Grit & Grace):</strong> Discussion-Based changed from Medium to High. The course is 
+                    95% facilitated discussion of short stories, but the narrative emphasized comparative literary analysis rather 
+                    than the discussion method itself.</li>
+                    <li><strong>Judy Feldman (My Good Bright Wolf):</strong> Discussion-Based remains High, now clearly aligned with 
+                    Hobel's approach. Both courses use close reading as the foundation for extensive facilitated discussion.</li>
+                </ul>
+                <div class="correction-text">
+                    <strong>Pedagogical Insight:</strong> This discrepancy reveals why Session 2 (Course Analysis & Optimization) 
+                    matters. When AI misreads pedagogical approach from a narrative, that's diagnostic information—the description 
+                    might benefit from making methods more explicit, not because the course needs to change, but because the text 
+                    could better communicate what makes it distinctive.
+                </div>
+            </div>
+
             <div class="insight-box">
                 <div class="insight-title">💡 Key Insight: Pedagogical Diversity</div>
                 <div class="insight-text">
@@ -445,6 +539,8 @@
                 <div class="matrix-header">Sherrow</div>
                 <div class="matrix-header">Hobel</div>
                 <div class="matrix-header">Ostrow</div>
+                <div class="matrix-header">Shapiro</div>
+                <div class="matrix-header">Ambosh</div>
 
                 <div class="matrix-row-label">Historical Analysis</div>
                 <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
@@ -454,6 +550,8 @@
                 <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
                 <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
                 <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
 
                 <div class="matrix-row-label">Close Reading</div>
                 <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
@@ -463,6 +561,8 @@
                 <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
                 <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
                 <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
 
                 <div class="matrix-row-label">Personal Reflection</div>
                 <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
@@ -472,6 +572,8 @@
                 <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
                 <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
                 <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
 
                 <div class="matrix-row-label">Discussion-Based</div>
                 <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
@@ -479,13 +581,17 @@
                 <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
                 <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
                 <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-corrected"></div></div>
                 <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
                 <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
 
                 <div class="matrix-row-label">Visual/Media</div>
                 <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
                 <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
                 <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
                 <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
                 <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
                 <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
@@ -499,6 +605,8 @@
                 <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
                 <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
                 <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
 
                 <div class="matrix-row-label">Comparative Analysis</div>
                 <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
@@ -508,6 +616,8 @@
                 <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
                 <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
                 <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
             </div>
 
             <div class="legend">
@@ -524,6 +634,10 @@
                     <div class="legend-item">
                         <div class="legend-color dot-low"></div>
                         <span>Minor or absent</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color dot-corrected"></div>
+                        <span>Corrected based on SGL feedback</span>
                     </div>
                 </div>
             </div>
@@ -557,7 +671,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <script>
@@ -648,6 +761,22 @@
                     x: 380, y: 280,
                     color: '#06b6d4',
                     radius: 42
+                },
+                {
+                    name: 'Shapiro',
+                    full: 'Religion',
+                    subtitle: 'and Politics',
+                    x: 320, y: 120,
+                    color: '#84cc16',
+                    radius: 40
+                },
+                {
+                    name: 'Ambosh',
+                    full: 'War of Words',
+                    subtitle: 'Trump Era',
+                    x: 1000, y: 480,
+                    color: '#f43f5e',
+                    radius: 44
                 }
             ];
 
