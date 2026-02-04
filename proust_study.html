@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>À la recherche du temps perdu - Étude bilingue</title>
+    <style>
+        body {
+            font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #faf9f6;
+            color: #2c2c2c;
+            line-height: 1.8;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            border-bottom: 2px solid #8b7355;
+            padding-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.2em;
+            color: #5d4e37;
+            margin-bottom: 10px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        
+        .subtitle {
+            font-size: 1.3em;
+            color: #8b7355;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+        
+        .author {
+            font-size: 1.1em;
+            color: #6b5d52;
+            margin-top: 10px;
+        }
+        
+        .controls {
+            position: sticky;
+            top: 0;
+            background: #faf9f6;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #d4c5b0;
+            margin-bottom: 30px;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .global-toggle {
+            font-size: 1em;
+            padding: 12px 25px;
+            background: #5d4e37;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        
+        .global-toggle:hover {
+            background: #7a6548;
+        }
+        
+        .passage {
+            background: white;
+            padding: 30px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .passage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e5d9c8;
+        }
+        
+        .passage-title {
+            font-size: 1.2em;
+            color: #5d4e37;
+            font-weight: 600;
+        }
+        
+        .toggle-btn {
+            padding: 8px 18px;
+            background: #8b7355;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+        
+        .toggle-btn:hover {
+            background: #a08968;
+        }
+        
+        .text-content {
+            font-size: 1.05em;
+            text-align: justify;
+            text-indent: 2em;
+        }
+        
+        .french {
+            display: block;
+        }
+        
+        .english {
+            display: none;
+            font-style: italic;
+            color: #4a4a4a;
+        }
+        
+        .passage.show-english .french {
+            display: none;
+        }
+        
+        .passage.show-english .english {
+            display: block;
+        }
+        
+        .note {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f5f0e8;
+            border-left: 4px solid #8b7355;
+            font-size: 0.95em;
+            color: #5d4e37;
+        }
+        
+        .vocabulary {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e8f4f8;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+        
+        .vocabulary h4 {
+            margin-top: 0;
+            color: #2c5f7f;
+        }
+        
+        .vocab-item {
+            margin: 5px 0;
+        }
+        
+        .vocab-word {
+            font-weight: 600;
+            color: #2c5f7f;
+        }
+        
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            padding-top: 30px;
+            border-top: 2px solid #8b7355;
+            color: #8b7355;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>À la recherche du temps perdu</h1>
+        <div class="subtitle">Du côté de chez Swann (Volume I)</div>
+        <div class="author">Marcel Proust</div>
+    </header>
+
+    <div class="controls">
+        <button class="global-toggle" onclick="toggleAll()">Basculer tout / Toggle All</button>
+        <div style="margin-top: 10px; font-size: 0.9em; color: #6b5d52;">
+            Cliquez pour alterner entre français et anglais
+        </div>
+    </div>
+
+    <div class="passage" id="passage1">
+        <div class="passage-header">
+            <div class="passage-title">L'ouverture célèbre</div>
+            <button class="toggle-btn" onclick="togglePassage('passage1')">FR ⇄ EN</button>
+        </div>
+        <div class="text-content">
+            <div class="french">
+                Longtemps, je me suis couché de bonne heure. Parfois, à peine ma bougie éteinte, mes yeux se fermaient si vite que je n'avais pas le temps de me dire: «Je m'endors.» Et, une demi-heure après, la pensée qu'il était temps de chercher le sommeil m'éveillait; je voulais poser le volume que je croyais avoir encore dans les mains et souffler ma lumière; je n'avais pas cessé en dormant de faire des réflexions sur ce que je venais de lire, mais ces réflexions avaient pris un tour un peu particulier; il me semblait que j'étais moi-même ce dont parlait l'ouvrage: une église, un quatuor, la rivalité de François Ier et de Charles Quint.
+            </div>
+            <div class="english">
+                For a long time I used to go to bed early. Sometimes, when I had put out my candle, my eyes would close so quickly that I had not even time to say "I'm going to sleep." And half an hour later the thought that it was time to go to sleep would awaken me; I would try to put away the book which, I imagined, was still in my hands, and to blow out the light; I had been thinking all the time, while I was asleep, of what I had just been reading, but my thoughts had run into a channel of their own, until I myself seemed actually to have become the subject of my book: a church, a quartet, the rivalry between François I and Charles V.
+            </div>
+        </div>
+        <div class="note">
+            <strong>Note:</strong> Les premières lignes les plus célèbres de la littérature française. Proust introduit immédiatement les thèmes de la mémoire, du sommeil et de la conscience.
+        </div>
+    </div>
+
+    <div class="passage" id="passage2">
+        <div class="passage-header">
+            <div class="passage-title">La madeleine - Le moment crucial</div>
+            <button class="toggle-btn" onclick="togglePassage('passage2')">FR ⇄ EN</button>
+        </div>
+        <div class="text-content">
+            <div class="french">
+                Et tout d'un coup le souvenir m'est apparu. Ce goût, c'était celui du petit morceau de madeleine que le dimanche matin à Combray (parce que ce jour-là je ne sortais pas avant l'heure de la messe), quand j'allais lui dire bonjour dans sa chambre, ma tante Léonie m'offrait après l'avoir trempé dans son infusion de thé ou de tilleul.
+            </div>
+            <div class="english">
+                And suddenly the memory revealed itself. The taste was that of the little piece of madeleine which on Sunday mornings at Combray (because on those mornings I did not go out before mass), when I went to say good morning to her in her bedroom, my aunt Léonie used to give me, dipping it first in her own cup of tea or tisane.
+            </div>
+        </div>
+        <div class="vocabulary">
+            <h4>Vocabulaire clé:</h4>
+            <div class="vocab-item"><span class="vocab-word">souvenir</span> - memory, recollection</div>
+            <div class="vocab-item"><span class="vocab-word">trempé</span> - dipped, soaked</div>
+            <div class="vocab-item"><span class="vocab-word">tilleul</span> - linden blossom tea</div>
+        </div>
+        <div class="note">
+            <strong>Note:</strong> Le passage de la madeleine - peut-être le plus célèbre de toute l'œuvre. Ce moment de "mémoire involontaire" devient la clé de tout le roman.
+        </div>
+    </div>
+
+    <div class="passage" id="passage3">
+        <div class="passage-header">
+            <div class="passage-title">La puissance de la mémoire involontaire</div>
+            <button class="toggle-btn" onclick="togglePassage('passage3')">FR ⇄ EN</button>
+        </div>
+        <div class="text-content">
+            <div class="french">
+                Mais, quand d'un passé ancien rien ne subsiste, après la mort des êtres, après la destruction des choses, seules, plus frêles mais plus vivaces, plus immatérielles, plus persistantes, plus fidèles, l'odeur et la saveur restent encore longtemps, comme des âmes, à se rappeler, à attendre, à espérer, sur la ruine de tout le reste, à porter sans fléchir, sur leur gouttelette presque impalpable, l'édifice immense du souvenir.
+            </div>
+            <div class="english">
+                But when from a long-distant past nothing subsists, after the people are dead, after the things are broken and scattered, taste and smell alone, more fragile but more enduring, more immaterial, more persistent, more faithful, remain poised a long time, like souls, remembering, waiting, hoping, amid the ruins of all the rest; and bear unflinchingly, in the tiny and almost impalpable drop of their essence, the vast structure of recollection.
+            </div>
+        </div>
+        <div class="vocabulary">
+            <h4>Vocabulaire clé:</h4>
+            <div class="vocab-item"><span class="vocab-word">frêles</span> - fragile, frail</div>
+            <div class="vocab-item"><span class="vocab-word">vivaces</span> - enduring, long-lasting</div>
+            <div class="vocab-item"><span class="vocab-word">fléchir</span> - to bend, to yield</div>
+            <div class="vocab-item"><span class="vocab-word">gouttelette</span> - droplet</div>
+            <div class="vocab-item"><span class="vocab-word">impalpable</span> - impalpable, imperceptible</div>
+        </div>
+        <div class="note">
+            <strong>Note:</strong> Une des phrases les plus belles et complexes de Proust sur la nature de la mémoire. Notez la structure syntaxique élaborée - typique du style proustien.
+        </div>
+    </div>
+
+    <div class="passage" id="passage4">
+        <div class="passage-header">
+            <div class="passage-title">Le drame du coucher</div>
+            <button class="toggle-btn" onclick="togglePassage('passage4')">FR ⇄ EN</button>
+        </div>
+        <div class="text-content">
+            <div class="french">
+                Ma seule consolation, quand je montais me coucher, était que maman viendrait m'embrasser quand je serais dans mon lit. Mais ce bonsoir durait si peu de temps, elle redescendait si vite, que le moment où je l'entendais monter, puis où passait dans le couloir à double porte le bruit léger de sa robe de jardin en mousseline bleue, à laquelle pendaient de petits cordons de paille tressée, était pour moi un moment douloureux.
+            </div>
+            <div class="english">
+                My sole consolation when I went upstairs for the night was that Mamma would come in and kiss me after I was in bed. But this good night lasted for so short a time: she went down again so soon that the moment in which I heard her climb the stairs, and then caught the sound of her garden dress of blue muslin, from which hung little tassels of plaited straw, rustling along the double-doored corridor, was for me a moment of the utmost pain.
+            </div>
+        </div>
+        <div class="vocabulary">
+            <h4>Vocabulaire clé:</h4>
+            <div class="vocab-item"><span class="vocab-word">embrasser</span> - to kiss</div>
+            <div class="vocab-item"><span class="vocab-word">mousseline</span> - muslin (fine cotton fabric)</div>
+            <div class="vocab-item"><span class="vocab-word">cordons</span> - cords, strings</div>
+            <div class="vocab-item"><span class="vocab-word">tressée</span> - braided, plaited</div>
+            <div class="vocab-item"><span class="vocab-word">douloureux</span> - painful</div>
+        </div>
+        <div class="note">
+            <strong>Note:</strong> Le célèbre "drame du coucher" - l'anxiété de l'enfant narrateur face à la séparation d'avec sa mère. Un thème central du volume.
+        </div>
+    </div>
+
+    <div class="passage" id="passage5">
+        <div class="passage-header">
+            <div class="passage-title">Les deux côtés - Méséglise et Guermantes</div>
+            <button class="toggle-btn" onclick="togglePassage('passage5')">FR ⇄ EN</button>
+        </div>
+        <div class="text-content">
+            <div class="french">
+                Ainsi y avait-il toujours autour de Combray deux «côtés» pour les promenades, et si opposés qu'on ne sortait pas en effet de chez nous par la même porte, quand on voulait aller d'un côté ou de l'autre: le côté de Méséglise-la-Vineuse, qu'on appelait aussi le côté de chez Swann, parce qu'on passait devant la propriété de M. Swann pour aller par là, et le côté de Guermantes.
+            </div>
+            <div class="english">
+                And so there were always two 'ways' for our walks round Combray, so diametrically opposed that we would actually leave the house by a different door, according to the way we had chosen: the way towards Méséglise-la-Vineuse, which we called also 'Swann's way,' because to get there one had to pass along the boundary of M. Swann's estate, and the 'Guermantes' way.
+            </div>
+        </div>
+        <div class="note">
+            <strong>Note:</strong> Les "deux côtés" qui structurent tout le roman. Cette division géographique devient une métaphore des divisions sociales et psychologiques qui traversent l'œuvre.
+        </div>
+    </div>
+
+    <div class="passage" id="passage6">
+        <div class="passage-header">
+            <div class="passage-title">Les aubépines</div>
+            <button class="toggle-btn" onclick="togglePassage('passage6')">FR ⇄ EN</button>
+        </div>
+        <div class="text-content">
+            <div class="french">
+                Puis je revenais devant les aubépines comme devant ces chefs-d'œuvre dont on croit qu'on saura mieux les voir quand on a cessé un moment de les regarder; mais j'avais beau me faire un écran de mes mains pour n'avoir qu'elles sous les yeux, le sentiment qu'elles éveillaient en moi restait obscur et vague, cherchant en vain à se dégager, à venir adhérer à leurs fleurs.
+            </div>
+            <div class="english">
+                Then I returned to the hawthorns, and stood before them as one stands before those masterpieces which, one imagines, one will be better able to 'take in' when one has looked away, for a moment, at something else; but in vain did I make a screen with my hands, the better to concentrate upon the flowers, the feeling they aroused in me remained obscure and vague, struggling and failing to free itself, to float across and become one with them.
+            </div>
+        </div>
+        <div class="vocabulary">
+            <h4>Vocabulaire clé:</h4>
+            <div class="vocab-item"><span class="vocab-word">aubépines</span> - hawthorn blossoms</div>
+            <div class="vocab-item"><span class="vocab-word">j'avais beau</span> - it was useless for me to... (despite my efforts)</div>
+            <div class="vocab-item"><span class="vocab-word">écran</span> - screen</div>
+            <div class="vocab-item"><span class="vocab-word">se dégager</span> - to free itself, to emerge</div>
+            <div class="vocab-item"><span class="vocab-word">adhérer</span> - to adhere, to cling</div>
+        </div>
+        <div class="note">
+            <strong>Note:</strong> Les aubépines sont associées à Gilberte et aux premières émotions amoureuses. Proust explore comment la beauté naturelle éveille des sentiments qu'on ne peut pas tout à fait saisir.
+        </div>
+    </div>
+
+    <footer>
+        <p>Bonne lecture et bon courage avec votre redécouverte du français!</p>
+        <p style="margin-top: 10px; font-size: 0.9em;">
+            "Le temps perdu peut être retrouvé."
+        </p>
+    </footer>
+
+    <script>
+        function togglePassage(passageId) {
+            const passage = document.getElementById(passageId);
+            passage.classList.toggle('show-english');
+        }
+
+        function toggleAll() {
+            const passages = document.querySelectorAll('.passage');
+            const firstPassage = passages[0];
+            const shouldShowEnglish = !firstPassage.classList.contains('show-english');
+            
+            passages.forEach(passage => {
+                if (shouldShowEnglish) {
+                    passage.classList.add('show-english');
+                } else {
+                    passage.classList.remove('show-english');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
