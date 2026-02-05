@@ -1,0 +1,1752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Course Development Workflow Tutorial for BOLLI SGLs</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 30px;
+            line-height: 1.7;
+            background: #f5f5f7;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.2em;
+        }
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+        .intro-box {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-left: 6px solid #11998e;
+        }
+        .intro-box h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .workflow-overview {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        .workflow-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .workflow-card {
+            background: linear-gradient(135deg, #e8f4fd 0%, #f0e8fd 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #667eea;
+            position: relative;
+        }
+        .workflow-card .step-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .workflow-card h3 {
+            margin-top: 15px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .workflow-card p {
+            margin: 0;
+            color: #666;
+            font-size: 0.95em;
+        }
+        .progress-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .progress-container {
+            background: #e9ecef;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-weight: bold;
+        }
+        .lesson {
+            background: white;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-left: 6px solid #667eea;
+        }
+        .lesson.collapsible .lesson-header {
+            cursor: pointer;
+            user-select: none;
+            padding: 10px;
+            margin: -10px -10px 20px -10px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+        .lesson.collapsible .lesson-header:hover {
+            background-color: #e8f4fd;
+        }
+        .lesson.collapsible .lesson-header::after {
+            content: "▼";
+            font-size: 1.5em;
+            margin-left: 20px;
+            color: #667eea;
+            transition: transform 0.3s;
+            font-weight: bold;
+        }
+        .lesson.collapsible.collapsed .lesson-header::after {
+            transform: rotate(-90deg);
+        }
+        .lesson.collapsible .lesson-content {
+            display: block;
+        }
+        .lesson.collapsible.collapsed .lesson-content {
+            display: none;
+        }
+        .lesson-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .lesson-number {
+            background: #11998e;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        .lesson-title {
+            margin: 0;
+            font-size: 1.6em;
+            color: #333;
+        }
+        .lesson-description {
+            margin-top: 8px;
+            color: #666;
+            font-size: 0.95em;
+        }
+        .difficulty {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 10px;
+        }
+        .foundational {
+            background: #d4edda;
+            color: #155724;
+        }
+        .core {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        .advanced {
+            background: #fff3cd;
+            color: #856404;
+        }
+        h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        h3 {
+            color: #495057;
+            margin-top: 25px;
+        }
+        .tip-box {
+            background: #e8f4fd;
+            border-left: 4px solid #1e88e5;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .tip-box h4 {
+            margin: 0 0 10px 0;
+            color: #1e88e5;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #f57c00;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .warning-box h4 {
+            margin: 0 0 10px 0;
+            color: #f57c00;
+        }
+        .example-box {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .example-box h4 {
+            margin: 0 0 15px 0;
+            color: #495057;
+        }
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            font-size: 0.95em;
+            line-height: 1.7;
+        }
+        .doc-tabs {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .doc-tab {
+            padding: 10px 20px;
+            background: #e9ecef;
+            border-radius: 6px;
+            font-weight: 600;
+            color: #495057;
+            cursor: default;
+        }
+        .doc-tab.active {
+            background: #667eea;
+            color: white;
+        }
+        .screenshot {
+            max-width: 100%;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+            margin: 20px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .step-list {
+            counter-reset: step-counter;
+            list-style: none;
+            padding-left: 0;
+        }
+        .step-list li {
+            counter-increment: step-counter;
+            margin-bottom: 25px;
+            padding-left: 60px;
+            position: relative;
+        }
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .key-concept {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .key-concept h4 {
+            margin: 0 0 10px 0;
+        }
+        .button-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .button-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            .header {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.6em;
+            }
+            .workflow-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎓 AI Course Development Workflow</h1>
+        <div class="subtitle">A Systematic Approach to Building BOLLI Courses with AI</div>
+        <div style="margin-top: 15px; font-size: 0.9em; opacity: 0.9;">
+            From "Fruit Salad" to Finished Course: Master the Six-Step Process
+        </div>
+    </div>
+
+    <div class="intro-box">
+        <h2>Welcome to Your AI Course Development Journey</h2>
+        <p>This tutorial guides you through a proven workflow for leveraging AI to develop engaging BOLLI courses. You'll learn how to transform your rough ideas—what we call a "fruit salad of words"—into structured, polished course materials using Claude AI and Google Docs.</p>
+        
+        <p style="margin-top: 15px;"><strong>What You'll Master:</strong></p>
+        <ul>
+            <li>Converting unorganized thoughts into structured course outlines</li>
+            <li>Crafting effective AI prompts that produce high-quality results</li>
+            <li>Using Google Docs tabs to organize your development process</li>
+            <li>Creating interactive HTML visualizations of your course structure</li>
+            <li>Collaborating effectively with colleagues on course development</li>
+        </ul>
+    </div>
+
+    <div class="workflow-overview">
+        <h2>The Six-Step Workflow Overview</h2>
+        <p>This workflow moves you systematically from initial ideas to collaborative refinement. Each step builds on the previous one, creating a clear path from concept to completion.</p>
+        
+        <div class="workflow-steps">
+            <div class="workflow-card">
+                <div class="step-number">1</div>
+                <h3>Initial Narrative</h3>
+                <p>Create your "fruit salad of words"—rough notes, ideas, themes, like "scribbling in book margins"</p>
+            </div>
+            
+            <div class="workflow-card">
+                <div class="step-number">2</div>
+                <h3>Craft Prompt</h3>
+                <p>Specific constraints guide AI output: "Create 10-week course, 90-min sessions, scaffold topics"</p>
+            </div>
+            
+            <div class="workflow-card">
+                <div class="step-number">3</div>
+                <h3>AI Processing</h3>
+                <p>AI synthesizes your input + contextual knowledge, organizing and expanding themes</p>
+            </div>
+            
+            <div class="workflow-card">
+                <div class="step-number">4</div>
+                <h3>Export to Google Docs</h3>
+                <p>"Get out of the chatbot window"—move to editable document format for real work</p>
+            </div>
+            
+            <div class="workflow-card">
+                <div class="step-number">5</div>
+                <h3>Create Visualization</h3>
+                <p>Generate HTML data visualization of course structure for interactive exploration</p>
+            </div>
+            
+            <div class="workflow-card">
+                <div class="step-number">6</div>
+                <h3>Share & Collaborate</h3>
+                <p>Package narrative, prompt, response, and visualization together for refinement</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="progress-bar">
+        <div style="margin-bottom: 10px; color: #495057; font-weight: 600;">Your Progress</div>
+        <div class="progress-container">
+            <div class="progress-fill" id="progress">0%</div>
+        </div>
+        <div style="margin-top: 10px; color: #6c757d; font-size: 0.9em;">Complete lessons to track your progress</div>
+    </div>
+
+    <div class="lesson collapsible collapsed">
+        <div class="lesson-header">
+            <div class="lesson-number">1</div>
+            <div style="flex-grow: 1;">
+                <h2 class="lesson-title">Step 1: Creating Your Initial Narrative
+                    <span class="difficulty foundational">Foundational</span>
+                </h2>
+                <div class="lesson-description">Start with your "fruit salad of words"—the raw material of your course</div>
+            </div>
+        </div>
+        
+        <div class="lesson-content">
+            <h3>What is a "Fruit Salad of Words"?</h3>
+            <p>Your initial narrative is an unorganized collection of thoughts, themes, questions, and ideas—exactly as they occur to you. Don't worry about structure, grammar, or completeness. Think of it as:</p>
+            
+            <ul>
+                <li><strong>Scribbling in book margins</strong> – quick notes and reactions</li>
+                <li><strong>Stream of consciousness</strong> – following your natural thought process</li>
+                <li><strong>Brainstorm notes</strong> – capturing what excites you about the topic</li>
+                <li><strong>Personal observations</strong> – your unique perspective and insights</li>
+            </ul>
+
+            <div class="key-concept">
+                <h4>💡 Key Concept: Embrace the Mess</h4>
+                <p>The power of this approach is that you DON'T need to organize your thoughts first. AI excels at finding patterns and creating structure from disorganized input. Your job is simply to capture what you know and care about.</p>
+            </div>
+
+            <h3>How to Create Your Narrative</h3>
+            <ol class="step-list">
+                <li>
+                    <strong>Choose your medium</strong>
+                    <p>Start wherever you're most comfortable—a blank document, voice memo transcription, handwritten notes you scan, or direct typing into Claude.</p>
+                </li>
+                <li>
+                    <strong>Dump your knowledge</strong>
+                    <p>Write everything you know about the topic without worrying about order or completeness. Include questions you want to explore, themes that interest you, and specific examples you want to cover.</p>
+                </li>
+                <li>
+                    <strong>Add your passion</strong>
+                    <p>Include why this topic matters to you, what excites you about teaching it, and what you hope students will take away. This personal connection is what makes your course unique.</p>
+                </li>
+                <li>
+                    <strong>Note any constraints</strong>
+                    <p>Mention practical considerations like course length, student background, or specific BOLLI requirements, but don't let these limit your brainstorming.</p>
+                </li>
+            </ol>
+
+            <div class="example-box">
+                <h4>📝 Example: Religion and Politics Course Narrative</h4>
+                <p style="font-style: italic; color: #666; margin-bottom: 15px;">Here's how one SGL started their course development:</p>
+                
+                <div style="background: white; padding: 15px; border-radius: 6px;">
+                    <p>"I'm interested in church-state relations in America. How religion has always been part of politics but not always in reactionary ways. Abolition, women's suffrage, Civil Rights—all had religious foundations. The Puritans, obviously. But also look at modern evangelical influence, the Catholic bishops, how Jewish and Muslim communities engage politically.</p>
+                    
+                    <p>I want students to understand this isn't new—religion and politics have always intersected. Maybe start with Puritans? Cover different time periods. Progressive religion vs conservative religion. Definitely need to address Project 2025 and Opus Dei since that's in the news.</p>
+                    
+                    <p>10 weeks, 90 minutes each. BOLLI students are 55+, well-educated, politically aware but might not know religious history details. Need to be balanced—this topic can be divisive."</p>
+                </div>
+                
+                <p style="margin-top: 15px;"><strong>Notice:</strong> This narrative is conversational, includes questions, mentions specific examples, notes constraints, and reveals the instructor's passion and concerns. It's perfect AI input material!</p>
+            </div>
+
+            <div class="tip-box">
+                <h4>💡 Pro Tips for Your Narrative</h4>
+                <ul>
+                    <li><strong>Length doesn't matter</strong> – Some narratives are 100 words, others 1000+. Write until you've captured your thinking.</li>
+                    <li><strong>Include questions</strong> – "Should I cover X?" or "How do I balance Y and Z?" AI can help answer these.</li>
+                    <li><strong>Use examples</strong> – Specific cases, stories, or instances you want to include</li>
+                    <li><strong>Express uncertainty</strong> – "I'm not sure how to..." or "Maybe..." shows where you need AI support</li>
+                </ul>
+            </div>
+
+            <h3>Setting Up Your Google Doc</h3>
+            <p>You'll document this entire workflow in a Google Doc with multiple tabs. Here's how to set it up:</p>
+
+            <ol class="step-list">
+                <li>
+                    <strong>Create a new Google Doc</strong>
+                    <p>Go to docs.google.com and create a new document. Give it a clear name like "Religion and Politics - Course Development"</p>
+                </li>
+                <li>
+                    <strong>Create your first tab: "Narrative"</strong>
+                    <p>In the left sidebar, click the "+" next to "Document tabs" to create a new tab. Name it "Narrative".</p>
+                </li>
+                <li>
+                    <strong>Write your narrative</strong>
+                    <p>Type your fruit salad of words directly into this tab. Don't worry about formatting—just capture your thoughts.</p>
+                </li>
+            </ol>
+
+            <div class="doc-tabs">
+                <div class="doc-tab active">📝 Narrative</div>
+                <div class="doc-tab">✏️ Prompt</div>
+                <div class="doc-tab">💬 Response</div>
+                <div class="doc-tab">🗣️ Discussion</div>
+            </div>
+
+            <div class="warning-box">
+                <h4>⚠️ Important: Save Your Work Continuously</h4>
+                <p>Google Docs auto-saves, but get in the habit of checking that "All changes saved to Drive" appears at the top. This document becomes your course development record.</p>
+            </div>
+
+            <div class="navigation-buttons">
+                <button class="button-primary" onclick="markComplete(1)">✓ Mark as Complete</button>
+                <button class="button-primary" onclick="scrollToLesson(2)">Next: Craft Your Prompt →</button>
+                <button class="button-primary" onclick="closeSection(1)" style="background: #6c757d;">Close Section ▲</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="lesson collapsible collapsed">
+        <div class="lesson-header">
+            <div class="lesson-number">2</div>
+            <div style="flex-grow: 1;">
+                <h2 class="lesson-title">Step 2: Crafting Your AI Prompt
+                    <span class="difficulty core">Core</span>
+                </h2>
+                <div class="lesson-description">Transform your narrative into a structured request that guides AI output</div>
+            </div>
+        </div>
+        
+        <div class="lesson-content">
+            <h3>What Makes a Good Course Development Prompt?</h3>
+            <p>A prompt is your instruction set to the AI. Unlike your free-flowing narrative, the prompt provides specific constraints and requirements that shape the AI's response. Think of it as the difference between brainstorming and giving an assignment.</p>
+
+            <div class="key-concept">
+                <h4>💡 Key Concept: Constraints Create Quality</h4>
+                <p>Paradoxically, the more specific your constraints, the better your results. "Create a course" is too vague. "Create a 10-week course, 90-minute sessions, progressively building from foundational concepts" gives AI clear parameters to work within.</p>
+            </div>
+
+            <h3>Essential Prompt Components</h3>
+            
+            <div class="tip-box">
+                <h4>✅ What to Include in Your Prompt</h4>
+                <ol>
+                    <li><strong>Course structure</strong> – Number of weeks/sessions, session length</li>
+                    <li><strong>Pedagogical approach</strong> – How topics should scaffold and build</li>
+                    <li><strong>Output format</strong> – What you want to receive (outline, session descriptions, etc.)</li>
+                    <li><strong>Audience context</strong> – Student background and expectations</li>
+                    <li><strong>Specific requirements</strong> – Any BOLLI guidelines or personal preferences</li>
+                    <li><strong>Reference to your narrative</strong> – Explicit instruction to use your input</li>
+                </ol>
+            </div>
+
+            <h3>Building Your Prompt Step by Step</h3>
+
+            <ol class="step-list">
+                <li>
+                    <strong>Create the "Prompt" tab in your Google Doc</strong>
+                    <p>Add a second tab to your document and name it "Prompt". This keeps your materials organized and makes them easy to reference later.</p>
+                </li>
+                <li>
+                    <strong>Start with the structural requirements</strong>
+                    <p>Begin by stating the basic course parameters clearly.</p>
+                    <div class="code-block">
+Based on my narrative in the previous tab, please create a 10-week course outline. Each session should be 90 minutes long.
+                    </div>
+                </li>
+                <li>
+                    <strong>Specify pedagogical approach</strong>
+                    <p>Explain how you want topics organized and developed.</p>
+                    <div class="code-block">
+The course should scaffold topics, building on concepts introduced in earlier weeks. Start with foundational historical context before moving to contemporary issues.
+                    </div>
+                </li>
+                <li>
+                    <strong>Define output format</strong>
+                    <p>Be explicit about what you want to receive.</p>
+                    <div class="code-block">
+For each week, provide:
+- Week number and session title
+- 2-3 key learning objectives
+- Main topics to cover (4-5 bullet points)
+- Discussion questions for student engagement (2-3 questions)
+- Suggested readings or resources (optional)
+                    </div>
+                </li>
+                <li>
+                    <strong>Add audience and context notes</strong>
+                    <p>Help AI understand who you're teaching.</p>
+                    <div class="code-block">
+Keep in mind this is for BOLLI learners (ages 55+) who are educated and politically aware but may not have deep background in religious history. Maintain balanced, scholarly tone while addressing contemporary debates.
+                    </div>
+                </li>
+            </ol>
+
+            <div class="example-box">
+                <h4>📝 Complete Example Prompt</h4>
+                <p style="margin-bottom: 15px;">Here's how all these elements come together:</p>
+                
+                <div class="code-block" style="background: white; color: #333; border: 2px solid #dee2e6;">
+Based on my narrative in the "Narrative" tab, please create a 10-week course outline on religion and politics in America. Each session should be 90 minutes long.
+
+The course should scaffold topics, building concepts introduced in earlier weeks. Start with foundational historical context (Puritans, colonial period) before moving to 19th-20th century developments, then contemporary issues.
+
+For each week, provide:
+- Week number and session title
+- 2-3 key learning objectives
+- Main topics to cover (4-5 bullet points)
+- Discussion questions for student engagement (2-3 questions)
+- Suggested readings or resources
+
+Keep in mind this is for BOLLI learners (ages 55+) who are educated and politically aware but may not have deep background in religious history or theology. Maintain a balanced, scholarly tone while addressing contemporary debates. The goal is to help students understand the long historical relationship between religion and politics in America, not just current controversies.
+
+Please ensure the course addresses both progressive and conservative religious movements, and includes diverse faith traditions (Protestant, Catholic, Jewish, Muslim where relevant to political history).
+                </div>
+            </div>
+
+            <h3>Advanced Prompting Techniques</h3>
+
+            <div class="tip-box">
+                <h4>🎯 Refining Your Prompts</h4>
+                <ul>
+                    <li><strong>Be directive</strong> – Use imperative language: "Create," "Organize," "Include"</li>
+                    <li><strong>Use examples</strong> – "Like Week 3, each week should have..."</li>
+                    <li><strong>Request specific styles</strong> – "Write session titles that are engaging but scholarly"</li>
+                    <li><strong>Build in flexibility</strong> – "Suggest alternatives for weeks that might need more time"</li>
+                    <li><strong>Reference SGL competencies</strong> – Connect to BOLLI's course development framework</li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <h4>⚠️ Common Prompt Pitfalls to Avoid</h4>
+                <ul>
+                    <li><strong>Being too vague</strong> – "Create a good course" doesn't give AI enough direction</li>
+                    <li><strong>Contradictory instructions</strong> – Asking for both "brief overview" and "comprehensive detail"</li>
+                    <li><strong>Assuming knowledge</strong> – Don't assume AI knows BOLLI-specific requirements unless you state them</li>
+                    <li><strong>Forgetting the narrative</strong> – Always reference your initial narrative so AI uses your ideas</li>
+                </ul>
+            </div>
+
+            <h3>Testing and Iterating</h3>
+            <p>Your first prompt might not be perfect, and that's okay! The workflow is iterative. You can:</p>
+            <ul>
+                <li>Run your prompt and see what you get</li>
+                <li>Refine the prompt based on the results</li>
+                <li>Add clarifying constraints</li>
+                <li>Request modifications to specific sections</li>
+            </ul>
+
+            <div class="doc-tabs">
+                <div class="doc-tab">📝 Narrative</div>
+                <div class="doc-tab active">✏️ Prompt</div>
+                <div class="doc-tab">💬 Response</div>
+                <div class="doc-tab">🗣️ Discussion</div>
+            </div>
+
+            <div class="navigation-buttons">
+                <button class="button-primary" onclick="scrollToLesson(1)">← Previous: Initial Narrative</button>
+                <button class="button-primary" onclick="markComplete(2)">✓ Mark as Complete</button>
+                <button class="button-primary" onclick="scrollToLesson(3)">Next: AI Processing →</button>
+                <button class="button-primary" onclick="closeSection(2)" style="background: #6c757d;">Close Section ▲</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="lesson collapsible collapsed">
+        <div class="lesson-header">
+            <div class="lesson-number">3</div>
+            <div style="flex-grow: 1;">
+                <h2 class="lesson-title">Step 3: AI Processing & Response
+                    <span class="difficulty core">Core</span>
+                </h2>
+                <div class="lesson-description">Understand how AI synthesizes your input with its training data</div>
+            </div>
+        </div>
+        
+        <div class="lesson-content">
+            <h3>What Happens During AI Processing?</h3>
+            <p>When you submit your narrative and prompt to Claude AI, something remarkable happens: the AI doesn't just reorganize your words—it synthesizes your input with its contextual knowledge from training data, organizing and expanding your themes in sophisticated ways.</p>
+
+            <div class="key-concept">
+                <h4>💡 Key Concept: Synthesis, Not Just Organization</h4>
+                <p>AI processing involves three simultaneous operations:</p>
+                <ul style="margin: 10px 0;">
+                    <li><strong>Pattern Recognition</strong> – Identifying themes and relationships in your narrative</li>
+                    <li><strong>Knowledge Integration</strong> – Drawing from vast training data to contextualize your ideas</li>
+                    <li><strong>Structured Output</strong> – Organizing everything according to your prompt specifications</li>
+                </ul>
+                <p>This is why your "fruit salad of words" can become a coherent course outline—AI finds the underlying structure.</p>
+            </div>
+
+            <h3>Submitting Your Request to Claude</h3>
+
+            <ol class="step-list">
+                <li>
+                    <strong>Open Claude AI</strong>
+                    <p>Go to claude.ai (use your BOLLI-provided account or personal account)</p>
+                </li>
+                <li>
+                    <strong>Start a new conversation</strong>
+                    <p>Click "New conversation" to ensure a clean context. Each course development should have its own conversation.</p>
+                </li>
+                <li>
+                    <strong>Submit your narrative first</strong>
+                    <p>Copy your narrative from the Google Doc "Narrative" tab and paste it into Claude. Add a simple instruction like: "Here's my initial thinking about a BOLLI course I want to develop. I'll follow up with specific instructions."</p>
+                </li>
+                <li>
+                    <strong>Then submit your prompt</strong>
+                    <p>In your next message, copy and paste your complete prompt from the "Prompt" tab. This two-step approach gives Claude clear context before instructions.</p>
+                </li>
+                <li>
+                    <strong>Wait for the response</strong>
+                    <p>Claude will process and generate a response. For a 10-week course outline, expect 1-2 minutes of processing time.</p>
+                </li>
+            </ol>
+
+            <div class="tip-box">
+                <h4>💡 Pro Tips for Better AI Responses</h4>
+                <ul>
+                    <li><strong>Provide context first</strong> – Always share your narrative before your prompt</li>
+                    <li><strong>Use Projects</strong> – Create a Claude Project for your course development to maintain context across sessions</li>
+                    <li><strong>Reference previous responses</strong> – In follow-ups, you can say "Based on the outline you just created..."</li>
+                    <li><strong>Be conversational</strong> – You can ask clarifying questions or request modifications naturally</li>
+                </ul>
+            </div>
+
+            <h3>What to Expect in the Response</h3>
+            <p>Claude's response will typically include:</p>
+            
+            <ul>
+                <li><strong>Structured outline</strong> – Organized according to your prompt specifications</li>
+                <li><strong>Expanded content</strong> – More detail than you provided, drawn from AI's knowledge base</li>
+                <li><strong>Balanced perspective</strong> – Attempt to address multiple viewpoints (especially important for sensitive topics)</li>
+                <li><strong>Suggested refinements</strong> – AI may note areas that could use more development</li>
+            </ul>
+
+            <div class="example-box">
+                <h4>📝 Example: What AI Adds to Your Narrative</h4>
+                <p><strong>Your narrative might say:</strong></p>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 6px; margin: 10px 0;">
+                    "Cover abolition movement and how churches were involved"
+                </div>
+                
+                <p><strong>AI response might expand this to:</strong></p>
+                <div style="background: #e8f4fd; padding: 15px; border-radius: 6px; margin: 10px 0;">
+                    <strong>Week 4: Religious Foundations of the Abolition Movement</strong>
+                    <p><strong>Learning Objectives:</strong></p>
+                    <ul>
+                        <li>Understand the theological arguments used by both abolitionists and slavery defenders</li>
+                        <li>Recognize the role of Black churches in the Underground Railroad</li>
+                        <li>Examine how Quakers and evangelical Protestants shaped anti-slavery advocacy</li>
+                    </ul>
+                    <p><strong>Topics:</strong></p>
+                    <ul>
+                        <li>Second Great Awakening and emergence of moral reform movements</li>
+                        <li>Quaker anti-slavery tradition and Underground Railroad networks</li>
+                        <li>AME Church and Black religious leadership in abolition</li>
+                        <li>Biblical interpretations: "Curse of Ham" vs. Exodus narratives</li>
+                        <li>Women's religious activism: Grimké sisters, Harriet Beecher Stowe</li>
+                    </ul>
+                </div>
+                
+                <p><strong>Notice how AI:</strong> Provides historical context you didn't explicitly mention, organizes ideas pedagogically, adds specific examples and figures, suggests theological framework for understanding debates, and maintains scholarly balance.</p>
+            </div>
+
+            <h3>Evaluating the AI Response</h3>
+            <p>When you receive your response, ask yourself:</p>
+            
+            <div class="tip-box">
+                <h4>✅ Quality Checklist</h4>
+                <ul>
+                    <li><strong>Accuracy</strong> – Are the facts and examples correct?</li>
+                    <li><strong>Completeness</strong> – Are all your key themes addressed?</li>
+                    <li><strong>Scaffolding</strong> – Do topics build logically from week to week?</li>
+                    <li><strong>Balance</strong> – For controversial topics, are multiple perspectives included?</li>
+                    <li><strong>BOLLI-appropriate</strong> – Is the content suitable for your audience?</li>
+                    <li><strong>Teaching-ready</strong> – Can you actually teach this, or does it need refinement?</li>
+                </ul>
+            </div>
+
+            <h3>Iterating on the Response</h3>
+            <p>The first response is rarely perfect. You can refine it by:</p>
+
+            <div class="code-block" style="background: white; color: #333; border: 2px solid #dee2e6;">
+<strong>Example follow-up requests:</strong>
+
+"Week 7 seems too ambitious. Can you split those topics across two weeks?"
+
+"Can you add more specific primary source suggestions for Week 3?"
+
+"The discussion questions feel too broad. Make them more focused on specific readings or concepts."
+
+"I'd like Week 5 to include more about Jewish political engagement. Can you expand that section?"
+            </div>
+
+            <div class="warning-box">
+                <h4>⚠️ Important: AI Has Limits</h4>
+                <ul>
+                    <li><strong>Verify specialized facts</strong> – AI can make errors, especially with niche topics</li>
+                    <li><strong>Add your expertise</strong> – You know your field better than AI; trust your judgment</li>
+                    <li><strong>Consider your students</strong> – AI doesn't know your specific BOLLI audience like you do</li>
+                    <li><strong>Maintain your voice</strong> – Don't let AI's style override your teaching personality</li>
+                </ul>
+            </div>
+
+            <div class="navigation-buttons">
+                <button class="button-primary" onclick="scrollToLesson(2)">← Previous: Craft Prompt</button>
+                <button class="button-primary" onclick="markComplete(3)">✓ Mark as Complete</button>
+                <button class="button-primary" onclick="scrollToLesson(4)">Next: Export to Google Docs →</button>
+                <button class="button-primary" onclick="closeSection(3)" style="background: #6c757d;">Close Section ▲</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="lesson collapsible collapsed">
+        <div class="lesson-header">
+            <div class="lesson-number">4</div>
+            <div style="flex-grow: 1;">
+                <h2 class="lesson-title">Step 4: Export to Google Docs
+                    <span class="difficulty foundational">Foundational</span>
+                </h2>
+                <div class="lesson-description">"Get out of the chatbot window" and into a real document</div>
+            </div>
+        </div>
+        
+        <div class="lesson-content">
+            <h3>Why Export to Google Docs?</h3>
+            <p>The chat interface in Claude is excellent for generating content, but it's not designed for serious editing, collaboration, or long-term storage. Think of it like using a restaurant kitchen—great for cooking, but you don't eat there. Moving to Google Docs is "getting out of the chatbot window" and into your actual workspace.</p>
+
+            <div class="key-concept">
+                <h4>💡 Key Concept: Chat vs. Document</h4>
+                <p>Claude's chat interface is for generation. Google Docs is for refinement. Once you have AI output that's close to what you need, export it immediately so you can:</p>
+                <ul style="margin: 10px 0;">
+                    <li>Edit with full word processing capabilities</li>
+                    <li>Share with colleagues for feedback</li>
+                    <li>Track changes and revisions over time</li>
+                    <li>Integrate with other course materials</li>
+                    <li>Create a permanent record of your work</li>
+                </ul>
+            </div>
+
+            <h3>The Export Process</h3>
+
+            <ol class="step-list">
+                <li>
+                    <strong>Create the "Response" tab in your Google Doc</strong>
+                    <p>Go back to your course development Google Doc (the one where you have "Narrative" and "Prompt" tabs). Create a third tab named "Response".</p>
+                </li>
+                <li>
+                    <strong>Copy Claude's output</strong>
+                    <p>In the Claude chat window, click the copy icon (📋) at the bottom of Claude's response. This copies the entire formatted response to your clipboard.</p>
+                    <div class="tip-box">
+                        <h4>💡 Pro Tip: Copying Options</h4>
+                        <p>Claude offers multiple copy options:</p>
+                        <ul>
+                            <li><strong>Copy</strong> – Copies formatted text with basic styling</li>
+                            <li><strong>Copy as Markdown</strong> – Preserves structure but removes formatting</li>
+                        </ul>
+                        <p>For most purposes, use the standard "Copy" option to maintain readability in Google Docs.</p>
+                    </div>
+                </li>
+                <li>
+                    <strong>Paste into the "Response" tab</strong>
+                    <p>Switch to your Google Doc's "Response" tab and paste (Cmd/Ctrl + V). The content will appear with basic formatting preserved.</p>
+                </li>
+                <li>
+                    <strong>Clean up the formatting</strong>
+                    <p>Google Docs may import some odd formatting. Quickly scan and:</p>
+                    <ul>
+                        <li>Ensure headings are properly styled (use "Normal text" dropdown)</li>
+                        <li>Check that bullet points are formatted correctly</li>
+                        <li>Verify that any tables or special formatting came through properly</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Add header information</strong>
+                    <p>At the top of the Response tab, add context:</p>
+                    <div class="code-block" style="background: white; color: #333; border: 2px solid #dee2e6;">
+<strong>Course Outline Generated by Claude AI</strong>
+Date: [today's date]
+Based on: Narrative and Prompt in previous tabs
+Status: Initial draft for review
+
+[Claude's response begins here...]
+                    </div>
+                </li>
+            </ol>
+
+            <div class="example-box">
+                <h4>📝 What Your Google Doc Structure Looks Like Now</h4>
+                <div class="doc-tabs">
+                    <div class="doc-tab">📝 Narrative</div>
+                    <div class="doc-tab">✏️ Prompt</div>
+                    <div class="doc-tab active">💬 Response</div>
+                    <div class="doc-tab">🗣️ Discussion</div>
+                </div>
+                
+                <p style="margin-top: 15px;">Your document now contains three complete records:</p>
+                <ol>
+                    <li><strong>Narrative</strong> – Your original "fruit salad of words"</li>
+                    <li><strong>Prompt</strong> – The specific instructions you gave Claude</li>
+                    <li><strong>Response</strong> – Claude's generated course outline</li>
+                </ol>
+                <p>This three-part structure creates a complete audit trail of your development process.</p>
+            </div>
+
+            <h3>Alternative Export Methods</h3>
+            <p>Besides copying and pasting, you can also:</p>
+
+            <div class="tip-box">
+                <h4>📤 Other Export Options</h4>
+                <ul>
+                    <li><strong>Claude's built-in export</strong> – Look for "Export" or "Share" options in the conversation menu (if available in your Claude version)</li>
+                    <li><strong>Create an Artifact</strong> – Ask Claude to "create this as an artifact" which provides a cleaner export experience</li>
+                    <li><strong>Save the conversation</strong> – Keep the Claude conversation link for future reference alongside your Google Doc</li>
+                </ul>
+            </div>
+
+            <h3>Now the Real Work Begins</h3>
+            <p>With your AI-generated outline in Google Docs, you can:</p>
+
+            <ul>
+                <li><strong>Edit freely</strong> – Rewrite, reorganize, add or remove content without affecting the original</li>
+                <li><strong>Add personal touches</strong> – Insert your teaching style, specific examples, personal anecdotes</li>
+                <li><strong>Refine learning objectives</strong> – Make them more specific and assessable</li>
+                <li><strong>Develop discussion questions</strong> – Add questions that reflect your teaching philosophy</li>
+                <li><strong>Research and verify</strong> – Check facts, add citations, confirm dates and details</li>
+                <li><strong>Format for BOLLI</strong> – Adjust to match BOLLI's course catalog requirements</li>
+            </ul>
+
+            <div class="warning-box">
+                <h4>⚠️ Critical Reminder: This is YOUR Course</h4>
+                <p>The AI-generated content is a starting point, not a finished product. You are the expert. Your job now is to:</p>
+                <ul>
+                    <li>Verify all factual content</li>
+                    <li>Add your unique insights and perspective</li>
+                    <li>Tailor to your specific BOLLI audience</li>
+                    <li>Ensure the course reflects your teaching strengths</li>
+                </ul>
+                <p>Think of AI as your research assistant who did the initial draft. You're the professor who makes it excellent.</p>
+            </div>
+
+            <h3>Linking Your Claude Conversation</h3>
+            <p>Before moving on, preserve the link to your Claude conversation:</p>
+
+            <ol class="step-list">
+                <li>
+                    <strong>Get the conversation URL</strong>
+                    <p>In Claude, look for the share icon or copy the URL from your browser address bar</p>
+                </li>
+                <li>
+                    <strong>Add it to your Google Doc</strong>
+                    <p>At the top of your "Response" tab, add a line:</p>
+                    <div class="code-block" style="background: white; color: #333; border: 2px solid #dee2e6;">
+Claude Conversation: [paste URL here]
+                    </div>
+                    <p>This allows you to return to the original conversation if you need to ask follow-up questions or generate additional variations.</p>
+                </li>
+            </ol>
+
+            <div class="navigation-buttons">
+                <button class="button-primary" onclick="scrollToLesson(3)">← Previous: AI Processing</button>
+                <button class="button-primary" onclick="markComplete(4)">✓ Mark as Complete</button>
+                <button class="button-primary" onclick="scrollToLesson(5)">Next: Create Visualization →</button>
+                <button class="button-primary" onclick="closeSection(4)" style="background: #6c757d;">Close Section ▲</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="lesson collapsible collapsed">
+        <div class="lesson-header">
+            <div class="lesson-number">5</div>
+            <div style="flex-grow: 1;">
+                <h2 class="lesson-title">Step 5: Create Interactive Visualization
+                    <span class="difficulty advanced">Advanced</span>
+                </h2>
+                <div class="lesson-description">Generate HTML visualization of your course structure for exploration</div>
+            </div>
+        </div>
+        
+        <div class="lesson-content">
+            <h3>Why Create a Visualization?</h3>
+            <p>A text outline is excellent for linear reading, but an interactive HTML visualization allows you and your colleagues to explore your course structure in a more dynamic way. You can:</p>
+
+            <ul>
+                <li>See the entire course at a glance</li>
+                <li>Collapse and expand sections to focus on specific weeks</li>
+                <li>Identify gaps or imbalances in topic distribution</li>
+                <li>Share an engaging preview with potential students or administrators</li>
+                <li>Navigate quickly between different parts of the course</li>
+            </ul>
+
+            <div class="key-concept">
+                <h4>💡 Key Concept: Data Visualization for Learning Design</h4>
+                <p>Visualizing your course structure helps you think differently about your content. Linear text emphasizes sequence; interactive visualization emphasizes relationships, proportions, and overall architecture. Both perspectives are valuable for course development.</p>
+            </div>
+
+            <h3>Creating Your Visualization with Claude</h3>
+
+            <ol class="step-list">
+                <li>
+                    <strong>Return to your Claude conversation</strong>
+                    <p>Go back to the conversation where you generated your course outline (use the link you saved in Step 4).</p>
+                </li>
+                <li>
+                    <strong>Request an HTML visualization</strong>
+                    <p>Use a prompt like this:</p>
+                    <div class="code-block" style="background: white; color: #333; border: 2px solid #dee2e6;">
+Please create an interactive HTML visualization of this course outline. Include:
+
+- BOLLI purple gradient branding (similar to my other materials)
+- Collapsible sections for each week
+- Clear visual hierarchy showing sessions, objectives, topics, and discussion questions
+- Smooth navigation between weeks
+- A course overview section at the top
+- Mobile-responsive design
+
+Make it visually appealing and easy to navigate, suitable for sharing with colleagues or presenting to students.
+                    </div>
+                </li>
+                <li>
+                    <strong>Review and request refinements</strong>
+                    <p>Claude will generate the HTML code. You can ask for modifications:</p>
+                    <ul>
+                        <li>"Make the purple gradient more subtle"</li>
+                        <li>"Add a table of contents with jump links"</li>
+                        <li>"Include a timeline view showing the progression"</li>
+                        <li>"Add icons for different types of content"</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Save the HTML file</strong>
+                    <p>Claude will typically create this as an "Artifact" with a download option. Save it with a clear name like "Religion_Politics_Course_Visualization.html"</p>
+                </li>
+                <li>
+                    <strong>Test the visualization</strong>
+                    <p>Open the HTML file in your web browser to ensure:</p>
+                    <ul>
+                        <li>All sections expand and collapse properly</li>
+                        <li>Navigation works smoothly</li>
+                        <li>The design is readable and attractive</li>
+                        <li>No content is cut off or improperly formatted</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <div class="tip-box">
+                <h4>💡 Pro Tips for Effective Visualizations</h4>
+                <ul>
+                    <li><strong>Keep it self-contained</strong> – The HTML file should work offline without external dependencies</li>
+                    <li><strong>Match your brand</strong> – Use BOLLI's purple gradient and professional styling</li>
+                    <li><strong>Test on mobile</strong> – Many colleagues will view this on tablets or phones</li>
+                    <li><strong>Include metadata</strong> – Add course title, your name, date created in the visualization</li>
+                    <li><strong>Version control</strong> – Save different versions as you refine your course</li>
+                </ul>
+            </div>
+
+            <h3>Storing Your Visualization</h3>
+            <p>You have several options for storing and sharing your HTML visualization:</p>
+
+            <div class="example-box">
+                <h4>📁 Storage Options</h4>
+                <ol>
+                    <li>
+                        <strong>Google Drive</strong>
+                        <ul>
+                            <li>Upload the HTML file to Google Drive</li>
+                            <li>Share with colleagues using Google's sharing permissions</li>
+                            <li>They can download and open it locally</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Link from Google Doc</strong>
+                        <ul>
+                            <li>Upload to Google Drive first</li>
+                            <li>Get the shareable link</li>
+                            <li>Add the link to your course development Google Doc</li>
+                            <li>Colleagues can click through to view the visualization</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Email attachment</strong>
+                        <ul>
+                            <li>Attach the HTML file to emails</li>
+                            <li>Recipients can open directly in their browser</li>
+                            <li>Good for formal course proposals</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>GitHub (for live web hosting)</strong>
+                        <ul>
+                            <li>Create a free GitHub account at github.com</li>
+                            <li>Create a new repository and upload your HTML file</li>
+                            <li>Enable GitHub Pages in repository settings</li>
+                            <li>Share the live URL - anyone can view without downloading</li>
+                            <li>Excellent for public course showcases and portfolios</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <h3>What Makes a Good Course Visualization?</h3>
+
+            <div class="tip-box">
+                <h4>✅ Quality Checklist for Visualizations</h4>
+                <ul>
+                    <li><strong>Clear hierarchy</strong> – Easy to distinguish weeks, topics, subtopics</li>
+                    <li><strong>Readable typography</strong> – Not too small, good line spacing, clear headings</li>
+                    <li><strong>Intuitive navigation</strong> – Obvious how to expand/collapse, scroll, navigate</li>
+                    <li><strong>Visual consistency</strong> – Unified color scheme and styling throughout</li>
+                    <li><strong>Responsive design</strong> – Works on desktop, tablet, and phone</li>
+                    <li><strong>Fast loading</strong> – Opens quickly without delays</li>
+                    <li><strong>Accessible</strong> – Works with screen readers, keyboard navigation</li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <h4>⚠️ Common Visualization Mistakes</h4>
+                <ul>
+                    <li><strong>Too much information</strong> – Showing everything at once is overwhelming. Use collapsible sections!</li>
+                    <li><strong>Poor color contrast</strong> – Light text on light backgrounds is hard to read</li>
+                    <li><strong>No mobile optimization</strong> – Many people will view on phones/tablets</li>
+                    <li><strong>Broken functionality</strong> – Always test before sharing</li>
+                    <li><strong>Missing context</strong> – Include course title, instructor name, term</li>
+                </ul>
+            </div>
+
+            <h3>Advanced: Iterating on Your Visualization</h3>
+            <p>As your course develops, you can create updated visualizations. Consider:</p>
+
+            <ul>
+                <li><strong>Version comparison views</strong> – Show how the course evolved</li>
+                <li><strong>Student-facing version</strong> – Simplified view for course preview</li>
+                <li><strong>Detailed instructor version</strong> – Include teaching notes, timing, resources</li>
+                <li><strong>Session-specific deep dives</strong> – Expand individual weeks into full lesson plans</li>
+            </ul>
+
+            <div class="example-box">
+                <h4>📝 Example: Adding the Visualization to Your Doc</h4>
+                <p>In your Google Doc, at the end of the "Response" tab, add:</p>
+                <div class="code-block" style="background: white; color: #333; border: 2px solid #dee2e6;">
+<strong>Interactive Course Visualization</strong>
+
+An HTML visualization of this course structure is available here:
+[Link to Google Drive file]
+
+This visualization provides:
+- Collapsible view of all 10 weeks
+- Visual hierarchy of topics and learning objectives
+- Easy navigation between sessions
+- Mobile-responsive design
+
+Last updated: [date]
+                </div>
+            </div>
+
+            <div class="navigation-buttons">
+                <button class="button-primary" onclick="scrollToLesson(4)">← Previous: Export to Docs</button>
+                <button class="button-primary" onclick="markComplete(5)">✓ Mark as Complete</button>
+                <button class="button-primary" onclick="scrollToLesson(6)">Next: Share & Collaborate →</button>
+                <button class="button-primary" onclick="closeSection(5)" style="background: #6c757d;">Close Section ▲</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="lesson collapsible collapsed">
+        <div class="lesson-header">
+            <div class="lesson-number">6</div>
+            <div style="flex-grow: 1;">
+                <h2 class="lesson-title">Step 6: Share & Collaborate
+                    <span class="difficulty core">Core</span>
+                </h2>
+                <div class="lesson-description">Package everything together for collaborative refinement</div>
+            </div>
+        </div>
+        
+        <div class="lesson-content">
+            <h3>Why Collaboration Matters</h3>
+            <p>Course development benefits enormously from external perspectives. Your colleagues can:</p>
+
+            <ul>
+                <li>Spot gaps or redundancies you might have missed</li>
+                <li>Suggest readings or resources from their expertise</li>
+                <li>Identify potential sensitive topics that need careful handling</li>
+                <li>Offer pedagogical improvements based on their teaching experience</li>
+                <li>Help refine learning objectives and assessment approaches</li>
+                <li>Validate that your course meets BOLLI standards</li>
+            </ul>
+
+            <div class="key-concept">
+                <h4>💡 Key Concept: The Discussion Tab</h4>
+                <p>The fourth tab in your Google Doc—"Discussion"—is where collaborative refinement happens. This is your space for capturing feedback, tracking revisions, and documenting decisions. Think of it as your course development journal.</p>
+            </div>
+
+            <h3>Setting Up for Collaboration</h3>
+
+            <ol class="step-list">
+                <li>
+                    <strong>Create the "Discussion" tab</strong>
+                    <p>Add a fourth tab to your Google Doc and name it "Discussion". This tab will capture all collaborative feedback and your responses.</p>
+                </li>
+                <li>
+                    <strong>Add a header to structure feedback</strong>
+                    <p>At the top of the Discussion tab, create a template for organizing feedback:</p>
+                    <div class="code-block" style="background: white; color: #333; border: 2px solid #dee2e6;">
+<strong>Course Development Discussion & Feedback</strong>
+
+<strong>Review Cycle 1 – [Date]</strong>
+
+<strong>Reviewer:</strong> [Name]
+<strong>Date:</strong> [Date]
+<strong>Overall Assessment:</strong>
+[General thoughts on course direction, strengths, concerns]
+
+<strong>Specific Feedback by Week:</strong>
+[Week-by-week comments]
+
+<strong>Action Items:</strong>
+[Specific changes to make based on this feedback]
+
+---
+                    </div>
+                </li>
+                <li>
+                    <strong>Prepare your sharing package</strong>
+                    <p>Your complete package should include:</p>
+                    <ul>
+                        <li>The Google Doc with all four tabs (Narrative, Prompt, Response, Discussion)</li>
+                        <li>The HTML visualization file (link or attachment)</li>
+                        <li>The Claude conversation link (for reference)</li>
+                        <li>A brief cover note explaining what you're sharing and what kind of feedback you're seeking</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Set Google Doc permissions</strong>
+                    <p>Click "Share" in Google Docs and:</p>
+                    <ul>
+                        <li>Add reviewers' email addresses</li>
+                        <li>Set permissions to "Can comment" (not "Can edit") to preserve your original</li>
+                        <li>Enable "Notify people" so they receive an email alert</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <div class="doc-tabs">
+                <div class="doc-tab">📝 Narrative</div>
+                <div class="doc-tab">✏️ Prompt</div>
+                <div class="doc-tab">💬 Response</div>
+                <div class="doc-tab active">🗣️ Discussion</div>
+            </div>
+
+            <h3>Writing Your Sharing Request</h3>
+
+            <div class="example-box">
+                <h4>📧 Example Sharing Email</h4>
+                <div class="code-block" style="background: white; color: #333; border: 2px solid #dee2e6;">
+Subject: Feedback Request - Religion & Politics Course Draft
+
+Hi [Colleague],
+
+I've been developing a new BOLLI course on religion and politics in America, and I'd greatly value your feedback. I've used AI to help structure my initial ideas, and now I need expert eyes to review the result.
+
+<strong>What I'm sharing:</strong>
+- Google Doc with my complete development process (narrative, prompt, AI-generated outline)
+- Interactive HTML visualization of the course structure
+
+<strong>What I'm hoping you can review:</strong>
+- Overall course structure and scaffolding
+- Balance and coverage of different religious traditions
+- Appropriateness for BOLLI's 55+ audience
+- Suggested readings or resources I might have missed
+- Any sensitive areas that need more careful framing
+
+<strong>Please use:</strong>
+- Google Doc comments for specific line edits
+- The "Discussion" tab for broader feedback and suggestions
+
+Timeline: I'm hoping to finalize this by [date] for [submission deadline]. Any feedback by [earlier date] would be immensely helpful.
+
+Thank you so much for your time and expertise!
+
+[Your name]
+                </div>
+            </div>
+
+            <h3>Managing Feedback</h3>
+            <p>As feedback arrives, use a systematic approach:</p>
+
+            <div class="tip-box">
+                <h4>📋 Feedback Management System</h4>
+                <ol>
+                    <li><strong>Collect all feedback first</strong> – Don't immediately revise after each piece of feedback. Gather everything to see patterns.</li>
+                    <li><strong>Categorize comments</strong> – Sort into: Must Address, Should Consider, Nice to Have</li>
+                    <li><strong>Look for consensus</strong> – Multiple people noting the same issue is a strong signal</li>
+                    <li><strong>Document decisions</strong> – In the Discussion tab, explain why you accepted or declined each suggestion</li>
+                    <li><strong>Create revision plan</strong> – List specific changes you'll make, in priority order</li>
+                </ol>
+            </div>
+
+            <h3>Using the Discussion Tab Effectively</h3>
+
+            <div class="example-box">
+                <h4>📝 Example Discussion Tab Entry</h4>
+                <div class="code-block" style="background: white; color: #333; border: 2px solid #dee2e6;">
+<strong>Review Cycle 1 – February 8, 2026</strong>
+
+<strong>Reviewer:</strong> Dr. Sarah Cohen (Religious Studies)
+<strong>Date:</strong> February 8, 2026
+
+<strong>Overall Assessment:</strong>
+Strong foundation with good historical progression. Balance between different traditions is well-handled. Main concern is depth vs. breadth—might be trying to cover too much in 10 weeks.
+
+<strong>Specific Feedback by Week:</strong>
+
+Week 2 (Colonial Period): "Consider focusing on just Puritans and Quakers rather than trying to cover all colonial religious groups. You need time to develop these stories properly."
+→ <strong>ACCEPTED</strong> – Will streamline Week 2 to focus on these two traditions, move others to comparative discussion in later weeks.
+
+Week 5 (Civil War): "Missing discussion of Catholic Church's position—this was significant given immigration patterns."
+→ <strong>ACCEPTED</strong> – Will add section on Catholic perspectives, particularly relevant given Irish and German Catholic populations.
+
+Week 8 (Contemporary Issues): "Project 2025 may be too current/controversial for balanced treatment."
+→ <strong>UNDER CONSIDERATION</strong> – Need to think about this. Will consult with BOLLI curriculum committee on handling very recent political movements.
+
+<strong>Action Items:</strong>
+1. Revise Week 2 to narrow focus (HIGH PRIORITY)
+2. Add Catholic perspectives to Week 5 (HIGH PRIORITY)
+3. Research alternative approaches for Week 8 or consult committee (MEDIUM)
+4. Consider splitting into two 5-week courses if depth remains concern (FUTURE CONSIDERATION)
+
+---
+                </div>
+            </div>
+
+            <h3>Iterating Based on Feedback</h3>
+            <p>After collecting and organizing feedback:</p>
+
+            <ol class="step-list">
+                <li>
+                    <strong>Update your Response tab</strong>
+                    <p>Make revisions directly in the Google Doc's Response tab. Use Track Changes if you want to show evolution, or just edit directly for a clean version.</p>
+                </li>
+                <li>
+                    <strong>Return to Claude if needed</strong>
+                    <p>For major restructuring, you might go back to Claude with refined prompts:</p>
+                    <div class="code-block" style="background: white; color: #333; border: 2px solid #dee2e6;">
+"Based on reviewer feedback, I need to revise Week 2. Instead of covering all colonial religious groups, please focus deeply on just Puritans and Quakers. Expand the discussion of how these two traditions shaped early American political thought, their different approaches to church-state relations, and their lasting influence. Same format as before: objectives, topics, discussion questions."
+                    </div>
+                </li>
+                <li>
+                    <strong>Update your visualization</strong>
+                    <p>Create a new version of your HTML visualization reflecting the changes. Keep both versions (v1 and v2) to show evolution.</p>
+                </li>
+                <li>
+                    <strong>Share revised version</strong>
+                    <p>Send updated materials back to reviewers, highlighting major changes you made based on their input. This closes the feedback loop and builds collaborative relationships.</p>
+                </li>
+            </ol>
+
+            <div class="warning-box">
+                <h4>⚠️ Managing Conflicting Feedback</h4>
+                <p>Sometimes reviewers will disagree. When this happens:</p>
+                <ul>
+                    <li><strong>Acknowledge both perspectives</strong> – Document the disagreement in your Discussion tab</li>
+                    <li><strong>Make your reasoned choice</strong> – You're the course designer; ultimately it's your decision</li>
+                    <li><strong>Explain your reasoning</strong> – Help reviewers understand why you chose one approach over another</li>
+                    <li><strong>Consider hybrid solutions</strong> – Sometimes you can incorporate elements from both suggestions</li>
+                </ul>
+            </div>
+
+            <h3>Final Course Package</h3>
+            <p>When your course is finalized, your complete package includes:</p>
+
+            <ul>
+                <li><strong>Google Doc (4 tabs)</strong> – Complete development record
+                    <ul>
+                        <li>Narrative: Your original thinking</li>
+                        <li>Prompt: Instructions to AI</li>
+                        <li>Response: Final course outline (revised)</li>
+                        <li>Discussion: Feedback and decisions</li>
+                    </ul>
+                </li>
+                <li><strong>HTML Visualization</strong> – Interactive course structure view</li>
+                <li><strong>Claude Conversation Link</strong> – Reference to original generation</li>
+                <li><strong>BOLLI Submission Materials</strong> – Whatever your institution requires (course description, learning objectives, etc.)</li>
+            </ul>
+
+            <div class="tip-box">
+                <h4>💡 Pro Tips for Effective Collaboration</h4>
+                <ul>
+                    <li><strong>Be specific in requests</strong> – "Please review Week 3's learning objectives" is better than "Give me feedback"</li>
+                    <li><strong>Respect reviewer time</strong> – Give reasonable deadlines and accept that some people can't help</li>
+                    <li><strong>Close the loop</strong> – Always follow up to explain what you did with feedback</li>
+                    <li><strong>Build a review network</strong> – Reciprocate by reviewing others' courses</li>
+                    <li><strong>Document everything</strong> – Your Discussion tab becomes valuable reference for future courses</li>
+                </ul>
+            </div>
+
+            <h3>Beyond Course Development</h3>
+            <p>This collaborative approach extends beyond initial development. Use the same workflow for:</p>
+
+            <ul>
+                <li><strong>Mid-course adjustments</strong> – Student feedback requiring course modifications</li>
+                <li><strong>Annual course updates</strong> – Revising for new cohorts</li>
+                <li><strong>Course expansion</strong> – Developing Part II or advanced versions</li>
+                <li><strong>Cross-institutional sharing</strong> – Collaborating with SGLs at other BOLLI campuses</li>
+            </ul>
+
+            <div class="navigation-buttons">
+                <button class="button-primary" onclick="scrollToLesson(5)">← Previous: Create Visualization</button>
+                <button class="button-primary" onclick="markComplete(6)">✓ Mark as Complete</button>
+                <button class="button-primary" onclick="scrollToLesson(7)">Next: Putting It All Together →</button>
+                <button class="button-primary" onclick="closeSection(6)" style="background: #6c757d;">Close Section ▲</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="lesson collapsible collapsed">
+        <div class="lesson-header">
+            <div class="lesson-number">7</div>
+            <div style="flex-grow: 1;">
+                <h2 class="lesson-title">Putting It All Together
+                    <span class="difficulty core">Core</span>
+                </h2>
+                <div class="lesson-description">A complete walkthrough with the Religion & Politics example</div>
+            </div>
+        </div>
+        
+        <div class="lesson-content">
+            <h3>The Complete Workflow in Action</h3>
+            <p>Let's walk through the entire process using a real example: developing a course on "Religion and Politics in America from 1600 to 2026."</p>
+
+            <div class="key-concept">
+                <h4>💡 Remember: This is Iterative, Not Linear</h4>
+                <p>While we present these steps sequentially, real course development involves moving back and forth between stages. You might return to your narrative after seeing AI output, refine your prompt based on results, or loop through collaboration multiple times. That's not just okay—it's ideal.</p>
+            </div>
+
+            <h3>Phase 1: Narrative (Week 1, Days 1-2)</h3>
+
+            <div class="example-box">
+                <h4>📝 The Instructor's Process</h4>
+                <p><strong>Context:</strong> Sarah, a retired political science professor, wants to teach about religion and politics at BOLLI. She has expertise in American political history but isn't a religious studies specialist.</p>
+
+                <p><strong>Her narrative creation:</strong></p>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 6px; margin: 15px 0;">
+                    Sarah spends about an hour brainstorming in a Google Doc. She writes about her concerns with church-state separation debates, notes that she wants to show religion's role in progressive movements (not just conservative ones), lists specific topics she knows well (Puritans, Civil Rights movement) and areas where she needs more depth (Catholic political engagement, Jewish political thought). She includes questions: "How do I balance coverage of different faiths? Should I go chronologically or thematically?"
+                </div>
+
+                <p><strong>Key insight:</strong> Sarah doesn't try to solve these questions in her narrative. She just captures them as part of her thinking. This helps AI understand both her knowledge and her uncertainties.</p>
+            </div>
+
+            <h3>Phase 2: Prompt (Week 1, Days 2-3)</h3>
+
+            <div class="example-box">
+                <h4>✏️ Crafting Effective Instructions</h4>
+                <p>Sarah creates her prompt by answering these questions:</p>
+                <ol>
+                    <li><strong>Structure:</strong> "10 weeks, 90 minutes each"</li>
+                    <li><strong>Approach:</strong> "Chronological with thematic threads"</li>
+                    <li><strong>Audience:</strong> "BOLLI learners, 55+, politically aware"</li>
+                    <li><strong>Tone:</strong> "Scholarly but accessible, balanced"</li>
+                    <li><strong>Output:</strong> "Week number, title, objectives, topics, discussion questions"</li>
+                </ol>
+
+                <p>She explicitly tells Claude to use her narrative as the foundation and to help her address the questions she raised about faith coverage and organization.</p>
+            </div>
+
+            <h3>Phase 3: AI Processing (Week 1, Day 3)</h3>
+
+            <div class="example-box">
+                <h4>🤖 What Claude Adds</h4>
+                <p>Claude takes Sarah's narrative and prompt and:</p>
+                <ul>
+                    <li>Organizes her scattered topics into a chronological progression</li>
+                    <li>Adds historical context she didn't mention (Second Great Awakening, Know-Nothing Party)</li>
+                    <li>Suggests Catholic and Jewish perspectives to balance Protestant focus</li>
+                    <li>Creates scaffolded learning objectives that build across weeks</li>
+                    <li>Generates discussion questions that connect historical examples to contemporary issues</li>
+                    <li>Recommends primary sources Sarah hadn't considered</li>
+                </ul>
+
+                <p><strong>Result:</strong> A 10-week outline that's about 80% ready but needs Sarah's expertise to refine.</p>
+            </div>
+
+            <h3>Phase 4: Export (Week 1, Day 4)</h3>
+
+            <div class="example-box">
+                <h4>📄 Moving to Real Documents</h4>
+                <p>Sarah copies the Claude output into her Google Doc's "Response" tab. She immediately notices:</p>
+                <ul>
+                    <li>Week 3 combines too many topics—needs to be split</li>
+                    <li>Discussion questions for Week 7 are too broad—need more specificity</li>
+                    <li>Learning objectives are strong but could align better with Bloom's taxonomy</li>
+                </ul>
+
+                <p>She makes notes about these in the document, knowing she'll address them during revision. The key is: she's now working in a real document where she can edit freely, not trapped in a chat interface.</p>
+            </div>
+
+            <h3>Phase 5: Visualization (Week 2, Day 1)</h3>
+
+            <div class="example-box">
+                <h4>📊 Creating the Interactive View</h4>
+                <p>Sarah returns to Claude and requests an HTML visualization. She sees her course laid out visually and immediately recognizes:</p>
+                <ul>
+                    <li>Weeks 1-4 (colonial through antebellum) are well-paced</li>
+                    <li>Weeks 5-7 (Civil War through mid-20th century) feel rushed</li>
+                    <li>Weeks 8-10 (contemporary period) are overstuffed</li>
+                </ul>
+
+                <p>This visual perspective reveals pacing issues that weren't obvious in linear text. She notes these for discussion with reviewers.</p>
+            </div>
+
+            <h3>Phase 6: Collaboration (Week 2-3)</h3>
+
+            <div class="example-box">
+                <h4>🤝 The Feedback Process</h4>
+                <p>Sarah shares her complete package with three reviewers:</p>
+                
+                <ol>
+                    <li><strong>Dr. Rachel Goldstein (Jewish Studies)</strong> – Suggests adding more on Jewish political activism in 1960s-70s, notes that treatment of Israel/Palestine politics needs careful framing</li>
+                    <li><strong>Rev. Marcus Washington (Black Church History)</strong> – Recommends stronger emphasis on Black church's role in abolition and Civil Rights, suggests specific primary sources</li>
+                    <li><strong>Prof. Tim O'Brien (Catholic historian)</strong> – Offers to provide readings on Catholic social teaching, notes that Catholic-Protestant tensions in 19th century deserve more attention</li>
+                </ol>
+
+                <p><strong>Sarah's response:</strong> She documents all feedback in her Discussion tab, categorizes by priority, and creates a revision plan. She accepts most suggestions but decides to keep contemporary Israeli-Palestinian politics out of scope, focusing instead on American Jewish political engagement.</p>
+            </div>
+
+            <h3>Phase 7: Final Refinement (Week 3-4)</h3>
+
+            <div class="example-box">
+                <h4>🔧 Bringing It Home</h4>
+                <p>Sarah makes final revisions:</p>
+                <ul>
+                    <li>Splits overloaded weeks into more manageable chunks</li>
+                    <li>Incorporates specific primary sources suggested by reviewers</li>
+                    <li>Adds more nuanced treatment of different faith traditions</li>
+                    <li>Refines discussion questions based on BOLLI audience</li>
+                    <li>Writes her course description for the BOLLI catalog</li>
+                </ul>
+
+                <p>She returns to Claude for help rewriting the now-split Week 3 and generating a few more discussion questions that better match her refined direction.</p>
+
+                <p><strong>Final product:</strong> A polished, balanced course that represents her vision, informed by AI assistance and colleague expertise, documented thoroughly in her four-tab Google Doc.</p>
+            </div>
+
+            <h3>Key Lessons from This Example</h3>
+
+            <div class="tip-box">
+                <h4>✅ What Made This Successful</h4>
+                <ol>
+                    <li><strong>Honest narrative</strong> – Sarah didn't pretend to know more than she did; she captured both knowledge and questions</li>
+                    <li><strong>Specific prompt</strong> – Clear constraints and desired output format</li>
+                    <li><strong>Critical evaluation</strong> – She didn't accept AI output wholesale but evaluated it against her expertise</li>
+                    <li><strong>Visual perspective</strong> – The HTML visualization revealed pacing issues</li>
+                    <li><strong>Targeted expertise</strong> – She sought reviewers who could fill her knowledge gaps</li>
+                    <li><strong>Iterative refinement</strong> – Multiple rounds of revision based on different inputs</li>
+                    <li><strong>Documentation</strong> – Complete record of development process in structured Google Doc</li>
+                </ol>
+            </div>
+
+            <div class="warning-box">
+                <h4>⚠️ What Could Have Gone Wrong</h4>
+                <ul>
+                    <li><strong>Accepting AI output uncritically</strong> – Would have resulted in overstuffed later weeks</li>
+                    <li><strong>Skipping collaboration</strong> – Would have missed important perspectives on different faith traditions</li>
+                    <li><strong>Staying in chat interface</strong> – Would have made substantive editing much harder</li>
+                    <li><strong>No visualization</strong> – Pacing problems might not have been apparent</li>
+                    <li><strong>Poor documentation</strong> – Future revisions would require starting over</li>
+                </ul>
+            </div>
+
+            <h3>Your Turn: Applying This Workflow</h3>
+            <p>You're now ready to develop your own course using this workflow. Here's your roadmap:</p>
+
+            <ol class="step-list">
+                <li>
+                    <strong>Choose your topic</strong>
+                    <p>Start with something you're passionate about and have expertise in. New topic areas benefit most from this workflow.</p>
+                </li>
+                <li>
+                    <strong>Set aside focused time</strong>
+                    <p>Plan for 6-10 hours spread across 2-3 weeks. Don't try to do everything in one sitting.</p>
+                </li>
+                <li>
+                    <strong>Create your Google Doc structure</strong>
+                    <p>Set up your four-tab document before you start. Having the structure ready keeps you organized.</p>
+                </li>
+                <li>
+                    <strong>Brainstorm freely</strong>
+                    <p>Write your narrative without self-editing. Capture everything.</p>
+                </li>
+                <li>
+                    <strong>Craft your prompt carefully</strong>
+                    <p>Spend time on this—good prompts get good results.</p>
+                </li>
+                <li>
+                    <strong>Evaluate AI output critically</strong>
+                    <p>You're the expert. Trust your judgment.</p>
+                </li>
+                <li>
+                    <strong>Export immediately</strong>
+                    <p>Get into Google Docs where you can work effectively.</p>
+                </li>
+                <li>
+                    <strong>Create your visualization</strong>
+                    <p>The visual perspective adds value beyond linear text.</p>
+                </li>
+                <li>
+                    <strong>Share thoughtfully</strong>
+                    <p>Choose reviewers who can fill your knowledge gaps.</p>
+                </li>
+                <li>
+                    <strong>Iterate and refine</strong>
+                    <p>Don't expect perfection in one pass.</p>
+                </li>
+            </ol>
+
+            <div class="key-concept">
+                <h4>🎓 Final Thoughts: The Power of Systematic Process</h4>
+                <p>This workflow transforms course development from an overwhelming blank-page problem into a manageable, systematic process. By separating brainstorming from structure, leveraging AI for organization while maintaining your expertise, and building in collaboration, you create better courses more efficiently.</p>
+                
+                <p>Most importantly: you end up with complete documentation of your thinking. That four-tab Google Doc isn't just a course outline—it's a record of how you develop curriculum, available for future reference, revision, and sharing with colleagues.</p>
+            </div>
+
+            <div class="navigation-buttons">
+                <button class="button-primary" onclick="scrollToLesson(6)">← Previous: Share & Collaborate</button>
+                <button class="button-primary" onclick="markComplete(7)">✓ Mark as Complete</button>
+                <button class="button-primary" onclick="closeSection(7)" style="background: #6c757d;">Close Section ▲</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="lesson" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-left: none;">
+        <h2 style="color: white;">🎉 Congratulations!</h2>
+        <p>You've completed the AI Course Development Workflow tutorial. You now have a systematic process for transforming your ideas into well-structured, collaborative course materials.</p>
+
+        <h3 style="color: white; margin-top: 25px;">What You've Learned:</h3>
+        <ul>
+            <li>Creating effective "fruit salad" narratives that AI can work with</li>
+            <li>Crafting prompts that produce high-quality, structured responses</li>
+            <li>Understanding how AI synthesizes your input with its knowledge base</li>
+            <li>Exporting to Google Docs for real editing and collaboration</li>
+            <li>Creating interactive HTML visualizations of course structure</li>
+            <li>Managing collaborative feedback systematically</li>
+            <li>Building complete documentation of your development process</li>
+        </ul>
+
+        <h3 style="color: white; margin-top: 25px;">Next Steps:</h3>
+        <div style="background: rgba(255,255,255,0.2); padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <ol>
+                <li><strong>Try it yourself</strong> – Start developing your next BOLLI course using this workflow</li>
+                <li><strong>Join the practice sessions</strong> – Monthly workshops to support your AI integration journey</li>
+                <li><strong>Share your experience</strong> – Help other SGLs by sharing what works for you</li>
+                <li><strong>Experiment and iterate</strong> – Adapt this workflow to fit your personal process</li>
+            </ol>
+        </div>
+
+        <h3 style="color: white; margin-top: 25px;">Resources:</h3>
+        <ul>
+            <li>Sample Google Doc templates available in the BOLLI SGL resource library</li>
+            <li>Example HTML visualizations you can adapt for your courses</li>
+            <li>SGL AI Course Narratives showing diverse approaches</li>
+            <li>Monthly AI Integration workshops for ongoing support</li>
+        </ul>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <p style="font-size: 1.2em; font-weight: 600;">Questions? Need support?</p>
+            <p>Contact John at BOLLI or join our AI Integration Special Interest Group</p>
+        </div>
+    </div>
+
+    <script>
+        // Progress tracking
+        const totalLessons = 7;
+        let completedLessons = new Set(JSON.parse(localStorage.getItem('completedWorkflowLessons') || '[]'));
+
+        function updateProgress() {
+            const percentage = Math.round((completedLessons.size / totalLessons) * 100);
+            document.getElementById('progress').style.width = percentage + '%';
+            document.getElementById('progress').textContent = percentage + '%';
+            localStorage.setItem('completedWorkflowLessons', JSON.stringify([...completedLessons]));
+        }
+
+        function markComplete(lessonNum) {
+            completedLessons.add(lessonNum);
+            updateProgress();
+            
+            // Visual feedback
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = '✓ Completed!';
+            button.style.background = '#28a745';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = '';
+            }, 2000);
+        }
+
+        function scrollToLesson(lessonNum) {
+            const lessons = document.querySelectorAll('.lesson');
+            if (lessonNum <= lessons.length) {
+                lessons[lessonNum - 1].scrollIntoView({ behavior: 'smooth', block: 'start' });
+                
+                // Expand the lesson if it's collapsed
+                if (lessons[lessonNum - 1].classList.contains('collapsed')) {
+                    lessons[lessonNum - 1].classList.remove('collapsed');
+                }
+            }
+        }
+
+        function closeSection(lessonNum) {
+            const lessons = document.querySelectorAll('.lesson.collapsible');
+            if (lessonNum <= lessons.length) {
+                lessons[lessonNum - 1].classList.add('collapsed');
+                // Scroll to top of the section
+                lessons[lessonNum - 1].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Collapsible functionality
+        document.querySelectorAll('.lesson.collapsible').forEach(lesson => {
+            const header = lesson.querySelector('.lesson-header');
+            header.addEventListener('click', function() {
+                lesson.classList.toggle('collapsed');
+            });
+        });
+
+        // Initialize progress on load
+        updateProgress();
+    </script>
+</body>
+</html>
