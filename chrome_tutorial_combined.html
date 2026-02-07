@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chrome Skills Tutorial for BOLLI Members - Complete Version</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px;
+            line-height: 1.7;
+            background: #f5f5f7;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.2em;
+        }
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+        .platform-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin: 5px 5px 5px 0;
+        }
+        .mac-badge {
+            background: #e8f4fd;
+            color: #1e88e5;
+        }
+        .windows-badge {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+        
+        /* Toggle Control Styles */
+        .method-toggle {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .method-toggle h3 {
+            margin-top: 0;
+            color: #667eea;
+            font-size: 1.3em;
+        }
+        .method-toggle p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .toggle-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .toggle-btn {
+            flex: 1;
+            max-width: 250px;
+            padding: 15px 25px;
+            border: 3px solid #dee2e6;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1em;
+            font-weight: 600;
+            color: #495057;
+        }
+        .toggle-btn:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.2);
+        }
+        .toggle-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .toggle-btn .btn-icon {
+            font-size: 1.5em;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .toggle-btn .btn-label {
+            font-size: 0.95em;
+        }
+        
+        .progress-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .progress-container {
+            background: #e9ecef;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-weight: bold;
+        }
+        .lesson {
+            background: white;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-left: 6px solid #667eea;
+        }
+        .lesson.collapsible .lesson-header {
+            cursor: pointer;
+            user-select: none;
+            padding: 10px;
+            margin: -10px -10px 20px -10px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+        .lesson.collapsible .lesson-header:hover {
+            background-color: #e8f4fd;
+        }
+        .lesson.collapsible .lesson-header::after {
+            content: "▼";
+            font-size: 1.5em;
+            margin-left: 20px;
+            color: #667eea;
+            transition: transform 0.3s;
+            font-weight: bold;
+        }
+        .lesson.collapsible.collapsed .lesson-header::after {
+            transform: rotate(-90deg);
+        }
+        .lesson.collapsed-how-to .how-to-content {
+            display: none;
+        }
+        .lesson.collapsed-how-to .how-to-arrow {
+            transform: rotate(-90deg);
+        }
+        .lesson.collapsible .lesson-content {
+            display: block;
+        }
+        .lesson.collapsible.collapsed .lesson-content {
+            display: none;
+        }
+        .lesson-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .lesson-number {
+            background: #11998e;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        .lesson-title {
+            margin: 0;
+            font-size: 1.6em;
+            color: #333;
+        }
+        .lesson-description {
+            margin-top: 8px;
+            color: #666;
+            font-size: 0.95em;
+        }
+        .difficulty {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 10px;
+        }
+        .easy {
+            background: #d4edda;
+            color: #155724;
+        }
+        .medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+        h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        h3 {
+            color: #495057;
+            margin-top: 25px;
+        }
+        
+        /* Keyboard shortcut styles */
+        .keys {
+            display: inline-block;
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            padding: 3px 8px;
+            font-family: Monaco, "Courier New", monospace;
+            font-size: 0.9em;
+            font-weight: bold;
+            color: #495057;
+            box-shadow: 0 2px 0 #dee2e6;
+        }
+        
+        /* Menu path styles */
+        .menu-path {
+            display: inline-block;
+            background: #f0f7ff;
+            border: 2px solid #bdd7f5;
+            border-radius: 5px;
+            padding: 4px 10px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #1565c0;
+            box-shadow: 0 2px 0 #bdd7f5;
+        }
+        .menu-arrow {
+            color: #667eea;
+            font-weight: bold;
+            margin: 0 5px;
+        }
+        
+        .plus-sign {
+            color: #667eea;
+            font-weight: bold;
+            margin: 0 3px;
+        }
+        
+        .platform-specific {
+            background: #f8f9fa;
+            border-left: 4px solid #6c757d;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .mac-specific {
+            background: #e8f4fd;
+            border-left-color: #1e88e5;
+        }
+        .windows-specific {
+            background: #fff3e0;
+            border-left-color: #f57c00;
+        }
+        .shortcut-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .shortcut-box {
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+        }
+        .shortcut-box.mac {
+            background: #e3f2fd;
+            border-color: #1e88e5;
+        }
+        .shortcut-box.windows {
+            background: #fff3e0;
+            border-color: #f57c00;
+        }
+        .shortcut-box h4 {
+            margin-top: 0;
+            color: #333;
+        }
+        .shortcut-box ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .shortcut-box li {
+            margin: 8px 0;
+        }
+        .step {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            display: flex;
+            gap: 15px;
+        }
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .tip-box {
+            background: #fff9e6;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .checkpoint {
+            background: linear-gradient(135deg, #e8f4fd 0%, #f0e8fd 100%);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 12px;
+            border: 3px solid #667eea;
+        }
+        .checkpoint-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        .checklist {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .checklist li {
+            padding: 10px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        .checklist li:hover {
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+        .checklist li:before {
+            content: "☐ ";
+            font-size: 1.3em;
+            margin-right: 10px;
+            color: #adb5bd;
+        }
+        .checklist li.checked {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        .checklist li.checked:before {
+            content: "☑ ";
+            color: #28a745;
+        }
+        .collapse-section-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 20px;
+            width: 100%;
+            transition: background 0.2s;
+        }
+        .collapse-section-btn:hover {
+            background: #5a6268;
+        }
+        
+        /* Toggle visibility based on selected method */
+        body.show-keyboard .menu-only {
+            display: none !important;
+        }
+        body.show-menu .keyboard-only {
+            display: none !important;
+        }
+        
+        /* Dual content - show appropriate version */
+        .dual-content {
+            margin: 15px 0;
+        }
+        .keyboard-version,
+        .menu-version {
+            display: none;
+        }
+        body.show-keyboard .keyboard-version {
+            display: block;
+        }
+        body.show-menu .menu-version {
+            display: block;
+        }
+        
+        @media print {
+            .method-toggle {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="show-keyboard">
+    <div class="header">
+        <h1>🌐 Chrome Browser Skills Tutorial</h1>
+        <p class="subtitle">Complete Guide with Keyboard Shortcuts & Menu Navigation</p>
+        <div style="margin-top: 15px;">
+            <span class="platform-badge mac-badge">🍎 Mac</span>
+            <span class="platform-badge windows-badge">🪟 Windows</span>
+        </div>
+    </div>
+
+    <!-- Method Toggle Control -->
+    <div class="method-toggle">
+        <h3>⚙️ Choose Your Learning Method</h3>
+        <p>Select how you'd like to perform actions in Chrome. You can switch between methods at any time!</p>
+        
+        <div class="toggle-buttons">
+            <button class="toggle-btn active" id="keyboardBtn" onclick="setMethod('keyboard')">
+                <span class="btn-icon">⌨️</span>
+                <span class="btn-label">Keyboard Shortcuts</span>
+                <div style="font-size: 0.85em; font-weight: normal; margin-top: 5px; opacity: 0.9;">Fast and efficient</div>
+            </button>
+            <button class="toggle-btn" id="menuBtn" onclick="setMethod('menu')">
+                <span class="btn-icon">🖱️</span>
+                <span class="btn-label">Menu Navigation</span>
+                <div style="font-size: 0.85em; font-weight: normal; margin-top: 5px; opacity: 0.9;">Visual and intuitive</div>
+            </button>
+        </div>
+        
+        <div style="margin-top: 20px; padding: 15px; background: #e8f4fd; border-radius: 6px;">
+            <strong>💡 What's the difference?</strong>
+            <ul style="margin: 10px 0 0 0; text-align: left; display: inline-block;">
+                <li><strong>Keyboard Shortcuts:</strong> Press key combinations like ⌘+T or Ctrl+T</li>
+                <li><strong>Menu Navigation:</strong> Click through menus like File → New Tab</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="progress-bar">
+        <h3 style="margin-top: 0;">Your Learning Progress</h3>
+        <div class="progress-container">
+            <div class="progress-fill" id="progress">0%</div>
+        </div>
+        <p style="margin: 10px 0 0 0; font-size: 0.9em; color: #666;">Complete each lesson and check off your progress!</p>
+    </div>
+
+    <div class="lesson collapsed-how-to">
+        <div class="lesson-header" style="cursor: pointer; user-select: none; padding: 10px; margin: -10px -10px 20px -10px; border-radius: 6px; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#e8f4fd'" onmouseout="this.style.backgroundColor='transparent'" onclick="this.parentElement.classList.toggle('collapsed-how-to')">
+            <h2 style="color: #667eea; margin: 0; display: flex; align-items: center; justify-content: space-between;">
+                <span>📖 How to Use This Tutorial</span>
+                <span class="how-to-arrow" style="font-size: 1.5em; color: #667eea; font-weight: bold; transition: transform 0.3s;">▼</span>
+            </h2>
+        </div>
+        
+        <div class="how-to-content">
+            <p style="font-size: 1.1em;">Welcome! This tutorial teaches essential Chrome browser skills using BOTH keyboard shortcuts and menu navigation.</p>
+            
+            <div class="warning-box">
+                <strong>🖥️ Platform Notes:</strong> Throughout this tutorial, you'll see instructions for both Mac and Windows side-by-side. Follow the instructions for your computer!
+            </div>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>Choose your method</strong> - Use the toggle at the top to switch between keyboard shortcuts and menu navigation
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>Expand the lessons below</strong> - Click any lesson title to open its content
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>Follow the instructions</strong> - Pay attention to which platform (Mac or Windows) you're using
+            </div>
+            
+            <div class="step">
+                <span class="step-number">4</span>
+                <strong>Practice each skill</strong> - Complete the hands-on exercises
+            </div>
+            
+            <div class="step">
+                <span class="step-number">5</span>
+                <strong>Check off your progress</strong> - Click the checkboxes to track what you've mastered
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Pro Tip:</strong> Try learning both methods! Keyboard shortcuts are faster once you know them, but menus are great when you forget a shortcut or need to explore Chrome's features.
+            </div>
+            
+            <div class="success-box">
+                <strong>🎯 About Your Progress:</strong>
+                <ul style="margin-top: 10px;">
+                    <li>Your progress is saved automatically in your browser</li>
+                    <li>Your method preference (keyboard/menu) is also saved</li>
+                    <li>You can come back anytime and continue where you left off</li>
+                    <li>All lessons start collapsed - expand them one at a time as you work through</li>
+                </ul>
+            </div>
+            <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed-how-to')">▲ Collapse This Section</button>
+        </div>
+    </div>
+
+    <!-- LESSON 1: Opening & Managing Tabs -->
+    <div class="lesson collapsible collapsed">
+        <div class="lesson-header" onclick="this.parentElement.classList.toggle('collapsed')">
+            <div class="lesson-number">1</div>
+            <div>
+                <h2 class="lesson-title">Opening & Managing Tabs</h2>
+                <span class="difficulty easy">EASY</span>
+                <div class="lesson-description">Master tab management with your chosen method</div>
+            </div>
+        </div>
+
+        <div class="lesson-content">
+            <h3>Essential Tab Operations</h3>
+            
+            <p>Tabs let you have multiple web pages open in one window. Here's how to manage them:</p>
+
+            <div class="dual-content">
+                <div class="keyboard-version">
+                    <div class="shortcut-comparison">
+                        <div class="shortcut-box mac">
+                            <h4>🍎 Mac Tab Shortcuts</h4>
+                            <ul>
+                                <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">T</span> - New tab</li>
+                                <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">W</span> - Close tab</li>
+                                <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">⇧</span> <span class="plus-sign">+</span> <span class="keys">T</span> - Reopen closed tab</li>
+                                <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">1-9</span> - Jump to specific tab</li>
+                                <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">⌥</span> <span class="plus-sign">+</span> <span class="keys">→</span> - Next tab</li>
+                                <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">⌥</span> <span class="plus-sign">+</span> <span class="keys">←</span> - Previous tab</li>
+                            </ul>
+                        </div>
+                        <div class="shortcut-box windows">
+                            <h4>🪟 Windows Tab Shortcuts</h4>
+                            <ul>
+                                <li><span class="keys">Ctrl</span> <span class="plus-sign">+</span> <span class="keys">T</span> - New tab</li>
+                                <li><span class="keys">Ctrl</span> <span class="plus-sign">+</span> <span class="keys">W</span> - Close tab</li>
+                                <li><span class="keys">Ctrl</span> <span class="plus-sign">+</span> <span class="keys">Shift</span> <span class="plus-sign">+</span> <span class="keys">T</span> - Reopen closed tab</li>
+                                <li><span class="keys">Ctrl</span> <span class="plus-sign">+</span> <span class="keys">1-9</span> - Jump to specific tab</li>
+                                <li><span class="keys">Ctrl</span> <span class="plus-sign">+</span> <span class="keys">Tab</span> - Next tab</li>
+                                <li><span class="keys">Ctrl</span> <span class="plus-sign">+</span> <span class="keys">Shift</span> <span class="plus-sign">+</span> <span class="keys">Tab</span> - Previous tab</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-version">
+                    <div class="shortcut-comparison">
+                        <div class="shortcut-box mac">
+                            <h4>🍎 Mac Tab Menu Options</h4>
+                            <ul>
+                                <li><span class="menu-path">File <span class="menu-arrow">→</span> New Tab</span> - Open a new tab</li>
+                                <li><span class="menu-path">File <span class="menu-arrow">→</span> Close Tab</span> - Close current tab</li>
+                                <li><span class="menu-path">History <span class="menu-arrow">→</span> Recently Closed</span> - Reopen closed tabs</li>
+                                <li><span class="menu-path">Window <span class="menu-arrow">→</span> Select Next Tab</span> - Move to next tab</li>
+                                <li><span class="menu-path">Window <span class="menu-arrow">→</span> Select Previous Tab</span> - Move to previous tab</li>
+                            </ul>
+                        </div>
+                        <div class="shortcut-box windows">
+                            <h4>🪟 Windows Tab Menu Options</h4>
+                            <p>Click the three-dot menu (⋮), then:</p>
+                            <ul>
+                                <li><span class="menu-path">New tab</span> - Open a new tab</li>
+                                <li><span class="menu-path">History <span class="menu-arrow">→</span> Recently closed</span> - Reopen closed tabs</li>
+                            </ul>
+                            <p style="margin-top: 10px;"><strong>Or:</strong> Click the + button next to tabs, or X to close</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Hands-On Practice</h3>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <div class="keyboard-version">
+                    <strong>Open a new tab:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Mac:</strong> Press <span class="keys">⌘+T</span></li>
+                        <li><strong>Windows:</strong> Press <span class="keys">Ctrl+T</span></li>
+                    </ul>
+                </div>
+                <div class="menu-version">
+                    <strong>Open a new tab using the menu:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Mac:</strong> Click <span class="menu-path">File <span class="menu-arrow">→</span> New Tab</span></li>
+                        <li><strong>Windows:</strong> Click ⋮ <span class="menu-arrow">→</span> <span class="menu-path">New tab</span></li>
+                        <li><strong>Or:</strong> Click the + button next to your tabs</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>Open several more tabs</strong> - Practice opening 3-4 new tabs
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>Navigate to different websites:</strong>
+                <ul style="margin-top: 10px;">
+                    <li>Tab 1: www.brandeis.edu</li>
+                    <li>Tab 2: www.nytimes.com</li>
+                    <li>Tab 3: www.theguardian.com/us</li>
+                    <li>Tab 4: www.google.com</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">4</span>
+                <div class="keyboard-version">
+                    <strong>Practice jumping between tabs:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li>Press <span class="keys">⌘+1</span> (Mac) or <span class="keys">Ctrl+1</span> (Windows) - You should see Brandeis</li>
+                        <li>Press <span class="keys">⌘+2</span> (Mac) or <span class="keys">Ctrl+2</span> (Windows) - You should see NY Times</li>
+                        <li>Press <span class="keys">⌘+3</span> (Mac) or <span class="keys">Ctrl+3</span> (Windows) - You should see The Guardian</li>
+                    </ul>
+                </div>
+                <div class="menu-version">
+                    <strong>Practice switching between tabs:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li>Click on each tab to switch to it</li>
+                        <li><strong>Or use menus:</strong> <span class="menu-path">Window <span class="menu-arrow">→</span> Select Next Tab</span> (Mac)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">5</span>
+                <div class="keyboard-version">
+                    <strong>Close a tab</strong> - Press <span class="keys">⌘+W</span> (Mac) or <span class="keys">Ctrl+W</span> (Windows) to close the current tab
+                </div>
+                <div class="menu-version">
+                    <strong>Close a tab:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Mac:</strong> <span class="menu-path">File <span class="menu-arrow">→</span> Close Tab</span></li>
+                        <li><strong>Or:</strong> Click the X on the tab</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">6</span>
+                <div class="keyboard-version">
+                    <strong>Bring it back!</strong> - Press <span class="keys">⌘+⇧+T</span> (Mac) or <span class="keys">Ctrl+Shift+T</span> (Windows) to reopen the last closed tab
+                </div>
+                <div class="menu-version">
+                    <strong>Bring it back!</strong> Reopen the last closed tab:
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Mac:</strong> <span class="menu-path">History <span class="menu-arrow">→</span> Recently Closed</span></li>
+                        <li><strong>Windows:</strong> ⋮ <span class="menu-arrow">→</span> <span class="menu-path">History <span class="menu-arrow">→</span> Recently closed</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <strong>🎯 Real-World Application:</strong> During a BOLLI Zoom session, you might have:
+                <ul style="margin-top: 10px;">
+                    <li>Tab 1: Zoom meeting</li>
+                    <li>Tab 2: Course materials</li>
+                    <li>Tab 3: Discussion forum</li>
+                    <li>Tab 4: Research notes</li>
+                </ul>
+                <span class="keyboard-version">Switch between them instantly with number shortcuts!</span>
+                <span class="menu-version">Click between them or use the Window menu to navigate!</span>
+            </div>
+
+            <div class="checkpoint">
+                <div class="checkpoint-title">Checkpoint: Tab Management Skills</div>
+                <ul class="checklist">
+                    <li>I can open a new tab</li>
+                    <li>I can close the current tab</li>
+                    <li>I can switch between tabs</li>
+                    <li>I can reopen accidentally closed tabs</li>
+                    <li>I feel comfortable managing multiple tabs</li>
+                </ul>
+            </div>
+            <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed')">▲ Collapse This Section</button>
+        </div>
+    </div>
+
+    <!-- LESSON 2: Creating & Managing Bookmarks -->
+    <div class="lesson collapsible collapsed">
+        <div class="lesson-header" onclick="this.parentElement.classList.toggle('collapsed')">
+            <div class="lesson-number">2</div>
+            <div>
+                <h2 class="lesson-title">Creating & Managing Bookmarks</h2>
+                <span class="difficulty easy">EASY</span>
+                <div class="lesson-description">Save and organize your favorite websites</div>
+            </div>
+        </div>
+
+        <div class="lesson-content">
+            <h3>Essential Bookmark Operations</h3>
+            
+            <p>Bookmarks let you save important websites and access them quickly.</p>
+
+            <div class="dual-content">
+                <div class="keyboard-version">
+                    <div class="shortcut-comparison">
+                        <div class="shortcut-box mac">
+                            <h4>🍎 Mac Bookmark Shortcuts</h4>
+                            <ul>
+                                <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">D</span> - Bookmark current page</li>
+                                <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">⇧</span> <span class="plus-sign">+</span> <span class="keys">O</span> - Open Bookmark Manager</li>
+                                <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">⇧</span> <span class="plus-sign">+</span> <span class="keys">B</span> - Show/Hide Bookmarks Bar</li>
+                            </ul>
+                        </div>
+                        <div class="shortcut-box windows">
+                            <h4>🪟 Windows Bookmark Shortcuts</h4>
+                            <ul>
+                                <li><span class="keys">Ctrl</span> <span class="plus-sign">+</span> <span class="keys">D</span> - Bookmark current page</li>
+                                <li><span class="keys">Ctrl</span> <span class="plus-sign">+</span> <span class="keys">Shift</span> <span class="plus-sign">+</span> <span class="keys">O</span> - Open Bookmark Manager</li>
+                                <li><span class="keys">Ctrl</span> <span class="plus-sign">+</span> <span class="keys">Shift</span> <span class="plus-sign">+</span> <span class="keys">B</span> - Show/Hide Bookmarks Bar</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-version">
+                    <div class="shortcut-comparison">
+                        <div class="shortcut-box mac">
+                            <h4>🍎 Mac Bookmark Menu Options</h4>
+                            <ul>
+                                <li><span class="menu-path">Bookmarks <span class="menu-arrow">→</span> Bookmark This Tab</span></li>
+                                <li><span class="menu-path">Bookmarks <span class="menu-arrow">→</span> Bookmark Manager</span></li>
+                                <li><span class="menu-path">View <span class="menu-arrow">→</span> Show Bookmarks Bar</span></li>
+                            </ul>
+                            <p style="margin-top: 10px;"><strong>Quick tip:</strong> Click the star icon (⭐) in the address bar</p>
+                        </div>
+                        <div class="shortcut-box windows">
+                            <h4>🪟 Windows Bookmark Menu Options</h4>
+                            <p>Click ⋮, then <span class="menu-path">Bookmarks</span>:</p>
+                            <ul>
+                                <li><span class="menu-path">Bookmark this tab</span></li>
+                                <li><span class="menu-path">Bookmark manager</span></li>
+                                <li><span class="menu-path">Show bookmarks bar</span></li>
+                            </ul>
+                            <p style="margin-top: 10px;"><strong>Quick tip:</strong> Click the star icon (⭐) in the address bar</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Hands-On Practice</h3>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>Navigate to a website</strong> - Try www.brandeis.edu/osher
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                <div class="keyboard-version">
+                    <strong>Bookmark the page:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Mac:</strong> Press <span class="keys">⌘+D</span></li>
+                        <li><strong>Windows:</strong> Press <span class="keys">Ctrl+D</span></li>
+                    </ul>
+                </div>
+                <div class="menu-version">
+                    <strong>Bookmark the page:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Mac:</strong> <span class="menu-path">Bookmarks <span class="menu-arrow">→</span> Bookmark This Tab</span></li>
+                        <li><strong>Windows:</strong> ⋮ <span class="menu-arrow">→</span> <span class="menu-path">Bookmarks <span class="menu-arrow">→</span> Bookmark this tab</span></li>
+                        <li><strong>Or:</strong> Click the star icon (⭐) in the address bar</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>A bookmark dialog appears</strong> - You can edit the name, then click "Done"
+            </div>
+            
+            <div class="step">
+                <span class="step-number">4</span>
+                <div class="keyboard-version">
+                    <strong>Open the Bookmark Manager:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Mac:</strong> Press <span class="keys">⌘+⇧+O</span></li>
+                        <li><strong>Windows:</strong> Press <span class="keys">Ctrl+Shift+O</span></li>
+                    </ul>
+                </div>
+                <div class="menu-version">
+                    <strong>Open the Bookmark Manager:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Mac:</strong> <span class="menu-path">Bookmarks <span class="menu-arrow">→</span> Bookmark Manager</span></li>
+                        <li><strong>Windows:</strong> ⋮ <span class="menu-arrow">→</span> <span class="menu-path">Bookmarks <span class="menu-arrow">→</span> Bookmark manager</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">5</span>
+                <strong>Create a folder</strong> - Click ⋮ in the manager and select "Add new folder". Name it "BOLLI Courses"
+            </div>
+            
+            <div class="step">
+                <span class="step-number">6</span>
+                <strong>Organize bookmarks</strong> - Drag bookmarks into your new folder
+            </div>
+
+            <div class="tip-box">
+                <span class="keyboard-version">
+                    <strong>💡 Pro Tip:</strong> Show your Bookmarks Bar with <span class="keys">⌘+⇧+B</span> (Mac) or <span class="keys">Ctrl+Shift+B</span> (Windows) for quick access!
+                </span>
+                <span class="menu-version">
+                    <strong>💡 Pro Tip:</strong> Show your Bookmarks Bar via <span class="menu-path">View <span class="menu-arrow">→</span> Show Bookmarks Bar</span> for quick access!
+                </span>
+            </div>
+
+            <div class="checkpoint">
+                <div class="checkpoint-title">Checkpoint: Bookmark Mastery</div>
+                <ul class="checklist">
+                    <li>I can bookmark a page quickly</li>
+                    <li>I can open the Bookmark Manager</li>
+                    <li>I created a "BOLLI Courses" folder</li>
+                    <li>I can organize bookmarks into folders</li>
+                    <li>I know how to show/hide the Bookmarks Bar</li>
+                </ul>
+            </div>
+            <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed')">▲ Collapse This Section</button>
+        </div>
+    </div>
+
+    <!-- LESSON 3: Zooming In & Out -->
+    <div class="lesson collapsible collapsed">
+        <div class="lesson-header" onclick="this.parentElement.classList.toggle('collapsed')">
+            <div class="lesson-number">3</div>
+            <div>
+                <h2 class="lesson-title">Zooming In & Out</h2>
+                <span class="difficulty easy">EASY</span>
+                <div class="lesson-description">Make text and images larger or smaller</div>
+            </div>
+        </div>
+
+        <div class="lesson-content">
+            <h3>Essential Zoom Controls</h3>
+            
+            <p>Zooming makes web pages easier to read by making text and images bigger or smaller.</p>
+
+            <div class="dual-content">
+                <div class="keyboard-version">
+                    <div class="shortcut-comparison">
+                        <div class="shortcut-box mac">
+                            <h4>🍎 Mac Zoom Shortcuts</h4>
+                            <ul>
+                                <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">+</span> - Zoom in</li>
+                                <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">-</span> - Zoom out</li>
+                                <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">0</span> - Reset to 100%</li>
+                            </ul>
+                        </div>
+                        <div class="shortcut-box windows">
+                            <h4>🪟 Windows Zoom Shortcuts</h4>
+                            <ul>
+                                <li><span class="keys">Ctrl</span> <span class="plus-sign">+</span> <span class="keys">+</span> - Zoom in</li>
+                                <li><span class="keys">Ctrl</span> <span class="plus-sign">+</span> <span class="keys">-</span> - Zoom out</li>
+                                <li><span class="keys">Ctrl</span> <span class="plus-sign">+</span> <span class="keys">0</span> - Reset to 100%</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-version">
+                    <div class="shortcut-comparison">
+                        <div class="shortcut-box mac">
+                            <h4>🍎 Mac Zoom Menu Options</h4>
+                            <ul>
+                                <li><span class="menu-path">View <span class="menu-arrow">→</span> Zoom In</span></li>
+                                <li><span class="menu-path">View <span class="menu-arrow">→</span> Zoom Out</span></li>
+                                <li><span class="menu-path">View <span class="menu-arrow">→</span> Actual Size</span></li>
+                            </ul>
+                        </div>
+                        <div class="shortcut-box windows">
+                            <h4>🪟 Windows Zoom Options</h4>
+                            <p>Click ⋮, then look for <strong>Zoom</strong>:</p>
+                            <ul>
+                                <li>Click <strong>+</strong> to zoom in</li>
+                                <li>Click <strong>−</strong> to zoom out</li>
+                                <li>Click the percentage to reset</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Hands-On Practice</h3>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>Open a website</strong> - Try www.nytimes.com or www.theguardian.com/us
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                <div class="keyboard-version">
+                    <strong>Zoom in several times:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Mac:</strong> Press <span class="keys">⌘++</span> several times</li>
+                        <li><strong>Windows:</strong> Press <span class="keys">Ctrl++</span> several times</li>
+                    </ul>
+                </div>
+                <div class="menu-version">
+                    <strong>Zoom in several times:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Mac:</strong> <span class="menu-path">View <span class="menu-arrow">→</span> Zoom In</span> (click several times)</li>
+                        <li><strong>Windows:</strong> Click ⋮, then click + next to Zoom several times</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                <div class="keyboard-version">
+                    <strong>Zoom out:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Mac:</strong> Press <span class="keys">⌘+-</span> several times</li>
+                        <li><strong>Windows:</strong> Press <span class="keys">Ctrl+-</span> several times</li>
+                    </ul>
+                </div>
+                <div class="menu-version">
+                    <strong>Zoom out:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Mac:</strong> <span class="menu-path">View <span class="menu-arrow">→</span> Zoom Out</span> (click several times)</li>
+                        <li><strong>Windows:</strong> Click ⋮, then click − next to Zoom several times</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">4</span>
+                <div class="keyboard-version">
+                    <strong>Return to normal:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Mac:</strong> Press <span class="keys">⌘+0</span></li>
+                        <li><strong>Windows:</strong> Press <span class="keys">Ctrl+0</span></li>
+                    </ul>
+                </div>
+                <div class="menu-version">
+                    <strong>Return to normal:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Mac:</strong> <span class="menu-path">View <span class="menu-arrow">→</span> Actual Size</span></li>
+                        <li><strong>Windows:</strong> Click ⋮, then click the percentage number</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <strong>⚠️ Note:</strong> Zoom settings are saved per website!
+            </div>
+
+            <div class="checkpoint">
+                <div class="checkpoint-title">Checkpoint: Zoom Mastery</div>
+                <ul class="checklist">
+                    <li>I can zoom in to make text bigger</li>
+                    <li>I can zoom out to make text smaller</li>
+                    <li>I can return to normal 100% size</li>
+                    <li>I understand zoom is saved per website</li>
+                </ul>
+            </div>
+            <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed')">▲ Collapse This Section</button>
+        </div>
+    </div>
+
+    <!-- LESSON 4: Finding Text on a Page -->
+    <div class="lesson collapsible collapsed">
+        <div class="lesson-header" onclick="this.parentElement.classList.toggle('collapsed')">
+            <div class="lesson-number">4</div>
+            <div>
+                <h2 class="lesson-title">Finding Text on a Page</h2>
+                <span class="difficulty easy">EASY</span>
+                <div class="lesson-description">Quickly locate specific words or phrases</div>
+            </div>
+        </div>
+
+        <div class="lesson-content">
+            <h3>The Find Feature</h3>
+            
+            <p>Chrome's Find feature instantly highlights every occurrence of a word or phrase on a page.</p>
+
+            <div class="dual-content">
+                <div class="keyboard-version">
+                    <div class="shortcut-comparison">
+                        <div class="shortcut-box mac">
+                            <h4>🍎 Mac Find Shortcuts</h4>
+                            <ul>
+                                <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">F</span> - Open Find</li>
+                                <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">G</span> - Find next</li>
+                                <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">⇧</span> <span class="plus-sign">+</span> <span class="keys">G</span> - Find previous</li>
+                            </ul>
+                        </div>
+                        <div class="shortcut-box windows">
+                            <h4>🪟 Windows Find Shortcuts</h4>
+                            <ul>
+                                <li><span class="keys">Ctrl</span> <span class="plus-sign">+</span> <span class="keys">F</span> - Open Find</li>
+                                <li><span class="keys">Ctrl</span> <span class="plus-sign">+</span> <span class="keys">G</span> - Find next</li>
+                                <li><span class="keys">Ctrl</span> <span class="plus-sign">+</span> <span class="keys">Shift</span> <span class="plus-sign">+</span> <span class="keys">G</span> - Find previous</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-version">
+                    <div class="shortcut-comparison">
+                        <div class="shortcut-box mac">
+                            <h4>🍎 Mac Find Menu Options</h4>
+                            <ul>
+                                <li><span class="menu-path">Edit <span class="menu-arrow">→</span> Find...</span></li>
+                                <li><span class="menu-path">Edit <span class="menu-arrow">→</span> Find Next</span></li>
+                                <li><span class="menu-path">Edit <span class="menu-arrow">→</span> Find Previous</span></li>
+                            </ul>
+                        </div>
+                        <div class="shortcut-box windows">
+                            <h4>🪟 Windows Find Options</h4>
+                            <p>Click ⋮, then scroll to find <span class="menu-path">Find...</span></p>
+                            <p style="margin-top: 10px;">Or press Alt, then <span class="menu-path">Edit <span class="menu-arrow">→</span> Find</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Hands-On Practice</h3>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>Go to a long webpage</strong> - Try www.brandeis.edu/osher
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                <div class="keyboard-version">
+                    <strong>Open Find:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Mac:</strong> Press <span class="keys">⌘+F</span></li>
+                        <li><strong>Windows:</strong> Press <span class="keys">Ctrl+F</span></li>
+                    </ul>
+                </div>
+                <div class="menu-version">
+                    <strong>Open Find:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Mac:</strong> <span class="menu-path">Edit <span class="menu-arrow">→</span> Find...</span></li>
+                        <li><strong>Windows:</strong> ⋮ <span class="menu-arrow">→</span> <span class="menu-path">Find...</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>Type a search word</strong> - Try "BOLLI" or "course"
+            </div>
+            
+            <div class="step">
+                <span class="step-number">4</span>
+                <strong>Notice the highlights</strong> - All instances are highlighted, with match count shown
+            </div>
+            
+            <div class="step">
+                <span class="step-number">5</span>
+                <strong>Navigate matches</strong> - Use arrows in Find box or keyboard shortcuts to jump between results
+            </div>
+
+            <div class="checkpoint">
+                <div class="checkpoint-title">Checkpoint: Find Feature Mastery</div>
+                <ul class="checklist">
+                    <li>I can open the Find feature</li>
+                    <li>I can search for words on a page</li>
+                    <li>I can navigate between search results</li>
+                    <li>I understand the match counter</li>
+                </ul>
+            </div>
+            <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed')">▲ Collapse This Section</button>
+        </div>
+    </div>
+
+    <!-- LESSON 5: Viewing & Clearing History -->
+    <div class="lesson collapsible collapsed">
+        <div class="lesson-header" onclick="this.parentElement.classList.toggle('collapsed')">
+            <div class="lesson-number">5</div>
+            <div>
+                <h2 class="lesson-title">Viewing & Clearing History</h2>
+                <span class="difficulty easy">EASY</span>
+                <div class="lesson-description">Access browsing history and manage privacy</div>
+            </div>
+        </div>
+
+        <div class="lesson-content">
+            <h3>Understanding Browser History</h3>
+            
+            <p>Chrome keeps a history of every webpage you visit. This is helpful for finding sites you visited before, but you may want to clear it for privacy.</p>
+
+            <div class="dual-content">
+                <div class="keyboard-version">
+                    <div class="shortcut-comparison">
+                        <div class="shortcut-box mac">
+                            <h4>🍎 Mac History Shortcuts</h4>
+                            <ul>
+                                <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">Y</span> - Show history</li>
+                                <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">⇧</span> <span class="plus-sign">+</span> <span class="keys">Delete</span> - Clear browsing data</li>
+                            </ul>
+                        </div>
+                        <div class="shortcut-box windows">
+                            <h4>🪟 Windows History Shortcuts</h4>
+                            <ul>
+                                <li><span class="keys">Ctrl</span> <span class="plus-sign">+</span> <span class="keys">H</span> - Show history</li>
+                                <li><span class="keys">Ctrl</span> <span class="plus-sign">+</span> <span class="keys">Shift</span> <span class="plus-sign">+</span> <span class="keys">Delete</span> - Clear browsing data</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-version">
+                    <div class="shortcut-comparison">
+                        <div class="shortcut-box mac">
+                            <h4>🍎 Mac History Menu</h4>
+                            <ul>
+                                <li><span class="menu-path">History <span class="menu-arrow">→</span> Show Full History</span></li>
+                                <li><span class="menu-path">History <span class="menu-arrow">→</span> Clear Browsing Data...</span></li>
+                            </ul>
+                        </div>
+                        <div class="shortcut-box windows">
+                            <h4>🪟 Windows History Menu</h4>
+                            <p>Click ⋮:</p>
+                            <ul>
+                                <li><span class="menu-path">History <span class="menu-arrow">→</span> History</span></li>
+                                <li><span class="menu-path">History <span class="menu-arrow">→</span> Clear browsing data...</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <strong>⚠️ Important:</strong> Clearing browsing data deletes history, cookies, and cached files. You'll be logged out of websites!
+            </div>
+
+            <div class="checkpoint">
+                <div class="checkpoint-title">Checkpoint: History Management</div>
+                <ul class="checklist">
+                    <li>I can view my browsing history</li>
+                    <li>I can search my history</li>
+                    <li>I understand how to clear browsing data</li>
+                    <li>I know when clearing history is appropriate</li>
+                </ul>
+            </div>
+            <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed')">▲ Collapse This Section</button>
+        </div>
+    </div>
+
+    <!-- LESSON 6: Printing Web Pages -->
+    <div class="lesson collapsible collapsed">
+        <div class="lesson-header" onclick="this.parentElement.classList.toggle('collapsed')">
+            <div class="lesson-number">6</div>
+            <div>
+                <h2 class="lesson-title">Printing Web Pages</h2>
+                <span class="difficulty easy">EASY</span>
+                <div class="lesson-description">Print or save pages as PDF</div>
+            </div>
+        </div>
+
+        <div class="lesson-content">
+            <h3>Printing from Chrome</h3>
+            
+            <p>Chrome makes it easy to print web pages or save them as PDFs.</p>
+
+            <div class="dual-content">
+                <div class="keyboard-version">
+                    <div class="shortcut-comparison">
+                        <div class="shortcut-box mac">
+                            <h4>🍎 Mac Print Shortcut</h4>
+                            <ul>
+                                <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">P</span> - Print</li>
+                            </ul>
+                        </div>
+                        <div class="shortcut-box windows">
+                            <h4>🪟 Windows Print Shortcut</h4>
+                            <ul>
+                                <li><span class="keys">Ctrl</span> <span class="plus-sign">+</span> <span class="keys">P</span> - Print</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-version">
+                    <div class="shortcut-comparison">
+                        <div class="shortcut-box mac">
+                            <h4>🍎 Mac Print Menu</h4>
+                            <ul>
+                                <li><span class="menu-path">File <span class="menu-arrow">→</span> Print...</span></li>
+                            </ul>
+                        </div>
+                        <div class="shortcut-box windows">
+                            <h4>🪟 Windows Print Menu</h4>
+                            <p>Click ⋮, then <span class="menu-path">Print...</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Pro Tip:</strong> In the print dialog, change Destination to "Save as PDF" to save instead of printing!
+            </div>
+
+            <div class="checkpoint">
+                <div class="checkpoint-title">Checkpoint: Printing Skills</div>
+                <ul class="checklist">
+                    <li>I can open the Print dialog</li>
+                    <li>I understand print options</li>
+                    <li>I know how to save as PDF</li>
+                    <li>I understand when to print vs save digitally</li>
+                </ul>
+            </div>
+            <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed')">▲ Collapse This Section</button>
+        </div>
+    </div>
+
+    <!-- Final Congratulations -->
+    <div class="lesson">
+        <h2 style="text-align: center; color: #667eea;">🎉 Congratulations!</h2>
+        <p style="text-align: center; font-size: 1.2em;">You've completed the Chrome Browser Skills Tutorial!</p>
+        
+        <div class="success-box">
+            <strong>✅ Skills You've Mastered:</strong>
+            <ul style="margin-top: 10px;">
+                <li>Managing tabs efficiently</li>
+                <li>Creating and organizing bookmarks</li>
+                <li>Zooming in and out on web pages</li>
+                <li>Finding text on pages</li>
+                <li>Viewing and clearing your history</li>
+                <li>Printing and saving as PDF</li>
+            </ul>
+        </div>
+
+        <div class="tip-box">
+            <strong>🚀 Next Steps:</strong>
+            <ul style="margin-top: 10px;">
+                <li>Practice these skills daily to build confidence</li>
+                <li class="keyboard-version">Master the keyboard shortcuts for maximum speed</li>
+                <li class="menu-version">Try learning keyboard shortcuts once you're comfortable with menus</li>
+                <li>Explore other Chrome features you haven't tried yet</li>
+                <li>Help a friend learn these skills too!</li>
+            </ul>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; color: white;">
+            <p style="font-size: 1.3em; margin: 0;">Keep practicing and exploring!</p>
+            <p style="margin: 10px 0 0 0; opacity: 0.9;">Your progress and preferences are automatically saved.</p>
+        </div>
+    </div>
+
+    <script>
+        // Method toggle functionality
+        function setMethod(method) {
+            if (method === 'keyboard') {
+                document.body.className = 'show-keyboard';
+                document.getElementById('keyboardBtn').classList.add('active');
+                document.getElementById('menuBtn').classList.remove('active');
+            } else {
+                document.body.className = 'show-menu';
+                document.getElementById('menuBtn').classList.add('active');
+                document.getElementById('keyboardBtn').classList.remove('active');
+            }
+            localStorage.setItem('chromeMethodPreference', method);
+        }
+
+        // Load saved method preference
+        function loadMethodPreference() {
+            const saved = localStorage.getItem('chromeMethodPreference');
+            if (saved) {
+                setMethod(saved);
+            }
+        }
+
+        // Progress tracking
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.checklist li');
+            const checked = document.querySelectorAll('.checklist li.checked').length;
+            const total = checkboxes.length;
+            const percentage = total > 0 ? Math.round((checked / total) * 100) : 0;
+            
+            document.getElementById('progress').style.width = percentage + '%';
+            document.getElementById('progress').textContent = percentage + '%';
+            
+            // Save state
+            const checkedStates = {};
+            checkboxes.forEach((checkbox, index) => {
+                checkedStates[index] = checkbox.classList.contains('checked');
+            });
+            localStorage.setItem('chromeTutorialProgress', JSON.stringify(checkedStates));
+        }
+
+        // Load saved progress
+        function loadProgress() {
+            const saved = localStorage.getItem('chromeTutorialProgress');
+            if (saved) {
+                const checkedStates = JSON.parse(saved);
+                const checkboxes = document.querySelectorAll('.checklist li');
+                checkboxes.forEach((checkbox, index) => {
+                    if (checkedStates[index]) {
+                        checkbox.classList.add('checked');
+                    }
+                });
+                updateProgress();
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadMethodPreference();
+            loadProgress();
+            
+            // Add click handlers to checklist items
+            document.querySelectorAll('.checklist li').forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.toggle('checked');
+                    updateProgress();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
