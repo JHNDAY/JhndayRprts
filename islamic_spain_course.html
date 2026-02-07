@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamic Spain: Convivencia & Cultural Legacy - 5-Week Course</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e8ba3 100%);
+            color: #2c3e50;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 50%, #CD853F 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            border-bottom: 5px solid #8B4513;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        header p {
+            font-size: 1.2em;
+            font-style: italic;
+            opacity: 0.95;
+        }
+        
+        .timeline {
+            background: #f8f9fa;
+            padding: 30px;
+            border-bottom: 3px solid #dee2e6;
+        }
+        
+        .timeline-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            margin: 20px 0;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #8B4513, #D2691E, #CD853F);
+            z-index: 0;
+        }
+        
+        .timeline-point {
+            background: white;
+            border: 4px solid #8B4513;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #8B4513;
+            z-index: 1;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .timeline-point:hover {
+            transform: scale(1.2);
+            background: #8B4513;
+            color: white;
+        }
+        
+        .timeline-label {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.85em;
+            color: #666;
+        }
+        
+        .week-section {
+            border-left: 5px solid #8B4513;
+            margin: 30px;
+            padding: 30px;
+            background: linear-gradient(to right, #fff8f0 0%, white 100%);
+            border-radius: 0 10px 10px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .week-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 15px;
+            background: #8B4513;
+            color: white;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        
+        .week-header:hover {
+            background: #A0522D;
+            transform: translateX(5px);
+        }
+        
+        .week-number {
+            font-size: 2em;
+            font-weight: bold;
+            opacity: 0.7;
+        }
+        
+        .week-title {
+            flex-grow: 1;
+            margin: 0 20px;
+            font-size: 1.3em;
+        }
+        
+        .week-dates {
+            font-style: italic;
+            opacity: 0.9;
+        }
+        
+        .expand-icon {
+            font-size: 1.5em;
+            transition: transform 0.3s;
+        }
+        
+        .expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+        
+        .week-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+        
+        .week-content.show {
+            max-height: 3000px;
+        }
+        
+        .topics, .questions {
+            margin: 20px 0;
+        }
+        
+        .section-title {
+            font-size: 1.3em;
+            color: #8B4513;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #D2691E;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title::before {
+            content: "◆";
+            margin-right: 10px;
+            color: #CD853F;
+        }
+        
+        .topic-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .topic-list li {
+            padding: 10px 0 10px 25px;
+            position: relative;
+            border-left: 3px solid #CD853F;
+            margin-left: 10px;
+            margin-bottom: 8px;
+        }
+        
+        .topic-list li::before {
+            content: "▸";
+            position: absolute;
+            left: 8px;
+            color: #8B4513;
+            font-weight: bold;
+        }
+        
+        .question-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .question-list li {
+            background: #fff;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #D2691E;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-style: italic;
+        }
+        
+        .reading-section {
+            background: #f8f9fa;
+            padding: 40px;
+            margin-top: 30px;
+        }
+        
+        .reading-title {
+            font-size: 2em;
+            color: #8B4513;
+            margin-bottom: 30px;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #D2691E;
+        }
+        
+        .reading-category {
+            margin: 30px 0;
+        }
+        
+        .category-title {
+            font-size: 1.5em;
+            color: #A0522D;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: white;
+            border-left: 6px solid #8B4513;
+            border-radius: 5px;
+        }
+        
+        .book {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        .book:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+        
+        .book-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .book-author {
+            color: #8B4513;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        
+        .book-description {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        
+        .book-links {
+            margin-top: 12px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .book-link {
+            display: inline-block;
+            padding: 6px 14px;
+            background: #8B4513;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+        
+        .book-link:hover {
+            background: #A0522D;
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            .timeline-container {
+                flex-direction: column;
+            }
+            
+            .timeline-line {
+                width: 4px;
+                height: 100%;
+                left: 50%;
+                top: 0;
+            }
+            
+            .timeline-point {
+                margin: 15px 0;
+            }
+            
+            .week-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .week-number {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Islamic Spain: Convivencia & Cultural Legacy</h1>
+            <p>A 5-Week Exploration of Al-Andalus (711-1252)</p>
+        </header>
+        
+        <div class="timeline">
+            <h2 style="text-align: center; color: #8B4513; margin-bottom: 20px;">Historical Timeline</h2>
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+                <div>
+                    <div class="timeline-point" onclick="scrollToWeek(1)">711-1031</div>
+                    <div class="timeline-label">Conquest & Umayyad</div>
+                </div>
+                <div>
+                    <div class="timeline-point" onclick="scrollToWeek(2)">1031-1150</div>
+                    <div class="timeline-label">Córdoba & Taifa</div>
+                </div>
+                <div>
+                    <div class="timeline-point" onclick="scrollToWeek(3)">Art & Culture</div>
+                    <div class="timeline-label">Architectural Legacy</div>
+                </div>
+                <div>
+                    <div class="timeline-point" onclick="scrollToWeek(4)">Knowledge</div>
+                    <div class="timeline-label">Translation Movement</div>
+                </div>
+                <div>
+                    <div class="timeline-point" onclick="scrollToWeek(5)">1150-1252</div>
+                    <div class="timeline-label">Decline & Legacy</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="week1" class="week-section">
+            <div class="week-header" onclick="toggleWeek(1)">
+                <span class="week-number">1</span>
+                <span class="week-title">The Islamic Conquest and the Umayyad Dynasty</span>
+                <span class="week-dates">711-1031</span>
+                <span class="expand-icon">▼</span>
+            </div>
+            <div id="week1-content" class="week-content">
+                <div class="topics">
+                    <h3 class="section-title">Topics for Investigation</h3>
+                    <ul class="topic-list">
+                        <li>The rapid conquest of Visigothic Spain by Tariq ibn Ziyad and Musa ibn Nusayr</li>
+                        <li>Establishment of Al-Andalus and the Emirate of Córdoba</li>
+                        <li>Abd al-Rahman I's escape from Damascus and creation of an independent emirate</li>
+                        <li>Abd al-Rahman III's declaration of the Caliphate of Córdoba (929)</li>
+                        <li>The administrative, military, and cultural structure of Umayyad rule</li>
+                        <li>Early Christian resistance in Asturias and the emergence of northern Christian kingdoms</li>
+                    </ul>
+                </div>
+                <div class="questions">
+                    <h3 class="section-title">Discussion Questions</h3>
+                    <ul class="question-list">
+                        <li>How did the internal weaknesses of Visigothic Spain facilitate the rapid Islamic conquest, and what does this reveal about the nature of political stability in early medieval societies?</li>
+                        <li>Why did Abd al-Rahman I choose to establish an independent emirate rather than maintain allegiance to the Abbasid Caliphate, and what were the long-term consequences of this decision?</li>
+                        <li>In what ways did the Umayyad rulers balance Arab, Berber, Hispano-Roman, and Jewish populations, and what tensions emerged from this diversity?</li>
+                        <li>How did the declaration of the Caliphate in 929 reflect both the political ambitions and cultural achievements of Al-Andalus at its zenith?</li>
+                        <li>What factors allowed small Christian kingdoms in the north to survive and eventually become the basis for the Reconquista?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="week2" class="week-section">
+            <div class="week-header" onclick="toggleWeek(2)">
+                <span class="week-number">2</span>
+                <span class="week-title">Córdoba at Its Height and the Taifa Period</span>
+                <span class="week-dates">1031-1150</span>
+                <span class="expand-icon">▼</span>
+            </div>
+            <div id="week2-content" class="week-content">
+                <div class="topics">
+                    <h3 class="section-title">Topics for Investigation</h3>
+                    <ul class="topic-list">
+                        <li>The Great Mosque of Córdoba as architectural and cultural achievement</li>
+                        <li>Córdoba as the intellectual capital: libraries, scholars, and scientific advancement</li>
+                        <li>The role of Jews and Christians (dhimmis) in Andalusian society</li>
+                        <li>The collapse of the Caliphate and emergence of competing Taifa kingdoms</li>
+                        <li>The Almoravid invasion from North Africa and its cultural impact</li>
+                        <li>The beginning of significant territorial losses to Christian kingdoms</li>
+                    </ul>
+                </div>
+                <div class="questions">
+                    <h3 class="section-title">Discussion Questions</h3>
+                    <ul class="question-list">
+                        <li>What made Córdoba one of Europe's most advanced cities in the 10th century, and how did it compare to contemporary Christian European urban centers?</li>
+                        <li>How did the fragmentation into Taifa kingdoms paradoxically create both cultural flowering and political vulnerability?</li>
+                        <li>What were the social, legal, and economic realities of dhimmi status for Jews and Christians, and how did this differ from theoretical Islamic law versus practical implementation?</li>
+                        <li>Why did the culturally sophisticated Taifa kings invite the austere Almoravids to intervene, and what does this reveal about the relationship between political necessity and cultural values?</li>
+                        <li>To what extent did the Taifa period represent the apex of convivencia, and what evidence challenges or supports this assessment?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="week3" class="week-section">
+            <div class="week-header" onclick="toggleWeek(3)">
+                <span class="week-number">3</span>
+                <span class="week-title">Islamic Art, Architecture, and Cultural Synthesis</span>
+                <span class="week-dates">Thematic Focus</span>
+                <span class="expand-icon">▼</span>
+            </div>
+            <div id="week3-content" class="week-content">
+                <div class="topics">
+                    <h3 class="section-title">Topics for Investigation</h3>
+                    <ul class="topic-list">
+                        <li>Development of distinctive Moorish architectural styles: horseshoe arches, geometric patterns, calligraphy</li>
+                        <li>The fusion of Roman, Visigothic, Byzantine, and Islamic design elements</li>
+                        <li>Gardens, water systems, and the aesthetic philosophy of Andalusian design</li>
+                        <li>Mudéjar art: Islamic artistic influence in Christian-ruled territories</li>
+                        <li>Decorative arts: ceramics, textiles, metalwork, and their diffusion into Christian Europe</li>
+                        <li>The Alhambra as the culmination of Nasrid artistic achievement</li>
+                    </ul>
+                </div>
+                <div class="questions">
+                    <h3 class="section-title">Discussion Questions</h3>
+                    <ul class="question-list">
+                        <li>How did Islamic prohibitions on representational art lead to innovations in geometric, vegetal, and calligraphic decoration, and what philosophical principles underlay these aesthetic choices?</li>
+                        <li>In what ways did Andalusian architecture reflect both Islamic spiritual values and adaptation to the Iberian climate and landscape?</li>
+                        <li>How did Mudéjar art represent a unique form of cultural continuity after Christian conquest, and what does its persistence reveal about medieval cultural boundaries?</li>
+                        <li>Why did Islamic artistic and architectural elements appeal to Christian rulers and populations, and what does this suggest about the nature of cultural transmission?</li>
+                        <li>What role did artisan communities (Muslim, Jewish, and Christian) play in creating hybrid artistic traditions, and how did their work challenge religious and ethnic divisions?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="week4" class="week-section">
+            <div class="week-header" onclick="toggleWeek(4)">
+                <span class="week-number">4</span>
+                <span class="week-title">The Transmission of Knowledge and Convivencia</span>
+                <span class="week-dates">Thematic Focus</span>
+                <span class="expand-icon">▼</span>
+            </div>
+            <div id="week4-content" class="week-content">
+                <div class="topics">
+                    <h3 class="section-title">Topics for Investigation</h3>
+                    <ul class="topic-list">
+                        <li>Translation movement: Arabic, Hebrew, and Latin scholars collaborating in Toledo and elsewhere</li>
+                        <li>Recovery of Aristotle, Greek medicine, mathematics, and astronomy through Arabic texts</li>
+                        <li>Original contributions by Andalusian scholars: Averroes (Ibn Rushd), Maimonides (Moses ben Maimon), Ibn Hazm</li>
+                        <li>The School of Translators of Toledo and its European impact</li>
+                        <li>Scientific and technological innovations: agriculture, medicine, navigation</li>
+                        <li>Daily life in convivencia: markets, neighborhoods, language mixing, and interreligious relationships</li>
+                        <li>Points of conflict and cooperation between the three religious communities</li>
+                    </ul>
+                </div>
+                <div class="questions">
+                    <h3 class="section-title">Discussion Questions</h3>
+                    <ul class="question-list">
+                        <li>How did the polyglot intellectual environment of Al-Andalus enable the preservation and enhancement of classical knowledge, and what would have been lost without this transmission?</li>
+                        <li>Why were Jewish scholars particularly important as intermediaries between Islamic and Christian intellectual worlds, and what advantages and vulnerabilities did this position create?</li>
+                        <li>What does the career of figures like Averroes and Maimonides reveal about the possibilities and limitations of philosophical inquiry within religious frameworks?</li>
+                        <li>To what extent was convivencia a reality of mutual respect versus a pragmatic modus vivendi characterized by hierarchy and intermittent violence?</li>
+                        <li>How did the flow of ideas from Al-Andalus influence the development of European universities, Scholasticism, and the eventual Renaissance?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="week5" class="week-section">
+            <div class="week-header" onclick="toggleWeek(5)">
+                <span class="week-number">5</span>
+                <span class="week-title">Decline, Reconquista, and Legacy — Comparing Convivencia and E Pluribus Unum</span>
+                <span class="week-dates">1150-1252 & Contemporary Reflections</span>
+                <span class="expand-icon">▼</span>
+            </div>
+            <div id="week5-content" class="week-content">
+                <div class="topics">
+                    <h3 class="section-title">Topics for Investigation</h3>
+                    <ul class="topic-list">
+                        <li>The Almohad invasion and increased religious rigidity</li>
+                        <li>Major Christian victories: Las Navas de Tolosa (1212), Córdoba (1236), Seville (1248)</li>
+                        <li>The survival of the Nasrid Kingdom of Granada until 1492</li>
+                        <li>The transformation of conquered territories: forced conversions, expulsions, and Mudéjar communities</li>
+                        <li>Long-term cultural, linguistic, and genetic legacies in Spain and Portugal</li>
+                        <li>Comparative analysis: Convivencia in medieval Iberia vs. E Pluribus Unum in the United States</li>
+                        <li>Models of pluralism and assimilation</li>
+                        <li>Power dynamics and minority rights</li>
+                        <li>Cultural synthesis versus cultural preservation</li>
+                        <li>The role of law, religion, and social practice in managing diversity</li>
+                        <li>Modern lessons and limitations of historical analogies</li>
+                    </ul>
+                </div>
+                <div class="questions">
+                    <h3 class="section-title">Discussion Questions</h3>
+                    <ul class="question-list">
+                        <li>What combination of military, demographic, and ideological factors led to the reversal of Islamic power in Iberia during the 13th century?</li>
+                        <li>How did Christian rulers treat conquered Muslim and Jewish populations, and how did these policies evolve over the century following major conquests?</li>
+                        <li>In what ways does the concept of convivencia offer useful insights for contemporary multicultural societies, and where does the analogy break down?</li>
+                        <li>How do the ideals and realities of medieval Iberian convivencia compare with American E Pluribus Unum in terms of religious tolerance, cultural integration, legal equality, and social cohesion?</li>
+                        <li>What enduring contributions did Islamic Iberia make to Western civilization, and why is this history often marginalized in conventional narratives of European development?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="reading-section">
+            <h2 class="reading-title">📚 Recommended Reading List</h2>
+            
+            <div class="reading-category">
+                <h3 class="category-title">Core Texts</h3>
+                
+                <div class="book">
+                    <div class="book-title">The Ornament of the World: How Muslims, Jews, and Christians Created a Culture of Tolerance in Medieval Spain</div>
+                    <div class="book-author">María Rosa Menocal (2002)</div>
+                    <div class="book-description">Accessible, engaging narrative emphasizing cultural achievements and interfaith cooperation; excellent for general readers though some scholars critique its idealized portrayal of convivencia</div>
+                    <div class="book-links">
+                        <a href="https://www.worldcat.org/search" class="book-link" target="_blank">WorldCat</a>
+                        <a href="https://www.amazon.com/s?k=Ornament+of+the+World+Menocal" class="book-link" target="_blank">Amazon</a>
+                    </div>
+                </div>
+                
+                <div class="book">
+                    <div class="book-title">Moorish Spain</div>
+                    <div class="book-author">Richard Fletcher (1992)</div>
+                    <div class="book-description">Concise, balanced overview from a historian who questions romantic views of convivencia; provides critical perspective on power dynamics and violence</div>
+                    <div class="book-links">
+                        <a href="https://www.worldcat.org/search" class="book-link" target="_blank">WorldCat</a>
+                        <a href="https://www.amazon.com/s?k=Moorish+Spain+Richard+Fletcher" class="book-link" target="_blank">Amazon</a>
+                    </div>
+                </div>
+                
+                <div class="book">
+                    <div class="book-title">Kingdoms of Faith: A New History of Islamic Spain</div>
+                    <div class="book-author">Brian A. Catlos (2018)</div>
+                    <div class="book-description">Recent, comprehensive synthesis incorporating latest scholarship; nuanced treatment of both cooperation and conflict; excellent for understanding complexity</div>
+                    <div class="book-links">
+                        <a href="https://www.worldcat.org/search" class="book-link" target="_blank">WorldCat</a>
+                        <a href="https://www.amazon.com/s?k=Kingdoms+of+Faith+Brian+Catlos" class="book-link" target="_blank">Amazon</a>
+                        <a href="https://www.basicbooks.com/titles/brian-a-catlos/kingdoms-of-faith/9781541698963/" class="book-link" target="_blank">Publisher</a>
+                    </div>
+                </div>
+                
+                <div class="book">
+                    <div class="book-title">The Arts of Intimacy: Christians, Jews, and Muslims in the Making of Castilian Culture</div>
+                    <div class="book-author">Jerrilynn D. Dodds, María Rosa Menocal, and Abigail Krasner Balbale (2008)</div>
+                    <div class="book-description">Superb treatment of artistic and cultural exchange; richly illustrated; demonstrates how material culture reveals social relationships</div>
+                    <div class="book-links">
+                        <a href="https://www.worldcat.org/search" class="book-link" target="_blank">WorldCat</a>
+                        <a href="https://www.amazon.com/s?k=Arts+of+Intimacy+Dodds+Menocal" class="book-link" target="_blank">Amazon</a>
+                        <a href="https://yalebooks.yale.edu/book/9780300136944/arts-intimacy/" class="book-link" target="_blank">Yale Press</a>
+                    </div>
+                </div>
+                
+                <div class="book">
+                    <div class="book-title">Communities of Violence: Persecution of Minorities in the Middle Ages</div>
+                    <div class="book-author">David Nirenberg (1996)</div>
+                    <div class="book-description">Essential corrective to overly romantic views; examines systemic violence against Jews and Muslims; crucial for understanding limits of convivencia</div>
+                    <div class="book-links">
+                        <a href="https://www.worldcat.org/search" class="book-link" target="_blank">WorldCat</a>
+                        <a href="https://www.amazon.com/s?k=Communities+of+Violence+David+Nirenberg" class="book-link" target="_blank">Amazon</a>
+                        <a href="https://press.princeton.edu/books/paperback/9780691058955/communities-of-violence" class="book-link" target="_blank">Princeton Press</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="reading-category">
+                <h3 class="category-title">Supplementary Resources</h3>
+                
+                <div class="book">
+                    <div class="book-title">Islamic and Christian Spain in the Early Middle Ages</div>
+                    <div class="book-author">Thomas F. Glick (2005)</div>
+                    <div class="book-description">For comparative social and economic history</div>
+                    <div class="book-links">
+                        <a href="https://www.worldcat.org/search" class="book-link" target="_blank">WorldCat</a>
+                        <a href="https://www.amazon.com/s?k=Islamic+Christian+Spain+Early+Middle+Ages+Glick" class="book-link" target="_blank">Amazon</a>
+                    </div>
+                </div>
+                
+                <div class="book">
+                    <div class="book-title">Medieval Iberia: Readings from Christian, Muslim, and Jewish Sources</div>
+                    <div class="book-author">Olivia Remie Constable (ed.) (2012)</div>
+                    <div class="book-description">Primary source collection with excellent contextual essays</div>
+                    <div class="book-links">
+                        <a href="https://www.worldcat.org/search" class="book-link" target="_blank">WorldCat</a>
+                        <a href="https://www.amazon.com/s?k=Medieval+Iberia+Readings+Constable" class="book-link" target="_blank">Amazon</a>
+                        <a href="https://www.upenn.edu/pennpress/book/14116.html" class="book-link" target="_blank">Penn Press</a>
+                    </div>
+                </div>
+                
+                <div class="book">
+                    <div class="book-title">The World of El Cid: Chronicles of the Spanish Reconquest</div>
+                    <div class="book-author">Simon Barton and Richard Fletcher (eds.)</div>
+                    <div class="book-description">For military and political narrative</div>
+                    <div class="book-links">
+                        <a href="https://www.worldcat.org/search" class="book-link" target="_blank">WorldCat</a>
+                        <a href="https://www.amazon.com/s?k=World+of+El+Cid+Barton+Fletcher" class="book-link" target="_blank">Amazon</a>
+                    </div>
+                </div>
+                
+                <div class="book">
+                    <div class="book-title">Power in the Portrayal: Representations of Jews and Muslims in Eleventh- and Twelfth-Century Islamic Spain</div>
+                    <div class="book-author">Ross Brann (2002)</div>
+                    <div class="book-description">For understanding intercommunal perceptions and tensions</div>
+                    <div class="book-links">
+                        <a href="https://www.worldcat.org/search" class="book-link" target="_blank">WorldCat</a>
+                        <a href="https://www.amazon.com/s?k=Power+in+the+Portrayal+Ross+Brann" class="book-link" target="_blank">Amazon</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function toggleWeek(weekNum) {
+            const content = document.getElementById(`week${weekNum}-content`);
+            const header = content.previousElementSibling;
+            
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                header.classList.remove('expanded');
+            } else {
+                content.classList.add('show');
+                header.classList.add('expanded');
+            }
+        }
+        
+        function scrollToWeek(weekNum) {
+            const element = document.getElementById(`week${weekNum}`);
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            // Auto-expand the week
+            const content = document.getElementById(`week${weekNum}-content`);
+            const header = content.previousElementSibling;
+            if (!content.classList.contains('show')) {
+                content.classList.add('show');
+                header.classList.add('expanded');
+            }
+        }
+        
+
+    </script>
+</body>
+</html>
