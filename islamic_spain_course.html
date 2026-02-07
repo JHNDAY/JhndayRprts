@@ -77,9 +77,10 @@
             background: white;
             border: 4px solid #8B4513;
             border-radius: 50%;
-            width: 80px;
-            height: 80px;
+            width: 120px;
+            height: 120px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             font-weight: bold;
@@ -89,19 +90,25 @@
             cursor: pointer;
             transition: all 0.3s;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            text-align: center;
+            padding: 10px;
         }
         
         .timeline-point:hover {
-            transform: scale(1.2);
+            transform: scale(1.15);
             background: #8B4513;
             color: white;
         }
         
+        .timeline-date {
+            font-size: 0.9em;
+            line-height: 1.2;
+        }
+        
         .timeline-label {
-            text-align: center;
-            margin-top: 10px;
-            font-size: 0.85em;
-            color: #666;
+            font-size: 0.75em;
+            margin-top: 3px;
+            opacity: 0.85;
         }
         
         .week-section {
@@ -311,6 +318,7 @@
         @media (max-width: 768px) {
             .timeline-container {
                 flex-direction: column;
+                gap: 20px;
             }
             
             .timeline-line {
@@ -318,10 +326,11 @@
                 height: 100%;
                 left: 50%;
                 top: 0;
+                transform: translateX(-50%);
             }
             
             .timeline-point {
-                margin: 15px 0;
+                margin: 0 auto;
             }
             
             .week-header {
@@ -346,24 +355,24 @@
             <h2 style="text-align: center; color: #8B4513; margin-bottom: 20px;">Historical Timeline</h2>
             <div class="timeline-container">
                 <div class="timeline-line"></div>
-                <div>
-                    <div class="timeline-point" onclick="scrollToWeek(1)">711-1031</div>
+                <div class="timeline-point" onclick="scrollToWeek(1)">
+                    <div class="timeline-date">711-1031</div>
                     <div class="timeline-label">Conquest & Umayyad</div>
                 </div>
-                <div>
-                    <div class="timeline-point" onclick="scrollToWeek(2)">1031-1150</div>
+                <div class="timeline-point" onclick="scrollToWeek(2)">
+                    <div class="timeline-date">1031-1150</div>
                     <div class="timeline-label">Córdoba & Taifa</div>
                 </div>
-                <div>
-                    <div class="timeline-point" onclick="scrollToWeek(3)">Art & Culture</div>
-                    <div class="timeline-label">Architectural Legacy</div>
+                <div class="timeline-point" onclick="scrollToWeek(3)">
+                    <div class="timeline-date">Art &</div>
+                    <div class="timeline-label">Culture</div>
                 </div>
-                <div>
-                    <div class="timeline-point" onclick="scrollToWeek(4)">Knowledge</div>
-                    <div class="timeline-label">Translation Movement</div>
+                <div class="timeline-point" onclick="scrollToWeek(4)">
+                    <div class="timeline-date">Knowledge</div>
+                    <div class="timeline-label">Translation</div>
                 </div>
-                <div>
-                    <div class="timeline-point" onclick="scrollToWeek(5)">1150-1252</div>
+                <div class="timeline-point" onclick="scrollToWeek(5)">
+                    <div class="timeline-date">1150-1252</div>
                     <div class="timeline-label">Decline & Legacy</div>
                 </div>
             </div>
