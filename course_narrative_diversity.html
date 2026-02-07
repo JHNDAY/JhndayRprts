@@ -19,7 +19,7 @@
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
             background: white;
             border-radius: 20px;
@@ -85,10 +85,9 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Course Catalogue View */
         .catalogue-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
             gap: 25px;
             margin-top: 20px;
         }
@@ -108,14 +107,14 @@
         }
 
         .sgl-name {
-            font-size: 1.4em;
+            font-size: 1.3em;
             font-weight: 700;
             color: #667eea;
             margin-bottom: 8px;
         }
 
         .course-title {
-            font-size: 1.15em;
+            font-size: 1.05em;
             font-weight: 600;
             color: #333;
             margin-bottom: 12px;
@@ -128,42 +127,39 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border-radius: 20px;
-            font-size: 0.85em;
+            font-size: 0.8em;
             font-weight: 600;
             margin-bottom: 15px;
         }
 
         .course-description {
             color: #555;
-            line-height: 1.7;
-            font-size: 0.95em;
+            line-height: 1.6;
+            font-size: 0.9em;
         }
 
-        /* Matrix View */
+        .matrix-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
         .matrix-grid {
             display: grid;
-            grid-template-columns: 200px repeat(9, 1fr);
+            grid-template-columns: 180px repeat(12, 1fr);
             gap: 2px;
             background: #ddd;
             border-radius: 10px;
             overflow: hidden;
-            margin-top: 20px;
-        }
-
-        .course-leader {
-            color: #764ba2;
-            font-weight: 600;
-            margin-bottom: 12px;
-            font-size: 0.95em;
+            min-width: 1500px;
         }
 
         .matrix-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 15px 10px;
+            padding: 15px 6px;
             font-weight: 600;
             text-align: center;
-            font-size: 0.9em;
+            font-size: 0.7em;
         }
 
         .matrix-row-label {
@@ -172,21 +168,21 @@
             font-weight: 600;
             display: flex;
             align-items: center;
-            font-size: 0.9em;
+            font-size: 0.85em;
         }
 
         .matrix-cell {
             background: white;
-            padding: 15px;
+            padding: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 60px;
+            min-height: 55px;
         }
 
         .matrix-dot {
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
             transition: transform 0.3s;
         }
@@ -208,21 +204,9 @@
             background: #e0e7ff;
         }
 
-        .dot-corrected {
-            background: #10b981;
-            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        /* Constellation View */
         .constellation-svg {
             width: 100%;
-            height: 700px;
+            height: 850px;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             border-radius: 15px;
             margin-top: 20px;
@@ -239,14 +223,14 @@
         }
 
         .course-label {
-            font-size: 16px;
+            font-size: 13px;
             font-weight: 700;
             pointer-events: none;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
         }
 
         .course-subtitle {
-            font-size: 12px;
+            font-size: 10px;
             font-weight: 400;
             pointer-events: none;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
@@ -264,7 +248,6 @@
             font-weight: 500;
         }
 
-        /* Legend */
         .legend {
             background: #f5f7fa;
             padding: 20px;
@@ -317,43 +300,12 @@
             color: #444;
             line-height: 1.6;
         }
-
-        .correction-box {
-            background: #d1fae5;
-            border-left: 4px solid #10b981;
-            padding: 20px;
-            margin: 30px 0;
-            border-radius: 8px;
-        }
-
-        .correction-title {
-            font-weight: 700;
-            color: #10b981;
-            margin-bottom: 10px;
-            font-size: 1.1em;
-        }
-
-        .correction-text {
-            color: #444;
-            line-height: 1.6;
-            margin-bottom: 10px;
-        }
-
-        .correction-list {
-            margin-left: 20px;
-            margin-top: 10px;
-        }
-
-        .correction-list li {
-            margin-bottom: 8px;
-            color: #555;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Course Narrative Diversity (Revised)</h1>
-        <p class="subtitle">Exploring the Rich Spectrum of BOLLI Course Proposals</p>
+        <h1>Course Narrative Diversity</h1>
+        <p class="subtitle">12 BOLLI Courses Spanning Disciplines, Time Periods, and Pedagogies</p>
 
         <div class="viz-tabs">
             <button class="tab-button active" onclick="showTab('catalogue')">Course Catalogue</button>
@@ -361,14 +313,14 @@
             <button class="tab-button" onclick="showTab('constellation')">Subject Constellation</button>
         </div>
 
-        <!-- COURSE CATALOGUE VIEW -->
+        <!-- CATALOGUE -->
         <div id="catalogue" class="viz-panel active">
             <div class="insight-box">
                 <div class="insight-title">📚 Course Catalogue Overview</div>
                 <div class="insight-text">
-                    Nine Study Group Leaders bringing diverse expertise and passion to BOLLI's learning community. 
-                    From ancient Rome to contemporary politics, from Jewish philosophy to Trump-era language—
-                    each course reflects its leader's unique voice and pedagogical vision.
+                    Twelve Study Group Leaders bringing extraordinary diversity to BOLLI: ancient Rome to Trump-era politics, 
+                    Jewish philosophy to Chinese patchwork, memoir close-reading to intergenerational dialogue. Each reflects 
+                    its leader's unique expertise and pedagogical vision.
                 </div>
             </div>
 
@@ -378,90 +330,61 @@
                     <div class="course-title">Radical Jewish Philosophies: A Legacy of Spinoza</div>
                     <span class="topic-badge">Philosophy & Religion</span>
                     <div class="course-description">
-                        Explores the evolution of contemporary radical Jewish philosophies (Reconstructionism, neo-Hasidism/Renewal, 
-                        Feminism/LGBTQ movements) and traces their roots to Spinoza's 17th-century critique of traditional Judaism. 
-                        Through systematic examination of three central concepts—God, Torah, and Israel—students discover how Jewish 
-                        ideas evolve in response to new social and historical situations, with Spinoza's philosophy serving as a 
-                        continuing catalyst for this transformation.
+                        Traces contemporary radical Jewish philosophies back to Spinoza's 17th-century critique. Through systematic examination of God, Torah, and Israel across centuries (Rabbinic period, Maimonides, Spinoza, modern movements), students see how Jewish ideas evolve with social change.
                     </div>
                 </div>
 
                 <div class="catalogue-card">
-                    <div class="sgl-name">Kate (Ehrlich) Seideman</div>
+                    <div class="sgl-name">Kate Seideman</div>
                     <div class="course-title">Women Fighting Injustice</div>
                     <span class="topic-badge">History & Film Studies</span>
                     <div class="course-description">
-                        Through five fiction films from the US, England, and Australia, this course examines historical examples of 
-                        women confronting issues of suffrage, workplace discrimination, and abuse. Rather than focusing on individual 
-                        heroism, the course explores the complex group dynamics of protest movements—how women organize, navigate 
-                        leadership challenges, manage internal conflicts, develop strategies, and mobilize resources to work 
-                        effectively for their rights.
+                        Five fiction films from US, England, Australia depicting women confronting suffrage, discrimination, abuse. Rather than individual heroism, explores group protest dynamics—leadership, conflict, strategy, resource mobilization for collective rights.
                     </div>
                 </div>
 
                 <div class="catalogue-card">
                     <div class="sgl-name">Judy Feldman</div>
-                    <div class="course-title">My Good Bright Wolf: Understanding Anorexia Through Memoir</div>
+                    <div class="course-title">My Good Bright Wolf: Understanding Anorexia</div>
                     <span class="topic-badge">Psychology & Health</span>
                     <div class="course-description">
-                        A close reading of Sarah Moss's memoir provides students with deep understanding of the psychological, 
-                        medical, and sociological aspects of anorexia and its treatment. The course examines early signs, family 
-                        dynamics, life-cycle triggers, social pressures, treatment approaches, and recovery challenges. Students 
-                        also explore how memoir serves as both therapy and education for patients and families dealing with this 
-                        complex illness.
+                        Close reading of Sarah Moss's memoir illuminates anorexia's psychological, medical, sociological dimensions. Examines early signs, family dynamics, life-cycle triggers, social pressures, treatment spectrum, chronicity, recovery, and memoir as therapeutic education.
                     </div>
                 </div>
 
                 <div class="catalogue-card">
                     <div class="sgl-name">Ollie Curme</div>
-                    <div class="course-title">Understanding and Navigating Dysfunctional Family Relationships</div>
+                    <div class="course-title">Dysfunctional Family Relationships</div>
                     <span class="topic-badge">Psychology & Personal Growth</span>
                     <div class="course-description">
-                        A 10-week exploration of major psychological frameworks for understanding family dysfunction, including Bowen 
-                        Family Systems Theory, Attachment Theory, and concepts like intergenerational trauma, narcissistic family 
-                        systems, and codependency. Participants engage with theoretical frameworks while discussing their own 
-                        experiences, examining topics from psychological boundaries and communication patterns to managing toxic 
-                        relationships, estrangement, and paths toward healing.
+                        10-week framework study: Bowen Systems, Attachment Theory, intergenerational trauma, narcissistic systems, codependency. Participants discuss personal experiences while exploring boundaries, communication patterns, toxic relationship management, estrangement, healing.
                     </div>
                 </div>
 
                 <div class="catalogue-card">
                     <div class="sgl-name">Michael Sherrow</div>
-                    <div class="course-title">Louisiana Purchase & Lewis and Clark Expedition</div>
+                    <div class="course-title">Louisiana Purchase & Lewis and Clark</div>
                     <span class="topic-badge">American History</span>
                     <div class="course-description">
-                        A PowerPoint-driven exploration of one of America's most consequential territorial acquisitions and the 
-                        legendary expedition that followed. The course traces Indian and French history of the territory, the fur 
-                        trade as commodity, French colonial ambitions, the French and Indian War, Jefferson's vision, Napoleon's 
-                        problems, the purchase itself, and the complete Lewis and Clark journey from preparation through aftermath. 
-                        Rich with graphics and historical detail.
+                        PowerPoint-rich exploration: Indian and French territorial history, fur trade, colonial ambitions, French-Indian War, Jefferson's vision, Napoleon's problems, purchase consummation, complete Lewis & Clark journey. Visual graphics bring historical detail alive.
                     </div>
                 </div>
 
                 <div class="catalogue-card">
                     <div class="sgl-name">Marlene Hobel</div>
-                    <div class="course-title">Grit & Grace: Short Stories of Larry Brown & Tim Gautreaux</div>
+                    <div class="course-title">Grit & Grace: Southern Short Stories</div>
                     <span class="topic-badge">Literature & Southern Studies</span>
                     <div class="course-description">
-                        An examination of two contemporary masters of Southern storytelling who write from the working-class South 
-                        but with strikingly different literary styles. Larry Brown's dirty realism offers raw, unflinching portraits 
-                        of lives on the edge, while Tim Gautreaux's comic realism illuminates moments of grace and resilience amid 
-                        failure. Reading these writers side by side, students explore how style, worldview, and region shape literary 
-                        portrayals of class, family, masculinity, and morality in late 20th-century Southern literature.
+                        Larry Brown's dirty realism vs. Tim Gautreaux's comic realism—two masters, contrasting styles. Side-by-side reading explores how style, worldview, region shape portrayals of working-class South: class, family, masculinity, morality, despair and redemption.
                     </div>
                 </div>
 
                 <div class="catalogue-card">
                     <div class="sgl-name">Steve Ostrow</div>
-                    <div class="course-title">Roma Aeterna: The Ancient City of Rome</div>
+                    <div class="course-title">Roma Aeterna: Ancient City of Rome</div>
                     <span class="topic-badge">Ancient History & Archaeology</span>
                     <div class="course-description">
-                        Beyond the breathtaking monuments and imperial grandeur, how did Rome's people actually live? This course 
-                        explores the Eternal City through its surviving structures—mausolea, palaces, the Colosseum, bath complexes, 
-                        aqueducts, and fortification walls—to uncover the daily realities of different social classes. From emperors 
-                        to slaves, from native Romans to foreigners, students examine what the city's impressive visible infrastructure 
-                        reveals about commerce, entertainment, religion, and the lived experience of all who inhabited this ancient 
-                        metropolis.
+                        Beyond monuments' grandeur: what do surviving structures reveal about actual lived experience? Mausolea, palaces, Colosseum, baths, aqueducts, walls—examined for insights into daily realities across social classes, from emperors to slaves, natives to foreigners.
                     </div>
                 </div>
 
@@ -470,154 +393,187 @@
                     <div class="course-title">Religion and Politics</div>
                     <span class="topic-badge">American History & Political Science</span>
                     <div class="course-description">
-                        A sweeping 400-year examination of religion's profound influence on American politics, from the Puritans and 
-                        Pilgrims to Project 2025. The course traces how religious movements have shaped—and been shaped by—political 
-                        developments including abolition, women's suffrage, Civil Rights, and contemporary battles over church-state 
-                        separation. Through chronological study spanning the Colonial period, Great Awakenings, Civil War era, and the 
-                        modern alliance of Christian Evangelicals with the political right, students explore how religious institutions 
-                        and beliefs have served as both progressive and reactionary forces in American democracy.
+                        400 years: Puritans to Project 2025. Religion's major force in American politics—sometimes progressive (abolition, suffrage, Civil Rights), sometimes reactionary. Colonial period, Great Awakenings, Civil War, modern evangelical-political alliance, church-state separation battles.
                     </div>
                 </div>
 
                 <div class="catalogue-card">
                     <div class="sgl-name">Lois Ambash</div>
-                    <div class="course-title">War of Words: Language, Culture, and Public Policy in the Trump Era</div>
+                    <div class="course-title">War of Words: Trump Era Language</div>
                     <span class="topic-badge">Linguistics & Cultural Studies</span>
                     <div class="course-description">
-                        How has the Trump decade fundamentally reshaped American language, culture, and civic discourse? This course 
-                        examines the seismic changes in how Americans speak, debate, and understand each other through multiple lenses: 
-                        social media algorithms, meme culture, visual language, censorship and book banning, conspiracy theories, and 
-                        the attention economy. From permission structures in political speech to the pace of linguistic change in the 
-                        digital age, students analyze Trump's pervasive impact on norms, monuments, patriotism, and the very words we're 
-                        allowed to use—then envision what the next decade might bring for American democracy and their grandchildren's 
-                        future.
+                        Trump's decade reshaping American language and culture. Examines algorithms, social media, meme culture, censorship, book banning, conspiracy theories, attention economy, permission structures. Students envision next decade's implications for democracy and grandchildren's future.
+                    </div>
+                </div>
+
+                <div class="catalogue-card">
+                    <div class="sgl-name">Diane Winkleman</div>
+                    <div class="course-title">Boston Contemporary Art Scene</div>
+                    <span class="topic-badge">Contemporary Art & Museums</span>
+                    <div class="course-description">
+                        Three museum visits (MFA, ICA, Rose Museum) plus in-person sessions studying Boston artists: conceptual, performance, installation art. ICA Foster Prize recipients, artists with Boston connections (Shrestha, Moses, Almeida). Accessible exploration anchored in local context.
+                    </div>
+                </div>
+
+                <div class="catalogue-card">
+                    <div class="sgl-name">Margaret Mukherjee</div>
+                    <div class="course-title">Chinese Patchwork: Centuries Ago and Now</div>
+                    <span class="topic-badge">Art History & Cultural Studies</span>
+                    <div class="course-description">
+                        Historical development from Buddhism's influence through centuries. Women in small villages creating enduring art—colors, arrangements, abstract designs of beauty and joy. Study extends to similar patchwork art forms across cultures, revealing universal creative patterns.
+                    </div>
+                </div>
+
+                <div class="catalogue-card">
+                    <div class="sgl-name">Barbara Friedman</div>
+                    <div class="course-title">Generations in Dialogue: Aging in Society</div>
+                    <span class="topic-badge">Gerontology & Sociology</span>
+                    <div class="course-description">
+                        BOLLI and Brandeis students together: aging demographics (80+ fastest growing), ageism, invisibility, generational blame, governmental policies, intentional intergenerational communities. Conversation balances theory with lived experiences through intergenerational lens. Collaborative with Professor Sarah Lamb.
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- MATRIX VIEW -->
+        <!-- MATRIX -->
         <div id="matrix" class="viz-panel">
-            <div class="correction-box">
-                <div class="correction-title">✓ Corrections Based on SGL Feedback</div>
-                <div class="correction-text">
-                    This revised matrix corrects a key limitation of AI narrative analysis: <strong>written course descriptions don't 
-                    always make pedagogical methods explicit</strong>. The original matrix, based solely on narrative text, 
-                    underestimated the discussion-intensive nature of several courses.
-                </div>
-                <div class="correction-text"><strong>What Changed (green dots):</strong></div>
-                <ul class="correction-list">
-                    <li><strong>Marlene Hobel (Grit & Grace):</strong> Discussion-Based changed from Medium to High. The course is 
-                    95% facilitated discussion of short stories, but the narrative emphasized comparative literary analysis rather 
-                    than the discussion method itself.</li>
-                    <li><strong>Judy Feldman (My Good Bright Wolf):</strong> Discussion-Based remains High, now clearly aligned with 
-                    Hobel's approach. Both courses use close reading as the foundation for extensive facilitated discussion.</li>
-                </ul>
-                <div class="correction-text">
-                    <strong>Pedagogical Insight:</strong> This discrepancy reveals why Session 2 (Course Analysis & Optimization) 
-                    matters. When AI misreads pedagogical approach from a narrative, that's diagnostic information—the description 
-                    might benefit from making methods more explicit, not because the course needs to change, but because the text 
-                    could better communicate what makes it distinctive.
-                </div>
-            </div>
-
             <div class="insight-box">
-                <div class="insight-title">💡 Key Insight: Pedagogical Diversity</div>
+                <div class="insight-title">💡 Pedagogical Diversity Across 12 Courses</div>
                 <div class="insight-text">
-                    Different courses employ vastly different learning approaches. Understanding these patterns helps 
-                    SGLs identify which AI capabilities (research, analysis, discussion facilitation, content organization) 
-                    will be most valuable for their specific pedagogical approach.
+                    From lecture-based presentations to museum visits, from close textual analysis to intergenerational dialogue—
+                    these courses employ fundamentally different learning approaches. Understanding these patterns helps SGLs 
+                    identify which AI capabilities best support their specific pedagogy.
                 </div>
             </div>
 
-            <div class="matrix-grid">
-                <div class="matrix-header">Approach</div>
-                <div class="matrix-header">Morris</div>
-                <div class="matrix-header">Seideman</div>
-                <div class="matrix-header">Feldman</div>
-                <div class="matrix-header">Curme</div>
-                <div class="matrix-header">Sherrow</div>
-                <div class="matrix-header">Hobel</div>
-                <div class="matrix-header">Ostrow</div>
-                <div class="matrix-header">Shapiro</div>
-                <div class="matrix-header">Ambash</div>
+            <div class="matrix-container">
+                <div class="matrix-grid">
+                    <div class="matrix-header">Approach</div>
+                    <div class="matrix-header">Morris</div>
+                    <div class="matrix-header">Seideman</div>
+                    <div class="matrix-header">Feldman</div>
+                    <div class="matrix-header">Curme</div>
+                    <div class="matrix-header">Sherrow</div>
+                    <div class="matrix-header">Hobel</div>
+                    <div class="matrix-header">Ostrow</div>
+                    <div class="matrix-header">Shapiro</div>
+                    <div class="matrix-header">Ambash</div>
+                    <div class="matrix-header">Winkleman</div>
+                    <div class="matrix-header">Mukherjee</div>
+                    <div class="matrix-header">Friedman</div>
 
-                <div class="matrix-row-label">Historical Analysis</div>
-                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-row-label">Historical Analysis</div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
 
-                <div class="matrix-row-label">Close Reading</div>
-                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-row-label">Close Reading</div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
 
-                <div class="matrix-row-label">Personal Reflection</div>
-                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-row-label">Personal Reflection</div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
 
-                <div class="matrix-row-label">Discussion-Based</div>
-                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-corrected"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-row-label">Discussion-Based</div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
 
-                <div class="matrix-row-label">Visual/Media</div>
-                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-row-label">Visual/Media</div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
 
-                <div class="matrix-row-label">Theoretical Framework</div>
-                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-row-label">Theoretical Framework</div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
 
-                <div class="matrix-row-label">Comparative Analysis</div>
-                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
-                <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-row-label">Comparative Analysis</div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-medium"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+
+                    <div class="matrix-row-label">Experiential Learning</div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-low"></div></div>
+                    <div class="matrix-cell"><div class="matrix-dot dot-high"></div></div>
+                </div>
             </div>
 
             <div class="legend">
@@ -635,22 +591,18 @@
                         <div class="legend-color dot-low"></div>
                         <span>Minor or absent</span>
                     </div>
-                    <div class="legend-item">
-                        <div class="legend-color dot-corrected"></div>
-                        <span>Corrected based on SGL feedback</span>
-                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- CONSTELLATION VIEW -->
+        <!-- CONSTELLATION -->
         <div id="constellation" class="viz-panel">
             <div class="insight-box">
-                <div class="insight-title">💡 Key Insight: Subject Matter Diversity</div>
+                <div class="insight-title">💡 Subject Matter Diversity</div>
                 <div class="insight-text">
-                    These courses span multiple academic disciplines, time periods, and cultural contexts. This constellation 
-                    view reveals clustering patterns and connections between seemingly disparate subjects—useful for identifying 
-                    opportunities for cross-course dialogue and interdisciplinary AI-assisted research.
+                    From ancient Rome to contemporary Trump politics, from traditional Chinese crafts to intergenerational dialogue—
+                    these courses reveal extraordinary range. This constellation maps clustering patterns and opportunities for 
+                    cross-disciplinary connections.
                 </div>
             </div>
 
@@ -665,9 +617,6 @@
                     <div class="legend-item">
                         <span><strong>Y-Axis:</strong> Focus (Individual ← → Collective)</span>
                     </div>
-                    <div class="legend-item">
-                        <span><strong>Color:</strong> Primary discipline or theme</span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -675,23 +624,17 @@
 
     <script>
         function showTab(tabName) {
-            // Hide all panels
             document.querySelectorAll('.viz-panel').forEach(panel => {
                 panel.classList.remove('active');
             });
             
-            // Remove active state from all buttons
             document.querySelectorAll('.tab-button').forEach(button => {
                 button.classList.remove('active');
             });
             
-            // Show selected panel
             document.getElementById(tabName).classList.add('active');
-            
-            // Activate clicked button
             event.target.classList.add('active');
 
-            // Initialize constellation if that tab is shown
             if (tabName === 'constellation') {
                 createConstellation();
             }
@@ -699,91 +642,28 @@
 
         function createConstellation() {
             const svg = document.getElementById('constellationSvg');
-            if (svg.children.length > 0) return; // Already created
+            if (svg.children.length > 0) return;
 
             const width = svg.clientWidth;
-            const height = 700;
+            const height = 850;
 
-            // Course data with better spacing and positioning
             const courses = [
-                {
-                    name: 'Morris',
-                    full: 'Radical Jewish',
-                    subtitle: 'Philosophies',
-                    x: 200, y: 180,
-                    color: '#8b5cf6',
-                    radius: 45
-                },
-                {
-                    name: 'Seideman',
-                    full: 'Women Fighting',
-                    subtitle: 'Injustice',
-                    x: 500, y: 150,
-                    color: '#ec4899',
-                    radius: 40
-                },
-                {
-                    name: 'Feldman',
-                    full: 'My Good',
-                    subtitle: 'Bright Wolf',
-                    x: 950, y: 220,
-                    color: '#10b981',
-                    radius: 38
-                },
-                {
-                    name: 'Curme',
-                    full: 'Dysfunctional',
-                    subtitle: 'Families',
-                    x: 1150, y: 400,
-                    color: '#f59e0b',
-                    radius: 35
-                },
-                {
-                    name: 'Sherrow',
-                    full: 'Louisiana Purchase',
-                    subtitle: 'Lewis & Clark',
-                    x: 250, y: 520,
-                    color: '#3b82f6',
-                    radius: 32
-                },
-                {
-                    name: 'Hobel',
-                    full: 'Grit & Grace',
-                    subtitle: 'Southern Stories',
-                    x: 700, y: 500,
-                    color: '#ef4444',
-                    radius: 48
-                },
-                {
-                    name: 'Ostrow',
-                    full: 'Roma Aeterna',
-                    subtitle: 'Ancient Rome',
-                    x: 380, y: 280,
-                    color: '#06b6d4',
-                    radius: 42
-                },
-                {
-                    name: 'Shapiro',
-                    full: 'Religion',
-                    subtitle: 'and Politics',
-                    x: 320, y: 120,
-                    color: '#84cc16',
-                    radius: 40
-                },
-                {
-                    name: 'Ambash',
-                    full: 'War of Words',
-                    subtitle: 'Trump Era',
-                    x: 1000, y: 480,
-                    color: '#f43f5e',
-                    radius: 44
-                }
+                { name: 'Morris', full: 'Radical Jewish', subtitle: 'Philosophies', x: 200, y: 180, color: '#8b5cf6', radius: 36 },
+                { name: 'Seideman', full: 'Women Fighting', subtitle: 'Injustice', x: 420, y: 140, color: '#ec4899', radius: 33 },
+                { name: 'Feldman', full: 'My Good', subtitle: 'Bright Wolf', x: 950, y: 200, color: '#10b981', radius: 31 },
+                { name: 'Curme', full: 'Dysfunctional', subtitle: 'Families', x: 1100, y: 350, color: '#f59e0b', radius: 30 },
+                { name: 'Sherrow', full: 'Louisiana', subtitle: 'Purchase', x: 270, y: 530, color: '#3b82f6', radius: 28 },
+                { name: 'Hobel', full: 'Grit & Grace', subtitle: 'Southern Stories', x: 680, y: 510, color: '#ef4444', radius: 38 },
+                { name: 'Ostrow', full: 'Roma Aeterna', subtitle: 'Ancient Rome', x: 340, y: 280, color: '#06b6d4', radius: 35 },
+                { name: 'Shapiro', full: 'Religion', subtitle: 'and Politics', x: 310, y: 105, color: '#84cc16', radius: 34 },
+                { name: 'Ambash', full: 'War of Words', subtitle: 'Trump Era', x: 1020, y: 490, color: '#f43f5e', radius: 35 },
+                { name: 'Winkleman', full: 'Boston Art', subtitle: 'Scene', x: 850, y: 650, color: '#a855f7', radius: 32 },
+                { name: 'Mukherjee', full: 'Chinese', subtitle: 'Patchwork', x: 520, y: 320, color: '#14b8a6', radius: 30 },
+                { name: 'Friedman', full: 'Generations', subtitle: 'in Dialogue', x: 1200, y: 600, color: '#fb923c', radius: 33 }
             ];
 
-            // Draw axes
             const axisGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
             
-            // Horizontal axis
             const hLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
             hLine.setAttribute('x1', '80');
             hLine.setAttribute('y1', height/2);
@@ -792,7 +672,6 @@
             hLine.setAttribute('class', 'dimension-axis');
             axisGroup.appendChild(hLine);
 
-            // Vertical axis
             const vLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
             vLine.setAttribute('x1', width/2);
             vLine.setAttribute('y1', '60');
@@ -801,7 +680,6 @@
             vLine.setAttribute('class', 'dimension-axis');
             axisGroup.appendChild(vLine);
 
-            // Axis labels
             const labels = [
                 { text: 'Historical', x: 150, y: height/2 - 20 },
                 { text: 'Contemporary', x: width - 200, y: height/2 - 20 },
@@ -820,12 +698,10 @@
 
             svg.appendChild(axisGroup);
 
-            // Draw courses
-            courses.forEach((course, index) => {
+            courses.forEach((course) => {
                 const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
                 group.setAttribute('class', 'course-node');
 
-                // Outer glow circle
                 const glow = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                 glow.setAttribute('cx', course.x);
                 glow.setAttribute('cy', course.y);
@@ -834,7 +710,6 @@
                 glow.setAttribute('opacity', '0.3');
                 group.appendChild(glow);
 
-                // Main circle
                 const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                 circle.setAttribute('cx', course.x);
                 circle.setAttribute('cy', course.y);
@@ -844,37 +719,33 @@
                 circle.setAttribute('stroke-width', '3');
                 group.appendChild(circle);
 
-                // Name label (above circle)
                 const nameText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                 nameText.setAttribute('x', course.x);
-                nameText.setAttribute('y', course.y - course.radius - 25);
+                nameText.setAttribute('y', course.y - course.radius - 18);
                 nameText.setAttribute('text-anchor', 'middle');
                 nameText.setAttribute('class', 'course-label');
                 nameText.setAttribute('fill', 'white');
                 nameText.textContent = course.name;
                 group.appendChild(nameText);
 
-                // Course title line 1
                 const titleText1 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                 titleText1.setAttribute('x', course.x);
-                titleText1.setAttribute('y', course.y + course.radius + 20);
+                titleText1.setAttribute('y', course.y + course.radius + 16);
                 titleText1.setAttribute('text-anchor', 'middle');
                 titleText1.setAttribute('class', 'course-subtitle');
                 titleText1.setAttribute('fill', 'rgba(255,255,255,0.8)');
                 titleText1.textContent = course.full;
                 group.appendChild(titleText1);
 
-                // Course title line 2
                 const titleText2 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                 titleText2.setAttribute('x', course.x);
-                titleText2.setAttribute('y', course.y + course.radius + 36);
+                titleText2.setAttribute('y', course.y + course.radius + 28);
                 titleText2.setAttribute('text-anchor', 'middle');
                 titleText2.setAttribute('class', 'course-subtitle');
                 titleText2.setAttribute('fill', 'rgba(255,255,255,0.8)');
                 titleText2.textContent = course.subtitle;
                 group.appendChild(titleText2);
 
-                // Title attribute for tooltip
                 const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
                 title.textContent = course.name + ': ' + course.full + ' ' + course.subtitle;
                 group.appendChild(title);
