@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Research Modes: Claude vs Gemini</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --claude-primary: #FF6B35;
+            --claude-secondary: #FFA07A;
+            --claude-bg: #FFF5F0;
+            --gemini-primary: #4A90E2;
+            --gemini-secondary: #87CEEB;
+            --gemini-bg: #F0F8FF;
+            --dark: #1a1a1a;
+            --mid-gray: #666;
+            --light-gray: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, var(--claude-bg) 0%, var(--claude-bg) 50%, var(--gemini-bg) 50%, var(--gemini-bg) 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: var(--dark);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--claude-primary), var(--gemini-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: var(--mid-gray);
+            font-weight: 500;
+        }
+
+        .instruction-banner {
+            margin-top: 1.5rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(74, 144, 226, 0.1));
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--mid-gray);
+            font-weight: 500;
+            border: 2px solid rgba(255, 107, 53, 0.2);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .instruction-icon {
+            font-size: 1.2rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 0 8px rgba(255, 107, 53, 0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .panel:hover {
+            transform: translateY(-5px);
+        }
+
+        .panel-header-clickable {
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .panel-header-clickable:hover {
+            opacity: 0.8;
+        }
+
+        .panel-header-clickable:hover::after {
+            content: 'Click to expand/collapse';
+            position: absolute;
+            top: -2rem;
+            right: 0;
+            background: var(--dark);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            white-space: nowrap;
+            animation: tooltipFade 0.3s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes tooltipFade {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .panel-header-clickable:active {
+            transform: scale(0.99);
+        }
+
+        .expand-indicator {
+            margin-left: auto;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+            color: var(--panel-color);
+            opacity: 0.7;
+        }
+
+        .panel.expanded .expand-indicator {
+            transform: rotate(180deg);
+        }
+
+        .panel-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .panel.expanded .panel-content {
+            max-height: 10000px;
+            opacity: 1;
+            padding-top: 1.5rem;
+        }
+
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, var(--panel-color), var(--panel-secondary));
+        }
+
+        .panel.claude {
+            --panel-color: var(--claude-primary);
+            --panel-secondary: var(--claude-secondary);
+        }
+
+        .panel.gemini {
+            --panel-color: var(--gemini-primary);
+            --panel-secondary: var(--gemini-secondary);
+        }
+
+        .panel-header {
+            margin-bottom: 2rem;
+        }
+
+        .panel-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--panel-color);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--panel-color);
+            border-radius: 10px;
+            color: white;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--mid-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .philosophy {
+            font-style: italic;
+            color: var(--mid-gray);
+            padding: 1rem;
+            background: var(--light-gray);
+            border-radius: 10px;
+            border-left: 4px solid var(--panel-color);
+        }
+
+        .checklist {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .checklist-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            animation: slideIn 0.5s ease-out both;
+        }
+
+        .checklist-item:nth-child(1) { animation-delay: 0.1s; }
+        .checklist-item:nth-child(2) { animation-delay: 0.15s; }
+        .checklist-item:nth-child(3) { animation-delay: 0.2s; }
+        .checklist-item:nth-child(4) { animation-delay: 0.25s; }
+        .checklist-item:nth-child(5) { animation-delay: 0.3s; }
+        .checklist-item:nth-child(6) { animation-delay: 0.35s; }
+        .checklist-item:nth-child(7) { animation-delay: 0.4s; }
+        .checklist-item:nth-child(8) { animation-delay: 0.45s; }
+        .checklist-item:nth-child(9) { animation-delay: 0.5s; }
+        .checklist-item:nth-child(10) { animation-delay: 0.55s; }
+
+        .checklist-item:hover {
+            background: var(--light-gray);
+            transform: translateX(5px);
+        }
+
+        .checkbox-wrapper {
+            flex-shrink: 0;
+            margin-top: 0.2rem;
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--panel-color);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .checkbox:hover {
+            background: var(--panel-color);
+            opacity: 0.3;
+        }
+
+        .checkbox.checked {
+            background: var(--panel-color);
+            border-color: var(--panel-color);
+        }
+
+        .checkbox.checked::after {
+            content: '✓';
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            animation: checkPop 0.3s ease-out;
+        }
+
+        .checklist-content h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .checklist-content p {
+            font-size: 0.9rem;
+            color: var(--mid-gray);
+            line-height: 1.5;
+        }
+
+        .strengths {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.05), rgba(255, 160, 122, 0.1));
+            border-radius: 15px;
+            border: 2px solid var(--panel-color);
+        }
+
+        .gemini .strengths {
+            background: linear-gradient(135deg, rgba(74, 144, 226, 0.05), rgba(135, 206, 235, 0.1));
+        }
+
+        .strengths h3 {
+            font-weight: 700;
+            color: var(--panel-color);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .strengths p {
+            color: var(--mid-gray);
+            line-height: 1.6;
+        }
+
+        .comparison-matrix {
+            margin-top: 3rem;
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-out 0.6s both;
+            position: relative;
+        }
+
+        .comparison-matrix::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, var(--claude-primary), var(--gemini-primary));
+            border-radius: 20px 20px 0 0;
+        }
+
+        .matrix-header-clickable {
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .matrix-header-clickable:hover {
+            opacity: 0.8;
+        }
+
+        .matrix-header-clickable:hover::after {
+            content: 'Click to expand/collapse';
+            position: absolute;
+            top: -2.5rem;
+            right: 50%;
+            transform: translateX(50%);
+            background: var(--dark);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            white-space: nowrap;
+            animation: tooltipFade 0.3s ease-out;
+            pointer-events: none;
+        }
+
+        .matrix-header-clickable:active {
+            transform: scale(0.99);
+        }
+
+        .matrix-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0;
+            background: linear-gradient(135deg, var(--claude-primary), var(--gemini-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .matrix-title .expand-indicator {
+            background: linear-gradient(135deg, var(--claude-primary), var(--gemini-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .matrix-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .comparison-matrix.expanded .matrix-content {
+            max-height: 5000px;
+            opacity: 1;
+            padding-top: 2rem;
+        }
+
+        .comparison-matrix.expanded .expand-indicator {
+            transform: rotate(180deg);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: var(--light-gray);
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        th:first-child {
+            border-radius: 10px 0 0 0;
+        }
+
+        th:last-child {
+            border-radius: 0 10px 0 0;
+        }
+
+        td {
+            color: var(--mid-gray);
+        }
+
+        .claude-col {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.05), rgba(255, 160, 122, 0.05));
+        }
+
+        .gemini-col {
+            background: linear-gradient(135deg, rgba(74, 144, 226, 0.05), rgba(135, 206, 235, 0.05));
+        }
+
+        .best-for {
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .best-for-card {
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 2px solid var(--card-color);
+            background: white;
+        }
+
+        .best-for-card.claude {
+            --card-color: var(--claude-primary);
+        }
+
+        .best-for-card.gemini {
+            --card-color: var(--gemini-primary);
+        }
+
+        .best-for-card h3 {
+            color: var(--card-color);
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .best-for-card p {
+            color: var(--mid-gray);
+            line-height: 1.6;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes checkPop {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            body {
+                background: linear-gradient(180deg, var(--claude-bg) 0%, var(--claude-bg) 50%, var(--gemini-bg) 50%, var(--gemini-bg) 100%);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .best-for {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 0.75rem 0.5rem;
+            }
+        }
+
+        /* Example Section Styles */
+        .how-to-enable {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(245, 245, 245, 0.9));
+            border: 2px solid var(--panel-color);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .how-to-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--panel-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .enable-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .enable-step {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            animation: slideIn 0.5s ease-out both;
+        }
+
+        .enable-step:nth-child(1) { animation-delay: 0.1s; }
+        .enable-step:nth-child(2) { animation-delay: 0.2s; }
+        .enable-step:nth-child(3) { animation-delay: 0.3s; }
+        .enable-step:nth-child(4) { animation-delay: 0.4s; }
+
+        .step-number {
+            background: var(--panel-color);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .step-content {
+            flex: 1;
+            padding-top: 0.25rem;
+        }
+
+        .step-content strong {
+            display: block;
+            color: var(--dark);
+            font-size: 1rem;
+            margin-bottom: 0.35rem;
+            font-weight: 700;
+        }
+
+        .step-content p {
+            color: var(--mid-gray);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .pro-tip {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(255, 235, 59, 0.1));
+            border-left: 4px solid #FFC107;
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            animation: tipGlow 0.6s ease-out 0.5s both;
+        }
+
+        .tip-icon {
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .pro-tip strong {
+            color: #F57C00;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes tipGlow {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .example-section {
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 2px dashed #e0e0e0;
+        }
+
+        .example-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Claude Conversation Styles */
+        .conversation {
+            background: var(--light-gray);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .message {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            animation: messageSlide 0.4s ease-out both;
+        }
+
+        .message:nth-child(1) { animation-delay: 0.1s; }
+        .message:nth-child(2) { animation-delay: 0.2s; }
+        .message:nth-child(3) { animation-delay: 0.3s; }
+        .message:nth-child(4) { animation-delay: 0.4s; }
+        .message:nth-child(5) { animation-delay: 0.5s; }
+        .message:nth-child(6) { animation-delay: 0.6s; }
+
+        .message.user {
+            flex-direction: row;
+        }
+
+        .message.assistant {
+            flex-direction: row;
+        }
+
+        .avatar {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--panel-color);
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            flex-shrink: 0;
+        }
+
+        .bubble {
+            background: white;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            flex: 1;
+        }
+
+        .message.user .bubble {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(255, 160, 122, 0.1));
+        }
+
+        .message.assistant .bubble {
+            background: white;
+        }
+
+        /* Gemini Research Plan Styles */
+        .research-plan {
+            background: var(--light-gray);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .plan-header {
+            font-size: 0.95rem;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .plan-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--panel-color);
+            margin-bottom: 1rem;
+        }
+
+        .research-question {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--panel-color);
+            animation: questionPop 0.4s ease-out both;
+        }
+
+        .research-question:nth-child(2) { animation-delay: 0.1s; }
+        .research-question:nth-child(3) { animation-delay: 0.2s; }
+        .research-question:nth-child(4) { animation-delay: 0.3s; }
+
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .q-number {
+            background: var(--panel-color);
+            color: white;
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+
+        .q-text {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+
+        .keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .keyword {
+            background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(135, 206, 235, 0.15));
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--mid-gray);
+            font-family: 'JetBrains Mono', monospace;
+            border: 1px solid rgba(74, 144, 226, 0.2);
+        }
+
+        .edit-note {
+            background: linear-gradient(135deg, rgba(74, 144, 226, 0.15), rgba(135, 206, 235, 0.2));
+            border: 2px dashed var(--gemini-primary);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--dark);
+            animation: editPulse 0.5s ease-out 0.4s both;
+        }
+
+        /* Output Preview Styles */
+        .example-output {
+            background: white;
+            border: 2px solid var(--panel-color);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .output-label {
+            background: var(--panel-color);
+            color: white;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.75rem 1.25rem;
+        }
+
+        .output-content {
+            padding: 1.5rem;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .output-content h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .output-content p {
+            margin-bottom: 0.75rem;
+            color: var(--mid-gray);
+        }
+
+        .output-content strong {
+            color: var(--dark);
+        }
+
+        .citation-link {
+            color: var(--claude-primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85em;
+            border-bottom: 1px dotted var(--claude-primary);
+            transition: all 0.2s ease;
+        }
+
+        .citation-link:hover {
+            color: var(--claude-secondary);
+            border-bottom-style: solid;
+        }
+
+        .ellipsis {
+            color: var(--mid-gray);
+            font-style: italic;
+            opacity: 0.7;
+        }
+
+        .bibliography {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--light-gray);
+            font-size: 0.85rem;
+            line-height: 1.8;
+            color: var(--mid-gray);
+        }
+
+        .bibliography strong {
+            color: var(--dark);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .export-button {
+            background: linear-gradient(135deg, var(--gemini-primary), var(--gemini-secondary));
+            color: white;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .export-button:hover {
+            background: linear-gradient(135deg, var(--gemini-secondary), var(--gemini-primary));
+            transform: translateY(-2px);
+        }
+
+        .export-icon {
+            font-size: 1.2rem;
+        }
+
+        /* Animations */
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes questionPop {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes editPulse {
+            0% {
+                opacity: 0;
+                transform: scale(0.98);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .conversation, .research-plan {
+                padding: 1rem;
+            }
+
+            .bubble {
+                font-size: 0.85rem;
+            }
+
+            .keywords {
+                gap: 0.35rem;
+            }
+
+            .keyword {
+                font-size: 0.75rem;
+                padding: 0.25rem 0.6rem;
+            }
+
+            .how-to-enable {
+                padding: 1.5rem;
+            }
+
+            .enable-step {
+                gap: 0.75rem;
+            }
+
+            .step-number {
+                width: 32px;
+                height: 32px;
+                font-size: 1rem;
+            }
+
+            .step-content strong {
+                font-size: 0.95rem;
+            }
+
+            .step-content p {
+                font-size: 0.85rem;
+            }
+
+            .pro-tip {
+                padding: 0.85rem 1rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>AI Research Modes Compared</h1>
+        <p>Progressive workflows for Claude & Gemini deep research</p>
+        <div class="instruction-banner">
+            <span class="instruction-icon">💡</span>
+            Click any section header below to reveal details and examples
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Claude Panel -->
+        <div class="panel claude" data-panel="claude">
+            <div class="panel-header-clickable" data-toggle="claude">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <div class="icon">💬</div>
+                        Claude Research
+                        <div class="expand-indicator">▼</div>
+                    </div>
+                    <div class="subtitle">The Interactive Conversational Approach</div>
+                    <div class="philosophy">
+                        <strong>Philosophy:</strong> Collaborative dialogue leading to creative, cited analysis
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel-content" data-content="claude">
+                
+                <div class="how-to-enable">
+                    <h3 class="how-to-title">🚀 How to Enable Research Mode</h3>
+                    <div class="enable-steps">
+                        <div class="enable-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <strong>Start a new conversation</strong>
+                                <p>Open Claude.ai or the Claude app</p>
+                            </div>
+                        </div>
+                        <div class="enable-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <strong>Enable Research feature</strong>
+                                <p>Toggle the "Research" switch in the chat interface, or simply ask "Can you research [topic]?" and Claude will automatically enable it</p>
+                            </div>
+                        </div>
+                        <div class="enable-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <strong>Start your inquiry</strong>
+                                <p>Ask your research question naturally - no special formatting needed</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pro-tip">
+                        <span class="tip-icon">💡</span>
+                        <strong>Pro Tip:</strong> Research mode works best with open-ended questions that benefit from multiple sources and synthesis
+                    </div>
+                </div>
+
+            <ul class="checklist" id="claude-checklist">
+                <li class="checklist-item">
+                    <div class="checkbox-wrapper">
+                        <div class="checkbox" data-panel="claude" data-index="0"></div>
+                    </div>
+                    <div class="checklist-content">
+                        <h3>Start the Conversation</h3>
+                        <p>Enable Research mode and frame your topic naturally—no rigid structure needed yet</p>
+                    </div>
+                </li>
+                <li class="checklist-item">
+                    <div class="checkbox-wrapper">
+                        <div class="checkbox" data-panel="claude" data-index="1"></div>
+                    </div>
+                    <div class="checklist-content">
+                        <h3>Refine Through Dialogue</h3>
+                        <p>Claude asks clarifying questions; answer naturally and iterate on what matters</p>
+                    </div>
+                </li>
+                <li class="checklist-item">
+                    <div class="checkbox-wrapper">
+                        <div class="checkbox" data-panel="claude" data-index="2"></div>
+                    </div>
+                    <div class="checklist-content">
+                        <h3>Guide the Research Direction</h3>
+                        <p>Share interests, suggest sources, course-correct in real-time as you explore</p>
+                    </div>
+                </li>
+                <li class="checklist-item">
+                    <div class="checkbox-wrapper">
+                        <div class="checkbox" data-panel="claude" data-index="3"></div>
+                    </div>
+                    <div class="checklist-content">
+                        <h3>Watch Research Unfold Interactively</h3>
+                        <p>Claude shares findings as it goes; you can interrupt and pivot conversationally</p>
+                    </div>
+                </li>
+                <li class="checklist-item">
+                    <div class="checkbox-wrapper">
+                        <div class="checkbox" data-panel="claude" data-index="4"></div>
+                    </div>
+                    <div class="checklist-content">
+                        <h3>Shape the Report Structure</h3>
+                        <p>Discuss organization, choose tone, request specific elements and narrative flow</p>
+                    </div>
+                </li>
+                <li class="checklist-item">
+                    <div class="checkbox-wrapper">
+                        <div class="checkbox" data-panel="claude" data-index="5"></div>
+                    </div>
+                    <div class="checklist-content">
+                        <h3>Receive the Draft Report</h3>
+                        <p>Get creatively written synthesis with clickable citation links embedded throughout</p>
+                    </div>
+                </li>
+                <li class="checklist-item">
+                    <div class="checkbox-wrapper">
+                        <div class="checkbox" data-panel="claude" data-index="6"></div>
+                    </div>
+                    <div class="checklist-content">
+                        <h3>Review Citations & Sources</h3>
+                        <p>Each claim links directly to its source—click through to verify originals</p>
+                    </div>
+                </li>
+                <li class="checklist-item">
+                    <div class="checkbox-wrapper">
+                        <div class="checkbox" data-panel="claude" data-index="7"></div>
+                    </div>
+                    <div class="checklist-content">
+                        <h3>Iterate on the Report</h3>
+                        <p>Continue conversation to expand sections, rewrite for different audiences, add angles</p>
+                    </div>
+                </li>
+                <li class="checklist-item">
+                    <div class="checkbox-wrapper">
+                        <div class="checkbox" data-panel="claude" data-index="8"></div>
+                    </div>
+                    <div class="checklist-content">
+                        <h3>Polish & Export</h3>
+                        <p>Request final formatting, copy with citations intact—links remain clickable</p>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="strengths">
+                <h3>✨ Strengths</h3>
+                <p>Creative synthesis • Conversational refinement • Narrative coherence • Integrated citations</p>
+            </div>
+
+            <div class="example-section">
+                <h3 class="example-title">📖 Example: Researching the Cultural Impact of Coffee Houses</h3>
+                <div class="conversation">
+                    <div class="message user">
+                        <div class="avatar">You</div>
+                        <div class="bubble">I want to understand how coffee houses influenced intellectual culture in the 17th-18th centuries</div>
+                    </div>
+                    <div class="message assistant">
+                        <div class="avatar">Claude</div>
+                        <div class="bubble">Great topic! Let me clarify the scope. Are you interested in a specific region (London, Paris, Vienna), or a broader comparative view? Also, should I focus more on the social dynamics or the specific intellectual movements that emerged?</div>
+                    </div>
+                    <div class="message user">
+                        <div class="avatar">You</div>
+                        <div class="bubble">Mainly London and Paris. I'm curious about the connection to Enlightenment thinking</div>
+                    </div>
+                    <div class="message assistant">
+                        <div class="avatar">Claude</div>
+                        <div class="bubble"><em>[Searches and shares findings]</em> Finding fascinating connections! The "penny universities" of London created remarkably egalitarian spaces. Should I explore the contrast with French salon culture too?</div>
+                    </div>
+                    <div class="message user">
+                        <div class="avatar">You</div>
+                        <div class="bubble">Yes! And maybe how this differs from modern "third spaces"</div>
+                    </div>
+                    <div class="message assistant">
+                        <div class="avatar">Claude</div>
+                        <div class="bubble">Perfect - adding contemporary context. I'll structure the report chronologically, then draw parallels to today's co-working spaces and cafes. Want a narrative arc or more analytical framework?</div>
+                    </div>
+                </div>
+                <div class="example-output">
+                    <div class="output-label">Generated Report Preview:</div>
+                    <div class="output-content">
+                        <h4>The Democracy of Coffee: From Enlightenment Salons to Modern Third Spaces</h4>
+                        <p>In 1652, when Pasqua Rosée opened London's first coffee house, he unknowingly created a revolutionary social technology. These "penny universities" <a href="#" class="citation-link">[British Library]</a> offered something unprecedented: any man who could afford a penny could sit alongside merchants, scholars, and aristocrats...</p>
+                        <p class="ellipsis">... The contrast with Parisian salons reveals different paths to the same destination <a href="#" class="citation-link">[Stanford Encyclopedia]</a>. While London's coffee houses embraced rough egalitarianism, Parisian establishments...</p>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <!-- Gemini Panel -->
+        <div class="panel gemini" data-panel="gemini">
+            <div class="panel-header-clickable" data-toggle="gemini">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <div class="icon">🔬</div>
+                        Gemini Deep Research
+                        <div class="expand-indicator">▼</div>
+                    </div>
+                    <div class="subtitle">The Systematic Research Plan Approach</div>
+                    <div class="philosophy">
+                        <strong>Philosophy:</strong> "Just the facts" — Structured, comprehensive, reproducible
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-content" data-content="gemini">
+                
+                <div class="how-to-enable">
+                    <h3 class="how-to-title">🚀 How to Access Deep Research</h3>
+                    <div class="enable-steps">
+                        <div class="enable-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <strong>Open Gemini</strong>
+                                <p>Go to gemini.google.com or the Gemini app</p>
+                            </div>
+                        </div>
+                        <div class="enable-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <strong>Select Deep Research mode</strong>
+                                <p>Click the dropdown menu next to the model selector and choose "Deep Research" (requires Gemini Advanced subscription)</p>
+                            </div>
+                        </div>
+                        <div class="enable-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <strong>Enter your research topic</strong>
+                                <p>Type your question or topic - Gemini will generate a research plan for your review</p>
+                            </div>
+                        </div>
+                        <div class="enable-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <strong>Review and edit the plan</strong>
+                                <p>Modify the auto-generated research questions and keywords before execution</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pro-tip">
+                        <span class="tip-icon">💡</span>
+                        <strong>Pro Tip:</strong> Deep Research excels at comprehensive coverage - perfect for lit reviews, competitive analysis, and systematic comparisons
+                    </div>
+                </div>
+
+            <ul class="checklist" id="gemini-checklist">
+                <li class="checklist-item">
+                    <div class="checkbox-wrapper">
+                        <div class="checkbox" data-panel="gemini" data-index="0"></div>
+                    </div>
+                    <div class="checklist-content">
+                        <h3>Create Initial Research Plan</h3>
+                        <p>Enter topic; Gemini generates detailed plan with multiple sub-questions</p>
+                    </div>
+                </li>
+                <li class="checklist-item">
+                    <div class="checkbox-wrapper">
+                        <div class="checkbox" data-panel="gemini" data-index="1"></div>
+                    </div>
+                    <div class="checklist-content">
+                        <h3>Review the Auto-Generated Plan</h3>
+                        <p>Examine keyword clusters and structured approach—bullet points and categories</p>
+                    </div>
+                </li>
+                <li class="checklist-item">
+                    <div class="checkbox-wrapper">
+                        <div class="checkbox" data-panel="gemini" data-index="2"></div>
+                    </div>
+                    <div class="checklist-content">
+                        <h3>Revise the Research Plan</h3>
+                        <p>Edit directly: add/remove questions, refine keywords, reorder priorities before execution</p>
+                    </div>
+                </li>
+                <li class="checklist-item">
+                    <div class="checkbox-wrapper">
+                        <div class="checkbox" data-panel="gemini" data-index="3"></div>
+                    </div>
+                    <div class="checklist-content">
+                        <h3>Execute the Research</h3>
+                        <p>Click "Start Research"—Gemini systematically works through each planned query</p>
+                    </div>
+                </li>
+                <li class="checklist-item">
+                    <div class="checkbox-wrapper">
+                        <div class="checkbox" data-panel="gemini" data-index="4"></div>
+                    </div>
+                    <div class="checklist-content">
+                        <h3>Monitor Research Progress</h3>
+                        <p>View sources being consulted and preliminary findings in real-time</p>
+                    </div>
+                </li>
+                <li class="checklist-item">
+                    <div class="checkbox-wrapper">
+                        <div class="checkbox" data-panel="gemini" data-index="5"></div>
+                    </div>
+                    <div class="checklist-content">
+                        <h3>Review Initial Results</h3>
+                        <p>Get fact-based report with numbered citations [1], [2], [3] and full bibliography</p>
+                    </div>
+                </li>
+                <li class="checklist-item">
+                    <div class="checkbox-wrapper">
+                        <div class="checkbox" data-panel="gemini" data-index="6"></div>
+                    </div>
+                    <div class="checklist-content">
+                        <h3>Evaluate Coverage</h3>
+                        <p>Identify gaps, spot areas needing depth, note questions requiring better sources</p>
+                    </div>
+                </li>
+                <li class="checklist-item">
+                    <div class="checkbox-wrapper">
+                        <div class="checkbox" data-panel="gemini" data-index="7"></div>
+                    </div>
+                    <div class="checklist-content">
+                        <h3>Modify & Rerun Specific Sections</h3>
+                        <p>Edit plan for targeted areas, add new sub-questions, re-execute modified portions</p>
+                    </div>
+                </li>
+                <li class="checklist-item">
+                    <div class="checkbox-wrapper">
+                        <div class="checkbox" data-panel="gemini" data-index="8"></div>
+                    </div>
+                    <div class="checklist-content">
+                        <h3>Verify Citations</h3>
+                        <p>Each fact traceable to numbered source—21st-century term paper with complete audit trail</p>
+                    </div>
+                </li>
+                <li class="checklist-item">
+                    <div class="checkbox-wrapper">
+                        <div class="checkbox" data-panel="gemini" data-index="9"></div>
+                    </div>
+                    <div class="checklist-content">
+                        <h3>Export to Google Docs</h3>
+                        <p>One-click export with formatting, citations, bibliography preserved—continue in Drive</p>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="strengths">
+                <h3>🎯 Strengths</h3>
+                <p>Systematic coverage • Reproducible methodology • Easy revision/rerun • Google integration • Academic citations</p>
+            </div>
+
+            <div class="example-section">
+                <h3 class="example-title">🔬 Example: Comparing Renewable Energy Storage Technologies</h3>
+                <div class="research-plan">
+                    <div class="plan-header">
+                        <strong>Initial Query:</strong> "Compare current battery storage technologies for renewable energy grids"
+                    </div>
+                    <div class="plan-generated">
+                        <div class="plan-label">Auto-Generated Research Plan:</div>
+                        <div class="research-question">
+                            <div class="question-header">
+                                <span class="q-number">Q1</span>
+                                <span class="q-text">Lithium-ion battery specifications and limitations</span>
+                            </div>
+                            <div class="keywords">
+                                <span class="keyword">energy density</span>
+                                <span class="keyword">degradation rates</span>
+                                <span class="keyword">cost per kWh</span>
+                                <span class="keyword">safety concerns</span>
+                            </div>
+                        </div>
+                        <div class="research-question">
+                            <div class="question-header">
+                                <span class="q-number">Q2</span>
+                                <span class="q-text">Flow battery alternatives and applications</span>
+                            </div>
+                            <div class="keywords">
+                                <span class="keyword">vanadium redox</span>
+                                <span class="keyword">scalability</span>
+                                <span class="keyword">cycle life</span>
+                                <span class="keyword">grid-scale deployment</span>
+                            </div>
+                        </div>
+                        <div class="research-question">
+                            <div class="question-header">
+                                <span class="q-number">Q3</span>
+                                <span class="q-text">Solid-state battery development status</span>
+                            </div>
+                            <div class="keywords">
+                                <span class="keyword">commercialization timeline</span>
+                                <span class="keyword">manufacturing challenges</span>
+                                <span class="keyword">performance metrics</span>
+                            </div>
+                        </div>
+                        <div class="edit-note">
+                            <strong>You edit:</strong> Add Q4: "Economic comparison of total cost of ownership" with keywords: levelized cost, installation, maintenance, lifespan
+                        </div>
+                    </div>
+                </div>
+                <div class="example-output">
+                    <div class="output-label">Generated Report Preview:</div>
+                    <div class="output-content gemini-output">
+                        <h4>Comparative Analysis of Grid-Scale Battery Storage Technologies</h4>
+                        <p><strong>1. Lithium-Ion Battery Systems</strong></p>
+                        <p>Current lithium-ion batteries achieve energy densities of 150-250 Wh/kg [1], with costs declining to $132/kWh as of 2023 [2]. However, thermal runaway risks remain a concern for large-scale installations [3]...</p>
+                        <p class="ellipsis"><strong>2. Flow Battery Technologies</strong></p>
+                        <p>Vanadium redox flow batteries offer cycle lives exceeding 20,000 cycles [4] with minimal degradation. Recent grid deployments in California demonstrate 4-8 hour duration capabilities [5]...</p>
+                        <div class="bibliography">
+                            <strong>References:</strong><br>
+                            [1] Journal of Power Sources, 2024<br>
+                            [2] BloombergNEF Battery Price Survey<br>
+                            [3] Nature Energy, "Thermal stability..."<br>
+                            [4] Electrochemistry Communications<br>
+                            [5] California Energy Commission Report
+                        </div>
+                    </div>
+                    <div class="export-button">
+                        <span class="export-icon">📄</span> Export to Google Docs
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="comparison-matrix" data-section="matrix">
+        <div class="matrix-header-clickable" data-toggle="matrix">
+            <h2 class="matrix-title">
+                Quick Comparison Matrix
+                <span class="expand-indicator">▼</span>
+            </h2>
+        </div>
+        
+        <div class="matrix-content" data-content="matrix">
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th class="claude-col">Claude Research</th>
+                    <th class="gemini-col">Gemini Deep Research</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Setup</strong></td>
+                    <td class="claude-col">Conversational</td>
+                    <td class="gemini-col">Structured plan</td>
+                </tr>
+                <tr>
+                    <td><strong>Planning</strong></td>
+                    <td class="claude-col">Emerges through dialogue</td>
+                    <td class="gemini-col">Pre-generated, editable outline</td>
+                </tr>
+                <tr>
+                    <td><strong>Iteration</strong></td>
+                    <td class="claude-col">Talk your way through it</td>
+                    <td class="gemini-col">Edit plan, rerun research</td>
+                </tr>
+                <tr>
+                    <td><strong>Citations</strong></td>
+                    <td class="claude-col">Inline hyperlinks</td>
+                    <td class="gemini-col">Numbered references + bibliography</td>
+                </tr>
+                <tr>
+                    <td><strong>Writing Style</strong></td>
+                    <td class="claude-col">Creative synthesis</td>
+                    <td class="gemini-col">Factual compilation</td>
+                </tr>
+                <tr>
+                    <td><strong>Best For</strong></td>
+                    <td class="claude-col">Essays, analysis, narrative reports</td>
+                    <td class="gemini-col">Literature reviews, term papers, systematic research</td>
+                </tr>
+                <tr>
+                    <td><strong>Export</strong></td>
+                    <td class="claude-col">Copy with links</td>
+                    <td class="gemini-col">Direct to Google Docs</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="best-for">
+            <div class="best-for-card claude">
+                <h3>Choose Claude when:</h3>
+                <p>You want exploratory dialogue, creative interpretation, and narrative flow with integrated citations that tell a story</p>
+            </div>
+            <div class="best-for-card gemini">
+                <h3>Choose Gemini when:</h3>
+                <p>You need systematic coverage, reproducible methodology, and academic documentation with numbered citations and bibliography</p>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <script>
+        // Panel expand/collapse functionality
+        const panelState = JSON.parse(localStorage.getItem('panelExpandState') || '{"claude": false, "gemini": false, "matrix": false}');
+
+        // Initialize panel states
+        document.querySelectorAll('.panel').forEach(panel => {
+            const panelName = panel.dataset.panel;
+            if (panelState[panelName]) {
+                panel.classList.add('expanded');
+            }
+        });
+
+        // Initialize matrix state
+        const matrixSection = document.querySelector('.comparison-matrix');
+        if (panelState.matrix) {
+            matrixSection.classList.add('expanded');
+        }
+
+        // Add click handlers for panel headers
+        document.querySelectorAll('.panel-header-clickable').forEach(header => {
+            header.addEventListener('click', () => {
+                const panelName = header.dataset.toggle;
+                const panel = document.querySelector(`.panel[data-panel="${panelName}"]`);
+                
+                panel.classList.toggle('expanded');
+                panelState[panelName] = panel.classList.contains('expanded');
+                localStorage.setItem('panelExpandState', JSON.stringify(panelState));
+            });
+        });
+
+        // Add click handler for matrix header
+        document.querySelector('.matrix-header-clickable').addEventListener('click', () => {
+            matrixSection.classList.toggle('expanded');
+            panelState.matrix = matrixSection.classList.contains('expanded');
+            localStorage.setItem('panelExpandState', JSON.stringify(panelState));
+        });
+
+        // Load saved state from localStorage for checkboxes
+        const savedState = JSON.parse(localStorage.getItem('researchChecklistState') || '{}');
+
+        // Initialize checkboxes
+        document.querySelectorAll('.checkbox').forEach(checkbox => {
+            const panel = checkbox.dataset.panel;
+            const index = checkbox.dataset.index;
+            const key = `${panel}-${index}`;
+
+            // Restore saved state
+            if (savedState[key]) {
+                checkbox.classList.add('checked');
+            }
+
+            // Add click handler
+            checkbox.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent panel toggle when clicking checkbox
+                checkbox.classList.toggle('checked');
+                
+                // Save state
+                const newState = {};
+                document.querySelectorAll('.checkbox.checked').forEach(checked => {
+                    const p = checked.dataset.panel;
+                    const i = checked.dataset.index;
+                    newState[`${p}-${i}`] = true;
+                });
+                localStorage.setItem('researchChecklistState', JSON.stringify(newState));
+            });
+        });
+
+        // Add smooth scroll reveal animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.panel, .comparison-matrix').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
