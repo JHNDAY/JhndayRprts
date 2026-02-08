@@ -62,7 +62,7 @@
         
         .main-visual {
             position: relative;
-            height: 650px;
+            height: 700px;
             margin: 60px 0;
             display: flex;
             justify-content: center;
@@ -156,68 +156,40 @@
             animation-delay: 2.9s;
         }
         
-        /* Connection lines between fragments */
-        .connection {
+        /* SVG connection canvas */
+        .connection-canvas {
             position: absolute;
-            height: 2px;
-            background: linear-gradient(to right, rgba(168, 218, 220, 0.3), rgba(168, 218, 220, 0.6), rgba(168, 218, 220, 0.3));
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .connection-line {
+            stroke-width: 2;
+            fill: none;
             opacity: 0;
-            animation: lineGrow 1.5s ease-out forwards;
-            transform-origin: left center;
+            animation: lineAppear 1.5s ease-out forwards;
         }
         
-        .conn-1 {
-            top: 60px;
-            left: 200px;
-            width: 320px;
-            transform: rotate(5deg);
-            animation-delay: 3.2s;
+        .personal-connection {
+            stroke: rgba(168, 218, 220, 0.6);
         }
         
-        .conn-2 {
-            top: 200px;
-            left: 120px;
-            width: 240px;
-            transform: rotate(60deg);
-            animation-delay: 3.5s;
+        .corpus-connection {
+            stroke: rgba(255, 183, 77, 0.7);
         }
         
-        .conn-3 {
-            bottom: 150px;
-            left: 280px;
-            width: 350px;
-            transform: rotate(-8deg);
-            animation-delay: 3.8s;
-        }
-        
-        .conn-4 {
-            top: 220px;
-            right: 150px;
-            width: 260px;
-            transform: rotate(-70deg);
-            animation-delay: 4.1s;
-        }
-        
-        /* Corpus connections - golden lines from the library */
-        .corpus-conn {
-            background: linear-gradient(to right, rgba(255, 183, 77, 0.3), rgba(255, 183, 77, 0.6), rgba(255, 183, 77, 0.3));
-        }
-        
-        .conn-5 {
-            top: 120px;
-            left: 80px;
-            width: 280px;
-            transform: rotate(25deg);
-            animation-delay: 4.4s;
-        }
-        
-        .conn-6 {
-            top: 240px;
-            right: 80px;
-            width: 250px;
-            transform: rotate(-45deg);
-            animation-delay: 4.7s;
-        }
+        .conn-1 { animation-delay: 3.2s; }
+        .conn-2 { animation-delay: 3.5s; }
+        .conn-3 { animation-delay: 3.8s; }
+        .conn-4 { animation-delay: 4.1s; }
+        .conn-5 { animation-delay: 4.4s; }
+        .conn-6 { animation-delay: 4.7s; }
+        .conn-7 { animation-delay: 5.0s; }
+        .conn-8 { animation-delay: 5.3s; }
+        .conn-9 { animation-delay: 5.6s; }
         
         /* Central emergence point */
         .emergence {
@@ -232,7 +204,7 @@
             justify-content: center;
             opacity: 0;
             animation: emerge 2s ease-out forwards;
-            animation-delay: 5s;
+            animation-delay: 6s;
         }
         
         .emergence-core {
@@ -251,107 +223,116 @@
             content: '💡';
             font-size: 3em;
             animation: illuminate 1s ease-out;
-            animation-delay: 5.2s;
+            animation-delay: 6.2s;
         }
         
         .emergence-rings {
             position: absolute;
-            width: 150px;
-            height: 150px;
-            border: 2px solid rgba(168, 218, 220, 0.4);
+            border: 2px solid rgba(168, 218, 220, 0.3);
             border-radius: 50%;
             animation: expandRing 3s ease-out infinite;
         }
         
+        .emergence-rings:nth-child(1) {
+            animation-delay: 6.5s;
+        }
+        
         .emergence-rings:nth-child(2) {
-            animation-delay: 1s;
+            animation-delay: 7s;
         }
         
         .emergence-rings:nth-child(3) {
-            animation-delay: 2s;
+            animation-delay: 7.5s;
         }
         
         .new-thought {
             position: absolute;
-            bottom: -80px;
+            bottom: -120px;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(168, 218, 220, 0.2);
-            border: 2px solid rgba(168, 218, 220, 0.6);
-            padding: 20px 30px;
-            border-radius: 12px;
+            border: 2px solid rgba(168, 218, 220, 0.5);
+            padding: 18px 28px;
+            border-radius: 10px;
             font-size: 1.1em;
-            color: #e4e4e4;
-            font-style: italic;
+            color: #a8dadc;
             text-align: center;
             min-width: 300px;
             opacity: 0;
             animation: fadeInUp 1.5s ease-out forwards;
-            animation-delay: 5.7s;
-            box-shadow: 0 0 30px rgba(168, 218, 220, 0.3);
+            animation-delay: 7.5s;
+            font-weight: 600;
         }
         
+        /* Contrast section */
         .contrast-section {
             display: flex;
             gap: 40px;
-            margin: 120px 0 80px 0;
+            margin: 80px 0;
+            justify-content: center;
             flex-wrap: wrap;
         }
         
         .contrast-box {
             flex: 1;
             min-width: 280px;
+            max-width: 350px;
             background: rgba(255, 255, 255, 0.05);
-            padding: 40px;
-            border-radius: 10px;
-            border: 1px solid rgba(168, 218, 220, 0.2);
+            border: 1px solid rgba(168, 218, 220, 0.3);
+            border-radius: 12px;
+            padding: 35px;
+            text-align: center;
             animation: slideUp 1s ease-out;
             animation-fill-mode: both;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
         .contrast-box:nth-child(1) {
-            animation-delay: 6.5s;
+            animation-delay: 0.2s;
         }
         
         .contrast-box:nth-child(2) {
-            animation-delay: 6.8s;
+            animation-delay: 0.4s;
         }
         
         .contrast-box:nth-child(3) {
-            animation-delay: 7.1s;
+            animation-delay: 0.6s;
         }
         
-        .contrast-box h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.8em;
-            font-weight: 400;
-            color: #a8dadc;
-            margin-bottom: 20px;
-            text-align: center;
+        .contrast-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(168, 218, 220, 0.2);
         }
         
-        .contrast-box .icon {
-            text-align: center;
+        .icon {
             font-size: 3em;
             margin-bottom: 20px;
         }
         
-        .contrast-box p {
-            font-size: 1.1em;
-            line-height: 1.8;
-            color: #e4e4e4;
-            text-align: center;
+        .contrast-box h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6em;
+            color: #a8dadc;
+            margin-bottom: 20px;
+            font-weight: 400;
         }
         
+        .contrast-box p {
+            font-size: 1.05em;
+            line-height: 1.7;
+            color: #e4e4e4;
+        }
+        
+        /* Synthesis section */
         .synthesis {
-            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(168, 218, 220, 0.3);
+            border-radius: 12px;
             padding: 50px;
-            background: rgba(168, 218, 220, 0.05);
-            border-radius: 10px;
-            border: 1px solid rgba(168, 218, 220, 0.2);
             margin: 60px 0;
-            animation: fadeIn 2s ease-in;
-            animation-delay: 7.4s;
+            text-align: center;
+            animation: slideUp 1s ease-out;
+            animation-delay: 0.8s;
             animation-fill-mode: both;
         }
         
@@ -402,14 +383,16 @@
             }
         }
         
-        @keyframes lineGrow {
+        @keyframes lineAppear {
             0% {
                 opacity: 0;
-                transform: scaleX(0);
+                stroke-dasharray: 1000;
+                stroke-dashoffset: 1000;
             }
             100% {
                 opacity: 1;
-                transform: scaleX(1);
+                stroke-dasharray: 1000;
+                stroke-dashoffset: 0;
             }
         }
         
@@ -510,13 +493,14 @@
             }
             
             .main-visual {
-                height: 550px;
+                height: 600px;
             }
             
             .new-thought {
                 min-width: 250px;
                 font-size: 1em;
                 padding: 15px 20px;
+                bottom: -100px;
             }
             
             .contrast-section {
@@ -557,13 +541,21 @@
                 <div class="fragment corpus-fragment fragment-8">Cross-domain connections</div>
                 <div class="fragment corpus-fragment fragment-9">Literary parallels</div>
                 
-                <!-- Connection lines -->
-                <div class="connection conn-1"></div>
-                <div class="connection conn-2"></div>
-                <div class="connection conn-3"></div>
-                <div class="connection conn-4"></div>
-                <div class="connection corpus-conn conn-5"></div>
-                <div class="connection corpus-conn conn-6"></div>
+                <!-- SVG Connection lines -->
+                <svg class="connection-canvas" viewBox="0 0 800 550" preserveAspectRatio="none">
+                    <!-- Personal thought connections (cyan) - stop before reaching boxes -->
+                    <line x1="250" y1="120" x2="400" y2="275" class="connection-line personal-connection conn-1" />
+                    <line x1="560" y1="180" x2="400" y2="275" class="connection-line personal-connection conn-2" />
+                    <line x1="310" y1="325" x2="400" y2="275" class="connection-line personal-connection conn-3" />
+                    <line x1="550" y1="360" x2="400" y2="275" class="connection-line personal-connection conn-4" />
+                    <line x1="200" y1="272" x2="400" y2="275" class="connection-line personal-connection conn-5" />
+                    <line x1="570" y1="300" x2="400" y2="275" class="connection-line personal-connection conn-6" />
+                    
+                    <!-- Corpus connections (golden) - stop before reaching boxes -->
+                    <line x1="150" y1="145" x2="400" y2="275" class="connection-line corpus-connection conn-7" />
+                    <line x1="610" y1="245" x2="400" y2="275" class="connection-line corpus-connection conn-8" />
+                    <line x1="120" y1="325" x2="400" y2="275" class="connection-line corpus-connection conn-9" />
+                </svg>
                 
                 <!-- Central emergence point -->
                 <div class="emergence">
