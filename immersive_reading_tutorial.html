@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Immersive Reading with AI Companion | BOLLI AI Integration Training</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .content {
+            padding: 50px;
+        }
+
+        .intro-box {
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            padding: 30px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+        }
+
+        .intro-box h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        .intro-box p {
+            font-size: 1.15em;
+            line-height: 1.8;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin: 40px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h3 {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin: 30px 0 15px 0;
+        }
+
+        p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+
+        .setup-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .setup-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .setup-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .visual-demo {
+            background: #f8f9fa;
+            border: 3px solid #667eea;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .visual-demo h3 {
+            margin-top: 0;
+            color: #667eea;
+        }
+
+        .screen-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .screen-panel {
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 20px;
+            background: #fafafa;
+        }
+
+        .screen-panel h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .screen-panel ul {
+            list-style-position: inside;
+            color: #555;
+        }
+
+        .screen-panel li {
+            margin: 8px 0;
+            font-size: 1em;
+        }
+
+        .use-case {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+            border-left: 5px solid #764ba2;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .use-case h4 {
+            color: #764ba2;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .use-case .example {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-style: italic;
+            color: #555;
+        }
+
+        .power-points {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        .power-points h3 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .power-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .power-item {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .power-item h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .power-item p {
+            font-size: 1em;
+            color: #555;
+            margin: 0;
+        }
+
+        .tips-box {
+            background: #fff9e6;
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .tips-box h3 {
+            color: #d4af37;
+            margin-top: 0;
+        }
+
+        .tips-box ul {
+            margin-left: 20px;
+        }
+
+        .tips-box li {
+            margin: 12px 0;
+            font-size: 1.05em;
+        }
+
+        .keyboard-shortcut {
+            background: #2c3e50;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.95em;
+            white-space: nowrap;
+        }
+
+        .platform-note {
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .platform-note strong {
+            color: #3498db;
+        }
+
+        .collapsible {
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 1.2em;
+            font-weight: 600;
+            border-radius: 8px;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+        }
+
+        .collapsible:hover {
+            background: #764ba2;
+        }
+
+        .collapsible:after {
+            content: '\002B';
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 1.3em;
+        }
+
+        .collapsible.active:after {
+            content: "\2212";
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background: #f8f9fa;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .collapsible-content-inner {
+            padding: 25px;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            font-size: 1em;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .screen-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .setup-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Immersive Reading with AI Companion</h1>
+            <div class="subtitle">Transform Your Reading Experience with Contextual AI Support</div>
+        </header>
+
+        <div class="content">
+            <div class="intro-box">
+                <h2>What Is Immersive Reading?</h2>
+                <p>Imagine reading a complex text with an expert companion sitting beside you—someone who has already read the entire document and can answer any question, clarify any concept, or make any connection you request. That's exactly what Immersive Reading delivers.</p>
+                <p>By setting up a split-screen workspace with your source document on the left and an AI conversation on the right (with the same document uploaded to AI), you create a powerful reading environment where understanding flows naturally from the synergy between human curiosity and artificial intelligence.</p>
+            </div>
+
+            <h2>The Power of This Approach</h2>
+            
+            <div class="power-points">
+                <h3>Why Immersive Reading Changes Everything</h3>
+                <div class="power-grid">
+                    <div class="power-item">
+                        <h4>📚 Contextual Understanding</h4>
+                        <p>The AI has read the <em>entire</em> document. Ask about page 47 while reading page 2. Request connections between concepts separated by chapters. The AI sees the whole landscape.</p>
+                    </div>
+                    <div class="power-item">
+                        <h4>🔍 No Context Switching</h4>
+                        <p>Keep reading. Your eyes stay on the text. When a question arises, glance right, ask, get your answer, return to reading. No switching tabs, no losing your place.</p>
+                    </div>
+                    <div class="power-item">
+                        <h4>💡 Real-Time Comprehension</h4>
+                        <p>Don't struggle with difficult passages. Ask immediately. "What does the author mean here?" "Can you rephrase this argument?" Understanding flows in the moment.</p>
+                    </div>
+                    <div class="power-item">
+                        <h4>🎯 Personalized Support</h4>
+                        <p>The AI adapts to <em>your</em> reading goals. Studying for class? Focus on key arguments. Researching? Track patterns. Pleasure reading? Deepen appreciation.</p>
+                    </div>
+                    <div class="power-item">
+                        <h4>🔗 Pattern Recognition</h4>
+                        <p>Ask "Where else does the author discuss this?" or "How does this connect to the earlier chapter?" The AI maps the document's conceptual terrain.</p>
+                    </div>
+                    <div class="power-item">
+                        <h4>📝 Active Engagement</h4>
+                        <p>Transform passive reading into active dialogue. Every question deepens understanding. Your curiosity drives exploration. The text becomes a conversation.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Setting Up Your Immersive Reading Workspace</h2>
+
+            <div class="setup-grid">
+                <div class="setup-card">
+                    <div class="step-number">1</div>
+                    <h3>Open Your Source Document</h3>
+                    <p>Start with the document you want to read. This could be:</p>
+                    <ul>
+                        <li>A PDF article or book chapter</li>
+                        <li>A Google Doc</li>
+                        <li>A web page or online article</li>
+                        <li>Any readable document</li>
+                    </ul>
+                    <p><strong>Position it on the LEFT side of your screen.</strong></p>
+                </div>
+
+                <div class="setup-card">
+                    <div class="step-number">2</div>
+                    <h3>Open Claude in a New Tab</h3>
+                    <p>Go to <strong>claude.ai</strong> and start a new conversation.</p>
+                    <p>Give your conversation a descriptive name related to what you're reading (e.g., "Reading: Plato's Republic" or "Study: Climate Report").</p>
+                    <p>This helps you return to the conversation later.</p>
+                </div>
+
+                <div class="setup-card">
+                    <div class="step-number">3</div>
+                    <h3>Upload Your Document to Claude</h3>
+                    <p>Click the paperclip icon or attachment button in Claude and upload the <em>same document</em> you're reading on the left.</p>
+                    <p>This gives Claude the complete context. The AI can now see everything you're reading.</p>
+                </div>
+
+                <div class="setup-card">
+                    <div class="step-number">4</div>
+                    <h3>Arrange Split-Screen</h3>
+                    <p>Use the split-screen technique you learned in the browser skills tutorial:</p>
+                    <div class="platform-note">
+                        <strong>Mac:</strong> Drag your document window to the left edge, Claude to the right edge. Or use <span class="keyboard-shortcut">Mission Control</span> for side-by-side setup.
+                    </div>
+                    <div class="platform-note">
+                        <strong>Windows:</strong> Use <span class="keyboard-shortcut">⊞ Win + ←</span> for document, <span class="keyboard-shortcut">⊞ Win + →</span> for Claude.
+                    </div>
+                </div>
+            </div>
+
+            <div class="visual-demo">
+                <h3>Your Immersive Reading Workspace</h3>
+                <div class="screen-layout">
+                    <div class="screen-panel">
+                        <h4>LEFT: Source Document (Human Reading)</h4>
+                        <ul>
+                            <li>Your primary reading material</li>
+                            <li>Where your eyes focus</li>
+                            <li>Scroll and navigate naturally</li>
+                            <li>Take notes, highlight if digital</li>
+                            <li>Read at your own pace</li>
+                        </ul>
+                    </div>
+                    <div class="screen-panel">
+                        <h4>RIGHT: Claude with Document (AI Context)</h4>
+                        <ul>
+                            <li>Same document uploaded</li>
+                            <li>Ready for your questions</li>
+                            <li>Full context of entire text</li>
+                            <li>Conversation history preserved</li>
+                            <li>Glance, ask, return to reading</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 20px; color: #555; font-style: italic;">This is your reading companion workspace. Human intelligence on the left, artificial intelligence on the right, both engaged with the same text.</p>
+            </div>
+
+            <h2>How to Use Immersive Reading</h2>
+
+            <button class="collapsible">Starting the Reading Session</button>
+            <div class="collapsible-content">
+                <div class="collapsible-content-inner">
+                    <h3>Begin with Context Setting</h3>
+                    <p>When you first upload your document to Claude, start the conversation by telling Claude your reading purpose:</p>
+                    
+                    <div class="use-case">
+                        <h4>Example Opening Prompts:</h4>
+                        <div class="example">
+                            "I'm reading this article about quantum computing for a class discussion next week. I want to understand the main arguments and be able to explain the key concepts to my classmates."
+                        </div>
+                        <div class="example">
+                            "This is a dense philosophy text. I'm reading for pleasure but I know I'll struggle with some passages. Please help me when I get stuck."
+                        </div>
+                        <div class="example">
+                            "I'm researching 19th-century educational reform. I need to identify this author's main thesis and how it relates to contemporary debates."
+                        </div>
+                    </div>
+
+                    <p>Claude will acknowledge your goal and be ready to support your specific reading purpose.</p>
+                </div>
+            </div>
+
+            <button class="collapsible">While Reading: Types of Questions You Can Ask</button>
+            <div class="collapsible-content">
+                <div class="collapsible-content-inner">
+                    
+                    <div class="use-case">
+                        <h4>💭 Clarification Questions</h4>
+                        <p>When a passage is confusing, you can reference it by description or—even better—copy the exact text from your left-side document and paste it directly into your question:</p>
+                        
+                        <p><strong>Simple workflow:</strong></p>
+                        <ol style="margin: 15px 0; padding-left: 20px;">
+                            <li>Select and copy the confusing passage from your source document (left side)</li>
+                            <li>Click in Claude's message box (right side)</li>
+                            <li>Type: <span style="font-style: italic;">"Explain this:"</span></li>
+                            <li>Paste the copied text</li>
+                            <li>Press Enter</li>
+                        </ol>
+                        
+                        <div class="example">
+                            "Explain this: 'Nevertheless, the epistemological framework presupposes a phenomenological reduction that brackets the natural attitude while maintaining intentional directedness toward the noematic content of consciousness.'"
+                        </div>
+                        
+                        <p style="margin-top: 15px;">Or describe the location:</p>
+                        <div class="example">
+                            "The paragraph starting with 'Nevertheless, the epistemological framework...' is really dense. Can you explain what the author is saying in simpler terms?"
+                        </div>
+                        <div class="example">
+                            "I don't understand the argument on page 23. What's the main point?"
+                        </div>
+                    </div>
+
+                    <div class="use-case">
+                        <h4>🔗 Connection Questions</h4>
+                        <p>To see the bigger picture:</p>
+                        <div class="example">
+                            "How does this concept of 'distributed cognition' connect to what was discussed in Chapter 2?"
+                        </div>
+                        <div class="example">
+                            "The author mentions 'recursive processes' here. Where else in the document does this idea appear?"
+                        </div>
+                    </div>
+
+                    <div class="use-case">
+                        <h4>📊 Pattern Questions</h4>
+                        <p>To understand structure and themes:</p>
+                        <div class="example">
+                            "What are the main themes this author returns to repeatedly?"
+                        </div>
+                        <div class="example">
+                            "How is this article organized? What's the logical flow of the argument?"
+                        </div>
+                    </div>
+
+                    <div class="use-case">
+                        <h4>🎯 Definition Questions</h4>
+                        <p>When terminology is unfamiliar:</p>
+                        <div class="example">
+                            "What does 'phenomenological reduction' mean in this context?"
+                        </div>
+                        <div class="example">
+                            "The author uses 'hegemonic discourse' several times. Can you explain this term and how it's being used here?"
+                        </div>
+                    </div>
+
+                    <div class="use-case">
+                        <h4>💡 Synthesis Questions</h4>
+                        <p>To test and deepen understanding:</p>
+                        <div class="example">
+                            "I've just finished section 3. Can you summarize the key arguments so far and how they build on each other?"
+                        </div>
+                        <div class="example">
+                            "What would you say is the author's strongest point? What's the weakest?"
+                        </div>
+                    </div>
+
+                    <div class="use-case">
+                        <h4>🔍 Context Questions</h4>
+                        <p>To understand background and implications:</p>
+                        <div class="example">
+                            "Who is this author responding to? What's the larger debate this fits into?"
+                        </div>
+                        <div class="example">
+                            "How might this argument apply to contemporary issues?"
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <button class="collapsible">Advanced Techniques: Getting More from Your Reading</button>
+            <div class="collapsible-content">
+                <div class="collapsible-content-inner">
+                    
+                    <h3>Create a Reading Guide</h3>
+                    <p>Before you start reading, ask Claude to create a roadmap:</p>
+                    <div class="use-case">
+                        <div class="example">
+                            "Before I start reading, can you give me a brief overview of this article's structure and main arguments? What should I pay special attention to?"
+                        </div>
+                    </div>
+
+                    <h3>Progressive Summarization</h3>
+                    <p>After each section, build cumulative understanding:</p>
+                    <div class="use-case">
+                        <div class="example">
+                            "I've just finished Part I. Can you summarize the key points and show how they set up what's coming in Part II?"
+                        </div>
+                    </div>
+
+                    <h3>Comparative Reading</h3>
+                    <p>If you've read related texts, make connections:</p>
+                    <div class="use-case">
+                        <div class="example">
+                            "I read Smith's article on this topic last week. How does this author's approach differ from Smith's? What would they agree and disagree about?"
+                        </div>
+                    </div>
+
+                    <h3>Question Generation</h3>
+                    <p>Prepare for discussion or study:</p>
+                    <div class="use-case">
+                        <div class="example">
+                            "Based on this reading, what would be good discussion questions for a study group? What are the points most likely to generate interesting debate?"
+                        </div>
+                    </div>
+
+                    <h3>Critical Analysis</h3>
+                    <p>Develop deeper engagement:</p>
+                    <div class="use-case">
+                        <div class="example">
+                            "What assumptions is the author making that aren't explicitly stated? Are there weaknesses in the evidence or reasoning?"
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="tips-box">
+                <h3>💡 Pro Tips for Immersive Reading</h3>
+                <ul>
+                    <li><strong>Don't overthink your questions.</strong> Just ask naturally, as if talking to a colleague. The AI understands conversational language.</li>
+                    <li><strong>Reference the text flexibly.</strong> You can say "the third paragraph on this page," "the section about democracy," or "where the author discusses Kant." Claude will find it.</li>
+                    <li><strong>Build on previous questions.</strong> The conversation history means you can refer back: "Earlier you explained X. How does that relate to what I'm reading now?"</li>
+                    <li><strong>Adjust the detail level.</strong> Ask for "a brief explanation" or "a detailed analysis" depending on what you need.</li>
+                    <li><strong>Use the AI to check your understanding.</strong> "Am I right that the main argument is...?" helps confirm you're tracking correctly.</li>
+                    <li><strong>Don't be afraid to ask "dumb" questions.</strong> The AI doesn't judge. If you're confused, ask. That's what it's there for.</li>
+                    <li><strong>Keep the conversation going.</strong> Unlike searching for answers online, this is a persistent dialogue. Each exchange builds on the last.</li>
+                </ul>
+            </div>
+
+            <h2>Practical Applications</h2>
+
+            <button class="collapsible">Academic Reading & Research</button>
+            <div class="collapsible-content">
+                <div class="collapsible-content-inner">
+                    <p><strong>Perfect for:</strong> Scholarly articles, textbook chapters, primary sources, research papers</p>
+                    
+                    <h4>How It Helps:</h4>
+                    <ul>
+                        <li>Navigate complex theoretical frameworks</li>
+                        <li>Understand specialized terminology in context</li>
+                        <li>Track arguments across long documents</li>
+                        <li>Identify key evidence and methodology</li>
+                        <li>Prepare for class discussions or presentations</li>
+                        <li>Generate study questions and review materials</li>
+                    </ul>
+
+                    <h4>Example Workflow:</h4>
+                    <p>You're reading a 30-page sociology paper for class next week. As you read:</p>
+                    <ul>
+                        <li>Ask Claude to explain the theoretical framework in the introduction</li>
+                        <li>Request clarification on the research methodology</li>
+                        <li>Check your understanding of the findings</li>
+                        <li>Ask how this research relates to other work you've read</li>
+                        <li>Generate discussion questions for class</li>
+                    </ul>
+                </div>
+            </div>
+
+            <button class="collapsible">Course Development for SGLs</button>
+            <div class="collapsible-content">
+                <div class="collapsible-content-inner">
+                    <p><strong>Perfect for:</strong> Evaluating potential course materials, analyzing reading difficulty, identifying discussion opportunities</p>
+                    
+                    <h4>How It Helps:</h4>
+                    <ul>
+                        <li>Assess whether a text is appropriate for your audience</li>
+                        <li>Identify passages that will need extra explanation</li>
+                        <li>Find discussion questions embedded in the text</li>
+                        <li>Discover connections to other potential readings</li>
+                        <li>Plan lecture or session topics based on the material</li>
+                    </ul>
+
+                    <h4>Example Workflow:</h4>
+                    <p>You're considering a complex primary source for your BOLLI course:</p>
+                    <ul>
+                        <li>"What background knowledge would students need to understand this text?"</li>
+                        <li>"Which sections are most accessible? Which will be challenging?"</li>
+                        <li>"What discussion questions would help students engage with the key ideas?"</li>
+                        <li>"How could I break this into manageable reading assignments across multiple sessions?"</li>
+                    </ul>
+                </div>
+            </div>
+
+            <button class="collapsible">Personal Learning & Enrichment</button>
+            <div class="collapsible-content">
+                <div class="collapsible-content-inner">
+                    <p><strong>Perfect for:</strong> Non-fiction books, long-form journalism, historical documents, philosophical texts</p>
+                    
+                    <h4>How It Helps:</h4>
+                    <ul>
+                        <li>Make challenging texts accessible and enjoyable</li>
+                        <li>Deepen appreciation through guided exploration</li>
+                        <li>Connect ideas to your personal interests and experience</li>
+                        <li>Read above your current level with support</li>
+                        <li>Transform solitary reading into an interactive experience</li>
+                    </ul>
+
+                    <h4>Example Workflow:</h4>
+                    <p>You're reading a history book about ancient Rome:</p>
+                    <ul>
+                        <li>Ask for context about unfamiliar historical references</li>
+                        <li>Request maps or timelines to orient yourself</li>
+                        <li>Explore connections to modern parallels</li>
+                        <li>Dive deeper into topics that spark your curiosity</li>
+                        <li>Check historical accuracy or get alternative interpretations</li>
+                    </ul>
+                </div>
+            </div>
+
+            <button class="collapsible">Professional Development & Skill Building</button>
+            <div class="collapsible-content">
+                <div class="collapsible-content-inner">
+                    <p><strong>Perfect for:</strong> Technical manuals, professional reports, policy documents, industry publications</p>
+                    
+                    <h4>How It Helps:</h4>
+                    <ul>
+                        <li>Navigate unfamiliar professional domains</li>
+                        <li>Understand technical jargon and specialized language</li>
+                        <li>Extract actionable insights from dense reports</li>
+                        <li>Identify key recommendations or findings quickly</li>
+                        <li>Relate new concepts to your existing knowledge</li>
+                    </ul>
+
+                    <h4>Example Workflow:</h4>
+                    <p>You're reading a technology white paper outside your expertise:</p>
+                    <ul>
+                        <li>Ask for plain-language explanations of technical terms</li>
+                        <li>Request analogies that connect to familiar concepts</li>
+                        <li>Identify the practical implications for your work</li>
+                        <li>Extract the executive summary insights</li>
+                        <li>Generate questions to ask technical experts</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>Why This Works: The Cognitive Science</h2>
+
+            <div class="intro-box">
+                <h2>The Power of Dialogic Reading</h2>
+                <p>Research in cognitive science shows that reading comprehension improves dramatically when it's interactive rather than passive. Asking questions, making predictions, and seeking clarifications—all hallmarks of active reading—strengthen understanding and retention.</p>
+                
+                <p>Immersive Reading transforms every reading session into what educators call "dialogic learning." You're not just consuming information; you're in dialogue with it. The AI serves as what psychologist Lev Vygotsky called "scaffolding"—support that helps you work at the edge of your current understanding, stretching toward deeper comprehension.</p>
+
+                <p>The split-screen setup minimizes cognitive load from task-switching while maximizing the benefits of elaborative interrogation (asking "why" and "how" questions). Your working memory stays focused on the text while the AI handles the retrieval and connection-making that enhances understanding.</p>
+            </div>
+
+            <h2>Common Questions</h2>
+
+            <button class="collapsible">Won't the AI just do my thinking for me?</button>
+            <div class="collapsible-content">
+                <div class="collapsible-content-inner">
+                    <p>Actually, the opposite. Immersive Reading makes you a <em>more active</em> reader, not a passive one. Here's why:</p>
+                    <ul>
+                        <li><strong>You're still reading the primary text.</strong> Your eyes, your mind, your engagement with the author's words.</li>
+                        <li><strong>You generate the questions.</strong> The AI responds to <em>your</em> curiosity, following where your mind leads.</li>
+                        <li><strong>You evaluate the answers.</strong> Does the explanation make sense? Do you need to dig deeper? You're in control.</li>
+                        <li><strong>You build the understanding.</strong> The AI provides information, but you construct the meaning through your questions and reflections.</li>
+                    </ul>
+                    <p>Think of it like having a knowledgeable tutor versus reading alone in the library. The tutor doesn't think for you—they support your thinking. That's exactly what Immersive Reading does.</p>
+                </div>
+            </div>
+
+            <button class="collapsible">What if I become dependent on AI to understand texts?</button>
+            <div class="collapsible-content">
+                <div class="collapsible-content-inner">
+                    <p>This concern reflects a misunderstanding of how comprehension skills develop. Consider:</p>
+                    <ul>
+                        <li><strong>Reading with support builds stronger readers.</strong> When students read with teachers or tutors, they internalize the questions and strategies. The same happens here.</li>
+                        <li><strong>You're learning how to read this type of text.</strong> The questions you ask, the clarifications you seek—these become part of your reading toolkit for future texts.</li>
+                        <li><strong>Complex texts require support.</strong> Even expert readers use commentaries, dictionaries, and secondary sources. AI is just a more responsive, interactive version of these traditional supports.</li>
+                        <li><strong>You choose when to use it.</strong> Some texts you'll read without AI. Some you'll read with it. That's agency, not dependence.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <button class="collapsible">What types of documents work best?</button>
+            <div class="collapsible-content">
+                <div class="collapsible-content-inner">
+                    <p><strong>Ideal for Immersive Reading:</strong></p>
+                    <ul>
+                        <li>Academic articles and research papers</li>
+                        <li>Dense non-fiction books and chapters</li>
+                        <li>Historical documents and primary sources</li>
+                        <li>Technical manuals and specifications</li>
+                        <li>Legal documents and policy papers</li>
+                        <li>Philosophical or theoretical texts</li>
+                        <li>Long-form journalism and essays</li>
+                    </ul>
+                    
+                    <p><strong>Less suited:</strong></p>
+                    <ul>
+                        <li>Fiction (where the joy is in the discovery)</li>
+                        <li>Poetry (where ambiguity is intentional)</li>
+                        <li>Very short texts (where you can grasp everything in one read)</li>
+                        <li>Highly visual documents where the text is secondary</li>
+                    </ul>
+                </div>
+            </div>
+
+            <button class="collapsible">Can I use this with multiple documents at once?</button>
+            <div class="collapsible-content">
+                <div class="collapsible-content-inner">
+                    <p>Yes! This is particularly powerful for comparative reading or research projects:</p>
+                    
+                    <p><strong>Approach 1: Sequential Upload</strong></p>
+                    <ul>
+                        <li>Upload and read Document A</li>
+                        <li>Upload Document B to the same conversation</li>
+                        <li>Ask Claude to compare, contrast, or synthesize</li>
+                        <li>The AI maintains context from both documents</li>
+                    </ul>
+
+                    <p><strong>Approach 2: Multiple Conversations</strong></p>
+                    <ul>
+                        <li>Create separate conversations for each document</li>
+                        <li>Develop deep understanding of each text individually</li>
+                        <li>Then create a synthesis conversation where you describe the key points and ask for integration</li>
+                    </ul>
+
+                    <p><strong>Great for:</strong> Literature reviews, comparative analysis, integrating multiple sources, cross-referencing arguments</p>
+                </div>
+            </div>
+
+            <h2>Getting Started Today</h2>
+
+            <div class="intro-box">
+                <h2>Your First Immersive Reading Session</h2>
+                <p><strong>Choose a document that matters to you</strong>—something you want to understand deeply, not just skim. It could be an article for a course you're developing, a chapter from a book you're struggling with, or a professional document you need to master.</p>
+
+                <p><strong>Set up your workspace</strong> using the steps above. Left side: your document. Right side: Claude with the same document uploaded.</p>
+
+                <p><strong>Start simple.</strong> Your first question might be: "I'm about to read this. What should I know going in?" or "Give me a brief overview of what this document is about."</p>
+
+                <p><strong>Then just read.</strong> When a question arises—and it will—glance right, type it naturally, get your answer, keep reading.</p>
+
+                <p>You'll quickly discover that this isn't just a reading tool. It's a thinking tool. It transforms solitary reading into collaborative sense-making. And once you experience it, you'll wonder how you ever read complex texts without it.</p>
+            </div>
+
+        </div>
+
+        <footer>
+            <p><strong>BOLLI AI Integration Training Program</strong></p>
+            <p>Empowering Lifelong Learners to Harness Artificial Intelligence</p>
+            <p style="margin-top: 15px; font-size: 0.9em; opacity: 0.8;">February 2026</p>
+        </footer>
+    </div>
+
+    <script>
+        // Collapsible sections functionality
+        const collapsibles = document.getElementsByClassName("collapsible");
+        for (let i = 0; i < collapsibles.length; i++) {
+            collapsibles[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                const content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        }
+    </script>
+</body>
+</html>
