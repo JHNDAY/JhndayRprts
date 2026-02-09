@@ -1,0 +1,1731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chrome Browser Methods: Visual Comparison</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 3px solid #e9ecef;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+        
+        .legend-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .menu-color {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+        }
+        
+        .keyboard-color {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .lesson-section {
+            margin-bottom: 50px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        .lesson-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s;
+        }
+        
+        .lesson-header:hover {
+            background: linear-gradient(135deg, #5568d3 0%, #653a8b 100%);
+        }
+        
+        .lesson-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        
+        .lesson-number {
+            background: rgba(255,255,255,0.2);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .toggle-icon {
+            font-size: 1.5em;
+            transition: transform 0.3s;
+        }
+        
+        .lesson-section.collapsed .toggle-icon {
+            transform: rotate(-180deg);
+        }
+        
+        .lesson-content {
+            padding: 30px;
+            display: block;
+        }
+        
+        .lesson-section.collapsed .lesson-content {
+            display: none;
+        }
+        
+        .action-card {
+            margin-bottom: 30px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #fafbfc;
+        }
+        
+        .action-title {
+            background: #f1f3f5;
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #495057;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+        
+        .method-column {
+            padding: 25px;
+            border-right: 2px solid #e9ecef;
+        }
+        
+        .method-column:last-child {
+            border-right: none;
+        }
+        
+        .menu-method {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe3e3 100%);
+        }
+        
+        .keyboard-method {
+            background: linear-gradient(135deg, #e3fffb 0%, #d4f9f5 100%);
+        }
+        
+        .method-header {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .menu-method .method-header {
+            color: #c92a2a;
+            border-color: #ff6b6b;
+        }
+        
+        .keyboard-method .method-header {
+            color: #087f5b;
+            border-color: #4ecdc4;
+        }
+        
+        .platform-info {
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .platform-label {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .metric {
+            margin-bottom: 20px;
+        }
+        
+        .metric-label {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .metric-value {
+            padding: 12px 15px;
+            border-radius: 6px;
+            background: white;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .rating-bar {
+            flex: 1;
+            height: 24px;
+            background: #e9ecef;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .rating-fill {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-size: 0.85em;
+            font-weight: bold;
+            transition: width 0.5s ease;
+        }
+        
+        .rating-very-low { background: linear-gradient(90deg, #fa5252 0%, #e03131 100%); }
+        .rating-low { background: linear-gradient(90deg, #ff8787 0%, #fa5252 100%); }
+        .rating-medium { background: linear-gradient(90deg, #ffd43b 0%, #fab005 100%); }
+        .rating-high { background: linear-gradient(90deg, #51cf66 0%, #37b24d 100%); }
+        .rating-very-high { background: linear-gradient(90deg, #12b886 0%, #0ca678 100%); }
+        
+        .keys {
+            display: inline-block;
+            background: #495057;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            margin: 0 2px;
+        }
+        
+        .menu-path {
+            font-family: monospace;
+            background: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+            display: inline-block;
+        }
+        
+        .summary-section {
+            margin-top: 50px;
+            padding: 40px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            border: 3px solid #dee2e6;
+        }
+        
+        .summary-title {
+            font-size: 2em;
+            color: #667eea;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .insight-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .insight-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-left: 5px solid;
+        }
+        
+        .insight-card.green {
+            border-color: #37b24d;
+        }
+        
+        .insight-card.blue {
+            border-color: #4ecdc4;
+        }
+        
+        .insight-card.purple {
+            border-color: #667eea;
+        }
+        
+        .insight-card.orange {
+            border-color: #ff922b;
+        }
+        
+        .insight-card h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .insight-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .insight-card li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .insight-card li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .key-principles {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .key-principles h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+        }
+        
+        .principle {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .principle strong {
+            color: #495057;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        
+        @media (max-width: 968px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .method-column {
+                border-right: none;
+                border-bottom: 2px solid #e9ecef;
+            }
+            
+            .method-column:last-child {
+                border-bottom: none;
+            }
+        }
+        
+        .expand-all-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1em;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .expand-all-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Chrome Browser Methods Comparison</h1>
+            <p>Menu Approach vs. Key Sequence Approach</p>
+            <p style="font-size: 0.9em; margin-top: 10px; opacity: 0.9;">
+                Comparing ease of use and autonomic potential for each action
+            </p>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color menu-color"></div>
+                <span>Menu Approach</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color keyboard-color"></div>
+                <span>Key Sequence Approach</span>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- LESSON 1: Managing Tabs -->
+            <div class="lesson-section collapsed">
+                <div class="lesson-header" onclick="toggleLesson(this)">
+                    <div class="lesson-title">
+                        <div class="lesson-number">1</div>
+                        <span>Managing Tabs</span>
+                    </div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="lesson-content">
+                    <!-- Opening a New Tab -->
+                    <div class="action-card">
+                        <div class="action-title">📑 Opening a New Tab</div>
+                        <div class="comparison-grid">
+                            <div class="method-column menu-method">
+                                <div class="method-header">
+                                    🖱️ Menu Approach
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="menu-path">File → New Tab</span></div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="menu-path">Click ⋮ → New tab</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-high" style="width: 90%;">HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Visually discoverable, clear labels. Good for beginners.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-low" style="width: 30%;">LOW</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Requires visual search, mouse movement, clicking. Too many steps.</div>
+                                </div>
+                            </div>
+                            <div class="method-column keyboard-method">
+                                <div class="method-header">
+                                    ⌨️ Key Sequence
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="keys">⌘</span> + <span class="keys">T</span></div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="keys">Ctrl</span> + <span class="keys">T</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-medium" style="width: 60%;">MEDIUM</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Requires memorizing, but only 2 keys. Simple motor pattern.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-high" style="width: 95%;">HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Becomes reflexive after ~20-30 repetitions. Hands stay on keyboard.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Closing Current Tab -->
+                    <div class="action-card">
+                        <div class="action-title">❌ Closing Current Tab</div>
+                        <div class="comparison-grid">
+                            <div class="method-column menu-method">
+                                <div class="method-header">
+                                    🖱️ Menu Approach
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="menu-path">File → Close Tab</span></div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="menu-path">Click ⋮ → Close tab</span> or click X on tab</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-high" style="width: 90%;">HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Clear visual path. Clicking X on tab is more intuitive.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-low" style="width: 30%;">LOW</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Menu requires visual search. Clicking X requires precise targeting.</div>
+                                </div>
+                            </div>
+                            <div class="method-column keyboard-method">
+                                <div class="method-header">
+                                    ⌨️ Key Sequence
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="keys">⌘</span> + <span class="keys">W</span></div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="keys">Ctrl</span> + <span class="keys">W</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-medium" style="width: 60%;">MEDIUM</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Simple combo, but can confuse with Ctrl+Q (quit).</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-high" style="width: 95%;">HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Extremely common. Pairs with ⌘/Ctrl+T for open/close rhythm.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Switching Between Tabs -->
+                    <div class="action-card">
+                        <div class="action-title">🔄 Switching Between Tabs</div>
+                        <div class="comparison-grid">
+                            <div class="method-column menu-method">
+                                <div class="method-header">
+                                    🖱️ Menu Approach
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="menu-path">Window → [tab name]</span> or click tab</div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div>Click on visible tab</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-high" style="width: 90%;">HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Clicking visible tabs is intuitive and natural.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-medium" style="width: 60%;">MEDIUM</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Can become automatic if tabs in consistent positions, but requires visual targeting.</div>
+                                </div>
+                            </div>
+                            <div class="method-column keyboard-method">
+                                <div class="method-header">
+                                    ⌨️ Key Sequence
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="keys">⌘</span> + <span class="keys">Option</span> + <span class="keys">←/→</span></div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="keys">Ctrl</span> + <span class="keys">Tab</span> or <span class="keys">Ctrl</span> + <span class="keys">PgUp/PgDn</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-medium" style="width: 60%;">MEDIUM</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Three keys (Mac) is complex. Ctrl+Tab simpler but less directional.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-medium" style="width: 70%;">MED-HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Arrow version becomes fluid for sequential movement. Ctrl+Tab requires thinking.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reopening Closed Tab -->
+                    <div class="action-card">
+                        <div class="action-title">↩️ Reopening Closed Tab</div>
+                        <div class="comparison-grid">
+                            <div class="method-column menu-method">
+                                <div class="method-header">
+                                    🖱️ Menu Approach
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="menu-path">History → Recently Closed → [select]</span></div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="menu-path">⋮ → History → Recently closed</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-medium" style="width: 60%;">MEDIUM</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Requires menu hierarchy navigation. Not immediately discoverable.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-very-low" style="width: 20%;">VERY LOW</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Multi-step navigation prevents automaticity completely.</div>
+                                </div>
+                            </div>
+                            <div class="method-column keyboard-method">
+                                <div class="method-header">
+                                    ⌨️ Key Sequence
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="keys">⌘</span> + <span class="keys">Shift</span> + <span class="keys">T</span></div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="keys">Ctrl</span> + <span class="keys">Shift</span> + <span class="keys">T</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-medium" style="width: 50%;">MED-LOW</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Three keys is complex. Not intuitive what 'T' means here.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-high" style="width: 85%;">HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">This "undo" action becomes reflexive for frequent users despite complexity.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LESSON 2: Bookmarking -->
+            <div class="lesson-section collapsed">
+                <div class="lesson-header" onclick="toggleLesson(this)">
+                    <div class="lesson-title">
+                        <div class="lesson-number">2</div>
+                        <span>Bookmarking Pages</span>
+                    </div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="lesson-content">
+                    <!-- Creating a Bookmark -->
+                    <div class="action-card">
+                        <div class="action-title">⭐ Creating a Bookmark</div>
+                        <div class="comparison-grid">
+                            <div class="method-column menu-method">
+                                <div class="method-header">
+                                    🖱️ Menu Approach
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="menu-path">Bookmarks → Bookmark This Tab...</span></div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="menu-path">⋮ → Bookmarks → Bookmark this tab</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-high" style="width: 90%;">HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Menu path is clear and logical. Action explicitly states outcome.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-low" style="width: 30%;">LOW</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Menu navigation requires visual attention and multiple actions.</div>
+                                </div>
+                            </div>
+                            <div class="method-column keyboard-method">
+                                <div class="method-header">
+                                    ⌨️ Key Sequence
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="keys">⌘</span> + <span class="keys">D</span></div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="keys">Ctrl</span> + <span class="keys">D</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-high" style="width: 85%;">HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Simple two-key combo. 'D' mnemonic (though not immediately obvious).</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-very-high" style="width: 98%;">VERY HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">One of the most natural shortcuts. Becomes completely automatic.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Viewing All Bookmarks -->
+                    <div class="action-card">
+                        <div class="action-title">📚 Viewing All Bookmarks</div>
+                        <div class="comparison-grid">
+                            <div class="method-column menu-method">
+                                <div class="method-header">
+                                    🖱️ Menu Approach
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="menu-path">Bookmarks → Bookmark Manager</span></div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="menu-path">⋮ → Bookmarks → Bookmark manager</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-high" style="width: 90%;">HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Clearly labeled and easy to find in menu structure.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-low" style="width: 30%;">LOW</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Multi-step menu process prevents muscle memory formation.</div>
+                                </div>
+                            </div>
+                            <div class="method-column keyboard-method">
+                                <div class="method-header">
+                                    ⌨️ Key Sequence
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="keys">⌘</span> + <span class="keys">Option</span> + <span class="keys">B</span></div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="keys">Ctrl</span> + <span class="keys">Shift</span> + <span class="keys">O</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-low" style="width: 40%;">LOW</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Three keys (Mac) is complex. Windows 'O' is non-intuitive.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-medium" style="width: 55%;">MEDIUM</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Complex chord limits automaticity. Infrequent use prevents deep learning.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Showing/Hiding Bookmarks Bar -->
+                    <div class="action-card">
+                        <div class="action-title">👁️ Showing/Hiding Bookmarks Bar</div>
+                        <div class="comparison-grid">
+                            <div class="method-column menu-method">
+                                <div class="method-header">
+                                    🖱️ Menu Approach
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="menu-path">View → Show/Hide Bookmarks Bar</span></div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="menu-path">⋮ → Bookmarks → Show bookmarks bar</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-high" style="width: 90%;">HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">View menu is intuitive. Toggle nature is clear.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-low" style="width: 30%;">LOW</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Infrequent action. Menu navigation required each time.</div>
+                                </div>
+                            </div>
+                            <div class="method-column keyboard-method">
+                                <div class="method-header">
+                                    ⌨️ Key Sequence
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="keys">⌘</span> + <span class="keys">Shift</span> + <span class="keys">B</span></div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="keys">Ctrl</span> + <span class="keys">Shift</span> + <span class="keys">B</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-medium" style="width: 60%;">MEDIUM</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Three keys but same on both platforms. 'B' = Bookmarks is mnemonic.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-medium" style="width: 70%;">MED-HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Simple enough for muscle memory, but many don't use it often enough.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LESSON 3: Zooming -->
+            <div class="lesson-section collapsed">
+                <div class="lesson-header" onclick="toggleLesson(this)">
+                    <div class="lesson-title">
+                        <div class="lesson-number">3</div>
+                        <span>Zooming</span>
+                    </div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="lesson-content">
+                    <!-- Zoom In -->
+                    <div class="action-card">
+                        <div class="action-title">🔍 Zoom In</div>
+                        <div class="comparison-grid">
+                            <div class="method-column menu-method">
+                                <div class="method-header">
+                                    🖱️ Menu Approach
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="menu-path">View → Zoom In</span> or ⋮ menu + button</div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="menu-path">⋮ → + button</span> or <span class="menu-path">View → Zoom In</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-very-high" style="width: 95%;">VERY HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">+ button in menu is visually clear and obvious.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-medium" style="width: 60%;">MEDIUM</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Button clicking can become habitual, but requires mouse movement.</div>
+                                </div>
+                            </div>
+                            <div class="method-column keyboard-method">
+                                <div class="method-header">
+                                    ⌨️ Key Sequence
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="keys">⌘</span> + <span class="keys">+</span></div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="keys">Ctrl</span> + <span class="keys">+</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-very-high" style="width: 95%;">VERY HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Highly intuitive: plus means bigger. Easy to remember.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-very-high" style="width: 98%;">VERY HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Perfect natural mapping (+ = bigger). Becomes completely reflexive.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Zoom Out -->
+                    <div class="action-card">
+                        <div class="action-title">🔎 Zoom Out</div>
+                        <div class="comparison-grid">
+                            <div class="method-column menu-method">
+                                <div class="method-header">
+                                    🖱️ Menu Approach
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="menu-path">View → Zoom Out</span> or ⋮ menu - button</div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="menu-path">⋮ → - button</span> or <span class="menu-path">View → Zoom Out</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-very-high" style="width: 95%;">VERY HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Minus button visually clear. Paired with plus button.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-medium" style="width: 60%;">MEDIUM</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Same as zoom in - button clicking requires mouse targeting.</div>
+                                </div>
+                            </div>
+                            <div class="method-column keyboard-method">
+                                <div class="method-header">
+                                    ⌨️ Key Sequence
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="keys">⌘</span> + <span class="keys">-</span></div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="keys">Ctrl</span> + <span class="keys">-</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-very-high" style="width: 95%;">VERY HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Highly intuitive: minus means smaller. Natural opposite of zoom in.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-very-high" style="width: 98%;">VERY HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Paired with zoom in. Creates coherent mental model. Completely automatic.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reset Zoom -->
+                    <div class="action-card">
+                        <div class="action-title">↺ Reset Zoom to Default</div>
+                        <div class="comparison-grid">
+                            <div class="method-column menu-method">
+                                <div class="method-header">
+                                    🖱️ Menu Approach
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="menu-path">View → Actual Size</span> or reset in ⋮ menu</div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="menu-path">⋮ → reset button</span> or <span class="menu-path">View → Actual Size</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-high" style="width: 85%;">HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Reset button clear. "Actual Size" is descriptive label.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-medium" style="width: 60%;">MEDIUM</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Button makes sense but requires mouse movement and clicking.</div>
+                                </div>
+                            </div>
+                            <div class="method-column keyboard-method">
+                                <div class="method-header">
+                                    ⌨️ Key Sequence
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="keys">⌘</span> + <span class="keys">0</span></div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="keys">Ctrl</span> + <span class="keys">0</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-high" style="width: 85%;">HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Zero as reset is logical (baseline). Natural extension of +/- pattern.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-very-high" style="width: 95%;">VERY HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Completes +/-/0 trio. Becomes part of unified zoom control system.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LESSON 4: Finding Text -->
+            <div class="lesson-section collapsed">
+                <div class="lesson-header" onclick="toggleLesson(this)">
+                    <div class="lesson-title">
+                        <div class="lesson-number">4</div>
+                        <span>Finding Text on Pages</span>
+                    </div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="lesson-content">
+                    <!-- Open Find Dialog -->
+                    <div class="action-card">
+                        <div class="action-title">🔍 Open Find Dialog</div>
+                        <div class="comparison-grid">
+                            <div class="method-column menu-method">
+                                <div class="method-header">
+                                    🖱️ Menu Approach
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="menu-path">Edit → Find...</span></div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="menu-path">⋮ → Find...</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-high" style="width: 85%;">HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Edit menu is standard location for Find across applications.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-low" style="width: 30%;">LOW</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Menu navigation prevents automation despite frequency of use.</div>
+                                </div>
+                            </div>
+                            <div class="method-column keyboard-method">
+                                <div class="method-header">
+                                    ⌨️ Key Sequence
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="keys">⌘</span> + <span class="keys">F</span></div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="keys">Ctrl</span> + <span class="keys">F</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-very-high" style="width: 98%;">VERY HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Universal shortcut across all applications. F = Find is obvious.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-very-high" style="width: 100%;">VERY HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">One of the most universal shortcuts. Becomes completely reflexive.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigate Find Results -->
+                    <div class="action-card">
+                        <div class="action-title">⬆️⬇️ Navigate Find Results</div>
+                        <div class="comparison-grid">
+                            <div class="method-column menu-method">
+                                <div class="method-header">
+                                    🖱️ Menu Approach
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">Both Platforms</div>
+                                    <div>Use ↑/↓ buttons in find bar</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-very-high" style="width: 95%;">VERY HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Visual arrows are completely intuitive. No learning required.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-medium" style="width: 60%;">MEDIUM</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Clicking arrows requires visual attention and cursor positioning.</div>
+                                </div>
+                            </div>
+                            <div class="method-column keyboard-method">
+                                <div class="method-header">
+                                    ⌨️ Key Sequence
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="keys">⌘</span> + <span class="keys">G</span> (next) / <span class="keys">⌘</span> + <span class="keys">Shift</span> + <span class="keys">G</span> (prev)</div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="keys">Ctrl</span> + <span class="keys">G</span> or <span class="keys">F3</span> / <span class="keys">Shift</span> + <span class="keys">F3</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-medium" style="width: 60%;">MEDIUM</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">'G' for "go to next" is not obvious. F3 is traditional but arbitrary.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-high" style="width: 80%;">HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Becomes fluid for power users. Arrow buttons are competitive though.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Close Find Dialog -->
+                    <div class="action-card">
+                        <div class="action-title">❌ Close Find Dialog</div>
+                        <div class="comparison-grid">
+                            <div class="method-column menu-method">
+                                <div class="method-header">
+                                    🖱️ Menu Approach
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">Both Platforms</div>
+                                    <div>Click X on find bar</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-very-high" style="width: 95%;">VERY HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">X button is universal close symbol. Immediately obvious.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-medium" style="width: 70%;">MED-HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">X clicking is natural but requires cursor movement to target.</div>
+                                </div>
+                            </div>
+                            <div class="method-column keyboard-method">
+                                <div class="method-header">
+                                    ⌨️ Key Sequence
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">Both Platforms</div>
+                                    <div><span class="keys">Esc</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-very-high" style="width: 95%;">VERY HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Esc is universal cancel/close key across all computing.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-very-high" style="width: 98%;">VERY HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Deeply ingrained across all applications. Completely automatic response.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LESSON 5: Browsing History -->
+            <div class="lesson-section collapsed">
+                <div class="lesson-header" onclick="toggleLesson(this)">
+                    <div class="lesson-title">
+                        <div class="lesson-number">5</div>
+                        <span>Browsing History</span>
+                    </div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="lesson-content">
+                    <!-- View History -->
+                    <div class="action-card">
+                        <div class="action-title">📜 View History</div>
+                        <div class="comparison-grid">
+                            <div class="method-column menu-method">
+                                <div class="method-header">
+                                    🖱️ Menu Approach
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="menu-path">History → Show Full History</span></div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="menu-path">⋮ → History → History</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-high" style="width: 85%;">HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">History menu is clearly labeled and logically located.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-low" style="width: 30%;">LOW</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Menu navigation is multi-step. Cannot become automatic.</div>
+                                </div>
+                            </div>
+                            <div class="method-column keyboard-method">
+                                <div class="method-header">
+                                    ⌨️ Key Sequence
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="keys">⌘</span> + <span class="keys">Y</span></div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="keys">Ctrl</span> + <span class="keys">H</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-medium" style="width: 60%;">MEDIUM</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Letters not obviously mnemonic. 'H' = History makes sense; 'Y' is arbitrary.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-medium" style="width: 55%;">MEDIUM</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Platform differences confusing. Not frequently used by most users.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Clear Browsing Data -->
+                    <div class="action-card">
+                        <div class="action-title">🗑️ Clear Browsing Data</div>
+                        <div class="comparison-grid">
+                            <div class="method-column menu-method">
+                                <div class="method-header">
+                                    🖱️ Menu Approach
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="menu-path">History → Clear Browsing Data...</span></div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="menu-path">⋮ → History → Clear browsing data...</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-high" style="width: 85%;">HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Menu path logical and clearly labeled with warning implications.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-very-low" style="width: 20%;">VERY LOW</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Deliberately multi-step to prevent accidents. Forces conscious choice.</div>
+                                </div>
+                            </div>
+                            <div class="method-column keyboard-method">
+                                <div class="method-header">
+                                    ⌨️ Key Sequence
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">Both Platforms</div>
+                                    <div><span class="keys">⌘/Ctrl</span> + <span class="keys">Shift</span> + <span class="keys">Delete</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-medium" style="width: 50%;">MED-LOW</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Three keys is complex. Delete key makes sense, but combo isn't intuitive.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-low" style="width: 40%;">LOW-MED</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Intentionally complex for safety. Should NOT become fully automatic.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LESSON 6: Printing -->
+            <div class="lesson-section collapsed">
+                <div class="lesson-header" onclick="toggleLesson(this)">
+                    <div class="lesson-title">
+                        <div class="lesson-number">6</div>
+                        <span>Printing Web Pages</span>
+                    </div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="lesson-content">
+                    <!-- Print or Save as PDF -->
+                    <div class="action-card">
+                        <div class="action-title">🖨️ Print or Save as PDF</div>
+                        <div class="comparison-grid">
+                            <div class="method-column menu-method">
+                                <div class="method-header">
+                                    🖱️ Menu Approach
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="menu-path">File → Print...</span></div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="menu-path">⋮ → Print...</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-high" style="width: 85%;">HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">File → Print is universal convention across 30+ years of computing.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-low" style="width: 30%;">LOW</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Menu requires visual search and clicking. Cannot automate.</div>
+                                </div>
+                            </div>
+                            <div class="method-column keyboard-method">
+                                <div class="method-header">
+                                    ⌨️ Key Sequence
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🍎 Mac</div>
+                                    <div><span class="keys">⌘</span> + <span class="keys">P</span></div>
+                                </div>
+                                <div class="platform-info">
+                                    <div class="platform-label">🪟 Windows</div>
+                                    <div><span class="keys">Ctrl</span> + <span class="keys">P</span></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Ease of Use</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-very-high" style="width: 98%;">VERY HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Universal shortcut across all applications. P = Print is obvious.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Autonomic Potential</div>
+                                    <div class="rating">
+                                        <div class="rating-bar">
+                                            <div class="rating-fill rating-very-high" style="width: 100%;">VERY HIGH</div>
+                                        </div>
+                                    </div>
+                                    <div class="metric-value">Most universal shortcut in computing. Deep cross-app reinforcement.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Section -->
+            <div class="summary-section">
+                <div class="summary-title">📊 Key Insights & Principles</div>
+                
+                <div class="insight-grid">
+                    <div class="insight-card green">
+                        <h3>🏆 Highest Autonomic Potential</h3>
+                        <ul>
+                            <li>⌘/Ctrl + F (Find)</li>
+                            <li>⌘/Ctrl + P (Print)</li>
+                            <li>⌘/Ctrl + D (Bookmark)</li>
+                            <li>⌘/Ctrl + T/W (New/Close Tab)</li>
+                            <li>⌘/Ctrl +/- (Zoom)</li>
+                            <li>Esc (Universal close)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="insight-card blue">
+                        <h3>⚖️ Where Menus Stay Competitive</h3>
+                        <ul>
+                            <li>Clicking X on tabs</li>
+                            <li>Visual zoom buttons</li>
+                            <li>Find navigation arrows</li>
+                            <li>History browsing</li>
+                            <li>Infrequent actions</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="insight-card purple">
+                        <h3>🎯 Universal Shortcut Advantage</h3>
+                        <ul>
+                            <li>Cross-application shortcuts get massive reinforcement</li>
+                            <li>Platform-specific harder to internalize</li>
+                            <li>F, P, T, W work everywhere</li>
+                            <li>Users already know these</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="insight-card orange">
+                        <h3>🔐 Safety by Design</h3>
+                        <ul>
+                            <li>Clear Browsing Data should NOT be automatic</li>
+                            <li>Intentional friction protects users</li>
+                            <li>Complex shortcuts are features, not bugs</li>
+                            <li>Menu forces conscious choice</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="key-principles">
+                    <h3>🧠 Core Principles of Autonomic Behavior</h3>
+                    
+                    <div class="principle">
+                        <strong>The 20-30 Repetition Threshold</strong>
+                        Simple two-key combinations (modifier + letter) become autonomic after 20-30 uses. Three-key combinations require 50-100 repetitions. Infrequent actions never reach autonomic state regardless of method.
+                    </div>
+                    
+                    <div class="principle">
+                        <strong>Learning Curve vs. Long-term Efficiency</strong>
+                        Menu approaches have gentle learning curves but limited efficiency gains. Key sequences have steeper learning curves but dramatic long-term speed benefits. Autonomic potential requires: (1) frequent use, (2) simple motor patterns, (3) intuitive mnemonics.
+                    </div>
+                    
+                    <div class="principle">
+                        <strong>Mouse vs. Keyboard Philosophy</strong>
+                        Menu users maintain visual confirmation throughout the process. Keyboard users transition from conscious execution to unconscious reflex. The goal isn't to eliminate menus but to graduate to shortcuts for frequent actions.
+                    </div>
+                    
+                    <div class="principle">
+                        <strong>Perfect Mapping Creates Instant Learning</strong>
+                        When the mapping is obvious (+ for bigger, - for smaller, F for Find, P for Print), even beginners can remember and use keyboard shortcuts immediately. Arbitrary mappings (Y for History on Mac) create barriers to adoption.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <button class="expand-all-btn" onclick="toggleAll()">
+        <span id="toggleText">Expand All Sections</span>
+    </button>
+    
+    <script>
+        function toggleLesson(header) {
+            header.parentElement.classList.toggle('collapsed');
+        }
+        
+        let allExpanded = false;
+        
+        function toggleAll() {
+            const sections = document.querySelectorAll('.lesson-section');
+            const btn = document.getElementById('toggleText');
+            
+            if (allExpanded) {
+                sections.forEach(section => section.classList.add('collapsed'));
+                btn.textContent = 'Expand All Sections';
+                allExpanded = false;
+            } else {
+                sections.forEach(section => section.classList.remove('collapsed'));
+                btn.textContent = 'Collapse All Sections';
+                allExpanded = true;
+            }
+        }
+        
+        // Animate rating bars on load
+        window.addEventListener('load', function() {
+            const fills = document.querySelectorAll('.rating-fill');
+            fills.forEach((fill, index) => {
+                setTimeout(() => {
+                    const width = fill.style.width;
+                    fill.style.width = '0%';
+                    setTimeout(() => {
+                        fill.style.width = width;
+                    }, 50);
+                }, index * 50);
+            });
+        });
+    </script>
+</body>
+</html>
