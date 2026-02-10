@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLLI Tech Committee Meeting - Feb 9, 2024</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .header h1 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        
+        .header .meta {
+            color: #718096;
+            font-size: 0.95em;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            color: #4a5568;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .tab:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .tab.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .content {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            min-height: 600px;
+        }
+        
+        .view {
+            display: none;
+        }
+        
+        .view.active {
+            display: block;
+        }
+        
+        .participants {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .participant-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .participant-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        
+        .participant-card .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .participant-card .stat {
+            text-align: center;
+        }
+        
+        .participant-card .stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        
+        .participant-card .stat-label {
+            font-size: 0.85em;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            margin-top: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: #e2e8f0;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -29px;
+            top: 25px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #667eea;
+            border: 3px solid white;
+        }
+        
+        .timeline-time {
+            color: #667eea;
+            font-weight: 600;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+        
+        .timeline-speaker {
+            color: #2d3748;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .timeline-content {
+            color: #4a5568;
+            line-height: 1.6;
+        }
+        
+        .topics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .topic-card {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 10px;
+            border-top: 4px solid #667eea;
+            transition: all 0.3s;
+        }
+        
+        .topic-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .topic-card h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .topic-card ul {
+            list-style: none;
+            color: #4a5568;
+        }
+        
+        .topic-card li {
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .topic-card li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .insights {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+        
+        .insights h3 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        
+        .insight-item {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .insight-item h4 {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .action-items {
+            margin-top: 20px;
+        }
+        
+        .action-item {
+            background: #f7fafc;
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            border-left: 4px solid #48bb78;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            min-height: auto;
+            height: auto;
+        }
+        
+        .action-item .checkbox {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #48bb78;
+            border-radius: 3px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        
+        .action-item .content {
+            flex: 1;
+            min-height: auto;
+            display: block;
+        }
+        
+        .action-item h4 {
+            color: #2d3748;
+            margin: 0 0 4px 0;
+            padding: 0;
+            font-size: 0.9em;
+            line-height: 1.2;
+            font-weight: 600;
+        }
+        
+        .action-item p {
+            color: #718096;
+            font-size: 0.8em;
+            line-height: 1.3;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .flow-diagram {
+            margin-top: 30px;
+        }
+        
+        .flow-section {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .flow-section h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .flow-arrow {
+            text-align: center;
+            color: #667eea;
+            font-size: 2em;
+            margin: 15px 0;
+        }
+        
+        .quote {
+            background: #edf2f7;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-style: italic;
+            color: #4a5568;
+        }
+        
+        .quote-author {
+            text-align: right;
+            margin-top: 10px;
+            font-weight: 600;
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>BOLLI Technology Committee Meeting</h1>
+            <div class="meta">
+                <strong>Topic:</strong> Digital Fluency Tutorial Development<br>
+                <strong>Duration:</strong> 66 minutes<br>
+                <strong>Participants:</strong> John Day, John Rudy, Jerry Baum, Carl Lazarus
+            </div>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="switchView('overview')">Overview</button>
+            <button class="tab" onclick="switchView('participants')">Participants</button>
+            <button class="tab" onclick="switchView('timeline')">Timeline</button>
+            <button class="tab" onclick="switchView('topics')">Key Topics</button>
+            <button class="tab" onclick="switchView('insights')">Insights & Actions</button>
+        </div>
+        
+        <div class="content">
+            <!-- Overview View -->
+            <div id="overview" class="view active">
+                <h2 style="color: #2d3748; margin-bottom: 20px;">Meeting Overview</h2>
+                
+                <div class="flow-diagram">
+                    <div class="flow-section">
+                        <h3>🎯 Meeting Purpose</h3>
+                        <p>Discuss John Day's digital fluency tutorial project for BOLLI members - addressing the critical need to improve digital literacy and computer capability among adult learners.</p>
+                    </div>
+                    
+                    <div class="flow-arrow">↓</div>
+                    
+                    <div class="flow-section">
+                        <h3>💡 Core Challenge Identified</h3>
+                        <p>"It's not important to you until you need it" - The fundamental tension between comprehensive tutorials and just-in-time learning.</p>
+                    </div>
+                    
+                    <div class="flow-arrow">↓</div>
+                    
+                    <div class="flow-section">
+                        <h3>🚀 Breakthrough Solutions Proposed</h3>
+                        <ul style="margin-top: 15px; color: #4a5568; line-height: 1.8;">
+                            <li>AI-powered search within tutorial content (interrogating source documents)</li>
+                            <li>Teaching people to use AI assistants (Claude, Gemini) for problem-solving</li>
+                            <li>Office hours for hands-on support</li>
+                            <li>Collaboration with Brandeis University's existing resources</li>
+                            <li>Screen capture + AI query workflow for troubleshooting</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="flow-arrow">↓</div>
+                    
+                    <div class="flow-section">
+                        <h3>📋 Next Steps</h3>
+                        <p>Iterative development with a goal to pilot test with Study Group Leaders within a month, incorporating AI-assisted search and hands-on learning approaches.</p>
+                    </div>
+                </div>
+                
+                <div class="quote" style="margin-top: 30px;">
+                    "We've got human intellects here, and we've got artificial intellects, and we're all kind of working together in some way or the other. It's really great."
+                    <div class="quote-author">— John Day</div>
+                </div>
+            </div>
+            
+            <!-- Participants View -->
+            <div id="participants" class="view">
+                <h2 style="color: #2d3748; margin-bottom: 20px;">Participants</h2>
+                
+                <div class="participants">
+                    <div class="participant-card">
+                        <h3>John Day</h3>
+                        <p>Meeting organizer and tutorial developer. Led the discussion, demonstrated Chrome split-view feature, and proposed AI-powered solutions for tutorial navigation.</p>
+                        <div class="stats">
+                            <div class="stat">
+                                <div class="stat-value">~40</div>
+                                <div class="stat-label">Speaking turns</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Leader</div>
+                                <div class="stat-label">Role</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="participant-card">
+                        <h3>John Rudy</h3>
+                        <p>Active contributor focused on practical implementation and Brandeis collaboration. Shared valuable insights about AI-assisted problem-solving and YouTube video discovery.</p>
+                        <div class="stats">
+                            <div class="stat">
+                                <div class="stat-value">~30</div>
+                                <div class="stat-label">Speaking turns</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Strategist</div>
+                                <div class="stat-label">Role</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="participant-card">
+                        <h3>Jerry Baum</h3>
+                        <p>Detail-oriented contributor ("nitpicker") who provided crucial feedback and the breakthrough idea about AI interrogation of tutorial content.</p>
+                        <div class="stats">
+                            <div class="stat">
+                                <div class="stat-value">~25</div>
+                                <div class="stat-label">Speaking turns</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Innovator</div>
+                                <div class="stat-label">Role</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="participant-card">
+                        <h3>Carl Lazarus</h3>
+                        <p>Thoughtful contributor who emphasized learning value even for experienced users ("things we just didn't know we didn't know") and provided validation.</p>
+                        <div class="stats">
+                            <div class="stat">
+                                <div class="stat-value">~15</div>
+                                <div class="stat-label">Speaking turns</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Validator</div>
+                                <div class="stat-label">Role</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Timeline View -->
+            <div id="timeline" class="view">
+                <h2 style="color: #2d3748; margin-bottom: 20px;">Meeting Timeline</h2>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-time">00:28 - 14:30</div>
+                        <div class="timeline-speaker">Connection & Setup</div>
+                        <div class="timeline-content">
+                            Initial connection issues with Jerry Baum finding the Zoom link. Discussion about link format and visibility. All four participants eventually connected.
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">14:36 - 17:25</div>
+                        <div class="timeline-speaker">Meeting Purpose Clarification</div>
+                        <div class="timeline-content">
+                            John Rudy asks about Brandeis University collaboration. Discussion about whether Brandeis IT has existing tutorials that BOLLI could leverage or collaborate with.
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">17:29 - ~45:00</div>
+                        <div class="timeline-speaker">Tutorial Presentation & Discussion</div>
+                        <div class="timeline-content">
+                            John Day walks through his digital fluency tutorial. Jerry and John Rudy provide feedback. Discussion of terminology, approach, and pedagogical strategy.
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">~45:00 - 56:00</div>
+                        <div class="timeline-speaker">Chrome Split-View Demo</div>
+                        <div class="timeline-content">
+                            Live demonstration of Chrome's split-view feature. Participants discover functionality they never knew existed. Carl notes Edge browser doesn't have the same feature.
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">56:27 - 61:05</div>
+                        <div class="timeline-speaker">AI-Assisted Learning Breakthrough</div>
+                        <div class="timeline-content">
+                            Jerry identifies the "not important until you need it" problem. Discussion evolves into AI-powered solutions: interrogating tutorial content, using Gemini/Claude for just-in-time answers.
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">61:06 - 63:40</div>
+                        <div class="timeline-speaker">Screen Capture + AI Demo</div>
+                        <div class="timeline-content">
+                            John demonstrates copying a screen and asking Claude how to accomplish a task. Claude reads the interface and provides step-by-step instructions.
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">63:40 - 66:02</div>
+                        <div class="timeline-speaker">YouTube & Wrap-up</div>
+                        <div class="timeline-content">
+                            John Rudy shares technique of using Gemini to find specific YouTube tutorials (e.g., for car manual problems). Carl validates the project. Agreement to iterate based on discussion insights.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Topics View -->
+            <div id="topics" class="view">
+                <h2 style="color: #2d3748; margin-bottom: 20px;">Key Discussion Topics</h2>
+                
+                <div class="topics">
+                    <div class="topic-card">
+                        <h3>🎓 Digital Fluency Challenge</h3>
+                        <ul>
+                            <li>Need to improve "digital capability"</li>
+                            <li>Learning by doing with a purpose</li>
+                            <li>Discovery process for features</li>
+                            <li>Things people "don't know they don't know"</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="topic-card">
+                        <h3>🤝 Brandeis Collaboration</h3>
+                        <ul>
+                            <li>University may have existing IT tutorials</li>
+                            <li>Potential to piggyback on resources</li>
+                            <li>Access to broader infrastructure</li>
+                            <li>Three scenarios: better, similar, different</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="topic-card">
+                        <h3>🤖 AI Integration</h3>
+                        <ul>
+                            <li>Use AI to interrogate tutorial content</li>
+                            <li>Screen capture + AI query workflow</li>
+                            <li>Claude/Gemini for problem-solving</li>
+                            <li>Human + artificial intellects working together</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="topic-card">
+                        <h3>📚 Pedagogical Approach</h3>
+                        <ul>
+                            <li>Just-in-time learning vs comprehensive tutorials</li>
+                            <li>Office hours for hands-on support</li>
+                            <li>Verifiable steps over time</li>
+                            <li>Pilot testing with Study Group Leaders</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="topic-card">
+                        <h3>💻 Technical Features</h3>
+                        <ul>
+                            <li>Chrome split-view demonstration</li>
+                            <li>Browser variations (Edge vs Chrome)</li>
+                            <li>Screen capture techniques</li>
+                            <li>Vocabulary challenges (cut vs copy)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="topic-card">
+                        <h3>🎯 Implementation Strategy</h3>
+                        <ul>
+                            <li>One-month timeline for SGL pilot</li>
+                            <li>Iterative development process</li>
+                            <li>Learning from participant responses</li>
+                            <li>Recording and AI analysis of sessions</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Insights & Actions View -->
+            <div id="insights" class="view">
+                <h2 style="color: #2d3748; margin-bottom: 20px;">Key Insights & Next Actions</h2>
+                
+                <div class="insights">
+                    <h3>💡 Breakthrough Insights</h3>
+                    
+                    <div class="insight-item">
+                        <h4>The "Just-in-Time" Learning Paradox</h4>
+                        <p>"It's not important to you until you need it" - Jerry's observation captured the fundamental challenge: comprehensive tutorials are overwhelming, but people can't search for solutions to problems they don't know exist.</p>
+                    </div>
+                    
+                    <div class="insight-item">
+                        <h4>AI as Tutorial Navigator</h4>
+                        <p>Instead of expecting people to read through extensive documentation, use AI to interrogate the source material on demand - turning a static tutorial into an intelligent, conversational learning assistant.</p>
+                    </div>
+                    
+                    <div class="insight-item">
+                        <h4>Teaching Meta-Skills</h4>
+                        <p>John Rudy's revelation: Instead of teaching 50 specific tricks, teach the meta-skill of using AI to find answers. "They can go to Gemini or Claude and ask a question" becomes more valuable than remembering specific procedures.</p>
+                    </div>
+                    
+                    <div class="insight-item">
+                        <h4>Screen Capture as Bridge</h4>
+                        <p>Copying a screen image and asking Claude "how do I do this?" creates a natural bridge between visual confusion and textual solution - especially powerful for people who struggle with technical vocabulary.</p>
+                    </div>
+                    
+                    <div class="insight-item">
+                        <h4>Vocabulary as Barrier</h4>
+                        <p>Technical jargon creates discovery problems. As John Rudy noted about car manuals: "they use words for things that are different than the word that I would use for it." AI helps bridge this gap.</p>
+                    </div>
+                </div>
+                
+                <div class="action-items">
+                    <h3 style="color: #2d3748; margin-top: 30px; margin-bottom: 20px;">Action Items</h3>
+                    
+                    <div class="action-item">
+                        <div class="checkbox"></div>
+                        <div class="content">
+                            <h4>John Rudy: Contact Brandeis IT</h4>
+                            <p>Reach out to Brandeis University to explore existing digital literacy resources and potential collaboration opportunities.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="action-item">
+                        <div class="checkbox"></div>
+                        <div class="content">
+                            <h4>John Day: Implement AI Search Feature</h4>
+                            <p>Develop a prompt-based system that interrogates the tutorial source document, allowing users to ask questions instead of reading sequentially.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="action-item">
+                        <div class="checkbox"></div>
+                        <div class="content">
+                            <h4>John Day: Add "How to Ask AI" Section</h4>
+                            <p>Create tutorial content teaching users how to use Claude/Gemini for problem-solving, including screen capture technique.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="action-item">
+                        <div class="checkbox"></div>
+                        <div class="content">
+                            <h4>Committee: Consider Office Hours</h4>
+                            <p>Explore implementing periodic Zoom office hours where committee members can provide hands-on troubleshooting support.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="action-item">
+                        <div class="checkbox"></div>
+                        <div class="content">
+                            <h4>John Day: Iterate Tutorial Based on Feedback</h4>
+                            <p>Incorporate insights from this discussion into tutorial revisions, focusing on practical, verifiable steps.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="action-item">
+                        <div class="checkbox"></div>
+                        <div class="content">
+                            <h4>All: Pilot Test with SGLs in One Month</h4>
+                            <p>Prepare to test refined tutorial with Study Group Leaders, gathering feedback on what works and what doesn't.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="action-item">
+                        <div class="checkbox"></div>
+                        <div class="content">
+                            <h4>John Day: Send AI Analysis of This Meeting</h4>
+                            <p>Process this meeting recording through AI analysis and distribute summary to participants.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function switchView(viewId) {
+            // Hide all views
+            document.querySelectorAll('.view').forEach(view => {
+                view.classList.remove('active');
+            });
+            
+            // Deactivate all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected view
+            document.getElementById(viewId).classList.add('active');
+            
+            // Activate clicked tab
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
