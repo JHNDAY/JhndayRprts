@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aging Across Generations: BOLLI Course</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+        
+        .course-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1em;
+        }
+        
+        .info-item::before {
+            content: "●";
+            font-size: 1.5em;
+        }
+        
+        .overview {
+            padding: 40px;
+            background: #f8f9fa;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .overview h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+        
+        .overview p {
+            margin-bottom: 12px;
+            font-size: 1.05em;
+            line-height: 1.8;
+        }
+        
+        .expand-collapse-controls {
+            padding: 20px 40px 10px 40px;
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+        
+        .control-btn {
+            padding: 8px 16px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background 0.3s ease;
+        }
+        
+        .control-btn:hover {
+            background: #5568d3;
+        }
+        
+        .weeks-container {
+            padding: 20px 40px 40px 40px;
+        }
+        
+        .week-card {
+            margin-bottom: 20px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .week-card:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .week-header {
+            padding: 25px 30px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .week-header:hover {
+            padding-left: 35px;
+        }
+        
+        .week-header-content {
+            flex: 1;
+        }
+        
+        .week-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .week-2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .week-3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .week-4 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .week-5 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        
+        .week-header h3 {
+            font-size: 1.2em;
+            margin-bottom: 8px;
+            opacity: 0.95;
+        }
+        
+        .week-header .week-title {
+            font-size: 1.6em;
+            font-weight: 700;
+        }
+        
+        .expand-icon {
+            font-size: 2em;
+            transition: transform 0.3s ease;
+            line-height: 1;
+        }
+        
+        .week-card.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+        
+        .week-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            background: white;
+        }
+        
+        .week-card.expanded .week-content {
+            max-height: 3000px;
+        }
+        
+        .week-content-inner {
+            padding: 30px;
+        }
+        
+        .objectives {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .objectives h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .objectives ul {
+            margin-left: 20px;
+        }
+        
+        .objectives li {
+            margin-bottom: 8px;
+        }
+        
+        .session-structure h4 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 8px;
+        }
+        
+        .activity {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .activity-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .time-badge {
+            background: #667eea;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.85em;
+        }
+        
+        .activity-description {
+            margin-left: 0;
+            color: #555;
+        }
+        
+        .activity-description ul {
+            margin-left: 25px;
+            margin-top: 8px;
+        }
+        
+        .activity-description li {
+            margin-bottom: 5px;
+        }
+        
+        .section-collapsible {
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 20px 30px;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .section-header:hover {
+            padding-left: 35px;
+        }
+        
+        .section-header h2 {
+            color: #d63031;
+            font-size: 1.6em;
+            margin: 0;
+        }
+        
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            background: white;
+        }
+        
+        .section-collapsible.expanded .section-content {
+            max-height: 2000px;
+        }
+        
+        .section-content-inner {
+            padding: 30px;
+        }
+        
+        .element-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .element-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #d63031;
+        }
+        
+        .element-card h4 {
+            color: #d63031;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+        }
+        
+        .element-card ul {
+            margin-left: 20px;
+        }
+        
+        .element-card li {
+            margin-bottom: 8px;
+        }
+        
+        .resources-section {
+            background: #f8f9fa;
+            padding: 40px;
+        }
+        
+        .resources-section ul {
+            margin-left: 25px;
+        }
+        
+        .resources-section li {
+            margin-bottom: 12px;
+            font-size: 1.05em;
+        }
+        
+        footer {
+            background: #2d3436;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        footer p {
+            margin-bottom: 10px;
+        }
+        
+        .collaboration {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #636e72;
+            font-style: italic;
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+            
+            .course-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .overview, .weeks-container, .section-content-inner, .resources-section {
+                padding: 20px;
+            }
+            
+            .week-content-inner {
+                padding: 20px;
+            }
+            
+            .expand-collapse-controls {
+                padding: 20px;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Aging Across Generations</h1>
+            <div class="subtitle">How Society's Views Shape Us All</div>
+            <div class="course-info">
+                <div class="info-item">5 Weeks</div>
+                <div class="info-item">90 Minutes Weekly</div>
+                <div class="info-item">In-Person at BOLLI</div>
+                <div class="info-item">Intergenerational</div>
+            </div>
+        </header>
+        
+        <section class="overview">
+            <h2>Course Overview</h2>
+            <p><strong>Audience:</strong> BOLLI members and Brandeis students from Professor Sarah Lamb's Anthropology Lab course</p>
+            <p><strong>Context:</strong> The demographics of the United States show our society is aging, with people 80+ years the fastest growing cohort. Census data suggests that the 80+ age group will outnumber the under 20 age group by 2050.</p>
+            <p><strong>Core Questions:</strong> What are the ramifications of this demographic shift? Is an aging society a problem or an opportunity? What kind of society are we building for the future?</p>
+            <p><strong>Approach:</strong> Conversation through an intergenerational lens will balance theory and lived experiences, enriching all perspectives. We'll examine demographics, ageism, invisibility, generational blame, governmental policies, historical perspectives, and intentional intergenerational communities.</p>
+        </section>
+        
+        <div class="expand-collapse-controls">
+            <button class="control-btn" onclick="expandAll()">Expand All</button>
+            <button class="control-btn" onclick="collapseAll()">Collapse All</button>
+        </div>
+        
+        <section class="weeks-container">
+            <div class="week-card" id="week1">
+                <div class="week-header week-1" onclick="toggleWeek('week1')">
+                    <div class="week-header-content">
+                        <h3>Week 1</h3>
+                        <div class="week-title">The Demographic Reality and What It Means for Everyone</div>
+                    </div>
+                    <div class="expand-icon">▼</div>
+                </div>
+                <div class="week-content">
+                    <div class="week-content-inner">
+                        <div class="objectives">
+                            <h4>Learning Objectives</h4>
+                            <ul>
+                                <li>Understand the "age wave" and its implications across all age groups</li>
+                                <li>Explore how demographic shifts create interdependencies between generations</li>
+                                <li>Begin building intergenerational dialogue skills</li>
+                            </ul>
+                        </div>
+                        <div class="session-structure">
+                            <h4>Session Structure</h4>
+                            <div class="activity">
+                                <div class="activity-title">
+                                    Opening Activity <span class="time-badge">15 min</span>
+                                </div>
+                                <div class="activity-description">
+                                    Paired introductions - one BOLLI member, one student share "a time when age mattered to me"
+                                </div>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-title">
+                                    Content/Discussion <span class="time-badge">40 min</span>
+                                </div>
+                                <div class="activity-description">
+                                    <ul>
+                                        <li>Brief presentation of demographic data (2050 projections)</li>
+                                        <li>Small group discussions: "What assumptions did you make about your future at age 20? 40? 60?"</li>
+                                        <li>How do demographic realities differently impact someone at 25 vs. 75?</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-title">
+                                    Interactive Exercise <span class="time-badge">25 min</span>
+                                </div>
+                                <div class="activity-description">
+                                    Timeline activity - groups map societal attitudes about aging across different decades (1960s-present)
+                                </div>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-title">
+                                    Reflection/Homework <span class="time-badge">10 min</span>
+                                </div>
+                                <div class="activity-description">
+                                    Each participant identifies one media example (ad, TV show, article) that portrays aging and brings to next session
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="week-card" id="week2">
+                <div class="week-header week-2" onclick="toggleWeek('week2')">
+                    <div class="week-header-content">
+                        <h3>Week 2</h3>
+                        <div class="week-title">The Construction of "Old" - Ageism and Cultural Narratives</div>
+                    </div>
+                    <div class="expand-icon">▼</div>
+                </div>
+                <div class="week-content">
+                    <div class="week-content-inner">
+                        <div class="objectives">
+                            <h4>Learning Objectives</h4>
+                            <ul>
+                                <li>Recognize ageism in its various forms (toward both old and young)</li>
+                                <li>Understand how cultural narratives about aging are constructed and internalized</li>
+                                <li>Examine invisibility and visibility across the lifespan</li>
+                            </ul>
+                        </div>
+                        <div class="session-structure">
+                            <h4>Session Structure</h4>
+                            <div class="activity">
+                                <div class="activity-title">
+                                    Media Review <span class="time-badge">20 min</span>
+                                </div>
+                                <div class="activity-description">
+                                    Gallery walk of examples brought by participants - identify patterns and stereotypes
+                                </div>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-title">
+                                    Facilitated Discussion <span class="time-badge">35 min</span>
+                                </div>
+                                <div class="activity-description">
+                                    <ul>
+                                        <li>What is "old"? How has this changed? Who decides?</li>
+                                        <li>Explore ageism directed at youth ("OK Boomer") and at elders (dismissal, patronizing)</li>
+                                        <li>Student perspectives: "What do you fear about aging?"</li>
+                                        <li>BOLLI perspectives: "When did you first feel 'old' to society?"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-title">
+                                    Lived Experience Sharing <span class="time-badge">25 min</span>
+                                </div>
+                                <div class="activity-description">
+                                    Intergenerational pairs share stories of feeling invisible or hypervisible due to age
+                                </div>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-title">
+                                    Closing <span class="time-badge">10 min</span>
+                                </div>
+                                <div class="activity-description">
+                                    Journal prompt: "How do I participate in ageist thinking?"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="week-card" id="week3">
+                <div class="week-header week-3" onclick="toggleWeek('week3')">
+                    <div class="week-header-content">
+                        <h3>Week 3</h3>
+                        <div class="week-title">Generational Interdependence vs. Generational Blame</div>
+                    </div>
+                    <div class="expand-icon">▼</div>
+                </div>
+                <div class="week-content">
+                    <div class="week-content-inner">
+                        <div class="objectives">
+                            <h4>Learning Objectives</h4>
+                            <ul>
+                                <li>Move beyond generational stereotypes (Boomers vs. Millennials, etc.)</li>
+                                <li>Understand economic and policy structures that create intergenerational tension</li>
+                                <li>Identify areas of shared interest across age groups</li>
+                            </ul>
+                        </div>
+                        <div class="session-structure">
+                            <h4>Session Structure</h4>
+                            <div class="activity">
+                                <div class="activity-title">
+                                    Opening Debate Activity <span class="time-badge">25 min</span>
+                                </div>
+                                <div class="activity-description">
+                                    Mixed-age teams debate propositions like "Social Security is unsustainable" or "Young people have it harder than previous generations" - then switch sides
+                                </div>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-title">
+                                    Policy Exploration <span class="time-badge">30 min</span>
+                                </div>
+                                <div class="activity-description">
+                                    <ul>
+                                        <li>Healthcare, housing, education, climate - how do age cohorts experience these differently?</li>
+                                        <li>What structural issues create real conflicts? What conflicts are manufactured?</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-title">
+                                    Finding Common Ground <span class="time-badge">25 min</span>
+                                </div>
+                                <div class="activity-description">
+                                    World café stations where rotating groups identify shared concerns (economic security, meaningful work, community connection, environmental future)
+                                </div>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-title">
+                                    Synthesis <span class="time-badge">10 min</span>
+                                </div>
+                                <div class="activity-description">
+                                    Class creates collective list: "What all generations need to thrive"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="week-card" id="week4">
+                <div class="week-header week-4" onclick="toggleWeek('week4')">
+                    <div class="week-header-content">
+                        <h3>Week 4</h3>
+                        <div class="week-title">Historical Perspectives and Alternative Models</div>
+                    </div>
+                    <div class="expand-icon">▼</div>
+                </div>
+                <div class="week-content">
+                    <div class="week-content-inner">
+                        <div class="objectives">
+                            <h4>Learning Objectives</h4>
+                            <ul>
+                                <li>Examine how other cultures and time periods have structured intergenerational relationships</li>
+                                <li>Explore intentional intergenerational communities and programs</li>
+                                <li>Envision alternatives to age segregation</li>
+                            </ul>
+                        </div>
+                        <div class="session-structure">
+                            <h4>Session Structure</h4>
+                            <div class="activity">
+                                <div class="activity-title">
+                                    Comparative Perspectives <span class="time-badge">30 min</span>
+                                </div>
+                                <div class="activity-description">
+                                    <ul>
+                                        <li>Brief presentations on multigenerational living patterns (historical American, contemporary global examples)</li>
+                                        <li>Guest speaker option: Representative from intergenerational housing or program</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-title">
+                                    Case Studies <span class="time-badge">30 min</span>
+                                </div>
+                                <div class="activity-description">
+                                    Small groups examine different models:
+                                    <ul>
+                                        <li>Intergenerational learning programs</li>
+                                        <li>Co-housing communities</li>
+                                        <li>Mentor/reverse mentor programs</li>
+                                        <li>Shared spaces (community centers, maker spaces)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-title">
+                                    Design Thinking Exercise <span class="time-badge">25 min</span>
+                                </div>
+                                <div class="activity-description">
+                                    "If we were building an intergenerational community, what would it include?" Groups create visual maps
+                                </div>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-title">
+                                    Reflection <span class="time-badge">5 min</span>
+                                </div>
+                                <div class="activity-description">
+                                    What one element would you personally want to participate in?
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="week-card" id="week5">
+                <div class="week-header week-5" onclick="toggleWeek('week5')">
+                    <div class="week-header-content">
+                        <h3>Week 5</h3>
+                        <div class="week-title">Building the Future - Personal and Collective Action</div>
+                    </div>
+                    <div class="expand-icon">▼</div>
+                </div>
+                <div class="week-content">
+                    <div class="week-content-inner">
+                        <div class="objectives">
+                            <h4>Learning Objectives</h4>
+                            <ul>
+                                <li>Synthesize course learning into actionable insights</li>
+                                <li>Identify personal commitments and collective possibilities</li>
+                                <li>Celebrate intergenerational connection</li>
+                            </ul>
+                        </div>
+                        <div class="session-structure">
+                            <h4>Session Structure</h4>
+                            <div class="activity">
+                                <div class="activity-title">
+                                    Course Reflection Circle <span class="time-badge">30 min</span>
+                                </div>
+                                <div class="activity-description">
+                                    <ul>
+                                        <li>What surprised you? What changed for you?</li>
+                                        <li>What stereotypes did you release?</li>
+                                        <li>Share one insight from someone of a different generation</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-title">
+                                    Action Planning <span class="time-badge">35 min</span>
+                                </div>
+                                <div class="activity-description">
+                                    <ul>
+                                        <li>Individual: "One thing I'll do differently"</li>
+                                        <li>Collective brainstorm: "What could BOLLI/Brandeis do to foster intergenerational connection?"</li>
+                                        <li>Volunteers form small task force to develop proposal for ongoing intergenerational programming</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-title">
+                                    Final Sharing <span class="time-badge">20 min</span>
+                                </div>
+                                <div class="activity-description">
+                                    "Letter to the Future" - participants write brief messages about the intergenerational society they want to build (option to share aloud)
+                                </div>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-title">
+                                    Closing Celebration <span class="time-badge">5 min</span>
+                                </div>
+                                <div class="activity-description">
+                                    Appreciation circle
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="weeks-container">
+            <div class="section-collapsible" id="ongoing">
+                <div class="section-header" onclick="toggleSection('ongoing')">
+                    <h2>Ongoing Elements Throughout Course</h2>
+                    <div class="expand-icon">▼</div>
+                </div>
+                <div class="section-content">
+                    <div class="section-content-inner">
+                        <div class="element-grid">
+                            <div class="element-card">
+                                <h4>Weekly Practices</h4>
+                                <ul>
+                                    <li>Rotating intergenerational seating each week</li>
+                                    <li>"Story of the Week" - volunteer shares 5-minute personal narrative related to theme</li>
+                                    <li>Shared Google Doc or folder for resources, articles, and reflections</li>
+                                </ul>
+                            </div>
+                            <div class="element-card">
+                                <h4>Assessment/Participation</h4>
+                                <ul>
+                                    <li>Attendance and engaged participation</li>
+                                    <li>One reflection paper (2-3 pages) connecting course themes to personal experience</li>
+                                    <li>Contribution to final session action planning</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-collapsible" id="resources">
+                <div class="section-header" onclick="toggleSection('resources')">
+                    <h2>Recommended Resources</h2>
+                    <div class="expand-icon">▼</div>
+                </div>
+                <div class="section-content">
+                    <div class="section-content-inner">
+                        <ul>
+                            <li>Readings from Ashton Applewhite's <em>This Chair Rocks</em></li>
+                            <li>Selected articles from Prof. Sarah Lamb's research</li>
+                            <li>Demographics graphics and data visualizations</li>
+                            <li>Media clips illustrating ageism and alternative narratives</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <footer>
+            <p><strong>Course Philosophy:</strong> This structure emphasizes dialogue over lecture, balances theory with lived experience, and uses the intergenerational composition of the class as its greatest resource.</p>
+            <p>Each session includes active learning and opportunities for both age groups to learn from and teach each other.</p>
+            <div class="collaboration">
+                Developed in collaboration with Professor Sarah Lamb, Brandeis University Anthropology Department
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        function toggleWeek(weekId) {
+            const weekCard = document.getElementById(weekId);
+            weekCard.classList.toggle('expanded');
+        }
+        
+        function toggleSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            section.classList.toggle('expanded');
+        }
+        
+        function expandAll() {
+            const allCards = document.querySelectorAll('.week-card, .section-collapsible');
+            allCards.forEach(card => card.classList.add('expanded'));
+        }
+        
+        function collapseAll() {
+            const allCards = document.querySelectorAll('.week-card, .section-collapsible');
+            allCards.forEach(card => card.classList.remove('expanded'));
+        }
+    </script>
+</body>
+</html>
