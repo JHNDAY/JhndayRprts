@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI SGL Session 01 - AI Foundations & Course Development</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .header .meta {
+            font-size: 1.2em;
+            opacity: 0.95;
+            margin-top: 10px;
+        }
+
+        .header .duration {
+            font-size: 1em;
+            opacity: 0.85;
+            margin-top: 5px;
+            font-weight: 300;
+        }
+
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px 40px;
+            background: #f8f9fa;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            font-weight: 600;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .timeline-phase {
+            position: relative;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+            margin-left: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-phase:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .timeline-phase::before {
+            content: '';
+            position: absolute;
+            left: -45px;
+            top: 30px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 4px solid #667eea;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px white;
+        }
+
+        .phase-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .phase-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .phase-time {
+            font-size: 1em;
+            color: #764ba2;
+            font-weight: 600;
+            background: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        .phase-description {
+            color: #555;
+            font-size: 1.05em;
+            line-height: 1.6;
+        }
+
+        .phase-details {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px dashed #ddd;
+            display: none;
+        }
+
+        .timeline-phase.expanded .phase-details {
+            display: block;
+        }
+
+        .expand-indicator {
+            font-size: 0.9em;
+            color: #667eea;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .timeline-phase.expanded .expand-indicator::after {
+            content: ' ▲';
+        }
+
+        .timeline-phase:not(.expanded) .expand-indicator::after {
+            content: ' ▼';
+        }
+
+        .demo-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .demo-box:hover {
+            transform: translateX(3px);
+            box-shadow: 0 3px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .demo-box.collapsible {
+            cursor: pointer;
+        }
+
+        .demo-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .demo-content {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .demo-box.collapsible .demo-content {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .demo-box.collapsible.expanded .demo-content {
+            display: block;
+        }
+
+        .demo-expand-icon {
+            font-size: 0.9em;
+            color: #667eea;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .demo-box.collapsible:not(.expanded) .demo-expand-icon::after {
+            content: ' ▼';
+        }
+
+        .demo-box.collapsible.expanded .demo-expand-icon::after {
+            content: ' ▲';
+        }
+
+        .highlight-quote {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-style: italic;
+        }
+
+        .participants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .participant-card {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .participant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .participant-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .participant-contributions {
+            color: #667eea;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .key-topics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .topic-tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.95em;
+            font-weight: 500;
+        }
+
+        .conversation-snippet {
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .speaker {
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .timestamp {
+            color: #999;
+            font-size: 0.85em;
+            margin-right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .stats-bar {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .timeline {
+                padding-left: 20px;
+            }
+
+            .timeline-phase {
+                margin-left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 AI SGL Session 01</h1>
+            <div class="meta">AI Foundations & Course Development</div>
+            <div class="meta">Wednesday, February 12, 2026 • 1:00-3:30 PM EST</div>
+            <div class="duration">Session Duration: 2 hours 23 minutes</div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-number">3</div>
+                <div class="stat-label">AI Tools Demonstrated</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">143</div>
+                <div class="stat-label">Minutes of Learning</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Major Topics</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Overview Section -->
+            <div class="section">
+                <div class="section-title">📋 Session Overview</div>
+                <p style="font-size: 1.15em; line-height: 1.8; color: #333;">
+                    The inaugural session of the AI Integration Training Program brought together BOLLI Study Group Leaders to explore practical applications of AI in course development. John Day led participants through hands-on demonstrations of three major AI platforms—Claude, Gemini, and ChatGPT—showing how each can support different aspects of the course creation process. The session balanced technical instruction with warm community building, establishing a supportive learning environment for participants with varied digital comfort levels. <strong>Ted Gilman, BOLLI's Executive Director, made a brief appearance to commend the session and coordinate hybrid classroom logistics</strong>, providing institutional validation of the program's importance.
+                </p>
+
+                <div class="key-topics">
+                    <div class="topic-tag">🤖 AI Chatbot Fundamentals</div>
+                    <div class="topic-tag">📝 Course Development Workflows</div>
+                    <div class="topic-tag">🔍 Research vs. Thinking Modes</div>
+                    <div class="topic-tag">💬 Conversational AI</div>
+                    <div class="topic-tag">🎯 Practical Applications</div>
+                </div>
+            </div>
+
+            <!-- CENTERPIECE: Core Workflow Demonstration -->
+            <div class="section" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%); padding: 40px; border-radius: 15px; border: 3px solid #667eea; margin-bottom: 40px;">
+                <div class="section-title" style="border-color: #764ba2;">🎯 CENTERPIECE: Barbara Friedman's Narrative → Course Syllabus</div>
+                
+                <div style="background: white; padding: 30px; border-radius: 10px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <p style="font-size: 1.25em; font-weight: 600; color: #667eea; margin-bottom: 15px;">The Live Demonstration That Defined the Session</p>
+                    <p style="font-size: 1.15em; line-height: 1.8; color: #333;">
+                        In this 15-minute live demonstration (45:34 - 60:59), John transformed <strong>Barbara Friedman's unstructured narrative about aging and generational differences</strong> into a complete, polished 5-week course outline. This real-time transformation showed participants exactly how their own course ideas—no matter how informal—can become professional syllabi through AI-assisted development.
+                    </p>
+                </div>
+
+                <div style="background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 152, 0, 0.1) 100%); padding: 25px; border-radius: 10px; margin-bottom: 25px; border-left: 5px solid #ffc107;">
+                    <p style="font-size: 1.2em; font-weight: 600; color: #856404; margin-bottom: 15px;">📝 Barbara's Original Narrative</p>
+                    <p style="color: #555; line-height: 1.7;">
+                        Barbara submitted a simple, unformatted text description of her course idea focused on aging and intergenerational dynamics. <strong>No bullet points, no numbers, no formal structure</strong>—just her thoughts about what she wanted to teach, including topics like demographics, ageism, and the "blame game" between generations.
+                    </p>
+                    <div class="highlight-quote" style="margin-top: 15px; background: #fff;">
+                        "Nothing, you know, we don't have bullet points here, we don't have any numbers or itemization, it's just what was on your mind." — John Day
+                    </div>
+                </div>
+
+                <div class="demo-box collapsible" onclick="toggleDemoBox(this)" style="background: white; border-color: #28a745; border-width: 3px;">
+                    <div class="demo-title" style="color: #28a745; font-size: 1.3em;">
+                        <span>📖 Live Workflow: Step-by-Step</span>
+                        <span class="demo-expand-icon">Click for details</span>
+                    </div>
+                    <div class="demo-content">
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 15px 0;">
+                            <p style="font-weight: 600; color: #667eea; margin-bottom: 10px;">STEP 1: Barbara's Simple Narrative</p>
+                            <p style="color: #555; line-height: 1.7;">
+                                Barbara submitted an unstructured text describing her course on aging and generational differences—covering demographics, ageism, and "generational blame." No formatting, just natural language expressing her vision.
+                            </p>
+                        </div>
+
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 15px 0;">
+                            <p style="font-weight: 600; color: #667eea; margin-bottom: 10px;">STEP 2: Split-Screen Setup</p>
+                            <p style="color: #555; line-height: 1.7; margin-bottom: 10px;">
+                                John demonstrated split-screen workflow: <strong>Google Doc on left, Claude on right</strong>. This setup (works on Chrome, Mac or PC) allows you to adjust screen proportions and move content seamlessly between platforms.
+                            </p>
+                            <div class="conversation-snippet" style="margin: 10px 0;">
+                                <div class="speaker">John's Teaching Moment</div>
+                                <div>"To really take advantage of a lot of what we have in AI, you need certain basic computer skills... This is a real impediment to a lot of people... that's one of the things I'm working on in the background, which is digital fluency."</div>
+                            </div>
+                        </div>
+
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 15px 0;">
+                            <p style="font-weight: 600; color: #667eea; margin-bottom: 10px;">STEP 3: Copy Barbara's Narrative</p>
+                            <p style="color: #555; line-height: 1.7;">
+                                John selected Barbara's entire narrative text from the Google Doc and copied it to clipboard. <strong>Note:</strong> Barbara clarified that the bottom part was a note to John—only the main course discussion at the top was the actual narrative. This real-time adjustment showed the conversational nature of the workflow.
+                            </p>
+                        </div>
+
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 15px 0;">
+                            <p style="font-weight: 600; color: #667eea; margin-bottom: 10px;">STEP 4: Paste + "Context" Command</p>
+                            <div class="highlight-quote" style="background: #fff3cd; margin: 10px 0;">
+                                <strong>The Critical Technique:</strong><br>
+                                <span style="font-family: monospace; background: white; padding: 5px 10px; border-radius: 4px; display: inline-block; margin-top: 5px;">"This is context, don't respond."</span>
+                            </div>
+                            <p style="color: #555; line-height: 1.7; margin-top: 10px;">
+                                John pasted Barbara's narrative, then added this crucial instruction before hitting Enter. This tells Claude to absorb the information without generating a response yet.
+                            </p>
+                            <div class="conversation-snippet" style="margin: 10px 0;">
+                                <div class="speaker">Lois's Helpful Tip</div>
+                                <div>"If you're in Claude, if you hit shift and enter, it doesn't trigger it."</div>
+                            </div>
+                        </div>
+
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 15px 0;">
+                            <p style="font-weight: 600; color: #667eea; margin-bottom: 10px;">STEP 5: The Collaborative Prompt</p>
+                            <p style="color: #555; line-height: 1.7; margin-bottom: 10px;">
+                                John involved Barbara in crafting the request, demonstrating that prompts should reflect the SGL's specific needs:
+                            </p>
+                            <div style="background: white; padding: 15px; border-left: 4px solid #667eea; border-radius: 4px; margin: 10px 0;">
+                                <p><strong>John:</strong> "Want to do a 5-week course?"</p>
+                                <p style="margin-top: 5px;"><strong>Barbara:</strong> "Yes."</p>
+                                <p style="margin-top: 10px;"><strong>John:</strong> "5-week course, meeting once a week... on Zoom."</p>
+                                <p style="margin-top: 5px;"><strong>Barbara:</strong> "No, this is good. It's going to be in person, but..."</p>
+                                <p style="margin-top: 5px;"><strong>John:</strong> "Oh, it's gonna be in person? Okay. ...in person for 90 minutes."</p>
+                            </div>
+                            <p style="color: #666; margin-top: 10px;">
+                                This back-and-forth showed participants that prompts are flexible and should be tailored to their specific teaching context.
+                            </p>
+                        </div>
+
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 15px 0;">
+                            <p style="font-weight: 600; color: #667eea; margin-bottom: 10px;">STEP 5.5: The "Memory" Advantage</p>
+                            <p style="color: #555; line-height: 1.7;">
+                                John added: <strong>"This course is given at BOLLI."</strong> He explained that Claude remembers his hundreds of hours of conversation about developing BOLLI courses, so this single phrase automatically incorporates that accumulated context into the course design.
+                            </p>
+                            <div class="conversation-snippet" style="margin: 10px 0;">
+                                <div class="speaker">Judy's Question</div>
+                                <div>"Is that true for an unpaid version of Claude as well, that it will remember all your conversations?"</div>
+                            </div>
+                            <p style="color: #666; margin-top: 10px;">
+                                John believed it was true across versions but promised to verify.
+                            </p>
+                        </div>
+
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 15px 0;">
+                            <p style="font-weight: 600; color: #667eea; margin-bottom: 10px;">STEP 6: Generate & Review</p>
+                            <p style="color: #555; line-height: 1.7;">
+                                Claude generated a complete 5-week course outline with weekly topics, learning objectives, and discussion questions.
+                            </p>
+                        </div>
+
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 15px 0;">
+                            <p style="font-weight: 600; color: #667eea; margin-bottom: 10px;">STEP 7: Barbara's Reaction</p>
+                            <div class="conversation-snippet" style="margin: 10px 0;">
+                                <div class="speaker">Barbara Friedman</div>
+                                <div>"Well, interestingly, in the blurb that I wrote about the course description, I listed the topics that they're using as the different weeks. I talked about demographics, and ageism, and the blame game that people play on each generation... and that's exactly what they have here for the different weeks. Yeah, generational blame. But what's really interesting and helpful for me is the questions that they talk about, the objectives. And that could add to the conversation, so those could be leading questions for me."</div>
+                            </div>
+                            <p style="color: #666; margin-top: 10px; font-style: italic;">
+                                Barbara recognized her own ideas in structured form, plus valuable additions she hadn't thought of—the perfect outcome showing AI as enhancement, not replacement.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-box collapsible" onclick="toggleDemoBox(this)" style="background: white; border-color: #764ba2; border-width: 3px; margin-top: 25px;">
+                    <div class="demo-title" style="color: #764ba2; font-size: 1.3em;">
+                        <span>🔄 The Iterative Conversation Principle</span>
+                        <span class="demo-expand-icon">Click for details</span>
+                    </div>
+                    <div class="demo-content">
+                        <p style="margin-bottom: 15px; color: #333; font-size: 1.05em;">
+                            <strong>Barbara Kriss</strong> (a different Barbara) made a crucial observation about the iterative nature of working with AI:
+                        </p>
+                        <div class="conversation-snippet">
+                            <div class="speaker">Barbara Kriss</div>
+                            <div>"When I was thinking about the kind of course I might want to offer, first, it gave me one set of options, and then I realized, oh, I didn't quite tell it the right thing. And then I said, well, this is helpful, but actually I really want to emphasize some other thing. Or then they gave me some articles that were too old and not really current enough. So, it took about <strong>6 iterations</strong> before I had the course that seemed more like what I really wanted to offer. So, at which point, then, it seems like it would be a great idea to put it over into Google Docs."</div>
+                        </div>
+                        <div class="conversation-snippet">
+                            <div class="speaker">John Day</div>
+                            <div>"That's a very valid point, Barbara. It is that conversation, and the first shot is probably not going to be what you want, but you can go back and refine it. And it's the speed with which it does it. I mean, that's just astounding, and you can cycle through so many ideas quickly, and filter through them. If you even try to imagine what this was like when we were youngsters... all those hours at the library lost."</div>
+                        </div>
+                        <p style="margin-top: 15px; color: #666; font-style: italic;">
+                            The first output is a starting point, not the final product. The speed of iteration makes experimentation practical.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="demo-box collapsible" onclick="toggleDemoBox(this)" style="background: white; border-color: #17a2b8; border-width: 3px; margin-top: 25px;">
+                    <div class="demo-title" style="color: #17a2b8; font-size: 1.3em;">
+                        <span>💡 Building on the Framework</span>
+                        <span class="demo-expand-icon">Click for details</span>
+                    </div>
+                    <div class="demo-content">
+                        <div class="conversation-snippet">
+                            <div class="speaker">Oliver Curme</div>
+                            <div>"Once you get the framework, the narrative arc, if you will, of the course, and you kind of like the organization, it's very easy to just say, for each of the five weeks, find me a TED talk, find me a more academic paper, find me a less academic, more layperson article, and generate discussion questions for this. So once you get the framework, it can go out and help you fill in materials for your course."</div>
+                        </div>
+                        <div class="conversation-snippet">
+                            <div class="speaker">John Day</div>
+                            <div>"Great observation, Ollie. Absolutely true. You can build on it... you can tell it, if it's an online source, provide links to it."</div>
+                        </div>
+                        <div class="conversation-snippet">
+                            <div class="speaker">Lois</div>
+                            <div>"I've already found a gazillion sources on each one of my topics, and I have narrowed that down to these are the three things I may want to assign. Can I ask it things like, which makes the most sense? Or I have these multiple possibilities, which fits better?"</div>
+                        </div>
+                        <div class="conversation-snippet">
+                            <div class="speaker">John Day</div>
+                            <div>"Yeah... through pattern recognition, it has a sense of what is better and what's not, and it has a sense of what's been written about what's better based upon what's in the world."</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-box collapsible" onclick="toggleDemoBox(this)" style="background: white; border-color: #ffc107; border-width: 3px; margin-top: 25px;">
+                    <div class="demo-title" style="color: #856404; font-size: 1.3em;">
+                        <span>🎨 Addressing Different Teaching Styles</span>
+                        <span class="demo-expand-icon">Click for details</span>
+                    </div>
+                    <div class="demo-content">
+                        <p style="margin-bottom: 15px; color: #333;">
+                            <strong>Michael Sherrow</strong> raised concerns about lecture-based vs. discussion-based courses:
+                        </p>
+                        <div class="conversation-snippet">
+                            <div class="speaker">Michael Sherrow</div>
+                            <div>"These are courses that involve discussions... I'm not a discussion group. I'm strictly a teacher of history... I use a lot of graphics, old maps and paintings and pictures. I'm not sure how that works in with AI."</div>
+                        </div>
+                        <div class="conversation-snippet">
+                            <div class="speaker">John Day</div>
+                            <div>"Absolutely, you can use this to go out and get facts, and the graphics that you're using can be used as inputs to AI. You can put in a graph of what the Roman world looked like in the year 250 BC, and you can ask AI, what are the major aspects of this graph, and what was the Roman Empire like at this time? And it'll give you a very credible answer. It's looking at an image, a bitmap, and it understands that this is Rome at this time..."</div>
+                        </div>
+                        <p style="margin-top: 15px; color: #666; font-style: italic;">
+                            AI adapts to different teaching styles—whether discussion-based or lecture-based, with or without visual materials.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="demo-box collapsible" onclick="toggleDemoBox(this)" style="background: white; border-color: #28a745; border-width: 3px; margin-top: 25px;">
+                    <div class="demo-title" style="color: #28a745; font-size: 1.3em;">
+                        <span>✨ The Emotional Response</span>
+                        <span class="demo-expand-icon">Click for details</span>
+                    </div>
+                    <div class="demo-content">
+                        <p style="margin-bottom: 15px; color: #333;">
+                            <strong>Steven Ostrow</strong> captured the breakthrough moment:
+                        </p>
+                        <div class="highlight-quote" style="background: linear-gradient(135deg, rgba(40, 167, 69, 0.1) 0%, rgba(102, 126, 234, 0.1) 100%); border-color: #28a745;">
+                            "One general preoccupation... apprehension I've had is that I might lose the emotional and intellectual satisfaction that I'd like to think I'm accustomed to employing. What John and Claude produced, to me, was <strong>a stunning course, based on rather little</strong>... That result, based on very little input from me, was a course that looked so attractive, I might sign up for it myself."
+                        </div>
+                        <p style="margin-top: 15px; color: #666; font-style: italic;">
+                            Steven's initial fear—that AI would diminish the intellectual satisfaction—transformed into amazement at how it enhanced his vision. This is the paradigm shift the training seeks to create.
+                        </p>
+                    </div>
+                </div>
+
+                <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); padding: 25px; border-radius: 10px; margin-top: 25px; border: 2px solid #667eea;">
+                    <p style="font-size: 1.2em; font-weight: 600; color: #667eea; margin-bottom: 10px;">📚 Documentation Available</p>
+                    <div class="conversation-snippet">
+                        <div class="speaker">John Day (Later in Session)</div>
+                        <div>"Before I forget, though, I do want to point out that in this part of the site, I did document, or had Claude document that process we took to create the course for Barbara. These are the 6 steps that we took. And it's in the form of a tutorial, you might want to read through it."</div>
+                    </div>
+                    <p style="margin-top: 15px; color: #666;">
+                        John created a step-by-step tutorial capturing Barbara's demonstration for participants to reference and replicate.
+                    </p>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 10px; margin-top: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                    <p style="font-size: 1.3em; font-weight: 600; margin-bottom: 15px; text-align: center;">🌟 The Fundamental Transformation</p>
+                    <p style="font-size: 1.1em; line-height: 1.8; text-align: center; margin-bottom: 15px;">
+                        Barbara's demonstration proved that <strong>AI excels at transforming unstructured passion into structured pedagogy</strong>. SGLs can share their expertise naturally—no formatting required, no perfect organization needed—and AI shapes it into professional course frameworks. The teacher's vision drives everything; AI provides the scaffolding.
+                    </p>
+                    <p style="font-size: 1em; line-height: 1.7; text-align: center; opacity: 0.95;">
+                        This 15-minute demonstration removed the single biggest barrier to course development: the intimidating blank page. Barbara walked away with a complete 5-week syllabus that recognized her own ideas while adding valuable dimensions she hadn't considered. That's not replacement—that's enhancement.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Timeline Section -->
+            <div class="section">
+                <div class="section-title">⏱️ Session Timeline</div>
+                <div class="timeline">
+                    <!-- Phase 1: Welcome & Community Building -->
+                    <div class="timeline-phase" onclick="togglePhase(this)">
+                        <div class="phase-header">
+                            <div class="phase-title">🌟 Welcome & Community Building</div>
+                            <div class="phase-time">00:00 - 05:00</div>
+                        </div>
+                        <div class="phase-description">
+                            Warm pre-session conversation establishing community rapport through discussions of weather, winter preferences, and bird feeding. Participants from different time zones (Kate in New England, Margaret in Texas) connected over shared experiences.
+                        </div>
+                        <div class="expand-indicator">Click for details</div>
+                        <div class="phase-details">
+                            <div class="conversation-snippet">
+                                <div class="speaker">Kate Seideman</div>
+                                <div>Discussed rideshare privacy concerns and logistics</div>
+                            </div>
+                            <div class="conversation-snippet">
+                                <div class="speaker">Margaret Mukherjee</div>
+                                <div>Shared beautiful photo of her son feeding birds on his deck in Massachusetts</div>
+                            </div>
+                            <div class="conversation-snippet">
+                                <div class="speaker">Steven Ostrow</div>
+                                <div>Described wife's dedication to feeding birds through deep snow—blue jays, cardinals, and woodpeckers</div>
+                            </div>
+                            <p style="margin-top: 15px; color: #666;">
+                                <strong>Community Insight:</strong> This natural warm-up period established psychological safety and demonstrated the multigenerational nature of the BOLLI community, with participants sharing personal stories and regional experiences.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Phase 2: Zoom Navigation Tutorial -->
+                    <div class="timeline-phase" onclick="togglePhase(this)">
+                        <div class="phase-header">
+                            <div class="phase-title">🖥️ Zoom Navigation & Screen Sharing</div>
+                            <div class="phase-time">05:00 - 06:00</div>
+                        </div>
+                        <div class="phase-description">
+                            John provided essential Zoom navigation tips, followed by participants sharing their own discoveries. This peer-to-peer knowledge exchange demonstrated the collaborative learning culture.
+                        </div>
+                        <div class="expand-indicator">Click for details</div>
+                        <div class="phase-details">
+                            <div class="demo-box">
+                                <div class="demo-title">John's Screen Sharing Tips</div>
+                                <div class="demo-content">
+                                    <ul style="margin-left: 20px; margin-top: 10px;">
+                                        <li>Toggle between screen share and gallery view by moving cursor to top of screen</li>
+                                        <li>Resize gallery using vertical bar next to participant thumbnails</li>
+                                        <li>Switch between different viewing modes for optimal experience</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="demo-box">
+                                <div class="demo-title">Kate's Discovery: Pop-Out Feature</div>
+                                <div class="demo-content">
+                                    Kate shared a new feature: clicking "pop-out" arranges the shared presentation in the center with participant thumbnails around it—combining both views simultaneously.
+                                </div>
+                            </div>
+                            <div class="demo-box">
+                                <div class="demo-title">Lois's Tip: Multi-Speaker View</div>
+                                <div class="demo-content">
+                                    In the View menu, "side-by-side multi-speaker" shows active speakers large with other participants smaller below—a feature new even to experienced Zoom users.
+                                </div>
+                            </div>
+                            <div class="highlight-quote">
+                                "These Zoom people are very clever." - John Day, delighted by Kate's discovery
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 3: AI Fundamentals & Claude Demo -->
+                    <div class="timeline-phase" onclick="togglePhase(this)">
+                        <div class="phase-header">
+                            <div class="phase-title">🤖 Barbara's Course: Live Narrative → Syllabus Demo</div>
+                            <div class="phase-time">45:34 - 69:44</div>
+                        </div>
+                        <div class="phase-description">
+                            <strong>THE SESSION CENTERPIECE:</strong> John transformed Barbara Friedman's unstructured narrative about aging and generational differences into a complete 5-week course outline in real-time. This 24-minute demonstration showed the core "fruit salad to structured output" workflow that makes AI accessible for course development, including split-screen setup, the "context, don't respond" technique, collaborative prompting, and iterative refinement.
+                        </div>
+                        <div class="expand-indicator">Click for details</div>
+                        <div class="phase-details">
+                            <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%); padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #667eea;">
+                                <p style="font-size: 1.2em; font-weight: 600; color: #667eea; margin-bottom: 10px;">🎯 Barbara Friedman's Aging Course</p>
+                                <p style="color: #333; line-height: 1.7;">
+                                    Barbara submitted a simple, unformatted narrative about demographics, ageism, and "generational blame"—no bullet points, no structure, just her vision. Within minutes, this became a complete 5-week BOLLI course with weekly topics, learning objectives, and discussion questions that Barbara recognized as her own ideas, enhanced.
+                                </p>
+                            </div>
+
+                            <div class="demo-box">
+                                <div class="demo-title">Split-Screen Workflow Setup</div>
+                                <div class="demo-content">
+                                    <p>John demonstrated dual-screen productivity:</p>
+                                    <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+                                        <li><strong>Left:</strong> Google Doc with Barbara's narrative</li>
+                                        <li><strong>Right:</strong> Claude interface</li>
+                                        <li><strong>Adjustable:</strong> Resize proportions as needed</li>
+                                        <li><strong>Platform:</strong> Works on Chrome (Mac or PC)</li>
+                                    </ul>
+                                    <div class="conversation-snippet" style="margin-top: 15px;">
+                                        <div class="speaker">John's Acknowledgment</div>
+                                        <div>"To really take advantage of a lot of what we have in AI, you need certain basic computer skills... This is a real impediment to a lot of people... that's one of the things I'm working on in the background, which is digital fluency."</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="demo-box">
+                                <div class="demo-title">The "Context First" Technique</div>
+                                <div class="demo-content">
+                                    <ol style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+                                        <li>Copy Barbara's narrative from Google Doc</li>
+                                        <li>Paste into Claude</li>
+                                        <li>Add: <strong>"This is context, don't respond"</strong></li>
+                                        <li>Press Shift+Enter to add new line without sending (Lois's tip)</li>
+                                    </ol>
+                                    <div class="highlight-quote" style="margin-top: 15px;">
+                                        This separates information-loading from task-requesting, allowing Claude to absorb rich context before being asked to generate anything.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="demo-box">
+                                <div class="demo-title">Collaborative Prompt Building</div>
+                                <div class="demo-content">
+                                    <p>John involved Barbara in crafting the request:</p>
+                                    <div style="background: #fff; padding: 15px; margin: 15px 0; border-radius: 5px; border-left: 4px solid #667eea;">
+                                        <p><strong>John:</strong> "Want to do a 5-week course?"</p>
+                                        <p style="margin-top: 5px;"><strong>Barbara:</strong> "Yes."</p>
+                                        <p style="margin-top: 8px;"><strong>John:</strong> "5-week course, meeting once a week on Zoom."</p>
+                                        <p style="margin-top: 5px;"><strong>Barbara:</strong> "No, this is good. It's going to be in person."</p>
+                                        <p style="margin-top: 8px;"><strong>John:</strong> "Okay. In person for 90 minutes. This course is given at BOLLI."</p>
+                                    </div>
+                                    <p style="color: #666; margin-top: 10px;">
+                                        The real-time adjustment showed prompts are flexible conversations, not rigid formulas.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="demo-box">
+                                <div class="demo-title">The Memory Advantage</div>
+                                <div class="demo-content">
+                                    <p>By adding "This course is given at BOLLI," John triggered Claude's accumulated knowledge from hundreds of hours of previous conversations about BOLLI course development. This contextual memory automatically shaped the output to fit BOLLI's unique environment.</p>
+                                    <div class="conversation-snippet" style="margin-top: 15px;">
+                                        <div class="speaker">Judy Feldman</div>
+                                        <div>"Is that true for an unpaid version of Claude as well, that it will remember all your conversations?"</div>
+                                    </div>
+                                    <p style="color: #666; margin-top: 10px;">
+                                        John believed so but promised to verify—showing transparency about knowledge limits.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="demo-box">
+                                <div class="demo-title">Barbara's Recognition Moment</div>
+                                <div class="demo-content">
+                                    <div class="highlight-quote" style="background: linear-gradient(135deg, rgba(40, 167, 69, 0.1) 0%, rgba(102, 126, 234, 0.1) 100%); border-color: #28a745;">
+                                        "In the blurb that I wrote, I listed the topics that they're using as the different weeks. I talked about demographics, and ageism, and the blame game... and that's exactly what they have here for the different weeks. Yeah, generational blame. But what's really interesting and helpful for me is the questions that they talk about, the objectives. And that could add to the conversation, so those could be leading questions for me." — Barbara Friedman
+                                    </div>
+                                    <p style="margin-top: 15px; color: #666; font-style: italic;">
+                                        Perfect outcome: Barbara's ideas, organized and enhanced with valuable additions she hadn't considered.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="demo-box">
+                                <div class="demo-title">Extended Conversation: Iteration & Building</div>
+                                <div class="demo-content">
+                                    <p style="margin-bottom: 15px;"><strong>Barbara Kriss on iteration:</strong> Took 6 iterations to get her course right, refining emphasis and currency of sources</p>
+                                    <p style="margin-bottom: 15px;"><strong>Oliver Curme on building:</strong> Once you have the framework, ask for TED talks, academic papers, discussion questions for each week</p>
+                                    <p style="margin-bottom: 15px;"><strong>Lois on selection:</strong> Can AI help choose among multiple sources you've already found?</p>
+                                    <p style="margin-bottom: 15px;"><strong>Steven Ostrow's breakthrough:</strong> "A stunning course, based on rather little... a course that looked so attractive, I might sign up for it myself."</p>
+                                </div>
+                            </div>
+
+                            <p style="margin-top: 15px; color: #666;">
+                                <strong>Session Impact:</strong> This demonstration anchored the entire 2-hour+ training, showing participants the core transformation that makes AI valuable: unstructured passion → structured pedagogy. Everything else in the session built on or extended this foundation.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Phase 4: Proust Metaphor -->
+                    <div class="timeline-phase" onclick="togglePhase(this)">
+                        <div class="phase-header">
+                            <div class="phase-title">📚 Proust's Madeleine: Understanding AI Through Literature</div>
+                            <div class="phase-time">99:58 - 106:52</div>
+                        </div>
+                        <div class="phase-description">
+                            <strong>CONCEPTUAL BREAKTHROUGH:</strong> John used Marcel Proust's "À la recherche du temps perdu" (In Search of Lost Time) as an evocative literary metaphor for understanding AI's power—comparing the famous madeleine scene to how AI helps retrieve submerged memories, generate new thoughts, and access an infinite library of knowledge.
+                        </div>
+                        <div class="expand-indicator">Click for details</div>
+                        <div class="phase-details">
+                            <div style="background: linear-gradient(135deg, rgba(147, 51, 234, 0.1) 0%, rgba(79, 70, 229, 0.1) 100%); padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #9333ea;">
+                                <p style="font-size: 1.2em; font-weight: 600; color: #9333ea; margin-bottom: 10px;">🫖 The Madeleine Moment</p>
+                                <div class="conversation-snippet">
+                                    <div class="speaker">John Day</div>
+                                    <div>"People familiar with À la recherche du temps perdu? In search of things lost. Proust, 19th century French author..."</div>
+                                </div>
+                                <div class="conversation-snippet" style="margin-top: 10px;">
+                                    <div class="speaker">Lois</div>
+                                    <div>"7-volume set."</div>
+                                </div>
+                                <div class="conversation-snippet" style="margin-top: 10px;">
+                                    <div class="speaker">John Day</div>
+                                    <div>"It's about this fellow, person who is sitting somewhere in France, and goes to tea, and takes a biscuit, La Petite Madeleine, and he puts it in the tea, and he dunks it, and then he tastes it. And it starts this cascade of memories of things that he hadn't thought about in years. It triggers him recovering les temps perdu."</div>
+                                </div>
+                            </div>
+
+                            <div class="demo-box collapsible" onclick="toggleDemoBox(this)">
+                                <div class="demo-title">
+                                    <span>📖 Three Levels of AI Understanding</span>
+                                    <span class="demo-expand-icon">Click for details</span>
+                                </div>
+                                <div class="demo-content">
+                                    <div style="background: #fff; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 5px solid #9333ea;">
+                                        <p style="font-weight: 600; color: #9333ea; margin-bottom: 10px; font-size: 1.1em;">1. À la recherche du temps perdu (In Search of Lost Time)</p>
+                                        <p style="color: #333; line-height: 1.7;">
+                                            <strong>Lost Thoughts Retrieved:</strong> Like Proust's madeleine triggering forgotten memories, AI conversation helps retrieve thoughts and experiences that aren't lost—just submerged.
+                                        </p>
+                                        <div class="highlight-quote" style="margin-top: 10px;">
+                                            "Things that, thoughts that we have, experiences that we have, they're not lost. But they're just submerged. And I have found, frequently, that if I converse with AI, it reminds me of those things." — John Day
+                                        </div>
+                                    </div>
+
+                                    <div style="background: #fff; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 5px solid #7c3aed;">
+                                        <p style="font-weight: 600; color: #7c3aed; margin-bottom: 10px; font-size: 1.1em;">2. À la recherche de la pensée nouvelle (In Search of New Thoughts)</p>
+                                        <p style="color: #333; line-height: 1.7;">
+                                            <strong>New Thoughts Brought Together:</strong> As you converse with AI, it rephrases what you've said in different ways, helping you expand your thinking beyond memory retrieval into new territory.
+                                        </p>
+                                        <div class="highlight-quote" style="margin-top: 10px;">
+                                            "As you're conversing with AI, you bring back all these memories, and you start talking about it, then AI goes out and interacts with the large language model database and rephrases what you've said in different ways. It helps you to expand your thinking."
+                                        </div>
+                                    </div>
+
+                                    <div style="background: #fff; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 5px solid #6366f1;">
+                                        <p style="font-weight: 600; color: #6366f1; margin-bottom: 10px; font-size: 1.1em;">3. The Infinite Library</p>
+                                        <p style="color: #333; line-height: 1.7;">
+                                            <strong>Vast Knowledge Access:</strong> AI has access to an infinite library—it reads in one cycle of prompting more than any human could in a lifetime.
+                                        </p>
+                                        <div class="highlight-quote" style="margin-top: 10px;">
+                                            "You've got lost thoughts retrieved. And you've got new thoughts brought together. And you've got this infinite library... for what it's worth, I thought that was an interesting way of talking about how AI is so powerful."
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="demo-box collapsible" onclick="toggleDemoBox(this)">
+                                <div class="demo-title">
+                                    <span>🎨 Why This Metaphor Resonated</span>
+                                    <span class="demo-expand-icon">Click for details</span>
+                                </div>
+                                <div class="demo-content">
+                                    <p style="margin-bottom: 15px; color: #333; line-height: 1.7;">
+                                        John chose this literary reference deliberately, noting that "you folks seem to be really following, and responding in a very interesting way to these concepts of how AI works." The Proust metaphor worked on multiple levels:
+                                    </p>
+                                    <ul style="margin-left: 20px; line-height: 1.8; color: #555;">
+                                        <li><strong>Culturally Accessible:</strong> Many BOLLI members would know Proust's famous madeleine scene, creating instant recognition</li>
+                                        <li><strong>Emotionally Resonant:</strong> The visceral experience of memory retrieval is something everyone has felt</li>
+                                        <li><strong>Intellectually Sophisticated:</strong> Honors the literary background of many participants while making AI approachable</li>
+                                        <li><strong>Multi-layered:</strong> Moves beyond simple memory to new thought generation and knowledge access</li>
+                                        <li><strong>Humanizing Technology:</strong> Connects cold digital processes to warm human experiences of memory and discovery</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div style="background: linear-gradient(135deg, rgba(147, 51, 234, 0.05) 0%, rgba(79, 70, 229, 0.05) 100%); padding: 25px; border-radius: 10px; margin-top: 20px; border: 2px solid #9333ea;">
+                                <p style="font-size: 1.1em; font-weight: 600; color: #9333ea; margin-bottom: 10px;">💭 Teaching Insight</p>
+                                <p style="color: #555; line-height: 1.8;">
+                                    This moment exemplified John's pedagogical approach: using familiar cultural touchstones to make unfamiliar technology comprehensible. By anchoring AI concepts in Proust's literary masterpiece, he transformed abstract computational processes into something deeply human—the search for lost time, the generation of new thoughts, the access to infinite knowledge. The metaphor stuck because it honored participants' intellectual sophistication while making AI feel accessible and even poetic.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 5: Gemini Deep Research -->
+                    <div class="timeline-phase" onclick="togglePhase(this)">
+                        <div class="phase-header">
+                            <div class="phase-title">🔍 Gemini's Deep Research Feature</div>
+                            <div class="phase-time">130:00 - 136:00</div>
+                        </div>
+                        <div class="phase-description">
+                            Introduction to Gemini's "Research for me" mode, demonstrating how AI can conduct comprehensive web research and create detailed reports from participant narratives.
+                        </div>
+                        <div class="expand-indicator">Click for details</div>
+                        <div class="phase-details">
+                            <div class="demo-box">
+                                <div class="demo-title">Deep Research Workflow</div>
+                                <div class="demo-content">
+                                    <ol style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+                                        <li>Navigate to Gemini interface</li>
+                                        <li>Select "Deep Research" under Tools menu</li>
+                                        <li>Enter request: "Create a report based on this context"</li>
+                                        <li>AI generates research plan showing sources it will consult</li>
+                                        <li>Review and edit the research plan if needed</li>
+                                        <li>Execute search across multiple web sources</li>
+                                        <li>Receive synthesized report with citations</li>
+                                    </ol>
+                                </div>
+                            </div>
+
+                            <div class="demo-box">
+                                <div class="demo-title">Key Distinction: Research vs. Thinking</div>
+                                <div class="demo-content">
+                                    <ul style="margin-left: 20px; margin-top: 10px;">
+                                        <li><strong>Claude ("Thinking with me"):</strong> Uses trained knowledge to generate content, ideal for synthesis and creative development</li>
+                                        <li><strong>Gemini Deep Research ("Research for me"):</strong> Searches current web sources, perfect for up-to-date information and comprehensive topic exploration</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <p style="margin-top: 15px; color: #666;">
+                                <strong>Pedagogical Note:</strong> John demonstrated the research process while it was running, showing the "thinking" that happens behind the scenes and the multiple sources being consulted.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Phase 6: ChatGPT Audio Demo -->
+                    <div class="timeline-phase" onclick="togglePhase(this)">
+                        <div class="phase-header">
+                            <div class="phase-title">🎙️ ChatGPT Audio Conversation</div>
+                            <div class="phase-time">136:00 - 139:00</div>
+                        </div>
+                        <div class="phase-description">
+                            Demonstration of ChatGPT's unique audio conversation capability through a bilingual discussion about John's junior year in Strasbourg, France in 1972—showcasing memory activation and contextual research.
+                        </div>
+                        <div class="expand-indicator">Click for details</div>
+                        <div class="phase-details">
+                            <div class="demo-box">
+                                <div class="demo-title">The Strasbourg Conversation</div>
+                                <div class="demo-content">
+                                    <p><strong>Setup:</strong> John provided context about spending junior year in Strasbourg 50+ years ago, then engaged in live audio conversation.</p>
+                                    
+                                    <div style="background: #fff; padding: 15px; margin: 15px 0; border-radius: 5px; border-left: 4px solid #667eea;">
+                                        <p><strong>John (in French):</strong> "Et bien parlons de mon année en France" (Well, let's talk about my year in France)</p>
+                                        <p style="margin-top: 10px;"><strong>ChatGPT (in French):</strong> Responded with questions about his memories</p>
+                                        <p style="margin-top: 10px;"><strong>John:</strong> "C'est bien dit, mais maintenant alons-y en anglais" (That's well said, but now let's go in English)</p>
+                                        <p style="margin-top: 10px;"><strong>ChatGPT:</strong> Seamlessly switched to English and asked about vivid memories</p>
+                                    </div>
+
+                                    <p style="margin-top: 15px;"><strong>Walking Route Memory:</strong> ChatGPT reconstructed John's daily walk from Rue Saint-Croix to the university, describing Alsatian buildings, the Musée Alsacienne, bridges near Palais Rohan, and Strasbourg Cathedral.</p>
+
+                                    <p style="margin-top: 15px;"><strong>Historical Detail:</strong> Discussed the famous "L'Église et la Synagogue" sculptures—medieval allegorical figures representing Christianity and Judaism, explaining their theological symbolism and historical controversy.</p>
+
+                                    <p style="margin-top: 15px;"><strong>Contextual Pricing:</strong> When John asked if he could have gotten "Choucroute Garnie" for 10 francs in 1972, ChatGPT confirmed this would have been reasonable, explaining regional prices and local beverages (Riesling, Gewürztraminer, or local lagers).</p>
+                                </div>
+                            </div>
+
+                            <div class="highlight-quote">
+                                "The language part of it, I mean, I think the conversation is unbelievable, because it jogs your memories." - Lois
+                            </div>
+
+                            <div class="conversation-snippet">
+                                <div class="speaker">Lois's Application Question</div>
+                                <div>"I'm learning Yiddish. Could I say to it, can you converse with me in Yiddish and help me work on my particular conversational skills, or particular topics?"</div>
+                            </div>
+
+                            <div class="conversation-snippet">
+                                <div class="speaker">John's Response</div>
+                                <div>"I haven't tried that yet, but I'm pretty... I'd be surprised if you can't."</div>
+                            </div>
+
+                            <div class="demo-box">
+                                <div class="demo-title">Why ChatGPT's Audio Mode Stands Out</div>
+                                <div class="demo-content">
+                                    <ul style="margin-left: 20px; margin-top: 10px;">
+                                        <li>Natural conversational flow without typing delays</li>
+                                        <li>Seamless language switching (French ↔ English)</li>
+                                        <li>Memory jogging through guided questions</li>
+                                        <li>Full transcript preserved for later analysis</li>
+                                        <li>Unique among AI tools—Claude's mobile audio mode "not very good"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 7: Special Guest: Ted Gilman Cameo -->
+                    <div class="timeline-phase" onclick="togglePhase(this)">
+                        <div class="phase-header">
+                            <div class="phase-title">🎭 Special Guest: Ted Gilman Cameo</div>
+                            <div class="phase-time">121:30 - 122:35</div>
+                        </div>
+                        <div class="phase-description">
+                            <strong>Leadership Endorsement:</strong> Ted Gilman, BOLLI Executive Director, joined briefly to commend the session and coordinate logistics with Ollie about the new hybrid classroom camera system—a moment validating the program's institutional importance.
+                        </div>
+                        <div class="expand-indicator">Click for details</div>
+                        <div class="phase-details">
+                            <div style="background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 152, 0, 0.1) 100%); padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ffc107;">
+                                <p style="font-size: 1.2em; font-weight: 600; color: #856404; margin-bottom: 10px;">👔 Executive Director Endorsement</p>
+                                <div class="conversation-snippet">
+                                    <div class="speaker">Ted Gilman (BOLLI Executive Director)</div>
+                                    <div>"John, this has been a really terrific session. Thank you so much, and I've been listening and following along, and I'm really impressed by a lot of what's going on here."</div>
+                                </div>
+                                <p style="margin-top: 15px; color: #666;">
+                                    This unsolicited praise from BOLLI's leadership demonstrated institutional support for the AI Integration Training Program and validated John's approach.
+                                </p>
+                            </div>
+
+                            <div class="demo-box collapsible" onclick="toggleDemoBox(this)">
+                                <div class="demo-title">
+                                    <span>🎥 Hybrid Classroom Discussion</span>
+                                    <span class="demo-expand-icon">Click for details</span>
+                                </div>
+                                <div class="demo-content">
+                                    <p style="margin-bottom: 15px;">Ted's visit also served a practical purpose—coordinating with Ollie about the new hybrid teaching setup:</p>
+                                    <div class="conversation-snippet" style="margin: 10px 0;">
+                                        <div class="speaker">Ted Gilman</div>
+                                        <div>"I wanted to ask Ollie, is it possible for... did you say that you're going to be doing the install on the 23rd?"</div>
+                                    </div>
+                                    <div class="conversation-snippet" style="margin: 10px 0;">
+                                        <div class="speaker">Oliver Curme</div>
+                                        <div>"I've got... I'm still working out the day with Robin, but it should be done by the 23rd. I'm gonna be in the 19th or the 20th. And it'll be available for use for anyone at any time in the Purple Room."</div>
+                                    </div>
+                                    <div class="conversation-snippet" style="margin: 10px 0;">
+                                        <div class="speaker">Ted Gilman</div>
+                                        <div>"That's what I was wondering, yeah... [how do we get] trained on it."</div>
+                                    </div>
+                                    <div class="conversation-snippet" style="margin: 10px 0;">
+                                        <div class="speaker">Oliver Curme</div>
+                                        <div>"It's dead simple, but I'll show Robin how to do it, and then it'll be accessible to everyone."</div>
+                                    </div>
+                                    <div class="conversation-snippet" style="margin: 10px 0;">
+                                        <div class="speaker">Ted Gilman</div>
+                                        <div>"Super. Thank you so much for doing this."</div>
+                                    </div>
+                                    <p style="margin-top: 15px; color: #666;">
+                                        <strong>Context:</strong> Ollie was installing a new camera system in the Purple Room to improve hybrid teaching—allowing in-person and Zoom participants to see each other more naturally. This infrastructure investment showed BOLLI's commitment to supporting diverse learning modalities.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="highlight-quote" style="margin-top: 20px;">
+                                Ted's brief appearance served dual purposes: providing executive-level validation of the AI training program while coordinating practical logistics for BOLLI's evolving teaching infrastructure. The fact that the Executive Director took time to join, listen, and publicly praise the session signaled institutional commitment to innovation in teaching and learning.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 8: Applications & Use Cases -->
+                    <div class="timeline-phase" onclick="togglePhase(this)">
+                        <div class="phase-header">
+                            <div class="phase-title">💡 Applications & Use Cases</div>
+                            <div class="phase-time">139:00 - 142:00</div>
+                        </div>
+                        <div class="phase-description">
+                            Participants explored specific applications for their work, with Judy asking about qualitative analysis and John outlining future plans for the SIG (Special Interest Group).
+                        </div>
+                        <div class="expand-indicator">Click for details</div>
+                        <div class="phase-details">
+                            <div class="conversation-snippet">
+                                <div class="speaker">Judy Feldman's Question</div>
+                                <div>"Which chatbot would you recommend to analyze verbal data? If you're doing a series of interviews, and you want to feed the text of the responses, and look at themes, and sort them."</div>
+                            </div>
+
+                            <div class="conversation-snippet">
+                                <div class="speaker">John's Recommendation</div>
+                                <div>"I find Claude to be the most nuanced in terms of prompting I've done with it."</div>
+                            </div>
+
+                            <div class="demo-box">
+                                <div class="demo-title">Future Session Planning</div>
+                                <div class="demo-content">
+                                    <ul style="margin-left: 20px; margin-top: 10px;">
+                                        <li>Transcribe this session and create visualization (distribute to participants)</li>
+                                        <li>Evolve into ongoing SIG (Special Interest Group)</li>
+                                        <li>Complete narrative-to-course-description exercises</li>
+                                        <li>Study collective results as unique dataset</li>
+                                        <li>Regular meetings to discuss topics of interest</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="highlight-quote">
+                                "I think if we got all of those [narratives] together and looked at the results, it would be quite interesting to study that. It would be a unique set of data reflecting a lot of insight into the different people who are stepping up to teach, and what their approach is." - John Day
+                            </div>
+
+                            <p style="margin-top: 15px; color: #666;">
+                                <strong>Community Response:</strong> Multiple participants expressed enthusiasm for continuing as a SIG, with Marlene noting "a lot of people expressed interest."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Participants Section -->
+            <div class="section">
+                <div class="section-title">👥 Session Participants</div>
+                <div class="participants-grid">
+                    <div class="participant-card">
+                        <div class="participant-name">John Day</div>
+                        <div class="participant-contributions">Session Leader<br>Primary Instructor</div>
+                    </div>
+                    <div class="participant-card">
+                        <div class="participant-name">Kate Seideman</div>
+                        <div class="participant-contributions">Zoom Tips Contributor<br>Active Learner</div>
+                    </div>
+                    <div class="participant-card">
+                        <div class="participant-name">Judy Feldman</div>
+                        <div class="participant-contributions">Research Questions<br>Qualitative Analysis</div>
+                    </div>
+                    <div class="participant-card">
+                        <div class="participant-name">Margaret Mukherjee</div>
+                        <div class="participant-contributions">Texas-based<br>Community Builder</div>
+                    </div>
+                    <div class="participant-card">
+                        <div class="participant-name">Steven Ostrow</div>
+                        <div class="participant-contributions">Ancient Rome Course<br>Engaged Participant</div>
+                    </div>
+                    <div class="participant-card">
+                        <div class="participant-name">Lois</div>
+                        <div class="participant-contributions">Multi-Speaker View<br>Language Learning</div>
+                    </div>
+                    <div class="participant-card">
+                        <div class="participant-name">John Godine</div>
+                        <div class="participant-contributions">Privacy Questions<br>Course Narrative</div>
+                    </div>
+                    <div class="participant-card">
+                        <div class="participant-name">Michael Sherrow</div>
+                        <div class="participant-contributions">Participant<br>(Departed Early)</div>
+                    </div>
+                    <div class="participant-card">
+                        <div class="participant-name">Marlene</div>
+                        <div class="participant-contributions">SIG Coordinator<br>Program Support</div>
+                    </div>
+                    <div class="participant-card">
+                        <div class="participant-name">Martin Newhouse</div>
+                        <div class="participant-contributions">Participant</div>
+                    </div>
+                    <div class="participant-card" style="background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 152, 0, 0.1) 100%); border-color: #ffc107;">
+                        <div class="participant-name">Ted Gilman</div>
+                        <div class="participant-contributions">BOLLI Executive Director<br>Special Guest</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Takeaways -->
+            <div class="section">
+                <div class="section-title">🎯 Key Takeaways</div>
+                
+                <div class="demo-box" style="margin-bottom: 20px;">
+                    <div class="demo-title">1. Three AI Tools, Three Strengths</div>
+                    <div class="demo-content">
+                        <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+                            <li><strong>Claude:</strong> Most nuanced for complex thinking, qualitative analysis, and creative development</li>
+                            <li><strong>Gemini Deep Research:</strong> Best for comprehensive web research and current information</li>
+                            <li><strong>ChatGPT Audio:</strong> Unique conversational capability for memory activation and language practice</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="demo-box" style="margin-bottom: 20px;">
+                    <div class="demo-title">2. Context is King</div>
+                    <div class="demo-content">
+                        The "This is context, don't respond" technique enables richer AI interactions by separating information-sharing from task requests.
+                    </div>
+                </div>
+
+                <div class="demo-box" style="margin-bottom: 20px;">
+                    <div class="demo-title">3. Peer Learning Enriches Training</div>
+                    <div class="demo-content">
+                        Participants shared Zoom tips, application ideas, and questions that enhanced the collective learning experience—Kate's pop-out discovery, Lois's multi-speaker view, Judy's qualitative analysis question.
+                    </div>
+                </div>
+
+                <div class="demo-box" style="margin-bottom: 20px;">
+                    <div class="demo-title">4. Privacy by Design</div>
+                    <div class="demo-content">
+                        AI chatbots don't access your computer's files unless you explicitly share information with them—an important reassurance for participants concerned about data privacy.
+                    </div>
+                </div>
+
+                <div class="demo-box">
+                    <div class="demo-title">5. Community-Driven Evolution</div>
+                    <div class="demo-content">
+                        The session laid groundwork for an ongoing SIG where participants will continue learning together, completing exercises, and sharing insights about AI-enhanced course development.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Audience Engagement -->
+            <div class="section">
+                <div class="section-title">✨ Audience Engagement & Interest</div>
+                <p style="font-size: 1.1em; line-height: 1.8; color: #333; margin-bottom: 25px;">
+                    The session demonstrated exceptional participant engagement across the full 2 hours 23 minutes, with active learning, peer teaching, and immediate application thinking. Participants moved beyond passive observation to become co-creators of the learning experience.
+                </p>
+
+                <div class="demo-box collapsible" onclick="toggleDemoBox(this)" style="margin-bottom: 20px;">
+                    <div class="demo-title">
+                        <span>🤝 Peer Teaching Moments</span>
+                        <span class="demo-expand-icon">Click for details</span>
+                    </div>
+                    <div class="demo-content">
+                        <p style="margin-bottom: 10px;">Participants actively shared discoveries, enriching the collective learning:</p>
+                        <div class="conversation-snippet" style="margin: 10px 0;">
+                            <div class="speaker">Kate Seideman</div>
+                            <div>"I just discovered, because I was just playing around with it, that there's another thing... you can click pop-out, and what that will do is it'll put your shared presentation in the middle, and arrange at least some of the thumbnails of people around it."</div>
+                        </div>
+                        <div class="conversation-snippet" style="margin: 10px 0;">
+                            <div class="speaker">Lois</div>
+                            <div>"Another possibility is in the view, you can click side-by-side multi-speaker. So, for example, I see John and Kate right now, large, and then I see everybody else smaller below."</div>
+                        </div>
+                        <div class="conversation-snippet" style="margin: 10px 0;">
+                            <div class="speaker">Steven Ostrow</div>
+                            <div>"Thank you. That's new to me."</div>
+                        </div>
+                        <p style="margin-top: 15px; color: #666; font-style: italic;">
+                            These spontaneous contributions demonstrate participants actively exploring the technology and generously sharing insights—exactly the collaborative culture needed for successful AI integration.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="demo-box collapsible" onclick="toggleDemoBox(this)" style="margin-bottom: 20px;">
+                    <div class="demo-title">
+                        <span>❓ Thoughtful Questions</span>
+                        <span class="demo-expand-icon">Click for details</span>
+                    </div>
+                    <div class="demo-content">
+                        <p style="margin-bottom: 10px;">Participants asked substantive questions revealing both curiosity and practical application thinking:</p>
+                        <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+                            <li><strong>Privacy Concerns (John Godine):</strong> "Do these bots look through your computer?"—addressing fundamental security concerns</li>
+                            <li><strong>Workflow Clarification (John Godine):</strong> "What I wanted to know is how you're going to take what it generated and put it into a different site"—following the technical process closely</li>
+                            <li><strong>Qualitative Research (Judy Feldman):</strong> "Which chatbot would you recommend to analyze verbal data? If you're doing a series of interviews, and you want to feed the text of the responses, and look at themes"—immediate application to academic work</li>
+                            <li><strong>Language Learning (Lois):</strong> "I'm learning Yiddish. Could I say to it, can you converse with me in Yiddish and help me work on my particular conversational skills?"—creative application of demonstrated capabilities</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="demo-box collapsible" onclick="toggleDemoBox(this)" style="margin-bottom: 20px;">
+                    <div class="demo-title">
+                        <span>💡 Immediate Application Thinking</span>
+                        <span class="demo-expand-icon">Click for details</span>
+                    </div>
+                    <div class="demo-content">
+                        <p style="margin-bottom: 10px;">Participants didn't just observe—they immediately connected demonstrations to their own contexts:</p>
+                        <div class="highlight-quote" style="margin: 15px 0;">
+                            <strong>After ChatGPT Memory Demo:</strong><br>
+                            Lois: "The language part of it, I mean, I think the conversation is unbelievable, because it jogs your memories."
+                        </div>
+                        <div class="highlight-quote" style="margin: 15px 0;">
+                            <strong>After Claude Demo:</strong><br>
+                            John Godine followed the workflow closely enough to ask specific technical questions about copying and pasting between platforms
+                        </div>
+                        <p style="margin-top: 15px; color: #666;">
+                            This immediate translation from demonstration to personal application shows participants actively envisioning how AI tools will enhance their course development work.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="demo-box collapsible" onclick="toggleDemoBox(this)" style="margin-bottom: 20px;">
+                    <div class="demo-title">
+                        <span>🎉 Enthusiastic Reception</span>
+                        <span class="demo-expand-icon">Click for details</span>
+                    </div>
+                    <div class="demo-content">
+                        <p style="margin-bottom: 10px;">Participant responses throughout the session:</p>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 15px;">
+                            <div style="background: #fff; padding: 15px; border-radius: 8px; border-left: 4px solid #28a745;">
+                                <strong>Lois:</strong> "Fantastic."
+                            </div>
+                            <div style="background: #fff; padding: 15px; border-radius: 8px; border-left: 4px solid #28a745;">
+                                <strong>Lois:</strong> "That's fantastic."
+                            </div>
+                            <div style="background: #fff; padding: 15px; border-radius: 8px; border-left: 4px solid #28a745;">
+                                <strong>Lois:</strong> "Spectacular, and so helpful."
+                            </div>
+                            <div style="background: #fff; padding: 15px; border-radius: 8px; border-left: 4px solid #28a745;">
+                                <strong>Lois:</strong> "I'm gonna try that, thank you."
+                            </div>
+                            <div style="background: #fff; padding: 15px; border-radius: 8px; border-left: 4px solid #28a745;">
+                                <strong>John Godine:</strong> "Great."
+                            </div>
+                            <div style="background: #fff; padding: 15px; border-radius: 8px; border-left: 4px solid #28a745;">
+                                <strong>Marlene:</strong> "Thank you so much, John."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-box collapsible" onclick="toggleDemoBox(this)" style="margin-bottom: 20px;">
+                    <div class="demo-title">
+                        <span>🔬 Active Exploration</span>
+                        <span class="demo-expand-icon">Click for details</span>
+                    </div>
+                    <div class="demo-content">
+                        <p style="margin-bottom: 10px;">Kate's comment reveals the exploratory mindset participants brought:</p>
+                        <div class="highlight-quote">
+                            "I just discovered, because I was just playing around with it..."
+                        </div>
+                        <p style="margin-top: 15px; color: #666;">
+                            Rather than waiting for instruction, participants actively experimented with the tools during the session—exactly the hands-on engagement that builds digital fluency.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="demo-box collapsible" onclick="toggleDemoBox(this)" style="margin-bottom: 20px;">
+                    <div class="demo-title">
+                        <span>🚀 Commitment to Continuation</span>
+                        <span class="demo-expand-icon">Click for details</span>
+                    </div>
+                    <div class="demo-content">
+                        <p style="margin-bottom: 10px;">When John proposed evolving into a monthly SIG:</p>
+                        <div class="conversation-snippet" style="margin: 10px 0;">
+                            <div class="speaker">John Day</div>
+                            <div>"I think what I see is this evolving into a SIG where we meet periodically and discuss what is of interest... I'm quite enthusiastic about it."</div>
+                        </div>
+                        <div class="conversation-snippet" style="margin: 10px 0;">
+                            <div class="speaker">Marlene</div>
+                            <div>"Well, I think you had a lot of people that expressed interest, so I think it's a good thing to try."</div>
+                        </div>
+                        <p style="margin-top: 15px; color: #666;">
+                            The widespread interest in continuing beyond the initial training sessions indicates participants see genuine value and want sustained support for their AI integration journey.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="demo-box collapsible" onclick="toggleDemoBox(this)">
+                    <div class="demo-title">
+                        <span>⏰ Sustained Attention</span>
+                        <span class="demo-expand-icon">Click for details</span>
+                    </div>
+                    <div class="demo-content">
+                        <p>Participants remained actively engaged for the full <strong>2 hours 23 minutes</strong>, with questions and contributions continuing throughout. Only one participant (Michael Sherrow) departed early (at 132 minutes), while the remaining nine stayed through the entire session—remarkable sustained attention demonstrating the content's relevance and John's engaging delivery.</p>
+                    </div>
+                </div>
+
+                <div style="background: linear-gradient(135deg, rgba(40, 167, 69, 0.1) 0%, rgba(102, 126, 234, 0.1) 100%); padding: 25px; border-radius: 10px; border-left: 5px solid #28a745; margin-top: 25px;">
+                    <p style="font-size: 1.15em; font-weight: 600; color: #333; margin-bottom: 10px;">🎯 Engagement Success Indicators</p>
+                    <ul style="margin-left: 20px; line-height: 1.8; color: #555;">
+                        <li>Peer teaching emerged organically (not just instructor-led)</li>
+                        <li>Questions evolved from basic (privacy) to sophisticated (qualitative analysis)</li>
+                        <li>Participants connected demonstrations to personal contexts immediately</li>
+                        <li>Active experimentation during session ("playing around with it")</li>
+                        <li>Enthusiastic verbal responses throughout</li>
+                        <li>Strong interest in continuation (SIG formation)</li>
+                        <li>90% retention through full 2hr+ session</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Next Steps -->
+            <div class="section">
+                <div class="section-title">🚀 Next Steps</div>
+                <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); padding: 30px; border-radius: 10px; border: 2px solid #667eea;">
+                    <ul style="font-size: 1.1em; line-height: 2; color: #333;">
+                        <li><strong>Session 2:</strong> Late February 2026 - Course Analysis & Optimization</li>
+                        <li><strong>Session 3:</strong> May 2026 - In-person hands-on workshop (Zoom mechanics, dual-screen workflows)</li>
+                        <li><strong>SIG Formation:</strong> Monthly meetings to support ongoing AI integration</li>
+                        <li><strong>Summer 2026:</strong> Monthly workshops supporting Fall course preparation</li>
+                        <li><strong>Narrative Collection:</strong> Complete course development exercises for collective analysis</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div style="text-align: center; margin-top: 50px; padding: 30px; background: #f8f9fa; border-radius: 10px;">
+                <p style="font-size: 1.2em; color: #667eea; font-weight: 600;">BOLLI AI Integration Training Program</p>
+                <p style="color: #666; margin-top: 10px;">Brandeis Osher Lifelong Learning Institute</p>
+                <p style="color: #999; margin-top: 10px; font-size: 0.9em;">Visualization created from Zoom transcript • Session 01 • February 12, 2026</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePhase(element) {
+            element.classList.toggle('expanded');
+        }
+
+        function toggleDemoBox(element) {
+            element.classList.toggle('expanded');
+        }
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.timeline-phase.expanded').forEach(phase => {
+                    phase.classList.remove('expanded');
+                });
+                document.querySelectorAll('.demo-box.expanded').forEach(box => {
+                    box.classList.remove('expanded');
+                });
+            }
+        });
+
+        // Smooth scroll to sections
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
