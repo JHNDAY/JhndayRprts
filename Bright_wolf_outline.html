@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starvation and Story: Course Outline</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --text-dark: #1a1a1a;
+            --text-medium: #4a4a4a;
+            --text-light: #7a7a7a;
+            --accent-sage: #7a9b76;
+            --accent-rust: #b85c38;
+            --accent-gold: #c9a961;
+            --bg-cream: #faf8f3;
+            --bg-paper: #ffffff;
+            --border-subtle: #e8e5df;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: linear-gradient(135deg, var(--bg-cream) 0%, #f5f1e8 100%);
+            color: var(--text-dark);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        .page-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+            position: relative;
+        }
+
+        /* Decorative elements */
+        .page-wrapper::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(122, 155, 118, 0.03) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(184, 92, 56, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 80px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--text-medium);
+            font-weight: 300;
+            margin-bottom: 40px;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .meta-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .meta-value {
+            font-size: 1.1rem;
+            color: var(--text-medium);
+        }
+
+        /* Week cards */
+        .week-section {
+            background: var(--bg-paper);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            padding: 50px;
+            margin-bottom: 50px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .week-section:nth-child(2) { animation-delay: 0.1s; }
+        .week-section:nth-child(3) { animation-delay: 0.2s; }
+        .week-section:nth-child(4) { animation-delay: 0.3s; }
+        .week-section:nth-child(5) { animation-delay: 0.4s; }
+        .week-section:nth-child(6) { animation-delay: 0.5s; }
+
+        .week-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--accent-sage), var(--accent-rust));
+            opacity: 0.7;
+        }
+
+        .week-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent-rust);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .week-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 30px;
+            line-height: 1.3;
+        }
+
+        .section-heading {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent-sage);
+            margin-top: 35px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-heading::before {
+            content: '';
+            width: 30px;
+            height: 2px;
+            background: var(--accent-sage);
+        }
+
+        .objective-text, .reading-text {
+            font-size: 1.1rem;
+            color: var(--text-medium);
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+
+        .reading-text em {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.15rem;
+        }
+
+        /* Session parts */
+        .session-overview {
+            margin-top: 30px;
+        }
+
+        .session-part {
+            margin-bottom: 25px;
+            padding-left: 20px;
+            border-left: 2px solid var(--border-subtle);
+        }
+
+        .part-title {
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+
+        .session-part ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .session-part li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 8px;
+            color: var(--text-medium);
+            font-size: 1.05rem;
+        }
+
+        .session-part li::before {
+            content: '•';
+            position: absolute;
+            left: 8px;
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
+
+        /* Assessment questions */
+        .assessment {
+            margin-top: 35px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(122, 155, 118, 0.05) 0%, rgba(201, 169, 97, 0.05) 100%);
+            border-radius: 4px;
+            border: 1px solid rgba(122, 155, 118, 0.2);
+        }
+
+        .assessment-questions {
+            list-style: none;
+            counter-reset: question-counter;
+        }
+
+        .assessment-questions li {
+            counter-increment: question-counter;
+            position: relative;
+            padding-left: 45px;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            color: var(--text-medium);
+            line-height: 1.7;
+        }
+
+        .assessment-questions li::before {
+            content: counter(question-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 32px;
+            height: 32px;
+            background: var(--accent-sage);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Conclusion */
+        .conclusion {
+            background: linear-gradient(135deg, var(--text-dark) 0%, #2a2a2a 100%);
+            color: var(--bg-cream);
+            border: none;
+            padding: 60px;
+            margin-top: 60px;
+        }
+
+        .conclusion .week-title {
+            color: var(--bg-cream);
+            border-bottom: 2px solid var(--accent-gold);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .conclusion p {
+            color: rgba(250, 248, 243, 0.9);
+            font-size: 1.15rem;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .conclusion ul {
+            list-style: none;
+            margin: 25px 0;
+        }
+
+        .conclusion li {
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            color: rgba(250, 248, 243, 0.85);
+            font-size: 1.1rem;
+        }
+
+        .conclusion li::before {
+            content: '✓';
+            position: absolute;
+            left: 8px;
+            color: var(--accent-gold);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Collapsible sections */
+        .week-header {
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            padding-right: 60px;
+            transition: all 0.3s ease;
+        }
+
+        .week-header:hover {
+            opacity: 0.8;
+        }
+
+        .toggle-icon {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--accent-sage);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            background: var(--bg-paper);
+        }
+
+        .toggle-icon::before,
+        .toggle-icon::after {
+            content: '';
+            position: absolute;
+            background: var(--accent-sage);
+            transition: all 0.3s ease;
+        }
+
+        .toggle-icon::before {
+            width: 16px;
+            height: 2px;
+        }
+
+        .toggle-icon::after {
+            width: 2px;
+            height: 16px;
+        }
+
+        .week-header.active .toggle-icon {
+            border-color: var(--accent-rust);
+        }
+
+        .week-header.active .toggle-icon::before,
+        .week-header.active .toggle-icon::after {
+            background: var(--accent-rust);
+        }
+
+        .week-header.active .toggle-icon::after {
+            transform: rotate(90deg);
+            opacity: 0;
+        }
+
+        .week-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .week-content.expanded {
+            max-height: 5000px;
+            opacity: 1;
+            margin-top: 30px;
+        }
+
+        .expand-all-btn {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background: var(--accent-sage);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-family: 'Crimson Pro', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(122, 155, 118, 0.3);
+            transition: all 0.3s ease;
+            z-index: 100;
+            letter-spacing: 0.05em;
+        }
+
+        .expand-all-btn:hover {
+            background: var(--accent-rust);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(184, 92, 56, 0.4);
+        }
+
+        .expand-all-btn.all-expanded {
+            background: var(--accent-rust);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-wrapper {
+                padding: 40px 20px;
+            }
+
+            .title {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .week-section {
+                padding: 30px 25px;
+            }
+
+            .week-title {
+                font-size: 1.8rem;
+            }
+
+            .course-meta {
+                gap: 20px;
+            }
+
+            .expand-all-btn {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 24px;
+                font-size: 0.9rem;
+            }
+
+            .week-header {
+                padding-right: 50px;
+            }
+
+            .toggle-icon {
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+        /* Scroll progress indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-sage), var(--accent-rust), var(--accent-gold));
+            width: 0%;
+            z-index: 1000;
+            transition: width 0.1s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <div class="page-wrapper">
+        <div class="content">
+            <header class="header">
+                <h1 class="title">Starvation and Story</h1>
+                <p class="subtitle">Understanding Anorexia through My Good Bright Wolf</p>
+                
+                <div class="course-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Duration</span>
+                        <span class="meta-value">5 Weeks</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Session Length</span>
+                        <span class="meta-value">90 Minutes</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Required Text</span>
+                        <span class="meta-value">My Good Bright Wolf</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Author</span>
+                        <span class="meta-value">Sarah Moss</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Week 1 -->
+            <section class="week-section">
+                <div class="week-header" onclick="toggleWeek(this)">
+                    <div class="week-number">Week One</div>
+                    <h2 class="week-title">Reading Memoir as Both Fiction and Truth</h2>
+                    <div class="toggle-icon"></div>
+                </div>
+                
+                <div class="week-content">
+                    <h3 class="section-heading">Learning Objective</h3>
+                    <p class="objective-text">Students will learn how to read a memoir as both fiction and nonfiction—a literary work with craft elements and a vehicle for understanding the lived experiences of a real person in a real world.</p>
+                    
+                    <h3 class="section-heading">Reading Assignment</h3>
+                    <p class="reading-text"><em>My Good Bright Wolf</em>: Introduction and Chapters 1-3</p>
+                    
+                    <h3 class="section-heading">Session Overview</h3>
+                    <div class="session-overview">
+                        <div class="session-part">
+                            <div class="part-title">Part 1: Literary Analysis (30 minutes)</div>
+                            <ul>
+                                <li>Examine Moss's narrative voice, structure, and use of time</li>
+                                <li>Discuss the memoir's literary techniques: metaphor, imagery, pacing</li>
+                                <li>Explore the tension between crafted narrative and lived experience</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="session-part">
+                            <div class="part-title">Part 2: The Reality Behind the Narrative (30 minutes)</div>
+                            <ul>
+                                <li>Distinguish between memoir as art and memoir as testimony</li>
+                                <li>Discuss ethical considerations in reading another's illness narrative</li>
+                                <li>What does Moss reveal about anorexia that clinical descriptions cannot?</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="session-part">
+                            <div class="part-title">Part 3: Discussion and Supplementary Reading (30 minutes)</div>
+                            <ul>
+                                <li>Introduction to DSM-5 diagnostic criteria for anorexia nervosa</li>
+                                <li>Brief overview of eating disorder prevalence and demographics</li>
+                                <li>Group discussion: How does memoir serve both artistic and educational purposes?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="assessment">
+                        <h3 class="section-heading">Assessment Questions</h3>
+                        <ol class="assessment-questions">
+                            <li>What literary techniques does Sarah Moss use to convey the subjective experience of anorexia? Identify at least two specific examples from the text.</li>
+                            <li>How does Moss balance her roles as narrator (crafting a story) and witness (reporting lived experience)? Where do you see these roles converge or conflict?</li>
+                            <li>In what ways does the memoir reveal aspects of anorexia that clinical definitions or medical descriptions might miss?</li>
+                            <li>Discuss how Moss's writing style itself—her use of voice, tone, and structure—reflects or challenges the control and perfectionism often associated with anorexia.</li>
+                            <li>What ethical responsibilities do we have as readers when engaging with someone's personal narrative of mental illness?</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Week 2 -->
+            <section class="week-section">
+                <div class="week-header" onclick="toggleWeek(this)">
+                    <div class="week-number">Week Two</div>
+                    <h2 class="week-title">Origins—Family History and Early Vulnerability</h2>
+                    <div class="toggle-icon"></div>
+                </div>
+                
+                <div class="week-content">
+                    <h3 class="section-heading">Learning Objective</h3>
+                    <p class="objective-text">Students will learn how to identify early signs in a child and family of vulnerability to developing an eating disorder, including genetic, familial, temperamental, and environmental factors.</p>
+                    
+                    <h3 class="section-heading">Reading Assignment</h3>
+                    <p class="reading-text"><em>My Good Bright Wolf</em>: Chapters 4-7</p>
+                    
+                    <h3 class="section-heading">Session Overview</h3>
+                    <div class="session-overview">
+                        <div class="session-part">
+                            <div class="part-title">Part 1: Childhood Patterns and Family Dynamics (35 minutes)</div>
+                            <ul>
+                                <li>Examine Moss's childhood experiences, temperament, and family relationships</li>
+                                <li>Identify early warning signs: perfectionism, anxiety, food-related behaviors</li>
+                                <li>Discuss intergenerational patterns and parental attitudes toward food, body, achievement</li>
+                                <li>The role of gender expectations and societal pressures in Moss's upbringing</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="session-part">
+                            <div class="part-title">Part 2: Understanding Risk Factors (30 minutes)</div>
+                            <ul>
+                                <li>Genetic predisposition: What research tells us about heredity</li>
+                                <li>Temperamental traits: anxiety, rigidity, perfectionism, harm avoidance</li>
+                                <li>Environmental factors: family dynamics, trauma, cultural context</li>
+                                <li>The biopsychosocial model of eating disorder development</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="session-part">
+                            <div class="part-title">Part 3: Recognition and Early Intervention (25 minutes)</div>
+                            <ul>
+                                <li>What can parents, teachers, and caregivers watch for?</li>
+                                <li>The distinction between risk factors and causes</li>
+                                <li>Discussion: How might earlier recognition have changed Moss's trajectory?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="assessment">
+                        <h3 class="section-heading">Assessment Questions</h3>
+                        <ol class="assessment-questions">
+                            <li>Identify at least three early signs or patterns in Moss's childhood that might have indicated vulnerability to developing an eating disorder. Cite specific passages.</li>
+                            <li>How do family dynamics and intergenerational patterns contribute to eating disorder risk in Moss's narrative? Consider both explicit and implicit messages about food, body, and achievement.</li>
+                            <li>Explain the difference between risk factors and causes when discussing eating disorder etiology. Why is this distinction important?</li>
+                            <li>What temperamental traits does Moss display in childhood, and how might these have increased her vulnerability? Connect these traits to current research on eating disorder risk.</li>
+                            <li>If you were a parent, teacher, or caregiver observing a child with similar early patterns to those Moss describes, what would be appropriate next steps? What should you avoid doing?</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Week 3 -->
+            <section class="week-section">
+                <div class="week-header" onclick="toggleWeek(this)">
+                    <div class="week-number">Week Three</div>
+                    <h2 class="week-title">Triggers, Onset, and the Function of Symptoms</h2>
+                    <div class="toggle-icon"></div>
+                </div>
+                
+                <div class="week-content">
+                    <h3 class="section-heading">Learning Objective</h3>
+                    <p class="objective-text">Students will learn what internal and external events and conditions might contribute to developing the disorder or precipitating a relapse, and understand the psychological functions that anorexia symptoms serve.</p>
+                    
+                    <h3 class="section-heading">Reading Assignment</h3>
+                    <p class="reading-text"><em>My Good Bright Wolf</em>: Chapters 8-11</p>
+                    
+                    <h3 class="section-heading">Session Overview</h3>
+                    <div class="session-overview">
+                        <div class="session-part">
+                            <div class="part-title">Part 1: Understanding Triggers and Onset (30 minutes)</div>
+                            <ul>
+                                <li>Identify specific triggers in Moss's life: transitions, losses, stressors</li>
+                                <li>The intersection of developmental stages and eating disorder onset</li>
+                                <li>How restriction begins: the seduction of control and initial 'success'</li>
+                                <li>The progression from deliberate choice to compulsion</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="session-part">
+                            <div class="part-title">Part 2: The Functions of Anorexia (35 minutes)</div>
+                            <ul>
+                                <li>What does the illness provide? Control, numbness, identity, certainty</li>
+                                <li>Introduction to Internal Family Systems (IFS) theory and the 'parts' framework</li>
+                                <li>The 'good bright wolf' as protector: understanding the eating disorder as a coping mechanism</li>
+                                <li>The neurobiological reinforcement cycle: starvation, anxiety, and reward pathways</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="session-part">
+                            <div class="part-title">Part 3: Relapse Patterns and Prevention (25 minutes)</div>
+                            <ul>
+                                <li>Common relapse triggers: stress, transition, life changes, perfectionist tendencies</li>
+                                <li>How Moss navigates periods of recovery and relapse throughout her life</li>
+                                <li>Discussion: Can understanding the function of symptoms help with compassion and recovery?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="assessment">
+                        <h3 class="section-heading">Assessment Questions</h3>
+                        <ol class="assessment-questions">
+                            <li>What specific events or circumstances trigger the onset or worsening of Moss's anorexia at different points in her life? Discuss at least two distinct episodes.</li>
+                            <li>Using examples from the memoir, explain what psychological functions anorexia serves for Moss. What needs does it meet? What feelings does it manage or avoid?</li>
+                            <li>How does Moss describe the transition from deliberate restriction to compulsion? What does this reveal about the nature of eating disorders?</li>
+                            <li>Explain the Internal Family Systems concept of 'parts' and how it applies to understanding Moss's relationship with her eating disorder (the 'good bright wolf'). How might this framework be useful therapeutically?</li>
+                            <li>What patterns emerge in Moss's experiences with relapse? What might this teach us about long-term recovery and prevention strategies?</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Week 4 -->
+            <section class="week-section">
+                <div class="week-header" onclick="toggleWeek(this)">
+                    <div class="week-number">Week Four</div>
+                    <h2 class="week-title">Medical Crisis and Systems of Care</h2>
+                    <div class="toggle-icon"></div>
+                </div>
+                
+                <div class="week-content">
+                    <h3 class="section-heading">Learning Objective</h3>
+                    <p class="objective-text">Students will learn how a medical system responds to crises and ongoing struggles that accompany anorexia, including emergency interventions, medical complications, hospitalization, and the ethical complexities of involuntary treatment.</p>
+                    
+                    <h3 class="section-heading">Reading Assignment</h3>
+                    <p class="reading-text"><em>My Good Bright Wolf</em>: Chapters 12-15</p>
+                    
+                    <h3 class="section-heading">Session Overview</h3>
+                    <div class="session-overview">
+                        <div class="session-part">
+                            <div class="part-title">Part 1: Medical Complications of Anorexia (30 minutes)</div>
+                            <ul>
+                                <li>Physical consequences of starvation: cardiac, bone, hormonal, neurological effects</li>
+                                <li>Moss's experiences with medical monitoring and interventions</li>
+                                <li>Refeeding syndrome and the dangers of nutritional rehabilitation</li>
+                                <li>The mortality and morbidity rates of anorexia nervosa</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="session-part">
+                            <div class="part-title">Part 2: Navigating the Healthcare System (35 minutes)</div>
+                            <ul>
+                                <li>Levels of care: outpatient, intensive outpatient, partial hospitalization, inpatient, residential</li>
+                                <li>Moss's interactions with emergency departments, hospitals, and treatment facilities</li>
+                                <li>The challenges of coordinating medical, psychiatric, and nutritional care</li>
+                                <li>Insurance barriers, access issues, and the cost of treatment</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="session-part">
+                            <div class="part-title">Part 3: Involuntary Treatment and Ethics (25 minutes)</div>
+                            <ul>
+                                <li>When is involuntary treatment considered? The tension between autonomy and safety</li>
+                                <li>Moss's perspective on agency, control, and being 'saved' against her will</li>
+                                <li>Mental capacity and decision-making in severe eating disorders</li>
+                                <li>Discussion: Balancing respect for autonomy with duty to preserve life</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="assessment">
+                        <h3 class="section-heading">Assessment Questions</h3>
+                        <ol class="assessment-questions">
+                            <li>Describe at least three major medical complications that Moss experiences or is at risk for as a result of her anorexia. How do these complications affect her daily functioning and long-term health?</li>
+                            <li>How does Moss portray her interactions with the healthcare system? What aspects of medical care are helpful, and what aspects are frustrating or inadequate?</li>
+                            <li>Explain the concept of 'levels of care' in eating disorder treatment. Based on the memoir, when does Moss require more intensive levels of intervention?</li>
+                            <li>Discuss the ethical dilemma of involuntary treatment for anorexia nervosa. What are the arguments for and against overriding a patient's autonomy in life-threatening cases? How does Moss's experience inform this debate?</li>
+                            <li>What systemic barriers to care—financial, logistical, or institutional—are evident in Moss's narrative? How might these affect treatment outcomes for individuals with eating disorders?</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Week 5 -->
+            <section class="week-section">
+                <div class="week-header" onclick="toggleWeek(this)">
+                    <div class="week-number">Week Five</div>
+                    <h2 class="week-title">Pathways to Recovery—Therapy, Healing, and Living Beyond</h2>
+                    <div class="toggle-icon"></div>
+                </div>
+                
+                <div class="week-content">
+                    <h3 class="section-heading">Learning Objective</h3>
+                    <p class="objective-text">Students will learn how psychotherapy might be helpful in attaining and maintaining recovery, exploring different therapeutic modalities, feminist perspectives on eating disorders, and the concept of recovery as an ongoing process rather than a fixed endpoint.</p>
+                    
+                    <h3 class="section-heading">Reading Assignment</h3>
+                    <p class="reading-text"><em>My Good Bright Wolf</em>: Chapters 16 to end</p>
+                    
+                    <h3 class="section-heading">Session Overview</h3>
+                    <div class="session-overview">
+                        <div class="session-part">
+                            <div class="part-title">Part 1: Therapeutic Approaches to Recovery (35 minutes)</div>
+                            <ul>
+                                <li>Evidence-based treatments: CBT-E, FBT, DBT adaptations</li>
+                                <li>The role of psychotherapy in Moss's recovery journey</li>
+                                <li>Internal Family Systems therapy: working with 'parts,' developing self-compassion</li>
+                                <li>The importance of the therapeutic relationship and trust</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="session-part">
+                            <div class="part-title">Part 2: Feminist and Sociocultural Perspectives (30 minutes)</div>
+                            <ul>
+                                <li>Gender, power, and the cultural context of eating disorders</li>
+                                <li>Diet culture, thinness ideals, and the commodification of women's bodies</li>
+                                <li>How does Moss critique or engage with these social forces?</li>
+                                <li>The limitations of individual treatment in addressing systemic problems</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="session-part">
+                            <div class="part-title">Part 3: Recovery as Process and the Path Forward (25 minutes)</div>
+                            <ul>
+                                <li>What does recovery mean? Full recovery vs. symptom management vs. acceptance</li>
+                                <li>Living with vulnerability: maintenance, self-awareness, and ongoing work</li>
+                                <li>How Moss finds meaning, purpose, and identity beyond the eating disorder</li>
+                                <li>The role of writing and narrative in healing</li>
+                                <li>Final discussion: What have we learned from Moss's story?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="assessment">
+                        <h3 class="section-heading">Assessment Questions</h3>
+                        <ol class="assessment-questions">
+                            <li>What therapeutic approaches or interventions does Moss describe as helpful in her recovery? What elements of psychotherapy seem most crucial for progress?</li>
+                            <li>How does Moss's use of Internal Family Systems concepts (such as working with 'parts' or the 'good bright wolf') contribute to her understanding of her illness and recovery? Could you apply this framework to other mental health challenges?</li>
+                            <li>Analyze Moss's engagement with feminist and sociocultural perspectives on eating disorders. How does she situate her personal experience within broader systems of gender, culture, and power?</li>
+                            <li>What does 'recovery' mean in the context of this memoir? Is it a destination or a process? How does Moss's understanding of recovery evolve throughout the book?</li>
+                            <li>Reflect on the role of narrative and storytelling in healing. How might writing this memoir have served Moss's recovery? What does it offer to readers who have similar experiences?</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Conclusion -->
+            <section class="week-section conclusion">
+                <h2 class="week-title">Course Conclusion</h2>
+                
+                <p>This course has used Sarah Moss's luminous memoir to explore anorexia nervosa from multiple angles—literary, clinical, psychological, and sociocultural. Through guided discussion and close reading, students have developed a nuanced understanding of how eating disorders affect individuals, families, and communities, and how narrative can illuminate the complex path to healing.</p>
+                
+                <p>Participants leave the course with:</p>
+                
+                <ul>
+                    <li>The ability to read memoir as both art and testimony</li>
+                    <li>Knowledge of early warning signs and risk factors for eating disorders</li>
+                    <li>Understanding of triggers, functions, and relapse patterns</li>
+                    <li>Insight into medical complications and systems of care</li>
+                    <li>Appreciation for therapeutic approaches and the ongoing nature of recovery</li>
+                </ul>
+                
+                <p>Most importantly, students will carry forward a deeper compassion for those affected by eating disorders and a recognition of the power of story to transform our understanding of mental illness.</p>
+            </section>
+        </div>
+    </div>
+
+    <button class="expand-all-btn" onclick="toggleAll()">Expand All</button>
+
+    <script>
+        // Scroll progress indicator
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Toggle individual week sections
+        function toggleWeek(header) {
+            const content = header.nextElementSibling;
+            const isExpanded = content.classList.contains('expanded');
+            
+            if (isExpanded) {
+                content.classList.remove('expanded');
+                header.classList.remove('active');
+            } else {
+                content.classList.add('expanded');
+                header.classList.add('active');
+            }
+            
+            updateExpandButton();
+        }
+
+        // Toggle all sections
+        function toggleAll() {
+            const headers = document.querySelectorAll('.week-header');
+            const contents = document.querySelectorAll('.week-content');
+            const button = document.querySelector('.expand-all-btn');
+            const allExpanded = button.classList.contains('all-expanded');
+            
+            if (allExpanded) {
+                // Collapse all
+                headers.forEach(header => header.classList.remove('active'));
+                contents.forEach(content => content.classList.remove('expanded'));
+                button.textContent = 'Expand All';
+                button.classList.remove('all-expanded');
+            } else {
+                // Expand all
+                headers.forEach(header => header.classList.add('active'));
+                contents.forEach(content => content.classList.add('expanded'));
+                button.textContent = 'Collapse All';
+                button.classList.add('all-expanded');
+            }
+        }
+
+        // Update expand/collapse all button text based on current state
+        function updateExpandButton() {
+            const contents = document.querySelectorAll('.week-content');
+            const button = document.querySelector('.expand-all-btn');
+            const expandedCount = Array.from(contents).filter(c => c.classList.contains('expanded')).length;
+            
+            if (expandedCount === contents.length) {
+                button.textContent = 'Collapse All';
+                button.classList.add('all-expanded');
+            } else {
+                button.textContent = 'Expand All';
+                button.classList.remove('all-expanded');
+            }
+        }
+
+        // Initialize button state on load
+        window.addEventListener('load', updateExpandButton);
+    </script>
+</body>
+</html>
