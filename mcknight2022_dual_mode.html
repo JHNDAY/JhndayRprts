@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Big Ideas, Big Blinders — McKnight 2022</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #f7f3ed;
+    --bg2:       #ffffff;
+    --bg3:       #efe9e0;
+    --border:    #d4c9b8;
+    --border2:   #c2b49e;
+    --amber:     #8a5200;
+    --amber-lt:  #b06a00;
+    --amber-bg:  #fff5e0;
+    --red:       #7c1a1a;
+    --red-bg:    #fff1f0;
+    --blue:      #1a4570;
+    --blue-bg:   #edf3fb;
+    --green:     #1a5428;
+    --green-bg:  #edf7f0;
+    --text:      #1a1410;
+    --text2:     #3a2e26;
+    --text3:     #6a5848;
+    --text4:     #9a8878;
+    --shadow:    0 2px 12px rgba(0,0,0,0.07);
+    --shadow-lg: 0 4px 24px rgba(0,0,0,0.11);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'IBM Plex Sans',sans-serif; font-weight:400; line-height:1.7; overflow-x:hidden; font-size:15px; }
+
+  /* ── MODE VISIBILITY ── */
+  body.mode-orig .t-lay  { display:none !important; }
+  body.mode-lay  .t-orig { display:none !important; }
+
+  /* ── HERO ── */
+  .hero { background:linear-gradient(135deg,#1a0f02 0%,#2d1a05 40%,#1a0f02 100%); padding:90px 64px 72px; position:relative; }
+  .hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:4px; background:linear-gradient(90deg,#c07800,#e8b040,#c07800); }
+  .hero-kicker { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:#c49040; margin-bottom:24px; }
+  .hero-title { font-family:'Playfair Display',serif; font-size:clamp(40px,6vw,82px); line-height:1.0; font-weight:900; color:#f0e6d2; max-width:820px; margin-bottom:6px; }
+  .hero-title em { color:#e0a030; font-style:italic; }
+  .hero-subtitle { font-family:'Playfair Display',serif; font-size:clamp(16px,2.2vw,26px); color:#a08060; font-style:italic; margin-bottom:28px; }
+  .hero-byline { font-family:'IBM Plex Mono',monospace; font-size:12px; color:#706050; letter-spacing:1px; margin-bottom:36px; }
+  .hero-intro { max-width:600px; padding:22px 26px; border-left:3px solid #d09030; background:rgba(208,144,48,0.08); font-size:15px; line-height:1.8; color:#b8a080; }
+  .hero-intro strong { color:#ddb850; font-weight:600; }
+
+  /* ── MODE TOGGLE ── */
+  .mode-bar {
+    background: var(--bg2);
+    border-bottom: 2px solid var(--border);
+    padding: 0 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    box-shadow: var(--shadow);
+  }
+  .mode-nav { display:flex; overflow-x:auto; }
+  .nav-item { padding:13px 16px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:1px; color:var(--text3); cursor:pointer; white-space:nowrap; border-bottom:3px solid transparent; transition:all 0.2s; text-decoration:none; display:block; font-weight:500; }
+  .nav-item:hover { color:var(--amber); border-bottom-color:var(--amber); background:var(--amber-bg); }
+
+  .toggle-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    flex-shrink: 0;
+  }
+  .toggle-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: color 0.25s;
+    white-space: nowrap;
+  }
+  .toggle-label.orig { color: var(--amber); }
+  .toggle-label.lay  { color: var(--text4); }
+  body.mode-lay .toggle-label.orig { color: var(--text4); }
+  body.mode-lay .toggle-label.lay  { color: var(--green); }
+
+  .toggle-pill {
+    position: relative;
+    width: 52px;
+    height: 26px;
+    background: var(--amber-bg);
+    border: 1px solid var(--amber);
+    border-radius: 13px;
+    cursor: pointer;
+    transition: background 0.25s, border-color 0.25s;
+    flex-shrink: 0;
+  }
+  body.mode-lay .toggle-pill { background: var(--green-bg); border-color: var(--green); }
+  .toggle-knob {
+    position: absolute;
+    top: 3px; left: 3px;
+    width: 18px; height: 18px;
+    background: var(--amber);
+    border-radius: 50%;
+    transition: transform 0.25s, background 0.25s;
+  }
+  body.mode-lay .toggle-knob { transform: translateX(26px); background: var(--green); }
+
+  /* ── STICKY WRAP ── */
+  .sticky-bar { position:sticky; top:0; z-index:200; }
+
+  /* ── SECTION ── */
+  .section-wrap { max-width:1280px; margin:0 auto; padding:64px 64px; border-bottom:1px solid var(--border); }
+  .section-label { font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:4px; text-transform:uppercase; color:var(--amber); margin-bottom:10px; font-weight:500; }
+  .section-title { font-family:'Playfair Display',serif; font-size:clamp(24px,3vw,40px); font-weight:700; color:var(--text); margin-bottom:8px; line-height:1.2; }
+  .section-intro { font-size:15px; color:var(--text3); max-width:680px; margin-bottom:36px; line-height:1.75; }
+
+  /* ── ACCORDION ── */
+  .accordion { border:1px solid var(--border); margin-bottom:6px; overflow:hidden; background:var(--bg2); box-shadow:var(--shadow); transition:box-shadow 0.2s; }
+  .accordion:hover { box-shadow:var(--shadow-lg); }
+  .accordion-header { display:flex; align-items:center; gap:14px; padding:16px 22px; cursor:pointer; user-select:none; transition:background 0.2s; border:none; width:100%; text-align:left; background:var(--bg2); }
+  .accordion-header:hover { background:var(--bg3); }
+  .accordion.open > .accordion-header { background:var(--amber-bg); border-bottom:1px solid var(--border); }
+  .acc-icon { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; flex-shrink:0; }
+  .acc-icon.amber { background:var(--amber-bg); color:var(--amber); border:1px solid #d4a060; }
+  .acc-icon.red   { background:var(--red-bg);   color:var(--red);   border:1px solid #e8b0b0; }
+  .acc-icon.blue  { background:var(--blue-bg);  color:var(--blue);  border:1px solid #a0c0dc; }
+  .acc-icon.green { background:var(--green-bg); color:var(--green); border:1px solid #90c8a0; }
+  .open > .accordion-header .acc-chevron { transform:rotate(180deg); }
+  .acc-title { font-size:15px; font-weight:600; color:var(--text); flex:1; line-height:1.3; }
+  .acc-sub   { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text4); letter-spacing:0.5px; white-space:nowrap; }
+  .acc-chevron { color:var(--text4); font-size:11px; transition:transform 0.3s; flex-shrink:0; }
+  .accordion-body { display:none; padding:26px 30px 30px; animation:fadeIn 0.25s ease; }
+  .accordion.open .accordion-body { display:block; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(-5px)} to{opacity:1;transform:translateY(0)} }
+
+  /* ── BODY CONTENT ── */
+  .body-text { font-size:14.5px; line-height:1.85; color:var(--text2); max-width:820px; margin-bottom:14px; }
+  .callout { padding:14px 20px; border-left:3px solid var(--amber); background:var(--amber-bg); font-size:14.5px; font-style:italic; color:var(--text2); line-height:1.75; max-width:700px; margin:18px 0; }
+  .callout.red   { border-color:var(--red);   background:var(--red-bg);   }
+  .callout.blue  { border-color:var(--blue);  background:var(--blue-bg);  }
+  .callout.green { border-color:var(--green); background:var(--green-bg); }
+  .source-note { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text4); margin-top:8px; }
+
+  /* ── INNER TABS ── */
+  .inner-tabs { display:flex; border-bottom:1px solid var(--border); overflow-x:auto; }
+  .inner-tab { padding:10px 18px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:1px; text-transform:uppercase; color:var(--text4); cursor:pointer; white-space:nowrap; border-bottom:2px solid transparent; transition:all 0.2s; background:none; border-top:none; border-left:none; border-right:none; font-weight:500; }
+  .inner-tab:hover { color:var(--amber); border-bottom-color:var(--amber); }
+  .inner-tab.active { color:var(--amber); border-bottom-color:var(--amber); background:var(--amber-bg); }
+  .inner-pane { display:none; padding:28px 30px; }
+  .inner-pane.active { display:block; animation:fadeIn 0.2s ease; }
+
+  /* ── TWO COLUMN ── */
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:24px; max-width:860px; margin:16px 0; }
+  .col-head { font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--amber); font-weight:500; margin-bottom:10px; padding-bottom:7px; border-bottom:1px solid var(--border); }
+  .col-list { list-style:none; padding:0; }
+  .col-list li { font-size:13.5px; color:var(--text2); padding:6px 0 6px 16px; border-bottom:1px solid var(--border); line-height:1.55; position:relative; }
+  .col-list li::before { content:'—'; position:absolute; left:0; color:var(--text4); font-size:10px; top:9px; }
+
+  /* ── STATS ── */
+  .stats-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:8px; margin:18px 0; max-width:840px; }
+  .stat-box { padding:16px 18px; background:var(--bg3); border:1px solid var(--border); text-align:center; }
+  .stat-num { font-family:'Playfair Display',serif; font-size:30px; font-weight:900; color:var(--amber); line-height:1; margin-bottom:5px; }
+  .stat-label { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--text3); letter-spacing:0.5px; line-height:1.5; text-transform:uppercase; }
+
+  /* ── TAGS ── */
+  .tag-row { display:flex; flex-wrap:wrap; gap:6px; margin:14px 0; }
+  .tag { padding:4px 11px; font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:500; border-radius:2px; }
+  .tag.amber { background:var(--amber-bg); color:var(--amber); border:1px solid #d4a860; }
+  .tag.red   { background:var(--red-bg);   color:var(--red);   border:1px solid #e4a0a0; }
+  .tag.blue  { background:var(--blue-bg);  color:var(--blue);  border:1px solid #90b8d4; }
+  .tag.green { background:var(--green-bg); color:var(--green); border:1px solid #88c098; }
+
+  /* ── PARADIGM CARDS ── */
+  .paradigms-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:8px; }
+  .paradigm-card { background:var(--bg2); border:1px solid var(--border); cursor:pointer; transition:all 0.22s; position:relative; overflow:hidden; box-shadow:var(--shadow); }
+  .paradigm-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; }
+  .paradigm-card.p1::before { background:var(--red); }
+  .paradigm-card.p2::before { background:var(--amber-lt); }
+  .paradigm-card.p3::before { background:var(--blue); }
+  .paradigm-card.p4::before { background:var(--green); }
+  .paradigm-card:hover { border-color:var(--border2); box-shadow:var(--shadow-lg); transform:translateY(-2px); }
+  .paradigm-card.open { border-color:var(--amber); border-bottom-color:transparent; }
+  .card-header { padding:22px 22px 14px; }
+  .card-num { font-family:'Playfair Display',serif; font-size:46px; font-weight:900; line-height:1; color:var(--bg3); position:absolute; right:14px; top:18px; user-select:none; }
+  .card-era { font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:1.5px; color:var(--text4); margin-bottom:9px; }
+  .card-title { font-family:'Playfair Display',serif; font-size:17px; font-weight:700; color:var(--text); margin-bottom:8px; line-height:1.25; max-width:80%; }
+  .card-who   { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--amber); letter-spacing:0.8px; font-weight:500; }
+  .card-footer { padding:9px 22px; border-top:1px solid var(--border); font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--text4); letter-spacing:1px; display:flex; justify-content:space-between; align-items:center; background:var(--bg3); }
+  .paradigm-card.open .card-footer { background:var(--amber-bg); color:var(--amber); }
+  .paradigm-detail-panel { display:none; grid-column:1/-1; border:1px solid var(--amber); border-top:3px solid var(--amber); background:var(--bg2); box-shadow:var(--shadow-lg); animation:fadeIn 0.3s ease; margin-bottom:8px; }
+  .paradigm-detail-panel.open { display:block; }
+
+  /* ── PANE HEADING ── */
+  .pane-h3 { font-family:'Playfair Display',serif; font-size:19px; color:var(--text); margin-bottom:12px; }
+  .pane-h3.red { color:var(--red); }
+
+  /* ── FLOW ── */
+  .flow-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; max-width:900px; margin:28px 0; }
+  .flow-node { padding:18px 20px; background:var(--bg2); border:1px solid var(--border); }
+  .flow-node.danger { background:var(--red-bg); border-color:#e0b0b0; }
+  .flow-node .f-num { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--text4); letter-spacing:2px; margin-bottom:7px; }
+  .flow-node h5 { font-size:13px; font-weight:600; color:var(--text); margin-bottom:6px; }
+  .flow-node.danger h5 { color:var(--red); }
+  .flow-node p { font-size:13px; color:var(--text3); line-height:1.6; }
+
+  /* ── CONCLUSION GRID ── */
+  .concl-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; max-width:860px; margin-top:24px; }
+  .c-box { padding:22px; background:var(--bg2); border:1px solid var(--border); box-shadow:var(--shadow); }
+  .c-box h4 { font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--amber); margin-bottom:9px; font-weight:500; }
+  .c-box p  { font-size:13.5px; color:var(--text2); line-height:1.75; }
+
+  /* ── CHART ── */
+  .chart-wrap { background:var(--bg2); border:1px solid var(--border); padding:26px 26px 14px; max-width:880px; margin:28px 0; box-shadow:var(--shadow); }
+  .chart-title { font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--text4); margin-bottom:14px; }
+
+  /* ── FOOTER ── */
+  .footer { padding:32px 64px; background:var(--bg2); border-top:2px solid var(--border); display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+  .footer p { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text4); line-height:1.7; }
+  .footer em { color:var(--amber); font-style:normal; }
+
+  /* ── MODE BADGE ── */
+  .mode-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 2px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-left: 8px;
+  }
+  .mode-badge.orig-badge { background: var(--amber-bg); color: var(--amber); border: 1px solid #d4a860; }
+  .mode-badge.lay-badge  { background: var(--green-bg); color: var(--green); border: 1px solid #88c098; }
+  .mode-badge.orig-badge .lay-part  { display:none; }
+  .mode-badge.lay-badge  .orig-part { display:none; }
+
+  @media(max-width:1100px) { .paradigms-grid { grid-template-columns:repeat(2,1fr); } }
+  @media(max-width:680px) {
+    .two-col,.flow-grid,.concl-grid { grid-template-columns:1fr; }
+    .section-wrap { padding:44px 24px; }
+    .hero { padding:60px 24px 52px; }
+    .mode-bar { padding:0 20px; }
+    .paradigms-grid { grid-template-columns:1fr !important; }
+    .footer { padding:28px 24px; }
+    .acc-sub { display:none; }
+  }
+</style>
+</head>
+<body class="mode-orig">
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="hero-kicker">
+    <span class="t-orig">Research summary · McKnight 2022 · University of Toronto</span>
+    <span class="t-lay">Research summary · McKnight 2022 · University of Toronto</span>
+  </div>
+  <h1 class="hero-title"><em>Big Ideas,</em><br>Big Blinders</h1>
+  <p class="hero-subtitle">
+    <span class="t-orig">Paradigm change in the global oil industry</span>
+    <span class="t-lay">How the oil industry keeps getting caught off guard by the next big shift</span>
+  </p>
+  <p class="hero-byline">Scott McKnight, PhD · Munk School of Global Affairs · August 2022</p>
+  <div class="hero-intro">
+    <span class="t-orig">
+      <strong>Central argument:</strong> A paradigm's incumbents, through structural <strong>'power over ideas'</strong>, develop built-in blinders that constrain their ability to incorporate challengers and address competing ideas — making stability paradoxically breed instability. Traced across <strong>four paradigms</strong> in the global oil industry since the 1920s.
+    </span>
+    <span class="t-lay">
+      <strong>The big idea:</strong> Whoever is running the oil industry at any given moment gets so locked into their own way of thinking that they <strong>can't see the challenges building against them</strong> — until it's too late. This has happened four times since the 1920s, and it looks like it may be happening again right now.
+    </span>
+  </div>
+</header>
+
+<!-- STICKY NAV + MODE TOGGLE -->
+<div class="sticky-bar">
+  <div class="mode-bar">
+    <nav class="mode-nav">
+      <a href="#argument"   class="nav-item">
+        <span class="t-orig">THE ARGUMENT</span>
+        <span class="t-lay">THE ARGUMENT</span>
+      </a>
+      <a href="#concepts"   class="nav-item">
+        <span class="t-orig">KEY CONCEPTS</span>
+        <span class="t-lay">KEY IDEAS</span>
+      </a>
+      <a href="#paradigms"  class="nav-item">
+        <span class="t-orig">4 PARADIGMS</span>
+        <span class="t-lay">4 ERAS</span>
+      </a>
+      <a href="#mechanism"  class="nav-item">
+        <span class="t-orig">MECHANISM</span>
+        <span class="t-lay">HOW IT WORKS</span>
+      </a>
+      <a href="#conclusion" class="nav-item">
+        <span class="t-orig">CONCLUSION</span>
+        <span class="t-lay">SO WHAT?</span>
+      </a>
+    </nav>
+    <div class="toggle-wrap">
+      <span class="toggle-label orig">Original</span>
+      <div class="toggle-pill" id="modePill" onclick="switchMode()" title="Switch reading mode">
+        <div class="toggle-knob"></div>
+      </div>
+      <span class="toggle-label lay">Layperson's View</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     § ARGUMENT
+══════════════════════════════════════════════════ -->
+<div id="argument">
+<div class="section-wrap">
+  <div class="section-label">§ 01 — <span class="t-orig">The Argument</span><span class="t-lay">The Argument</span></div>
+  <h2 class="section-title">
+    <span class="t-orig">Why Dominant Ideas Create Their Own Undoing</span>
+    <span class="t-lay">Why the people in charge always miss what's coming</span>
+  </h2>
+  <p class="section-intro">
+    <span class="t-orig">Click each item below to drill into the reasoning. The argument builds on constructivist political economy and challenges both "increasing returns" stability theory and exogenous-shock accounts of paradigm change.</span>
+    <span class="t-lay">Click any item to dig deeper. The core argument is simple: the more firmly a group controls an industry, the harder it becomes for them to see — let alone respond to — the people who are about to overturn them.</span>
+  </p>
+
+  <!-- A1 -->
+  <div class="accordion" id="arg1">
+    <button class="accordion-header" onclick="toggleAcc('arg1')">
+      <span class="acc-icon amber">1</span>
+      <div style="flex:1">
+        <div class="acc-title">
+          <span class="t-orig">The Central Claim</span>
+          <span class="t-lay">The basic claim</span>
+        </div>
+        <div class="acc-sub">
+          <span class="t-orig">Power over ideas → built-in blinders</span>
+          <span class="t-lay">Control creates blind spots</span>
+        </div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </button>
+    <div class="accordion-body">
+      <div class="t-orig">
+        <p class="body-text">Incumbents of a dominant paradigm make use of structural <em>power over ideas</em> — the ability to persuade others of the general validity of their approach. This gives the paradigm its "taken-for-granted" quality. However, this very power paradoxically constrains the ability of incumbents to acknowledge or incorporate challengers and competing ideas.</p>
+        <div class="callout">"The power of a paradigm 'not to listen' to competing ideas or aggrieved challengers constitutes built-in blinders, which opens the possibility of paradigm change without system-shattering shocks from the outside."</div>
+        <div class="tag-row">
+          <span class="tag amber">Endogenous instability</span>
+          <span class="tag amber">Carstensen &amp; Schmidt (2016)</span>
+          <span class="tag amber">Hall (1993)</span>
+        </div>
+      </div>
+      <div class="t-lay">
+        <p class="body-text">When a group — say, a cartel of oil companies, or a bloc of oil-exporting governments — becomes dominant enough that everyone accepts their rules as "just how things work," something interesting happens: they start to <em>believe their own story</em>. They mistake the fact that everyone goes along with them for proof that they are right. And that mistake makes them dangerously slow to spot — or take seriously — anyone who disagrees.</p>
+        <p class="body-text">This paper argues that built into every dominant group is a kind of structural blind spot. The very tools they use to stay in control — setting the terms of debate, deciding who counts as a legitimate player, dismissing challengers as unrealistic — are the same tools that eventually prevent them from adapting. The group that runs the show becomes the last to understand that the show is ending.</p>
+        <div class="callout">Think of it as the oil industry version of "fighting the last war": every ruling group keeps solving the problems that brought down the <em>previous</em> rulers, while missing the new problems building under their feet.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- A2 -->
+  <div class="accordion" id="arg2">
+    <button class="accordion-header" onclick="toggleAcc('arg2')">
+      <span class="acc-icon amber">2</span>
+      <div style="flex:1">
+        <div class="acc-title">
+          <span class="t-orig">What This Breaks From</span>
+          <span class="t-lay">What this challenges</span>
+        </div>
+        <div class="acc-sub">
+          <span class="t-orig">Challenging dominant theories of institutional stability</span>
+          <span class="t-lay">Two popular explanations the paper pushes back on</span>
+        </div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </button>
+    <div class="accordion-body">
+      <div class="t-orig">
+        <div class="two-col">
+          <div>
+            <div class="col-head">Theories challenged</div>
+            <ul class="col-list">
+              <li><strong>Increasing returns</strong> (Pierson 2000): Institutions strengthen over time via path dependence, making fundamental change "virtually impossible to reverse" without an outside shock. McKnight argues instability is built in, not exogenous.</li>
+              <li><strong>Exogenous shock accounts</strong>: Change requires a system-shattering external event. McKnight argues challengers and rival ideas can grow to sufficient strength within a paradigm.</li>
+              <li><strong>State-centrism</strong> in IPE: All four actor types — advocacy coalitions, epistemic communities, social movements, ideational leaders — played important roles.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="col-head">What McKnight retains</div>
+            <ul class="col-list">
+              <li><strong>Ideas matter</strong>: Builds on two generations of "power of ideas" scholarship (Blyth, Berman, Hall, Parsons).</li>
+              <li><strong>Material factors also matter</strong>: No cause is "autonomous" from others (Daigneault &amp; Béland, 2015).</li>
+              <li><strong>Agency matters</strong>: Actors consciously deploy ideas to attain goals, leading to institutional change (Blyth et al., 2016).</li>
+              <li><strong>Process-tracing</strong>: Qualitative, detective-like causal inference across a century of evidence.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="t-lay">
+        <div class="two-col">
+          <div>
+            <div class="col-head">Common view #1: Outside shocks cause change</div>
+            <p class="body-text" style="font-size:14px;">The usual story is that big industries or governments only change when something dramatic hits from outside — a war, a crash, a natural disaster. McKnight says: not quite. The seeds of collapse are already growing <em>inside</em> the existing system. The ruling group's blind spots are what allow those seeds to take root. You don't need an asteroid; the volcano builds from within.</p>
+          </div>
+          <div>
+            <div class="col-head">Common view #2: Dominant systems only get stronger</div>
+            <p class="body-text" style="font-size:14px;">Another popular idea is that once a system is entrenched, it just keeps getting more entrenched. McKnight argues the opposite: the more entrenched a system gets, the more brittle it becomes. Success breeds overconfidence. Overconfidence breeds blind spots. Blind spots breed collapse.</p>
+          </div>
+        </div>
+        <div class="callout" style="margin-top:8px;">Both big ideas are real, but neither tells the whole story. McKnight traces this through 100 years of actual history in the oil industry to show how the pattern repeats.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- A3 -->
+  <div class="accordion" id="arg3">
+    <button class="accordion-header" onclick="toggleAcc('arg3')">
+      <span class="acc-icon amber">3</span>
+      <div style="flex:1">
+        <div class="acc-title">
+          <span class="t-orig">The Core Paradox</span>
+          <span class="t-lay">The central paradox</span>
+        </div>
+        <div class="acc-sub">
+          <span class="t-orig">Success breeds the conditions of failure</span>
+          <span class="t-lay">The more successful you are, the worse your blind spot gets</span>
+        </div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </button>
+    <div class="accordion-body">
+      <div class="t-orig">
+        <p class="body-text">Incumbents tend to mistake the spread and perceived acceptance of their ideas as "common knowledge" (Culpepper, 2008) for the <em>correctness</em> of those ideas. This is Merton's "self-negating pathology": the paradigm's apparent success leads incumbents to double down on established ideas in times of crisis — even when those same ideas are partly causing the crisis.</p>
+        <div class="callout">"The stability of the paradigm paradoxically breeds instability." — Minsky (1986) as applied by McKnight</div>
+        <div class="tag-row">
+          <span class="tag amber">Merton (1968): self-negating pathology</span>
+          <span class="tag amber">Minsky (1986): stability breeds instability</span>
+          <span class="tag amber">MacKenzie (2008): popularity ≠ correctness</span>
+        </div>
+      </div>
+      <div class="t-lay">
+        <p class="body-text">Here's the core irony: the more widely a group's ideas are accepted, the more convinced they become that those ideas are simply <em>correct</em> — rather than just currently popular or powerful. And so when problems start appearing, they double down on the same thinking that caused the problems, instead of trying something new.</p>
+        <div class="callout">The sociologist Robert Merton called this a "self-negating" dynamic — a belief system that, by being acted on, creates the very conditions that will prove it wrong. In the oil industry, this happened every time: the ruling group's greatest strength became the source of its eventual failure.</div>
+        <p class="body-text">The excluded players — the ones nobody listened to — were meanwhile getting organized and gaining credibility. The ruler's refusal to engage them actually helped them: it made the alternative look more and more reasonable to everyone watching.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- A4 -->
+  <div class="accordion" id="arg4">
+    <button class="accordion-header" onclick="toggleAcc('arg4')">
+      <span class="acc-icon amber">4</span>
+      <div style="flex:1">
+        <div class="acc-title">
+          <span class="t-orig">The Research Design</span>
+          <span class="t-lay">How this was researched</span>
+        </div>
+        <div class="acc-sub">
+          <span class="t-orig">Process-tracing across a century in the global oil industry</span>
+          <span class="t-lay">A century of real history, traced in detail</span>
+        </div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </button>
+    <div class="accordion-body">
+      <div class="t-orig">
+        <p class="body-text">The paper uses a <strong>controlled case study</strong> (Slater &amp; Ziblatt, 2013) examining the global oil industry since the 1920s. The oil industry is an excellent test case because paradigm change in oil has only sometimes followed the dominant paradigms of the broader global political economy, and because the actor array (MNCs, national oil companies, governments of both importers and exporters, civil society) provides an excellent opportunity to test a more agency-oriented approach.</p>
+        <p class="body-text">The methodological approach is <strong>Y-centric process-tracing</strong> (Beach &amp; Pedersen, 2013): tracing backward from the outcome — paradigm change — to the causal process, establishing what mechanism connects ideas to the observable change in resource governance. Both ideational and material factors are considered, because "no cause is 'autonomous' from others" (Daigneault &amp; Béland, 2015).</p>
+      </div>
+      <div class="t-lay">
+        <p class="body-text">McKnight traces the global oil industry from the 1920s to 2022 — four distinct eras, each with a different group calling the shots. The oil industry is a great test case because it involves an unusually wide cast of characters: giant corporations, national governments, oil-rich states, importers banding together, and now civil society and environmental groups. It doesn't follow the same script as the rest of the global economy, which makes the patterns that do emerge especially meaningful.</p>
+        <p class="body-text">The method is essentially detective work: starting with the outcome (a big change in who controls the industry and how) and working backward to trace exactly what caused it, step by step. The goal is to show that ideas — not just money, armies, or geography — are what actually drive these shifts. But ideas don't work alone: physical reality, prices, and political events all matter too.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     § CONCEPTS
+══════════════════════════════════════════════════ -->
+<div id="concepts">
+<div class="section-wrap">
+  <div class="section-label">§ 02 — <span class="t-orig">Key Concepts</span><span class="t-lay">Key Ideas</span></div>
+  <h2 class="section-title">
+    <span class="t-orig">The Theoretical Toolkit</span>
+    <span class="t-lay">Six concepts worth understanding</span>
+  </h2>
+  <p class="section-intro">
+    <span class="t-orig">The paper draws on six distinct conceptual building blocks from ideational and historical institutional theory. Click each to expand definition and role in the argument.</span>
+    <span class="t-lay">The paper uses a handful of specific ideas to explain what's going on. Here they are in plain language. Click each one to see what it means and why it matters.</span>
+  </p>
+
+  <!-- C1 -->
+  <div class="accordion" id="c1">
+    <button class="accordion-header" onclick="toggleAcc('c1')">
+      <span class="acc-icon amber">A</span>
+      <div style="flex:1">
+        <div class="acc-title">
+          <span class="t-orig">Policy Paradigm</span>
+          <span class="t-lay">The "Ruling Idea" of an Era</span>
+        </div>
+        <div class="acc-sub">
+          <span class="t-orig">Hall (1993) — the foundational framework</span>
+          <span class="t-lay">What everyone just assumes is true without questioning it</span>
+        </div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </button>
+    <div class="accordion-body">
+      <div class="t-orig">
+        <p class="body-text">Hall's classic definition: a paradigm is "a framework of ideas and standards that specifies not only the goals of policy and the kind of instruments that can be used to attain [those goals] but also the very nature of the problems they are meant to be addressing." Actors draw from these assumptions to define problems, formulate solutions, and legitimize strategy. Ideas "provide the recipes, guidelines and maps for political action" (Schmidt, 2008). A paradigm achieves a "taken-for-granted" quality. This paper's central outcome of interest is <strong>third-order change</strong>: change in the overarching paradigm itself.</p>
+        <div class="callout">Paradigm change is distinguishable from incremental adjustment: it involves a fundamental shift in goals, instruments, and problem-definitions — not just the settings of existing instruments.</div>
+        <div class="source-note">→ Hall (1993); Carson et al. (2009); Schmidt (2002); Kay (2007)</div>
+      </div>
+      <div class="t-lay">
+        <p class="body-text">Every era has a set of beliefs about how something should be run that become so widely accepted they feel like common sense rather than choices. In the oil world, these have included things like: "private companies should manage global oil, not governments" (1920s–60s), or "the free market will sort out energy prices" (1980s–2000s). Nobody voted on these ideas — they just gradually became the water everyone swam in.</p>
+        <p class="body-text">The key thing about these ruling ideas is that they define more than just policy — they define <em>who counts</em> as a legitimate player and <em>what counts</em> as a real problem. This is what makes them powerful, and also what makes them dangerous: anything that doesn't fit the framework gets ignored.</p>
+        <div class="callout">The political scientist Peter Hall called this a "paradigm." When a paradigm breaks, it's not just a policy change — it's an entire worldview being replaced.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- C2 -->
+  <div class="accordion" id="c2">
+    <button class="accordion-header" onclick="toggleAcc('c2')">
+      <span class="acc-icon amber">B</span>
+      <div style="flex:1">
+        <div class="acc-title">
+          <span class="t-orig">Power Over Ideas</span>
+          <span class="t-lay">The Power to Set the Rules of the Game</span>
+        </div>
+        <div class="acc-sub">
+          <span class="t-orig">Carstensen &amp; Schmidt (2016) — the incumbent's advantage and undoing</span>
+          <span class="t-lay">How dominant groups stay dominant — and how that becomes their undoing</span>
+        </div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </button>
+    <div class="accordion-body">
+      <div class="t-orig">
+        <p class="body-text">The ability of incumbents of the dominant paradigm to persuade others of the general validity of their approach. This gives the paradigm its "taken-for-granted" quality and allows theorizing beyond coercive and institutional forms of power (Barnett &amp; Duvall, 2005). Crucially, power over ideas is <strong>never final</strong> — always potentially open for challenge and contestation. Big ideas are "constantly evolving malleable structures subject to continual reconstructions by sentient agents" (Carstensen, 2016).</p>
+        <div class="callout">The key mechanism: incumbents exercise the power "not to listen" — but this only accelerates the legitimization of rival ideas among those who feel excluded.</div>
+        <div class="source-note">→ Carstensen &amp; Schmidt (2016); Barnett &amp; Duvall (2005); Parsons (2016)</div>
+      </div>
+      <div class="t-lay">
+        <p class="body-text">The most powerful thing a group can do isn't force people to agree — it's make their way of thinking seem so natural and obvious that alternatives don't even seem worth considering. When the Seven Sisters oil companies in the 1950s said "this is how global oil works," most governments just nodded along.</p>
+        <p class="body-text">But here's the catch: that same power to define what's "normal" also prevents the group from taking seriously any challenge to it. The Majors couldn't take producer-country nationalism seriously because nationalism simply didn't fit their mental model. The more completely they controlled the terms of debate, the less capable they were of engaging with anyone who questioned those terms.</p>
+        <div class="callout">This is McKnight's central insight: the power to control ideas is also the power <em>not to listen</em> — and that power not to listen is exactly what allows challengers to grow unimpeded until it's too late.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- C3 -->
+  <div class="accordion" id="c3">
+    <button class="accordion-header" onclick="toggleAcc('c3')">
+      <span class="acc-icon blue">C</span>
+      <div style="flex:1">
+        <div class="acc-title">
+          <span class="t-orig">Power Through Ideas</span>
+          <span class="t-lay">How Underdogs Change Things Without Hard Power</span>
+        </div>
+        <div class="acc-sub">
+          <span class="t-orig">Carstensen &amp; Schmidt (2016) — how challengers punch above their weight</span>
+          <span class="t-lay">You don't need armies or money — you need persuasion</span>
+        </div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </button>
+    <div class="accordion-body">
+      <div class="t-orig">
+        <p class="body-text">Civil-society actors possess little compulsory, institutional, or structural power — yet they successfully shame institutionally powerful actors into conformity with their norms and ideas. This is how the "leave-it-underground" paradigm emerged: NGOs, the IPCC, and divestment campaigners had no coercive power over banks or pension funds — but they successfully shifted the moral calculus, causing over 500 institutions representing $40.57 trillion in assets to commit to fossil fuel divestment by 2022. The evolution from "power through ideas" to "power over ideas" marks the transition from challenger to incumbent status.</p>
+        <div class="source-note">→ Carstensen &amp; Schmidt (2016); Risse et al. (1999)</div>
+      </div>
+      <div class="t-lay">
+        <p class="body-text">Environmental groups, climate scientists, university endowments — these players had almost no direct leverage over the oil industry. They couldn't pass laws, didn't control supply chains, and had no armies. Yet they managed to fundamentally change how banks, pension funds, and governments relate to fossil fuel investment.</p>
+        <p class="body-text">How? By making it <em>embarrassing</em> to keep investing. They reframed the moral stakes — not "here's the economic calculation" but "here's what kind of organization you are." Harvard, the Norwegian sovereign wealth fund, and hundreds of others divested not because it was the most profitable thing short-term, but because continuing to invest had become a reputational liability.</p>
+        <div class="callout green">This is how change often happens when you're on the outside: you don't fight the power head-on — you change what "respectable behavior" looks like, and power follows.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- C4 -->
+  <div class="accordion" id="c4">
+    <button class="accordion-header" onclick="toggleAcc('c4')">
+      <span class="acc-icon red">D</span>
+      <div style="flex:1">
+        <div class="acc-title">
+          <span class="t-orig">Self-Negating Pathology</span>
+          <span class="t-lay">Mistaking Popularity for Truth</span>
+        </div>
+        <div class="acc-sub">
+          <span class="t-orig">Merton (1968) — the key causal mechanism of collapse</span>
+          <span class="t-lay">The most common mistake every ruling group makes</span>
+        </div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </button>
+    <div class="accordion-body">
+      <div class="t-orig">
+        <p class="body-text">Merton's concept applied: incumbents mistake the popularity or dominance of their ideas for their <em>correctness</em>. In times of crisis, they return to established ideas rather than entertaining alternatives — even when those same ideas are partly responsible for the crisis. This appears in all four paradigms: the Majors boycotted nationalizing countries rather than revising concession terms; OPEC members cheated on quotas while invoking sovereign rights; IOCs doubled down on shareholder value logic while the climate crisis mounted.</p>
+        <div class="callout red">"The widespread adoption of the big idea of competition reflected Merton's 'self-negating' pathology, in which the ascendancy of their ideas was mistaken for their correctness, bringing incumbents to return to these established ideas in times of crisis despite those same ideas in part causing the crisis."</div>
+        <div class="source-note">→ Merton (1968); MacKenzie (2008); Culpepper (2008)</div>
+      </div>
+      <div class="t-lay">
+        <p class="body-text">When everyone around you agrees with your worldview, it's easy to conclude that your worldview must simply be correct — rather than just currently dominant. This is the trap every ruling group falls into. When problems start appearing, instead of questioning the worldview, they double down. They treat trouble as a technical glitch to be fixed with more of the same medicine, not as a signal that the whole approach needs rethinking.</p>
+        <div class="callout red">This happened in every era. The oil Majors responded to nationalization threats with tighter coordination — the very thing producers resented. OPEC members responded to falling prices by insisting more loudly on sovereign rights, which made joint action impossible. IOCs responded to environmental pressure by focusing more on shareholder returns. Each group turned back to the same playbook at the moment they most needed a new one.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- C5 -->
+  <div class="accordion" id="c5">
+    <button class="accordion-header" onclick="toggleAcc('c5')">
+      <span class="acc-icon blue">E</span>
+      <div style="flex:1">
+        <div class="acc-title">
+          <span class="t-orig">Layering &amp; Conversion</span>
+          <span class="t-lay">Old Rules Layered Under New Ones</span>
+        </div>
+        <div class="acc-sub">
+          <span class="t-orig">Streeck &amp; Thelen (2005) — how old institutions persist into new paradigms</span>
+          <span class="t-lay">Why history doesn't disappear cleanly when something new takes over</span>
+        </div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </button>
+    <div class="accordion-body">
+      <div class="t-orig">
+        <div class="two-col">
+          <div>
+            <div class="col-head">Layering</div>
+            <p class="body-text" style="font-size:14px;">New rules introduced alongside existing ones, when challengers lack capacity to fully replace the original rules. Example: in the 1990s, instead of fully privatizing NOCs, many governments listed minority shares on stock markets — adding market logic and external shareholders on top of state-ownership structures. The formal apparatus of sovereign control persisted; competitive incentives were layered on top.</p>
+          </div>
+          <div>
+            <div class="col-head">Conversion</div>
+            <p class="body-text" style="font-size:14px;">Formal rules remain unchanged but are interpreted and enacted in entirely new ways. Saudi Arabia's 1985 pivot is the clearest example: same legal control over the same oil wells, but the Kingdom shifted from benevolent swing producer (restraining output to support others' prices) to coercive hegemon (flooding the market to punish quota-cheaters). Same law. Opposite behavior.</p>
+          </div>
+        </div>
+        <div class="source-note">→ Streeck &amp; Thelen (2005); Thelen (2003)</div>
+      </div>
+      <div class="t-lay">
+        <div class="two-col">
+          <div>
+            <div class="col-head">Layering: adding new on top of old</div>
+            <p class="body-text" style="font-size:14px;">When a new era takes hold, it rarely wipes the slate clean. New rules get added on top of old structures. In the 1990s, instead of fully privatizing national oil companies, many governments listed minority shares on stock markets — keeping state ownership while adding the discipline of public investors. The old structure remained; new expectations were layered on top.</p>
+          </div>
+          <div>
+            <div class="col-head">Conversion: same rules, new behavior</div>
+            <p class="body-text" style="font-size:14px;">Sometimes the formal structure stays identical but is used in a completely different way. Saudi Arabia's clearest example: in the early 1980s, the Kingdom held back its own production to prop up world prices for everyone (the "benevolent" role). Then in 1985, with the same legal control over the same oil wells, it suddenly flooded the market to punish quota-cheaters. Same law. Opposite behavior.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- C6 -->
+  <div class="accordion" id="c6">
+    <button class="accordion-header" onclick="toggleAcc('c6')">
+      <span class="acc-icon green">F</span>
+      <div style="flex:1">
+        <div class="acc-title">
+          <span class="t-orig">Process-Tracing Methodology</span>
+          <span class="t-lay">The Research Approach: Detective Work Through History</span>
+        </div>
+        <div class="acc-sub">
+          <span class="t-orig">Beach &amp; Pedersen (2013) — detective-like causal inference</span>
+          <span class="t-lay">How you prove that ideas — not just money or force — caused these changes</span>
+        </div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </button>
+    <div class="accordion-body">
+      <div class="t-orig">
+        <p class="body-text">Process-tracing is the paper's core method, chosen because it is "particularly useful in coping with the methodological challenge of studying ideational causation" (Kay, 2009). McKnight deploys <strong>Y-centric theory-building</strong>: starting from the outcome of interest (paradigm change) and tracing backward to the causal process. The study covers nearly 100 years, following Jacobs' (2015) recommendation of "expansive empirical scope" when establishing the causal impact of ideas. The analysis aims to be "clear enough to be proven wrong" (Sabatier, 2007).</p>
+        <div class="callout green">Both ideational and material factors are considered because "no cause is 'autonomous' from others" (Daigneault &amp; Béland, 2015). Ideas matter insofar as they generate tangible, measurable consequences — that is how they are tested empirically.</div>
+        <div class="source-note">→ Beach &amp; Pedersen (2013); Jacobs (2015); Gerring (2007); Kay (2009)</div>
+      </div>
+      <div class="t-lay">
+        <p class="body-text">Proving that ideas caused something is harder than it sounds. You can't run experiments on history. So McKnight traces the chain of events backward from the outcome — a major shift in who controls oil and how — and asks at each step: what made this happen? What made people think this was the right thing to do? What made them ignore the warning signs?</p>
+        <p class="body-text">The approach covers nearly 100 years, because you need that sweep to see the pattern repeat across multiple cycles. One era might be a coincidence; four in a row is a structure.</p>
+        <div class="callout green">Both ideas and physical reality matter — oil prices, wars, discoveries. But ideas determine which physical developments get treated as problems worth solving, and which get ignored. That's what makes them the key variable.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     § PARADIGMS
+══════════════════════════════════════════════════ -->
+<div id="paradigms">
+<div class="section-wrap">
+  <div class="section-label">§ 03 — <span class="t-orig">Four Paradigms</span><span class="t-lay">Four Eras</span></div>
+  <h2 class="section-title">
+    <span class="t-orig">A Century of Big Ideas in Oil</span>
+    <span class="t-lay">A century of "who runs oil" — and why each era collapsed</span>
+  </h2>
+  <p class="section-intro">
+    <span class="t-orig">Click a paradigm card to open its full drilldown, then use the inner tabs to navigate between the Big Idea, how it operated, competing ideas, and how/why it failed.</span>
+    <span class="t-lay">Click a card to open the full story of that era. Inside, use the tabs to move between the big idea, what actually happened, who was challenging it, and what finally brought it down.</span>
+  </p>
+
+  <!-- Timeline chart -->
+  <div class="chart-wrap">
+    <div class="chart-title">
+      <span class="t-orig">Inflation-adjusted oil price (schematic) &amp; paradigm eras, 1920–2022</span>
+      <span class="t-lay">Approximate oil price &amp; the four eras, 1920–2022</span>
+    </div>
+    <svg viewBox="0 0 860 200" preserveAspectRatio="xMidYMid meet" style="width:100%;display:block;">
+      <rect x="40"  y="10" width="400" height="148" fill="#7c1a1a" fill-opacity="0.07"/>
+      <rect x="440" y="10" width="148" height="148" fill="#8a5200" fill-opacity="0.09"/>
+      <rect x="588" y="10" width="200" height="148" fill="#1a4570" fill-opacity="0.08"/>
+      <rect x="788" y="10" width="72"  height="148" fill="#1a5428" fill-opacity="0.09"/>
+      <polyline points="40,163 100,166 180,160 240,157 290,155 330,157 370,153 410,148 440,80 460,93 500,107 522,74 542,82 562,80 588,146 624,130 658,136 692,167 720,144 752,103 776,78 788,18 800,86 814,94 826,76 838,63 848,18" fill="none" stroke="#8a5200" stroke-width="2.5" stroke-linejoin="round"/>
+      <text x="240" y="182" font-family="IBM Plex Mono" font-size="8" fill="#7c1a1a" text-anchor="middle" font-weight="500">
+        <tspan class="t-orig">BIG-CO COORDINATION</tspan>
+        <tspan class="t-lay">BIG COMPANIES RUN IT</tspan>
+      </text>
+      <text x="514" y="182" font-family="IBM Plex Mono" font-size="8" fill="#8a5200" text-anchor="middle" font-weight="500">
+        <tspan class="t-orig">SOVEREIGN CONTROL</tspan>
+        <tspan class="t-lay">GOVERNMENTS RUN IT</tspan>
+      </text>
+      <text x="688" y="182" font-family="IBM Plex Mono" font-size="8" fill="#1a4570" text-anchor="middle" font-weight="500">
+        <tspan class="t-orig">COMPETITION</tspan>
+        <tspan class="t-lay">THE MARKET RUNS IT</tspan>
+      </text>
+      <text x="824" y="182" font-family="IBM Plex Mono" font-size="8" fill="#1a5428" text-anchor="middle" font-weight="500">LEAVE-IT</text>
+      <line x1="40"  y1="158" x2="40"  y2="164" stroke="#9a8878" stroke-width="1"/>
+      <text x="40"  y="174" font-family="IBM Plex Mono" font-size="8" fill="#9a8878" text-anchor="middle">1920</text>
+      <line x1="440" y1="158" x2="440" y2="164" stroke="#9a8878" stroke-width="1"/>
+      <text x="440" y="174" font-family="IBM Plex Mono" font-size="8" fill="#9a8878" text-anchor="middle">1973</text>
+      <line x1="588" y1="158" x2="588" y2="164" stroke="#9a8878" stroke-width="1"/>
+      <text x="588" y="174" font-family="IBM Plex Mono" font-size="8" fill="#9a8878" text-anchor="middle">1986</text>
+      <line x1="788" y1="158" x2="788" y2="164" stroke="#9a8878" stroke-width="1"/>
+      <text x="788" y="174" font-family="IBM Plex Mono" font-size="8" fill="#9a8878" text-anchor="middle">2013</text>
+      <line x1="848" y1="158" x2="848" y2="164" stroke="#9a8878" stroke-width="1"/>
+      <text x="848" y="174" font-family="IBM Plex Mono" font-size="8" fill="#9a8878" text-anchor="middle">2022</text>
+      <line x1="40" y1="158" x2="848" y2="158" stroke="#d4c9b8" stroke-width="1"/>
+    </svg>
+  </div>
+
+  <!-- Cards -->
+  <div class="paradigms-grid">
+    <div class="paradigm-card p1" id="pc1" onclick="togglePCard(1)">
+      <div class="card-header">
+        <div class="card-num">I</div>
+        <div class="card-era">Late 1920s → Early 1970s</div>
+        <div class="card-title">
+          <span class="t-orig">Big-Company Coordination</span>
+          <span class="t-lay">The Big Oil Companies Run Everything</span>
+        </div>
+        <div class="card-who">
+          <span class="t-orig">THE 'MAJORS' / SEVEN SISTERS</span>
+          <span class="t-lay">THE 'SEVEN SISTERS'</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span><span class="t-orig">Drill into paradigm</span><span class="t-lay">Open full story</span></span>
+        <span id="pc1-ch">▼</span>
+      </div>
+    </div>
+    <div class="paradigm-card p2" id="pc2" onclick="togglePCard(2)">
+      <div class="card-header">
+        <div class="card-num">II</div>
+        <div class="card-era">Early 1970s → Mid-1980s</div>
+        <div class="card-title">
+          <span class="t-orig">Sovereign Control</span>
+          <span class="t-lay">Oil-Producing Governments Take Back Control</span>
+        </div>
+        <div class="card-who">
+          <span class="t-orig">OIL-EXPORTING STATES / OPEC</span>
+          <span class="t-lay">OPEC &amp; NATIONALIZING STATES</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span><span class="t-orig">Drill into paradigm</span><span class="t-lay">Open full story</span></span>
+        <span id="pc2-ch">▼</span>
+      </div>
+    </div>
+    <div class="paradigm-card p3" id="pc3" onclick="togglePCard(3)">
+      <div class="card-header">
+        <div class="card-num">III</div>
+        <div class="card-era">Mid-1980s → Early 2010s</div>
+        <div class="card-title">
+          <span class="t-orig">Market Competition</span>
+          <span class="t-lay">Let the Market Decide</span>
+        </div>
+        <div class="card-who">
+          <span class="t-orig">IOCs · FIN. MARKETS · SEMI-PRIV. NOCs</span>
+          <span class="t-lay">OIL COMPANIES · FINANCIAL MARKETS</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span><span class="t-orig">Drill into paradigm</span><span class="t-lay">Open full story</span></span>
+        <span id="pc3-ch">▼</span>
+      </div>
+    </div>
+    <div class="paradigm-card p4" id="pc4" onclick="togglePCard(4)">
+      <div class="card-header">
+        <div class="card-num">IV</div>
+        <div class="card-era">Mid-2010s → Present</div>
+        <div class="card-title">
+          <span class="t-orig">Leave-It-Underground</span>
+          <span class="t-lay">Stop Digging — Leave It in the Ground</span>
+        </div>
+        <div class="card-who">NGOs · IPCC · DIVESTMENT FUNDS</div>
+      </div>
+      <div class="card-footer">
+        <span><span class="t-orig">Drill into paradigm</span><span class="t-lay">Open full story</span></span>
+        <span id="pc4-ch">▼</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DETAIL P1 ── -->
+  <div class="paradigm-detail-panel" id="pd1">
+    <div class="inner-tabs">
+      <button class="inner-tab active" onclick="switchInner('pd1','idea')">
+        <span class="t-orig">The Big Idea</span><span class="t-lay">The Idea</span>
+      </button>
+      <button class="inner-tab" onclick="switchInner('pd1','action')">
+        <span class="t-orig">In Action</span><span class="t-lay">What Happened</span>
+      </button>
+      <button class="inner-tab" onclick="switchInner('pd1','challenge')">
+        <span class="t-orig">Competing Ideas</span><span class="t-lay">Who Was Challenging It</span>
+      </button>
+      <button class="inner-tab" onclick="switchInner('pd1','fall')">
+        <span class="t-orig">The Fatal Blinder</span><span class="t-lay">Why It Fell Apart</span>
+      </button>
+    </div>
+    <div id="pd1-idea" class="inner-pane active">
+      <h3 class="pane-h3">
+        <span class="t-orig">Core Belief: Coordination Prevents Ruinous Competition</span>
+        <span class="t-lay">The core belief: someone has to keep a lid on it</span>
+      </h3>
+      <div class="t-orig">
+        <p class="body-text">The fundamental premise was that individual oil companies, if left to their own self-interest, would overproduce — leading to destructive price wars and rapid depletion of reserves. A small set of big multinational firms — the "Majors" — should therefore coordinate production and sales, suppress competition among themselves, and exclude actors outside the oligopoly from decision-making. Western governments, especially the US and UK, generally deferred to the Majors on exploration, transport, refining, and sales.</p>
+        <div class="callout">"The central problem proved not to be endlessly replacing new barrels for extracted ones, but rather how to constrain output from these abundant reserves so as not to overwhelm market demand, crush prices and destroy profitability."</div>
+        <div class="tag-row">
+          <span class="tag amber">Achnacarry 'As Is' Agreement (1928)</span>
+          <span class="tag amber">Anti-overproduction logic</span>
+          <span class="tag amber">Long-duration concessions</span>
+        </div>
+      </div>
+      <div class="t-lay">
+        <p class="body-text">Oil was being found faster than anyone could sell it. Left alone, companies would pump as much as possible, flood the market, and crash prices — ruining everybody. So a small group of giant Western oil companies (eight of them, nicknamed the "Seven Sisters") quietly agreed to coordinate: divide up markets, set prices together, and keep outsiders from rocking the boat. Western governments were broadly fine with this arrangement. It kept oil cheap and plentiful.</p>
+        <div class="callout">In 1928, the bosses of Exxon, BP, and Shell secretly met at a Scottish castle called Achnacarry and agreed to freeze their market shares and stop competing on price. This handshake deal launched 40 years of coordinated control over most of the world's oil.</div>
+        <div class="tag-row">
+          <span class="tag amber">Achnacarry 'As Is' Agreement (1928)</span>
+          <span class="tag amber">The "Seven Sisters" oligopoly</span>
+          <span class="tag amber">82-year concession deals in producer countries</span>
+        </div>
+      </div>
+    </div>
+    <div id="pd1-action" class="inner-pane">
+      <h3 class="pane-h3">
+        <span class="t-orig">The Globe-Spanning Oligopoly</span>
+        <span class="t-lay">It actually worked — for a while</span>
+      </h3>
+      <div class="t-orig">
+        <p class="body-text">In 1928 the heads of Exxon, BP, and Shell secretly met at Achnacarry Castle, Scotland, agreeing to freeze market shares "as-is" and end price competition. This launched five decades of globe-spanning oligopoly control. Eight companies controlled vast concession areas under extraordinarily one-sided terms.</p>
+      </div>
+      <div class="t-lay">
+        <p class="body-text">By the 1950s, eight Western companies controlled the lion's share of the world's oil outside the US and Soviet Union. They delivered stable, affordable fuel that powered the post-war economic boom across Western Europe, Japan, and the US. Governments were happy to let them get on with it.</p>
+      </div>
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-num">81%</div><div class="stat-label">Latin America production (Majors, 1953)</div></div>
+        <div class="stat-box"><div class="stat-num">92%</div><div class="stat-label">Middle East production (Majors, 1953)</div></div>
+        <div class="stat-box"><div class="stat-num">82 yr</div><div class="stat-label">Average concession duration</div></div>
+        <div class="stat-box"><div class="stat-num">×3</div><div class="stat-label">Growth in global oil demand, 1958–1972</div></div>
+      </div>
+      <div class="t-orig">
+        <p class="body-text">The Majors provided stable, affordable fuel for post-war reconstruction and the boom of the 1950s–60s. Oil demand outside the communist bloc grew from 16.5m bpd (1958) to 46.3m bpd (1972). The concession deals were extraordinarily one-sided: up to 82 years long, covering almost the entire territory of countries like Iran and Saudi Arabia, with no requirement to produce if it wasn't convenient.</p>
+      </div>
+      <div class="t-lay">
+        <p class="body-text">The concession deals — the contracts that gave the companies the right to extract oil — were extraordinarily one-sided: up to 82 years long, covering almost the entire territory of countries like Iran and Saudi Arabia, with no requirement to actually produce if it wasn't convenient. The producing countries got royalties, but the companies made all the decisions.</p>
+      </div>
+    </div>
+    <div id="pd1-challenge" class="inner-pane">
+      <h3 class="pane-h3">
+        <span class="t-orig">Two Growing Challenges Through the 1950s–60s</span>
+        <span class="t-lay">Two threats the companies refused to take seriously</span>
+      </h3>
+      <div class="two-col">
+        <div>
+          <div class="col-head">
+            <span class="t-orig">Challenge 1: Sovereign Nationalism</span>
+            <span class="t-lay">Threat 1: Producer countries wanted in</span>
+          </div>
+          <ul class="col-list">
+            <li><span class="t-orig">UN General Assembly (1962): "permanent sovereignty over natural resources" — countries, not companies, own their resources</span><span class="t-lay">The UN passed a resolution in 1962 saying countries have the right to control their own natural resources — a powerful idea that spread fast</span></li>
+            <li><span class="t-orig">OPEC founded (1960) after Majors cut prices without consulting producers</span><span class="t-lay">In 1960, five major producer countries founded OPEC — partly in anger after the companies cut oil prices without asking anyone</span></li>
+            <li><span class="t-orig">New producers like Libya and Angola played Majors off against Independent companies</span><span class="t-lay">Countries like Iran, Saudi Arabia, Iraq, and Venezuela were getting rich — but feeling controlled and disrespected</span></li>
+          </ul>
+        </div>
+        <div>
+          <div class="col-head">
+            <span class="t-orig">Challenge 2: Independent Companies</span>
+            <span class="t-lay">Threat 2: Smaller rival companies</span>
+          </div>
+          <ul class="col-list">
+            <li><span class="t-orig">"Independent" companies (Occidental, Amoco, Phillips) operated outside the oligopoly and offered producer countries better terms</span><span class="t-lay">"Independent" oil companies operated outside the cozy club and were willing to offer producer countries much better deals</span></li>
+            <li><span class="t-orig">The Soviet Union nearly quadrupled its oil production (late 1940s–early 1960s), flooding western Europe with cheap oil</span><span class="t-lay">The Soviet Union was flooding Europe with cheap oil, undermining the Majors' price control</span></li>
+            <li><span class="t-orig">The Majors' unilateral 1959 price cut — to cope with oversupply — was the triggering grievance that led to OPEC's formation</span><span class="t-lay">When the Majors cut prices in 1959 without consulting the producing countries, it was the last straw for many governments</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div id="pd1-fall" class="inner-pane">
+      <h3 class="pane-h3 red">
+        <span class="t-orig">Fatal Blinder: No Space for Producer Governments or Outsiders</span>
+        <span class="t-lay">The fatal blind spot: they couldn't imagine sharing power</span>
+      </h3>
+      <div class="t-orig">
+        <p class="body-text">The paradigm of big-company coordination had no ideational space for nationalistically-minded governments or for the "Independent" companies it could not accommodate. The Majors' narrow conception of problem-solving — balancing global supply with demand — could incorporate neither the national interests of producer governments nor competitors outside the oligopoly. When challenged, the response was joint boycotts, political lobbying, and shifting investments elsewhere.</p>
+        <div class="callout red">When Iran nationalized its oil in 1951, the Majors organized a global boycott. Iran's oil exports collapsed from 650,000 barrels/day to just 20,000. It worked short-term — but the resentment it created was enormous and long-lasting.</div>
+      </div>
+      <div class="t-lay">
+        <p class="body-text">The companies' entire model was built around keeping a small, exclusive club in control. There was simply no room in their thinking for the idea that producer countries had a legitimate claim to run their own oil industries — or that smaller rival companies deserved a seat at the table. When challenged, they responded with what they knew: boycotts, political lobbying, and shifting investment elsewhere.</p>
+        <div class="callout red">When Iran nationalized its oil in 1951, the Majors organized a global boycott. Iran's oil exports collapsed from 650,000 barrels a day to just 20,000. It worked short-term — but the resentment it created was enormous and long-lasting.</div>
+      </div>
+      <p class="body-text">
+        <span class="t-orig">Libya's Qaddafi forced higher prices in 1970. Incapable of incorporating the Independents into their arrangement, the Majors acceded — unwittingly "letting the sovereign control genie out of the bottle" (Adelman, 1995). A "leapfrogging" of better deals spread around the world. The paradigm collapsed in the oil embargo and price quadrupling of 1973–74.</span>
+        <span class="t-lay">The collapse came in stages. Libya's leader Gaddafi squeezed higher prices out of the Majors in 1970. Once one country got better terms, every other country immediately demanded the same. Then in October 1973, amid a war between Arab states and Israel, OPEC announced massive price increases and an oil embargo. Oil prices quadrupled. The era of big-company control was over.</span>
+      </p>
+      <div class="tag-row">
+        <span class="tag red"><span class="t-orig">Excluded: producer governments</span><span class="t-lay">Couldn't accommodate producer governments</span></span>
+        <span class="tag red"><span class="t-orig">Excluded: Independent companies</span><span class="t-lay">Couldn't include rival companies</span></span>
+        <span class="tag red"><span class="t-orig">Collapse: 1973 price shock</span><span class="t-lay">Ended: 1973 oil shock</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DETAIL P2 ── -->
+  <div class="paradigm-detail-panel" id="pd2">
+    <div class="inner-tabs">
+      <button class="inner-tab active" onclick="switchInner('pd2','idea')">
+        <span class="t-orig">The Big Idea</span><span class="t-lay">The Idea</span>
+      </button>
+      <button class="inner-tab" onclick="switchInner('pd2','action')">
+        <span class="t-orig">In Action</span><span class="t-lay">What Happened</span>
+      </button>
+      <button class="inner-tab" onclick="switchInner('pd2','challenge')">
+        <span class="t-orig">Competing Ideas</span><span class="t-lay">Who Was Challenging It</span>
+      </button>
+      <button class="inner-tab" onclick="switchInner('pd2','fall')">
+        <span class="t-orig">The Fatal Blinder</span><span class="t-lay">Why It Fell Apart</span>
+      </button>
+    </div>
+    <div id="pd2-idea" class="inner-pane active">
+      <h3 class="pane-h3">
+        <span class="t-orig">Core Belief: States Must Lead the Commanding Heights</span>
+        <span class="t-lay">The core belief: our oil, our rules</span>
+      </h3>
+      <div class="t-orig">
+        <p class="body-text">The state has the sovereign right of control over natural resources. Industries like oil — central to national development, jobs, revenue, and industrialization — must be led by the state. Allowing market forces to prevail only perpetuates colonial exploitation. It is no longer enough to seek better fiscal terms; states must take outright control of production, marketing, and prices.</p>
+        <div class="callout">"Post-colonial states assumed a central role in development above all in the control of natural resources, with little regard for which side one fell on during the Cold War." The paradigm provided an interpretation of what was wrong (foreign exploitation) and what to do (nationalize).</div>
+      </div>
+      <div class="t-lay">
+        <p class="body-text">After decades of watching foreign companies extract their wealth and call all the shots, oil-producing countries decided enough was enough. The new idea was simple: oil belongs to the country it comes from. Governments — not foreign companies — should control production, set prices, and decide how to use the revenue. Getting better royalty payments wasn't enough anymore. Countries wanted to own and run their own oil industries outright.</p>
+        <div class="callout">This wasn't just about money. It was tied to a broader movement among newly independent nations who saw controlling their natural resources as fundamental to national dignity — not just a revenue stream.</div>
+      </div>
+      <div class="tag-row">
+        <span class="tag amber"><span class="t-orig">Nationalization of oil sectors</span><span class="t-lay">Nationalization of oil companies</span></span>
+        <span class="tag amber"><span class="t-orig">National Oil Companies (NOCs)</span><span class="t-lay">State-owned oil companies</span></span>
+        <span class="tag amber">OPEC price-setting</span>
+        <span class="tag amber"><span class="t-orig">Oil as geopolitical weapon</span><span class="t-lay">Oil as a political weapon</span></span>
+      </div>
+    </div>
+    <div id="pd2-action" class="inner-pane">
+      <h3 class="pane-h3">
+        <span class="t-orig">Nationalizations, NOCs, and the Price Shocks</span>
+        <span class="t-lay">It worked spectacularly — at first</span>
+      </h3>
+      <div class="t-orig">
+        <p class="body-text">Algeria, Iraq, and Libya led nationalizations in the early 1970s. By mid-decade virtually every oil-producing government in the Middle East, Venezuela, and smaller producers had nationalized their sectors. Each created a National Oil Company (NOC) as a multi-purpose vehicle: rent generator, employer, energy supplier, development tool, and geopolitical instrument. In October 1973, Arab oil states cut production and embargoed sales to the US and Netherlands. The "first shock" quadrupled world oil prices. A "second shock" in 1979–80 drove prices above $100/bbl.</p>
+      </div>
+      <div class="t-lay">
+        <p class="body-text">Algeria, Iraq, and Libya led the way with nationalizations in the early 1970s. By mid-decade, almost every major oil-producing country had taken over their oil sectors. Each country created a national oil company to actually run things. During the 1973 Arab-Israeli war, Arab oil states cut production and refused to sell oil to the US and Netherlands. Prices quadrupled. A second big shock hit in 1979–80 following the Iranian revolution. For a few years, oil-exporting countries held enormous power over the global economy.</p>
+      </div>
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-num">53%</div><div class="stat-label">OPEC share of world oil production (1973)</div></div>
+        <div class="stat-box"><div class="stat-num">4×</div><div class="stat-label">Price jump in the 1973–74 oil shock</div></div>
+        <div class="stat-box"><div class="stat-num">$100+</div><div class="stat-label">Per-barrel price (inflation-adj.) at 1981 peak</div></div>
+      </div>
+    </div>
+    <div id="pd2-challenge" class="inner-pane">
+      <h3 class="pane-h3">
+        <span class="t-orig">Three Unintended Consequences</span>
+        <span class="t-lay">Three problems nobody expected</span>
+      </h3>
+      <div class="two-col">
+        <div>
+          <div class="col-head"><span class="t-orig">Problem 1: Resource Curse</span><span class="t-lay">The windfall didn't fix things</span></div>
+          <p class="body-text" style="font-size:14px;"><span class="t-orig">Many oil-producing economies were no better off — and very likely worse off — than before the windfall. High-volume oil producers ended up more authoritarian (Silje, 2010), more indebted (Sachs, 1989), more prone to violent conflict (Bannon &amp; Collier, 2003), and less industrialised (Karl, 1997). The idea that states could straightforwardly convert oil rents into sustainable development proved wrong.</span><span class="t-lay">Many oil-rich countries found that suddenly having enormous revenues made things worse, not better. Money flooded in but it often fueled corruption, inequality, and political repression rather than development. Economists later gave this the grim name "resource curse." By the late 1980s, it was hard to argue that the producing countries had actually gotten richer in any sustainable way.</span></p>
+        </div>
+        <div>
+          <div class="col-head"><span class="t-orig">Problem 2: Demand Destruction &amp; New Supply</span><span class="t-lay">High prices backfired</span></div>
+          <p class="body-text" style="font-size:14px;"><span class="t-orig">High prices cooled oil demand by sending OECD economies into recession. Oil-importing countries adopted permanent measures to reduce demand — efficiency standards, conservation, alternative fuels. Meanwhile, high prices incentivised exploration in otherwise expensive areas (Alaska, the North Sea, Gulf of Mexico), generating surging non-OPEC supply by the early 1980s.</span><span class="t-lay">When oil got very expensive, Western countries got serious about using less of it — better fuel economy, new energy sources, insulation campaigns. Meanwhile, oil companies started drilling in expensive places (Alaska, the North Sea) that suddenly made financial sense at high prices. By the early 1980s, there was too much oil and prices started falling.</span></p>
+        </div>
+      </div>
+    </div>
+    <div id="pd2-fall" class="inner-pane">
+      <h3 class="pane-h3 red">
+        <span class="t-orig">Fatal Blinder: Sovereignty Prevents Collective Action</span>
+        <span class="t-lay">The fatal blind spot: sovereign rights made collective action impossible</span>
+      </h3>
+      <div class="t-orig">
+        <p class="body-text">The paradigm was inherently limited in devising collaborative solutions to overproduction: each country viewed itself as the rightful sovereign decider of what to do with its resources. OPEC quotas (introduced early 1980s) were systematically cheated because the core principle — sovereign control — made restraint politically unacceptable at home.</p>
+        <div class="callout red">"Incumbents were inherently limited in devising collaborative solutions to overproduction because each country viewed itself as rightful decider — ignoring ways in which this relentless pursuit of individual national interests progressively eroded the paradigm."</div>
+      </div>
+      <div class="t-lay">
+        <p class="body-text">The whole idea of sovereign control meant every country decided for itself what to do with its own oil. That worked when they were all trying to squeeze more money from foreign companies. But when oil prices started falling and OPEC needed its members to pump less — to keep prices up — the same logic fell apart. Every member felt they had the sovereign right to produce as much as they liked. Cheating on production quotas became routine.</p>
+        <div class="callout red">By 1985, Saudi Arabia had cut its own production from 8.5 million barrels a day to just 2.3 million — sacrificing enormous revenue to prop up OPEC prices — while other members quietly cheated. Eventually the Saudis had enough. They reversed course and flooded the market. Prices went from $28 to $11 a barrel in under a year. The era of OPEC dominance was over.</div>
+      </div>
+      <div class="tag-row">
+        <span class="tag red"><span class="t-orig">Sovereign logic blocked quota enforcement</span><span class="t-lay">Sovereignty logic made quota enforcement impossible</span></span>
+        <span class="tag red"><span class="t-orig">Collapse: 1985–86 price crash</span><span class="t-lay">Ended: 1985–86 price collapse</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DETAIL P3 ── -->
+  <div class="paradigm-detail-panel" id="pd3">
+    <div class="inner-tabs">
+      <button class="inner-tab active" onclick="switchInner('pd3','idea')">
+        <span class="t-orig">The Big Idea</span><span class="t-lay">The Idea</span>
+      </button>
+      <button class="inner-tab" onclick="switchInner('pd3','action')">
+        <span class="t-orig">In Action</span><span class="t-lay">What Happened</span>
+      </button>
+      <button class="inner-tab" onclick="switchInner('pd3','challenge')">
+        <span class="t-orig">Competing Ideas</span><span class="t-lay">Who Was Challenging It</span>
+      </button>
+      <button class="inner-tab" onclick="switchInner('pd3','fall')">
+        <span class="t-orig">The Fatal Blinder</span><span class="t-lay">Why It Fell Apart</span>
+      </button>
+    </div>
+    <div id="pd3-idea" class="inner-pane active">
+      <h3 class="pane-h3">
+        <span class="t-orig">Core Belief: Markets Are the Most Efficient Allocators</span>
+        <span class="t-lay">The core belief: let the market sort it out</span>
+      </h3>
+      <div class="t-orig">
+        <p class="body-text">Competition is the best method to increase value; the market is the most efficient allocator of resources. Restraining production to boost prices is suboptimal — whether by OPEC, the Majors, or a swing producer. Although oil production remained largely under state control (a legacy layer from the sovereign paradigm), competition should discipline both NOCs and IOCs alike. Publicly traded companies should shrink to "core competencies" to maximize shareholder value. The "inexorable globalizing logic" applied to oil as to everything else.</p>
+        <div class="callout">"The virtue of specialization and discipline of competition constituting 'common knowledge' for managing oil resources." (Culpepper, 2008)</div>
+      </div>
+      <div class="t-lay">
+        <p class="body-text">After the chaos of the OPEC era, a new idea took hold: competitive markets work better than cartels or governments. Stop trying to fix prices or control supply — let companies compete, let financial markets set prices, and let the pursuit of profit guide investment. This was the same "Washington Consensus" thinking reshaping economies worldwide in the 1980s and 1990s: privatize, deregulate, compete.</p>
+        <div class="callout">For oil companies, this meant slimming down, focusing on core strengths, cutting costs, and maximizing returns to shareholders. For OPEC, it meant constant internal fighting about who was "really" following market principles.</div>
+      </div>
+      <div class="tag-row">
+        <span class="tag blue"><span class="t-orig">Profit maximization &amp; shareholder value</span><span class="t-lay">Maximize returns to shareholders</span></span>
+        <span class="tag blue">IOC mega-mergers</span>
+        <span class="tag blue"><span class="t-orig">Financialization of oil markets</span><span class="t-lay">Financial markets set prices</span></span>
+        <span class="tag blue">Washington Consensus</span>
+      </div>
+    </div>
+    <div id="pd3-action" class="inner-pane">
+      <h3 class="pane-h3">
+        <span class="t-orig">Corporate Restructuring in a Low-Price Era</span>
+        <span class="t-lay">Cheap oil everywhere — until suddenly it wasn't</span>
+      </h3>
+      <div class="t-orig">
+        <p class="body-text">Deprived of upstream acreage by nationalizations and under shareholder pressure during extended low prices (mid-1980s to early 2000s), IOCs outsourced specialized tasks to oilfield service companies and scaled down. They acted increasingly as financial vehicles — buying back stock, pursuing mergers. BP acquired Amoco; Exxon merged with Mobil; Conoco joined with Phillips. Several NOCs were fully or partially privatized; others listed minority shares on foreign exchanges.</p>
+      </div>
+      <div class="t-lay">
+        <p class="body-text">From the mid-1980s to the early 2000s, oil was remarkably cheap. Companies cut costs, merged (Exxon bought Mobil; BP bought Amoco), and increasingly acted like financial companies rather than engineering ones — buying back their own shares, paying dividends, and acquiring other companies' assets rather than going out to find new oil. Several national oil companies were partly or fully sold off.</p>
+      </div>
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-num">$10</div><div class="stat-label">Price per barrel in 1998 — lowest in decades</div></div>
+        <div class="stat-box"><div class="stat-num">$147</div><div class="stat-label">Price per barrel in July 2008</div></div>
+        <div class="stat-box"><div class="stat-num">+57%</div><div class="stat-label">China oil consumption growth, 2011–2021</div></div>
+        <div class="stat-box"><div class="stat-num">+41%</div><div class="stat-label">India oil consumption growth, 2011–2021</div></div>
+      </div>
+    </div>
+    <div id="pd3-challenge" class="inner-pane">
+      <h3 class="pane-h3">
+        <span class="t-orig">The Classic Overproduction Problem Returns</span>
+        <span class="t-lay">The market kept creating its own problems</span>
+      </h3>
+      <div class="two-col">
+        <div>
+          <div class="col-head"><span class="t-orig">Internal contradictions</span><span class="t-lay">The overproduction trap</span></div>
+          <p class="body-text" style="font-size:14px;"><span class="t-orig">Competition revived oil's classic overproduction problem: once steep upfront costs were sunk, every producer was incentivised to produce ceaselessly. Consistently low prices sent demand soaring across the Global South, while geopolitical tensions mounted — Iraq invaded Kuwait partly over quota revenue disputes; Venezuela openly ignored its OPEC quota.</span><span class="t-lay">Once an oil company has spent billions drilling a well, it makes sense to keep pumping regardless of price — any revenue beats nothing. So every producer pumps as much as possible, which keeps prices low, which means everyone has to pump even more to cover costs. This drove prices to $10/barrel in 1998, threatening the finances of producer countries and companies alike.</span></p>
+        </div>
+        <div>
+          <div class="col-head"><span class="t-orig">The environmental challenge emerges</span><span class="t-lay">The climate challenge builds</span></div>
+          <p class="body-text" style="font-size:14px;"><span class="t-orig">Throughout this era, civil society actors were accumulating evidence and moral pressure against fossil fuel use. The UNFCCC was established (1994), Kyoto Protocol signed (1997), IPCC reports mounted. Meanwhile, cheap oil was accelerating the very emissions that made this pressure more urgent — the paradigm's success was fueling the challenge against it.</span><span class="t-lay">Throughout this era, climate scientists were accumulating evidence that burning fossil fuels was heating the planet. The UN Framework Convention on Climate Change was signed in 1994. Environmental groups began pressuring financial institutions to stop funding oil. Meanwhile, cheap oil was accelerating the very emissions that made this pressure more urgent.</span></p>
+        </div>
+      </div>
+    </div>
+    <div id="pd3-fall" class="inner-pane">
+      <h3 class="pane-h3 red">
+        <span class="t-orig">Fatal Blinder: Market Logic Has No Category for Externalities</span>
+        <span class="t-lay">The fatal blind spot: markets don't count the cost to the atmosphere</span>
+      </h3>
+      <div class="t-orig">
+        <p class="body-text">The competition paradigm's incumbents, trapped in the self-negating pathology, were incapable of acknowledging the extensive "negative externalities" — environmental devastation — that burning fossil fuels caused. Market logic had no category for "unburnable carbon." The paradigm made oil cheap and abundant, spurring widespread use in China and India even as climate science accumulated.</p>
+        <div class="callout red">"Accelerating the extraction of oil resources with little regard for environmental or social impacts, with this narrowness of vision generating unforeseen but not wholly unpredictable results."</div>
+      </div>
+      <div class="t-lay">
+        <p class="body-text">The great failure of market logic was that it had no built-in way to account for the costs that burning oil imposes on everyone else — the warming atmosphere, the rising seas, the extreme weather. From the market's perspective, those costs were simply invisible. Oil companies were rewarded for producing as much as possible, as cheaply as possible.</p>
+        <div class="callout red">The competition era's great success — making oil cheap and ubiquitous — was precisely what created the conditions for the next revolt. The cheaper oil was, the more of it was burned. The more that was burned, the stronger the case for the climate movement became. The era's triumph contained the seeds of its own replacement.</div>
+      </div>
+      <div class="tag-row">
+        <span class="tag red"><span class="t-orig">No market mechanism for climate costs</span><span class="t-lay">No market mechanism for climate costs</span></span>
+        <span class="tag red"><span class="t-orig">Ended: Paris Agreement (2015)</span><span class="t-lay">Ended: 2010s divestment movement and Paris Agreement</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DETAIL P4 ── -->
+  <div class="paradigm-detail-panel" id="pd4">
+    <div class="inner-tabs">
+      <button class="inner-tab active" onclick="switchInner('pd4','idea')">
+        <span class="t-orig">The Big Idea</span><span class="t-lay">The Idea</span>
+      </button>
+      <button class="inner-tab" onclick="switchInner('pd4','action')">
+        <span class="t-orig">In Action</span><span class="t-lay">What Happened</span>
+      </button>
+      <button class="inner-tab" onclick="switchInner('pd4','challenge')">
+        <span class="t-orig">Emerging Contradictions</span><span class="t-lay">Problems Already Emerging</span>
+      </button>
+      <button class="inner-tab" onclick="switchInner('pd4','fall')">
+        <span class="t-orig">The Emerging Blinder</span><span class="t-lay">The Blind Spot Forming</span>
+      </button>
+    </div>
+    <div id="pd4-idea" class="inner-pane active">
+      <h3 class="pane-h3">
+        <span class="t-orig">Core Belief: Fossil Fuels Must Stay in the Ground</span>
+        <span class="t-lay">The core belief: it shouldn't be dug up at all</span>
+      </h3>
+      <div class="t-orig">
+        <p class="body-text">The question is no longer who should extract oil or on what terms — but whether it should be extracted at all. Burning fossil fuels produces greenhouse gases that cause climate change; this constitutes an emergency requiring that otherwise valuable hydrocarbon reserves be left unexploited. The paradigm blends "what's right" (principled) with "what works" (causal), as both address the climate emergency. Capital deprivation is the primary mechanism: by denying the world's most capital-intensive industry its financial lifeblood, the paradigm aims to prevent new extraction.</p>
+        <div class="callout green">"Unlike the three paradigms that preceded it, the 'leave-it-underground' paradigm has been agnostic in its preference for market or state solutions — embracing an 'all hands-on deck' approach." (Hale, 2016)</div>
+      </div>
+      <div class="t-lay">
+        <p class="body-text">For the first time, the debate shifted from <em>who</em> should run oil to <em>whether</em> it should be produced at all. Burning oil (and gas and coal) releases greenhouse gases that are heating the planet to dangerous levels. No matter how efficiently it's extracted or how fairly the revenues are shared, the act of burning fossil fuels is fundamentally incompatible with a livable climate future. So the goal became: keep it in the ground.</p>
+        <div class="callout green">The tool chosen was surprisingly simple: cut off the money. The oil industry is extraordinarily capital-hungry — it takes billions to find and develop new fields. If banks, pension funds, and universities stop investing in fossil fuels, the thinking goes, the industry can't grow. Let it wither from lack of cash.</div>
+      </div>
+      <div class="tag-row">
+        <span class="tag green"><span class="t-orig">Capital deprivation as primary tool</span><span class="t-lay">Starve the industry of investment</span></span>
+        <span class="tag green">Divestment movement</span>
+        <span class="tag green">Paris Agreement (2015)</span>
+        <span class="tag green"><span class="t-orig">Stranded assets concept</span><span class="t-lay">"Stranded" unburnable reserves</span></span>
+      </div>
+    </div>
+    <div id="pd4-action" class="inner-pane">
+      <h3 class="pane-h3">
+        <span class="t-orig">Capital Deprivation in Practice</span>
+        <span class="t-lay">It's actually working — partially</span>
+      </h3>
+      <div class="t-orig">
+        <p class="body-text">Civil-society actors with little compulsory power convinced major financial institutions to divest from fossil fuels. Harvard University, the Norwegian Sovereign Wealth Fund, the Ford Foundation, and hundreds of others committed to divestment. The World Bank Group stopped financing upstream O&amp;G projects in 2019. Investment constraints have tangibly reduced upstream capital expenditure since 2015.</p>
+      </div>
+      <div class="t-lay">
+        <p class="body-text">Environmental groups, operating with no government authority and no military power, successfully convinced some of the world's most powerful financial institutions to pull out of fossil fuels. The divestment campaign spread from small universities to Harvard, to the Norwegian sovereign wealth fund, to major pension funds.</p>
+      </div>
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-num">$40.6T</div><div class="stat-label">Assets committed to divestment by 2022 (up from $3.4T in 2016)</div></div>
+        <div class="stat-box"><div class="stat-num">500+</div><div class="stat-label">Institutions with divestment commitments (2022)</div></div>
+        <div class="stat-box"><div class="stat-num">−29%</div><div class="stat-label">Drop in upstream oil investment, 2015 to 2021</div></div>
+        <div class="stat-box"><div class="stat-num">195</div><div class="stat-label">Nations signing Paris Agreement (2015)</div></div>
+      </div>
+    </div>
+    <div id="pd4-challenge" class="inner-pane">
+      <h3 class="pane-h3">
+        <span class="t-orig">Three Core Problems Already Visible (2022)</span>
+        <span class="t-lay">Three problems already appearing (as of 2022)</span>
+      </h3>
+      <div class="two-col">
+        <div>
+          <div class="col-head"><span class="t-orig">Problem 1: Persistent demand</span><span class="t-lay">People are still buying oil</span></div>
+          <p class="body-text" style="font-size:14px;"><span class="t-orig">Nearly 60% of world energy still comes from oil and gas. While OECD demand peaked in 2004, Global South consumption surged (China +57%, India +41% over 2011–21). The largest 28 O&amp;G producers netted $93.3bn in Q1 2022. Vast majority of O&amp;G companies made only minimal low-carbon investments.</span><span class="t-lay">Nearly 60% of the world's energy still comes from oil and gas. While wealthy countries have started using less, developing countries — especially China, India, and Southeast Asia — are using dramatically more. The world's biggest oil companies made nearly $100 billion in profit in just the first quarter of 2022. Demand isn't going away.</span></p>
+          <div class="col-head" style="margin-top:12px;"><span class="t-orig">Problem 3: Supply squeeze &amp; price volatility</span><span class="t-lay">Prices are spiking</span></div>
+          <p class="body-text" style="font-size:14px;"><span class="t-orig">Underinvestment since 2015 reduced spare capacity. Brent crude rose from $87 to $123/bbl in H1 2022. Russia's energy leverage, highlighted by the Ukraine war, exposed ongoing dependence on petro-states. Price volatility stokes inflation and threatens growth.</span><span class="t-lay">Years of reduced investment means less oil is coming out of the ground, while demand is still there. The result: prices shot up from $87 to $123 a barrel in the first half of 2022. Higher energy prices hit ordinary people hardest and erode political support for climate action.</span></p>
+        </div>
+        <div>
+          <div class="col-head"><span class="t-orig">Problem 2: Petro-states empowered</span><span class="t-lay">The wrong producers are winning</span></div>
+          <p class="body-text" style="font-size:14px;"><span class="t-orig">Capital constraints on publicly traded IOCs had the unintended effect of empowering less transparent producers. NOCs — influenced far more by their home-states than by shareholder pressure — are immune to the paradigm's primary mechanism. High-carbon assets transferred to private equity circumventing regulatory oversight.</span><span class="t-lay">The divestment pressure works on publicly traded Western oil companies. But most of the world's oil is controlled by state-owned companies in Saudi Arabia, Russia, the UAE, and others that don't care about what Harvard's endowment does. These companies are now better positioned than ever. Some "stranded" assets in the US and Canada have simply been bought up by private equity firms that don't answer to shareholders either.</span></p>
+        </div>
+      </div>
+    </div>
+    <div id="pd4-fall" class="inner-pane">
+      <h3 class="pane-h3 red">
+        <span class="t-orig">Emerging Blinder: Conflating Capital Constraints with Decarbonization</span>
+        <span class="t-lay">The blind spot forming: cutting supply isn't the same as cutting demand</span>
+      </h3>
+      <div class="t-orig">
+        <p class="body-text">The leave-it-underground paradigm has been unable to grasp the complexity of a genuine low-carbon transition. It treats "denying capital to oil companies" as equivalent to "reducing emissions" — but these are not the same. Demand continues to grow in the Global South regardless of whether Western IOCs or Saudi Aramco meets it; and state-owned producers are better positioned to continue indefinitely.</p>
+        <div class="callout red">"The 'leave-it-underground' paradigm will need to find ways to overcome its own biases and very optimistic assumptions about the pace of transitioning to a less carbon-intensive energy system. Instead, this big idea has tended to exacerbate oil-price volatility, stoke inflation and threaten economic growth while increasing the global economy's dependence on 'petro-states'." — McKnight (2022)</div>
+      </div>
+      <div class="t-lay">
+        <p class="body-text">The leave-it-underground movement has been brilliant at reducing investment in Western, publicly traded oil companies. But it has confused this with actually solving the problem. If people still need oil and Western companies produce less, someone else just produces more — typically with less transparency, less environmental oversight, and no shareholder meetings where activists can raise concerns.</p>
+        <div class="callout red">"This big idea has tended to make energy prices more volatile, stoke inflation, and actually increase the world's dependence on authoritarian oil exporters — gradually discrediting the very idea of decarbonization, however necessary it may be." — McKnight (2022)</div>
+      </div>
+      <div class="tag-row">
+        <span class="tag red"><span class="t-orig">Capital ≠ carbon control</span><span class="t-lay">Cutting investment ≠ cutting consumption</span></span>
+        <span class="tag red"><span class="t-orig">NOCs exempt from primary mechanism</span><span class="t-lay">Petro-states don't answer to ESG investors</span></span>
+        <span class="tag red"><span class="t-orig">Global South demand growth outside framework</span><span class="t-lay">Global South demand growth is outside this framework</span></span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     § MECHANISM
+══════════════════════════════════════════════════ -->
+<div id="mechanism">
+<div class="section-wrap">
+  <div class="section-label">§ 04 — <span class="t-orig">The Causal Mechanism</span><span class="t-lay">How It Works</span></div>
+  <h2 class="section-title">
+    <span class="t-orig">How Paradigms Generate Their Own Undoing</span>
+    <span class="t-lay">The six-step pattern that repeats every time</span>
+  </h2>
+  <p class="section-intro">
+    <span class="t-orig">The six-step process operates identically across all four paradigms. Click any accordion below for cross-paradigm evidence and analysis of the role of agency.</span>
+    <span class="t-lay">Every one of the four eras followed the same basic arc. Click the accordions below to see how it played out in practice across all four cases.</span>
+  </p>
+
+  <div class="flow-grid">
+    <div class="flow-node">
+      <div class="f-num">STEP 01</div>
+      <h5><span class="t-orig">Rise &amp; Consolidation</span><span class="t-lay">A new group takes control</span></h5>
+      <p><span class="t-orig">Paradigm achieves "taken-for-granted" status through power over ideas. Material success reinforces ideational dominance. Legitimacy secured.</span><span class="t-lay">They have a compelling idea about how oil should be managed. It works well enough that most people accept it as "just how things are done." Success builds.</span></p>
+    </div>
+    <div class="flow-node">
+      <div class="f-num">STEP 02</div>
+      <h5><span class="t-orig">Overconfidence</span><span class="t-lay">They start believing their own story</span></h5>
+      <p><span class="t-orig">Incumbents mistake popularity for correctness (Merton's self-negating pathology). Competing ideas dismissed for lacking acceptance rather than evaluated on merit.</span><span class="t-lay">Because everyone agrees with them, they assume they must simply be right. Alternatives start to seem not just wrong but slightly absurd — not even worth engaging.</span></p>
+    </div>
+    <div class="flow-node">
+      <div class="f-num">STEP 03</div>
+      <h5><span class="t-orig">Blinders Form</span><span class="t-lay">The blind spot forms</span></h5>
+      <p><span class="t-orig">"Power not to listen" defines legitimate actors and acceptable solutions. Challengers and rival ideas are excluded from the circle of normal politics.</span><span class="t-lay">They define who counts as a legitimate voice and what counts as a real problem — which means excluding the very people who will eventually challenge them.</span></p>
+    </div>
+    <div class="flow-node danger">
+      <div class="f-num">STEP 04</div>
+      <h5><span class="t-orig">Accumulation</span><span class="t-lay">Challengers organize outside the system</span></h5>
+      <p><span class="t-orig">Excluded challengers organize outside the paradigm. Rival ideas gain legitimacy. Grievances accumulate. Stability breeds instability (Minsky, 1986).</span><span class="t-lay">Excluded players find each other, develop an alternative vision, and build credibility — partly because being ignored by the ruling group makes their critique look more credible.</span></p>
+    </div>
+    <div class="flow-node danger">
+      <div class="f-num">STEP 05</div>
+      <h5><span class="t-orig">Irresolvable Crisis</span><span class="t-lay">A crisis hits that can't be explained away</span></h5>
+      <p><span class="t-orig">Material developments interpreted as irresolvable within the paradigm (Blyth, 2013). Alternative actors deploy alternative ideas that make the crisis intelligible in a new way.</span><span class="t-lay">Something breaks — prices crash, an embargo hits, a financial crisis erupts — and the challengers' alternative makes it suddenly intelligible in a way the old framework can't.</span></p>
+    </div>
+    <div class="flow-node danger">
+      <div class="f-num">STEP 06</div>
+      <h5><span class="t-orig">Third-Order Change</span><span class="t-lay">The old group is replaced — cycle begins again</span></h5>
+      <p><span class="t-orig">Paradigm change (Hall's third-order change). New incumbents adopt power over the new ideas. The cycle begins again — already visible in Paradigm IV.</span><span class="t-lay">New rulers, new ideas, new blind spots. The pattern doesn't end; it restarts with a different cast of characters making the same fundamental mistake.</span></p>
+    </div>
+  </div>
+
+  <div class="accordion" id="mech1">
+    <button class="accordion-header" onclick="toggleAcc('mech1')">
+      <span class="acc-icon amber">↻</span>
+      <div style="flex:1">
+        <div class="acc-title">
+          <span class="t-orig">Cross-paradigm evidence for the mechanism</span>
+          <span class="t-lay">How the pattern played out across all four eras</span>
+        </div>
+        <div class="acc-sub">
+          <span class="t-orig">How each step manifested across all four cases</span>
+          <span class="t-lay">The same story, four different casts of characters</span>
+        </div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </button>
+    <div class="accordion-body">
+      <div class="two-col">
+        <div>
+          <div class="col-head"><span class="t-orig">The blinder in each paradigm</span><span class="t-lay">What each group refused to see</span></div>
+          <ul class="col-list">
+            <li><strong><span class="t-orig">P1 (Majors):</span><span class="t-lay">Era I (Big Companies):</span></strong> <span class="t-orig">Coordination logic had no space for producer-government sovereignty. Response to nationalization was boycott, not accommodation.</span><span class="t-lay">Couldn't see that producer countries had a legitimate claim to their own oil. Responded to nationalization with boycotts — which made things worse.</span></li>
+            <li><strong><span class="t-orig">P2 (Sovereign):</span><span class="t-lay">Era II (OPEC):</span></strong> <span class="t-orig">Sovereign-rights logic prevented the quota coordination needed to sustain high prices. Each state's "rightful" self-interest eroded collective action.</span><span class="t-lay">Couldn't see that insisting on each country's sovereign right to pump as much as it wanted made collective price-setting impossible.</span></li>
+            <li><strong><span class="t-orig">P3 (Competition):</span><span class="t-lay">Era III (Free Market):</span></strong> <span class="t-orig">Market logic had no category for environmental externalities. Climate costs were literally outside the paradigm's accounting framework.</span><span class="t-lay">Couldn't see that a system optimized for profit would accelerate burning — and that accelerating burning was building the crisis that would end the era.</span></li>
+            <li><strong><span class="t-orig">P4 (Leave-it-underground):</span><span class="t-lay">Era IV (Climate):</span></strong> <span class="t-orig">Capital-deprivation logic conflates supply-side constraints with demand-side transition. NOC expansion and Global South demand growth are outside its purview.</span><span class="t-lay">Already struggling to see that cutting off Western investors doesn't reduce global demand if state-owned producers fill the gap.</span></li>
+          </ul>
+        </div>
+        <div>
+          <div class="col-head"><span class="t-orig">How challengers exploited each blinder</span><span class="t-lay">How challengers used each blind spot</span></div>
+          <ul class="col-list">
+            <li><span class="t-orig"><strong>vs. P1:</strong> Producer governments used UN resolutions, OPEC, and nationalist politics to build a sovereign-control alternative outside the Majors' framework.</span><span class="t-lay"><strong>vs. Era I:</strong> Producer governments used UN resolutions and OPEC to build an alternative framework the companies couldn't co-opt or suppress.</span></li>
+            <li><span class="t-orig"><strong>vs. P2:</strong> IOCs and market-oriented economists used the 1985–86 price collapse to reframe sovereign control as economically irrational.</span><span class="t-lay"><strong>vs. Era II:</strong> IOCs and market economists used the 1985–86 price collapse to reframe OPEC control as economically irrational.</span></li>
+            <li><span class="t-orig"><strong>vs. P3:</strong> NGOs, IPCC, and universities used "power through ideas" (moral shaming) to shift financial institutions without needing compulsory power.</span><span class="t-lay"><strong>vs. Era III:</strong> Climate groups used moral pressure — making fossil fuel investment embarrassing — without needing any regulatory or financial power.</span></li>
+            <li><span class="t-orig"><strong>vs. P4:</strong> Petro-states, private equity, and Global South demand growth are already exposing the limits of the divestment approach.</span><span class="t-lay"><strong>vs. Era IV:</strong> Petro-states, private equity, and developing-world demand growth are already exposing the limits of the divestment approach.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion" id="mech2">
+    <button class="accordion-header" onclick="toggleAcc('mech2')">
+      <span class="acc-icon blue">?</span>
+      <div style="flex:1">
+        <div class="acc-title">
+          <span class="t-orig">Agency in the mechanism: who drives change?</span>
+          <span class="t-lay">Does change always have to happen this way?</span>
+        </div>
+        <div class="acc-sub">
+          <span class="t-orig">Beyond structural accounts — the role of ideational leaders</span>
+          <span class="t-lay">Could a ruling group ever successfully adapt before being overthrown?</span>
+        </div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </button>
+    <div class="accordion-body">
+      <div class="t-orig">
+        <p class="body-text">McKnight's argument moves beyond the "excessively structural focus of paradigms" to embrace agents who interpret — and re-interpret — institutional setups (Campbell, 2004; Mahoney &amp; Thelen, 2010). For paradigm change to occur, two conditions must be met: (1) a competing set of ideas must exist, and (2) actors willing to deploy them must be present. All four types of change-agents have been important: advocacy coalitions (OPEC, the IEA, divestment networks); epistemic communities (IPCC, resource economists); social movements (environmental activism, resource nationalism); and ideational leaders (Qaddafi's price demands, Saudi Arabia's 1985 pivot, the IPCC's scientific mandate).</p>
+        <div class="callout blue">Actor-based constructivism: actors consciously make use of ideas to attain their goals, which then leads to institutional change (Blyth et al., 2016; Saurugger, 2013). The key moment is when problems within the dominant paradigm are interpreted as "irresolvable" — that interpretation is performed by agents, not given by structural conditions.</div>
+      </div>
+      <div class="t-lay">
+        <p class="body-text">McKnight's research doesn't claim that change is <em>impossible</em> without collapse — just that it hasn't happened that way in the oil industry, and that there are structural reasons why it's very hard. The more completely a group controls the terms of debate, the harder it is for them to genuinely engage with a challenge rather than just dismissing it.</p>
+        <p class="body-text">For successful adaptation to happen, a ruling group would need to: (1) actually hear and take seriously the complaints of excluded players, (2) revise their own core beliefs rather than just adjusting tactics, and (3) do this before the excluded players have become strong enough to simply overthrow them. In practice, those three things almost never happen together.</p>
+        <div class="callout blue">This is why understanding ideas — not just prices, not just politics — is essential to understanding how the oil industry actually changes. The blind spot is ideological before it becomes practical.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     § CONCLUSION
+══════════════════════════════════════════════════ -->
+<div id="conclusion">
+<div class="section-wrap">
+  <div class="section-label">§ 05 — <span class="t-orig">Conclusion</span><span class="t-lay">So What?</span></div>
+  <h2 class="section-title">
+    <span class="t-orig">Big Ideas, Recurring Blindness</span>
+    <span class="t-lay">What a century of oil history teaches us</span>
+  </h2>
+  <p class="section-intro">
+    <span class="t-orig">Click to open each key takeaway. The paper makes a strong argument that history should make us skeptical — not of the goals of decarbonization, but of optimistic assumptions about the pace and completeness of the current transition.</span>
+    <span class="t-lay">Click to open each key takeaway. The paper makes a strong argument that history should make us skeptical — not of the goals of the current climate movement, but of its assumptions about how quickly and cleanly change can happen.</span>
+  </p>
+
+  <div class="accordion" id="cc1">
+    <button class="accordion-header" onclick="toggleAcc('cc1')">
+      <span class="acc-icon amber">✦</span>
+      <div style="flex:1">
+        <div class="acc-title">
+          <span class="t-orig">The Main Finding</span>
+          <span class="t-lay">The main finding</span>
+        </div>
+        <div class="acc-sub">
+          <span class="t-orig">A century of evidence supports the blinder argument</span>
+          <span class="t-lay">This pattern is not a coincidence — it's structural</span>
+        </div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </button>
+    <div class="accordion-body">
+      <div class="t-orig">
+        <div class="callout">"In each period, the paradigm's incumbents struggled to acknowledge and incorporate competing ideas and their challengers — demonstrating how the advantage of structural 'power over ideas' actually represented built-in blinders to these same competing ideas and challengers."</div>
+        <p class="body-text">All four paradigms provided prescriptions for who should manage natural resources and how — and each bore real-world consequences for the cost and availability of energy. Each succeeded partly because of ideas and partly because of material foundations. Each also generated, endogenously, the conditions for its own eventual replacement.</p>
+      </div>
+      <div class="t-lay">
+        <div class="callout">"In each period, the people running the show struggled to acknowledge and adapt to the challengers building against them — demonstrating how the advantage of being in control actually creates built-in blind spots to the very challenges that will eventually topple you."</div>
+        <p class="body-text">Four eras, four collapses, all following essentially the same arc. Each ruling group believed in its own approach, and each believed strongly enough that it couldn't genuinely engage with those who disagreed. And each time, the refusal to engage made the challengers stronger, not weaker.</p>
+      </div>
+      <div class="concl-grid">
+        <div class="c-box"><h4><span class="t-orig">Paradigm I → II</span><span class="t-lay">Era I → Era II</span></h4><p><span class="t-orig">The Majors' exclusion of producer governments and Independents generated the resource-nationalist coalition that nationalized the entire global industry in the 1970s.</span><span class="t-lay">The oil companies' refusal to share power with producer countries created the nationalist coalition that nationalized the entire global industry within a decade.</span></p></div>
+        <div class="c-box"><h4><span class="t-orig">Paradigm II → III</span><span class="t-lay">Era II → Era III</span></h4><p><span class="t-orig">OPEC's sovereign logic made quota enforcement impossible, generating the oversupply and price collapse that legitimized the market-competition alternative.</span><span class="t-lay">OPEC's sovereign logic made coordinated supply management impossible, generating the price collapse that made "let the market decide" look like the obvious answer.</span></p></div>
+        <div class="c-box"><h4><span class="t-orig">Paradigm III → IV</span><span class="t-lay">Era III → Era IV</span></h4><p><span class="t-orig">The competition paradigm's acceleration of Global South consumption generated the carbon emissions and scientific mandate that empowered the divestment movement.</span><span class="t-lay">The free market era's success in making oil cheap accelerated global consumption — and carbon emissions — to the point that the environmental challenge became impossible to ignore.</span></p></div>
+        <div class="c-box"><h4><span class="t-orig">Paradigm IV → ?</span><span class="t-lay">Era IV → ?</span></h4><p><span class="t-orig">The leave-it-underground paradigm's capital constraints are empowering petro-states, increasing price volatility, and creating a global energy crunch — the seeds of the next transition.</span><span class="t-lay">The divestment movement's constraints on Western oil companies are strengthening petro-states, pushing prices up, and may be creating the backlash that undermines the climate agenda it's trying to advance.</span></p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion" id="cc2">
+    <button class="accordion-header" onclick="toggleAcc('cc2')">
+      <span class="acc-icon amber">⊞</span>
+      <div style="flex:1">
+        <div class="acc-title">
+          <span class="t-orig">Four Theoretical Contributions</span>
+          <span class="t-lay">Four bigger lessons</span>
+        </div>
+        <div class="acc-sub">
+          <span class="t-orig">What this paper adds to IPE and paradigm theory</span>
+          <span class="t-lay">What this history tells us about how power and ideas actually work</span>
+        </div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </button>
+    <div class="accordion-body">
+      <div class="two-col">
+        <div>
+          <div class="col-head"><span class="t-orig">1. Instability is endogenous</span><span class="t-lay">1. Collapse comes from inside, not outside</span></div>
+          <p class="body-text" style="font-size:14px;"><span class="t-orig">Paradigm change does not require system-shattering exogenous shocks (contra Pierson, 2000). The blinders created by power over ideas generate internal contradictions that accumulate over time until challengers are strong enough to force change. This is a fundamentally different mechanism from path dependence or critical juncture theory.</span><span class="t-lay">You don't need a war or a financial crash to bring down a ruling system. The blind spots created by being in control generate their own internal contradictions. The asteroid doesn't have to come from space — it builds underground.</span></p>
+          <div class="col-head" style="margin-top:14px;"><span class="t-orig">3. Ideas + material both matter</span><span class="t-lay">3. Ideas matter as much as money and force</span></div>
+          <p class="body-text" style="font-size:14px;"><span class="t-orig">The argument doesn't eliminate space for material factors — both are always relevant, because "no cause is 'autonomous' from others" (Daigneault &amp; Béland, 2015). Material success reinforces ideas; material crisis creates interpretive openings. The key is that ideas determine which material developments are seen as problems and which are ignored.</span><span class="t-lay">At every turn, it was the framing — who gets to define "the problem" and "the solution" — that determined what happened, not just oil prices or military power. Understanding the idea is the key to understanding the outcome.</span></p>
+        </div>
+        <div>
+          <div class="col-head"><span class="t-orig">2. Against state-centrism</span><span class="t-lay">2. You don't need official power to change things</span></div>
+          <p class="body-text" style="font-size:14px;"><span class="t-orig">All four actor types — advocacy coalitions, epistemic communities, social movements, ideational leaders — played critical roles across the four paradigms. Any theory-building in this domain must adopt a non-state-centric approach to IPE. Civil-society actors with no compulsory power managed to reshape an industry with over $600 billion/year in annual investment.</span><span class="t-lay">Environmental groups didn't control governments or oil fields. But by changing what "respectable behavior" looked like for financial institutions, they shifted hundreds of billions of dollars of investment. The weapon was shame and moral legitimacy, not authority.</span></p>
+          <div class="col-head" style="margin-top:14px;"><span class="t-orig">4. Power is never final</span><span class="t-lay">4. No ruling idea lasts forever</span></div>
+          <p class="body-text" style="font-size:14px;"><span class="t-orig">Ideational dominance is neither predetermined nor permanent. Competing ideas are always present, possibly gaining in strength and legitimacy. The big ideas are "constantly evolving malleable structures subject to continual reconstructions by sentient agents" (Carstensen, 2016). Every paradigm — including the current one — can be challenged.</span><span class="t-lay">Every approach to running the oil industry that seemed permanent and inevitable eventually fell. That includes the current one. Which means the climate movement — however necessary its goals — will also need to adapt or be replaced by something that handles what it currently can't see.</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion" id="cc3">
+    <button class="accordion-header" onclick="toggleAcc('cc3')">
+      <span class="acc-icon red">!</span>
+      <div style="flex:1">
+        <div class="acc-title">
+          <span class="t-orig">Implications for the Leave-It-Underground Paradigm</span>
+          <span class="t-lay">The hard message for the climate movement</span>
+        </div>
+        <div class="acc-sub">
+          <span class="t-orig">Lessons from prior paradigms the current one needs to learn</span>
+          <span class="t-lay">Right goals, but already showing the same blind spots</span>
+        </div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </button>
+    <div class="accordion-body">
+      <div class="t-orig">
+        <p class="body-text">Taking lessons from all three failed paradigms, the leave-it-underground paradigm will need to overcome its own biases and optimistic assumptions about the pace of low-carbon transition. The pattern is already repeating: the paradigm has deployed its "power not to listen" to the complexity of Global South demand, the structural role of petro-states, and the distinction between constraining publicly traded IOCs versus constraining total oil supply.</p>
+        <div class="callout red">"This big idea has tended to exacerbate oil-price volatility, stoke inflation and threaten economic growth while increasing the global economy's dependence on 'petro-states', and gradually discrediting the big idea of decarbonization, no matter how noble or necessary it may be." — McKnight (2022)</div>
+      </div>
+      <div class="t-lay">
+        <p class="body-text">McKnight is not arguing that fighting climate change is wrong. He's arguing that the current approach — focused on cutting investment in Western oil companies — shows the same pattern of overconfidence that brought down every previous era. The climate movement is mistaking the popularity of its ideas for their sufficiency. And it is struggling to take seriously the challenges that don't fit neatly into its framework.</p>
+        <div class="callout red">"The 'leave it underground' movement has tended to make energy prices more volatile, stoke inflation, and actually increase the world's dependence on authoritarian oil exporters — gradually discrediting the very idea of decarbonization, however necessary it may be." — McKnight (2022)</div>
+      </div>
+      <div class="two-col" style="margin-top:8px;">
+        <div>
+          <div class="col-head"><span class="t-orig">What the paradigm needs to address</span><span class="t-lay">What the movement needs to address</span></div>
+          <ul class="col-list">
+            <li><span class="t-orig">Global South oil demand continues to grow regardless of Western divestment</span><span class="t-lay">Billions of people in developing countries are increasing their oil use, largely outside the movement's reach</span></li>
+            <li><span class="t-orig">NOCs — the dominant future producers — are outside the paradigm's primary mechanism</span><span class="t-lay">State-owned oil companies in Saudi Arabia, Russia, UAE, etc. are immune to shareholder pressure</span></li>
+            <li><span class="t-orig">Supply constraints without demand transition cause price spikes that undermine political support for decarbonization</span><span class="t-lay">Cutting supply without cutting demand just raises prices and makes ordinary people poorer — generating political backlash</span></li>
+            <li><span class="t-orig">Private equity buyouts of "stranded" assets circumvent regulatory oversight</span><span class="t-lay">Private equity is quietly buying "stranded" fossil fuel assets away from public scrutiny</span></li>
+          </ul>
+        </div>
+        <div>
+          <div class="col-head"><span class="t-orig">Signs the blinder is forming</span><span class="t-lay">Signs the blind spot is already forming</span></div>
+          <ul class="col-list">
+            <li><span class="t-orig">Petro-state leverage already increasing (Russia 2022 — Ukraine war)</span><span class="t-lay">Record oil profits in 2022, despite years of divestment pressure</span></li>
+            <li><span class="t-orig">O&amp;G companies still netting record profits despite divestment pressure (Q1 2022)</span><span class="t-lay">Russia's energy leverage highlighted by Ukraine war — a petro-state problem the movement didn't see coming</span></li>
+            <li><span class="t-orig">Transition pace in transport far slower than assumed in most scenarios</span><span class="t-lay">Energy inflation hitting low-income households hardest — generating political pressure against climate action</span></li>
+            <li><span class="t-orig">Incumbents treating popularity of decarbonization narrative as proof of feasibility — Merton's pathology re-emerging</span><span class="t-lay">Climate advocates increasingly treating the popularity of their narrative as proof it's working</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div>
+    <p>McKnight, S. (2022). <em>Big Ideas, Big Blinders: Paradigm change in the global oil industry.</em></p>
+    <p>Research Associate, Munk School of Global Affairs, University of Toronto · SSRN 4185158</p>
+  </div>
+  <div style="text-align:right;">
+    <p>Interactive summary · <em>Dual-mode: Original &amp; Layperson's View</em></p>
+    <p>Key sources: Hall (1993) · Carstensen &amp; Schmidt (2016) · Merton (1968)</p>
+  </div>
+</footer>
+
+<script>
+  // ── MODE TOGGLE ──
+  function switchMode() {
+    const body = document.body;
+    const isOrig = body.classList.contains('mode-orig');
+    if (isOrig) {
+      body.classList.remove('mode-orig');
+      body.classList.add('mode-lay');
+      // Remove the default hide rule for .t-lay
+      document.documentElement.style.setProperty('--lay-display', 'block');
+    } else {
+      body.classList.remove('mode-lay');
+      body.classList.add('mode-orig');
+    }
+  }
+
+  // Ensure the CSS toggle rules are applied by the stylesheet above.
+  // On load, body has class mode-orig, so .t-lay is hidden by the static CSS rule.
+  // On toggle to mode-lay, .t-orig is hidden; we need to also UN-hide .t-lay.
+  // The stylesheet rule `body .t-lay { display:none !important; }` is overridden by
+  // the more-specific `body.mode-orig .t-lay` and `body.mode-lay .t-orig` rules.
+  // So on mode-lay, neither rule hides .t-lay, and the base rule no longer applies
+  // (because body.mode-lay is more specific). This is correct.
+
+  // ── ACCORDION ──
+  function toggleAcc(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+
+  // ── PARADIGM CARDS ──
+  let openP = null;
+  function togglePCard(n) {
+    const card   = document.getElementById('pc' + n);
+    const detail = document.getElementById('pd' + n);
+    const ch     = document.getElementById('pc' + n + '-ch');
+    if (openP === n) {
+      card.classList.remove('open');
+      detail.classList.remove('open');
+      ch.textContent = '▼';
+      openP = null;
+      return;
+    }
+    if (openP) {
+      document.getElementById('pc' + openP).classList.remove('open');
+      document.getElementById('pd' + openP).classList.remove('open');
+      document.getElementById('pc' + openP + '-ch').textContent = '▼';
+    }
+    card.classList.add('open');
+    detail.classList.add('open');
+    ch.textContent = '▲';
+    openP = n;
+    setTimeout(() => detail.scrollIntoView({ behavior:'smooth', block:'nearest' }), 60);
+  }
+
+  // ── INNER TABS ──
+  function switchInner(panelId, tabName) {
+    const panel = document.getElementById(panelId);
+    panel.querySelectorAll('.inner-tab').forEach(t => t.classList.remove('active'));
+    panel.querySelectorAll('.inner-pane').forEach(p => p.classList.remove('active'));
+    const pane = document.getElementById(panelId + '-' + tabName);
+    if (pane) pane.classList.add('active');
+    const order = ['idea','action','challenge','fall'];
+    const idx = order.indexOf(tabName);
+    const tabs = panel.querySelectorAll('.inner-tab');
+    if (tabs[idx]) tabs[idx].classList.add('active');
+  }
+
+  // ── SMOOTH NAV ──
+  document.querySelectorAll('.mode-nav a').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) t.scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+  });
+
+  // ── ENTRANCE ANIMATIONS ──
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; }
+    });
+  }, { threshold:0.07 });
+  document.querySelectorAll('.accordion,.paradigm-card,.flow-node,.c-box,.stat-box').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(12px)';
+    el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+    io.observe(el);
+  });
+</script>
+</body>
+</html>
