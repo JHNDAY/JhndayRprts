@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI × Physics: Discovery & Its Limits</title>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1e2530;
+    --border: rgba(255,255,255,0.08);
+    --text: #e0ddd8;
+    --muted: #7a8494;
+    --accent: #e8622a;
+    --accent2: #4fa3d1;
+    --gold: #c9a84c;
+    --green: #3fb68f;
+    --purple: #9b7fd4;
+    --toggle-expert: #e8622a;
+    --toggle-lay: #4fa3d1;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* ---- TOP BAR ---- */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(13,17,23,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .topbar-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .toggle-wrap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .toggle-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+
+  .toggle-label.expert { color: var(--toggle-expert); }
+  .toggle-label.lay { color: var(--muted); }
+  body.layperson .toggle-label.expert { color: var(--muted); }
+  body.layperson .toggle-label.lay { color: var(--toggle-lay); }
+
+  .toggle-switch { position: relative; width: 52px; height: 26px; cursor: pointer; }
+  .toggle-switch input { opacity: 0; width: 0; height: 0; }
+
+  .slider {
+    position: absolute; inset: 0;
+    background: rgba(232,98,42,0.3);
+    border: 1px solid var(--toggle-expert);
+    border-radius: 26px;
+    transition: all 0.3s;
+  }
+
+  .slider::before {
+    content: '';
+    position: absolute;
+    width: 18px; height: 18px;
+    left: 3px; top: 3px;
+    background: var(--toggle-expert);
+    border-radius: 50%;
+    transition: all 0.3s;
+  }
+
+  input:checked + .slider { background: rgba(79,163,209,0.3); border-color: var(--toggle-lay); }
+  input:checked + .slider::before { transform: translateX(26px); background: var(--toggle-lay); }
+
+  /* ---- HERO ---- */
+  .hero {
+    padding: 72px 40px 48px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .hero-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero-tag::before { content: ''; display: block; width: 28px; height: 1px; background: var(--accent); }
+
+  h1 {
+    font-family: 'Spectral', serif;
+    font-size: clamp(30px, 5vw, 58px);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 20px;
+    max-width: 780px;
+  }
+
+  h1 strong { font-weight: 700; color: var(--accent); }
+  h1 em { font-style: italic; color: var(--accent2); }
+
+  .hero-sub {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 600px;
+  }
+
+  /* ---- STAT STRIP ---- */
+  .stat-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+    max-width: 960px;
+    margin: 0 auto 3px;
+    padding: 0 40px;
+  }
+
+  .stat-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 28px 32px;
+    text-align: center;
+    animation: fadeIn 0.5s ease both;
+  }
+
+  .stat-box:nth-child(1) { animation-delay: 0.05s; }
+  .stat-box:nth-child(2) { animation-delay: 0.1s; }
+  .stat-box:nth-child(3) { animation-delay: 0.15s; }
+
+  .stat-num {
+    font-family: 'Spectral', serif;
+    font-size: 48px;
+    font-weight: 300;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .stat-desc.lay { display: none; }
+  .stat-desc.expert { display: block; }
+  body.layperson .stat-desc.expert { display: none; }
+  body.layperson .stat-desc.lay { display: block; }
+
+  /* ---- SECTIONS ---- */
+  .sections {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 40px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .section-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: border-color 0.2s;
+    animation: fadeIn 0.5s ease both;
+  }
+
+  .section-card:nth-child(1) { animation-delay: 0.1s; }
+  .section-card:nth-child(2) { animation-delay: 0.2s; }
+  .section-card:nth-child(3) { animation-delay: 0.25s; }
+  .section-card:nth-child(4) { animation-delay: 0.3s; }
+
+  .section-card:hover { border-color: rgba(255,255,255,0.14); }
+
+  .section-head {
+    padding: 28px 36px;
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .section-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    min-width: 28px;
+    padding-top: 3px;
+  }
+
+  .section-head-text { flex: 1; }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .section-head h2 {
+    font-family: 'Spectral', serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .section-icon {
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .section-body {
+    padding: 0 36px 36px 88px;
+  }
+
+  .text-expert { display: block; }
+  .text-lay { display: none; }
+  body.layperson .text-expert { display: none; }
+  body.layperson .text-lay { display: block; }
+
+  .text-expert p, .text-lay p {
+    font-family: 'Spectral', serif;
+    font-size: 17px;
+    line-height: 1.85;
+    color: #bbb8b2;
+    margin-bottom: 16px;
+  }
+
+  .text-expert p:last-child, .text-lay p:last-child { margin-bottom: 0; }
+
+  /* ---- ANALOGY BOX ---- */
+  .analogy-box {
+    margin-top: 20px;
+    background: rgba(79,163,209,0.07);
+    border-left: 3px solid var(--accent2);
+    padding: 18px 22px;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .analogy-box .analogy-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 8px;
+  }
+
+  .analogy-box p {
+    font-size: 15px !important;
+    color: #9bc8e0 !important;
+    margin: 0 !important;
+    line-height: 1.7 !important;
+  }
+
+  /* ---- TERM PILLS ---- */
+  .terms-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+
+  .term-pill {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 5px 12px;
+    border-radius: 4px;
+    border: 1px solid;
+    cursor: default;
+    position: relative;
+  }
+
+  .term-pill:hover .term-tip {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .term-tip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 0;
+    background: #2a3140;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 12px;
+    line-height: 1.5;
+    width: 240px;
+    color: var(--text);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(4px);
+    transition: all 0.2s;
+    z-index: 10;
+    white-space: normal;
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
+
+  /* ---- FLOW DIAGRAM ---- */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-top: 24px;
+    flex-wrap: wrap;
+    row-gap: 16px;
+  }
+
+  .flow-step {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    min-width: 130px;
+    text-align: center;
+  }
+
+  .flow-step .step-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .flow-step .step-text { font-size: 13px; line-height: 1.4; color: var(--text); }
+  .flow-arrow { color: var(--muted); font-size: 20px; padding: 0 8px; flex-shrink: 0; }
+  .flow-step.highlight { border-color: rgba(232,98,42,0.5); background: rgba(232,98,42,0.08); }
+  .flow-step.ai-step { border-color: rgba(63,182,143,0.5); background: rgba(63,182,143,0.08); }
+
+  /* ---- SECTION COLORS ---- */
+  .s-problem .section-icon { background: rgba(232,98,42,0.12); }
+  .s-ai .section-icon { background: rgba(63,182,143,0.12); }
+  .s-solution .section-icon { background: rgba(201,168,76,0.12); }
+  .s-idea .section-icon { background: rgba(79,163,209,0.12); }
+  .s-paradigm .section-icon { background: rgba(155,127,212,0.12); }
+
+  .s-problem h2 { color: #f0a070; }
+  .s-ai h2 { color: #6edbb5; }
+  .s-solution h2 { color: var(--gold); }
+  .s-idea h2 { color: var(--accent2); }
+  .s-paradigm h2 { color: #c0a8e8; }
+
+  /* ---- DIVIDER ---- */
+  .section-divider {
+    max-width: 960px;
+    margin: 32px auto 0;
+    padding: 0 40px;
+  }
+
+  .divider-inner {
+    border-top: 1px solid var(--border);
+    padding-top: 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .divider-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--purple);
+    white-space: nowrap;
+  }
+
+  .divider-line { flex: 1; height: 1px; background: rgba(155,127,212,0.25); }
+
+  .divider-sub {
+    font-family: 'Spectral', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* ---- PARADIGM CONTRAST GRID ---- */
+  .contrast-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+    margin-top: 20px;
+  }
+
+  .contrast-col {
+    padding: 24px 28px;
+    border-radius: 4px;
+  }
+
+  .contrast-col.ai-col {
+    background: rgba(63,182,143,0.06);
+    border: 1px solid rgba(63,182,143,0.2);
+  }
+
+  .contrast-col.human-col {
+    background: rgba(155,127,212,0.06);
+    border: 1px solid rgba(155,127,212,0.2);
+  }
+
+  .contrast-col-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .ai-col .contrast-col-label { color: var(--green); }
+  .human-col .contrast-col-label { color: var(--purple); }
+
+  .contrast-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .contrast-col ul li {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #aaa8a4;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .contrast-col ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  /* ---- THINKER CARDS ---- */
+  .thinker-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+    margin-top: 20px;
+  }
+
+  .thinker-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 28px 28px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .thinker-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 3px;
+  }
+
+  .thinker-card.einstein::before { background: linear-gradient(90deg, var(--gold), transparent); }
+  .thinker-card.planck::before { background: linear-gradient(90deg, var(--purple), transparent); }
+
+  .thinker-era {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .thinker-name {
+    font-family: 'Spectral', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .einstein .thinker-name { color: var(--gold); }
+  .planck .thinker-name { color: var(--purple); }
+
+  .thinker-thesis {
+    font-family: 'Spectral', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  .thinker-body {
+    font-size: 14px;
+    line-height: 1.75;
+    color: #a8a5a0;
+  }
+
+  .thinker-body.lay { display: none; }
+  .thinker-body.expert { display: block; }
+  body.layperson .thinker-body.expert { display: none; }
+  body.layperson .thinker-body.lay { display: block; }
+
+  .corpus-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 3px;
+    margin-top: 14px;
+  }
+
+  .corpus-tag.none {
+    background: rgba(155,127,212,0.1);
+    border: 1px solid rgba(155,127,212,0.3);
+    color: var(--purple);
+  }
+
+  .corpus-tag.heavy {
+    background: rgba(63,182,143,0.1);
+    border: 1px solid rgba(63,182,143,0.3);
+    color: var(--green);
+  }
+
+  /* ---- KUHN BOX ---- */
+  .kuhn-box {
+    margin-top: 24px;
+    background: rgba(155,127,212,0.07);
+    border-left: 3px solid var(--purple);
+    padding: 20px 24px;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .kuhn-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 10px;
+  }
+
+  .kuhn-box p {
+    font-family: 'Spectral', serif;
+    font-size: 15px !important;
+    color: #b8a8d8 !important;
+    line-height: 1.75 !important;
+    margin-bottom: 10px !important;
+  }
+
+  .kuhn-box p:last-child { margin-bottom: 0 !important; }
+
+  /* ---- BIG QUOTE ---- */
+  .big-quote-wrap {
+    max-width: 960px;
+    margin: 3px auto 0;
+    padding: 0 40px;
+  }
+
+  .big-quote {
+    background: linear-gradient(135deg, rgba(155,127,212,0.08), rgba(13,17,23,0));
+    border: 1px solid rgba(155,127,212,0.2);
+    padding: 40px 48px;
+    position: relative;
+  }
+
+  .big-quote::before {
+    content: '\201C';
+    position: absolute;
+    top: 10px; left: 28px;
+    font-family: 'Spectral', serif;
+    font-size: 80px;
+    color: rgba(155,127,212,0.2);
+    line-height: 1;
+  }
+
+  .big-quote blockquote {
+    font-family: 'Spectral', serif;
+    font-size: clamp(18px, 2.5vw, 24px);
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.6;
+    color: #ccc8c0;
+    margin-bottom: 16px;
+  }
+
+  .big-quote cite {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-style: normal;
+  }
+
+  /* ---- FOOTER ---- */
+  .foot-spacer { height: 60px; }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 40px;
+    display: flex;
+    justify-content: space-between;
+    max-width: 960px;
+    margin: 0 auto;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* ---- ANIMATIONS ---- */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero { animation: fadeIn 0.6s ease both; }
+  .big-quote-wrap { animation: fadeIn 0.5s ease both 0.35s; }
+
+  @media (max-width: 680px) {
+    .hero, .sections, .stat-strip, footer, .section-divider, .big-quote-wrap { padding-left: 20px; padding-right: 20px; }
+    .section-body { padding-left: 20px; }
+    .stat-strip, .thinker-cards, .contrast-grid { grid-template-columns: 1fr; }
+    .flow { flex-direction: column; align-items: flex-start; }
+    h1 { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <span class="topbar-title">AI × Physics · Discovery &amp; Its Limits · Harvard Gazette, Feb 2026</span>
+  <div class="toggle-wrap">
+    <span class="toggle-label expert">Expert</span>
+    <label class="toggle-switch">
+      <input type="checkbox" id="modeToggle">
+      <span class="slider"></span>
+    </label>
+    <span class="toggle-label lay">Plain English</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">AI-Assisted Discovery · And Its Limits</div>
+  <h1>When <strong>Super Chat</strong> solved what physicists couldn't — and what it <em>still can't do</em></h1>
+  <p class="hero-sub">A summary of the gluon breakthrough, how AI made it possible, and why Einstein and Planck suggest the deepest scientific discoveries may still belong to organic intelligence.</p>
+</div>
+
+<!-- STAT STRIP -->
+<div class="stat-strip">
+  <div class="stat-box">
+    <div class="stat-num">12h</div>
+    <div class="stat-desc expert">Continuous reasoning time "Super Chat" ran to formally prove the gluon amplitude solution</div>
+    <div class="stat-desc lay">How long the AI "thought non-stop" to verify its own answer — the equivalent of a human working through every night for a week</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num">#1</div>
+    <div class="stat-desc expert">First significant discovery in theoretical physics attributed primarily to an AI system</div>
+    <div class="stat-desc lay">First time in history an AI didn't just assist — it made the actual breakthrough</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num">300+</div>
+    <div class="stat-desc expert">Years between Newton's absolute time and Einstein's special relativity — a paradigm shift that needed no prior corpus to mine</div>
+    <div class="stat-desc lay">Years the nature of time went unquestioned after Newton — until Einstein reconceived it from scratch, needing no AI, no database, just a disturbing idea</div>
+  </div>
+</div>
+
+<!-- ===== PART I SECTIONS ===== -->
+<div class="section-divider" style="margin-top:32px;">
+  <div class="divider-inner">
+    <span class="divider-label">Part I · The Gluon Discovery</span>
+    <div class="divider-line"></div>
+    <span class="divider-sub">What happened, and how AI helped</span>
+  </div>
+</div>
+
+<div class="sections" style="margin-top:16px;">
+
+  <!-- SECTION 1: THE PROBLEM -->
+  <div class="section-card s-problem">
+    <div class="section-head">
+      <div class="section-num">01</div>
+      <div class="section-head-text">
+        <div class="section-label">Background</div>
+        <h2>The Problem They Were Trying to Solve</h2>
+      </div>
+      <div class="section-icon">⚛️</div>
+    </div>
+    <div class="section-body">
+      <div class="text-expert">
+        <p>At the center of the problem are <em>gluon amplitudes</em> — specifically a class known as "single-minus gluon tree amplitudes." Gluons are the gauge bosons mediating the strong nuclear force (QCD), binding quarks inside hadrons. Scattering amplitudes are complex-valued quantities encoding the probability of interaction outcomes in quantum field theory.</p>
+        <p>The prevailing assumption was that this class of amplitudes vanished — were identically zero. Strominger, Skinner, and Guevara conjectured otherwise. Guevara derived an intricate formal expression suggesting non-zero values, but the team couldn't reduce it to a compact, verifiable form. Even feeding it into an earlier ChatGPT yielded nothing. They were stuck at the algebraic simplification stage.</p>
+        <div class="terms-row">
+          <span class="term-pill" style="color:#f0a070;border-color:rgba(240,160,112,0.3)">Gluon<span class="term-tip">Carrier particle of the strong nuclear force. As photons carry electromagnetism, gluons bind quarks together inside protons and neutrons.</span></span>
+          <span class="term-pill" style="color:#f0a070;border-color:rgba(240,160,112,0.3)">Amplitude<span class="term-tip">A mathematical quantity in quantum mechanics. Square it to get a probability. If an amplitude is zero, that interaction cannot happen.</span></span>
+          <span class="term-pill" style="color:#f0a070;border-color:rgba(240,160,112,0.3)">QCD<span class="term-tip">Quantum Chromodynamics — the theory describing quark-gluon interactions. A pillar of the Standard Model.</span></span>
+          <span class="term-pill" style="color:#f0a070;border-color:rgba(240,160,112,0.3)">Tree amplitude<span class="term-tip">An amplitude at the simplest level of calculation — without loop corrections. The "tree" refers to the branching, non-looping structure of the diagram.</span></span>
+        </div>
+      </div>
+      <div class="text-lay">
+        <p>Every atom has a nucleus made of protons and neutrons, which are themselves built from even tinier particles called <strong>quarks</strong>. What holds quarks together? A force carried by particles called <strong>gluons</strong> — named because they literally glue things together.</p>
+        <p>To understand what gluons do when they interact, physicists use equations called <strong>amplitudes</strong>. If an amplitude equals zero, the interaction is impossible. If it's non-zero, it can happen. The puzzle: most physicists assumed a certain type of gluon interaction had a zero amplitude — it couldn't exist. Strominger's team believed otherwise, and one of them worked out a huge, tangled equation suggesting they were right. But they couldn't simplify it into something clean and provable. They were stuck.</p>
+        <div class="analogy-box">
+          <div class="analogy-tag">🔍 Plain English Analogy</div>
+          <p>Imagine you believe a certain billiard-ball shot is physically possible, but everyone else says it violates the rules of geometry. You sketch out a rough 40-page proof but can't simplify it. That's where the team was.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: HOW AI HELPED -->
+  <div class="section-card s-ai">
+    <div class="section-head">
+      <div class="section-num">02</div>
+      <div class="section-head-text">
+        <div class="section-label">The Breakthrough</div>
+        <h2>How ChatGPT Resolved the Logjam</h2>
+      </div>
+      <div class="section-icon">🤖</div>
+    </div>
+    <div class="section-body">
+      <div class="text-expert">
+        <p>The pivot came through Alex Lupsasca, who had joined OpenAI's new "OpenAI for Science" program after witnessing ChatGPT-5.2 Pro reproduce his own black-hole symmetry derivations in under 30 minutes. He invited Strominger to test the firm's internal model — capable of extended reasoning windows up to 12 hours.</p>
+        <p>The workflow proceeded in two stages. ChatGPT-5.2 Pro first <em>proposed</em> a solution, identifying the mathematical structure that would resolve the conjecture. The internal "Super Chat" then <em>proved</em> it, running 12 continuous hours to formally verify the result. The physicists spent a week independently checking by hand before writing up the paper.</p>
+        <p>Critically, this was not retrieval. The answer was not in any paper — it was an open conjecture. What AI brought was deep fluency in the grammar of amplitude calculations: the standard moves, useful identities, algebraic structures that tend to appear in such proofs — not as a lookup table, but as something closer to mathematical intuition, applied tirelessly over 12 hours.</p>
+        <div class="flow">
+          <div class="flow-step"><div class="step-label">Team</div><div class="step-text">Stuck — can't simplify Guevara's expression</div></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step highlight"><div class="step-label">ChatGPT-5.2 Pro</div><div class="step-text">Proposes the solution — identifies the key structure</div></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step ai-step"><div class="step-label">Super Chat · 12h</div><div class="step-text">Formally proves the solution is correct</div></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step"><div class="step-label">Physicists · 1 wk</div><div class="step-text">Check by hand. Write paper.</div></div>
+        </div>
+      </div>
+      <div class="text-lay">
+        <p>A former student named Alex Lupsasca had joined OpenAI and become convinced the newest AI was genuinely different — not autocomplete, but something that could reason through hard mathematics. He invited Strominger to bring his hardest unsolved problem to OpenAI's private, souped-up version of ChatGPT.</p>
+        <p>The AI worked in two steps. The regular ChatGPT-5.2 <strong>suggested the answer</strong>. Then the internal "Super Chat" — a far more powerful version — <strong>spent 12 straight hours confirming that answer was correct</strong>, checking every logical step. The physicists then spent a week double-checking everything by hand before publishing.</p>
+        <div class="flow">
+          <div class="flow-step"><div class="step-label">The Team</div><div class="step-text">Stuck with an unsolvable equation</div></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step highlight"><div class="step-label">ChatGPT-5.2</div><div class="step-text">"I think the answer is this"</div></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step ai-step"><div class="step-label">Super Chat · 12h</div><div class="step-text">Confirms it's right, step by step</div></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step"><div class="step-label">Physicists · 1 wk</div><div class="step-text">Check the AI's work. Publish.</div></div>
+        </div>
+        <div class="analogy-box">
+          <div class="analogy-tag">🔍 Plain English Analogy</div>
+          <p>A very smart colleague glances at your stuck crossword and suggests a word. Then a computer spends half a day confirming that word fits every other clue. You spend a week checking the whole grid, then publish it as solved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: THE SOLUTION -->
+  <div class="section-card s-solution">
+    <div class="section-head">
+      <div class="section-num">03</div>
+      <div class="section-head-text">
+        <div class="section-label">The Result</div>
+        <h2>The Final Solution</h2>
+      </div>
+      <div class="section-icon">📄</div>
+    </div>
+    <div class="section-body">
+      <div class="text-expert">
+        <p>The paper, <em>"Single-minus gluon tree amplitudes are nonzero,"</em> published as a preprint on arXiv, formally establishes that this class of amplitudes is non-vanishing — resolving the conjecture in the affirmative. While narrow in scope, its provenance is historic: Lupsasca called it "the first significant discovery in theoretical physics that is done by an AI."</p>
+        <p>The significance lies not only in the result, but in demonstrating that a large language model — given the right reasoning architecture and extended compute — can operate as a genuine peer collaborator at the frontier of theoretical research, not merely as a calculator or literature assistant.</p>
+      </div>
+      <div class="text-lay">
+        <p>The paper's title says it plainly: <em>"Single-minus gluon tree amplitudes are nonzero."</em> Translation: that gluon interaction everyone thought was impossible? <strong>It's possible.</strong></p>
+        <p>In the narrow world of particle physics, this resolves a long-standing open question. But the bigger deal is <em>how</em> it was resolved. For the first time, an AI wasn't just a faster calculator. It was the one that actually cracked the problem — and the physicists' job, at the end, was to check its work.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: THE BIG IDEA -->
+  <div class="section-card s-idea">
+    <div class="section-head">
+      <div class="section-num">04</div>
+      <div class="section-head-text">
+        <div class="section-label">Implications</div>
+        <h2>What Strominger Concluded</h2>
+      </div>
+      <div class="section-icon">💡</div>
+    </div>
+    <div class="section-body">
+      <div class="text-expert">
+        <p>Strominger's conclusion is not displacement but augmentation. Just as prior generations adapted to computers, numerical simulation, and symbolic algebra, the coming generation must learn to collaborate with AI as a reasoning partner. "I think AI will empower us to do more, but we have to retool. Good scientists have to retool all the time."</p>
+        <p>The danger he identifies is not obsolescence but failure to adapt — the risk that scientists who treat AI as beneath them will simply be outpaced by those who master it.</p>
+      </div>
+      <div class="text-lay">
+        <p>Strominger wasn't scared. His conclusion: great scientists have always had to learn new tools — the calculator, the computer, statistical software. Now it's AI. The ones who master it will do more. The ones who ignore it will fall behind.</p>
+        <p><strong>"I think AI will empower us to do more, but we have to retool. Good scientists have to retool all the time."</strong></p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== PART II DIVIDER ===== -->
+<div class="section-divider" style="margin-top: 48px;">
+  <div class="divider-inner">
+    <span class="divider-label" style="color:var(--purple)">Part II · The Deeper Question</span>
+    <div class="divider-line" style="background:rgba(155,127,212,0.25)"></div>
+    <span class="divider-sub">What AI cannot yet do — and why it matters</span>
+  </div>
+</div>
+
+<!-- ===== PART II SECTIONS ===== -->
+<div class="sections" style="margin-top:16px; padding-bottom: 0;">
+
+  <!-- SECTION 5: CORPUS DEPENDENCY -->
+  <div class="section-card s-paradigm">
+    <div class="section-head">
+      <div class="section-num">05</div>
+      <div class="section-head-text">
+        <div class="section-label">The Fundamental Limitation</div>
+        <h2>AI's Discovery Was Parasitic on Human Thought</h2>
+      </div>
+      <div class="section-icon">🧬</div>
+    </div>
+    <div class="section-body">
+      <div class="text-expert">
+        <p>However impressive, the gluon result was built on a vast scaffolding of prior human knowledge: a century of quantum field theory, decades of amplitude research, and crucially, Guevara's own complex expression handed directly to the AI. Remove that scaffolding and there is nothing to work with. The AI is, at bottom, an extraordinarily sophisticated interpolator and extrapolator within a conceptual space that organic minds mapped first.</p>
+        <p>This is what might be called the <em>corpus dependency asymmetry</em>. AI's power scales with the richness of what has already been thought and documented. The gluon breakthrough is real and significant — but it was a discovery within an established framework, not a reconceptualization of the framework itself.</p>
+        <div class="contrast-grid">
+          <div class="contrast-col ai-col">
+            <div class="contrast-col-label">🤖 What AI Brings</div>
+            <ul>
+              <li>Fluency across the entire documented literature</li>
+              <li>Tireless formal reasoning over 12+ hour windows</li>
+              <li>Identification of non-obvious algebraic structures</li>
+              <li>Speed that dwarfs human calculation</li>
+              <li>Works within established conceptual frameworks</li>
+            </ul>
+          </div>
+          <div class="contrast-col human-col">
+            <div class="contrast-col-label">🧠 What It Still Needs</div>
+            <ul>
+              <li>A problem to be posed by a human</li>
+              <li>A conjecture already formed by human intuition</li>
+              <li>A mathematical expression already derived by hand</li>
+              <li>A framework — a paradigm — already in place</li>
+              <li>Human validation at every stage</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="text-lay">
+        <p>Here's the thing the headline doesn't tell you: the AI needed an enormous head-start. It needed a century of physics papers to learn from. It needed a human team to pose the problem. It needed Guevara's own messy equation handed to it directly. Without all of that prior human work, there would be nothing for the AI to work with.</p>
+        <p>Think of it like a brilliant research assistant who has read every book in the library — but someone else had to write those books first, and someone else still had to walk through the library door and ask the right question. The AI excels once it's inside the library. But it didn't build the library. It doesn't even know there should be a library unless someone tells it so.</p>
+        <div class="analogy-box">
+          <div class="analogy-tag">🔍 Plain English Analogy</div>
+          <p>A chess engine can beat any grandmaster — but only because humans invented chess, wrote down all the rules, and played millions of games that the engine learned from. Remove all of that, and the engine plays nothing.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6: EINSTEIN & PLANCK -->
+  <div class="section-card s-paradigm">
+    <div class="section-head">
+      <div class="section-num">06</div>
+      <div class="section-head-text">
+        <div class="section-label">The Counterexamples</div>
+        <h2>Einstein, Planck & the Paradigm Shift</h2>
+      </div>
+      <div class="section-icon">🌌</div>
+    </div>
+    <div class="section-body">
+
+      <div class="text-expert">
+        <p>The contrast with the gluon result becomes sharpest when placed alongside the two most consequential revolutions in modern physics — both of which emerged not from mining a rich corpus but from a kind of radical dissatisfaction with how the existing framework fit together.</p>
+      </div>
+      <div class="text-lay">
+        <p>To understand what AI still can't do, consider the two most important physics breakthroughs of the 20th century. Both came not from having access to more information, but from being willing to question assumptions that nobody had even noticed were assumptions.</p>
+      </div>
+
+      <div class="thinker-cards">
+        <!-- EINSTEIN -->
+        <div class="thinker-card einstein">
+          <div class="thinker-era">1905 · Special Relativity</div>
+          <div class="thinker-name">Albert Einstein</div>
+          <div class="thinker-thesis">"What if both Maxwell and Newton are simply correct — what does the universe have to look like?"</div>
+          <div class="thinker-body expert">
+            Maxwell's equations for electromagnetism were incompatible with Newtonian mechanics. Everyone else tried patching one or the other. Einstein did something stranger: he held both as given and asked what the universe would have to be like if neither needed patching. The answer required abandoning absolute simultaneity — something Newton had never recognized as an assumption because nobody had. The relevant "corpus" had been silent on the nature of time for over 300 years. There was nothing to mine.
+          </div>
+          <div class="thinker-body lay">
+            Newton said time flows the same everywhere for everyone — a clock on Earth ticks at the same rate as one moving at near the speed of light. Nobody had questioned this for 300 years because it felt obviously true. Einstein was bothered by a contradiction in physics equations that nobody else wanted to face, and instead of patching the equations, he asked: what if <em>time itself</em> is the thing that changes? That's not a thought you find in any library. It required willingness to question something so basic nobody knew it was being assumed.
+          </div>
+          <div class="corpus-tag none">⊘ No prior corpus to mine</div>
+        </div>
+
+        <!-- PLANCK -->
+        <div class="thinker-card planck">
+          <div class="thinker-era">1900 · Quantum Hypothesis</div>
+          <div class="thinker-name">Max Planck</div>
+          <div class="thinker-thesis">"An act of desperation" — a fix he didn't believe described reality</div>
+          <div class="thinker-body expert">
+            Classical physics predicted that a heated object should radiate infinite energy at high frequencies — the "ultraviolet catastrophe." No existing theory could resolve it. Planck found a mathematical fix that worked: treat energy as coming in discrete packets. He said late in his life it was "an act of desperation" — he didn't believe energy was actually quantized, only that the formula happened to fit. He was making a conceptual rupture that violated his own physical intuitions. That is almost the opposite of what AI does: it required ignoring the weight of the existing literature, not leveraging it.
+          </div>
+          <div class="thinker-body lay">
+            Physics in 1900 predicted something absurd: heat up any object and it should radiate infinite energy at certain frequencies. Obviously it doesn't — but nothing in classical physics could explain why. Planck found a mathematical trick that fixed the equations: treat energy as coming in tiny discrete chunks rather than flowing continuously, like steps on a staircase instead of a ramp. He didn't even believe it was physically real. He called it an act of desperation. But he published it anyway — and it launched the entire quantum revolution. The key point: the existing literature wasn't just insufficient, it was pointing in the wrong direction. The breakthrough required <em>resisting</em> what the corpus said, not absorbing it.
+          </div>
+          <div class="corpus-tag none">⊘ Existing corpus pointed the wrong way</div>
+        </div>
+      </div>
+
+      <div class="kuhn-box">
+        <div class="kuhn-tag">📖 Kuhn's Distinction · Normal Science vs. Paradigm Shifts</div>
+        <div class="text-expert">
+          <p>Thomas Kuhn distinguished between <em>normal science</em> — solving problems within an established framework — and <em>paradigm shifts</em>, which require stepping outside the framework altogether. AI appears to be approaching the ceiling of derivative genius: extraordinarily powerful within a paradigm, potentially transformative for normal science. But paradigm shifts require something different — an almost aesthetic discomfort with how things fit together, a willingness to find the existing framework not just incomplete but wrong at its foundations. It is not obvious that a system trained to excel within the existing literature can generate that.</p>
+        </div>
+        <div class="text-lay">
+          <p>A philosopher named Thomas Kuhn noticed that science works in two modes. Most of the time it's <em>normal science</em> — solving hard problems within an agreed framework. Occasionally it undergoes a <em>paradigm shift</em> — where the whole framework is thrown out and rebuilt. AI may be becoming extraordinary at normal science. But paradigm shifts don't come from mastering what's already known. They come from being bothered by something nobody else finds bothersome — and that seems, so far, to be a distinctly human affliction.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 7: THE CONCLUSION -->
+  <div class="section-card s-paradigm" style="margin-bottom:0;">
+    <div class="section-head">
+      <div class="section-num">07</div>
+      <div class="section-head-text">
+        <div class="section-label">The Open Question</div>
+        <h2>What Belongs to Organic Intelligence</h2>
+      </div>
+      <div class="section-icon">🌱</div>
+    </div>
+    <div class="section-body">
+      <div class="text-expert">
+        <p>The gluon discovery and the Einstein-Planck counterexamples suggest a provisional division of intellectual labor. AI may be approaching dominance in the vast territory of normal science: solving hard problems within established frameworks, at speeds and scales no human team can match. This is genuinely transformative — most of science lives here.</p>
+        <p>But the originary discoveries — the ones that generate the frameworks others will later mine — appear to require something AI does not currently possess: the capacity to be disturbed by a question that the existing literature has not yet posed. Einstein needed to be bothered. Planck needed to be desperate. These are not computational states. They are closer to an aesthetic, almost visceral dissatisfaction with the way things fit together — and they belong, at least for now, to the world of organic intelligence.</p>
+      </div>
+      <div class="text-lay">
+        <p>Here's the clearest way to draw the line. AI is becoming extraordinary at solving hard problems that are already well-defined, within frameworks that human minds have already built. The gluon discovery is a real and historic example of that. It matters enormously.</p>
+        <p>But the discoveries that <em>create</em> the frameworks — that change what questions it's even possible to ask — those still seem to require something different. They require a mind that can be nagged by a wrong-feeling assumption for years. That can decide, against all precedent, that something everybody takes for granted simply isn't true. That can make, in Planck's words, an act of desperation. For now, that remains the territory of organic intelligence — and it may be the most important territory of all.</p>
+        <div class="analogy-box">
+          <div class="analogy-tag">🌱 The Bottom Line</div>
+          <p>AI can become the world's greatest chess player. But organic intelligence had to invent chess — and then decide, one day, that chess wasn't the right game anymore.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- BIG QUOTE -->
+<div class="big-quote-wrap" style="margin-top:32px;">
+  <div class="big-quote">
+    <blockquote>The most consequential discoveries in physics did not emerge from mining a rich corpus. They emerged from a mind willing to be disturbed by what the corpus had not yet thought to say.</blockquote>
+    <cite>— Editorial synthesis · AI × Physics, Feb 2026</cite>
+  </div>
+</div>
+
+<div class="foot-spacer"></div>
+
+<footer>
+  <span>Source: Harvard Gazette · Eric Moskowitz · Feb 19, 2026</span>
+  <span>Paper: arXiv · "Single-minus gluon tree amplitudes are nonzero"</span>
+</footer>
+
+<script>
+  const toggle = document.getElementById('modeToggle');
+  toggle.addEventListener('change', () => {
+    document.body.classList.toggle('layperson', toggle.checked);
+  });
+</script>
+
+</body>
+</html>
