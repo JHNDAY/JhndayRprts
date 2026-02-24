@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marie Curie — A Life in Light and Shadow</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0b0d;
+    --deep: #0d1117;
+    --surface: #12161d;
+    --panel: #171c25;
+    --border: #2a3344;
+    --glow-green: #7fff6e;
+    --glow-teal: #4effd4;
+    --glow-amber: #ffcc44;
+    --glow-red: #ff6b6b;
+    --text-primary: #e8e0d0;
+    --text-muted: #8a9ab0;
+    --text-dim: #4a5568;
+    --radium: #88ff99;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--text-primary);
+    font-family: 'EB Garamond', serif;
+    font-size: 18px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 60px 20px;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 60%, rgba(136,255,153,0.08) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 30% at 30% 40%, rgba(78,255,212,0.04) 0%, transparent 60%),
+                radial-gradient(ellipse 80% 80% at 50% 50%, #0a0f12 0%, #050608 100%);
+  }
+
+  .atom-ring {
+    position: absolute;
+    border: 1px solid rgba(136,255,153,0.08);
+    border-radius: 50%;
+    animation: rotate linear infinite;
+  }
+  .atom-ring:nth-child(1) { width: 600px; height: 600px; top: 50%; left: 50%; transform: translate(-50%,-50%); animation-duration: 40s; }
+  .atom-ring:nth-child(2) { width: 800px; height: 800px; top: 50%; left: 50%; transform: translate(-50%,-50%) rotate(30deg); animation-duration: 60s; animation-direction: reverse; border-color: rgba(78,255,212,0.05); }
+  .atom-ring:nth-child(3) { width: 1000px; height: 1000px; top: 50%; left: 50%; transform: translate(-50%,-50%) rotate(60deg); animation-duration: 80s; border-color: rgba(255,204,68,0.04); }
+
+  @keyframes rotate { to { transform: translate(-50%,-50%) rotate(360deg); } }
+  @keyframes rotate2 { from { transform: translate(-50%,-50%) rotate(30deg); } to { transform: translate(-50%,-50%) rotate(-330deg); } }
+
+  .particle {
+    position: absolute;
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: var(--radium);
+    box-shadow: 0 0 6px var(--radium);
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) translateX(0); opacity: 0.6; }
+    50% { transform: translateY(-20px) translateX(10px); opacity: 1; }
+  }
+
+  .hero-content { position: relative; z-index: 10; }
+
+  .hero-eyebrow {
+    font-family: 'Courier Prime', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--glow-teal);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 8vw, 110px);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    opacity: 0;
+    animation: fadeUp 1s ease 0.6s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--radium);
+    text-shadow: 0 0 40px rgba(136,255,153,0.4), 0 0 80px rgba(136,255,153,0.2);
+  }
+
+  .hero-dates {
+    font-family: 'Courier Prime', monospace;
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    margin: 20px 0;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.9s forwards;
+  }
+
+  .hero-subtitle {
+    font-size: 20px;
+    font-style: italic;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto 40px;
+    opacity: 0;
+    animation: fadeUp 1s ease 1.2s forwards;
+  }
+
+  .scroll-hint {
+    font-family: 'Courier Prime', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 1s ease 2s forwards, pulse 2s ease 3s infinite;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 0.9; } }
+
+  /* ── NAV TABS ── */
+  .nav-tabs {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,11,13,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    padding: 0;
+  }
+
+  .tab-btn {
+    font-family: 'Courier Prime', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 18px 28px;
+    cursor: pointer;
+    transition: all 0.3s;
+    white-space: nowrap;
+  }
+
+  .tab-btn:hover { color: var(--text-muted); }
+  .tab-btn.active { color: var(--radium); border-bottom-color: var(--radium); }
+
+  /* ── SECTIONS ── */
+  section { display: none; padding: 80px 20px; max-width: 1100px; margin: 0 auto; }
+  section.active { display: block; }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 70px;
+  }
+
+  .section-tag {
+    font-family: 'Courier Prime', monospace;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--glow-teal);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text-primary);
+  }
+
+  .section-title em { font-style: italic; color: var(--radium); }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 40px; }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--border) 10%, var(--border) 90%, transparent);
+  }
+
+  .tl-item {
+    position: relative;
+    margin-bottom: 60px;
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: slideIn 0.6s ease forwards;
+  }
+
+  .tl-item:nth-child(1) { animation-delay: 0.1s; }
+  .tl-item:nth-child(2) { animation-delay: 0.2s; }
+  .tl-item:nth-child(3) { animation-delay: 0.3s; }
+  .tl-item:nth-child(4) { animation-delay: 0.4s; }
+  .tl-item:nth-child(5) { animation-delay: 0.5s; }
+  .tl-item:nth-child(6) { animation-delay: 0.6s; }
+  .tl-item:nth-child(7) { animation-delay: 0.7s; }
+  .tl-item:nth-child(8) { animation-delay: 0.8s; }
+  .tl-item:nth-child(9) { animation-delay: 0.9s; }
+
+  @keyframes slideIn {
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .tl-dot {
+    position: absolute;
+    left: -47px;
+    top: 6px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    transition: all 0.3s;
+  }
+
+  .tl-item:hover .tl-dot {
+    background: var(--radium);
+    border-color: var(--radium);
+    box-shadow: 0 0 16px rgba(136,255,153,0.6);
+  }
+
+  .tl-year {
+    font-family: 'Courier Prime', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: var(--glow-amber);
+    margin-bottom: 6px;
+  }
+
+  .tl-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+
+  .tl-text {
+    color: var(--text-muted);
+    font-size: 16px;
+    max-width: 700px;
+  }
+
+  .tl-tag {
+    display: inline-block;
+    font-family: 'Courier Prime', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 2px;
+    margin-bottom: 10px;
+  }
+  .tl-tag.discovery { background: rgba(136,255,153,0.1); color: var(--radium); border: 1px solid rgba(136,255,153,0.3); }
+  .tl-tag.personal { background: rgba(255,204,68,0.1); color: var(--glow-amber); border: 1px solid rgba(255,204,68,0.3); }
+  .tl-tag.health { background: rgba(255,107,107,0.1); color: var(--glow-red); border: 1px solid rgba(255,107,107,0.3); }
+  .tl-tag.award { background: rgba(78,255,212,0.1); color: var(--glow-teal); border: 1px solid rgba(78,255,212,0.3); }
+  .tl-tag.mentor { background: rgba(180,140,255,0.1); color: #c4a8ff; border: 1px solid rgba(180,140,255,0.3); }
+
+  /* ── CARDS GRID ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  .card:nth-child(1) { animation-delay: 0.1s; }
+  .card:nth-child(2) { animation-delay: 0.2s; }
+  .card:nth-child(3) { animation-delay: 0.3s; }
+  .card:nth-child(4) { animation-delay: 0.4s; }
+  .card:nth-child(5) { animation-delay: 0.5s; }
+  .card:nth-child(6) { animation-delay: 0.6s; }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--radium);
+    transform: scaleY(0);
+    transition: transform 0.3s;
+    transform-origin: top;
+  }
+
+  .card:hover { transform: translateY(-4px); border-color: rgba(136,255,153,0.3); }
+  .card:hover::before { transform: scaleY(1); }
+
+  .card.amber::before { background: var(--glow-amber); }
+  .card.amber:hover { border-color: rgba(255,204,68,0.3); }
+  .card.red::before { background: var(--glow-red); }
+  .card.red:hover { border-color: rgba(255,107,107,0.3); }
+  .card.teal::before { background: var(--glow-teal); }
+  .card.teal:hover { border-color: rgba(78,255,212,0.3); }
+  .card.purple::before { background: #c4a8ff; }
+  .card.purple:hover { border-color: rgba(196,168,255,0.3); }
+
+  .card-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 64px;
+    font-weight: 900;
+    color: rgba(136,255,153,0.08);
+    position: absolute;
+    top: 10px; right: 20px;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .card-icon { font-size: 28px; margin-bottom: 16px; }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+  }
+  .card-text { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
+
+  /* ── HEALTH SECTION special layout ── */
+  .health-intro {
+    background: linear-gradient(135deg, rgba(255,107,107,0.06) 0%, rgba(255,107,107,0.02) 100%);
+    border: 1px solid rgba(255,107,107,0.2);
+    padding: 40px;
+    margin-bottom: 60px;
+    position: relative;
+  }
+
+  .health-intro::before {
+    content: '⚠';
+    position: absolute;
+    top: -20px; left: 30px;
+    background: var(--black);
+    padding: 0 12px;
+    font-size: 20px;
+    color: var(--glow-red);
+  }
+
+  .health-intro-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-style: italic;
+    color: var(--glow-red);
+    margin-bottom: 16px;
+  }
+
+  .health-intro-text { color: var(--text-muted); font-size: 17px; }
+
+  .radiation-meter {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 32px;
+    margin: 40px 0;
+  }
+
+  .meter-title {
+    font-family: 'Courier Prime', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 24px;
+  }
+
+  .meter-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .meter-label {
+    font-family: 'EB Garamond', serif;
+    font-size: 15px;
+    color: var(--text-muted);
+    width: 220px;
+    flex-shrink: 0;
+  }
+
+  .meter-bar-wrap {
+    flex: 1;
+    background: rgba(255,255,255,0.04);
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .meter-bar {
+    height: 100%;
+    border-radius: 4px;
+    position: relative;
+    animation: growBar 1.5s ease forwards;
+    transform-origin: left;
+  }
+
+  @keyframes growBar {
+    from { width: 0 !important; }
+  }
+
+  .meter-bar.low { background: var(--radium); width: 5%; }
+  .meter-bar.med { background: var(--glow-amber); width: 35%; }
+  .meter-bar.high { background: #ff9944; width: 65%; }
+  .meter-bar.extreme { background: var(--glow-red); width: 95%; box-shadow: 0 0 8px rgba(255,107,107,0.4); }
+
+  .meter-val {
+    font-family: 'Courier Prime', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    width: 80px;
+    text-align: right;
+  }
+
+  /* ── QUOTE ── */
+  .curie-quote {
+    border-left: 2px solid var(--radium);
+    padding: 24px 32px;
+    margin: 40px 0;
+    background: rgba(136,255,153,0.03);
+  }
+
+  .curie-quote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: var(--text-primary);
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+
+  .curie-quote cite {
+    font-family: 'Courier Prime', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  /* ── MENTOR SECTION ── */
+  .protege-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    margin-top: 40px;
+  }
+
+  .protege-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 28px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .protege-card:nth-child(1) { animation-delay: 0.1s; }
+  .protege-card:nth-child(2) { animation-delay: 0.2s; }
+  .protege-card:nth-child(3) { animation-delay: 0.3s; }
+  .protege-card:nth-child(4) { animation-delay: 0.4s; }
+
+  .protege-card:hover { border-color: rgba(196,168,255,0.4); transform: translateY(-3px); }
+
+  .protege-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    font-weight: 700;
+    color: #c4a8ff;
+    margin-bottom: 4px;
+  }
+
+  .protege-years {
+    font-family: 'Courier Prime', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    margin-bottom: 12px;
+  }
+
+  .protege-text { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 60px 0;
+  }
+
+  .stat-cell {
+    background: var(--panel);
+    padding: 32px 24px;
+    text-align: center;
+  }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--radium);
+    text-shadow: 0 0 30px rgba(136,255,153,0.3);
+    display: block;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  /* ── RADIATION AWARENESS ── */
+  .awareness-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+    margin: 40px 0;
+  }
+
+  .awareness-col-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+
+  .awareness-col-title.danger { color: var(--glow-red); }
+  .awareness-col-title.accept { color: var(--glow-amber); }
+
+  .evidence-item {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    align-items: flex-start;
+  }
+
+  .ev-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+  .ev-text { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
+  .ev-text strong { color: var(--text-primary); font-weight: 500; }
+
+  /* ── FOOTER ── */
+  .viz-footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 20px;
+    text-align: center;
+    font-family: 'Courier Prime', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 700px) {
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .awareness-section { grid-template-columns: 1fr; }
+    .tab-btn { padding: 14px 16px; font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg">
+    <div class="atom-ring"></div>
+    <div class="atom-ring"></div>
+    <div class="atom-ring"></div>
+  </div>
+  <!-- Floating particles -->
+  <div class="particle" style="top:20%; left:15%; animation-delay:0s;"></div>
+  <div class="particle" style="top:70%; left:80%; animation-delay:1s;"></div>
+  <div class="particle" style="top:40%; left:85%; animation-delay:2s;"></div>
+  <div class="particle" style="top:60%; left:10%; animation-delay:1.5s;"></div>
+  <div class="particle" style="top:30%; left:60%; animation-delay:0.5s;"></div>
+  <div class="particle" style="top:80%; left:40%; animation-delay:3s;"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">A Life in Light and Shadow</div>
+    <h1 class="hero-title">Marie<br><em>Curie</em></h1>
+    <div class="hero-dates">Warsaw, 1867 — Sancellemoz, 1934</div>
+    <p class="hero-subtitle">Physicist. Chemist. Pioneer. The woman who illuminated the atom — at a cost paid in silence.</p>
+    <div class="scroll-hint">↓ Explore her story ↓</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav-tabs" role="tablist">
+  <button class="tab-btn active" onclick="showSection('life')" role="tab">Life &amp; Timeline</button>
+  <button class="tab-btn" onclick="showSection('science')" role="tab">Discoveries</button>
+  <button class="tab-btn" onclick="showSection('health')" role="tab">Health &amp; Risk</button>
+  <button class="tab-btn" onclick="showSection('mentor')" role="tab">Mentor &amp; Legacy</button>
+</nav>
+
+<!-- ═══════════════════════════════════════════ LIFE -->
+<section id="life" class="active">
+  <div class="section-header">
+    <span class="section-tag">Chronology</span>
+    <h2 class="section-title">A Life <em>Forged</em> in Persistence</h2>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-cell">
+      <span class="stat-number">2</span>
+      <span class="stat-label">Nobel Prizes</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-number">2</span>
+      <span class="stat-label">New Elements</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-number">45</span>
+      <span class="stat-label">Women Mentored</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-number">150+</span>
+      <span class="stat-label">Radiographers Trained</span>
+    </div>
+  </div>
+
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-tag personal">Personal</div>
+      <div class="tl-year">1867</div>
+      <div class="tl-title">Born Maria Skłodowska, Warsaw</div>
+      <p class="tl-text">Born the fifth child of a teacher in Russian-occupied Poland. Brilliant from childhood but barred from higher education as a woman. She and her sister made a pact: she would work to fund her sister's medical studies in Paris, and her sister would return the favor.</p>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-tag personal">Personal</div>
+      <div class="tl-year">1891</div>
+      <div class="tl-title">Arrives in Paris — Studies at the Sorbonne</div>
+      <p class="tl-text">At 24, she enrolled at the University of Paris, often surviving on bread and chocolate in a freezing garret. She graduated first in physics (1893) and second in mathematics (1894).</p>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-tag personal">Personal</div>
+      <div class="tl-year">1895</div>
+      <div class="tl-title">Marries Pierre Curie</div>
+      <p class="tl-text">An extraordinary intellectual partnership. Pierre postponed his own research to collaborate with Marie. They shared a converted shed as their laboratory — cold, damp, and flooded with invisible radiation.</p>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-tag discovery">Discovery</div>
+      <div class="tl-year">1898</div>
+      <div class="tl-title">Polonium &amp; Radium Discovered</div>
+      <p class="tl-text">Working with pitchblende ore, Marie identified two new radioactive elements. She named the first polonium — after her occupied homeland. It took four more years of grinding ore by hand to isolate enough radium for a sample. Their bare hands glowed faintly in the dark.</p>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-tag award">Nobel Prize</div>
+      <div class="tl-year">1903</div>
+      <div class="tl-title">First Nobel Prize — Physics</div>
+      <p class="tl-text">Jointly awarded with Pierre and Henri Becquerel for research on radioactivity. The Swedish Academy initially tried to award it only to Pierre; he insisted Marie be included. She became the first woman to receive a Nobel Prize. Both Curies were already showing signs of radiation sickness at the ceremony.</p>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-tag health">Loss</div>
+      <div class="tl-year">1906</div>
+      <div class="tl-title">Pierre Killed — Marie Continues</div>
+      <p class="tl-text">Pierre died when struck by a horse-drawn wagon. Marie, refusing to surrender to grief, assumed his professorship at the Sorbonne — becoming its first female professor. She buried her anguish in work and the laboratory became her sanctuary.</p>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-tag award">Nobel Prize</div>
+      <div class="tl-year">1911</div>
+      <div class="tl-title">Second Nobel Prize — Chemistry</div>
+      <p class="tl-text">Awarded for the isolation of pure radium and the study of its properties. She became the first person — and remains one of very few — to win Nobel Prizes in two different sciences. The French Academy of Sciences still refused to admit her as a member.</p>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-tag mentor">War Service</div>
+      <div class="tl-year">1914–18</div>
+      <div class="tl-title">The Petite Curies — Mobile X-Ray Units</div>
+      <p class="tl-text">Marie equipped 20 vehicles with X-ray machines and personally trained over 150 women as radiographers to operate them on the front lines of WWI. Over one million soldiers were treated. She drove one herself, alongside her daughter Irène, who was just 17.</p>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-tag health">Death</div>
+      <div class="tl-year">1934</div>
+      <div class="tl-title">Died of Aplastic Anemia</div>
+      <p class="tl-text">Marie Curie died on July 4, 1934 at the age of 66. Her death was attributed to aplastic anemia — almost certainly caused by decades of radiation exposure. Her notebooks remain so radioactive today that they are stored in lead-lined boxes at the Bibliothèque nationale de France. Visitors must sign a waiver to view them.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ SCIENCE -->
+<section id="science">
+  <div class="section-header">
+    <span class="section-tag">Scientific Legacy</span>
+    <h2 class="section-title">What She <em>Discovered</em></h2>
+  </div>
+
+  <div class="curie-quote">
+    <p>"Nothing in life is to be feared, it is only to be understood. Now is the time to understand more, so that we may fear less."</p>
+    <cite>— Marie Curie</cite>
+  </div>
+
+  <div class="cards-grid">
+
+    <div class="card">
+      <div class="card-number">01</div>
+      <div class="card-icon">⚛️</div>
+      <div class="card-title">Radioactivity — The Term She Coined</div>
+      <p class="card-text">Curie was the first to establish that radioactivity is an intrinsic atomic property, not a product of chemical reactions. This was revolutionary: it showed atoms were not indivisible, and opened the door to nuclear physics.</p>
+    </div>
+
+    <div class="card amber">
+      <div class="card-number">02</div>
+      <div class="card-icon">🧪</div>
+      <div class="card-title">Polonium (Po, element 84)</div>
+      <p class="card-text">Discovered in 1898 and named after Poland. Polonium-210 is now recognized as one of the most toxic substances known — about 250 billion times more toxic than hydrogen cyanide by mass. She handled it with no protection.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-number">03</div>
+      <div class="card-icon">✨</div>
+      <div class="card-title">Radium (Ra, element 88)</div>
+      <p class="card-text">Isolated pure radium metal in 1910. Radium glows with a faint blue-green light — the result of ionizing the surrounding air. Curie kept a jar of radium salts on her bedside table for its "pretty glow." It is now understood to concentrate in bone tissue like calcium, destroying marrow.</p>
+    </div>
+
+    <div class="card teal">
+      <div class="card-number">04</div>
+      <div class="card-icon">🏥</div>
+      <div class="card-title">Medical Radiography &amp; Radiotherapy</div>
+      <p class="card-text">She developed mobile X-ray units for WWI field hospitals and pioneered the idea that radiation could target cancer cells. The Radium Institute she built became a world center for radiation medicine — the direct ancestor of modern cancer radiotherapy.</p>
+    </div>
+
+    <div class="card amber">
+      <div class="card-number">05</div>
+      <div class="card-icon">🔬</div>
+      <div class="card-title">Isolating Radioactive Isotopes</div>
+      <p class="card-text">Her meticulous methods for isolating and measuring radioactive substances established the standards used by chemists and physicists for decades. She developed techniques to measure radioactivity quantitatively, not merely observe it.</p>
+    </div>
+
+    <div class="card red">
+      <div class="card-number">06</div>
+      <div class="card-icon">📐</div>
+      <div class="card-title">First Female Professor at the Sorbonne</div>
+      <p class="card-text">Appointed in 1906 after Pierre's death, she was the first woman to hold a chair at the University of Paris — an institution founded in 1150. Her first lecture drew hundreds who came simply to see a woman at the podium.</p>
+    </div>
+
+  </div>
+
+  <div class="radiation-meter" style="margin-top: 60px;">
+    <div class="meter-title">// Relative Radiation Exposure — Marie Curie's World vs. Today</div>
+    <div class="meter-row">
+      <div class="meter-label">Background radiation (today)</div>
+      <div class="meter-bar-wrap"><div class="meter-bar low"></div></div>
+      <div class="meter-val">~3 mSv/yr</div>
+    </div>
+    <div class="meter-row">
+      <div class="meter-label">Medical CT scan</div>
+      <div class="meter-bar-wrap"><div class="meter-bar med"></div></div>
+      <div class="meter-val">~10 mSv</div>
+    </div>
+    <div class="meter-row">
+      <div class="meter-label">Radium dial painters (Radium Girls)</div>
+      <div class="meter-bar-wrap"><div class="meter-bar high"></div></div>
+      <div class="meter-val">~50–100 mSv/yr</div>
+    </div>
+    <div class="meter-row">
+      <div class="meter-label">Curie's estimated lifetime exposure</div>
+      <div class="meter-bar-wrap"><div class="meter-bar extreme"></div></div>
+      <div class="meter-val">Unmeasured / extreme</div>
+    </div>
+    <p style="font-size:13px; color: var(--text-dim); margin-top: 16px; font-family: 'Courier Prime', monospace; font-style: italic;">Note: Curie's actual lifetime dosimetry was never measured. Her exposure to polonium and radium over 35 years was almost certainly far in excess of any modern occupational limit.</p>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════ HEALTH -->
+<section id="health">
+  <div class="section-header">
+    <span class="section-tag">The Hidden Cost</span>
+    <h2 class="section-title">Light That <em>Burns</em></h2>
+  </div>
+
+  <div class="health-intro">
+    <div class="health-intro-title">A Laboratory Saturated in Radiation</div>
+    <p class="health-intro-text">For over three decades, Marie Curie worked directly with radioactive materials with no protective equipment. She carried radioactive isotopes in her coat pockets, stored them in her desk drawer, and kept radium samples in her home. Her notebooks — still radioactive 90 years later — must be handled with lead gloves.</p>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card red">
+      <div class="card-icon">🩺</div>
+      <div class="card-title">Physical Symptoms During Her Lifetime</div>
+      <p class="card-text">From the 1900s onward: chronically sore and cracked fingers (radiation burns), progressive deterioration of eyesight including near-blindness (cataracts from radiation exposure), tinnitus, persistent fatigue, and extreme weight loss in her final years.</p>
+    </div>
+
+    <div class="card red">
+      <div class="card-icon">🦴</div>
+      <div class="card-title">Aplastic Anemia — The Fatal Diagnosis</div>
+      <p class="card-text">Aplastic anemia occurs when bone marrow stops producing blood cells — a known consequence of radiation exposure. It causes severe fatigue, bleeding, and immune failure. This was the disease that killed her in 1934, though it had been destroying her gradually for years.</p>
+    </div>
+
+    <div class="card amber">
+      <div class="card-icon">🧠</div>
+      <div class="card-title">Her Attitude Toward Risk</div>
+      <p class="card-text">Curie was not ignorant of risk — she observed her colleagues' symptoms and knew radiation was biologically active. But she believed the work was worth the cost, and the scientific culture of the era did not yet possess a framework for safe practice. She refused to let danger slow her.</p>
+    </div>
+
+    <div class="card amber">
+      <div class="card-icon">📒</div>
+      <div class="card-title">The Radioactive Notebooks</div>
+      <p class="card-text">Her laboratory notebooks, personal cookbooks, and furniture from the 1890s are still highly radioactive today. They are stored in lead-lined boxes. Visitors who wish to consult her papers at the Bibliothèque nationale must sign a liability waiver. The contamination is primarily from polonium-210 and radium-226.</p>
+    </div>
+  </div>
+
+  <div class="awareness-section">
+    <div>
+      <div class="awareness-col-title danger">Signs She Noticed the Danger</div>
+
+      <div class="evidence-item">
+        <div class="ev-icon">👁️</div>
+        <div class="ev-text"><strong>She acknowledged radiation sickness.</strong> Curie noted that workers in her laboratory experienced fatigue, anemia, and skin burns — what was then called "radiation sickness."</div>
+      </div>
+      <div class="evidence-item">
+        <div class="ev-icon">🔬</div>
+        <div class="ev-text"><strong>She studied it scientifically.</strong> She and Pierre published observations that radium caused skin damage. Pierre even tested radium on his own arm, producing an open wound. They documented this systematically.</div>
+      </div>
+      <div class="evidence-item">
+        <div class="ev-icon">📉</div>
+        <div class="ev-text"><strong>She experienced serious symptoms.</strong> By 1912, she had severe kidney problems and was advised by doctors to rest. Her failing eyesight and trembling hands in her final decade were attributed to radiation by her contemporaries.</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="awareness-col-title accept">Why the Risks Were Minimized</div>
+
+      <div class="evidence-item">
+        <div class="ev-icon">🕰️</div>
+        <div class="ev-text"><strong>No framework for protection yet existed.</strong> Radiation biology was barely a field. The long latency between exposure and illness — often 10–30 years — made causal links hard to prove in an era without epidemiology.</div>
+      </div>
+      <div class="evidence-item">
+        <div class="ev-icon">💡</div>
+        <div class="ev-text"><strong>Radium was seen as a wonder substance.</strong> In the early 20th century, radioactivity was marketed as healthful — radium water, radium toothpaste, and radium tonics were sold publicly. The cultural assumption was that radioactivity was energizing, not harmful.</div>
+      </div>
+      <div class="evidence-item">
+        <div class="ev-icon">🏆</div>
+        <div class="ev-text"><strong>Scientific culture rewarded sacrifice.</strong> Curie grew up in a tradition where intellectual dedication meant physical sacrifice. Stopping her work because of personal health risk was, to her, not an option she seriously considered.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="curie-quote">
+    <p>"I am one of those who think like Nobel, that humanity will draw more good than evil from new discoveries."</p>
+    <cite>— Marie Curie, on radioactivity's dangers</cite>
+  </div>
+
+  <div class="card red" style="margin-top: 20px;">
+    <div class="card-icon">⚗️</div>
+    <div class="card-title">The Radium Girls — A Parallel Tragedy</div>
+    <p class="card-text">While Curie's exposure was unintentional ignorance, the Radium Girls — dial painters who were told to lip-point their radium brushes — were knowingly put at risk by employers who understood the danger but suppressed it. Their lawsuits in the late 1920s established the legal precedent for workers' rights to sue for occupational disease. Their suffering, flowing directly from the Curies' discovery of radium, helped create the foundations of modern radiation safety regulation.</p>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════ MENTOR -->
+<section id="mentor">
+  <div class="section-header">
+    <span class="section-tag">Human Legacy</span>
+    <h2 class="section-title">The Women She <em>Lifted</em></h2>
+  </div>
+
+  <p style="max-width: 700px; margin: 0 auto 50px; text-align: center; color: var(--text-muted); font-size: 18px; font-style: italic;">Curie's second Nobel Prize is universally remembered. Her role as a builder of pipelines for women in science is less celebrated — but perhaps equally transformative.</p>
+
+  <div class="cards-grid">
+    <div class="card purple">
+      <div class="card-icon">🏛️</div>
+      <div class="card-title">The Radium Institute</div>
+      <p class="card-text">As director, Curie deliberately built an environment where women scientists could work, publish, and lead. Between 1906 and 1934, she oversaw 45 women researchers from Canada, Norway, Poland, and the UK — extraordinary diversity for the era.</p>
+    </div>
+    <div class="card purple">
+      <div class="card-icon">🚑</div>
+      <div class="card-title">Training Radiographers in WWI</div>
+      <p class="card-text">She personally trained over 150 women as radiographic technicians to operate mobile X-ray units ("Petite Curies") on the front lines. This gave a generation of women professional scientific skills that opened peacetime careers in medicine and research.</p>
+    </div>
+    <div class="card amber">
+      <div class="card-icon">🎓</div>
+      <div class="card-title">First Female Professor at Paris</div>
+      <p class="card-text">Taking Pierre's chair in 1906 was a symbolic act as much as a career choice. Hundreds came to her first lecture knowing they were witnessing history. Her presence at the Sorbonne made women's scientific authority visible and real.</p>
+    </div>
+    <div class="card teal">
+      <div class="card-icon">📚</div>
+      <div class="card-title">Recommended Reading</div>
+      <p class="card-text"><em>"The Elements of Marie Curie"</em> by Dava Sobel specifically illuminates her role as mentor. Sobel — whose work on Galileo and the longitude problem is outstanding — brings the same careful scholarship to Curie's human legacy. Highly recommended.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--text-primary); margin: 60px 0 20px; text-align: center;">Scientists She Mentored</h3>
+
+  <div class="protege-grid">
+    <div class="protege-card">
+      <div class="protege-name">Irène Joliot-Curie</div>
+      <div class="protege-years">Daughter · Nobel Prize 1935</div>
+      <p class="protege-text">Worked alongside her mother as a field radiographer at age 17. Under Marie's guidance at the Radium Institute, she and her husband Frédéric discovered artificial radioactivity — earning the Nobel Prize in Chemistry the year after Marie died. The legacy continued.</p>
+    </div>
+    <div class="protege-card">
+      <div class="protege-name">Marguerite Perey</div>
+      <div class="protege-years">Technician → Element Discoverer</div>
+      <p class="protege-text">Started as a technician in Curie's lab and was mentored directly by Marie. She went on to discover francium (element 87) in 1939 and in 1962 became the first woman ever elected to the French Academy of Sciences — an honor Marie was denied despite two Nobel Prizes.</p>
+    </div>
+    <div class="protege-card">
+      <div class="protege-name">Ellen Gleditsch</div>
+      <div class="protege-years">Radium Institute 1907–1912</div>
+      <p class="protege-text">Norwegian radiochemist who worked in Curie's lab for five years and became a leading international expert on the half-life of radium. She later became one of Norway's most distinguished scientists and an advocate for women in science.</p>
+    </div>
+    <div class="protege-card">
+      <div class="protege-name">Catherine Chamié</div>
+      <div class="protege-years">Long-term Collaborator</div>
+      <p class="protege-text">Managed the radium standards laboratory at the Radium Institute for decades under Curie's supervision. Her work establishing international radium standards — critical for medical dosing — was published in dozens of papers. She exemplifies the collaborative scientific culture Curie built.</p>
+    </div>
+  </div>
+
+  <div class="curie-quote" style="margin-top: 60px;">
+    <p>"Be less curious about people and more curious about ideas."</p>
+    <cite>— Marie Curie</cite>
+  </div>
+
+  <div class="card" style="margin-top: 24px; border-color: rgba(136,255,153,0.2); background: rgba(136,255,153,0.03);">
+    <div class="card-icon">🌍</div>
+    <div class="card-title">Would That Kind of Support Be Needed Today?</div>
+    <p class="card-text">Women now earn more than half of STEM bachelor's degrees in many countries — a transformation Curie helped make conceivable. Yet women remain underrepresented in senior research positions, physics professorships, and national science academies worldwide. The pipeline Curie built still matters: visible mentors, deliberate inclusion, and institutional commitment remain as necessary today as they were when she defied the French Academy of Sciences.</p>
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<div class="viz-footer">
+  Marie Curie 1867–1934 &nbsp;·&nbsp; Visualization based on BOLLI course materials &nbsp;·&nbsp; 2026
+</div>
+
+<script>
+  function showSection(id) {
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+    window.scrollTo({ top: document.querySelector('.nav-tabs').offsetTop - 10, behavior: 'smooth' });
+    // Re-trigger animations by cloning nodes
+    const section = document.getElementById(id);
+    section.querySelectorAll('.tl-item, .card, .protege-card').forEach(el => {
+      el.style.animation = 'none';
+      el.offsetHeight; // reflow
+      el.style.animation = '';
+    });
+  }
+
+  // Particle positions
+  const particles = document.querySelectorAll('.particle');
+  particles.forEach((p, i) => {
+    p.style.animationDelay = (i * 0.7) + 's';
+    p.style.animationDuration = (5 + i) + 's';
+  });
+</script>
+</body>
+</html>
