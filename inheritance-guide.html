@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inheritance Decision Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-pale: #f5e9c8;
+    --ink: #1a1612;
+    --ink-soft: #3d3530;
+    --parchment: #faf6ee;
+    --parchment-dark: #f0e8d8;
+    --rule: #d4c4a0;
+    --green: #2d5a3d;
+    --green-light: #4a7c5f;
+    --red: #7a2d2d;
+  }
+
+  body {
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    min-height: 100vh;
+    background-image: 
+      radial-gradient(ellipse at 20% 0%, rgba(201,168,76,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 100%, rgba(45,90,61,0.06) 0%, transparent 60%);
+  }
+
+  header {
+    text-align: center;
+    padding: 3.5rem 2rem 2.5rem;
+    border-bottom: 2px solid var(--rule);
+    position: relative;
+  }
+
+  header::before {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: var(--gold);
+    margin: 0 auto 1.5rem;
+  }
+
+  header::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: var(--gold);
+    margin: 1.5rem auto 0;
+  }
+
+  .subtitle {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 900;
+    line-height: 1.15;
+    color: var(--ink);
+  }
+
+  .lead {
+    margin-top: 1rem;
+    color: var(--ink-soft);
+    font-size: 1rem;
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  /* Topic Cards */
+  .topic {
+    margin-bottom: 1.25rem;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    background: #fff;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    transition: box-shadow 0.2s ease;
+  }
+
+  .topic:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.1); }
+
+  .topic-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    cursor: pointer;
+    user-select: none;
+    background: #fff;
+    transition: background 0.15s ease;
+  }
+
+  .topic-header:hover { background: var(--parchment); }
+
+  .topic-num {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gold);
+    min-width: 2rem;
+    line-height: 1;
+  }
+
+  .topic-title {
+    flex: 1;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .topic-tag {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    font-weight: 600;
+    font-family: 'Source Serif 4', serif;
+  }
+
+  .tag-foundation { background: var(--gold-pale); color: #7a6020; }
+  .tag-choice { background: #e8f0ec; color: var(--green); }
+  .tag-strategy { background: #f0e8e8; color: var(--red); }
+  .tag-advisor { background: #e8ecf4; color: #2d3d6a; }
+
+  .chevron {
+    width: 20px;
+    height: 20px;
+    color: var(--gold);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .topic.open .chevron { transform: rotate(180deg); }
+
+  .topic-body {
+    display: none;
+    border-top: 1px solid var(--rule);
+    padding: 0;
+  }
+
+  .topic.open .topic-body { display: block; }
+
+  /* Drilldown items */
+  .drilldown {
+    padding: 1.25rem 1.5rem 1.25rem 3rem;
+    border-bottom: 1px solid var(--parchment-dark);
+    cursor: pointer;
+    transition: background 0.15s ease;
+    position: relative;
+  }
+
+  .drilldown:last-child { border-bottom: none; }
+  .drilldown:hover { background: var(--parchment); }
+
+  .drilldown-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+
+  .drilldown-icon {
+    font-size: 0.8rem;
+    color: var(--gold);
+    transition: transform 0.2s ease;
+  }
+
+  .drilldown.open .drilldown-icon { transform: rotate(90deg); }
+
+  .drilldown-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--ink);
+    flex: 1;
+  }
+
+  .drilldown-hint {
+    font-size: 0.78rem;
+    color: #999;
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .drilldown-content {
+    display: none;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--rule);
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    line-height: 1.75;
+  }
+
+  .drilldown.open .drilldown-content { display: block; }
+
+  /* Comparison table */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .compare-col {
+    padding: 1rem;
+    border-radius: 2px;
+  }
+
+  .compare-col.pros { background: #f0f7f3; border-left: 3px solid var(--green); }
+  .compare-col.cons { background: #fdf0f0; border-left: 3px solid var(--red); }
+
+  .compare-col h4 {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    font-family: 'Source Serif 4', serif;
+  }
+
+  .compare-col.pros h4 { color: var(--green); }
+  .compare-col.cons h4 { color: var(--red); }
+
+  .compare-col ul { list-style: none; }
+  .compare-col ul li {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    padding: 0.3rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .compare-col ul li:last-child { border-bottom: none; }
+  .compare-col ul li::before { flex-shrink: 0; }
+  .compare-col.pros ul li::before { content: '✓'; color: var(--green); font-weight: 700; }
+  .compare-col.cons ul li::before { content: '✗'; color: var(--red); font-weight: 700; }
+
+  /* Callout box */
+  .callout {
+    background: var(--parchment-dark);
+    border-left: 4px solid var(--gold);
+    padding: 1rem 1.2rem;
+    margin: 0.75rem 0;
+    font-size: 0.88rem;
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    border-radius: 0 2px 2px 0;
+  }
+
+  .callout strong { font-style: normal; color: var(--ink); }
+
+  /* Definition boxes */
+  .def-box {
+    background: var(--parchment);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 1rem 1.2rem;
+    margin: 0.6rem 0;
+  }
+
+  .def-box h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+
+  .def-box p {
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+
+  /* Strategy highlight */
+  .strategy-box {
+    background: linear-gradient(135deg, #f5f9f7 0%, #eef5f1 100%);
+    border: 1px solid #b8d4c4;
+    border-radius: 2px;
+    padding: 1.2rem;
+    margin: 0.75rem 0;
+  }
+
+  .strategy-box h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--green);
+    margin-bottom: 0.5rem;
+  }
+
+  .strategy-box p {
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+
+  /* Step sequence */
+  .steps { margin: 0.75rem 0; }
+  .step {
+    display: flex;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--parchment-dark);
+    align-items: flex-start;
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    background: var(--gold);
+    color: white;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+  .step p { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.65; }
+  .step p strong { color: var(--ink); }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid var(--rule);
+    font-size: 0.78rem;
+    color: #aaa;
+    font-style: italic;
+  }
+
+  @media (max-width: 600px) {
+    .compare-grid { grid-template-columns: 1fr; }
+    .topic-tag { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="subtitle">Estate Planning Reference</div>
+  <h1>Inheritance Decision Guide</h1>
+  <p class="lead">A $2 Million Inheritance — Understanding Your Options</p>
+</header>
+
+<div class="container">
+
+  <!-- TOPIC 1: Step-Up in Basis -->
+  <div class="topic" id="t1">
+    <div class="topic-header" onclick="toggleTopic('t1')">
+      <span class="topic-num">I</span>
+      <span class="topic-title">The Step-Up in Basis</span>
+      <span class="topic-tag tag-foundation">Foundation Concept</span>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+    <div class="topic-body">
+
+      <div class="drilldown" onclick="toggleDrill(this)">
+        <div class="drilldown-header">
+          <span class="drilldown-icon">▶</span>
+          <span class="drilldown-title">What Is the Step-Up?</span>
+          <span class="drilldown-hint">The core concept explained</span>
+        </div>
+        <div class="drilldown-content">
+          <p>When someone inherits assets, the IRS resets the <strong>cost basis</strong> of those assets to their fair market value on the date of the decedent's death. This is the "step-up."</p>
+          <br>
+          <div class="callout">
+            <strong>Example:</strong> The deceased bought stock for $200,000 decades ago. It's now worth $2,000,000. That $1,800,000 in embedded capital gains simply <strong>disappears</strong> for tax purposes. Your wife inherits it with a $2,000,000 basis.
+          </div>
+          <p>If she sold it the next day, she would owe <strong>zero capital gains tax</strong> on that pre-death appreciation. It is one of the most valuable tax benefits in the entire U.S. tax code.</p>
+        </div>
+      </div>
+
+      <div class="drilldown" onclick="toggleDrill(this)">
+        <div class="drilldown-header">
+          <span class="drilldown-icon">▶</span>
+          <span class="drilldown-title">Is the Step-Up Exclusive to the In-Kind Option?</span>
+          <span class="drilldown-hint">A common misconception</span>
+        </div>
+        <div class="drilldown-content">
+          <p><strong>No.</strong> This is critical to understand. The step-up has already occurred at the moment of death, at the estate level — regardless of how the inheritance is later distributed.</p>
+          <br>
+          <div class="compare-grid">
+            <div class="compare-col pros">
+              <h4>Cash Payout</h4>
+              <ul>
+                <li>Estate sells assets using the stepped-up basis</li>
+                <li>Estate pays little or no capital gains tax</li>
+                <li>Wife receives clean cash, no embedded liability</li>
+              </ul>
+            </div>
+            <div class="compare-col pros">
+              <h4>In-Kind Transfer</h4>
+              <ul>
+                <li>Assets transfer with stepped-up basis intact</li>
+                <li>Future gains measured from date of death only</li>
+                <li>Wife controls when she sells</li>
+              </ul>
+            </div>
+          </div>
+          <br>
+          <p>The step-up does not favor either option. The pre-death appreciation is permanently forgiven in both cases.</p>
+        </div>
+      </div>
+
+      <div class="drilldown" onclick="toggleDrill(this)">
+        <div class="drilldown-header">
+          <span class="drilldown-icon">▶</span>
+          <span class="drilldown-title">What Gains Are Still Taxable?</span>
+          <span class="drilldown-hint">Post-death appreciation</span>
+        </div>
+        <div class="drilldown-content">
+          <p>Only gains that accrue <em>after</em> the date of death are subject to capital gains tax. The stepped-up basis serves as the new starting point. Any growth from that date forward — whether held by the estate or by your wife — is taxable when eventually sold.</p>
+          <div class="callout">
+            <strong>Key implication:</strong> The in-kind option gives your wife control over <em>when</em> she realizes those post-death gains — spreading them across tax years, offsetting with losses, etc. That timing control is the real tax advantage of in-kind, not the step-up itself.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOPIC 2: Cash vs In-Kind -->
+  <div class="topic" id="t2">
+    <div class="topic-header" onclick="toggleTopic('t2')">
+      <span class="topic-num">II</span>
+      <span class="topic-title">Cash vs. In-Kind — The Choice</span>
+      <span class="topic-tag tag-choice">Decision Point</span>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+    <div class="topic-body">
+
+      <div class="drilldown" onclick="toggleDrill(this)">
+        <div class="drilldown-header">
+          <span class="drilldown-icon">▶</span>
+          <span class="drilldown-title">Accepting In-Kind — Pros & Cons</span>
+          <span class="drilldown-hint">Receive the actual investments</span>
+        </div>
+        <div class="drilldown-content">
+          <div class="compare-grid">
+            <div class="compare-col pros">
+              <h4>Advantages</h4>
+              <ul>
+                <li>Retains stepped-up basis on all assets</li>
+                <li>No immediate tax event at transfer</li>
+                <li>Control over timing of future sales</li>
+                <li>Can spread rebalancing across tax years</li>
+                <li>May keep strong assets already in portfolio</li>
+              </ul>
+            </div>
+            <div class="compare-col cons">
+              <h4>Disadvantages</h4>
+              <ul>
+                <li>May inherit a portfolio that doesn't fit her needs</li>
+                <li>Illiquid assets (real estate, art) bring burdens</li>
+                <li>Ongoing costs on physical assets</li>
+                <li>Valuation complexity for non-traded assets</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="drilldown" onclick="toggleDrill(this)">
+        <div class="drilldown-header">
+          <span class="drilldown-icon">▶</span>
+          <span class="drilldown-title">Accepting Cash — Pros & Cons</span>
+          <span class="drilldown-hint">Receive liquidated proceeds</span>
+        </div>
+        <div class="drilldown-content">
+          <div class="compare-grid">
+            <div class="compare-col pros">
+              <h4>Advantages</h4>
+              <ul>
+                <li>Clean, simple, immediately deployable</li>
+                <li>Invest from scratch per her own strategy</li>
+                <li>No inherited complexity or illiquid assets</li>
+                <li>Ideal if she has specific financial goals</li>
+              </ul>
+            </div>
+            <div class="compare-col cons">
+              <h4>Disadvantages</h4>
+              <ul>
+                <li>Estate absorbs transaction costs and timing risk</li>
+                <li>No control over which assets are sold or when</li>
+                <li>If markets are depressed at liquidation, she gets less</li>
+                <li>Loses strategic ability to time individual sales</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="drilldown" onclick="toggleDrill(this)">
+        <div class="drilldown-header">
+          <span class="drilldown-icon">▶</span>
+          <span class="drilldown-title">Which Is Better?</span>
+          <span class="drilldown-hint">The bottom line</span>
+        </div>
+        <div class="drilldown-content">
+          <p>Because the step-up has already eliminated historical embedded gains, <strong>in-kind is often the more tax-efficient choice</strong> — especially for a large, appreciated portfolio. The question is whether she <em>wants</em> those specific assets.</p>
+          <div class="callout">
+            <strong>If the portfolio is sensible and she'd hold similar investments anyway,</strong> taking it in-kind and gradually rebalancing is typically the smarter path. If the holdings are illiquid, overly concentrated, or simply inappropriate — cash may be worth the trade-off in simplicity.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOPIC 3: The Recommended Strategy -->
+  <div class="topic" id="t3">
+    <div class="topic-header" onclick="toggleTopic('t3')">
+      <span class="topic-num">III</span>
+      <span class="topic-title">The Prudent Strategy — Take In-Kind & Restructure Gradually</span>
+      <span class="topic-tag tag-strategy">Recommended Approach</span>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+    <div class="topic-body">
+
+      <div class="drilldown" onclick="toggleDrill(this)">
+        <div class="drilldown-header">
+          <span class="drilldown-icon">▶</span>
+          <span class="drilldown-title">Why This Approach Makes Sense</span>
+          <span class="drilldown-hint">The rationale</span>
+        </div>
+        <div class="drilldown-content">
+          <p>If the inherited portfolio is well-structured and she hasn't yet determined her ideal investment strategy, accepting in-kind preserves all her options while the money continues working for her.</p>
+          <br>
+          <div class="strategy-box">
+            <h4>The Core Principle</h4>
+            <p>Don't let urgency be manufactured where none exists. A well-structured inherited portfolio affords the luxury of patience — which is itself a significant financial asset. Hasty decisions with large sums are one of the most common and costly mistakes with sudden wealth.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="drilldown" onclick="toggleDrill(this)">
+        <div class="drilldown-header">
+          <span class="drilldown-icon">▶</span>
+          <span class="drilldown-title">Benefits of Gradual Restructuring</span>
+          <span class="drilldown-hint">Why slow and deliberate wins</span>
+        </div>
+        <div class="drilldown-content">
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <p><strong>Avoids panic decisions.</strong> She has time to research and determine what portfolio truly fits her goals, risk tolerance, and timeline.</p>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <p><strong>Tax management.</strong> Spreading sales across multiple years keeps annual capital gains on post-death appreciation manageable.</p>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <p><strong>Discovery value.</strong> She may find significant portions of the portfolio are already excellent and worth keeping, saving unnecessary transaction costs.</p>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <p><strong>Continuity.</strong> Money doesn't sit idle in cash while she figures out what to do — it remains invested throughout.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="drilldown" onclick="toggleDrill(this)">
+        <div class="drilldown-header">
+          <span class="drilldown-icon">▶</span>
+          <span class="drilldown-title">Immediate Action: Build the Inventory</span>
+          <span class="drilldown-hint">First practical step</span>
+        </div>
+        <div class="drilldown-content">
+          <p>Before any restructuring, obtain a clear accounting of the inherited holdings:</p>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <p><strong>Individual positions</strong> — every holding by name, type, and amount.</p>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <p><strong>Stepped-up basis values</strong> — the official valuation as of the date of death for each position.</p>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <p><strong>Income-generating assets</strong> — dividends, bonds, rental income; understand the ongoing cash flows.</p>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <p><strong>Illiquid or complex holdings</strong> — any real estate, private equity, or alternative investments that require special handling.</p>
+            </div>
+          </div>
+          <div class="callout">This inventory becomes her roadmap for the entire restructuring process.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOPIC 4: The Fee-Only Fiduciary Advisor -->
+  <div class="topic" id="t4">
+    <div class="topic-header" onclick="toggleTopic('t4')">
+      <span class="topic-num">IV</span>
+      <span class="topic-title">The Fee-Only Fiduciary Financial Advisor</span>
+      <span class="topic-tag tag-advisor">Professional Guidance</span>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+    <div class="topic-body">
+
+      <div class="drilldown" onclick="toggleDrill(this)">
+        <div class="drilldown-header">
+          <span class="drilldown-icon">▶</span>
+          <span class="drilldown-title">What Is a Fiduciary?</span>
+          <span class="drilldown-hint">Legal duty explained</span>
+        </div>
+        <div class="drilldown-content">
+          <div class="def-box">
+            <h4>Fiduciary Standard</h4>
+            <p>A fiduciary is legally and ethically required to act in <em>your</em> best interest — not their firm's, not their own. They can be held legally accountable if they violate that duty.</p>
+          </div>
+          <p style="margin-top:0.75rem;">This sounds like the baseline standard for any financial advisor. It is not. Many advisors are only held to a <strong>"suitability" standard</strong> — meaning they can recommend products that are merely suitable for your situation, even if better or cheaper alternatives exist.</p>
+        </div>
+      </div>
+
+      <div class="drilldown" onclick="toggleDrill(this)">
+        <div class="drilldown-header">
+          <span class="drilldown-icon">▶</span>
+          <span class="drilldown-title">What Is "Fee-Only"?</span>
+          <span class="drilldown-hint">How they get paid matters enormously</span>
+        </div>
+        <div class="drilldown-content">
+          <div class="compare-grid">
+            <div class="compare-col pros">
+              <h4>Fee-Only ✓</h4>
+              <ul>
+                <li>Paid directly by you — flat fee, hourly, or % of assets</li>
+                <li>No commissions from third parties</li>
+                <li>No referral fees</li>
+                <li>No financial incentive to steer you anywhere</li>
+              </ul>
+            </div>
+            <div class="compare-col cons">
+              <h4>Fee-Based ✗</h4>
+              <ul>
+                <li>Charges you AND earns commissions on products sold</li>
+                <li>Name is deliberately similar — easy to confuse</li>
+                <li>Inherent conflict of interest on every recommendation</li>
+                <li>May favor products that pay them well over better options</li>
+              </ul>
+            </div>
+          </div>
+          <div class="callout" style="margin-top:0.75rem;">
+            <strong>Watch for this:</strong> "Fee-based" sounds nearly identical to "fee-only" and is often used deliberately to create confusion. Always ask explicitly: <em>"Do you receive any compensation other than what I pay you directly?"</em>
+          </div>
+        </div>
+      </div>
+
+      <div class="drilldown" onclick="toggleDrill(this)">
+        <div class="drilldown-header">
+          <span class="drilldown-icon">▶</span>
+          <span class="drilldown-title">Why You Need Both Together</span>
+          <span class="drilldown-hint">Neither term alone is sufficient</span>
+        </div>
+        <div class="drilldown-content">
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <p>A <strong>fiduciary who earns commissions</strong> is still conflicted — even with a legal obligation to serve you, financial incentives can influence behavior.</p>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <p>A <strong>fee-only advisor who isn't a fiduciary</strong> has no legal duty to prioritize your interests over theirs or their firm's.</p>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <p>You want <strong>both simultaneously</strong> — the legal obligation <em>and</em> the clean compensation structure, with no financial incentive to steer you anywhere.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="drilldown" onclick="toggleDrill(this)">
+        <div class="drilldown-header">
+          <span class="drilldown-icon">▶</span>
+          <span class="drilldown-title">How to Find One</span>
+          <span class="drilldown-hint">Practical next steps</span>
+        </div>
+        <div class="drilldown-content">
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <p><strong>NAPFA Directory</strong> — The National Association of Personal Financial Advisors maintains a vetted list of fee-only fiduciary advisors at <em>napfa.org</em>.</p>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <p><strong>CFP Designation</strong> — Look for a CERTIFIED FINANCIAL PLANNER credential. CFPs are held to a fiduciary standard when providing financial planning advice.</p>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <p><strong>Ask the right question</strong> — "Are you a fiduciary 100% of the time, and is your only compensation what I pay you directly?"</p>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <p><strong>Given the scale</strong> — $2 million warrants professional guidance, particularly during an emotionally complex time. The advisor fee is modest relative to the decision's magnitude.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  This guide is for educational purposes. Consult a qualified estate attorney and CPA before making inheritance elections — federal, Massachusetts, and Florida tax rules may all apply.
+</footer>
+
+<script>
+  function toggleTopic(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('open');
+  }
+
+  function toggleDrill(el) {
+    el.classList.toggle('open');
+  }
+
+  // Open first topic by default
+  document.getElementById('t1').classList.add('open');
+</script>
+
+</body>
+</html>
