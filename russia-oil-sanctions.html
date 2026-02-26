@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Russia, Sanctions & the Great Oil Shake-Up</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --deep: #111114;
+    --surface: #18181c;
+    --border: #2a2a30;
+    --amber: #e8a020;
+    --amber-dim: #9a6510;
+    --rust: #c04020;
+    --teal: #2db8a0;
+    --text: #d8d4c8;
+    --muted: #7a7670;
+    --white: #f0ece0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px 60px;
+    overflow: hidden;
+    background: var(--black);
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 60% at 70% 50%, rgba(232,160,32,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(192,64,32,0.06) 0%, transparent 50%);
+  }
+
+  .hero-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 7vw, 88px);
+    font-weight: 900;
+    line-height: 1.0;
+    color: var(--white);
+    max-width: 800px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.4s forwards;
+  }
+
+  .hero h1 span {
+    color: var(--amber);
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 540px;
+    margin-top: 24px;
+    font-style: italic;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.6s forwards;
+  }
+
+  .hero-source {
+    margin-top: 48px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--amber-dim);
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.8s forwards;
+  }
+
+  .hero-rule {
+    position: absolute;
+    right: 60px;
+    top: 80px;
+    bottom: 60px;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--amber-dim) 20%, var(--amber-dim) 80%, transparent);
+    opacity: 0;
+    animation: fadeIn 1.2s 1s forwards;
+  }
+
+  .hero-oil-bg {
+    position: absolute;
+    right: -100px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,160,32,0.04), transparent 70%);
+    border: 1px solid rgba(232,160,32,0.08);
+    opacity: 0;
+    animation: fadeIn 2s 0.5s forwards;
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(24px); }
+  }
+  @keyframes fadeIn {
+    to { opacity: 1; }
+    from { opacity: 0; }
+  }
+
+  /* LAYOUT */
+  .page { max-width: 1200px; margin: 0 auto; padding: 0 60px; }
+
+  section {
+    padding: 80px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 36px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 3.5vw, 42px);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 24px;
+  }
+
+  p {
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 16px;
+    max-width: 680px;
+  }
+
+  /* STATS GRID */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    margin: 48px 0;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    padding: 32px 28px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  .stat-card:hover { background: #1e1e24; }
+
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--amber);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s;
+  }
+
+  .stat-card:hover::before { transform: scaleX(1); }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-unit {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+
+  .stat-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin: 0;
+    max-width: none;
+  }
+
+  /* FLOW MAP */
+  .flow-section {
+    background: var(--surface);
+    padding: 60px;
+    margin: 0 -60px;
+    position: relative;
+  }
+
+  .flow-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--white);
+    margin-bottom: 48px;
+    text-align: center;
+  }
+
+  .flow-diagram {
+    display: grid;
+    grid-template-columns: 1fr 80px 1fr 80px 1fr;
+    gap: 0;
+    align-items: start;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .flow-col { display: flex; flex-direction: column; gap: 12px; }
+
+  .flow-col-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .flow-node {
+    background: var(--black);
+    border: 1px solid var(--border);
+    padding: 14px 18px;
+    border-radius: 2px;
+    font-size: 13px;
+    color: var(--text);
+    text-align: center;
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  .flow-node:hover {
+    border-color: var(--amber);
+    color: var(--white);
+  }
+
+  .flow-node.russia {
+    background: rgba(192,64,32,0.12);
+    border-color: var(--rust);
+    color: var(--white);
+    font-weight: 600;
+    font-size: 16px;
+    padding: 20px;
+  }
+
+  .flow-node.highlight {
+    border-color: var(--amber-dim);
+    background: rgba(232,160,32,0.05);
+  }
+
+  .flow-arrows {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 44px;
+    gap: 12px;
+  }
+
+  .arrow {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(to right, var(--rust), var(--amber-dim));
+    position: relative;
+  }
+
+  .arrow::after {
+    content: '›';
+    position: absolute;
+    right: -8px;
+    top: -10px;
+    color: var(--amber);
+    font-size: 20px;
+  }
+
+  .arrow.was {
+    background: linear-gradient(to right, var(--rust), var(--border));
+    opacity: 0.3;
+  }
+
+  .arrow-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+    margin: 40px 0;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--amber), var(--amber-dim), var(--border));
+  }
+
+  .tl-item {
+    position: relative;
+    margin-bottom: 36px;
+    opacity: 0;
+    animation: fadeUp 0.6s forwards;
+  }
+
+  .tl-item:nth-child(1) { animation-delay: 0.1s; }
+  .tl-item:nth-child(2) { animation-delay: 0.25s; }
+  .tl-item:nth-child(3) { animation-delay: 0.4s; }
+  .tl-item:nth-child(4) { animation-delay: 0.55s; }
+
+  .tl-dot {
+    position: absolute;
+    left: -34px;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--amber);
+    border: 2px solid var(--black);
+    box-shadow: 0 0 0 1px var(--amber);
+  }
+
+  .tl-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--amber);
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+
+  .tl-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .tl-body {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin: 0;
+    max-width: none;
+  }
+
+  /* BUYERS GRID */
+  .buyers-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin: 40px 0;
+  }
+
+  .buyer-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 28px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .buyer-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--amber), transparent);
+  }
+
+  .buyer-country {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .buyer-role {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .buyer-detail {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin: 0;
+    max-width: none;
+  }
+
+  /* CALLOUT */
+  .callout {
+    border-left: 3px solid var(--amber);
+    padding: 24px 32px;
+    background: rgba(232,160,32,0.04);
+    margin: 40px 0;
+    position: relative;
+  }
+
+  .callout p {
+    font-size: 18px;
+    font-style: italic;
+    color: var(--white);
+    margin: 0;
+    max-width: none;
+  }
+
+  .callout-attr {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--amber-dim);
+    letter-spacing: 2px;
+    margin-top: 12px;
+  }
+
+  /* PRICE BAR */
+  .price-visual {
+    margin: 40px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .price-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .price-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    width: 140px;
+    flex-shrink: 0;
+  }
+
+  .price-bar-wrap {
+    flex: 1;
+    height: 8px;
+    background: var(--border);
+    border-radius: 1px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .price-bar-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--rust), var(--amber));
+    border-radius: 1px;
+    animation: barGrow 1.2s cubic-bezier(0.4,0,0.2,1) forwards;
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+
+  @keyframes barGrow {
+    to { transform: scaleX(1); }
+  }
+
+  .price-val {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--amber);
+    width: 60px;
+    text-align: right;
+  }
+
+  /* TWO-COL */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 0;
+    margin-top: 0;
+  }
+
+  footer .page {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-text {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  /* HIGHLIGHT TEXT */
+  .em { color: var(--amber); }
+  .rust { color: var(--rust); }
+  .teal { color: var(--teal); }
+
+  /* DISCOUNT BADGE */
+  .badge {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    background: rgba(192,64,32,0.15);
+    color: var(--rust);
+    border: 1px solid rgba(192,64,32,0.3);
+    padding: 3px 10px;
+    border-radius: 1px;
+    letter-spacing: 1px;
+    vertical-align: middle;
+  }
+
+  @media (max-width: 768px) {
+    .hero { padding: 60px 24px 40px; }
+    .page { padding: 0 24px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .two-col { grid-template-columns: 1fr; gap: 40px; }
+    .buyers-grid { grid-template-columns: 1fr; }
+    .flow-section { padding: 40px 24px; margin: 0 -24px; }
+    .flow-diagram { grid-template-columns: 1fr; }
+    .flow-arrows { display: none; }
+    .hero-rule { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-oil-bg"></div>
+  <div class="hero-rule"></div>
+  <div style="max-width:1200px;margin:0 auto;width:100%">
+    <div class="hero-label">Energy &amp; Geopolitics — Analysis</div>
+    <h1>Russia,<br>Sanctions<br>&amp; the <span>Great Oil</span><br>Shake-Up</h1>
+    <p class="hero-sub">How the global crude market reorganized itself around the G7's sanctioned regime — and who is buying what Russia can no longer sell to Europe.</p>
+    <div class="hero-source">Source: The Ten-Minute Charge-Up with Scott McKnight &nbsp;·&nbsp; <a href="https://www.youtube.com/watch?v=qUjdi3HxBYo" target="_blank" style="color:var(--amber);text-decoration:none;border-bottom:1px solid var(--amber-dim);">Watch on YouTube ↗</a></div>
+  </div>
+</div>
+
+<!-- KEY NUMBERS -->
+<div class="page">
+  <section>
+    <div class="section-label">Key Figures</div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">11M</div>
+        <div class="stat-unit">barrels / day</div>
+        <div class="stat-desc">China's crude oil imports in 2024 — the most of any country in the world.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">$260B</div>
+        <div class="stat-unit">USD — 2024 spend</div>
+        <div class="stat-desc">What China spent on crude oil imports in a single year, at ~$71/barrel.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">$47.60</div>
+        <div class="stat-unit">per barrel — 2025</div>
+        <div class="stat-desc">G7 price cap on Russian-origin crude, reduced from the original $60/barrel cap set in Dec 2022.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">25–35%</div>
+        <div class="stat-unit">discount</div>
+        <div class="stat-desc">Alleged discount on Russian oil for buyers like India, Turkey, and Central Asian states.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- OIL FLOW DIAGRAM -->
+<div class="page">
+  <div class="flow-section">
+    <div class="flow-title">The Rerouting of Russian Oil &amp; Gas</div>
+    <div class="flow-diagram">
+      <!-- Col 1: Russia -->
+      <div class="flow-col">
+        <div class="flow-col-label">Exporter</div>
+        <div class="flow-node russia">🇷🇺 Russia</div>
+      </div>
+
+      <!-- Arrows -->
+      <div class="flow-arrows">
+        <div class="arrow was"></div>
+        <div class="arrow-label">pre-2022</div>
+        <div class="arrow" style="margin-top:12px"></div>
+        <div class="arrow-label">post-2022</div>
+      </div>
+
+      <!-- Col 2: Routes -->
+      <div class="flow-col">
+        <div class="flow-col-label">Route</div>
+        <div class="flow-node" style="opacity:0.4;font-size:12px;color:var(--muted)">Pipeline &amp; Sea<br>(pre-invasion)</div>
+        <div style="height:12px"></div>
+        <div class="flow-node highlight">LNG Tankers &amp;<br>Shadow Fleet</div>
+        <div class="flow-node highlight">Price Cap<br>Circumvention</div>
+        <div class="flow-node highlight">Re-export via<br>India &amp; Turkey</div>
+      </div>
+
+      <!-- Arrows -->
+      <div class="flow-arrows">
+        <div class="arrow was"></div>
+        <div class="arrow" style="margin-top:12px"></div>
+        <div class="arrow"></div>
+        <div class="arrow"></div>
+      </div>
+
+      <!-- Col 3: Buyers -->
+      <div class="flow-col">
+        <div class="flow-col-label">Buyers (Post-2022)</div>
+        <div class="flow-node" style="opacity:0.4;font-size:12px;color:var(--muted)">🇪🇺 Europe<br>(major buyer before)</div>
+        <div style="height:12px"></div>
+        <div class="flow-node highlight">🇨🇳 China<br><span style="font-size:11px;color:var(--muted)">11M bbl/day</span></div>
+        <div class="flow-node highlight">🇮🇳 India<br><span style="font-size:11px;color:var(--muted)">Fastest growing</span></div>
+        <div class="flow-node highlight">🇹🇷 Turkey + Central Asia<br><span style="font-size:11px;color:var(--muted)">Re-export opportunity</span></div>
+      </div>
+    </div>
+    <p style="text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-top:32px;max-width:none;">
+      Over 100 million barrels flow through global markets daily — too large for any coalition to fully redirect.
+    </p>
+  </div>
+</div>
+
+<!-- SANCTIONS TIMELINE -->
+<div class="page">
+  <section>
+    <div class="section-label">Sanctions Timeline</div>
+    <div class="two-col">
+      <div>
+        <h2>The Sanctioned Regime — Event by Event</h2>
+        <p>The G7 moved quickly after the invasion, but building a truly effective sanctions regime requires global buy-in that never fully materialized.</p>
+      </div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">FEB 2022</div>
+          <div class="tl-title">Russia Invades Ukraine</div>
+          <div class="tl-body">The full-scale invasion triggers the G7 sanctions process. Russia controls what will become roughly one-fifth of Ukraine's territory.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">JUN 2022</div>
+          <div class="tl-title">First EU Sanctions Package</div>
+          <div class="tl-body">The EU targets ~90% of its oil imports from Russia — a major blow to Moscow's export revenues, as Europe was its largest customer.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">DEC 2022</div>
+          <div class="tl-title">G7 Price Cap: $60/barrel</div>
+          <div class="tl-body">Western companies may still ship, insure, and finance Russian crude — but only if it trades at or below the cap. Paradoxically, this made Russian oil cheaper for non-Western buyers.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">2025</div>
+          <div class="tl-title">Price Cap Lowered to $47.60</div>
+          <div class="tl-body">Trump administration also targets Rosneft and Gazprom directly. Russia's oil still flows — now through a more complex web of intermediaries and a shadow fleet.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- WHO'S BUYING -->
+<div class="page">
+  <section>
+    <div class="section-label">The New Buyers</div>
+    <h2>Who Fills the Gap When Europe Steps Back?</h2>
+    <p>China, India, Turkey, and Central Asian states have absorbed the Russian barrels Europe stopped buying — each with distinct motivations.</p>
+
+    <div class="buyers-grid">
+      <div class="buyer-card">
+        <div class="buyer-country">🇨🇳 China</div>
+        <div class="buyer-role">World's Largest Oil Importer</div>
+        <div class="buyer-detail">Imports over 11 million barrels per day — by far the most of any country. China buys from every available seller, using its sheer volume as leverage. Chinese companies remain critically dependent on U.S. banking infrastructure, giving Washington theoretical coercive power it has so far not exercised over Russian purchases.</div>
+      </div>
+      <div class="buyer-card">
+        <div class="buyer-country">🇮🇳 India</div>
+        <div class="buyer-role">The New China — Fastest Growing</div>
+        <div class="buyer-detail">India's oil appetite is surging. It's become one of the most active buyers of discounted Russian crude <span class="badge">−25 to 35%</span> and has also emerged as a significant re-exporter of processed Russian energy — with Europe as a key destination, raising questions about sanctions efficacy.</div>
+      </div>
+      <div class="buyer-card">
+        <div class="buyer-country">🇹🇷 Turkey</div>
+        <div class="buyer-role">Buyer &amp; Curious Re-Exporter</div>
+        <div class="buyer-detail">Turkey covers only ~20% of its domestic oil needs from local production, yet it has become a small but growing oil exporter. Its strategic position between Russia and Europe makes it a natural intermediary, taking advantage of discount pricing and resale opportunities.</div>
+      </div>
+      <div class="buyer-card">
+        <div class="buyer-country">🌍 Central Asia</div>
+        <div class="buyer-role">The "Stans" — Sanction-Immune</div>
+        <div class="buyer-detail">U.S. and EU sanctions have almost zero impact across Kazakhstan and neighboring states. The price cap has, perversely, made Russian oil cheaper for them while creating new export arbitrage opportunities. G7 leverage here is minimal.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- WHAT EUROPE IS DOING -->
+<div class="page">
+  <section>
+    <div class="section-label">Europe's Substitutions</div>
+    <div class="two-col">
+      <div>
+        <h2>What's Filling the Gap in Europe?</h2>
+        <p>Europe scrambled to replace Russian energy — and partly succeeded, at a cost and with incomplete results.</p>
+
+        <div class="callout" style="margin-top:32px">
+          <p>"Europe is still buying some Russian oil and gas — now through different means, arriving by LNG tanker rather than pipeline."</p>
+          <div class="callout-attr">— Scott McKnight, The Ten-Minute Charge-Up</div>
+        </div>
+      </div>
+      <div>
+        <div style="margin-bottom:32px">
+          <div class="section-label" style="font-size:9px;margin-bottom:20px">Oil Replacement Sources</div>
+          <div class="price-visual">
+            <div class="price-row">
+              <div class="price-label">Middle East</div>
+              <div class="price-bar-wrap"><div class="price-bar-fill" style="animation-delay:0.1s;width:75%"></div></div>
+              <div class="price-val">Primary</div>
+            </div>
+            <div class="price-row">
+              <div class="price-label">Africa (Angola, Nigeria)</div>
+              <div class="price-bar-wrap"><div class="price-bar-fill" style="animation-delay:0.3s;width:45%"></div></div>
+              <div class="price-val">Growing</div>
+            </div>
+            <div class="price-row">
+              <div class="price-label">Russian LNG (still)</div>
+              <div class="price-bar-wrap"><div class="price-bar-fill" style="animation-delay:0.5s;width:20%;background:linear-gradient(to right,var(--rust),rgba(192,64,32,0.4))"></div></div>
+              <div class="price-val">Residual</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="section-label" style="font-size:9px;margin-bottom:20px">Natural Gas Replacement</div>
+          <div class="price-visual">
+            <div class="price-row">
+              <div class="price-label">U.S. LNG</div>
+              <div class="price-bar-wrap"><div class="price-bar-fill" style="animation-delay:0.2s;width:65%"></div></div>
+              <div class="price-val">Dominant</div>
+            </div>
+            <div class="price-row">
+              <div class="price-label">Qatar LNG</div>
+              <div class="price-bar-wrap"><div class="price-bar-fill" style="animation-delay:0.4s;width:50%"></div></div>
+              <div class="price-val">Significant</div>
+            </div>
+            <div class="price-row">
+              <div class="price-label">Renewables + EVs</div>
+              <div class="price-bar-wrap"><div class="price-bar-fill" style="animation-delay:0.6s;width:22%;background:linear-gradient(to right,var(--teal),rgba(45,184,160,0.4))"></div></div>
+              <div class="price-val">Partial</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- PRICE & GEOPOLITICS -->
+<div class="page">
+  <section>
+    <div class="section-label">Market Conditions &amp; Geopolitics</div>
+    <div class="two-col">
+      <div>
+        <h2>The Oil Market Has Moved On</h2>
+        <p>Despite the war, prices have settled. Crude trades near <span class="em">$60/barrel</span> — dragged down partly by the price cap itself. Natural gas sits at lows not seen since the <span class="em">1990s</span>.</p>
+        <p>The peace proposal mentioned by the Trump administration caused a brief <span class="rust">$3/barrel dip</span> — quickly reversed. Markets had already priced in the "new low normal."</p>
+        <p>As McKnight puts it: the goal of buying gasoline under $2/gallon <span class="em">isn't remotely achievable</span> if other countries genuinely stopped purchasing Russian oil.</p>
+      </div>
+      <div>
+        <div class="callout">
+          <p>"Is it a flawed sanctions regime to blame — or is the global oil market simply too big for any group of countries, even the G7, to actually influence?"</p>
+          <div class="callout-attr">— Scott McKnight</div>
+        </div>
+
+        <div style="margin-top:32px;padding:28px 32px;background:var(--surface);border:1px solid var(--border)">
+          <div class="section-label" style="font-size:9px;margin-bottom:20px">The Xi–Putin Relationship</div>
+          <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--white);margin-bottom:12px">40+ meetings</div>
+          <p style="font-size:13px;color:var(--muted);max-width:none;margin:0">Despite the "no-limit friendship" announced at the 2022 Beijing Winter Olympics, China has not sent forces, replenished weapons stocks, or meaningfully disrupted U.S. financial pressure points. The bromance burns — the material support remains ambiguous.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- BOTTOM LINE -->
+<div class="page">
+  <section style="padding-bottom:0">
+    <div class="section-label">Bottom Line</div>
+    <div style="max-width:740px">
+      <h2>Russian Oil &amp; Gas Continues to Flow — Just Differently</h2>
+      <p>The G7 sanctions regime successfully redirected <em>where</em> Russian energy goes, but failed to meaningfully reduce <em>how much</em> flows or <em>how much money</em> flows back. The price cap made Russian oil cheaper, ironically incentivizing China, India, Turkey, and Central Asia to buy more of it. War funding continues.</p>
+      <p>The peace proposal — if it materializes — may reshape the market once more. But for now, the new global oil architecture looks durable.</p>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="page">
+    <div class="footer-text">Source: "Russia, Sanctions & the Great Oil Shake-Up"<br>The Ten-Minute Charge-Up with Scott McKnight</div>
+    <div class="footer-text" style="text-align:right">Visualization for educational use<br>BOLLI AI Literacy Program</div>
+  </div>
+</footer>
+
+</body>
+</html>
