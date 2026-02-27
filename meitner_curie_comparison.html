@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Two Lives in Physics — Meitner & Curie</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410;
+    --sepia: #5c3d1e;
+    --gold: #c8922a;
+    --cream: #faf6f0;
+    --pale: #f0e8da;
+    --rule: #d4b896;
+    --meitner: #3b5f7a;
+    --curie: #6b3a4a;
+    --overlap: #4a5040;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.75;
+  }
+
+  /* ── MASTHEAD ── */
+  header {
+    background: var(--ink);
+    color: var(--cream);
+    text-align: center;
+    padding: 4rem 2rem 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, #3b2810 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 50%, #1e3040 0%, transparent 60%);
+    opacity: 0.7;
+  }
+  header > * { position: relative; z-index: 1; }
+
+  .kicker {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+  }
+  h1 {
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.5rem;
+  }
+  h1 em { font-style: italic; color: var(--gold); }
+  .subtitle {
+    font-size: 1.15rem;
+    font-style: italic;
+    color: #c8bfb0;
+    margin-top: 0.8rem;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .divider-gold {
+    width: 80px; height: 2px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    margin: 1.5rem auto;
+  }
+
+  /* ── LAYOUT ── */
+  .page { max-width: 960px; margin: 0 auto; padding: 0 1.5rem; }
+
+  /* ── SECTION TITLES ── */
+  .section-title {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+    padding-top: 3.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  h2 {
+    font-size: 1.9rem;
+    font-weight: 400;
+    color: var(--sepia);
+    margin-bottom: 1.4rem;
+    line-height: 1.2;
+  }
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+    color: var(--ink);
+  }
+
+  p { margin-bottom: 1.1rem; }
+
+  /* ── PULL QUOTE ── */
+  blockquote {
+    border-left: 3px solid var(--gold);
+    padding: 1rem 1.5rem;
+    margin: 2rem 0;
+    background: var(--pale);
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--sepia);
+    line-height: 1.5;
+  }
+  blockquote cite {
+    display: block;
+    font-style: normal;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    margin-top: 0.5rem;
+  }
+
+  /* ── TIMELINE CARDS ── */
+  .timeline { margin: 2rem 0; }
+  .tl-item {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 0 1.5rem;
+    margin-bottom: 1.6rem;
+    align-items: start;
+  }
+  .tl-year {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    color: var(--gold);
+    font-weight: 600;
+    padding-top: 0.15rem;
+    text-align: right;
+  }
+  .tl-body {
+    border-left: 1px solid var(--rule);
+    padding-left: 1.2rem;
+  }
+  .tl-body p { margin-bottom: 0; font-size: 0.96rem; }
+
+  /* ── COMPARISON TABLE ── */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin: 2.5rem 0;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+  .compare-header {
+    padding: 1rem 1.4rem;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: white;
+    font-weight: 600;
+  }
+  .compare-header.meitner { background: var(--meitner); }
+  .compare-header.curie   { background: var(--curie); }
+
+  .compare-cell {
+    background: var(--cream);
+    padding: 1rem 1.4rem;
+    font-size: 0.95rem;
+    vertical-align: top;
+  }
+  .compare-cell.shaded { background: var(--pale); }
+  .compare-row-label {
+    grid-column: 1 / -1;
+    background: #ede5da;
+    padding: 0.45rem 1.4rem;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--sepia);
+  }
+
+  /* ── KEY FIGURES ── */
+  .figures {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin: 1.5rem 0;
+  }
+  .figure-chip {
+    background: var(--pale);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 0.55rem 0.9rem;
+    font-size: 0.88rem;
+  }
+  .figure-chip strong {
+    display: block;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.15rem;
+  }
+
+  /* ── THEME CARDS ── */
+  .theme-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    margin: 2rem 0;
+    border: 1px solid var(--rule);
+  }
+  .theme-card {
+    background: var(--cream);
+    padding: 1.4rem;
+  }
+  .theme-card h4 {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+  }
+  .theme-card p { font-size: 0.92rem; margin: 0; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: #8a7f74;
+    text-align: center;
+    padding: 2.5rem;
+    margin-top: 5rem;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  footer span { color: var(--gold); }
+
+  @media (max-width: 640px) {
+    .compare-grid { grid-template-columns: 1fr; }
+    .compare-row-label { grid-column: 1; }
+    .tl-item { grid-template-columns: 70px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════ MASTHEAD ════════════════════ -->
+<header>
+  <p class="kicker">A Study in Physics & Perseverance</p>
+  <h1>Two Lives in <em>Science</em></h1>
+  <div class="divider-gold"></div>
+  <p class="subtitle">Lise Meitner's "Looking Back" (1964) — summary and comparison with Marie Curie</p>
+</header>
+
+<div class="page">
+
+<!-- ════════════════════ MEITNER MEMOIR SUMMARY ════════════════════ -->
+<p class="section-title">Lise Meitner · Looking Back · 1964</p>
+<h2>Memoir Summary</h2>
+
+<p>Written for the <em>Bulletin of the Atomic Scientists</em> in November 1964, "Looking Back" is Meitner's intimate memoir tracing her life in physics from Vienna at the turn of the century to her retirement in Sweden. Rather than a formal scientific account, it reads as a deeply personal reflection on the people, ideas, and circumstances that shaped one of the twentieth century's most consequential careers.</p>
+
+<blockquote>
+  "Life need not be easy, provided only it was not empty."
+  <cite>— Lise Meitner, "Looking Back," 1964</cite>
+</blockquote>
+
+<!-- TIMELINE -->
+<div class="timeline">
+
+  <div class="tl-item">
+    <div class="tl-year">1901–05</div>
+    <div class="tl-body"><p><strong>Vienna.</strong> Meitner studies mathematics, physics, and philosophy at Vienna University — an era when women attending lectures was still a rarity. She is profoundly shaped by Ludwig Boltzmann's passionate teaching on thermodynamics and atomic theory.</p></div>
+  </div>
+
+  <div class="tl-item">
+    <div class="tl-year">1906</div>
+    <div class="tl-body"><p><strong>Doctoral work & first research.</strong> Her PhD thesis on thermal conductivity is completed under Professor Exner. An independent paper on optics (the Fresnel Reflection Formula) gives her the confidence to seek postgraduate study abroad.</p></div>
+  </div>
+
+  <div class="tl-item">
+    <div class="tl-year">1907</div>
+    <div class="tl-body"><p><strong>Arrival in Berlin.</strong> She intends to stay "a few terms" — she remains 31 years. She encounters Max Planck's lectures and soon begins the collaboration with Otto Hahn that will define decades of radioactivity research.</p></div>
+  </div>
+
+  <div class="tl-item">
+    <div class="tl-year">1907–13</div>
+    <div class="tl-body"><p><strong>The carpenter's workshop.</strong> Because Emil Fischer barred women from his chemistry institute, Meitner and Hahn work in a converted carpenter's shop — a room with no access to the rest of the building. She recalls chemists pointedly greeting only Hahn on the street. Despite this, she thrives in the famous Wednesday colloquia where Planck, Einstein, Nernst, and a brilliant circle of young physicists debated every new advance.</p></div>
+  </div>
+
+  <div class="tl-item">
+    <div class="tl-year">1909</div>
+    <div class="tl-body"><p><strong>First encounter with Einstein.</strong> At the Salzburg congress Meitner hears Einstein derive E=mc² and present the inert mass of radiation — a moment she recalls with undiminished clarity fifty-five years later.</p></div>
+  </div>
+
+  <div class="tl-item">
+    <div class="tl-year">1913–20</div>
+    <div class="tl-body"><p><strong>Kaiser Wilhelm Institute & WWI.</strong> She moves to the new Kaiser Wilhelm Institute of Chemistry. During WWI she serves as a radiologist in Austrian field hospitals; Hahn works on gas warfare. Between leaves of absence they still manage to identify <em>protactinium</em>, the mother substance of actinium (element 91).</p></div>
+  </div>
+
+  <div class="tl-item">
+    <div class="tl-year">1917</div>
+    <div class="tl-body"><p><strong>Head of department.</strong> She is given charge of a new department of radioactive physics — made possible largely through funding from I.G. Farben. From this point her work diverges from Hahn's, focusing on beta-ray line spectra and their relationship to gamma radiation.</p></div>
+  </div>
+
+  <div class="tl-item">
+    <div class="tl-year">1920s–30s</div>
+    <div class="tl-body"><p><strong>Golden years.</strong> The Dahlem institute is vibrant; Meitner takes part in Bohr's celebrated annual conferences in Copenhagen. She describes the period as "very stimulating," surrounded by students and colleagues united by mutual trust even as political storm clouds gather after 1933.</p></div>
+  </div>
+
+  <div class="tl-item">
+    <div class="tl-year">1934–38</div>
+    <div class="tl-body"><p><strong>Uranium experiments.</strong> Inspired by Fermi's neutron-bombardment results, Meitner and Hahn resume joint work. Their experiments ultimately lead Hahn and Strassmann to uranium fission. Meitner, already exiled in Stockholm, provides the first theoretical interpretation of the discovery — with nephew Otto Frisch — and Frisch demonstrates the enormous energy release.</p></div>
+  </div>
+
+  <div class="tl-item">
+    <div class="tl-year">1938–68</div>
+    <div class="tl-body"><p><strong>Sweden.</strong> After fleeing Nazi Germany, Meitner builds a new scientific life in Stockholm. She acknowledges the assistance of Oskar Klein, Sigvard Eklund, and Professor Borelius, who gives her rooms for a small nuclear-physics department she directs until retirement. The memoir closes with an anxious note about whether humanity will use its new knowledge for "destruction on a tremendous scale."</p></div>
+  </div>
+
+</div><!-- end timeline -->
+
+<!-- KEY FIGURES -->
+<p class="section-title">Key Figures in the Memoir</p>
+<div class="figures">
+  <div class="figure-chip"><strong>Ludwig Boltzmann</strong>Beloved Vienna mentor; thermodynamics & atomic theory</div>
+  <div class="figure-chip"><strong>Max Planck</strong>Berlin host & later assistant; quantum theory pioneer</div>
+  <div class="figure-chip"><strong>Otto Hahn</strong>30-year research partner; co-discoverer of fission</div>
+  <div class="figure-chip"><strong>Albert Einstein</strong>Colleague; E=mc² lecture recalled vividly</div>
+  <div class="figure-chip"><strong>Niels Bohr</strong>"Bohr without bigwigs" — most influential physicist of two generations</div>
+  <div class="figure-chip"><strong>O.R. Frisch</strong>Nephew; co-authored fission interpretation</div>
+  <div class="figure-chip"><strong>Emil Fischer</strong>Nobel chemist who barred women — then later championed her</div>
+  <div class="figure-chip"><strong>Rutherford</strong>Met 1908: "Oh, I thought you were a man!"</div>
+</div>
+
+<!-- THEMES -->
+<p class="section-title">Major Themes</p>
+<div class="theme-cards">
+  <div class="theme-card">
+    <h4>Barriers to Women</h4>
+    <p>Forced to work in a locked workshop, excluded from rooms, ignored on the street — discrimination is woven quietly into every phase of her early career.</p>
+  </div>
+  <div class="theme-card">
+    <h4>Scientific Community</h4>
+    <p>The Berlin Wednesday colloquia and Bohr's Copenhagen conferences embody her ideal: brilliant people sharing discoveries with genuine generosity across national lines.</p>
+  </div>
+  <div class="theme-card">
+    <h4>War & Exile</h4>
+    <p>Two world wars disrupt her work and ultimately expel her from Germany. She observes the consequences with sadness but without bitterness.</p>
+  </div>
+  <div class="theme-card">
+    <h4>Ethical Anxiety</h4>
+    <p>The memoir ends not in triumph but in worry — the knowledge unlocked by nuclear physics could, she writes, be turned to unprecedented destruction.</p>
+  </div>
+  <div class="theme-card">
+    <h4>Intellectual Joy</h4>
+    <p>Physics is described as a "magic musical accompaniment" to her life — wonder at apparatus, at Boltzmann's enthusiasm, at Einstein's lecture, never dims.</p>
+  </div>
+  <div class="theme-card">
+    <h4>Collaboration</h4>
+    <p>Long partnerships (especially with Hahn) defined her science. She credits chemists, physicists, and students alike for enabling every advance.</p>
+  </div>
+</div>
+
+
+<!-- ════════════════════ COMPARISON ════════════════════ -->
+<p class="section-title">Parallel Lives</p>
+<h2>Meitner & Curie — A Comparison</h2>
+
+<p>Lise Meitner (1878–1968) and Marie Curie (1867–1934) were near-contemporaries who navigated the same era of extraordinary physics while facing many of the same institutional barriers. Yet their paths, personalities, and legacies diverged sharply.</p>
+
+<div class="compare-grid">
+  <div class="compare-header meitner">Lise Meitner</div>
+  <div class="compare-header curie">Marie Curie</div>
+
+  <div class="compare-row-label">Origins &amp; Education</div>
+  <div class="compare-cell">Born Vienna, Austria. Initially delayed from university by social convention and lack of girls' matura schooling. Earned doctorate at Vienna (1906) — only the second woman to do so.</div>
+  <div class="compare-cell shaded">Born Warsaw, then Russian-occupied Poland. Funded her sister's Paris education before her own. Earned licences in physics and mathematics at the Sorbonne, top of her class.</div>
+
+  <div class="compare-row-label">Field of Research</div>
+  <div class="compare-cell">Nuclear physics and radioactivity. Discovered the element protactinium (1917); provided the theoretical explanation of nuclear fission (1938).</div>
+  <div class="compare-cell shaded">Radioactivity (coined the term). Discovered polonium and radium; first to theorize that radioactivity was an atomic property, not a chemical one.</div>
+
+  <div class="compare-row-label">Key Collaboration</div>
+  <div class="compare-cell">Otto Hahn — a 30-year partnership combining her physics insight with his radiochemistry, though she received far less public credit for their joint work.</div>
+  <div class="compare-cell shaded">Pierre Curie — husband and scientific equal who explicitly championed her contributions. After his death (1906) she continued alone.</div>
+
+  <div class="compare-row-label">Institutional Treatment</div>
+  <div class="compare-cell">Barred from chemistry labs; forced to use a carpenter's workshop for years. Eventually headed her own department. Fled Germany in 1938 with only a small suitcase to avoid Nazi persecution.</div>
+  <div class="compare-cell shaded">Refused admission to the Académie des Sciences (1911) despite two Nobel Prizes. Survived press attacks on her nationality and personal life. Her Polish identity was held against her.</div>
+
+  <div class="compare-row-label">Nobel Recognition</div>
+  <div class="compare-cell">Never awarded a Nobel Prize despite being nominated numerous times. The 1944 chemistry prize for nuclear fission was given solely to Hahn — widely regarded today as one of the Nobel Committee's greatest oversights.</div>
+  <div class="compare-cell shaded">Won <em>two</em> Nobel Prizes: Physics (1903, shared with Pierre and Becquerel) and Chemistry (1911, solo) — the first person ever to win two, and still the only woman to have done so.</div>
+
+  <div class="compare-row-label">Response to War &amp; Politics</div>
+  <div class="compare-cell">Served as an X-ray radiologist in WWI field hospitals. Continued working in Berlin through the Nazi rise until 1938, believing the regime would pass. Deeply troubled by nuclear weapons' potential for destruction.</div>
+  <div class="compare-cell shaded">Developed mobile X-ray units ("petites Curies") during WWI, personally driving them to the front. Strongly patriotic toward her adopted France; devoted to using science for humanity.</div>
+
+  <div class="compare-row-label">Personality &amp; Legacy</div>
+  <div class="compare-cell">Reserved, reflective, deeply humane. Privately critical of Hahn's failure to defend her publicly after the war. Called "the mother of nuclear fission" — element 109, <em>meitnerium</em>, bears her name.</div>
+  <div class="compare-cell shaded">Intensely driven, often stoic. Became an international symbol of scientific achievement for women. The unit of radioactivity, the <em>curie</em>, bears her name. Her notebooks remain radioactive to this day.</div>
+
+  <div class="compare-row-label">Shared Experiences</div>
+  <div class="compare-cell colspan="2">Both worked in physically hazardous conditions with radioactive materials. Both faced systematic exclusion from the scientific establishment. Both persisted through two world wars. Both expressed deep anxiety about the misuse of the science they helped create.</div>
+  <div class="compare-cell shaded colspan="2">&nbsp;</div>
+</div>
+
+<blockquote>
+  Where Curie triumphed publicly — winning two Nobels, gaining international fame — Meitner was erased: exiled, uncredited for fission, and overlooked by Stockholm. Yet both women believed, without reservation, that physics itself was worth any personal cost.
+</blockquote>
+
+<p>The most striking contrast between them lies not in their science but in their visibility. Curie was celebrated — and attacked — as a public figure. Meitner operated largely in the background, content to let the work speak. This modesty, which earned her affection from colleagues like Planck and Bohr, also made her easier to overlook when prizes were distributed. Her memoir never expresses self-pity about this; she thanks physics itself for filling her life with meaning.</p>
+
+<p>Both women left science permanently transformed. Curie opened radioactivity as a field and proved that a woman could hold a university chair in France. Meitner's fission interpretation unlocked the nuclear age. Together they stand as the two towering female figures of early modern physics — and two of its most consequential human beings.</p>
+
+</div><!-- end .page -->
+
+<footer>
+  <span>Lise Meitner</span> · "Looking Back" · Bulletin of the Atomic Scientists · November 1964
+  &emsp;|&emsp; Summary &amp; Comparison prepared with Claude
+</footer>
+
+</body>
+</html>
