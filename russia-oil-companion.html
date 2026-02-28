@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Companion — Russia, Sanctions & the Great Oil Shake-Up</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #eef2f7;
+    --surface: #ffffff;
+    --surface2: #dde6f0;
+    --border: #b8cde0;
+    --dark: #0d1f2d;
+    --dark2: #162940;
+    --amber: #1a5c8a;
+    --amber-light: #5ab0e8;
+    --rust: #1a4a72;
+    --teal: #2a7fbf;
+    --text: #0d1f2d;
+    --text2: #3a5570;
+    --white: #f0f6fc;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* TOP BAR */
+  .topbar {
+    background: var(--dark);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid var(--amber);
+  }
+
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .watch-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #1a5c8a;
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 6px 14px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .watch-badge:hover { background: #2a7fbf; }
+
+  .watch-badge svg { width: 14px; height: 14px; fill: #fff; flex-shrink: 0; }
+
+  .topbar-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #d8d0c0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .topbar-right {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #a8c8e8;
+    letter-spacing: 1px;
+    font-style: italic;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--dark2);
+    padding: 28px 24px 24px;
+    border-bottom: 1px solid #3a342e;
+  }
+
+  .header-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--amber-light);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .header h1 span { color: var(--amber-light); }
+
+  .header-sub {
+    font-size: 15px;
+    color: #a8c8e8;
+    margin-top: 10px;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+  }
+
+  /* INSTRUCTION STRIP */
+  .instruction {
+    background: var(--dark2);
+    border-bottom: 1px solid #2a5070;
+    padding: 10px 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: #a8c8e8;
+    letter-spacing: 1px;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .instruction::before {
+    content: '▶';
+    font-size: 9px;
+  }
+
+  /* SECTIONS GRID */
+  .sections {
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* SECTION CARD */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--border);
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .card.active {
+    border-left-color: var(--amber);
+    box-shadow: 0 2px 16px rgba(200,120,0,0.12);
+  }
+
+  .card-header {
+    padding: 16px 20px;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 16px;
+    align-items: center;
+    user-select: none;
+    transition: background 0.15s;
+  }
+
+  .card-header:hover { background: var(--surface2); }
+
+  .card.active .card-header { background: var(--surface2); }
+
+  .timestamp {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: #5ab0e8;
+    background: rgba(42,127,191,0.14);
+    padding: 4px 8px;
+    text-align: center;
+    border: 1px solid rgba(90,176,232,0.4);
+  }
+
+  .controls-bar {
+    max-width: 900px;
+    margin: 12px auto 0;
+    padding: 0 16px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .expand-all-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #fff;
+    background: #2a7fbf;
+    border: none;
+    padding: 8px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+  }
+
+  .expand-all-btn:hover { background: #1a5c8a; }
+
+  .card-title-block {}
+
+  .card-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--text2);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  .card-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.1;
+  }
+
+  .card-summary {
+    font-size: 12px;
+    color: var(--text2);
+    margin-top: 3px;
+    font-style: italic;
+  }
+
+  .toggle-icon {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    color: var(--amber);
+    font-weight: 600;
+    width: 28px;
+    text-align: center;
+    transition: transform 0.3s;
+  }
+
+  .card.active .toggle-icon { transform: rotate(45deg); }
+
+  /* DRILLDOWN */
+  .drilldown {
+    display: none;
+    border-top: 1px solid var(--border);
+    background: var(--white);
+  }
+
+  .card.active .drilldown { display: block; }
+
+  .drilldown-inner {
+    padding: 20px 20px 20px 96px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  /* KEY POINTS */
+  .points-col {}
+
+  .points-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--text2);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .point {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+  }
+
+  .point-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--amber);
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+
+  .point-text {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  /* METRICS */
+  .metrics-col {}
+
+  .metrics-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--text2);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .metric {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 10px 12px;
+    background: var(--surface2);
+    border-left: 3px solid var(--amber);
+  }
+
+  .metric-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--dark);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .metric-num.rust { color: #1a4a72; }
+  .metric-num.teal { color: #2a7fbf; }
+
+  .metric-info {}
+
+  .metric-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .metric-context {
+    font-size: 10px;
+    color: var(--text2);
+    font-style: italic;
+    margin-top: 1px;
+  }
+
+  /* QUOTE BLOCK */
+  .quote-block {
+    grid-column: 1 / -1;
+    border-left: 3px solid #1a5c8a;
+    padding: 10px 14px;
+    background: rgba(26,92,138,0.06);
+    margin-top: 4px;
+  }
+
+  .quote-block p {
+    font-size: 13px;
+    color: var(--dark);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  .quote-block .qa {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #1a5c8a;
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+
+  /* FULL WIDTH METRIC ROW */
+  .metrics-row {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+
+  .mini-metric {
+    flex: 1;
+    min-width: 100px;
+    padding: 10px 14px;
+    background: var(--surface2);
+    border-top: 3px solid var(--amber);
+    text-align: center;
+  }
+
+  .mini-metric .num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--dark);
+    line-height: 1;
+  }
+
+  .mini-metric .num.rust { color: #1a4a72; }
+  .mini-metric .num.teal { color: #2a7fbf; }
+  .mini-metric .num.amber { color: #1a5c8a; }
+
+  .mini-metric .lbl {
+    font-size: 11px;
+    color: var(--text2);
+    margin-top: 4px;
+    line-height: 1.3;
+  }
+
+  /* COLOR VARIANTS BY SECTION */
+  .card:nth-child(1) { border-left-color: #888; }
+  .card:nth-child(1).active { border-left-color: #1a4a72; }
+  .card:nth-child(1).active .timestamp { color: #1a4a72; background: rgba(26,74,114,0.08); border-color: rgba(26,74,114,0.2); }
+  .card:nth-child(1).active .toggle-icon { color: #1a4a72; }
+  .card:nth-child(1).active .metric { border-left-color: #1a4a72; }
+  .card:nth-child(1).active .point-dot { background: #1a4a72; }
+
+  .card:nth-child(3) { }
+  .card:nth-child(3).active { border-left-color: #2a7fbf; }
+  .card:nth-child(3).active .timestamp { color: #2a7fbf; background: rgba(42,127,191,0.08); border-color: rgba(42,127,191,0.2); }
+  .card:nth-child(3).active .toggle-icon { color: #2a7fbf; }
+  .card:nth-child(3).active .metric { border-left-color: #2a7fbf; }
+  .card:nth-child(3).active .point-dot { background: #2a7fbf; }
+
+  /* FOOTER */
+  .footer-bar {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 16px 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+  }
+
+  .footer-src {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text2);
+    line-height: 1.7;
+  }
+
+  .footer-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: #1a5c8a;
+    text-decoration: none;
+    border: 1px solid #1a5c8a;
+    padding: 8px 16px;
+    transition: all 0.2s;
+  }
+
+  .footer-link:hover {
+    background: #1a5c8a;
+    color: #fff;
+  }
+
+  .footer-link svg { width: 14px; height: 14px; fill: currentColor; }
+
+  @media (max-width: 640px) {
+    .drilldown-inner {
+      grid-template-columns: 1fr;
+      padding: 16px;
+    }
+    .card-header { grid-template-columns: 52px 1fr auto; gap: 10px; }
+    .metrics-row { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <a class="watch-badge" href="https://www.youtube.com/watch?v=qUjdi3HxBYo" target="_blank">
+      <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      WATCH ON YOUTUBE
+    </a>
+    <div class="topbar-title">Russia · Sanctions · Oil Markets</div>
+  </div>
+  <div class="topbar-right">STUDY COMPANION · 10-MIN CHARGE-UP</div>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-tag">▶ Active Viewing Guide — Click each section as it plays</div>
+  <h1>The <span>Great Oil</span> Shake-Up<br>Section by Section</h1>
+  <div class="header-sub">Scott McKnight · The Ten-Minute Charge-Up · Tap any section to expand key points &amp; metrics</div>
+</div>
+
+<div class="instruction">
+  CLICK EACH SECTION CARD TO REVEAL KEY POINTS AND SUPPORTING DATA AS YOU WATCH
+</div>
+
+<div class="controls-bar">
+  <button class="expand-all-btn" onclick="toggleAll()">
+    <span id="expand-icon">▼▼</span>
+    <span id="expand-label">EXPAND ALL</span>
+  </button>
+</div>
+
+<!-- SECTION CARDS -->
+<div class="sections">
+
+  <!-- SECTION 1 -->
+  <div class="card" onclick="toggle(this)">
+    <div class="card-header">
+      <div class="timestamp">0:00–0:40</div>
+      <div class="card-title-block">
+        <div class="card-num">Section 01</div>
+        <div class="card-title">The Peace Proposal &amp; Oil Price Signal</div>
+        <div class="card-summary">Trump's proposal triggers a brief market dip — quickly reversed</div>
+      </div>
+      <div class="toggle-icon">+</div>
+    </div>
+    <div class="drilldown">
+      <div class="drilldown-inner">
+        <div class="points-col">
+          <div class="points-label">Key Points</div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">Trump peace proposal likely includes Russia keeping seized territories — roughly 1/5 of Ukraine</div></div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">That territorial concession alone makes the proposal a non-starter for Ukraine</div></div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">Oil markets reacted instantly — then snapped back to the "new low normal"</div></div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">Market recovery shows traders see the conflict as structurally durable, not ending soon</div></div>
+        </div>
+        <div class="metrics-col">
+          <div class="metrics-label">Numbers</div>
+          <div class="metric">
+            <div class="metric-num rust">~20%</div>
+            <div class="metric-info">
+              <div class="metric-label">Ukraine territory seized by Russia</div>
+              <div class="metric-context">Core sticking point in any negotiation</div>
+            </div>
+          </div>
+          <div class="metric">
+            <div class="metric-num rust">−$3</div>
+            <div class="metric-info">
+              <div class="metric-label">Crude price dip on peace news</div>
+              <div class="metric-context">Per barrel — quickly reversed</div>
+            </div>
+          </div>
+          <div class="metric">
+            <div class="metric-num">4 yrs</div>
+            <div class="metric-info">
+              <div class="metric-label">War nearing its 4th year</div>
+              <div class="metric-context">No clear winner, no significant territorial shifts</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="card" onclick="toggle(this)">
+    <div class="card-header">
+      <div class="timestamp">0:40–2:50</div>
+      <div class="card-title-block">
+        <div class="card-num">Section 02</div>
+        <div class="card-title">The G7 Sanctions Architecture</div>
+        <div class="card-summary">EU packages, the price cap, and what they actually do — and don't do</div>
+      </div>
+      <div class="toggle-icon">+</div>
+    </div>
+    <div class="drilldown">
+      <div class="drilldown-inner">
+        <div class="points-col">
+          <div class="points-label">Key Points</div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">EU's first sanctions package (Jun 2022) targeted ~90% of its Russian oil imports</div></div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">The price cap does NOT ban Russian oil — it caps what Western firms can help ship/insure/finance</div></div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">Western companies can still transact in Russian crude below the cap — a critical loophole</div></div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">Trump's 2025 package added direct sanctions on Rosneft and Gazprom</div></div>
+        </div>
+        <div class="metrics-col">
+          <div class="metrics-label">Numbers</div>
+          <div class="metric">
+            <div class="metric-num">90%</div>
+            <div class="metric-info">
+              <div class="metric-label">EU oil imports from Russia targeted</div>
+              <div class="metric-context">First sanctions package, June 2022</div>
+            </div>
+          </div>
+          <div class="metric">
+            <div class="metric-num">$60</div>
+            <div class="metric-info">
+              <div class="metric-label">Original G7 price cap per barrel</div>
+              <div class="metric-context">Set December 2022</div>
+            </div>
+          </div>
+          <div class="metric">
+            <div class="metric-num rust">$47.60</div>
+            <div class="metric-info">
+              <div class="metric-label">Revised price cap per barrel</div>
+              <div class="metric-context">Lowered in 2025</div>
+            </div>
+          </div>
+        </div>
+        <div class="quote-block">
+          <p>"The price cap doesn't ban the sale of Russian crude — Western companies can still ship, insure, and help with the financial transactions."</p>
+          <div class="qa">— McKnight, ~2:40</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="card" onclick="toggle(this)">
+    <div class="card-header">
+      <div class="timestamp">2:50–4:08</div>
+      <div class="card-title-block">
+        <div class="card-num">Section 03</div>
+        <div class="card-title">Who's Filling Europe's Gap?</div>
+        <div class="card-summary">Europe shifts to Middle East, Africa, U.S. LNG — but still buys some Russian energy</div>
+      </div>
+      <div class="toggle-icon">+</div>
+    </div>
+    <div class="drilldown">
+      <div class="drilldown-inner">
+        <div class="points-col">
+          <div class="points-label">Key Points</div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">Oil replacement: Middle East + African exporters (Angola, Nigeria)</div></div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">Natural gas replacement: Qatar &amp; U.S. LNG — the U.S. is now world's largest LNG exporter</div></div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">Russian gas still arrives in Europe — now by LNG tanker instead of pipeline (Nord Stream gone)</div></div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">Renewables and EV growth helped but couldn't close the gap quickly enough</div></div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">Europe was deeply gas-dependent before the invasion — the "bridge fuel" trap</div></div>
+        </div>
+        <div class="metrics-col">
+          <div class="metrics-label">Replacement Sources</div>
+          <div class="metric">
+            <div class="metric-num teal">#1</div>
+            <div class="metric-info">
+              <div class="metric-label">U.S. is world's largest LNG exporter</div>
+              <div class="metric-context">Key gas replacement for Europe</div>
+            </div>
+          </div>
+          <div class="metric">
+            <div class="metric-num teal">LNG</div>
+            <div class="metric-info">
+              <div class="metric-label">Russian gas still enters Europe</div>
+              <div class="metric-context">Via tanker ship — longer route, same destination</div>
+            </div>
+          </div>
+          <div class="metric">
+            <div class="metric-num">2</div>
+            <div class="metric-info">
+              <div class="metric-label">African exporters filling oil gap</div>
+              <div class="metric-context">Angola &amp; Nigeria as key new sources</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="card" onclick="toggle(this)">
+    <div class="card-header">
+      <div class="timestamp">4:08–6:51</div>
+      <div class="card-title-block">
+        <div class="card-num">Section 04</div>
+        <div class="card-title">The New Buyers: China, India, Turkey &amp; the Stans</div>
+        <div class="card-summary">Who absorbed Russia's redirected oil — and why the discounts matter</div>
+      </div>
+      <div class="toggle-icon">+</div>
+    </div>
+    <div class="drilldown">
+      <div class="drilldown-inner">
+        <div class="points-col">
+          <div class="points-label">Key Points</div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">China uses volume as leverage — buys from every seller globally, turning purchasing into a strategic sport</div></div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">India is the "new China" — its appetite is growing fast and it's now a significant re-exporter of processed Russian energy</div></div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">Turkey covers only ~20% of domestic needs locally — yet is becoming a small oil exporter via arbitrage</div></div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">Central Asian "stans" — G7 sanctions have almost zero impact; they benefit from cheap Russian prices</div></div>
+        </div>
+        <div class="metrics-col">
+          <div class="metrics-label">Scale of Purchases</div>
+          <div class="metric">
+            <div class="metric-num">11M</div>
+            <div class="metric-info">
+              <div class="metric-label">Barrels/day imported by China (2024)</div>
+              <div class="metric-context">Most of any country on Earth</div>
+            </div>
+          </div>
+          <div class="metric">
+            <div class="metric-num">$260B</div>
+            <div class="metric-info">
+              <div class="metric-label">China's annual crude import spend</div>
+              <div class="metric-context">At ~$71/barrel average in 2024</div>
+            </div>
+          </div>
+          <div class="metric">
+            <div class="metric-num rust">25–35%</div>
+            <div class="metric-info">
+              <div class="metric-label">Alleged discount on Russian crude</div>
+              <div class="metric-context">The price cap made this possible</div>
+            </div>
+          </div>
+        </div>
+        <div class="metrics-row">
+          <div class="mini-metric">
+            <div class="num amber">~20%</div>
+            <div class="lbl">Turkey's domestic oil self-sufficiency</div>
+          </div>
+          <div class="mini-metric">
+            <div class="num rust">↑</div>
+            <div class="lbl">India: fastest-growing oil importer</div>
+          </div>
+          <div class="mini-metric">
+            <div class="num teal">0</div>
+            <div class="lbl">G7 sanction impact on Central Asia</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="card" onclick="toggle(this)">
+    <div class="card-header">
+      <div class="timestamp">7:00–8:35</div>
+      <div class="card-title-block">
+        <div class="card-num">Section 05</div>
+        <div class="card-title">Is the Sanctions Regime Fatally Flawed?</div>
+        <div class="card-summary">Too big to sanction? The market vs. the G7 — and Trump's price goal contradiction</div>
+      </div>
+      <div class="toggle-icon">+</div>
+    </div>
+    <div class="drilldown">
+      <div class="drilldown-inner">
+        <div class="points-col">
+          <div class="points-label">Key Points</div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">Sanctions only work with broad buy-in — which the G7 never achieved globally</div></div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">The global oil market processes 100M+ barrels/day — possibly too large for any coalition to redirect</div></div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">Trump's "gasoline under $2" claim is implausible if Russian oil were truly cut off</div></div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">The price cap's unintended effect: made Russian oil cheaper, encouraging more purchases by non-G7 buyers</div></div>
+        </div>
+        <div class="metrics-col">
+          <div class="metrics-label">Scale Context</div>
+          <div class="metric">
+            <div class="metric-num">100M+</div>
+            <div class="metric-info">
+              <div class="metric-label">Barrels of oil traded globally per day</div>
+              <div class="metric-context">The scale that makes sanctions hard to enforce</div>
+            </div>
+          </div>
+          <div class="metric">
+            <div class="metric-num rust">&lt;$2</div>
+            <div class="metric-info">
+              <div class="metric-label">Trump's gas price boast (per gallon)</div>
+              <div class="metric-context">Impossible if Russian oil truly curtailed</div>
+            </div>
+          </div>
+          <div class="metric">
+            <div class="metric-num">$60</div>
+            <div class="metric-info">
+              <div class="metric-label">Current crude price range (per barrel)</div>
+              <div class="metric-context">The "new low normal" — dragged down partly by price cap</div>
+            </div>
+          </div>
+        </div>
+        <div class="quote-block">
+          <p>"Is it a flawed sanctions regime — or is the global oil market simply too big for any group of countries, even the G7, to actually influence?"</p>
+          <div class="qa">— McKnight, ~7:04</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6 -->
+  <div class="card" onclick="toggle(this)">
+    <div class="card-header">
+      <div class="timestamp">8:35–9:54</div>
+      <div class="card-title-block">
+        <div class="card-num">Section 06</div>
+        <div class="card-title">U.S.–China–Russia Triangle</div>
+        <div class="card-summary">Washington has leverage it hasn't used — and the Xi–Putin bromance has limits</div>
+      </div>
+      <div class="toggle-icon">+</div>
+    </div>
+    <div class="drilldown">
+      <div class="drilldown-inner">
+        <div class="points-col">
+          <div class="points-label">Key Points</div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">U.S. could ban Chinese firms from the U.S. banking system — Chinese companies are critically dependent on this and terrified of losing access</div></div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">But Russian oil purchases are far down the U.S.–China priority list — chips, Taiwan, rare earths rank higher</div></div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">Trump did NOT raise Russian oil purchases when meeting Xi Jinping in South Korea</div></div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">Despite 40+ Xi–Putin meetings, China has NOT sent weapons or forces to Russia — support is ambiguous</div></div>
+        </div>
+        <div class="metrics-col">
+          <div class="metrics-label">Relationship Data</div>
+          <div class="metric">
+            <div class="metric-num">40+</div>
+            <div class="metric-info">
+              <div class="metric-label">Xi–Putin meetings since 2013</div>
+              <div class="metric-context">"No-limit friendship" — announced Feb 2022 Beijing Olympics</div>
+            </div>
+          </div>
+          <div class="metric">
+            <div class="metric-num teal">0</div>
+            <div class="metric-info">
+              <div class="metric-label">Confirmed Chinese weapons sent to Russia</div>
+              <div class="metric-context">Despite the diplomatic closeness</div>
+            </div>
+          </div>
+          <div class="metric">
+            <div class="metric-num">#3+</div>
+            <div class="metric-info">
+              <div class="metric-label">Russian oil's rank in U.S.–China talks</div>
+              <div class="metric-context">Chips, Taiwan, rare earths all rank higher</div>
+            </div>
+          </div>
+        </div>
+        <div class="quote-block">
+          <p>"Trump didn't even bring up the issue of Russian oil when he met Xi Jinping in South Korea. This is kayfabe — it's not close to a core issue in either bilateral relationship."</p>
+          <div class="qa">— McKnight, ~8:59</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 7 -->
+  <div class="card" onclick="toggle(this)">
+    <div class="card-header">
+      <div class="timestamp">9:54–END</div>
+      <div class="card-title-block">
+        <div class="card-num">Section 07</div>
+        <div class="card-title">Bottom Line: The Market Has Moved On</div>
+        <div class="card-summary">Russian oil still flows — just to different ports. Prices at multi-year lows.</div>
+      </div>
+      <div class="toggle-icon">+</div>
+    </div>
+    <div class="drilldown">
+      <div class="drilldown-inner">
+        <div class="points-col">
+          <div class="points-label">Key Points</div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">Russian oil &amp; gas continues to flow steadily — just to different buyers than before 2022</div></div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">Money continues to flow back to fund Russia's war machine and Putin's regime</div></div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">Natural gas prices at lows not seen since the 1990s</div></div>
+          <div class="point"><div class="point-dot"></div><div class="point-text">The peace proposal, if real, would reshape markets again — but the new architecture looks durable</div></div>
+        </div>
+        <div class="metrics-col">
+          <div class="metrics-label">Market Snapshot</div>
+          <div class="metric">
+            <div class="metric-num">~$60</div>
+            <div class="metric-info">
+              <div class="metric-label">Current crude oil price (per barrel)</div>
+              <div class="metric-context">The "new low oil price normal"</div>
+            </div>
+          </div>
+          <div class="metric">
+            <div class="metric-num teal">1990s</div>
+            <div class="metric-info">
+              <div class="metric-label">Last time natural gas was this cheap</div>
+              <div class="metric-context">Multi-decade low for gas prices</div>
+            </div>
+          </div>
+          <div class="metric">
+            <div class="metric-num rust">≠0</div>
+            <div class="metric-info">
+              <div class="metric-label">Russian energy export revenue</div>
+              <div class="metric-context">War machine funding continues uninterrupted</div>
+            </div>
+          </div>
+        </div>
+        <div class="quote-block">
+          <p>"For the global oil market, it seems to have moved on. Russian oil and gas continues to flow steadily — albeit flowing mostly to different outlets than it did before."</p>
+          <div class="qa">— McKnight, ~10:15</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /sections -->
+
+<!-- FOOTER -->
+<div class="footer-bar">
+  <div class="footer-src">
+    Source: "Russia, Sanctions &amp; the Great Oil Shake-Up"<br>
+    The Ten-Minute Charge-Up with Scott McKnight<br>
+    <span style="color:var(--text);font-weight:500">BOLLI AI Literacy Program — Companion Study Guide</span>
+  </div>
+  <a class="footer-link" href="https://www.youtube.com/watch?v=qUjdi3HxBYo" target="_blank">
+    <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+    WATCH VIDEO
+  </a>
+</div>
+
+<script>
+  let allExpanded = false;
+
+  function toggle(card) {
+    const isActive = card.classList.contains('active');
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+    if (!isActive) card.classList.add('active');
+    updateExpandBtn();
+  }
+
+  function toggleAll() {
+    const cards = document.querySelectorAll('.card');
+    if (allExpanded) {
+      cards.forEach(c => c.classList.remove('active'));
+      allExpanded = false;
+    } else {
+      cards.forEach(c => c.classList.add('active'));
+      allExpanded = true;
+    }
+    updateExpandBtn();
+  }
+
+  function updateExpandBtn() {
+    const cards = document.querySelectorAll('.card');
+    const activeCount = document.querySelectorAll('.card.active').length;
+    allExpanded = activeCount === cards.length;
+    document.getElementById('expand-icon').textContent = allExpanded ? '▲▲' : '▼▼';
+    document.getElementById('expand-label').textContent = allExpanded ? 'COLLAPSE ALL' : 'EXPAND ALL';
+  }
+</script>
+
+</body>
+</html>
