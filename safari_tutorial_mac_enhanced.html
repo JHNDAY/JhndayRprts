@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safari Browser Skills Tutorial for BOLLI Members</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px;
+            line-height: 1.7;
+            background: #f5f5f7;
+        }
+        .header {
+            background: linear-gradient(135deg, #0071e3 0%, #34aadc 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        h1 { margin: 0 0 10px 0; font-size: 2.2em; }
+        .subtitle { font-size: 1.2em; opacity: 0.95; }
+
+        /* Toggle Control Styles */
+        .method-toggle {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .method-toggle h3 { margin-top: 0; color: #0071e3; font-size: 1.3em; }
+        .method-toggle p { color: #666; margin-bottom: 20px; }
+        .toggle-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .toggle-btn {
+            flex: 1;
+            max-width: 250px;
+            padding: 15px 25px;
+            border: 3px solid #dee2e6;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1em;
+            font-weight: 600;
+            color: #495057;
+        }
+        .toggle-btn:hover {
+            border-color: #0071e3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,113,227,0.2);
+        }
+        .toggle-btn.active {
+            background: linear-gradient(135deg, #0071e3 0%, #34aadc 100%);
+            color: white;
+            border-color: #0071e3;
+            box-shadow: 0 4px 12px rgba(0,113,227,0.4);
+        }
+        .toggle-btn .btn-icon { font-size: 1.5em; display: block; margin-bottom: 8px; }
+        .toggle-btn .btn-label { font-size: 0.95em; }
+
+        /* Show/hide method content */
+        body.show-keyboard .menu-version { display: none; }
+        body.show-menu .keyboard-version { display: none; }
+
+        .progress-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .progress-container {
+            background: #e9ecef;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, #0071e3 0%, #34aadc 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-weight: bold;
+        }
+        .lesson {
+            background: white;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-left: 6px solid #0071e3;
+        }
+        .lesson.collapsible .lesson-header {
+            cursor: pointer;
+            user-select: none;
+            padding: 10px;
+            margin: -10px -10px 20px -10px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+        .lesson.collapsible .lesson-header:hover { background-color: #e3f2fd; }
+        .lesson.collapsible .lesson-header::after {
+            content: "▼";
+            font-size: 1.5em;
+            margin-left: 20px;
+            color: #0071e3;
+            transition: transform 0.3s;
+            font-weight: bold;
+        }
+        .lesson.collapsible.collapsed .lesson-header::after { transform: rotate(-90deg); }
+        .lesson.collapsed-how-to .how-to-content { display: none; }
+        .lesson.collapsed-how-to .how-to-arrow { transform: rotate(-90deg); }
+        .lesson.collapsible .lesson-content { display: block; }
+        .lesson.collapsible.collapsed .lesson-content { display: none; }
+        .lesson-header { display: flex; align-items: center; gap: 20px; }
+        .lesson-number {
+            background: #11998e;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        .lesson-title { margin: 0; font-size: 1.6em; color: #333; }
+        .lesson-description { margin-top: 8px; color: #666; font-size: 0.95em; }
+        .difficulty {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 10px;
+        }
+        .easy { background: #d4edda; color: #155724; }
+        .medium { background: #fff3cd; color: #856404; }
+        h2 { color: #333; margin-top: 0; }
+        h3 { color: #495057; margin-top: 25px; }
+
+        /* Keyboard shortcut styles */
+        .keys {
+            display: inline-block;
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            padding: 3px 8px;
+            font-family: Monaco, "Courier New", monospace;
+            font-size: 0.9em;
+            font-weight: bold;
+            color: #495057;
+            box-shadow: 0 2px 0 #dee2e6;
+        }
+        /* Menu path styles */
+        .menu-path {
+            display: inline-block;
+            background: #e3f2fd;
+            border: 2px solid #90caf9;
+            border-radius: 5px;
+            padding: 4px 10px;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #0d47a1;
+            box-shadow: 0 2px 0 #90caf9;
+        }
+        .menu-arrow { color: #0071e3; font-weight: bold; margin: 0 5px; }
+        .plus-sign { color: #0071e3; font-weight: bold; margin: 0 3px; }
+
+        .shortcut-box {
+            background: #e3f2fd;
+            border: 2px solid #0071e3;
+            padding: 18px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .shortcut-box h4 { margin-top: 0; color: #0d47a1; }
+        .shortcut-box ul { margin: 10px 0; padding-left: 20px; }
+        .shortcut-box li { margin: 8px 0; }
+
+        .step {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 4px solid #0071e3;
+            display: flex;
+            gap: 15px;
+        }
+        .step-number {
+            background: #0071e3;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .tip-box { background: #fff9e6; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0; border-radius: 4px; }
+        .warning-box { background: #fff3cd; border-left: 4px solid #ff9800; padding: 15px; margin: 20px 0; border-radius: 4px; }
+        .success-box { background: #d4edda; border-left: 4px solid #28a745; padding: 15px; margin: 20px 0; border-radius: 4px; }
+        .safari-box { background: #e3f2fd; border-left: 4px solid #0071e3; padding: 15px; margin: 20px 0; border-radius: 4px; }
+
+        .checkpoint {
+            background: linear-gradient(135deg, #e3f2fd 0%, #e8f5e9 100%);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 12px;
+            border: 3px solid #0071e3;
+        }
+        .checkpoint-title { font-size: 1.3em; font-weight: bold; color: #0071e3; margin-bottom: 15px; }
+        .checklist { list-style-type: none; padding-left: 0; }
+        .checklist li {
+            padding: 10px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        .checklist li:hover { border-color: #0071e3; transform: translateX(5px); }
+        .checklist li:before { content: "☐ "; font-size: 1.3em; margin-right: 10px; color: #adb5bd; }
+        .checklist li.checked { background: #d4edda; border-color: #28a745; }
+        .checklist li.checked:before { content: "☑ "; color: #28a745; }
+
+        .collapse-section-btn {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-top: 20px;
+            display: block;
+        }
+        .collapse-section-btn:hover { background: #e9ecef; }
+
+        /* On Demand Section */
+        .on-demand-section {
+            background: white;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-left: 6px solid #11998e;
+        }
+        .on-demand-section.collapsed-on-demand .on-demand-content { display: none; }
+        .on-demand-section.collapsed-on-demand .on-demand-arrow { transform: rotate(-90deg); }
+        .prompt-container { margin: 20px 0; }
+        .prompt-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            resize: vertical;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+        .prompt-input:focus { outline: none; border-color: #0071e3; }
+        .prompt-buttons { display: flex; gap: 10px; margin-top: 12px; }
+        .search-btn {
+            background: linear-gradient(135deg, #0071e3 0%, #34aadc 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .search-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,113,227,0.4); }
+        .clear-btn {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            color: #495057;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.2s;
+        }
+        .clear-btn:hover { background: #e9ecef; }
+        .example-queries { margin-top: 20px; }
+        .example-queries h4 { color: #495057; margin-bottom: 12px; }
+        .example-tag {
+            display: inline-block;
+            background: #e3f2fd;
+            border: 1px solid #90caf9;
+            color: #0d47a1;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+        .example-tag:hover { background: #0071e3; color: white; border-color: #0071e3; }
+        .results-container {
+            margin-top: 20px;
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+        .results-container.visible { max-height: 2000px; padding: 20px 0; }
+        .results-header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .results-header h3 { margin: 0 0 8px 0; }
+        .results-header p { margin: 0; opacity: 0.9; font-size: 0.95em; }
+        .result-item {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #11998e;
+        }
+        .result-item h4 { margin: 0 0 15px 0; color: #11998e; font-size: 1.2em; }
+        .result-steps { background: white; padding: 15px; border-radius: 6px; margin-top: 10px; }
+        .result-steps ol { margin: 0; padding-left: 25px; }
+        .result-steps li { margin-bottom: 10px; line-height: 1.6; }
+        .no-results {
+            text-align: center; padding: 40px;
+            background: #fff3cd; border-radius: 8px; border: 2px solid #ffc107;
+        }
+        .no-results h3 { color: #856404; margin: 0 0 10px 0; }
+        .no-results p { color: #856404; margin: 0; }
+
+        @media print { .method-toggle { display: none; } }
+    </style>
+</head>
+<body class="show-menu">
+
+    <div class="header">
+        <h1>🧭 Safari Browser Skills Tutorial</h1>
+        <p class="subtitle">Complete Guide for Mac — Keyboard Shortcuts &amp; Menu Navigation</p>
+        <p style="margin-top: 12px; font-size: 0.9em; opacity: 0.85;">Designed for BOLLI Members · Mac Only</p>
+    </div>
+
+    <!-- Method Toggle -->
+    <div class="method-toggle">
+        <h3>⚙️ Choose Your Learning Method</h3>
+        <p>Select how you'd like to perform actions in Safari. You can switch between methods at any time!</p>
+        <div class="toggle-buttons">
+            <button class="toggle-btn" id="keyboardBtn" onclick="setMethod('keyboard')">
+                <span class="btn-icon">⌨️</span>
+                <span class="btn-label">Key Sequences</span>
+                <div style="font-size: 0.85em; font-weight: normal; margin-top: 5px; opacity: 0.9;">Fast and efficient</div>
+            </button>
+            <button class="toggle-btn active" id="menuBtn" onclick="setMethod('menu')">
+                <span class="btn-icon">🖱️</span>
+                <span class="btn-label">File Menu Navigation</span>
+                <div style="font-size: 0.85em; font-weight: normal; margin-top: 5px; opacity: 0.9;">Visual and intuitive</div>
+            </button>
+        </div>
+        <div style="margin-top: 20px; padding: 15px; background: #e3f2fd; border-radius: 6px;">
+            <strong>💡 What's the difference?</strong>
+            <ul style="margin: 10px 0 0 0; text-align: left; display: inline-block;">
+                <li><strong>Key Sequences:</strong> Press combinations like <span class="keys">⌘T</span> or <span class="keys">⌘D</span></li>
+                <li><strong>File Menu Navigation:</strong> Click through Safari's menu bar — File, Edit, View, History, Bookmarks, Window</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+        <h3 style="margin-top: 0;">Your Learning Progress</h3>
+        <div class="progress-container">
+            <div class="progress-fill" id="progress">0%</div>
+        </div>
+        <p style="margin: 10px 0 0 0; font-size: 0.9em; color: #666;">Complete each lesson and check off your progress!</p>
+    </div>
+
+    <!-- How To Use -->
+    <div class="lesson collapsed-how-to">
+        <div class="lesson-header" style="cursor:pointer;user-select:none;padding:10px;margin:-10px -10px 20px -10px;border-radius:6px;transition:background-color 0.2s;"
+             onmouseover="this.style.backgroundColor='#e3f2fd'" onmouseout="this.style.backgroundColor='transparent'"
+             onclick="this.parentElement.classList.toggle('collapsed-how-to')">
+            <h2 style="color:#0071e3;margin:0;display:flex;align-items:center;justify-content:space-between;">
+                <span>📖 How to Use This Tutorial</span>
+                <span class="how-to-arrow" style="font-size:1.5em;color:#0071e3;font-weight:bold;transition:transform 0.3s;">▼</span>
+            </h2>
+        </div>
+        <div class="how-to-content">
+            <p style="font-size:1.1em;">Welcome! This tutorial teaches essential Safari browser skills on your Mac using BOTH key sequences and menu navigation.</p>
+            <div class="step"><span class="step-number">1</span><strong>Choose your method</strong> — Use the toggle above to switch between key sequences and file menu navigation</div>
+            <div class="step"><span class="step-number">2</span><strong>Expand lessons below</strong> — Click any lesson title to open its content</div>
+            <div class="step"><span class="step-number">3</span><strong>Follow the instructions</strong> — Customized for your chosen method</div>
+            <div class="step"><span class="step-number">4</span><strong>Practice each skill</strong> — Complete the hands-on exercises</div>
+            <div class="step"><span class="step-number">5</span><strong>Check off your progress</strong> — Click the checkboxes to track what you've mastered</div>
+            <div class="tip-box">
+                <strong>💡 Pro Tip:</strong> Try learning both methods! Key sequences are faster once you know them, but menus are great when you forget a shortcut. Safari's menu bar — always visible at the top of your screen — is one of the most powerful navigation tools on a Mac.
+            </div>
+            <div class="success-box">
+                <strong>🎯 About Your Progress:</strong> Your progress and method preference are automatically saved in your browser so you can return anytime and pick up where you left off.
+            </div>
+            <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed-how-to')">▲ Collapse This Section</button>
+        </div>
+    </div>
+
+    <!-- ON DEMAND SECTION -->
+    <div class="on-demand-section collapsed-on-demand">
+        <div class="on-demand-header" style="cursor:pointer;user-select:none;padding:10px;margin:-10px -10px 20px -10px;border-radius:6px;transition:background-color 0.2s;"
+             onmouseover="this.style.backgroundColor='#e0f7f4'" onmouseout="this.style.backgroundColor='transparent'"
+             onclick="this.parentElement.classList.toggle('collapsed-on-demand')">
+            <h2 style="color:#11998e;margin:0;display:flex;align-items:center;justify-content:space-between;">
+                <span>🎯 On Demand: Find What You Need</span>
+                <span class="on-demand-arrow" style="font-size:1.5em;color:#11998e;font-weight:bold;transition:transform 0.3s;">▼</span>
+            </h2>
+            <p style="color:#666;font-size:1.1em;margin:10px 0 0 0;">Tell me what you want to accomplish, and I'll show you exactly how!</p>
+        </div>
+        <div class="on-demand-content">
+            <div class="prompt-container">
+                <textarea id="userPrompt" class="prompt-input"
+                    placeholder="Example: I want to save a webpage to read later..." rows="3"></textarea>
+                <div class="prompt-buttons">
+                    <button class="search-btn" onclick="searchTutorial()">🔍 Find My Steps</button>
+                    <button class="clear-btn" onclick="clearSearch()">✕ Clear</button>
+                </div>
+            </div>
+            <div class="example-queries">
+                <h4>💡 Try these examples:</h4>
+                <span class="example-tag" onclick="fillExample('Open a new tab')">Open new tab</span>
+                <span class="example-tag" onclick="fillExample('Bookmark a website')">Bookmark a site</span>
+                <span class="example-tag" onclick="fillExample('Take a screenshot')">Take a screenshot</span>
+                <span class="example-tag" onclick="fillExample('Make text bigger on a webpage')">Make text bigger</span>
+                <span class="example-tag" onclick="fillExample('Find a specific word on a long webpage')">Find specific text</span>
+                <span class="example-tag" onclick="fillExample('Save a webpage as PDF')">Save as PDF</span>
+                <span class="example-tag" onclick="fillExample('Use Reader View to remove clutter')">Reader View</span>
+                <span class="example-tag" onclick="fillExample('Browse privately')">Private browsing</span>
+            </div>
+            <div id="resultsContainer" class="results-container"></div>
+        </div>
+    </div>
+
+    <!-- LESSON 1: Opening & Managing Tabs -->
+    <div class="lesson collapsible collapsed">
+        <div class="lesson-header" onclick="this.parentElement.classList.toggle('collapsed')">
+            <div class="lesson-number">1</div>
+            <div>
+                <h2 class="lesson-title">Opening &amp; Managing Tabs</h2>
+                <span class="difficulty easy">EASY</span>
+                <div class="lesson-description">Master tab management in Safari</div>
+            </div>
+        </div>
+        <div class="lesson-content">
+            <h3>Essential Tab Operations</h3>
+            <p>Tabs let you have multiple web pages open in one Safari window. Here's how to manage them:</p>
+
+            <div class="dual-content">
+                <div class="keyboard-version">
+                    <div class="shortcut-box">
+                        <h4>🍎 Safari Tab Key Sequences</h4>
+                        <ul>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">T</span> — New tab</li>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">W</span> — Close current tab</li>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">⇧</span> <span class="plus-sign">+</span> <span class="keys">T</span> — Reopen last closed tab</li>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">1–9</span> — Jump to a specific tab</li>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">⇧</span> <span class="plus-sign">+</span> <span class="keys">]</span> — Next tab</li>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">⇧</span> <span class="plus-sign">+</span> <span class="keys">[</span> — Previous tab</li>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">N</span> — New window</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="menu-version">
+                    <div class="shortcut-box">
+                        <h4>🍎 Safari Tab Menu Options</h4>
+                        <ul>
+                            <li><span class="menu-path">File <span class="menu-arrow">→</span> New Tab</span> — Open a new tab</li>
+                            <li><span class="menu-path">File <span class="menu-arrow">→</span> Close Tab</span> — Close current tab</li>
+                            <li><span class="menu-path">History <span class="menu-arrow">→</span> Recently Closed</span> — Reopen closed tabs</li>
+                            <li><span class="menu-path">Window <span class="menu-arrow">→</span> Show Next Tab</span> — Move to next tab</li>
+                            <li><span class="menu-path">Window <span class="menu-arrow">→</span> Show Previous Tab</span> — Move to previous tab</li>
+                            <li><span class="menu-path">File <span class="menu-arrow">→</span> New Window</span> — Open a new window</li>
+                            <li><strong>Or:</strong> Click the <strong>+</strong> button at the right end of the tab bar</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Hands-On Practice</h3>
+            <div class="step"><span class="step-number">1</span>
+                <div class="keyboard-version"><strong>Open a new tab:</strong> Press <span class="keys">⌘T</span></div>
+                <div class="menu-version"><strong>Open a new tab:</strong> Click <span class="menu-path">File <span class="menu-arrow">→</span> New Tab</span> — or click the <strong>+</strong> button next to your tabs</div>
+            </div>
+            <div class="step"><span class="step-number">2</span>
+                <strong>Open three more tabs</strong> and navigate to these sites — one per tab:
+                <ul style="margin-top:10px;">
+                    <li>Tab 1: www.brandeis.edu</li>
+                    <li>Tab 2: www.nytimes.com</li>
+                    <li>Tab 3: www.theguardian.com/us</li>
+                    <li>Tab 4: www.google.com</li>
+                </ul>
+            </div>
+            <div class="step"><span class="step-number">3</span>
+                <div class="keyboard-version"><strong>Jump between tabs by number:</strong> Press <span class="keys">⌘1</span> for the first tab, <span class="keys">⌘2</span> for the second, etc.</div>
+                <div class="menu-version"><strong>Switch between tabs:</strong> Click any tab to activate it, or use <span class="menu-path">Window <span class="menu-arrow">→</span> Show Next Tab</span></div>
+            </div>
+            <div class="step"><span class="step-number">4</span>
+                <div class="keyboard-version"><strong>Close a tab:</strong> Press <span class="keys">⌘W</span></div>
+                <div class="menu-version"><strong>Close a tab:</strong> <span class="menu-path">File <span class="menu-arrow">→</span> Close Tab</span> — or click the × on the tab</div>
+            </div>
+            <div class="step"><span class="step-number">5</span>
+                <div class="keyboard-version"><strong>Reopen it!</strong> Press <span class="keys">⌘⇧T</span> to restore the last closed tab</div>
+                <div class="menu-version"><strong>Reopen it!</strong> <span class="menu-path">History <span class="menu-arrow">→</span> Recently Closed</span> to see and restore closed tabs</div>
+            </div>
+
+            <div class="success-box">
+                <strong>🎯 Real-World Application:</strong> During a BOLLI Zoom session, you might have:
+                <ul style="margin-top:10px;">
+                    <li>Tab 1: Zoom meeting</li>
+                    <li>Tab 2: Course materials</li>
+                    <li>Tab 3: Discussion resources</li>
+                    <li>Tab 4: Research notes</li>
+                </ul>
+            </div>
+
+            <div class="checkpoint">
+                <div class="checkpoint-title">Checkpoint: Tab Management Skills</div>
+                <ul class="checklist">
+                    <li>I can open a new tab</li>
+                    <li>I can close the current tab</li>
+                    <li>I can switch between tabs</li>
+                    <li>I can reopen an accidentally closed tab</li>
+                    <li>I feel comfortable managing multiple tabs</li>
+                </ul>
+            </div>
+            <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed')">▲ Collapse This Section</button>
+        </div>
+    </div>
+
+    <!-- LESSON 2: Bookmarks & Reading List -->
+    <div class="lesson collapsible collapsed">
+        <div class="lesson-header" onclick="this.parentElement.classList.toggle('collapsed')">
+            <div class="lesson-number">2</div>
+            <div>
+                <h2 class="lesson-title">Bookmarks &amp; Reading List</h2>
+                <span class="difficulty easy">EASY</span>
+                <div class="lesson-description">Save, organize, and revisit your favorite websites</div>
+            </div>
+        </div>
+        <div class="lesson-content">
+            <h3>Essential Bookmark Operations</h3>
+            <p>Bookmarks let you save important websites and return to them instantly. Safari also offers a <strong>Reading List</strong> to save articles for later, even offline.</p>
+
+            <div class="dual-content">
+                <div class="keyboard-version">
+                    <div class="shortcut-box">
+                        <h4>🍎 Safari Bookmark Key Sequences</h4>
+                        <ul>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">D</span> — Add Bookmark</li>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">⌥</span> <span class="plus-sign">+</span> <span class="keys">B</span> — Edit Bookmarks</li>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">⇧</span> <span class="plus-sign">+</span> <span class="keys">B</span> — Show/Hide Favorites Bar</li>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">⇧</span> <span class="plus-sign">+</span> <span class="keys">D</span> — Add to Reading List</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="menu-version">
+                    <div class="shortcut-box">
+                        <h4>🍎 Safari Bookmark Menu Options</h4>
+                        <ul>
+                            <li><span class="menu-path">Bookmarks <span class="menu-arrow">→</span> Add Bookmark…</span> — Save current page</li>
+                            <li><span class="menu-path">Bookmarks <span class="menu-arrow">→</span> Edit Bookmarks</span> — Organize your bookmarks</li>
+                            <li><span class="menu-path">View <span class="menu-arrow">→</span> Show Favorites Bar</span> — Show one-click bookmark bar</li>
+                            <li><span class="menu-path">Bookmarks <span class="menu-arrow">→</span> Add to Reading List</span> — Save article for later</li>
+                            <li><strong>Quick tip:</strong> Click the <strong>⊕</strong> (plus) button in the address bar to bookmark</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="safari-box">
+                <strong>🧭 Safari's Reading List:</strong> Unlike bookmarks, Reading List saves a local copy of the page so you can read it later — even without internet. Great for saving long articles before travel or a class!
+            </div>
+
+            <h3>Hands-On Practice</h3>
+            <div class="step"><span class="step-number">1</span><strong>Navigate to</strong> www.brandeis.edu/osher</div>
+            <div class="step"><span class="step-number">2</span>
+                <div class="keyboard-version"><strong>Bookmark the page:</strong> Press <span class="keys">⌘D</span> — give it a name and click Add</div>
+                <div class="menu-version"><strong>Bookmark the page:</strong> <span class="menu-path">Bookmarks <span class="menu-arrow">→</span> Add Bookmark…</span> — give it a name and click Add</div>
+            </div>
+            <div class="step"><span class="step-number">3</span>
+                <div class="keyboard-version"><strong>Show your Favorites Bar:</strong> Press <span class="keys">⌘⇧B</span> to toggle it on — you'll see your bookmarks appear as clickable buttons under the address bar</div>
+                <div class="menu-version"><strong>Show your Favorites Bar:</strong> <span class="menu-path">View <span class="menu-arrow">→</span> Show Favorites Bar</span> — your saved bookmarks appear as buttons under the address bar</div>
+            </div>
+            <div class="step"><span class="step-number">4</span>
+                <div class="keyboard-version"><strong>Save an article to Reading List:</strong> Navigate to a news article, then press <span class="keys">⌘⇧D</span></div>
+                <div class="menu-version"><strong>Save an article to Reading List:</strong> Navigate to a news article, then <span class="menu-path">Bookmarks <span class="menu-arrow">→</span> Add to Reading List</span></div>
+            </div>
+            <div class="step"><span class="step-number">5</span>
+                <div class="keyboard-version"><strong>Open Bookmark Manager:</strong> Press <span class="keys">⌘⌥B</span> to organize your bookmarks into folders</div>
+                <div class="menu-version"><strong>Open Bookmark Manager:</strong> <span class="menu-path">Bookmarks <span class="menu-arrow">→</span> Edit Bookmarks</span> to rename, delete, or organize into folders</div>
+            </div>
+
+            <div class="checkpoint">
+                <div class="checkpoint-title">Checkpoint: Bookmark Skills</div>
+                <ul class="checklist">
+                    <li>I can bookmark a web page</li>
+                    <li>I can show and use the Favorites Bar</li>
+                    <li>I can organize bookmarks into folders</li>
+                    <li>I can add a page to my Reading List</li>
+                    <li>I can access my bookmarks from the Bookmarks menu</li>
+                </ul>
+            </div>
+            <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed')">▲ Collapse This Section</button>
+        </div>
+    </div>
+
+    <!-- LESSON 3: Screenshots -->
+    <div class="lesson collapsible collapsed">
+        <div class="lesson-header" onclick="this.parentElement.classList.toggle('collapsed')">
+            <div class="lesson-number">3</div>
+            <div>
+                <h2 class="lesson-title">Taking Screenshots</h2>
+                <span class="difficulty easy">EASY</span>
+                <div class="lesson-description">Capture anything on your Mac screen</div>
+            </div>
+        </div>
+        <div class="lesson-content">
+            <h3>Mac Screenshot Tools</h3>
+            <p>Screenshots are a macOS feature — they work the same in Safari as in any other app. They're perfect for capturing error messages, saving information, or documenting what you see on screen.</p>
+
+            <div class="dual-content">
+                <div class="keyboard-version">
+                    <div class="shortcut-box">
+                        <h4>🍎 Mac Screenshot Key Sequences</h4>
+                        <ul>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">⇧</span> <span class="plus-sign">+</span> <span class="keys">3</span> — Capture entire screen (saved to Desktop)</li>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">⇧</span> <span class="plus-sign">+</span> <span class="keys">4</span> — Drag to capture selected area</li>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">⇧</span> <span class="plus-sign">+</span> <span class="keys">4</span>, then <span class="keys">Space</span> — Click a window to capture it</li>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">⇧</span> <span class="plus-sign">+</span> <span class="keys">5</span> — Open Screenshot app with all options</li>
+                        </ul>
+                        <p style="margin-top:12px;"><strong>Tip:</strong> Add <span class="keys">⌃ Control</span> to any shortcut to copy to clipboard instead of saving to Desktop</p>
+                    </div>
+                </div>
+                <div class="menu-version">
+                    <div class="shortcut-box">
+                        <h4>🍎 Mac Screenshot App</h4>
+                        <ul>
+                            <li>Open <strong>Launchpad</strong> → search for <strong>Screenshot</strong></li>
+                            <li>Or: Open <strong>Spotlight</strong> (<span class="keys">⌘Space</span>) → type <strong>Screenshot</strong></li>
+                            <li>The Screenshot app toolbar offers:
+                                <ul style="margin-top:8px;">
+                                    <li>Capture Entire Screen</li>
+                                    <li>Capture Selected Window</li>
+                                    <li>Capture Selected Portion</li>
+                                    <li>Record Screen (video)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p style="margin-top:12px;"><strong>Also available in Safari:</strong> <span class="menu-path">File <span class="menu-arrow">→</span> Take Screenshot</span> — captures just the Safari window or full page!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="safari-box">
+                <strong>🧭 Safari-Exclusive Feature:</strong> Safari has its own built-in screenshot option at <span class="menu-path">File <span class="menu-arrow">→</span> Take Screenshot</span> that can capture just the browser window or even the <em>entire webpage</em> (including content below the fold)!
+            </div>
+
+            <h3>Hands-On Practice</h3>
+            <div class="step"><span class="step-number">1</span>
+                <div class="keyboard-version"><strong>Full screen capture:</strong> Press <span class="keys">⌘⇧3</span> — a thumbnail appears in the corner; click it to edit or share</div>
+                <div class="menu-version"><strong>Full screen capture:</strong> Open the Screenshot app → click "Capture Entire Screen"<br>— or use <span class="menu-path">File <span class="menu-arrow">→</span> Take Screenshot</span> in Safari</div>
+            </div>
+            <div class="step"><span class="step-number">2</span>
+                <div class="keyboard-version"><strong>Capture a portion:</strong> Press <span class="keys">⌘⇧4</span>, then drag across the area you want to capture. Release to save.</div>
+                <div class="menu-version"><strong>Capture a portion:</strong> Screenshot app → "Capture Selected Portion" → drag to select your area</div>
+            </div>
+            <div class="step"><span class="step-number">3</span>
+                <strong>Find your screenshot</strong> — Look on your Desktop, or click the thumbnail that appears in the bottom-right corner to immediately annotate or share.
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Pro Tips:</strong>
+                <ul style="margin-top:10px;">
+                    <li>After capturing, click the thumbnail to open Markup — draw, highlight, or add text before sharing</li>
+                    <li>Use <span class="keys">⌘⇧5</span> to see all screenshot options in one place, including a timer delay</li>
+                    <li>Screenshots are perfect for tech support — capture error messages to share with helpers</li>
+                </ul>
+            </div>
+
+            <div class="checkpoint">
+                <div class="checkpoint-title">Checkpoint: Screenshot Skills</div>
+                <ul class="checklist">
+                    <li>I can capture my entire screen</li>
+                    <li>I can capture just a portion of my screen</li>
+                    <li>I know where screenshots are saved</li>
+                    <li>I can use the thumbnail to edit a screenshot immediately</li>
+                </ul>
+            </div>
+            <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed')">▲ Collapse This Section</button>
+        </div>
+    </div>
+
+    <!-- LESSON 4: Split Screen & Window Management -->
+    <div class="lesson collapsible collapsed">
+        <div class="lesson-header" onclick="this.parentElement.classList.toggle('collapsed')">
+            <div class="lesson-number">4</div>
+            <div>
+                <h2 class="lesson-title">Split Screen &amp; Window Management</h2>
+                <span class="difficulty medium">MEDIUM</span>
+                <div class="lesson-description">View two windows side-by-side for efficient multitasking</div>
+            </div>
+        </div>
+        <div class="lesson-content">
+            <h3>Why Split Screen?</h3>
+            <p>Split screen lets you view two windows simultaneously — perfect for:</p>
+            <ul>
+                <li>Comparing two documents or web pages</li>
+                <li>Taking notes while reading an article</li>
+                <li>Copying information from one window to another</li>
+                <li>Following instructions while working in another app</li>
+            </ul>
+
+            <div class="dual-content">
+                <div class="keyboard-version">
+                    <div class="shortcut-box">
+                        <h4>🍎 Mac Window Key Sequences</h4>
+                        <ul>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">M</span> — Minimize current window</li>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">Tab</span> — Switch between apps</li>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">`</span> — Cycle between windows of the same app</li>
+                            <li><span class="keys">⌃</span> <span class="plus-sign">+</span> <span class="keys">↑</span> — Mission Control (see all windows)</li>
+                        </ul>
+                        <p style="margin-top:12px;"><strong>For Split Screen:</strong> Hold your cursor over the green ● button (top-left of the window) until a menu appears, then choose "Tile Window to Left of Screen" or "Tile Window to Right of Screen." Click the second window to fill the other half.</p>
+                    </div>
+                </div>
+                <div class="menu-version">
+                    <div class="shortcut-box">
+                        <h4>🍎 Mac Split Screen Using the Green Button</h4>
+                        <ol style="margin-top:10px;">
+                            <li><strong>Hover</strong> over the green ● maximize button (top-left corner of window)</li>
+                            <li><strong>Wait</strong> for the tile menu to appear</li>
+                            <li><strong>Choose</strong> "Tile Window to Left of Screen" or "Tile Window to Right of Screen"</li>
+                            <li><strong>Click</strong> the second window you want to appear on the other side</li>
+                        </ol>
+                        <p style="margin-top:12px;"><strong>To exit:</strong> Move cursor to the top of the screen → click the green button → select "Exit Full Screen," or press <span class="keys">Esc</span></p>
+                        <p style="margin-top:8px;"><strong>Also:</strong> <span class="menu-path">Window <span class="menu-arrow">→</span> Move to …</span> for more window arrangement options</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Hands-On Practice</h3>
+            <div class="step"><span class="step-number">1</span>
+                <div class="keyboard-version"><strong>Open two Safari windows:</strong> Press <span class="keys">⌘N</span> to open a second window</div>
+                <div class="menu-version"><strong>Open two Safari windows:</strong> <span class="menu-path">File <span class="menu-arrow">→</span> New Window</span></div>
+            </div>
+            <div class="step"><span class="step-number">2</span>
+                <strong>Tile them side-by-side:</strong> Hover over the green ● on the first window → choose "Tile Window to Left of Screen" → click the second window to fill the right side.
+            </div>
+            <div class="step"><span class="step-number">3</span>
+                <strong>Try it with real content:</strong>
+                <ul style="margin-top:10px;">
+                    <li>Left window: www.nytimes.com</li>
+                    <li>Right window: www.washingtonpost.com</li>
+                    <li>Compare how the two sites cover the same stories!</li>
+                </ul>
+            </div>
+            <div class="step"><span class="step-number">4</span>
+                <strong>Exit split screen:</strong> Move your cursor to the top of the screen, click the green ● button, and select "Exit Full Screen."
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Pro Tips:</strong>
+                <ul style="margin-top:10px;">
+                    <li><strong>Perfect for research:</strong> Keep sources on one side, notes on the other</li>
+                    <li><strong>Great for online learning:</strong> Video on one side, practice or note-taking on the other</li>
+                    <li><strong>Resize the split:</strong> Drag the vertical divider bar left or right to give more space to one window</li>
+                    <li>macOS Sequoia and later add even more tiling options — check <span class="menu-path">Window <span class="menu-arrow">→</span> Move &amp; Resize</span></li>
+                </ul>
+            </div>
+
+            <div class="checkpoint">
+                <div class="checkpoint-title">Checkpoint: Window Management</div>
+                <ul class="checklist">
+                    <li>I can open a second Safari window</li>
+                    <li>I can tile two windows side-by-side</li>
+                    <li>I can resize the split by dragging the divider</li>
+                    <li>I can exit split screen and return to normal view</li>
+                </ul>
+            </div>
+            <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed')">▲ Collapse This Section</button>
+        </div>
+    </div>
+
+    <!-- LESSON 5: Zooming In & Out -->
+    <div class="lesson collapsible collapsed">
+        <div class="lesson-header" onclick="this.parentElement.classList.toggle('collapsed')">
+            <div class="lesson-number">5</div>
+            <div>
+                <h2 class="lesson-title">Zooming In &amp; Out</h2>
+                <span class="difficulty easy">EASY</span>
+                <div class="lesson-description">Make text and images larger or smaller</div>
+            </div>
+        </div>
+        <div class="lesson-content">
+            <h3>Zoom Controls in Safari</h3>
+            <p>Zooming makes web pages easier to read. Safari lets you zoom the entire page, or just the text.</p>
+
+            <div class="dual-content">
+                <div class="keyboard-version">
+                    <div class="shortcut-box">
+                        <h4>🍎 Safari Zoom Key Sequences</h4>
+                        <ul>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">+</span> — Zoom in (larger)</li>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">-</span> — Zoom out (smaller)</li>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">0</span> — Reset to 100% (Actual Size)</li>
+                            <li><span class="keys">⌥</span> <span class="plus-sign">+</span> <span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">+</span> — Make Text Bigger only</li>
+                            <li><span class="keys">⌥</span> <span class="plus-sign">+</span> <span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">-</span> — Make Text Smaller only</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="menu-version">
+                    <div class="shortcut-box">
+                        <h4>🍎 Safari Zoom Menu Options</h4>
+                        <ul>
+                            <li><span class="menu-path">View <span class="menu-arrow">→</span> Zoom In</span> — Make everything larger</li>
+                            <li><span class="menu-path">View <span class="menu-arrow">→</span> Zoom Out</span> — Make everything smaller</li>
+                            <li><span class="menu-path">View <span class="menu-arrow">→</span> Actual Size</span> — Reset to 100%</li>
+                            <li><span class="menu-path">View <span class="menu-arrow">→</span> Make Text Bigger</span> — Increase text only</li>
+                            <li><span class="menu-path">View <span class="menu-arrow">→</span> Make Text Smaller</span> — Decrease text only</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Hands-On Practice</h3>
+            <div class="step"><span class="step-number">1</span><strong>Open a website</strong> — Try www.nytimes.com or www.theguardian.com/us</div>
+            <div class="step"><span class="step-number">2</span>
+                <div class="keyboard-version"><strong>Zoom in several times:</strong> Press <span class="keys">⌘+</span> three or four times and watch the page grow</div>
+                <div class="menu-version"><strong>Zoom in:</strong> Click <span class="menu-path">View <span class="menu-arrow">→</span> Zoom In</span> several times</div>
+            </div>
+            <div class="step"><span class="step-number">3</span>
+                <div class="keyboard-version"><strong>Zoom out:</strong> Press <span class="keys">⌘-</span> several times</div>
+                <div class="menu-version"><strong>Zoom out:</strong> <span class="menu-path">View <span class="menu-arrow">→</span> Zoom Out</span> several times</div>
+            </div>
+            <div class="step"><span class="step-number">4</span>
+                <div class="keyboard-version"><strong>Return to normal:</strong> Press <span class="keys">⌘0</span></div>
+                <div class="menu-version"><strong>Return to normal:</strong> <span class="menu-path">View <span class="menu-arrow">→</span> Actual Size</span></div>
+            </div>
+
+            <div class="warning-box"><strong>⚠️ Note:</strong> Safari remembers your zoom level per website. If a page always looks too big or small, use <span class="keys">⌘0</span> (or View → Actual Size) to reset it.</div>
+
+            <div class="checkpoint">
+                <div class="checkpoint-title">Checkpoint: Zoom Mastery</div>
+                <ul class="checklist">
+                    <li>I can zoom in to make text bigger</li>
+                    <li>I can zoom out to make text smaller</li>
+                    <li>I can reset to 100% normal size</li>
+                    <li>I understand Safari remembers zoom per website</li>
+                </ul>
+            </div>
+            <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed')">▲ Collapse This Section</button>
+        </div>
+    </div>
+
+    <!-- LESSON 6: Finding Text on a Page -->
+    <div class="lesson collapsible collapsed">
+        <div class="lesson-header" onclick="this.parentElement.classList.toggle('collapsed')">
+            <div class="lesson-number">6</div>
+            <div>
+                <h2 class="lesson-title">Finding Text on a Page</h2>
+                <span class="difficulty easy">EASY</span>
+                <div class="lesson-description">Quickly locate specific words or phrases</div>
+            </div>
+        </div>
+        <div class="lesson-content">
+            <h3>The Find Feature</h3>
+            <p>Safari's Find feature instantly highlights every occurrence of a word or phrase on the current page — invaluable for long articles or research pages.</p>
+
+            <div class="dual-content">
+                <div class="keyboard-version">
+                    <div class="shortcut-box">
+                        <h4>🍎 Safari Find Key Sequences</h4>
+                        <ul>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">F</span> — Open Find bar</li>
+                            <li><span class="keys">Return</span> or <span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">G</span> — Find next match</li>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">⇧</span> <span class="plus-sign">+</span> <span class="keys">G</span> — Find previous match</li>
+                            <li><span class="keys">Esc</span> — Close Find bar</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="menu-version">
+                    <div class="shortcut-box">
+                        <h4>🍎 Safari Find Menu Options</h4>
+                        <ul>
+                            <li><span class="menu-path">Edit <span class="menu-arrow">→</span> Find <span class="menu-arrow">→</span> Find…</span> — Open Find bar</li>
+                            <li><span class="menu-path">Edit <span class="menu-arrow">→</span> Find <span class="menu-arrow">→</span> Find Next</span> — Go to next match</li>
+                            <li><span class="menu-path">Edit <span class="menu-arrow">→</span> Find <span class="menu-arrow">→</span> Find Previous</span> — Go to previous match</li>
+                            <li><span class="menu-path">Edit <span class="menu-arrow">→</span> Find <span class="menu-arrow">→</span> Hide Find Banner</span> — Close Find bar</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Hands-On Practice</h3>
+            <div class="step"><span class="step-number">1</span><strong>Go to a long webpage</strong> — Try www.brandeis.edu/osher</div>
+            <div class="step"><span class="step-number">2</span>
+                <div class="keyboard-version"><strong>Open Find:</strong> Press <span class="keys">⌘F</span> — a search bar appears at the top of the page</div>
+                <div class="menu-version"><strong>Open Find:</strong> <span class="menu-path">Edit <span class="menu-arrow">→</span> Find <span class="menu-arrow">→</span> Find…</span></div>
+            </div>
+            <div class="step"><span class="step-number">3</span><strong>Type a search word</strong> — Try "BOLLI" or "course" and watch all matches highlight in yellow</div>
+            <div class="step"><span class="step-number">4</span><strong>Notice the match count</strong> — Safari shows how many matches were found</div>
+            <div class="step"><span class="step-number">5</span>
+                <div class="keyboard-version"><strong>Navigate matches:</strong> Press <span class="keys">⌘G</span> to jump to the next match, <span class="keys">⌘⇧G</span) for the previous one. Press <span class="keys">Esc</span> to close.</div>
+                <div class="menu-version"><strong>Navigate matches:</strong> Use the arrows in the Find bar, or use <span class="menu-path">Edit <span class="menu-arrow">→</span> Find <span class="menu-arrow">→</span> Find Next/Previous</span></div>
+            </div>
+
+            <div class="checkpoint">
+                <div class="checkpoint-title">Checkpoint: Find Feature Mastery</div>
+                <ul class="checklist">
+                    <li>I can open the Find feature</li>
+                    <li>I can search for a word on a page</li>
+                    <li>I can navigate between highlighted results</li>
+                    <li>I understand the match counter</li>
+                </ul>
+            </div>
+            <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed')">▲ Collapse This Section</button>
+        </div>
+    </div>
+
+    <!-- LESSON 7: Reader View -->
+    <div class="lesson collapsible collapsed">
+        <div class="lesson-header" onclick="this.parentElement.classList.toggle('collapsed')">
+            <div class="lesson-number">7</div>
+            <div>
+                <h2 class="lesson-title">Reader View</h2>
+                <span class="difficulty easy">EASY</span>
+                <div class="lesson-description">Read articles distraction-free — a Safari exclusive</div>
+            </div>
+        </div>
+        <div class="lesson-content">
+            <h3>What is Reader View?</h3>
+            <p>Reader View is one of Safari's best features. It strips away ads, menus, and clutter from articles, leaving only the text and images — making long reads much more comfortable. You can also change the font, font size, and background color.</p>
+
+            <div class="dual-content">
+                <div class="keyboard-version">
+                    <div class="shortcut-box">
+                        <h4>🍎 Reader View Key Sequences</h4>
+                        <ul>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">⇧</span> <span class="plus-sign">+</span> <span class="keys">R</span> — Toggle Reader View on/off</li>
+                            <li>When in Reader View, use <span class="keys">⌘+</span> / <span class="keys">⌘-</span> to adjust text size</li>
+                        </ul>
+                        <p style="margin-top:12px;"><strong>Note:</strong> The Reader icon (☰) also appears in the address bar when Reader View is available for the current page. Click it!</p>
+                    </div>
+                </div>
+                <div class="menu-version">
+                    <div class="shortcut-box">
+                        <h4>🍎 Reader View Menu Options</h4>
+                        <ul>
+                            <li><span class="menu-path">View <span class="menu-arrow">→</span> Show Reader</span> — Enter Reader View</li>
+                            <li><span class="menu-path">View <span class="menu-arrow">→</span> Hide Reader</span> — Exit Reader View</li>
+                            <li><strong>Or:</strong> Click the <strong>☰ Reader button</strong> in the left side of the address bar</li>
+                        </ul>
+                        <p style="margin-top:12px;">Once in Reader View, click the <strong>aA button</strong> (top-right of the page) to change font, size, and background color.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="safari-box">
+                <strong>🧭 Auto-Reader:</strong> You can set Safari to automatically use Reader View for specific websites. <span class="menu-path">Safari <span class="menu-arrow">→</span> Settings <span class="menu-arrow">→</span> Websites <span class="menu-arrow">→</span> Reader</span> — and toggle sites on or off.
+            </div>
+
+            <h3>Hands-On Practice</h3>
+            <div class="step"><span class="step-number">1</span><strong>Open a news article</strong> — Try any article on nytimes.com, theguardian.com, or bbc.com/news</div>
+            <div class="step"><span class="step-number">2</span>
+                <div class="keyboard-version"><strong>Activate Reader View:</strong> Press <span class="keys">⌘⇧R</span> — the page transforms to a clean, ad-free reading layout</div>
+                <div class="menu-version"><strong>Activate Reader View:</strong> <span class="menu-path">View <span class="menu-arrow">→</span> Show Reader</span> — or click the ☰ icon in the address bar</div>
+            </div>
+            <div class="step"><span class="step-number">3</span><strong>Customize the view:</strong> Click the <strong>aA</strong> button (top-right) to try different fonts, sizes, and background colors (white, sepia, gray, black)</div>
+            <div class="step"><span class="step-number">4</span>
+                <div class="keyboard-version"><strong>Exit Reader View:</strong> Press <span class="keys">⌘⇧R</span> again to return to the original page</div>
+                <div class="menu-version"><strong>Exit Reader View:</strong> <span class="menu-path">View <span class="menu-arrow">→</span> Hide Reader</span> — or click the ☰ icon again</div>
+            </div>
+
+            <div class="checkpoint">
+                <div class="checkpoint-title">Checkpoint: Reader View</div>
+                <ul class="checklist">
+                    <li>I can activate Reader View on an article</li>
+                    <li>I can change the font and text size in Reader View</li>
+                    <li>I can change the background color in Reader View</li>
+                    <li>I can exit Reader View and return to the normal page</li>
+                </ul>
+            </div>
+            <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed')">▲ Collapse This Section</button>
+        </div>
+    </div>
+
+    <!-- LESSON 8: History & Private Browsing -->
+    <div class="lesson collapsible collapsed">
+        <div class="lesson-header" onclick="this.parentElement.classList.toggle('collapsed')">
+            <div class="lesson-number">8</div>
+            <div>
+                <h2 class="lesson-title">History &amp; Private Browsing</h2>
+                <span class="difficulty easy">EASY</span>
+                <div class="lesson-description">Manage your browsing history and browse privately</div>
+            </div>
+        </div>
+        <div class="lesson-content">
+            <h3>Understanding Browsing History</h3>
+            <p>Safari keeps a record of every page you visit. This is useful for finding sites you visited before — but you may want to clear it for privacy, or use Private Browsing to avoid saving history in the first place.</p>
+
+            <div class="dual-content">
+                <div class="keyboard-version">
+                    <div class="shortcut-box">
+                        <h4>🍎 Safari History Key Sequences</h4>
+                        <ul>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">Y</span> — Show All History</li>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">⇧</span> <span class="plus-sign">+</span> <span class="keys">N</span> — New Private Window</li>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">[</span> — Back one page</li>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">]</span> — Forward one page</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="menu-version">
+                    <div class="shortcut-box">
+                        <h4>🍎 Safari History Menu Options</h4>
+                        <ul>
+                            <li><span class="menu-path">History <span class="menu-arrow">→</span> Show All History</span> — Browse your full history</li>
+                            <li><span class="menu-path">History <span class="menu-arrow">→</span> Clear History…</span> — Delete history (choose a time range)</li>
+                            <li><span class="menu-path">File <span class="menu-arrow">→</span> New Private Window</span> — Browse without saving history</li>
+                            <li><span class="menu-path">History <span class="menu-arrow">→</span> Back</span> / <span class="menu-path">Forward</span> — Navigate pages</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="safari-box">
+                <strong>🧭 Private Browsing in Safari:</strong> A Private window doesn't save history, cookies, or autofill data. It's great for gift shopping, logging into a second account, or using a shared computer. The address bar turns dark to indicate you're in a Private window.
+            </div>
+
+            <div class="warning-box">
+                <strong>⚠️ Important:</strong> Clearing history in Safari also removes cookies and website data — you'll be logged out of websites. Choose your time range carefully (last hour, today, or all history).
+            </div>
+
+            <h3>Hands-On Practice</h3>
+            <div class="step"><span class="step-number">1</span>
+                <div class="keyboard-version"><strong>View your history:</strong> Press <span class="keys">⌘Y</span> — your browsing history appears with a search bar at the top</div>
+                <div class="menu-version"><strong>View your history:</strong> <span class="menu-path">History <span class="menu-arrow">→</span> Show All History</span></div>
+            </div>
+            <div class="step"><span class="step-number">2</span><strong>Search your history:</strong> Type in the search box at the top of the History view to find a specific site</div>
+            <div class="step"><span class="step-number">3</span>
+                <div class="keyboard-version"><strong>Open a Private window:</strong> Press <span class="keys">⌘⇧N</span> — note the dark address bar indicating privacy mode</div>
+                <div class="menu-version"><strong>Open a Private window:</strong> <span class="menu-path">File <span class="menu-arrow">→</span> New Private Window</span></div>
+            </div>
+
+            <div class="checkpoint">
+                <div class="checkpoint-title">Checkpoint: History Management</div>
+                <ul class="checklist">
+                    <li>I can view my full browsing history</li>
+                    <li>I can search within my history</li>
+                    <li>I know how to clear browsing history</li>
+                    <li>I can open a Private Browsing window</li>
+                    <li>I understand what Private Browsing does and does not do</li>
+                </ul>
+            </div>
+            <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed')">▲ Collapse This Section</button>
+        </div>
+    </div>
+
+    <!-- LESSON 9: Printing & Saving as PDF -->
+    <div class="lesson collapsible collapsed">
+        <div class="lesson-header" onclick="this.parentElement.classList.toggle('collapsed')">
+            <div class="lesson-number">9</div>
+            <div>
+                <h2 class="lesson-title">Printing &amp; Saving as PDF</h2>
+                <span class="difficulty easy">EASY</span>
+                <div class="lesson-description">Print web pages or save them as PDF files</div>
+            </div>
+        </div>
+        <div class="lesson-content">
+            <h3>Printing from Safari</h3>
+            <p>Safari makes it easy to print web pages or save them as PDFs. Safari also offers an "Export as PDF" option that captures the full page cleanly.</p>
+
+            <div class="dual-content">
+                <div class="keyboard-version">
+                    <div class="shortcut-box">
+                        <h4>🍎 Safari Print Key Sequences</h4>
+                        <ul>
+                            <li><span class="keys">⌘</span> <span class="plus-sign">+</span> <span class="keys">P</span> — Open Print dialog</li>
+                        </ul>
+                        <p style="margin-top:12px;">In the Print dialog, click the PDF dropdown (bottom-left) and choose "Save as PDF" to save instead of printing.</p>
+                    </div>
+                </div>
+                <div class="menu-version">
+                    <div class="shortcut-box">
+                        <h4>🍎 Safari Print &amp; Export Menu Options</h4>
+                        <ul>
+                            <li><span class="menu-path">File <span class="menu-arrow">→</span> Print…</span> — Open Print dialog</li>
+                            <li><span class="menu-path">File <span class="menu-arrow">→</span> Export as PDF…</span> — Save entire page as PDF directly</li>
+                        </ul>
+                        <p style="margin-top:12px;">In the Print dialog, use the PDF button (bottom-left of the dialog) to save as PDF instead of printing.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="safari-box">
+                <strong>🧭 Safari Advantage:</strong> <span class="menu-path">File <span class="menu-arrow">→</span> Export as PDF…</span> creates a clean, properly formatted PDF of the entire webpage — often better than using the Print dialog's PDF option, especially for long pages.
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Pro Tip:</strong> Before printing, try Reader View (<span class="keys">⌘⇧R</span>) to strip out ads and navigation — you'll save ink and get a much cleaner printout!
+            </div>
+
+            <h3>Hands-On Practice</h3>
+            <div class="step"><span class="step-number">1</span><strong>Navigate to an article</strong> you'd like to save — try any news article</div>
+            <div class="step"><span class="step-number">2</span>
+                <div class="keyboard-version"><strong>Open Print:</strong> Press <span class="keys">⌘P</span> — explore the print options</div>
+                <div class="menu-version"><strong>Open Print:</strong> <span class="menu-path">File <span class="menu-arrow">→</span> Print…</span></div>
+            </div>
+            <div class="step"><span class="step-number">3</span><strong>Save as PDF:</strong> In the Print dialog, click the <strong>PDF</strong> button (bottom-left) → select "Save as PDF" → choose a location</div>
+            <div class="step"><span class="step-number">4</span>
+                <div class="menu-version"><strong>Try Export as PDF:</strong> <span class="menu-path">File <span class="menu-arrow">→</span> Export as PDF…</span> for a clean, full-page PDF</div>
+                <div class="keyboard-version"><strong>Try Export as PDF:</strong> Use <span class="menu-path">File <span class="menu-arrow">→</span> Export as PDF…</span> for a clean, full-page PDF (no keyboard shortcut, but very useful!)</div>
+            </div>
+
+            <div class="checkpoint">
+                <div class="checkpoint-title">Checkpoint: Printing Skills</div>
+                <ul class="checklist">
+                    <li>I can open the Print dialog</li>
+                    <li>I can save a page as PDF from the Print dialog</li>
+                    <li>I know how to use File → Export as PDF</li>
+                    <li>I understand when to print vs. save digitally</li>
+                </ul>
+            </div>
+            <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed')">▲ Collapse This Section</button>
+        </div>
+    </div>
+
+    <!-- Final Congratulations -->
+    <div class="lesson">
+        <h2 style="text-align:center;color:#0071e3;">🎉 Congratulations!</h2>
+        <p style="text-align:center;font-size:1.2em;">You've completed the Safari Browser Skills Tutorial!</p>
+
+        <div class="success-box">
+            <strong>✅ Skills You've Mastered:</strong>
+            <ul style="margin-top:10px;">
+                <li>Managing tabs efficiently</li>
+                <li>Creating, organizing, and using bookmarks and Reading List</li>
+                <li>Taking screenshots of anything on your screen</li>
+                <li>Viewing two windows side-by-side with Split Screen</li>
+                <li>Zooming in and out on web pages</li>
+                <li>Finding specific text on any page</li>
+                <li>Using Reader View for distraction-free reading</li>
+                <li>Viewing, searching, and clearing your browsing history</li>
+                <li>Browsing privately when needed</li>
+                <li>Printing and saving pages as PDF</li>
+            </ul>
+        </div>
+
+        <div class="tip-box">
+            <strong>🚀 Next Steps:</strong>
+            <ul style="margin-top:10px;">
+                <li>Practice these skills daily to build confidence</li>
+                <li class="keyboard-version">Master the key sequences for maximum efficiency</li>
+                <li class="menu-version">Try learning key sequences once you're comfortable with menus</li>
+                <li>Explore Safari's Settings (<span class="menu-path">Safari <span class="menu-arrow">→</span> Settings…</span>) to customize your experience</li>
+                <li>Try iCloud Tabs if you use multiple Apple devices — your tabs sync automatically!</li>
+                <li>Help a fellow BOLLI member learn these skills too!</li>
+            </ul>
+        </div>
+
+        <div style="text-align:center;margin-top:30px;padding:20px;background:linear-gradient(135deg,#0071e3 0%,#34aadc 100%);border-radius:12px;color:white;">
+            <p style="font-size:1.3em;margin:0;">Keep exploring Safari — there's always something new to discover!</p>
+            <p style="margin:10px 0 0 0;opacity:0.9;">Your progress and preferences are automatically saved.</p>
+        </div>
+    </div>
+
+    <script>
+        // Method toggle
+        function setMethod(method) {
+            if (method === 'keyboard') {
+                document.body.className = 'show-keyboard';
+                document.getElementById('keyboardBtn').classList.add('active');
+                document.getElementById('menuBtn').classList.remove('active');
+            } else {
+                document.body.className = 'show-menu';
+                document.getElementById('menuBtn').classList.add('active');
+                document.getElementById('keyboardBtn').classList.remove('active');
+            }
+            localStorage.setItem('safariMethodPreference', method);
+        }
+
+        function loadMethodPreference() {
+            const saved = localStorage.getItem('safariMethodPreference');
+            if (saved) setMethod(saved);
+        }
+
+        // Progress tracking
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.checklist li');
+            const checked = document.querySelectorAll('.checklist li.checked').length;
+            const total = checkboxes.length;
+            const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
+            document.getElementById('progress').style.width = pct + '%';
+            document.getElementById('progress').textContent = pct + '%';
+            const states = {};
+            checkboxes.forEach((cb, i) => { states[i] = cb.classList.contains('checked'); });
+            localStorage.setItem('safariTutorialProgress', JSON.stringify(states));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('safariTutorialProgress');
+            if (saved) {
+                const states = JSON.parse(saved);
+                document.querySelectorAll('.checklist li').forEach((cb, i) => {
+                    if (states[i]) cb.classList.add('checked');
+                });
+                updateProgress();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadMethodPreference();
+            loadProgress();
+            document.querySelectorAll('.checklist li').forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.toggle('checked');
+                    updateProgress();
+                });
+            });
+            const promptInput = document.getElementById('userPrompt');
+            if (promptInput) {
+                promptInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); searchTutorial(); }
+                });
+            }
+        });
+
+        // ===== ON DEMAND SEARCH =====
+        const tutorialKnowledge = {
+            tabs: {
+                keywords: ['tab', 'tabs', 'window', 'windows', 'open', 'close', 'switch'],
+                tasks: [
+                    {
+                        goal: 'open new tab',
+                        keywords: ['new tab', 'open tab', 'tab'],
+                        title: 'Opening a New Tab',
+                        steps: [
+                            'Press ⌘T — a new blank tab opens instantly',
+                            'Or: File → New Tab from the menu bar',
+                            'Or: Click the + button at the right end of the tab bar',
+                            'Type a web address in the address bar and press Return'
+                        ]
+                    },
+                    {
+                        goal: 'close tab',
+                        keywords: ['close tab', 'close window'],
+                        title: 'Closing a Tab',
+                        steps: [
+                            'Press ⌘W to close the current tab',
+                            'Or: File → Close Tab',
+                            'Or: Click the × button on the tab',
+                            'Accidentally closed? Press ⌘⇧T to reopen it!'
+                        ]
+                    },
+                    {
+                        goal: 'switch between tabs',
+                        keywords: ['switch tab', 'navigate tabs', 'jump tab'],
+                        title: 'Switching Between Tabs',
+                        steps: [
+                            'Click any tab directly to switch to it',
+                            'Press ⌘1 for the first tab, ⌘2 for the second, etc.',
+                            'Press ⌘⇧] to go to the next tab',
+                            'Press ⌘⇧[ to go to the previous tab',
+                            'Or: Window → Show Next Tab / Show Previous Tab'
+                        ]
+                    }
+                ]
+            },
+            bookmarks: {
+                keywords: ['bookmark', 'bookmarks', 'save site', 'favorites', 'reading list'],
+                tasks: [
+                    {
+                        goal: 'bookmark a page',
+                        keywords: ['bookmark', 'save website', 'favorite'],
+                        title: 'Bookmarking a Page',
+                        steps: [
+                            'Press ⌘D — the Add Bookmark dialog appears',
+                            'Or: Bookmarks → Add Bookmark… from the menu bar',
+                            'Or: Click the + button in the address bar',
+                            'Give the bookmark a name and choose a folder',
+                            'Click Add to save'
+                        ]
+                    },
+                    {
+                        goal: 'save to reading list',
+                        keywords: ['reading list', 'save article', 'read later'],
+                        title: 'Adding to Reading List',
+                        steps: [
+                            'Press ⌘⇧D to add the current page to your Reading List',
+                            'Or: Bookmarks → Add to Reading List',
+                            'Safari saves a local copy — readable even without internet',
+                            'Access it from the Sidebar → Reading List icon (glasses icon)'
+                        ]
+                    },
+                    {
+                        goal: 'manage bookmarks',
+                        keywords: ['organize bookmarks', 'edit bookmarks', 'bookmark manager', 'folder'],
+                        title: 'Managing & Organizing Bookmarks',
+                        steps: [
+                            'Press ⌘⌥B to open the Bookmark Editor',
+                            'Or: Bookmarks → Edit Bookmarks',
+                            'Drag bookmarks into folders to organize them',
+                            'Right-click any bookmark to rename or delete it',
+                            'Show the Favorites Bar: View → Show Favorites Bar (or ⌘⇧B)'
+                        ]
+                    }
+                ]
+            },
+            screenshots: {
+                keywords: ['screenshot', 'capture', 'screen', 'photo', 'image', 'snip', 'snapshot'],
+                tasks: [
+                    {
+                        goal: 'take a screenshot',
+                        keywords: ['screenshot', 'capture screen', 'snip'],
+                        title: 'Taking a Screenshot',
+                        steps: [
+                            'Full screen: Press ⌘⇧3 — saved to Desktop',
+                            'Selected area: Press ⌘⇧4, then drag to select',
+                            'A window: Press ⌘⇧4, then Space, then click the window',
+                            'All options: Press ⌘⇧5 to open the Screenshot app',
+                            'Click the thumbnail that appears to edit before saving'
+                        ]
+                    },
+                    {
+                        goal: 'copy screenshot to clipboard',
+                        keywords: ['copy screenshot', 'clipboard', 'paste screenshot'],
+                        title: 'Copying a Screenshot to Clipboard',
+                        steps: [
+                            'Add ⌃ Control to any screenshot shortcut to copy instead of save',
+                            'Full screen to clipboard: ⌃⌘⇧3',
+                            'Selected area to clipboard: ⌃⌘⇧4',
+                            'Then paste with ⌘V into any document or email'
+                        ]
+                    }
+                ]
+            },
+            splitscreen: {
+                keywords: ['split', 'split screen', 'side by side', 'two windows', 'tile'],
+                tasks: [
+                    {
+                        goal: 'view two windows side by side',
+                        keywords: ['split screen', 'side by side', 'tile', 'two windows'],
+                        title: 'Splitting Screen with Two Windows',
+                        steps: [
+                            'Open two Safari windows (File → New Window or ⌘N)',
+                            'Hover over the green ● button on the first window',
+                            'Choose "Tile Window to Left of Screen"',
+                            'Click the second window to fill the right side',
+                            'Drag the divider bar to resize each side',
+                            'To exit: move cursor to top → click green ● → Exit Full Screen'
+                        ]
+                    }
+                ]
+            },
+            zoom: {
+                keywords: ['zoom', 'bigger', 'larger', 'smaller', 'text size', 'font size', 'magnify'],
+                tasks: [
+                    {
+                        goal: 'make text bigger',
+                        keywords: ['bigger', 'larger', 'zoom in', 'magnify', 'text size'],
+                        title: 'Making Text Bigger',
+                        steps: [
+                            'Press ⌘+ (Command and plus key) to zoom in',
+                            'Press it multiple times to zoom in further',
+                            'Or: View → Zoom In from the menu bar',
+                            'To zoom text only: ⌥⌘+ (Option + Command + plus)',
+                            'To reset: Press ⌘0 or View → Actual Size'
+                        ]
+                    },
+                    {
+                        goal: 'make text smaller',
+                        keywords: ['smaller', 'zoom out', 'shrink', 'text size'],
+                        title: 'Making Text Smaller',
+                        steps: [
+                            'Press ⌘- (Command and minus key) to zoom out',
+                            'Or: View → Zoom Out from the menu bar',
+                            'To reset to normal: Press ⌘0 or View → Actual Size'
+                        ]
+                    }
+                ]
+            },
+            find: {
+                keywords: ['find', 'search page', 'search text', 'word', 'locate', 'highlight'],
+                tasks: [
+                    {
+                        goal: 'find specific text on a page',
+                        keywords: ['find', 'search page', 'word', 'locate text'],
+                        title: 'Finding Text on a Page',
+                        steps: [
+                            'Press ⌘F to open the Find bar at the top of the page',
+                            'Or: Edit → Find → Find…',
+                            'Type the word or phrase you\'re looking for',
+                            'All matches highlight in yellow — count shown on the right',
+                            'Press Return or ⌘G to jump to the next match',
+                            'Press ⌘⇧G to go to the previous match',
+                            'Press Esc to close the Find bar'
+                        ]
+                    }
+                ]
+            },
+            reader: {
+                keywords: ['reader', 'reader view', 'reading mode', 'clutter', 'ads', 'distraction', 'article', 'clean'],
+                tasks: [
+                    {
+                        goal: 'use reader view to remove clutter',
+                        keywords: ['reader view', 'reading mode', 'remove ads', 'clean article'],
+                        title: 'Using Reader View',
+                        steps: [
+                            'Navigate to a news article or long web page',
+                            'Press ⌘⇧R to activate Reader View',
+                            'Or: View → Show Reader, or click the ☰ icon in the address bar',
+                            'Click the aA button to change font, size, or background color',
+                            'Press ⌘⇧R again (or View → Hide Reader) to exit'
+                        ]
+                    }
+                ]
+            },
+            history: {
+                keywords: ['history', 'visited', 'browsing', 'private', 'private browsing', 'incognito', 'clear'],
+                tasks: [
+                    {
+                        goal: 'view browsing history',
+                        keywords: ['history', 'visited', 'recently visited'],
+                        title: 'Viewing Your Browsing History',
+                        steps: [
+                            'Press ⌘Y to open Show All History',
+                            'Or: History → Show All History from the menu bar',
+                            'Type in the search box to find a specific site',
+                            'Click any item to revisit that page'
+                        ]
+                    },
+                    {
+                        goal: 'clear history',
+                        keywords: ['clear history', 'delete history', 'erase history'],
+                        title: 'Clearing Your History',
+                        steps: [
+                            'History → Clear History… from the menu bar',
+                            'Choose a time range: last hour, today, today and yesterday, or all history',
+                            'Click Clear History to confirm',
+                            'WARNING: This also clears cookies and website data — you\'ll be logged out of sites'
+                        ]
+                    },
+                    {
+                        goal: 'browse privately',
+                        keywords: ['private', 'private browsing', 'incognito', 'no history'],
+                        title: 'Opening a Private Browsing Window',
+                        steps: [
+                            'Press ⌘⇧N to open a new Private window',
+                            'Or: File → New Private Window',
+                            'The address bar turns dark — this confirms you\'re in Private mode',
+                            'Safari won\'t save your history, cookies, or form data',
+                            'Close the window when done — no trace is left'
+                        ]
+                    }
+                ]
+            },
+            print: {
+                keywords: ['print', 'pdf', 'save', 'paper', 'document', 'export'],
+                tasks: [
+                    {
+                        goal: 'print a webpage',
+                        keywords: ['print', 'printer', 'paper'],
+                        title: 'Printing a Web Page',
+                        steps: [
+                            'Press ⌘P to open the Print dialog',
+                            'Or: File → Print… from the menu bar',
+                            'Select your printer and adjust settings',
+                            'Tip: Use Reader View first (⌘⇧R) for a cleaner printout',
+                            'Click Print'
+                        ]
+                    },
+                    {
+                        goal: 'save as pdf',
+                        keywords: ['pdf', 'save pdf', 'export pdf'],
+                        title: 'Saving a Web Page as PDF',
+                        steps: [
+                            'Option 1: File → Export as PDF… for the cleanest result',
+                            'Option 2: Press ⌘P to open Print dialog, then click PDF (bottom-left) → Save as PDF',
+                            'Choose a location and filename',
+                            'Click Save'
+                        ]
+                    }
+                ]
+            }
+        };
+
+        function searchTutorial() {
+            const query = document.getElementById('userPrompt').value.toLowerCase().trim();
+            const resultsContainer = document.getElementById('resultsContainer');
+            if (!query) { alert('Please describe what you want to accomplish!'); return; }
+
+            const onDemandSection = document.querySelector('.on-demand-section');
+            if (onDemandSection && onDemandSection.classList.contains('collapsed-on-demand')) {
+                onDemandSection.classList.remove('collapsed-on-demand');
+            }
+
+            const queryWords = query.split(/\s+/);
+            const results = [];
+
+            for (const [lesson, data] of Object.entries(tutorialKnowledge)) {
+                for (const task of data.tasks) {
+                    let score = 0;
+                    for (const kw of task.keywords) { if (query.includes(kw)) score += 3; }
+                    for (const kw of data.keywords) { if (query.includes(kw)) score += 2; }
+                    for (const word of queryWords) {
+                        if (word.length > 3) {
+                            if (task.keywords.some(k => k === word || (k.includes(word) && word.length > 5))) score += 1;
+                        }
+                    }
+                    if (score > 0) results.push({ ...task, score, lesson });
+                }
+            }
+
+            const strong = results.filter(r => r.score >= 3).sort((a, b) => b.score - a.score);
+            displayResults(strong, query);
+        }
+
+        function displayResults(results, query) {
+            const container = document.getElementById('resultsContainer');
+            if (results.length === 0) {
+                container.innerHTML = `<div class="no-results"><h3>🔍 No exact match found</h3><p>Try rephrasing, or browse the lessons below.</p></div>`;
+            } else {
+                const top = results.slice(0, 3);
+                let html = `<div class="results-header"><h3>✨ Here's how to: "${query}"</h3><p>Found ${top.length} relevant ${top.length === 1 ? 'solution' : 'solutions'}</p></div>`;
+                top.forEach((r, i) => {
+                    html += `<div class="result-item"><h4>${i+1}. ${r.title}</h4><div class="result-steps"><ol>${r.steps.map(s => `<li>${s}</li>`).join('')}</ol></div></div>`;
+                });
+                container.innerHTML = html;
+            }
+            container.classList.add('visible');
+            container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function clearSearch() {
+            document.getElementById('userPrompt').value = '';
+            const c = document.getElementById('resultsContainer');
+            c.classList.remove('visible');
+            c.innerHTML = '';
+        }
+
+        function fillExample(text) {
+            const s = document.querySelector('.on-demand-section');
+            if (s && s.classList.contains('collapsed-on-demand')) s.classList.remove('collapsed-on-demand');
+            document.getElementById('userPrompt').value = text;
+            searchTutorial();
+        }
+    </script>
+</body>
+</html>
