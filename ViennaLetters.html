@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Letters from Vienna · 1939–1941</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=IM+Fell+English:ital@0;1&family=Special+Elite&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1208;
+    --sepia-deep: #2c1f0e;
+    --paper: #f5efd8;
+    --paper-aged: #ede5c8;
+    --paper-dark: #d4c9a8;
+    --accent-red: #8b1a1a;
+    --accent-gold: #9a7b3a;
+    --accent-blue: #2a4a6b;
+    --shadow: rgba(30,15,0,0.18);
+    --muted: #6b5c3e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: #1a120a;
+    color: var(--ink);
+    font-family: 'Lora', serif;
+    overflow-x: hidden;
+  }
+
+  /* === NOISE TEXTURE OVERLAY === */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* === HERO === */
+  .hero {
+    min-height: 100vh;
+    background: radial-gradient(ellipse at 50% 60%, #2a1a08 0%, #0d0905 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255,245,200,0.015) 2px,
+      rgba(255,245,200,0.015) 4px
+    );
+  }
+
+  .hero-stamp {
+    font-family: 'Special Elite', monospace;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    opacity: 0.7;
+    margin-bottom: 28px;
+    animation: fadeUp 1.2s ease forwards;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 8vw, 112px);
+    font-weight: 700;
+    color: var(--paper);
+    line-height: 0.92;
+    text-align: center;
+    letter-spacing: -2px;
+    animation: fadeUp 1.2s ease 0.15s both;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--accent-gold);
+    display: block;
+  }
+
+  .hero-subtitle {
+    font-family: 'IM Fell English', serif;
+    font-size: clamp(14px, 2vw, 19px);
+    color: var(--paper-dark);
+    opacity: 0.75;
+    text-align: center;
+    margin-top: 24px;
+    letter-spacing: 1px;
+    animation: fadeUp 1.2s ease 0.3s both;
+  }
+
+  .hero-divider {
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+    margin: 36px auto;
+    animation: fadeUp 1.2s ease 0.45s both;
+  }
+
+  .hero-bio {
+    max-width: 680px;
+    font-family: 'Lora', serif;
+    font-size: 15.5px;
+    line-height: 1.85;
+    color: var(--paper-aged);
+    opacity: 0.82;
+    text-align: center;
+    animation: fadeUp 1.2s ease 0.6s both;
+  }
+
+  .hero-bio strong {
+    color: var(--paper);
+    font-weight: 600;
+  }
+
+  .hero-years {
+    display: flex;
+    gap: 48px;
+    margin-top: 52px;
+    animation: fadeUp 1.2s ease 0.75s both;
+  }
+
+  .hero-year {
+    text-align: center;
+  }
+
+  .hero-year-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--accent-gold);
+    display: block;
+  }
+
+  .hero-year-label {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--paper-dark);
+    opacity: 0.6;
+  }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: bounce 2s ease infinite, fadeUp 1.2s ease 1.2s both;
+    color: var(--accent-gold);
+    opacity: 0.5;
+    font-size: 22px;
+  }
+
+  /* === MAIN CONTENT === */
+  .content {
+    background: var(--paper);
+    position: relative;
+  }
+
+  /* === SECTION HEADERS === */
+  .section {
+    padding: 90px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(30px, 4vw, 48px);
+    font-weight: 700;
+    color: var(--sepia-deep);
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .section-intro {
+    font-size: 16.5px;
+    line-height: 1.85;
+    color: var(--muted);
+    max-width: 700px;
+    margin-bottom: 60px;
+  }
+
+  /* === PERSONS GRID === */
+  .persons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+    margin-bottom: 20px;
+  }
+
+  .person-card {
+    background: var(--paper-aged);
+    border: 1px solid var(--paper-dark);
+    padding: 28px 26px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .person-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px var(--shadow);
+  }
+
+  .person-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+  }
+
+  .person-card.vienna::before { background: var(--accent-red); }
+  .person-card.america::before { background: var(--accent-blue); }
+  .person-card.courier::before { background: var(--accent-gold); }
+
+  .person-role {
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .person-card.vienna .person-role { color: var(--accent-red); }
+  .person-card.america .person-role { color: var(--accent-blue); }
+  .person-card.courier .person-role { color: var(--accent-gold); }
+
+  .person-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--sepia-deep);
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+
+  .person-desc {
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  .person-location {
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    opacity: 0.7;
+  }
+
+  /* === TIMELINE === */
+  .timeline-wrap {
+    background: var(--paper-aged);
+    padding: 90px 0;
+    border-top: 1px solid var(--paper-dark);
+    border-bottom: 1px solid var(--paper-dark);
+  }
+
+  .timeline-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  .timeline {
+    position: relative;
+    padding-top: 20px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, var(--paper-dark) 8%, var(--paper-dark) 92%, transparent);
+    transform: translateX(-50%);
+  }
+
+  .tl-item {
+    display: grid;
+    grid-template-columns: 1fr 60px 1fr;
+    gap: 0 0;
+    margin-bottom: 52px;
+    position: relative;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .tl-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .tl-left {
+    padding-right: 48px;
+    text-align: right;
+  }
+
+  .tl-right {
+    padding-left: 48px;
+    text-align: left;
+  }
+
+  .tl-empty { grid-column: 1; }
+
+  .tl-item:nth-child(even) .tl-left { order: 3; text-align: left; padding-left: 48px; padding-right: 0; }
+  .tl-item:nth-child(even) .tl-center { order: 2; }
+  .tl-item:nth-child(even) .tl-right { order: 1; text-align: right; padding-right: 48px; padding-left: 0; }
+
+  .tl-center {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 6px;
+  }
+
+  .tl-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid var(--paper-dark);
+    background: var(--paper);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+
+  .tl-item:hover .tl-dot {
+    transform: scale(1.3);
+  }
+
+  .tl-dot.red { border-color: var(--accent-red); background: var(--accent-red); }
+  .tl-dot.blue { border-color: var(--accent-blue); background: var(--accent-blue); }
+  .tl-dot.gold { border-color: var(--accent-gold); background: var(--accent-gold); }
+
+  .tl-date {
+    font-family: 'Special Elite', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--accent-gold);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  .tl-card {
+    background: var(--paper);
+    border: 1px solid var(--paper-dark);
+    padding: 20px 22px;
+    position: relative;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+
+  .tl-card:hover {
+    box-shadow: 0 8px 32px var(--shadow);
+    transform: translateY(-2px);
+  }
+
+  .tl-card-from {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 7px;
+    display: block;
+  }
+
+  .tl-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--sepia-deep);
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .tl-card-excerpt {
+    font-family: 'IM Fell English', serif;
+    font-size: 13.5px;
+    font-style: italic;
+    line-height: 1.75;
+    color: var(--muted);
+    border-left: 2px solid var(--paper-dark);
+    padding-left: 12px;
+    margin-bottom: 12px;
+  }
+
+  .tl-card-summary {
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--muted);
+    opacity: 0.85;
+  }
+
+  .tl-tag {
+    display: inline-block;
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    margin-top: 12px;
+    margin-right: 6px;
+    border: 1px solid currentColor;
+    border-radius: 1px;
+  }
+
+  .tl-tag.red { color: var(--accent-red); }
+  .tl-tag.blue { color: var(--accent-blue); }
+  .tl-tag.gold { color: var(--accent-gold); }
+
+  /* === THEMES === */
+  .themes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2px;
+    background: var(--paper-dark);
+    margin-bottom: 60px;
+  }
+
+  .theme-block {
+    background: var(--paper);
+    padding: 40px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s ease;
+  }
+
+  .theme-block:hover {
+    background: var(--paper-aged);
+  }
+
+  .theme-icon {
+    font-size: 36px;
+    margin-bottom: 18px;
+    display: block;
+    line-height: 1;
+  }
+
+  .theme-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--sepia-deep);
+    margin-bottom: 12px;
+  }
+
+  .theme-text {
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: var(--muted);
+  }
+
+  .theme-count {
+    position: absolute;
+    bottom: 28px;
+    right: 28px;
+    font-family: 'Playfair Display', serif;
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--paper-dark);
+    line-height: 1;
+  }
+
+  /* === PULL QUOTES === */
+  .quotes-section {
+    background: var(--sepia-deep);
+    padding: 90px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quotes-section::before {
+    content: '\201C';
+    position: absolute;
+    top: -40px;
+    left: 30px;
+    font-family: 'Playfair Display', serif;
+    font-size: 320px;
+    color: rgba(255,255,255,0.04);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .quotes-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .quote-label {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 56px;
+    display: block;
+    text-align: center;
+  }
+
+  .quote-item {
+    margin-bottom: 64px;
+    padding-bottom: 64px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .quote-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .quote-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .quote-text {
+    font-family: 'IM Fell English', serif;
+    font-size: clamp(18px, 2.5vw, 26px);
+    font-style: italic;
+    line-height: 1.65;
+    color: var(--paper);
+    margin-bottom: 20px;
+  }
+
+  .quote-attr {
+    font-family: 'Special Elite', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    opacity: 0.8;
+  }
+
+  /* === BUREAUCRACY MAP === */
+  .bureacuracy-section {
+    background: var(--paper-aged);
+    padding: 90px 40px;
+    border-top: 1px solid var(--paper-dark);
+  }
+
+  .bureau-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .bureau-flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0;
+    margin-top: 56px;
+    background: var(--paper);
+    border: 1px solid var(--paper-dark);
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .bureau-step {
+    flex: 1;
+    min-width: 160px;
+    padding: 32px 24px;
+    border-right: 1px solid var(--paper-dark);
+    position: relative;
+    transition: background 0.3s;
+  }
+
+  .bureau-step:last-child {
+    border-right: none;
+  }
+
+  .bureau-step:hover {
+    background: var(--paper-aged);
+  }
+
+  .bureau-step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--paper-dark);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  .bureau-step-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--sepia-deep);
+    margin-bottom: 8px;
+  }
+
+  .bureau-step-desc {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .bureau-arrow {
+    font-size: 22px;
+    color: var(--paper-dark);
+    padding: 0 4px;
+    flex-shrink: 0;
+    display: none;
+  }
+
+  /* === EPILOGUE === */
+  .epilogue {
+    background: #0d0905;
+    color: var(--paper-aged);
+    padding: 120px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .epilogue::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, #1c1008 0%, #0a0705 100%);
+  }
+
+  .epilogue-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .epilogue-label {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--accent-red);
+    margin-bottom: 36px;
+    display: block;
+  }
+
+  .epilogue-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 58px);
+    font-weight: 700;
+    font-style: italic;
+    color: var(--paper);
+    line-height: 1.15;
+    margin-bottom: 48px;
+  }
+
+  .epilogue-divider {
+    width: 60px;
+    height: 1px;
+    background: var(--accent-red);
+    margin: 0 auto 48px;
+  }
+
+  .epilogue-text {
+    font-family: 'Lora', serif;
+    font-size: 16px;
+    line-height: 1.9;
+    color: var(--paper-aged);
+    opacity: 0.82;
+    margin-bottom: 28px;
+  }
+
+  .epilogue-date {
+    font-family: 'Special Elite', monospace;
+    font-size: 13px;
+    letter-spacing: 4px;
+    color: var(--accent-red);
+    display: block;
+    margin: 48px 0 16px;
+  }
+
+  .epilogue-fact {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: var(--paper);
+    line-height: 1.5;
+  }
+
+  .epilogue-survival {
+    margin-top: 72px;
+    padding-top: 56px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .epilogue-survival-label {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .epilogue-survival-text {
+    font-family: 'Lora', serif;
+    font-size: 16px;
+    line-height: 1.9;
+    color: var(--paper-aged);
+    opacity: 0.82;
+  }
+
+  .colophon {
+    background: #080604;
+    color: rgba(255,255,255,0.25);
+    text-align: center;
+    padding: 32px;
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+  }
+
+  /* === RELATIONSHIP MAP === */
+  .relationship-wrap {
+    background: var(--paper);
+    padding: 90px 40px;
+    border-top: 1px solid var(--paper-dark);
+  }
+
+  .relationship-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .rel-diagram {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+    margin-top: 60px;
+    padding: 60px 0;
+    position: relative;
+  }
+
+  .rel-node {
+    background: var(--paper-aged);
+    border: 1px solid var(--paper-dark);
+    padding: 24px 28px;
+    min-width: 160px;
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .rel-node:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 40px var(--shadow);
+    z-index: 10;
+  }
+
+  .rel-node.center {
+    background: var(--sepia-deep);
+    color: var(--paper);
+    min-width: 200px;
+    padding: 32px 36px;
+  }
+
+  .rel-node.center .rel-node-name { color: var(--paper); }
+  .rel-node.center .rel-node-role { color: var(--accent-gold); }
+
+  .rel-node-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--sepia-deep);
+    margin-bottom: 5px;
+  }
+
+  .rel-node-role {
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .rel-connector {
+    width: 80px;
+    height: 1px;
+    background: var(--paper-dark);
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .rel-connector::after {
+    content: '→';
+    position: absolute;
+    right: -6px;
+    top: -10px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .rel-connector.both::before {
+    content: '←';
+    position: absolute;
+    left: -6px;
+    top: -10px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .rel-connector.red { background: var(--accent-red); }
+  .rel-connector.red::after { color: var(--accent-red); }
+
+  /* === ANIMATIONS === */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .timeline::before { left: 24px; }
+    .tl-item { grid-template-columns: 48px 1fr; }
+    .tl-left { display: none; }
+    .tl-item:nth-child(even) .tl-left { display: none; }
+    .tl-item:nth-child(even) .tl-center { order: 1; }
+    .tl-item:nth-child(even) .tl-right { order: 2; text-align: left; padding-right: 0; padding-left: 24px; }
+    .tl-center { justify-content: flex-start; padding-top: 8px; }
+    .hero-years { gap: 24px; }
+    .themes-grid { grid-template-columns: 1fr; }
+    .bureau-flow { flex-direction: column; }
+    .bureau-step { border-right: none; border-bottom: 1px solid var(--paper-dark); }
+    .bureau-step:last-child { border-bottom: none; }
+    .rel-diagram { flex-direction: column; }
+    .rel-connector { width: 1px; height: 40px; transform: rotate(90deg); }
+  }
+
+  /* === STAGGER DELAYS === */
+  .tl-item:nth-child(1) { transition-delay: 0.05s; }
+  .tl-item:nth-child(2) { transition-delay: 0.1s; }
+  .tl-item:nth-child(3) { transition-delay: 0.15s; }
+  .tl-item:nth-child(4) { transition-delay: 0.2s; }
+  .tl-item:nth-child(5) { transition-delay: 0.25s; }
+  .tl-item:nth-child(6) { transition-delay: 0.3s; }
+  .tl-item:nth-child(7) { transition-delay: 0.35s; }
+  .tl-item:nth-child(8) { transition-delay: 0.4s; }
+  .tl-item:nth-child(9) { transition-delay: 0.45s; }
+  .tl-item:nth-child(10) { transition-delay: 0.5s; }
+
+  .quote-item:nth-child(2) { transition-delay: 0.1s; }
+  .quote-item:nth-child(3) { transition-delay: 0.2s; }
+  .quote-item:nth-child(4) { transition-delay: 0.3s; }
+  .quote-item:nth-child(5) { transition-delay: 0.4s; }
+
+  /* horizontal scroll nav */
+  .nav-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(26,18,8,0.97);
+    backdrop-filter: blur(8px);
+    padding: 16px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .nav-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: var(--accent-gold);
+    font-style: italic;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    text-decoration: none;
+    transition: color 0.25s;
+  }
+
+  .nav-links a:hover { color: var(--accent-gold); }
+
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav-bar">
+  <a href="#" class="nav-brand">Letters from Vienna</a>
+  <ul class="nav-links">
+    <li><a href="#persons">People</a></li>
+    <li><a href="#timeline">Letters</a></li>
+    <li><a href="#themes">Themes</a></li>
+    <li><a href="#voices">Voices</a></li>
+    <li><a href="#epilogue">Epilogue</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="hero-stamp">Vienna · 1939 – 1941</span>
+  <h1 class="hero-title">Letters<em>from Vienna</em></h1>
+  <p class="hero-subtitle">Correspondence received by Maximilian (Max) Alter · Translated from German &amp; French</p>
+  <div class="hero-divider"></div>
+  <p class="hero-bio">
+    <strong>Max Alter</strong> was born on March 27, 1925, in Vienna, Austria. At fourteen years old,
+    in the summer of 1939, he emigrated alone to the United States — one step ahead of catastrophe.
+    These ten letters are the only surviving record of his correspondence with his parents and extended family
+    during the years leading up to the Holocaust.
+    <br><br>
+    <strong>His parents did not survive the war.</strong>
+  </p>
+  <div class="hero-years">
+    <div class="hero-year">
+      <span class="hero-year-num">10</span>
+      <span class="hero-year-label">Letters</span>
+    </div>
+    <div class="hero-year">
+      <span class="hero-year-num">2</span>
+      <span class="hero-year-label">Years</span>
+    </div>
+    <div class="hero-year">
+      <span class="hero-year-num">14</span>
+      <span class="hero-year-label">Max's Age</span>
+    </div>
+    <div class="hero-year">
+      <span class="hero-year-num">∞</span>
+      <span class="hero-year-label">Distance</span>
+    </div>
+  </div>
+  <span class="scroll-cue">↓</span>
+</section>
+
+<!-- MAIN -->
+<div class="content">
+
+  <!-- PERSONS -->
+  <section class="section" id="persons">
+    <span class="section-label">The People</span>
+    <h2 class="section-title">A family divided<br>by an ocean &amp; a war</h2>
+    <p class="section-intro">The letters move between two worlds: Vienna under Nazi occupation and the safety of America, with couriers and intermediaries threading the gap. Each voice is unmistakable.</p>
+    <div class="persons-grid">
+      <div class="person-card america">
+        <span class="person-role">★ Central Figure</span>
+        <div class="person-name">Maximilian "Maxi" Alter</div>
+        <p class="person-desc">The recipient of nearly every letter. A 14-year-old boy alone in America — living first with the Pressner family, then with Uncle Isi and Uncle Eddy. He is the family's one hope and their only anchor to safety. He must navigate American bureaucracy, solicit relatives for money, and somehow remain a child doing well in school.</p>
+        <div class="person-location">📍 United States (New York area)</div>
+      </div>
+
+      <div class="person-card vienna">
+        <span class="person-role">Mother · Letter Writer</span>
+        <div class="person-name">Anna Alter</div>
+        <p class="person-desc">Max's mother. The most prolific writer in the collection — her voice oscillates between maternal tenderness ("be kissed a thousand times") and barely-suppressed terror about their inability to escape. She reports the letters she sends, worries about whether they arrive, and obsessively tracks the status of ship tickets. She has an unresolved, bitter conflict with "Aunt Selma" — she will not discuss it in writing.</p>
+        <div class="person-location">📍 Vienna → Dzialoszice, Poland (occupied)</div>
+      </div>
+
+      <div class="person-card vienna">
+        <span class="person-role">Father · Letter Writer</span>
+        <div class="person-name">Papa Alter</div>
+        <p class="person-desc">Max's father. Writes with paternal gravity and hard-earned wisdom. In Letter 6, his most personal letter, he urges Max to master English, build his future, not to judge America after only 17 days. He also manages the practical logistics — the K.G. organization, freight costs, ship quota cards. He shares Anna's optimistic targets (end of May!) that are never realized.</p>
+        <div class="person-location">📍 Vienna → Dzialoszice, Poland (occupied)</div>
+      </div>
+
+      <div class="person-card vienna">
+        <span class="person-role">Relative · Vienna</span>
+        <div class="person-name">Aron</div>
+        <p class="person-desc">Writes Letter 2 alongside Anna and Papa's June 3 letter — almost certainly enclosed with it. Possibly Max's uncle. He mirrors the parents' bitterness about Aunt Selma and echoes their desperate appeals for ship tickets. "If we remain alive, we will tell each other everything."</p>
+        <div class="person-location">📍 Dzialoszice area, occupied Poland</div>
+      </div>
+
+      <div class="person-card vienna">
+        <span class="person-role">Relative · Vienna</span>
+        <div class="person-name">Josef &amp; Family</div>
+        <p class="person-desc">Authors of Letter 4, written from Vienna in late 1939/early 1940. Josef writes to American relatives with a detailed and anguished account of the failed attempt to secure ship tickets through "Karta" (quota cards). He explains the Joint Distribution Committee's system meticulously, as though he has memorized it. He signed at the bottom; his wife wrote the main letter.</p>
+        <div class="person-location">📍 Vienna, Austria</div>
+      </div>
+
+      <div class="person-card vienna">
+        <span class="person-role">Relay · Germany</span>
+        <div class="person-name">Aunt Gusti Krauthammer</div>
+        <p class="person-desc">Lives in Bottrop, Germany (Ruhr region), away from the occupied territories. Acts as an intermediary — relaying information between Max in America and his parents, who can no longer write freely from Dzialoszice. Her letter (Letter 5) is typed on personal stationery and contains the clearest statement of the parents' exact location: Ul. Krakówska 23, Dzialoszice.</p>
+        <div class="person-location">📍 Bottrop, Ruhr, Germany</div>
+      </div>
+
+      <div class="person-card courier">
+        <span class="person-role">Human Courier</span>
+        <div class="person-name">Martha Hermann</div>
+        <p class="person-desc">One of the most poignant figures in the collection — a woman who physically carried a letter from Max's parents across Europe to reach him. She writes her own brief note (Letter 10) to accompany the delivered letter, passing on greetings and begging Max to send his parents any sign of life. Her son Erich and daughter-in-law Rosa also appear as possible relay contacts.</p>
+        <div class="person-location">📍 Vienna → Budapest (carried letters by hand)</div>
+      </div>
+
+      <div class="person-card america">
+        <span class="person-role">American Relatives</span>
+        <div class="person-name">Uncle Isi, Uncle Eddy, Uncle Max, Aunt Fannie</div>
+        <p class="person-desc">The critical nodes of the American support network. Max lives with at least two of them. They are repeatedly appealed to for the one thing that could save the family: ship tickets and guarantee papers. The difference between their acting and not acting is — in the letters' desperate logic — the difference between life and death.</p>
+        <div class="person-location">📍 United States</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <div class="timeline-wrap" id="timeline">
+    <div class="timeline-inner">
+      <span class="section-label">The Letters in Order</span>
+      <h2 class="section-title">A chronology of<br>hope &amp; silence</h2>
+      <p class="section-intro">Note: the letters are not numbered in chronological order in the original file. The timeline below reconstructs their true sequence. Each letter represents a battle against time and bureaucracy.</p>
+
+      <div class="timeline">
+
+        <!-- Letter 7 -->
+        <div class="tl-item">
+          <div class="tl-left">
+            <div class="tl-date">August 25, 1939</div>
+            <div class="tl-card">
+              <span class="tl-card-from">Written BY Max · Paris, France</span>
+              <div class="tl-card-title">Letter 7 — Petition to the Prefect of Police</div>
+              <div class="tl-card-excerpt">"I arrived in France with a transit card issued by HAPAG, an American visa, and a passage ticket from Cherbourg to New York on the SS 'DEUTSCHLAND.' I possess sufficient means and will in no case become a burden on the public."</div>
+              <div class="tl-card-summary">The only letter written BY Max. He is 14, alone in Paris, stranded when the SS Deutschland cannot sail because World War II has just begun. He formally petitions the Paris police in fluent, formal French for temporary residence — a 14-year-old navigating bureaucracy alone. His ship ticket, his visa, his whole escape plan: suspended by the outbreak of war.</div>
+              <span class="tl-tag blue">Max writes</span><span class="tl-tag gold">Paris</span><span class="tl-tag red">WWII begins</span>
+            </div>
+          </div>
+          <div class="tl-center"><div class="tl-dot blue"></div></div>
+          <div class="tl-right"></div>
+        </div>
+
+        <!-- Letter 8 -->
+        <div class="tl-item">
+          <div class="tl-left"></div>
+          <div class="tl-center"><div class="tl-dot red"></div></div>
+          <div class="tl-right">
+            <div class="tl-date">September 4, 1939</div>
+            <div class="tl-card">
+              <span class="tl-card-from">From: Anna (Mother) · Vienna → via Switzerland</span>
+              <div class="tl-card-title">Letter 8 — Through Switzerland</div>
+              <div class="tl-card-excerpt">"Since we have received no news from Lia, nor from the dear Pressner family, about how you are, my precious child — we are trying sending a letter via Switzerland, and hope that it will reach you."</div>
+              <div class="tl-card-summary">Just one day after Britain and France declared war on Germany, Anna writes in deep worry. Direct postal service has been severed. She routes this letter through Dr. Behrens, a physician in Davos, Switzerland — a neutral country — including instructions for Max to use a double-envelope system so replies can be forwarded back. The war is one day old and communication is already fractured.</div>
+              <span class="tl-tag red">No contact</span><span class="tl-tag gold">Swiss route</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Letter 9 -->
+        <div class="tl-item">
+          <div class="tl-left">
+            <div class="tl-date">September 27, 1939</div>
+            <div class="tl-card">
+              <span class="tl-card-from">From: Both Parents · Vienna (via Martha Hermann)</span>
+              <div class="tl-card-title">Letter 9 — Carried by Hand</div>
+              <div class="tl-card-excerpt">"Since dear Martha Hermann promised us to take a letter for you, I hope that the same will reach you... We have waited every day in vain for a letter from you. We can barely hold out without letters."</div>
+              <div class="tl-card-summary">With normal post unreliable, a family acquaintance — Martha Hermann — physically carries this letter to Max. Included are backup contact addresses: a Belgrade P.O. box via Stefan Singer, and Rosa Hermann in Budapest. These improvised networks — Switzerland, Yugoslavia, Budapest — reveal how desperately the family is working to maintain any thread of contact.</div>
+              <span class="tl-tag red">Hand-carried</span><span class="tl-tag gold">Belgrade relay</span>
+            </div>
+          </div>
+          <div class="tl-center"><div class="tl-dot red"></div></div>
+          <div class="tl-right"></div>
+        </div>
+
+        <!-- Letter 10 -->
+        <div class="tl-item">
+          <div class="tl-left"></div>
+          <div class="tl-center"><div class="tl-dot gold"></div></div>
+          <div class="tl-right">
+            <div class="tl-date">Sept / Oct 1939</div>
+            <div class="tl-card">
+              <span class="tl-card-from">From: Martha Hermann · On arrival</span>
+              <div class="tl-card-title">Letter 10 — The Courier's Note</div>
+              <div class="tl-card-excerpt">"As you can see, I am already here, and I can pass on to you the warmest greetings from your dear parents. They are, thank God, healthy and can barely wait to hear from you — even just a sign of life."</div>
+              <div class="tl-card-summary">Martha Hermann writes her own brief note accompanying the letter she has physically carried. She has arrived at Max's location. She urges him to do everything possible to send his parents word that he is alive. A small act of extraordinary human kindness: a woman becoming a living letter-carrier in wartime.</div>
+              <span class="tl-tag gold">Courier</span><span class="tl-tag blue">Sign of life</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Letter 4 -->
+        <div class="tl-item">
+          <div class="tl-left">
+            <div class="tl-date">Late 1939 / Early 1940</div>
+            <div class="tl-card">
+              <span class="tl-card-from">From: Josef &amp; Family · Vienna, Austria</span>
+              <div class="tl-card-title">Letter 4 — The Ticket System Explained</div>
+              <div class="tl-card-excerpt">"The Joint registers the cards of the local Jewish community organization in our names. Because in the event that one is not able to travel, the deposited money is returned to you. So you, from the Joint, receive it back without loss."</div>
+              <div class="tl-card-summary">Josef writes from Vienna with a meticulous explanation of the "Karta" (quota card) system. The Joint Distribution Committee in New York holds deposits; the Vienna Jewish community organization registers the names. Josef has clearly studied this system obsessively — it is the mechanism by which freedom can be purchased. He begs the American relatives to pay in two cards. His Christmas memory of their visit is heartbreaking against the current reality.</div>
+              <span class="tl-tag red">Tickets</span><span class="tl-tag gold">The Joint</span><span class="tl-tag blue">Vienna</span>
+            </div>
+          </div>
+          <div class="tl-center"><div class="tl-dot gold"></div></div>
+          <div class="tl-right"></div>
+        </div>
+
+        <!-- Letter 3 -->
+        <div class="tl-item">
+          <div class="tl-left"></div>
+          <div class="tl-center"><div class="tl-dot red"></div></div>
+          <div class="tl-right">
+            <div class="tl-date">March 12, 1940</div>
+            <div class="tl-card">
+              <span class="tl-card-from">From: Anna (Mother) · Vienna</span>
+              <div class="tl-card-title">Letter 3 — "Be Glad You Are Not Here"</div>
+              <div class="tl-card-excerpt">"My good child, what should I write you at length — we only wish that you stay healthy. Be glad that you are not here. The times are bitter and hard."</div>
+              <div class="tl-card-summary">Anna writes warmly but with unmistakable anguish beneath the surface. She wonders if Mrs. Dr. Friedman visited Max as promised. She suggests a new forwarding route through Stefan Singer. She mentions the ship ticket anxiety again. Most strikingly: she tells Max to "be glad you are not here" — a rare moment where the terror of Vienna 1940 breaks through the maternal composure. She closes with greetings from a circle of named acquaintances, a world that will soon be gone.</div>
+              <span class="tl-tag red">Urgency</span><span class="tl-tag gold">New routes</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Letter 6 -->
+        <div class="tl-item">
+          <div class="tl-left">
+            <div class="tl-date">December 1940</div>
+            <div class="tl-card">
+              <span class="tl-card-from">From: Papa · Vienna · Letter Nr. 3</span>
+              <div class="tl-card-title">Letter 6 — "You, My Only One"</div>
+              <div class="tl-card-excerpt">"Now the serious time begins, and strive, my son, to be a good and decent person. You must still attend school, and make sure to master English in speech and writing — and perhaps also a world language — and then one can speak about one's future."</div>
+              <div class="tl-card-summary">The most personal letter in the collection, opening with an astonishing salutation: "You, my only one that I have." Papa replies to Max's November 1939 letter, clearly Max had expressed homesickness and uncertainty. Papa's response is both wise and heartbreaking — he tells Max not to judge America after 17 days, urges him to study, plans their arrival for "end of May." He discusses freight costs, crates, neighbors who have gone to Israel. He has no idea end of May will come and go without them leaving.</div>
+              <span class="tl-tag gold">Paternal wisdom</span><span class="tl-tag red">End of May</span>
+            </div>
+          </div>
+          <div class="tl-center"><div class="tl-dot red"></div></div>
+          <div class="tl-right"></div>
+        </div>
+
+        <!-- Letter 5 -->
+        <div class="tl-item">
+          <div class="tl-left"></div>
+          <div class="tl-center"><div class="tl-dot gold"></div></div>
+          <div class="tl-right">
+            <div class="tl-date">March 31, 1941</div>
+            <div class="tl-card">
+              <span class="tl-card-from">From: Gusti Krauthammer · Bottrop, Germany</span>
+              <div class="tl-card-title">Letter 5 — The Address is Revealed</div>
+              <div class="tl-card-excerpt">"They have been for a short time now with Aunt Selme in Dzialoszice, District of Miechow, ul. Krakówska 23. They warmly ask you to write to them as soon as possible at this address. They themselves have no opportunity to write from there."</div>
+              <div class="tl-card-summary">Written from Bottrop by Aunt Gusti (who lives in Germany, not occupied Poland), this letter contains a devastating revelation: Max's parents have been moved to Dzialoszice in occupied Poland — they are at "Aunt Selma's" address. They cannot write freely from there. Gusti acts as their voice. She also reports that emigration documents have expired and begs Max to contact Aunt Fannie to get new guaranty papers. Dzialoszice will be liquidated in September 1942.</div>
+              <span class="tl-tag red">Dzialoszice</span><span class="tl-tag gold">Papers expired</span><span class="tl-tag blue">Relay</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Letter 1 -->
+        <div class="tl-item">
+          <div class="tl-left">
+            <div class="tl-date">June 3, 1941</div>
+            <div class="tl-card">
+              <span class="tl-card-from">From: Anna &amp; Papa · Dzialoszice, occupied Poland</span>
+              <div class="tl-card-title">Letter 1 — "If We Live"</div>
+              <div class="tl-card-excerpt">"Please do everything you can to ensure that the tickets are fully paid for, and do your utmost so that we can come to you as soon as possible. Perhaps we will one day be able to thank the dear Uncle and Aunt for everything, if we live."</div>
+              <div class="tl-card-summary">The chronologically last letter from Anna and Papa in this collection. The phrase "if we live" appears without drama — a conditional that has become ordinary. $300 has been deposited at the Joint for ONE ticket. They beg Max to ensure the second is paid. They are still near the hated Aunt Selma, still bitter about it. They are grateful Max is with Uncle Eddy. Their address note — "NOT Karp" — suggests they are hiding something, or being hidden.</div>
+              <span class="tl-tag red">Final letter</span><span class="tl-tag gold">$300 / one ticket</span>
+            </div>
+          </div>
+          <div class="tl-center"><div class="tl-dot red"></div></div>
+          <div class="tl-right"></div>
+        </div>
+
+        <!-- Letter 2 -->
+        <div class="tl-item">
+          <div class="tl-left"></div>
+          <div class="tl-center"><div class="tl-dot red"></div></div>
+          <div class="tl-right">
+            <div class="tl-date">June 3, 1941</div>
+            <div class="tl-card">
+              <span class="tl-card-from">From: Aron · Dzialoszice, occupied Poland</span>
+              <div class="tl-card-title">Letter 2 — Enclosed with Letter 1</div>
+              <div class="tl-card-excerpt">"You don't need to mention this — if we remain alive, we will tell each other everything."</div>
+              <div class="tl-card-summary">Written the same day as Letter 1 and almost certainly enclosed with it. Aron — likely another member of the family — echoes the same bitterness about Selma, the same plea about ship tickets, the same instruction about the address. The phrase "if we remain alive" is chilling. These were the last letters. By September 1942, the Jews of Dzialoszice would be deported to Bełżec extermination camp.</div>
+              <span class="tl-tag red">If we remain alive</span><span class="tl-tag gold">Last contact</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- THEMES -->
+  <section class="section" id="themes">
+    <span class="section-label">What Runs Through Every Letter</span>
+    <h2 class="section-title">The recurring<br>architecture of desperation</h2>
+    <p class="section-intro">These letters are not casual correspondence. Each one is a carefully constructed plea within a bureaucratic and political maze. The same themes return, letter after letter, because the same problems were never solved.</p>
+  </section>
+
+  <div class="themes-grid">
+    <div class="theme-block">
+      <span class="theme-icon">🚢</span>
+      <div class="theme-name">Ship Tickets</div>
+      <p class="theme-text">The central obsession of the collection. Two tickets. Always two — one for each parent. The process: American relatives pay into the Joint Distribution Committee in New York. The Vienna Jewish community organization registers the applicants' names. "Karta" quota cards must be filed. The deposit is refundable if travel fails — a detail Josef explains carefully to reassure reluctant relatives. In Letter 1, $300 has been paid for one ticket. The second is still missing. They never sailed.</p>
+      <div class="theme-count">8</div>
+    </div>
+    <div class="theme-block">
+      <span class="theme-icon">✉️</span>
+      <div class="theme-name">Routes &amp; Relays</div>
+      <p class="theme-text">Direct post between Vienna/occupied Poland and the USA was unreliable, censored, or impossible. The family built an improvised infrastructure: Swiss physicians, Yugoslav P.O. boxes, Budapest pension addresses, human couriers, family members in Germany (Bottrop) who could still communicate more freely. Each letter carefully instructs Max on where to write next. The logistics of staying in contact were themselves a full-time occupation.</p>
+      <div class="theme-count">6</div>
+    </div>
+    <div class="theme-block">
+      <span class="theme-icon">📋</span>
+      <div class="theme-name">Papers &amp; Documents</div>
+      <p class="theme-text">Emigration required: guarantee papers from American sponsors, valid visas, passage tickets, quota cards registered with the Joint, consular approvals that expired and had to be renewed. By March 1941 (Letter 5), the parents' papers have expired. Aunt Fannie must be contacted immediately. The bureaucratic requirements for leaving were enormous — and deliberately so. Every expired document was another month of danger.</p>
+      <div class="theme-count">5</div>
+    </div>
+    <div class="theme-block">
+      <span class="theme-icon">💔</span>
+      <div class="theme-name">The Selma Conflict</div>
+      <p class="theme-text">A mystery in the letters: "Aunt Selma" is a source of profound, bitter, apparently irreconcilable conflict for both Anna and Aron. "Aunt Selma is, for me, finished forever — I do not wish to see her in my lifetime." Yet the parents' address is in Dzialoszice, at Selma's house. They are trapped near someone they despise, probably because it is the only place they have. The conflict is never explained — "if we remain alive, we will tell each other everything."</p>
+      <div class="theme-count">4</div>
+    </div>
+    <div class="theme-block">
+      <span class="theme-icon">📍</span>
+      <div class="theme-name">Where Is Max?</div>
+      <p class="theme-text">Max moves between households across the letters: first with the Pressner family, then with Uncle Isi, then with Uncle Eddy. His parents track these moves anxiously — relieved he is with family, worried about his wellbeing, grateful to the relatives who shelter him. "We know that things are better for my precious child there." His parents' constant, tender concern for him is the emotional engine of every letter.</p>
+      <div class="theme-count">7</div>
+    </div>
+    <div class="theme-block">
+      <span class="theme-icon">🙏</span>
+      <div class="theme-name">Conditional Survival</div>
+      <p class="theme-text">A quiet grammatical horror runs through the letters: "if we live," "if we remain alive," "perhaps we will see each other once more in our lives," "if God wills it." These are not theatrical expressions of grief. They are honest assessments of an increasingly clear reality — that survival is not guaranteed, and that the writers know it. The hedging grows more pronounced in the 1941 letters. It is the sound of people who have understood what is happening.</p>
+      <div class="theme-count">9</div>
+    </div>
+  </div>
+
+  <!-- PULL QUOTES -->
+  <section class="quotes-section" id="voices">
+    <div class="quotes-inner">
+      <span class="quote-label">In Their Own Words · Selected Passages</span>
+
+      <div class="quote-item">
+        <div class="quote-text">"You, my only one that I have! ... Now the serious time begins, and strive, my son, to be a good and decent person."</div>
+        <div class="quote-attr">— Papa Alter · Letter Nr. 3 · December 1940</div>
+      </div>
+
+      <div class="quote-item">
+        <div class="quote-text">"This pain and this suffering is hard to bear; but God, the merciful, perhaps He will yet help us to see you."</div>
+        <div class="quote-attr">— Anna (Mother) · Letter 1 · June 3, 1941</div>
+      </div>
+
+      <div class="quote-item">
+        <div class="quote-text">"My good child, what should I write you at length — we only wish that you stay healthy. Be glad that you are not here. The times are bitter and hard."</div>
+        <div class="quote-attr">— Anna (Mother) · Letter 3 · March 12, 1940</div>
+      </div>
+
+      <div class="quote-item">
+        <div class="quote-text">"I arrived in France with a transit card issued by HAPAG, an American visa, and a passage ticket from Cherbourg to New York on the SS 'DEUTSCHLAND.' Since the departure of the 'DEUTSCHLAND' cannot take place due to current events, I am obliged to seek other possibilities."</div>
+        <div class="quote-attr">— Max Alter, age 14 · Petition to the Paris Prefect of Police · August 25, 1939</div>
+      </div>
+
+      <div class="quote-item">
+        <div class="quote-text">"You don't need to mention this — if we remain alive, we will tell each other everything."</div>
+        <div class="quote-attr">— Aron · Letter 2 · June 3, 1941</div>
+      </div>
+
+      <div class="quote-item">
+        <div class="quote-text">"They themselves have no opportunity to write from there. You will therefore bring them much joy by sending letters regularly."</div>
+        <div class="quote-attr">— Aunt Gusti Krauthammer, relaying the parents' situation from Bottrop · Letter 5 · March 31, 1941</div>
+      </div>
+
+      <div class="quote-item">
+        <div class="quote-text">"Do everything in your power to let them have some sign that you are alive."</div>
+        <div class="quote-attr">— Martha Hermann, courier · Letter 10 · Sept/Oct 1939</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUREAUCRACY SECTION -->
+  <div class="bureacuracy-section" id="mechanism">
+    <div class="bureau-inner">
+      <span class="section-label">The Escape Mechanism</span>
+      <h2 class="section-title">How emigration worked —<br>and why it failed</h2>
+      <p class="section-intro" style="max-width:800px">The parents were not passive. They worked every channel available. The system they navigated was real — and deliberately obstructed at nearly every turn by Nazi bureaucracy, quota limits, and the sheer cost of freedom.</p>
+
+      <div class="bureau-flow">
+        <div class="bureau-step">
+          <div class="bureau-step-num">1</div>
+          <div class="bureau-step-name">American Relatives Pay</div>
+          <p class="bureau-step-desc">Uncles and Aunts in America must deposit funds at the Joint Distribution Committee (JDC) in New York — enough for ship tickets for each person emigrating.</p>
+        </div>
+        <div class="bureau-step">
+          <div class="bureau-step-num">2</div>
+          <div class="bureau-step-name">The Joint Registers</div>
+          <p class="bureau-step-desc">The JDC registers "Karta" quota cards in the emigrants' names through the local Vienna Jewish Community Organization. Funds are theoretically refundable if emigration fails.</p>
+        </div>
+        <div class="bureau-step">
+          <div class="bureau-step-num">3</div>
+          <div class="bureau-step-name">Consulate Issues Visa</div>
+          <p class="bureau-step-desc">American consulate in Vienna must approve and issue visas — with guarantee papers provided by American sponsors (Aunt Fannie, the uncles). These expire and must be renewed. By March 1941 they had expired.</p>
+        </div>
+        <div class="bureau-step">
+          <div class="bureau-step-num">4</div>
+          <div class="bureau-step-name">K.G. Telegraphs New York</div>
+          <p class="bureau-step-desc">The K.G. (a Jewish aid organization in Vienna — likely IKG, the Israelitische Kultusgemeinde Wien) telegraphs relatives and coordinates. Papa notes that K.G. may pay half the ticket if relatives pay the other half.</p>
+        </div>
+        <div class="bureau-step">
+          <div class="bureau-step-num">5</div>
+          <div class="bureau-step-name">Book Passage</div>
+          <p class="bureau-step-desc">A ship must be booked. By 1939–41, the choices were dwindling rapidly. Max himself had a ticket on the SS Deutschland in August 1939 — that ship could not sail because war broke out.</p>
+        </div>
+        <div class="bureau-step" style="background:#f5eac0; border-left: 3px solid var(--accent-red);">
+          <div class="bureau-step-num" style="color:var(--accent-red)">✗</div>
+          <div class="bureau-step-name" style="color:var(--accent-red)">Window Closes</div>
+          <p class="bureau-step-desc">By June 1941, the United States was moving toward war. Germany would close emigration for Jews in October 1941. The window — always narrow — had shut.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GEOGRAPHY NOTE -->
+  <section class="section">
+    <span class="section-label">Geography of Displacement</span>
+    <h2 class="section-title">From Vienna to Dzialoszice</h2>
+    <p class="section-intro">The letters trace a movement across the map of occupied Europe. Max begins in Vienna, flees to Paris, reaches New York. His parents begin in Vienna and end in Dzialoszice — a small market town in the Miechow District of German-occupied Poland, southeast of Kraków.</p>
+
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap:2px; background:var(--paper-dark); margin-top:48px;">
+      <div style="background:var(--paper); padding:36px 32px;">
+        <div style="font-family:'Special Elite',monospace; font-size:10px; letter-spacing:4px; color:var(--accent-gold); margin-bottom:12px;">ORIGIN</div>
+        <div style="font-family:'Playfair Display',serif; font-size:24px; font-weight:700; color:var(--sepia-deep); margin-bottom:10px;">Vienna, Austria</div>
+        <p style="font-size:13px; line-height:1.7; color:var(--muted);">After the Anschluss of March 1938, Vienna's Jewish community of ~200,000 came under Nazi rule. Systematic persecution, forced emigration, and deportation followed. By the summer of 1939, Max fled with a one-way ticket.</p>
+      </div>
+      <div style="background:var(--paper); padding:36px 32px;">
+        <div style="font-family:'Special Elite',monospace; font-size:10px; letter-spacing:4px; color:var(--accent-blue); margin-bottom:12px;">MAX'S ROUTE</div>
+        <div style="font-family:'Playfair Display',serif; font-size:24px; font-weight:700; color:var(--sepia-deep); margin-bottom:10px;">Vienna → Paris → New York</div>
+        <p style="font-size:13px; line-height:1.7; color:var(--muted);">Max traveled via Paris (21 rue de Calais) where he was stranded when the SS Deutschland could not sail at the outbreak of war. He eventually reached New York by other means, living first with the Pressner family, then with American relatives.</p>
+      </div>
+      <div style="background:var(--paper); padding:36px 32px;">
+        <div style="font-family:'Special Elite',monospace; font-size:10px; letter-spacing:4px; color:var(--accent-red); margin-bottom:12px;">PARENTS' FATE</div>
+        <div style="font-family:'Playfair Display',serif; font-size:24px; font-weight:700; color:var(--sepia-deep); margin-bottom:10px;">Vienna → Dzialoszice</div>
+        <p style="font-size:13px; line-height:1.7; color:var(--muted);">By early 1941, Anna and Papa had been moved to Dzialoszice, Miechow District, German-occupied Poland — at the address of "Aunt Selma." On September 2–3, 1942, the Jews of Dzialoszice were deported to the Bełżec extermination camp. Of 10,000 Jewish residents, 4,000 were shot on the spot. The rest perished in the camps.</p>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /content -->
+
+<!-- EPILOGUE -->
+<section class="epilogue" id="epilogue">
+  <div class="epilogue-inner">
+    <span class="epilogue-label">What Happened After the Last Letter</span>
+    <h2 class="epilogue-title">The silence after<br>June 3, 1941</h2>
+    <div class="epilogue-divider"></div>
+
+    <p class="epilogue-text">The last letters in this collection are dated June 3, 1941 — written from Dzialoszice in occupied Poland. After this point, direct correspondence between Jews in occupied Poland and the United States became nearly impossible. Germany would formally prohibit Jewish emigration in October 1941. The window had closed.</p>
+
+    <p class="epilogue-text">In the letters, Max's parents speak of ship tickets still unpaid, guarantee papers expired, the K.G. still negotiating. They speak of "end of May" targets that have passed, of $300 deposited for one ticket when two were needed. They were not passive — they worked every mechanism available to them. But the bureaucratic and financial requirements for emigration were insurmountable in the time they had.</p>
+
+    <span class="epilogue-date">September 2–3, 1942</span>
+    <div class="epilogue-fact">"Of the 10,000 Jewish residents of Działoszyce, 4,000 were shot and murdered on the spot. The rest were sent to Bełżec extermination camp."<br><span style="font-size:14px; font-family:'Special Elite',monospace; letter-spacing:2px; color:var(--accent-gold); display:block; margin-top:14px;">— Dzialoszyce Yizkor Book · JewishGen</span></div>
+
+    <div class="epilogue-survival">
+      <span class="epilogue-survival-label">Max's Later Life</span>
+      <p class="epilogue-survival-text">Maximilian Alter served in the United States Army, was part of the Army Specialized Training Program (ASTP), and then fought in Patton's Third Army — crossing the Rhine River shortly before Germany's surrender. He returned home after the war, married, earned a degree from Boston University on the GI Bill, and built a life in America. He carried these ten letters with him for the rest of his life. They were the only record of his parents that survived.<br><br><em style="color:var(--accent-gold); font-family:'Playfair Display',serif; font-size:18px;">Transcribed and translated, 2026.</em></p>
+    </div>
+  </div>
+</section>
+
+<div class="colophon">Letters from Vienna · 1939–1941 · Correspondence of Maximilian Alter · Translated from German &amp; French · Visualized 2026</div>
+
+<script>
+  // Intersection observer for scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.tl-item, .quote-item').forEach(el => {
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
