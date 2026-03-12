@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rosalind Franklin — A Scientific Portrait</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0f;
+    --paper: #f5f0e8;
+    --cream: #ede8dc;
+    --accent: #1a3a5c;
+    --gold: #b8860b;
+    --rust: #8b3a2a;
+    --pale: #d4cfc4;
+    --text: #1c1c20;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--text);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  /* ── CLARIFICATION BOX ── */
+  .clarification-box {
+    margin-top: 32px;
+    background: #fff8ec;
+    border: 1px solid #d4a830;
+    border-left: 5px solid var(--gold);
+    padding: 28px 32px;
+  }
+
+  .clarification-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #8a6000;
+    margin-bottom: 14px;
+  }
+
+  .clarification-box p {
+    font-size: 16.5px;
+    line-height: 1.75;
+    color: #2a2010;
+    margin-bottom: 1em;
+  }
+
+  .clarification-box p:last-child { margin-bottom: 0; }
+
+  .clarification-box strong {
+    color: var(--accent);
+  }
+
+  /* ── CITATIONS ── */
+  sup.cite a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--rust);
+    text-decoration: none;
+    font-weight: 600;
+    vertical-align: super;
+    border-bottom: 1px dotted var(--rust);
+    padding: 0 1px;
+    transition: color 0.15s;
+  }
+  sup.cite a:hover { color: var(--gold); border-color: var(--gold); }
+
+  .dark-section sup.cite a { color: #d4a060; border-color: #d4a060; }
+  .dark-section sup.cite a:hover { color: var(--gold); }
+
+  /* ── BIBLIOGRAPHY ── */
+  #bibliography {
+    background: #1a1a22;
+    color: var(--pale);
+    padding: 0;
+  }
+  #bibliography .section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 70px 60px 80px;
+  }
+  #bibliography .section-label { color: var(--gold); }
+  #bibliography .section-title { color: #a0bcd4; margin-bottom: 36px; }
+
+  .bib-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 50px;
+  }
+
+  .bib-entry {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 8px;
+    align-items: start;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .bib-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    font-weight: 600;
+    padding-top: 2px;
+  }
+
+  .bib-content {}
+  .bib-content .bib-title {
+    font-style: italic;
+    color: #ddd8cc;
+  }
+  .bib-content .bib-source {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #8a8a9a;
+    margin-top: 2px;
+  }
+  .bib-content a {
+    color: #7aace0;
+    text-decoration: none;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    word-break: break-all;
+    display: block;
+    margin-top: 3px;
+    transition: color 0.15s;
+  }
+  .bib-content a:hover { color: var(--gold); text-decoration: underline; }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .masthead-left {
+    padding: 80px 60px 80px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+  .masthead-right { position: relative; overflow: hidden; }
+  .masthead-right::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, var(--ink) 0%, transparent 40%);
+    z-index: 1;
+  }
+  .xray-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+  .label-small {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+  .masthead-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 7vw, 88px);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+  .masthead-title em {
+    display: block;
+    font-style: italic;
+    font-weight: 400;
+    color: #a0bcd4;
+    font-size: 0.65em;
+    margin-top: 8px;
+  }
+  .masthead-dates {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--pale);
+    letter-spacing: 0.15em;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+  .masthead-tagline {
+    font-style: italic;
+    font-size: 22px;
+    color: #c8d8e8;
+    max-width: 440px;
+    border-left: 3px solid var(--gold);
+    padding-left: 20px;
+    line-height: 1.5;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+  .nav-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1s;
+  }
+  .nav-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 7px 16px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .nav-pill:hover { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+
+  /* ── SECTION LAYOUT ── */
+  .section { max-width: 1100px; margin: 0 auto; padding: 90px 60px; }
+  .section + .section { border-top: 1px solid var(--pale); }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(30px, 4vw, 46px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--accent);
+    margin-bottom: 40px;
+  }
+  .section-title em { font-style: italic; font-weight: 400; }
+
+  .body-text p { margin-bottom: 1.4em; font-size: 18px; line-height: 1.8; color: #2a2a30; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; }
+
+  /* ── PULL QUOTE ── */
+  .pull-quote {
+    border-left: 4px solid var(--rust);
+    padding: 20px 30px;
+    margin: 40px 0;
+    background: var(--cream);
+  }
+  .pull-quote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--accent);
+    margin-bottom: 10px !important;
+  }
+  .pull-quote cite {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+  }
+
+  /* ── CARDS ── */
+  .card { background: var(--cream); padding: 32px; border-top: 3px solid var(--accent); }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .card p { font-size: 16px; line-height: 1.7; color: #333; }
+
+  /* ── PRO/CON ── */
+  .procon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 20px; }
+  .procon-col { padding: 36px; }
+  .procon-col.pro { background: #eaf2ea; border-top: 4px solid #3a7a3a; }
+  .procon-col.con { background: #f5eaea; border-top: 4px solid #8b2a2a; }
+  .procon-header { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 24px; }
+  .procon-col.pro .procon-header { color: #2a5a2a; }
+  .procon-col.con .procon-header { color: #7a1a1a; }
+  .procon-item {
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    font-size: 16px;
+    line-height: 1.6;
+    color: #2a2a2a;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .procon-item:last-child { border-bottom: none; }
+  .procon-icon { font-size: 14px; margin-top: 2px; flex-shrink: 0; }
+
+  /* ── CONTEMPORARIES TABLE ── */
+  .contemporaries-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 16px; }
+  .contemporaries-table th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--accent);
+    padding: 14px 18px;
+    text-align: left;
+  }
+  .contemporaries-table td { padding: 16px 18px; border-bottom: 1px solid var(--pale); vertical-align: top; line-height: 1.6; }
+  .contemporaries-table tr:nth-child(even) td { background: var(--cream); }
+  .contemporaries-table tr:hover td { background: #e8e2d4; }
+  .scientist-name { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--accent); font-size: 17px; }
+  .connection-strong { color: var(--rust); font-weight: 600; }
+  .connection-parallel { color: #2a5a2a; font-weight: 600; }
+  .connection-broad { color: #4a4a7a; font-weight: 600; }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 40px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--gold), var(--rust));
+  }
+  .timeline-entry { position: relative; margin-bottom: 36px; }
+  .timeline-entry::before {
+    content: '';
+    position: absolute;
+    left: -34px; top: 6px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--ink);
+  }
+  .timeline-year { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.15em; color: var(--gold); margin-bottom: 4px; }
+  .timeline-text { font-size: 16px; line-height: 1.65; color: #2a2a30; }
+  .timeline-text strong { font-family: 'Playfair Display', serif; color: var(--accent); font-size: 17px; }
+
+  /* ── DARK SECTION ── */
+  .dark-section { background: var(--ink); color: var(--paper); }
+  .dark-section .section-title { color: #a0bcd4; }
+  .dark-section .body-text p { color: #c8c0b0; }
+  .dark-section .card { background: rgba(255,255,255,0.06); border-top-color: var(--gold); }
+  .dark-section .card-title { color: var(--gold); }
+  .dark-section .card p { color: #b8b0a0; }
+
+  /* ── VERDICT BOX ── */
+  .verdict-box { background: var(--accent); color: var(--paper); padding: 40px 48px; margin-top: 40px; }
+  .verdict-box .verdict-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.3em; color: var(--gold); margin-bottom: 16px; }
+  .verdict-box p { font-size: 19px; font-style: italic; line-height: 1.7; color: #d8e8f0; }
+
+  /* ── PERSONAL LIFE ── */
+  .personality-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--pale); margin-top: 20px; }
+  .personality-cell { background: var(--paper); padding: 28px; }
+  .personality-cell-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.25em; color: var(--rust); text-transform: uppercase; margin-bottom: 10px; }
+  .personality-cell p { font-size: 15px; line-height: 1.65; color: #333; }
+
+  .ornament { text-align: center; color: var(--gold); font-size: 24px; margin: 20px 0; letter-spacing: 0.5em; }
+
+  footer {
+    background: var(--ink);
+    color: var(--pale);
+    text-align: center;
+    padding: 40px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 900px) {
+    .masthead { grid-template-columns: 1fr; min-height: auto; }
+    .masthead-right { display: none; }
+    .masthead-left { padding: 60px 40px; }
+    .section { padding: 60px 30px; }
+    .two-col, .three-col, .procon-grid { grid-template-columns: 1fr; gap: 30px; }
+    .personality-grid { grid-template-columns: 1fr; }
+    .bib-grid { grid-template-columns: 1fr; }
+    #bibliography .section { padding: 50px 30px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════ MASTHEAD ══════════════════════════════ -->
+<header class="masthead">
+  <div class="masthead-left">
+    <div class="label-small">Scientific Portrait — Crystallographer · Chemist · Pioneer</div>
+    <h1 class="masthead-title">
+      Rosalind<br>Franklin
+      <em>The Illuminator of Molecular Structure</em>
+    </h1>
+    <div class="masthead-dates">25 July 1920 &nbsp;—&nbsp; 16 April 1958</div>
+    <p class="masthead-tagline">
+      "Science and everyday life cannot and should not be separated."
+    </p>
+    <nav class="nav-pills">
+      <a href="#biography"     class="nav-pill">Biography</a>
+      <a href="#watson-crick"  class="nav-pill">Watson &amp; Crick</a>
+      <a href="#contemporaries"class="nav-pill">Contemporaries</a>
+      <a href="#post-dna"      class="nav-pill">Post-DNA Work</a>
+      <a href="#nobel"         class="nav-pill">Nobel Question</a>
+      <a href="#personal"      class="nav-pill">Personal Life</a>
+      <a href="#bibliography"  class="nav-pill">Sources</a>
+    </nav>
+  </div>
+
+  <div class="masthead-right">
+    <svg class="xray-canvas" viewBox="0 0 600 700" xmlns="http://www.w3.org/2000/svg">
+      <rect width="600" height="700" fill="#0a0e14"/>
+      <g transform="translate(300,350)" opacity="0.5">
+        <circle r="40"  fill="none" stroke="#4a7aaa" stroke-width="0.8" opacity="0.4"/>
+        <circle r="80"  fill="none" stroke="#6a9aca" stroke-width="0.6" opacity="0.5"/>
+        <circle r="130" fill="none" stroke="#5a8aba" stroke-width="0.5" opacity="0.4"/>
+        <circle r="185" fill="none" stroke="#4a7aaa" stroke-width="0.4" opacity="0.35"/>
+        <circle r="245" fill="none" stroke="#3a6a9a" stroke-width="0.4" opacity="0.3"/>
+        <circle r="310" fill="none" stroke="#2a5a8a" stroke-width="0.3" opacity="0.25"/>
+      </g>
+      <g transform="translate(300,350)" opacity="0.6">
+        <line x1="-280" y1="0" x2="280" y2="0" stroke="#8ab4d4" stroke-width="0.5" opacity="0.3"/>
+        <line x1="0" y1="-320" x2="0" y2="320" stroke="#8ab4d4" stroke-width="0.5" opacity="0.3"/>
+        <line x1="-200" y1="-200" x2="200" y2="200" stroke="#7aa4c4" stroke-width="0.4" opacity="0.25"/>
+        <line x1="200" y1="-200" x2="-200" y2="200" stroke="#7aa4c4" stroke-width="0.4" opacity="0.25"/>
+      </g>
+      <g transform="translate(300,350)" opacity="0.9">
+        <circle cx="-48" cy="0" r="3.5" fill="#e8f0ff" opacity="0.9"/>
+        <circle cx="48"  cy="0" r="3.5" fill="#e8f0ff" opacity="0.9"/>
+        <circle cx="-96" cy="0" r="2.5" fill="#c0d8f0" opacity="0.7"/>
+        <circle cx="96"  cy="0" r="2.5" fill="#c0d8f0" opacity="0.7"/>
+        <circle cx="-32" cy="-34" r="2.8" fill="#d8ecff" opacity="0.85"/>
+        <circle cx="32"  cy="-34" r="2.8" fill="#d8ecff" opacity="0.85"/>
+        <circle cx="-32" cy="34"  r="2.8" fill="#d8ecff" opacity="0.85"/>
+        <circle cx="32"  cy="34"  r="2.8" fill="#d8ecff" opacity="0.85"/>
+        <circle cx="-60" cy="-68" r="2.2" fill="#b0d0f0" opacity="0.7"/>
+        <circle cx="60"  cy="-68" r="2.2" fill="#b0d0f0" opacity="0.7"/>
+        <circle cx="-60" cy="68"  r="2.2" fill="#b0d0f0" opacity="0.7"/>
+        <circle cx="60"  cy="68"  r="2.2" fill="#b0d0f0" opacity="0.7"/>
+        <circle cx="-22" cy="-68" r="1.8" fill="#a0c4e8" opacity="0.6"/>
+        <circle cx="22"  cy="-68" r="1.8" fill="#a0c4e8" opacity="0.6"/>
+        <circle cx="-22" cy="68"  r="1.8" fill="#a0c4e8" opacity="0.6"/>
+        <circle cx="22"  cy="68"  r="1.8" fill="#a0c4e8" opacity="0.6"/>
+        <circle cx="-80" cy="-100" r="1.5" fill="#90b8e0" opacity="0.5"/>
+        <circle cx="80"  cy="-100" r="1.5" fill="#90b8e0" opacity="0.5"/>
+        <circle cx="-80" cy="100"  r="1.5" fill="#90b8e0" opacity="0.5"/>
+        <circle cx="80"  cy="100"  r="1.5" fill="#90b8e0" opacity="0.5"/>
+        <circle cx="0"   cy="-110" r="2"   fill="#c0dcf4" opacity="0.7"/>
+        <circle cx="0"   cy="110"  r="2"   fill="#c0dcf4" opacity="0.7"/>
+        <circle cx="-108" cy="-135" r="1.3" fill="#80acd8" opacity="0.45"/>
+        <circle cx="108"  cy="-135" r="1.3" fill="#80acd8" opacity="0.45"/>
+        <circle cx="-108" cy="135"  r="1.3" fill="#80acd8" opacity="0.45"/>
+        <circle cx="108"  cy="135"  r="1.3" fill="#80acd8" opacity="0.45"/>
+        <circle cx="0" cy="0" r="5"  fill="#ffffff" opacity="0.6"/>
+        <circle cx="0" cy="0" r="10" fill="#ffffff" opacity="0.15"/>
+        <circle cx="0" cy="0" r="20" fill="#8ab4d4" opacity="0.08"/>
+      </g>
+      <text x="300" y="665" text-anchor="middle" fill="#4a6a8a" font-family="monospace" font-size="12" opacity="0.7" letter-spacing="3">PHOTO 51 — B-FORM DNA — 1952</text>
+      <defs>
+        <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#1a3a5c" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#080c12" stop-opacity="0.6"/>
+        </radialGradient>
+      </defs>
+      <rect width="600" height="700" fill="url(#glow)"/>
+    </svg>
+  </div>
+</header>
+
+<!-- ══════════════════════════════ BIOGRAPHY ══════════════════════════════ -->
+<section id="biography">
+  <div class="section">
+    <div class="section-label">01 — Origins &amp; Formation</div>
+    <h2 class="section-title">From Notting Hill<br><em>to the Frontier of Molecular Science</em></h2>
+
+    <div class="two-col">
+      <div class="body-text">
+        <p>Rosalind Elsie Franklin was born on 25 July 1920 in Notting Hill, London, into a prosperous and intellectually engaged Anglo-Jewish family.<sup class="cite"><a href="#bib-11" title="Wikipedia: Rosalind Franklin">[11]</a></sup> Her father Ellis Franklin was a partner at Keyser's Bank and taught electricity and magnetism at the Working Men's College; her mother Muriel ran a household defined by lively debate and civic commitment.<sup class="cite"><a href="#bib-16" title="NLM Profiles in Science">[16]</a></sup> The family's dining table was, by all accounts, an arena of argument—one that Rosalind relished from an early age.<sup class="cite"><a href="#bib-13" title="Jewish Women's Archive">[13]</a></sup></p>
+
+        <p>Unlike many girls of her era, Franklin showed no interest in dolls or domestic pursuits. She preferred crafting, drawing, photography, and vigorous problem-solving. Her sister Jenifer recalled: <em>"When my sister was told something, even when she was very young, she wanted proof."</em><sup class="cite"><a href="#bib-15" title="Women Rising Strong — Family Matters">[15]</a></sup> By fifteen, her decision was fixed: she would be a scientist.<sup class="cite"><a href="#bib-12" title="PBS A Science Odyssey">[12]</a></sup></p>
+
+        <p>She excelled at St. Paul's School for Girls — which prized preparing graduates for careers, not merely marriage — passed the Cambridge entrance examination in 1938, and graduated in Natural Sciences from Newnham College in 1941.<sup class="cite"><a href="#bib-16" title="NLM Profiles in Science">[16]</a></sup> Wartime work at the British Coal Utilisation Research Association (BCURA) followed, where she laid the foundations of what would become a landmark contribution to materials science.<sup class="cite"><a href="#bib-5" title="Science History Institute">[5]</a></sup></p>
+
+        <p>Her Paris years (1947–50) at the Laboratoire Central under Jacques Méring were transformative both professionally and personally. She became expert in X-ray crystallography, built lifelong friendships, hiked across Europe on weekends, and seriously considered staying in France permanently.<sup class="cite"><a href="#bib-13" title="Jewish Women's Archive">[13]</a></sup> She returned to England on the advice of Dorothy Hodgkin regarding future scientific opportunities and under family pressure.<sup class="cite"><a href="#bib-13" title="Jewish Women's Archive">[13]</a></sup></p>
+      </div>
+
+      <div>
+        <div class="timeline">
+          <div class="timeline-entry">
+            <div class="timeline-year">1920</div>
+            <div class="timeline-text"><strong>Born in Notting Hill</strong>, London, into the Franklin banking family. Second of five children.<sup class="cite"><a href="#bib-11" title="Wikipedia">[11]</a></sup></div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-year">1938–41</div>
+            <div class="timeline-text"><strong>Newnham College, Cambridge</strong>. Degree in Natural Sciences. Reportedly brilliant but privately, like many gifted young women, lacking confidence in her own abilities.<sup class="cite"><a href="#bib-9" title="Rosalind Franklin Institute">[9]</a></sup></div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-year">1942–45</div>
+            <div class="timeline-text"><strong>BCURA, London</strong>. Wartime coal research. Discovers graphitizing vs. non-graphitizing carbons. PhD awarded 1945.<sup class="cite"><a href="#bib-16" title="NLM Profiles in Science">[16]</a></sup></div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-year">1947–50</div>
+            <div class="timeline-text"><strong>Paris, Laboratoire Central</strong>. Under Jacques Méring. Masters X-ray crystallography. Thrives in egalitarian French scientific culture.<sup class="cite"><a href="#bib-5" title="Science History Institute">[5]</a></sup></div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-year">1951–53</div>
+            <div class="timeline-text"><strong>King's College London</strong>. DNA X-ray work. Discovers A- and B-forms. Produces Photo 51. Institutional conflict with Wilkins.<sup class="cite"><a href="#bib-2" title="LMU Newsroom">[2]</a></sup></div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-year">1953–58</div>
+            <div class="timeline-text"><strong>Birkbeck College</strong>. Leads virus structure research. TMV, polio. Mentors Aaron Klug. ~30 research articles published.<sup class="cite"><a href="#bib-9" title="Rosalind Franklin Institute">[9]</a></sup></div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-year">1958</div>
+            <div class="timeline-text"><strong>Died April 16</strong>, aged 37. Ovarian cancer. Still studying polio data in her final weeks.<sup class="cite"><a href="#bib-11" title="Wikipedia">[11]</a></sup></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ WATSON & CRICK ══════════════════════════════ -->
+<section id="watson-crick" style="background: var(--cream);">
+  <div class="section">
+    <div class="section-label">02 — The Central Controversy</div>
+    <h2 class="section-title">Franklin and<br><em>Watson &amp; Crick</em></h2>
+
+    <div class="body-text">
+      <p>The relationship between Franklin and the Cambridge duo is one of the most contested episodes in the history of science. It involves questions of credit, scientific method, interpersonal rivalry, institutional failure, and the gendered culture of British academia in the 1950s.<sup class="cite"><a href="#bib-7" title="Hopkins Medicine — The Secret of Life">[7]</a></sup></p>
+    </div>
+
+    <div class="pull-quote">
+      <p>"The data which really helped us to obtain the structure was mainly obtained by Rosalind Franklin."</p>
+      <cite>— Francis Crick, in retrospect <sup class="cite"><a href="#bib-14" title="Famous Scientists">[14]</a></sup></cite>
+    </div>
+
+    <div class="two-col" style="margin-top: 40px;">
+      <div>
+        <div class="card">
+          <div class="card-title">The Methodological Divide</div>
+          <p>Franklin was a meticulous empiricist trained in the finest traditions of French X-ray crystallography. She refused to propose a model until her data could unambiguously support it. By November 1951, she had already concluded that DNA had a helical structure with phosphates on the outside — a correct conclusion that Watson and Crick initially got <em>wrong</em> (their 1951 model placed the phosphates inside).<sup class="cite"><a href="#bib-10" title="PMC/NIH — Rosalind Franklin">[10]</a></sup> She was, as historian Matthew Cobb noted, simply "much smarter than Watson" about this aspect of the science — yet her data was funneled to him while she was busy generating still more precise evidence.<sup class="cite"><a href="#bib-4" title="Science News — Franklin's true role">[4]</a></sup></p>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <div class="card-title">The King's College Friction</div>
+          <p>Franklin's primary difficulties at King's were with Maurice Wilkins, not Watson and Crick directly. The conflict arose from a botched institutional arrangement: Franklin had been hired as an independent researcher, but Wilkins understood her as his assistant.<sup class="cite"><a href="#bib-17" title="Rosalind Franklin University — Trustee speech">[17]</a></sup> The frustrated Wilkins showed Photo 51 to Watson without Franklin's knowledge or permission; separately, Crick was shown Franklin's confidential MRC progress report.<sup class="cite"><a href="#bib-3" title="Berkeley — Credit and Debt">[3]</a></sup> Watson's 1968 memoir <em>The Double Helix</em> compounded the injury by caricaturing her as "Rosy" — bad-tempered, arrogant, incompetent — a portrait protested by Crick, Wilkins, Pauling, and many reviewers.<sup class="cite"><a href="#bib-8" title="AAAS Science — Gender Harassment">[8]</a></sup></p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 40px;" class="body-text">
+      <p>Recent historical scholarship — notably by Matthew Cobb and Nathaniel Comfort — has complicated the "theft" narrative without wholly exonerating Watson and Crick. Documents in the Franklin archive, including an unpublished <em>Time</em> magazine article fact-checked by Franklin herself, suggest she was a more collaborative figure than the canonical victim story implies, with the two groups at King's and Cambridge seen as conducting "effectively equal" work.<sup class="cite"><a href="#bib-4" title="Science News — Franklin's true role">[4]</a></sup> That said, Watson later confirmed the decisive role of her data: "We did it for a reason, because we had Rosalind's data."<sup class="cite"><a href="#bib-6" title="PBS NewsHour — Secret of Life">[6]</a></sup> The ethical failure — using her confidential MRC report without attribution — is not in serious dispute. Crick acknowledged that "all the really relevant experimental X-ray diffraction work on DNA" came from Franklin's lab.<sup class="cite"><a href="#bib-3" title="Berkeley — Credit and Debt">[3]</a></sup></p>
+
+      <p>Notably, Franklin bore no evident personal resentment toward Crick after leaving King's. She became close friends with him and his wife Odile, attended their parties, went to the theatre with Odile, and convalesced twice at their Cambridge home after her cancer diagnosis.<sup class="cite"><a href="#bib-1" title="Nautilus — Crick and Watson Did Not Steal Franklin's Data">[1]</a></sup></p>
+    </div>
+
+    <div class="pull-quote">
+      <p>"Franklin's brilliance and focus were often perceived as uncollegial — and even hostile. Her inability to gladly suffer fools stuck with Watson, who never forgot or forgave her curt, bemused dismissal of an early and erroneous model."</p>
+      <cite>— Howard Markel, <em>The Secret of Life</em> (2021) <sup class="cite"><a href="#bib-7" title="Hopkins Medicine">[7]</a></sup></cite>
+    </div>
+
+    <div class="body-text">
+      <p>The friction your course materials mention is well-documented. Franklin was more rigorous than Watson and Crick in the strictly experimental sense: she generated the primary data while they theorised from it. Her demand for evidentiary certainty before model-building was entirely correct by the standards of physical chemistry — it was this scientific conscientiousness that temporarily slowed her relative to Watson and Crick even as her data powered their breakthrough. Howard Markel's 2021 biography, drawing on rare Nobel archive access and interviews with Watson and Franklin's sister, calls it "one of the most egregious ripoffs in the history of science."<sup class="cite"><a href="#bib-6" title="PBS NewsHour — Secret of Life">[6]</a></sup></p>
+    </div>
+
+    <div class="clarification-box">
+      <div class="clarification-label">⚑ &nbsp;A Note on the "Dismissal"</div>
+      <p>Markel's phrase — Franklin's "curt, bemused dismissal of an early and erroneous model" — may suggest a written rebuttal in a journal or formal publication. It was neither. The dismissal was a <strong>face-to-face verbal critique</strong> delivered at the Cavendish Laboratory in Cambridge, almost certainly in late 1951, when Watson and Crick invited Franklin and Wilkins to view their first, triple-stranded DNA model. Franklin simply examined the model and told them it was inconsistent with the X-ray evidence — which it was. Watson and Crick had placed the phosphates on the inside; Franklin had already shown from her crystallographic data that they belonged on the outside.<sup class="cite"><a href="#bib-10" title="PMC / Sayre review">[10]</a></sup></p>
+      <p>This is a crucial distinction. What Watson experienced as a humiliating personal snub was Franklin doing precise, correct science. She was right; they were wrong. The bitter irony is that Watson never forgave the woman whose careful empirical judgment he had just witnessed — and then, thirteen months later, used her unpublished data to build the correct model she had effectively pointed him toward.<sup class="cite"><a href="#bib-12" title="Physics Today — Franklin and the Double Helix">[12]</a></sup> Her "dismissal" was not an act of hostility; it was the scientific method in action.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ CONTEMPORARIES ══════════════════════════════ -->
+<section id="contemporaries">
+  <div class="section">
+    <div class="section-label">03 — Scientific Context</div>
+    <h2 class="section-title">Franklin Among<br><em>the Giants of Her Age</em></h2>
+
+    <div class="body-text">
+      <p>The 1950s was a golden decade for molecular biology. Franklin's contributions must be understood within this extraordinary constellation of talent — and her position within it was far from peripheral.<sup class="cite"><a href="#bib-5" title="Science History Institute">[5]</a></sup></p>
+    </div>
+
+    <table class="contemporaries-table">
+      <thead>
+        <tr>
+          <th>Scientist</th>
+          <th>Field &amp; Major Work</th>
+          <th>Relation to Franklin</th>
+          <th>Assessment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="scientist-name">Linus Pauling</div><em style="font-size:14px;color:#666;">1901–1994</em></td>
+          <td>Protein structure (alpha-helix); two-time Nobel laureate. Also raced to solve DNA.</td>
+          <td><span class="connection-strong">Direct Rival.</span> Pauling's early 1953 DNA model — a triple helix with phosphates inside — was precisely the wrong answer Franklin had already ruled out. The Pauling threat accelerated Watson and Crick's use of Franklin's data.<sup class="cite"><a href="#bib-4" title="Science News">[4]</a></sup></td>
+          <td>Broader in scope and more decorated, but Franklin's crystallographic precision exceeded his on the DNA problem. Pauling later protested Watson's portrayal of Franklin in <em>The Double Helix</em>.<sup class="cite"><a href="#bib-16" title="NLM Profiles in Science">[16]</a></sup></td>
+        </tr>
+        <tr>
+          <td><div class="scientist-name">Jacques Monod</div><em style="font-size:14px;color:#666;">1910–1976</em></td>
+          <td>Gene regulation (operon theory); Nobel 1965. Philosopher of molecular biology.</td>
+          <td><span class="connection-broad">Intellectual Parallel.</span> Franklin trained at the Laboratoire Central in Paris during Monod's most active period at the nearby Pasteur Institute. Both represent the French tradition of rigorous, data-grounded biology.<sup class="cite"><a href="#bib-13" title="Jewish Women's Archive">[13]</a></sup></td>
+          <td>Different domains (structure vs. regulation) but kindred scientific temperaments: both demanded evidence before conclusion. Franklin deeply absorbed the egalitarian scientific culture of Paris.</td>
+        </tr>
+        <tr>
+          <td><div class="scientist-name">Watson &amp; Crick</div><em style="font-size:14px;color:#666;">1928–2025 / 1916–2004</em></td>
+          <td>DNA double helix model (1953). Nobel 1962.</td>
+          <td><span class="connection-strong">Central Relationship.</span> See Section 02. Theoretical model-builders who built their discovery using Franklin's experimental data. Crick later became a genuine friend of Franklin's.<sup class="cite"><a href="#bib-1" title="Nautilus">[1]</a></sup></td>
+          <td>Complementary to Franklin, not superior: dependent on her crystallographic mastery to confirm and correct their theories. Both Crick and Watson acknowledged their debt posthumously.<sup class="cite"><a href="#bib-3" title="Berkeley">[3]</a></sup></td>
+        </tr>
+        <tr>
+          <td><div class="scientist-name">Maurice Wilkins</div><em style="font-size:14px;color:#666;">1916–2004</em></td>
+          <td>X-ray DNA work at King's. Nobel 1962 (shared with Watson &amp; Crick).</td>
+          <td><span class="connection-strong">Colleague / Antagonist.</span> The Wilkins–Franklin conflict — rooted in a botched institutional assignment — was the primary operational friction in Franklin's professional life. Wilkins sharing Photo 51 without permission was the pivotal act.<sup class="cite"><a href="#bib-8" title="AAAS Science">[8]</a></sup></td>
+          <td>Less technically accomplished in X-ray crystallography than Franklin. Received a Nobel Prize; she did not.<sup class="cite"><a href="#bib-2" title="LMU Newsroom">[2]</a></sup></td>
+        </tr>
+        <tr>
+          <td><div class="scientist-name">Aaron Klug</div><em style="font-size:14px;color:#666;">1926–2018</em></td>
+          <td>Crystallographic electron microscopy; virus structure. Nobel Chemistry 1982.</td>
+          <td><span class="connection-parallel">Protégé.</span> Franklin recruited Klug to her Birkbeck group and trained him in her methods. Klug credited Franklin's data as foundational to his Nobel work, and stated she would have shared the 1982 prize had she lived.<sup class="cite"><a href="#bib-9" title="Rosalind Franklin Institute">[9]</a></sup></td>
+          <td>The clearest proxy for Franklin's independent trajectory. Her methods, transmitted through Klug, reached the highest recognition science can bestow.</td>
+        </tr>
+        <tr>
+          <td><div class="scientist-name">Dorothy Hodgkin</div><em style="font-size:14px;color:#666;">1910–1994</em></td>
+          <td>X-ray crystallography of penicillin, B12, insulin. Nobel Chemistry 1964.</td>
+          <td><span class="connection-parallel">Senior Model.</span> Hodgkin was the pre-eminent British woman crystallographer of the era and advised Franklin on career choices. Her Nobel success proves women could achieve the highest recognition in exactly this field.<sup class="cite"><a href="#bib-13" title="Jewish Women's Archive">[13]</a></sup></td>
+          <td>Hodgkin's career arc is the closest counterfactual to what Franklin might have achieved. Her 1964 prize makes Franklin's exclusion all the more pointed.</td>
+        </tr>
+        <tr>
+          <td><div class="scientist-name">Erwin Chargaff</div><em style="font-size:14px;color:#666;">1905–2002</em></td>
+          <td>Base-pairing rules (A=T, G=C) for DNA. Biochemist.</td>
+          <td><span class="connection-broad">Foundational Supplier.</span> Chargaff's base-pairing rules were among the key pieces Watson and Crick used alongside Franklin's crystallographic data — Franklin operated within a larger web of contribution.<sup class="cite"><a href="#bib-5" title="Science History Institute">[5]</a></sup></td>
+          <td>Chargaff was also bitter about Watson and Crick's disproportionate credit, indicating a broader pattern of Nobel allocation in the DNA story beyond just the Franklin question.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pull-quote" style="margin-top: 40px;">
+      <p>Franklin's crystallographic rigor placed her methodologically ahead of Watson and Crick on the experimental side — she was generating primary evidence while they theorised from it. The tragedy is that experimental mastery was undervalued in the eventual attribution of credit.</p>
+      <cite>— Editorial assessment, drawing on <sup class="cite"><a href="#bib-10" title="PMC/NIH">[10]</a></sup><sup class="cite"><a href="#bib-4" title="Science News">[4]</a></sup></cite>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ POST-DNA ══════════════════════════════ -->
+<section id="post-dna" class="dark-section">
+  <div class="section">
+    <div class="section-label" style="color: var(--gold);">04 — The Birkbeck Years</div>
+    <h2 class="section-title">Beyond the Double Helix:<br><em>An Independent Scientific Career</em></h2>
+
+    <div class="body-text">
+      <p>When Franklin transferred to Birkbeck College in March 1953 — the same month Watson and Crick published their model — she left DNA behind without apparent regret and entered what many historians now consider her most productive phase as an independent lead researcher. She published almost thirty research articles from Birkbeck.<sup class="cite"><a href="#bib-9" title="Rosalind Franklin Institute">[9]</a></sup></p>
+    </div>
+
+    <div class="three-col" style="margin-top: 40px;">
+      <div class="card">
+        <div class="card-title">🌿 Tobacco Mosaic Virus</div>
+        <p>Franklin used X-ray crystallography to prove that TMV's RNA is not buried centrally but embedded within the inner wall of its protein shell — the first precise structural map of a virus. She established that TMV is a hollow helix of proteins with RNA winding through it. This was landmark molecular virology, achieved by the team she led. She recruited and trained Aaron Klug during this work.<sup class="cite"><a href="#bib-14" title="Famous Scientists">[14]</a></sup></p>
+      </div>
+      <div class="card">
+        <div class="card-title">🦠 Polio Virus</div>
+        <p>In her final months, working with dangerous live material, Franklin's group obtained the first high-resolution X-ray images of the polio virus and demonstrated its icosahedral symmetry — a 20-sided geometry. Published posthumously in 1958, this finding provided the structural blueprint essential for understanding viral infection of human cells.<sup class="cite"><a href="#bib-9" title="Rosalind Franklin Institute">[9]</a></sup></p>
+      </div>
+      <div class="card">
+        <div class="card-title">🔬 Carbon Science Legacy</div>
+        <p>Franklin's wartime discovery of the difference between graphitizing and non-graphitizing carbons had industrial consequences that outlasted her. These findings were foundational for the development of high-strength carbon fibers and the heat shields used in modern aerospace technology — including spacecraft re-entry systems.<sup class="cite"><a href="#bib-16" title="NLM Profiles in Science">[16]</a></sup></p>
+      </div>
+    </div>
+
+    <div class="body-text" style="margin-top: 48px;">
+      <p style="color: #c8c0b0;">The Birkbeck work is arguably <em>more consequential in aggregate</em> than her DNA contribution, because it was unambiguously hers: she conceived it, designed it, and led it. The DNA work was produced in a context of institutional dysfunction, credit ambiguity, and data appropriation. The virus work was not. Aaron Klug, who won the Nobel in Chemistry in 1982 for work he began in Franklin's group, was unequivocal: had Franklin lived, she would have stood beside him in Stockholm.<sup class="cite"><a href="#bib-9" title="Rosalind Franklin Institute">[9]</a></sup></p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ NOBEL ══════════════════════════════ -->
+<section id="nobel" style="background: var(--cream);">
+  <div class="section">
+    <div class="section-label">05 — The Nobel Question</div>
+    <h2 class="section-title">Would She Have Won?<br><em>A Pro &amp; Con Analysis</em></h2>
+
+    <div class="body-text">
+      <p>The 1962 Nobel Prize in Physiology or Medicine was awarded to Watson, Crick, and Wilkins. Franklin had died four years earlier; Nobel Prizes are not awarded posthumously.<sup class="cite"><a href="#bib-2" title="LMU Newsroom">[2]</a></sup> But the hypothetical question — had she survived, would she have won? — is one of the most discussed in the history of science.</p>
+    </div>
+
+    <div class="procon-grid">
+      <div class="procon-col pro">
+        <div class="procon-header">✦ The Case For</div>
+        <div class="procon-item">
+          <span class="procon-icon">◆</span>
+          <span><strong>The Klug precedent.</strong> Aaron Klug, trained in Franklin's methods and building on her virus research, won the Nobel Chemistry Prize in 1982. He stated explicitly that Franklin would have shared it — a judgment that effectively reflects the Nobel Committee's assessment of the scientific lineage.<sup class="cite"><a href="#bib-9" title="Rosalind Franklin Institute">[9]</a></sup></span>
+        </div>
+        <div class="procon-item">
+          <span class="procon-icon">◆</span>
+          <span><strong>Watson's own testimony.</strong> James Watson — hardly an advocate for Franklin — stated that had she not died, she would have been awarded a Nobel Prize in Chemistry for her virus work.<sup class="cite"><a href="#bib-11" title="Wikipedia">[11]</a></sup> A concession from a hostile witness carries considerable weight.</span>
+        </div>
+        <div class="procon-item">
+          <span class="procon-icon">◆</span>
+          <span><strong>The virus work was Nobel-caliber.</strong> Franklin's TMV and polio findings were independently groundbreaking, published in leading journals, and directly enabled subsequent Nobel-winning science. They existed on their own merits, separate from the DNA controversy.<sup class="cite"><a href="#bib-9" title="Rosalind Franklin Institute">[9]</a></sup></span>
+        </div>
+        <div class="procon-item">
+          <span class="procon-icon">◆</span>
+          <span><strong>Hodgkin as parallel.</strong> Dorothy Hodgkin won in 1964 for X-ray crystallography of biological molecules — exactly Franklin's technique applied to comparable problems. The Nobel Committee had demonstrated clear willingness to award this kind of work.<sup class="cite"><a href="#bib-13" title="Jewish Women's Archive">[13]</a></sup></span>
+        </div>
+        <div class="procon-item">
+          <span class="procon-icon">◆</span>
+          <span><strong>A Chemistry prize for DNA was plausible.</strong> The 1962 prize was in Physiology or Medicine. A separate Chemistry prize for the crystallographic work underlying the discovery — Franklin's domain — was conceivable as the field matured and her contribution became better known.<sup class="cite"><a href="#bib-2" title="LMU Newsroom">[2]</a></sup></span>
+        </div>
+      </div>
+
+      <div class="procon-col con">
+        <div class="procon-header">✦ The Case Against</div>
+        <div class="procon-item">
+          <span class="procon-icon">◇</span>
+          <span><strong>The DNA prize was already given.</strong> Once Watson, Crick, and Wilkins received the 1962 prize, a subsequent DNA-related award to Franklin would have been unprecedented. The Committee rarely revisits a discovery, and she would likely have needed to win on the virus work alone.<sup class="cite"><a href="#bib-2" title="LMU Newsroom">[2]</a></sup></span>
+        </div>
+        <div class="procon-item">
+          <span class="procon-icon">◇</span>
+          <span><strong>Institutional invisibility.</strong> Franklin's contribution was actively misrepresented in Watson's <em>Double Helix</em> (1968) and largely unknown to the scientific community for decades.<sup class="cite"><a href="#bib-16" title="NLM Profiles in Science">[16]</a></sup> Her own reticence about self-promotion might have further delayed recognition.</span>
+        </div>
+        <div class="procon-item">
+          <span class="procon-icon">◇</span>
+          <span><strong>Gendered gatekeeping.</strong> The Nobel record for women in chemistry before 1980 is stark: Curie (1911) and Hodgkin (1964). Franklin would have faced the same structural biases in Nobel nomination processes that constrained women across science.<sup class="cite"><a href="#bib-8" title="AAAS Science">[8]</a></sup></span>
+        </div>
+        <div class="procon-item">
+          <span class="procon-icon">◇</span>
+          <span><strong>The virus work was incomplete at death.</strong> Franklin died before fully publishing her polio results. A Nobel requires a completed, assessed body of work. She would have needed additional years to build a sufficiently settled case — though her trajectory strongly pointed there.<sup class="cite"><a href="#bib-9" title="Rosalind Franklin Institute">[9]</a></sup></span>
+        </div>
+        <div class="procon-item">
+          <span class="procon-icon">◇</span>
+          <span><strong>The three-person limit.</strong> Had she lived to 1962, a fourth recipient for the DNA prize would have required breaking the three-person limit. Nobel rules allowed this in 1962 but the Committee might not have exercised it — especially for a woman whose contribution was not publicly credited.<sup class="cite"><a href="#bib-2" title="LMU Newsroom">[2]</a></sup></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="verdict-box">
+      <div class="verdict-label">Editorial Verdict</div>
+      <p>The most defensible conclusion: Franklin would very likely have won a Nobel Prize in Chemistry — but almost certainly <em>not</em> for DNA. The 1982 Nobel for virus crystallography belongs to her as much as to Klug. On the 1962 DNA prize, the institutional and structural obstacles were formidable. The deeper injustice is not the denial of a specific prize, but that three men received the 1962 award on the basis of work she substantially enabled — without a word of acknowledgment in either Watson or Crick's Nobel lectures.<sup class="cite"><a href="#bib-3" title="Berkeley — Credit and Debt">[3]</a></sup></p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ PERSONAL LIFE ══════════════════════════════ -->
+<section id="personal">
+  <div class="section">
+    <div class="section-label">06 — The Person</div>
+    <h2 class="section-title">Beyond the Laboratory:<br><em>Personal Life &amp; Character</em></h2>
+
+    <div class="body-text">
+      <p>The caricature of Franklin as a cold, difficult bluestocking — Watson's creation — bears almost no resemblance to the person her family, close colleagues, and friends describe.<sup class="cite"><a href="#bib-17" title="Rosalind Franklin University — Trustee speech">[17]</a></sup> She was complex, certainly; but complexity is not the same as hostility.</p>
+    </div>
+
+    <div class="personality-grid">
+      <div class="personality-cell">
+        <div class="personality-cell-label">Family &amp; Origins</div>
+        <p>Franklin came from a distinguished Anglo-Jewish family with deep roots in London's liberal establishment. Her great-uncle Herbert Samuel was Britain's first Jewish Cabinet minister; her aunt Helen was a trade union and suffrage activist.<sup class="cite"><a href="#bib-11" title="Wikipedia">[11]</a></sup> She remained strongly identified with her Jewish heritage even as she was agnostic by inclination, and was buried in the Willesden United Synagogue Cemetery. Her death certificate read simply: "Research Scientist, Spinster, Daughter of Ellis Arthur Franklin, a Banker."<sup class="cite"><a href="#bib-11" title="Wikipedia">[11]</a></sup></p>
+      </div>
+      <div class="personality-cell">
+        <div class="personality-cell-label">Private Warmth</div>
+        <p>Away from King's, Franklin was known to close friends as warm, funny, mischievous, and deeply loyal. She loved France — its food, its language, its egalitarian spirit — and seriously considered staying there permanently.<sup class="cite"><a href="#bib-13" title="Jewish Women's Archive">[13]</a></sup> She hiked extensively across Europe, spoke excellent French, good Italian, and passable German, and preferred third-class train carriages for the chance to converse with ordinary people in their own language.<sup class="cite"><a href="#bib-16" title="NLM Profiles in Science">[16]</a></sup></p>
+      </div>
+      <div class="personality-cell">
+        <div class="personality-cell-label">Intellectual Character</div>
+        <p>Her sister Jenifer described her as someone who "loved argument" and demanded proof for every claim — "a scientific trait" from childhood.<sup class="cite"><a href="#bib-15" title="Women Rising Strong">[15]</a></sup> Her mother noted: "Rosalind's hates, as well as her friendships, tended to be enduring."<sup class="cite"><a href="#bib-18" title="PBS NewsHour — Meet Franklin">[18]</a></sup> She was intolerant of mediocrity and unsparing with critique — qualities that made her formidable in science and sometimes difficult in lab politics. The same traits Watson read as arrogance read differently to those she respected.<sup class="cite"><a href="#bib-17" title="Rosalind Franklin University">[17]</a></sup></p>
+      </div>
+      <div class="personality-cell">
+        <div class="personality-cell-label">Independence &amp; Finances</div>
+        <p>Franklin insisted on living on her own salary throughout her career, repeatedly refusing financial assistance from her wealthy family.<sup class="cite"><a href="#bib-13" title="Jewish Women's Archive">[13]</a></sup> Her will, probated at £11,278, reflects a life deliberately lived without the cushion her background could have provided. She never married, had no recorded intimate relationship, and kept her deepest personal feelings private.<sup class="cite"><a href="#bib-11" title="Wikipedia">[11]</a></sup></p>
+      </div>
+      <div class="personality-cell">
+        <div class="personality-cell-label">Passions &amp; Pursuits</div>
+        <p>Franklin was an avid hiker, a skilled French cook, an enthusiastic traveler, and an accomplished seamstress.<sup class="cite"><a href="#bib-9" title="Rosalind Franklin Institute">[9]</a></sup> Her surviving letters confirm she was "a person of intense feelings and intelligence who was committed to scientific research but also fully enjoyed leisure activities — sports, sewing, travelling, entertaining."<sup class="cite"><a href="#bib-9" title="Rosalind Franklin Institute">[9]</a></sup> She attended theatre regularly and went on family holidays with the Cricks.</p>
+      </div>
+      <div class="personality-cell">
+        <div class="personality-cell-label">Last Years &amp; Legacy</div>
+        <p>Diagnosed with ovarian cancer in late 1956, Franklin refused to stop working. She underwent multiple surgeries and experimental chemotherapy while rarely missing a day at Birkbeck, and convalesced twice with Francis and Odile Crick.<sup class="cite"><a href="#bib-1" title="Nautilus">[1]</a></sup> In her final weeks she was reportedly still studying polio data.<sup class="cite"><a href="#bib-9" title="Rosalind Franklin Institute">[9]</a></sup> She died April 16, 1958. Her sister's words remain the most arresting epitaph: <em>"People ask what she would have achieved if she hadn't been a woman. I think the real question is: what would she have achieved if she hadn't died at 37?"</em><sup class="cite"><a href="#bib-15" title="Women Rising Strong">[15]</a></sup></p>
+      </div>
+    </div>
+
+    <div class="ornament">— ✦ —</div>
+
+    <div class="pull-quote">
+      <p>"She was not, I think, anything in her mind at all a feminist icon. She was just a scientist who wanted to do it all she could in that way, although nothing would please her more than the fact that it perhaps encourages girls into science."</p>
+      <cite>— Jenifer Glynn, Franklin's sister <sup class="cite"><a href="#bib-15" title="Women Rising Strong">[15]</a></sup></cite>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ DISCUSSION ══════════════════════════════ -->
+<section style="background: var(--ink); color: var(--paper);">
+  <div class="section">
+    <div class="section-label" style="color: var(--gold);">07 — For Discussion</div>
+    <h2 class="section-title" style="color: #a0bcd4;">Questions for<br><em>the Study Group</em></h2>
+
+    <div class="three-col">
+      <div class="card">
+        <div class="card-title">Meitner Parallel</div>
+        <p>Like Lise Meitner, Franklin's most decisive contribution was used by others without credit (Meitner's fission credited to Hahn; Franklin's Photo 51 used without attribution). Both were Jewish women working in hostile institutional environments. How do the structural similarities illuminate the systemic nature of the problem — and where do the cases diverge?</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Rigor vs. Speed</div>
+        <p>Franklin's insistence on certainty before model-building was scientifically correct but operationally costly in a race. Watson and Crick's willingness to theorise from incomplete data was scientifically riskier but strategically faster. What does this tension reveal about how scientific priority gets allocated — and whether that process rewards the right virtues?</p>
+      </div>
+      <div class="card">
+        <div class="card-title">The Feminist Icon Question</div>
+        <p>Franklin's family insists she would not have wanted to be remembered primarily as a wronged heroine — she wanted to be remembered as a scientist. Yet her story has become foundational to discussions of gender in science. Is there a tension between honoring her stated self-conception and using her story for legitimate advocacy? How should we navigate it?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ BIBLIOGRAPHY ══════════════════════════════ -->
+<section id="bibliography">
+  <div class="section">
+    <div class="section-label">Sources &amp; Citations</div>
+    <h2 class="section-title">Bibliography</h2>
+
+    <div class="bib-grid">
+
+      <div class="bib-entry" id="bib-1">
+        <div class="bib-num">[1]</div>
+        <div class="bib-content">
+          <span class="bib-title">Crick and Watson Did Not Steal Franklin's Data</span>
+          <div class="bib-source">Nautilus · Matthew Cobb · December 2025</div>
+          <a href="https://nautil.us/crick-and-watson-did-not-steal-franklins-data-1252663/" target="_blank" rel="noopener">nautil.us/crick-and-watson-did-not-steal-franklins-data-1252663/</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-2">
+        <div class="bib-num">[2]</div>
+        <div class="bib-content">
+          <span class="bib-title">Sexism in Science: Was Rosalind Franklin Robbed of a Nobel Prize?</span>
+          <div class="bib-source">Loyola Marymount University Newsroom · August 2025</div>
+          <a href="https://newsroom.lmu.edu/administrative/sexism-in-science-was-rosalind-franklin-robbed-of-a-nobel-prize/" target="_blank" rel="noopener">newsroom.lmu.edu/administrative/sexism-in-science…</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-3">
+        <div class="bib-num">[3]</div>
+        <div class="bib-content">
+          <span class="bib-title">Credit and Debt — The Structure of DNA: Cooperation and Competition</span>
+          <div class="bib-source">University of California, Berkeley · Understanding Science</div>
+          <a href="https://undsci.berkeley.edu/the-structure-of-dna-cooperation-and-competition/credit-and-debt/" target="_blank" rel="noopener">undsci.berkeley.edu/…/credit-and-debt/</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-4">
+        <div class="bib-num">[4]</div>
+        <div class="bib-content">
+          <span class="bib-title">What Was Rosalind Franklin's True Role in the Discovery of DNA's Double Helix?</span>
+          <div class="bib-source">Science News · Cobb &amp; Comfort · April 2023</div>
+          <a href="https://www.sciencenews.org/article/rosalind-franklin-dna-structure-watson-crick" target="_blank" rel="noopener">sciencenews.org/article/rosalind-franklin-dna-structure-watson-crick</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-5">
+        <div class="bib-num">[5]</div>
+        <div class="bib-content">
+          <span class="bib-title">Crick, Franklin, Watson, and Wilkins — Scientific Biographies</span>
+          <div class="bib-source">Science History Institute · September 2025</div>
+          <a href="https://www.sciencehistory.org/education/scientific-biographies/francis-crick-rosalind-franklin-james-watson-and-maurice-wilkins/" target="_blank" rel="noopener">sciencehistory.org/…/francis-crick-rosalind-franklin…</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-6">
+        <div class="bib-num">[6]</div>
+        <div class="bib-content">
+          <span class="bib-title">Why Discovery of DNA's Double Helix Was Based on 'Rip-Off' of Female Scientist's Data</span>
+          <div class="bib-source">PBS NewsHour · June 2022</div>
+          <a href="https://www.pbs.org/newshour/show/watson-cricks-breakthrough-dna-discovery-was-based-on-rosalind-franklins-work" target="_blank" rel="noopener">pbs.org/newshour/show/watson-cricks-breakthrough-dna-discovery…</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-7">
+        <div class="bib-num">[7]</div>
+        <div class="bib-content">
+          <span class="bib-title">A Riveting Scientific Whodunit — Review of <em>The Secret of Life</em> (Howard Markel)</span>
+          <div class="bib-source">Johns Hopkins Medicine News · June 2022</div>
+          <a href="https://www.hopkinsmedicine.org/news/articles/2022/06/a-riveting-scientific-whodunit" target="_blank" rel="noopener">hopkinsmedicine.org/news/articles/2022/06/a-riveting-scientific-whodunit</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-8">
+        <div class="bib-num">[8]</div>
+        <div class="bib-content">
+          <span class="bib-title">Rosalind Franklin and the Damage of Gender Harassment</span>
+          <div class="bib-source">Science (AAAS) · Commentary</div>
+          <a href="https://www.science.org/content/article/rosalind-franklin-and-damage-gender-harassment" target="_blank" rel="noopener">science.org/content/article/rosalind-franklin-and-damage-gender-harassment</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-9">
+        <div class="bib-num">[9]</div>
+        <div class="bib-content">
+          <span class="bib-title">Rosalind Franklin's Life — Expert Overview</span>
+          <div class="bib-source">Rosalind Franklin Institute (UK) · Prof. Patricia Fara, Cambridge · 2025</div>
+          <a href="https://www.rfi.ac.uk/about/rosalind-franklin/" target="_blank" rel="noopener">rfi.ac.uk/about/rosalind-franklin/</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-10">
+        <div class="bib-num">[10]</div>
+        <div class="bib-content">
+          <span class="bib-title">Rosalind Franklin — Review of Anne Sayre's Biography</span>
+          <div class="bib-source">PubMed Central / EMBO Reports · National Library of Medicine</div>
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC1083834/" target="_blank" rel="noopener">pmc.ncbi.nlm.nih.gov/articles/PMC1083834/</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-11">
+        <div class="bib-num">[11]</div>
+        <div class="bib-content">
+          <span class="bib-title">Rosalind Franklin — Encyclopedia Article</span>
+          <div class="bib-source">Wikipedia (extensively sourced, with primary citations)</div>
+          <a href="https://en.wikipedia.org/wiki/Rosalind_Franklin" target="_blank" rel="noopener">en.wikipedia.org/wiki/Rosalind_Franklin</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-12">
+        <div class="bib-num">[12]</div>
+        <div class="bib-content">
+          <span class="bib-title">Rosalind Franklin and the Double Helix</span>
+          <div class="bib-source">Physics Today (American Institute of Physics) · Lynne Osman Elkin</div>
+          Source for the 1951 Cavendish Laboratory meeting at which Franklin verbally critiqued Watson and Crick's erroneous triple-helix model. Documents how Watson's first model was built after he misreported Franklin's November 1951 seminar data, and how the correct model was built once he was shown Photo 51.
+          <a href="https://physicstoday.aip.org/features/rosalind-franklin-and-the-double-helix" target="_blank" rel="noopener">physicstoday.aip.org/features/rosalind-franklin-and-the-double-helix</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-13">
+        <div class="bib-num">[13]</div>
+        <div class="bib-content">
+          <span class="bib-title">Rosalind Elsie Franklin — Encyclopedia Entry</span>
+          <div class="bib-source">Jewish Women's Archive</div>
+          <a href="https://jwa.org/encyclopedia/article/franklin-rosalind" target="_blank" rel="noopener">jwa.org/encyclopedia/article/franklin-rosalind</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-14">
+        <div class="bib-num">[14]</div>
+        <div class="bib-content">
+          <span class="bib-title">Rosalind Franklin — Biography, Facts and Pictures</span>
+          <div class="bib-source">Famous Scientists</div>
+          <a href="https://www.famousscientists.org/rosalind-franklin/" target="_blank" rel="noopener">famousscientists.org/rosalind-franklin/</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-15">
+        <div class="bib-num">[15]</div>
+        <div class="bib-content">
+          <span class="bib-title">Rosalind Franklin: The Brilliant Scientist and Devoted Family Member</span>
+          <div class="bib-source">Women Rising Strong · S.A. Sterling · May 2024</div>
+          <a href="https://www.sasterling.com/blog-3-1/family-matters-the-life-and-science-of-rosalind-franklin" target="_blank" rel="noopener">sasterling.com/blog-3-1/family-matters-the-life-and-science-of-rosalind-franklin</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-16">
+        <div class="bib-num">[16]</div>
+        <div class="bib-content">
+          <span class="bib-title">Biographical Overview — Rosalind Franklin, Profiles in Science</span>
+          <div class="bib-source">National Library of Medicine (NLM)</div>
+          <a href="https://profiles.nlm.nih.gov/spotlight/kr/feature/biographical" target="_blank" rel="noopener">profiles.nlm.nih.gov/spotlight/kr/feature/biographical</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-17">
+        <div class="bib-num">[17]</div>
+        <div class="bib-content">
+          <span class="bib-title">Trustee Franklin on the Legacy of Rosalind Franklin, PhD</span>
+          <div class="bib-source">Rosalind Franklin University of Medicine and Science</div>
+          <a href="https://www.rosalindfranklin.edu/news/trustee-franklin-on-the-legacy-of-rosalind-franklin-phd/" target="_blank" rel="noopener">rosalindfranklin.edu/news/trustee-franklin-on-the-legacy…</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-18">
+        <div class="bib-num">[18]</div>
+        <div class="bib-content">
+          <span class="bib-title">Meet Rosalind Franklin, a Sidelined Figure in the History of DNA Science</span>
+          <div class="bib-source">PBS NewsHour · Excerpt from Howard Markel, <em>The Secret of Life</em> · December 2021</div>
+          <a href="https://www.pbs.org/newshour/science/meet-rosalind-franklin-a-sidelined-figure-in-the-history-of-dna-science" target="_blank" rel="noopener">pbs.org/newshour/science/meet-rosalind-franklin-a-sidelined-figure…</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Rosalind Franklin Profile &nbsp;·&nbsp; Prepared for BOLLI Five Women Scientists Discussion Group &nbsp;·&nbsp; Week 3</p>
+  <p style="margin-top: 8px; opacity: 0.5;">18 sources cited &nbsp;·&nbsp; All citations link directly to original sources</p>
+</footer>
+
+</body>
+</html>
