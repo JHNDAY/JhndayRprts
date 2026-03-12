@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DARPA MAV → Counter-Drone Defense</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080c0e;
+    --panel: #0d1417;
+    --border: #1e3040;
+    --amber: #e8a020;
+    --amber-dim: #7a5010;
+    --amber-glow: rgba(232,160,32,0.12);
+    --red: #cc3322;
+    --green: #2a9d3a;
+    --blue: #1a7aaa;
+    --text: #c8d8e0;
+    --muted: #607080;
+    --bright: #f0f8ff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image: 
+      radial-gradient(ellipse at 20% 0%, rgba(20,50,70,0.4) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 100%, rgba(40,20,10,0.3) 0%, transparent 60%);
+  }
+
+  /* Scanline overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.08) 2px,
+      rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px 60px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    border-bottom: 1px solid var(--amber-dim);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+    position: relative;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .header::before {
+    content: 'CLASSIFICATION: UNCLASSIFIED // FOR PUBLIC RELEASE';
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--amber-dim);
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .title-block h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(28px, 5vw, 52px);
+    color: var(--bright);
+    line-height: 1;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+  }
+
+  .title-block h1 span {
+    color: var(--amber);
+  }
+
+  .title-block .subtitle {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  .meta-block {
+    text-align: right;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.8;
+    flex-shrink: 0;
+  }
+
+  .meta-block .ref {
+    color: var(--amber);
+    font-size: 13px;
+  }
+
+  /* ── SECTION LABELS ── */
+  .section-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── TIMELINE ── */
+  .timeline-section {
+    margin-bottom: 48px;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 0;
+  }
+
+  .timeline-track {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    position: relative;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
+  .timeline-track::before {
+    content: '';
+    position: absolute;
+    top: 28px;
+    left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--amber-dim), var(--amber), var(--amber-dim));
+  }
+
+  .t-node {
+    flex: 1;
+    min-width: 130px;
+    padding: 0 8px;
+    position: relative;
+    cursor: default;
+  }
+
+  .t-node::before {
+    content: '';
+    position: absolute;
+    top: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--amber);
+    transition: all 0.2s;
+    z-index: 2;
+  }
+
+  .t-node:hover::before {
+    background: var(--amber);
+    box-shadow: 0 0 12px var(--amber);
+  }
+
+  .t-node .year {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--amber);
+    text-align: center;
+    margin-bottom: 40px;
+    padding-top: 2px;
+  }
+
+  .t-node .event-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px 12px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--text);
+    transition: border-color 0.2s;
+    min-height: 80px;
+  }
+
+  .t-node:hover .event-card {
+    border-color: var(--amber-dim);
+  }
+
+  .t-node .event-card strong {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--bright);
+    margin-bottom: 4px;
+  }
+
+  /* ── COST CRISIS ── */
+  .cost-section {
+    margin-bottom: 48px;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+
+  .cost-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 640px) { .cost-grid { grid-template-columns: 1fr; } }
+
+  .cost-panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px;
+  }
+
+  .cost-panel.threat {
+    border-color: var(--red);
+    background: linear-gradient(135deg, var(--panel) 0%, rgba(80,10,10,0.3) 100%);
+  }
+
+  .cost-panel.defense {
+    border-color: var(--blue);
+    background: linear-gradient(135deg, var(--panel) 0%, rgba(10,30,60,0.3) 100%);
+  }
+
+  .cost-panel h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .cost-panel.threat h3 { color: #e05040; }
+  .cost-panel.defense h3 { color: #4ab0e0; }
+
+  .cost-bar-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cost-bar-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .cost-bar-label {
+    font-size: 11px;
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--muted);
+    width: 120px;
+    flex-shrink: 0;
+    line-height: 1.3;
+  }
+
+  .cost-bar-track {
+    flex: 1;
+    height: 22px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .cost-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    padding-right: 8px;
+    justify-content: flex-end;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: growBar 1.4s cubic-bezier(0.16,1,0.3,1) both;
+    white-space: nowrap;
+  }
+
+  @keyframes growBar {
+    from { width: 0 !important; }
+  }
+
+  /* ── RATIO CALLOUT ── */
+  .ratio-callout {
+    background: linear-gradient(135deg, rgba(232,160,32,0.08), rgba(200,60,30,0.08));
+    border: 1px solid var(--amber-dim);
+    border-radius: 6px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .ratio-number {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 56px;
+    color: var(--amber);
+    line-height: 1;
+    flex-shrink: 0;
+    text-shadow: 0 0 30px rgba(232,160,32,0.4);
+  }
+
+  .ratio-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  .ratio-text strong {
+    color: var(--bright);
+  }
+
+  /* ── SOLUTIONS ── */
+  .solutions-section {
+    margin-bottom: 48px;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+
+  .solutions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+  }
+
+  .sol-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+    cursor: default;
+  }
+
+  .sol-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--amber-dim);
+  }
+
+  .sol-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+  }
+
+  .sol-card.kinetic::before { background: var(--red); }
+  .sol-card.non-kinetic::before { background: var(--blue); }
+  .sol-card.energy::before { background: #f0c020; }
+  .sol-card.swarm::before { background: var(--green); }
+
+  .sol-card .sol-type {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .sol-card.kinetic .sol-type { color: #cc4433; }
+  .sol-card.non-kinetic .sol-type { color: #4ab0e0; }
+  .sol-card.energy .sol-type { color: #d0a010; }
+  .sol-card.swarm .sol-type { color: #3a9d4a; }
+
+  .sol-card h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--bright);
+    margin-bottom: 8px;
+    line-height: 1.1;
+  }
+
+  .sol-card p {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .sol-cost {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+  }
+
+  .sol-cost .val {
+    font-size: 14px;
+    color: var(--bright);
+  }
+
+  /* ── VERDICT ── */
+  .verdict-section {
+    animation: fadeUp 0.7s 0.4s ease both;
+  }
+
+  .verdict-box {
+    background: linear-gradient(135deg, rgba(14,28,40,0.8), rgba(10,18,12,0.8));
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--amber);
+    border-radius: 6px;
+    padding: 24px;
+  }
+
+  .verdict-box h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--amber);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+
+  .verdict-points {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .vp {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .vp-icon {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--amber);
+    flex-shrink: 0;
+    margin-top: 1px;
+    width: 20px;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Radar pulse on header */
+  .radar-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--amber);
+    border-radius: 50%;
+    margin-right: 8px;
+    animation: pulse 2s infinite;
+    vertical-align: middle;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(232,160,32,0.5); }
+    50% { box-shadow: 0 0 0 8px rgba(232,160,32,0); }
+  }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 40px 0;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="title-block">
+        <h1>DARPA MAV <span>→</span><br>Counter-Drone<br>Defense</h1>
+        <div class="subtitle">From Micro-Turbines to Swarm Warfare · 1992–2026</div>
+      </div>
+      <div class="meta-block">
+        <div class="ref">REF: DARPA-MAV · OFFSET · C-UAS</div>
+        <div>Updated: MAR 2026</div>
+        <div>MIT / Raytheon / Ukraine</div>
+        <div style="margin-top:8px">
+          <span class="radar-dot"></span>LIVE OPERATIONAL CONTEXT
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="timeline-section">
+    <div class="section-label">01 — Program Timeline</div>
+    <div class="timeline">
+      <div class="timeline-track">
+
+        <div class="t-node">
+          <div class="year">1992</div>
+          <div class="event-card">
+            <strong>DARPA Workshop</strong>
+            "Future Technology-Driven Revolutions" — mobile microrobot concept introduced, initial skepticism
+          </div>
+        </div>
+
+        <div class="t-node">
+          <div class="year">1995–96</div>
+          <div class="event-card">
+            <strong>Paper Studies</strong>
+            MIT Lincoln Labs & Naval Research Lab feasibility studies confirm MAV concept viable
+          </div>
+        </div>
+
+        <div class="t-node">
+          <div class="year">1997</div>
+          <div class="event-card">
+            <strong>$35M MAV Program</strong>
+            DARPA launches formal program. MIT's Al Epstein receives funding for MEMS-based microturbine engine (~2cm across)
+          </div>
+        </div>
+
+        <div class="t-node">
+          <div class="year">2001</div>
+          <div class="event-card">
+            <strong>Phase I Ends</strong>
+            Phase II pivots to operational specs. Propulsion, power & autonomy challenges prove harder than anticipated
+          </div>
+        </div>
+
+        <div class="t-node">
+          <div class="year">2011</div>
+          <div class="event-card">
+            <strong>Nano Hummingbird</strong>
+            AeroVironment demonstrates 19g flapping-wing MAV with live video for DARPA — concept proven
+          </div>
+        </div>
+
+        <div class="t-node">
+          <div class="year">2017–19</div>
+          <div class="event-card">
+            <strong>OFFSET Program</strong>
+            DARPA envisions 250-drone infantry swarms in urban combat with AI-managed autonomy
+          </div>
+        </div>
+
+        <div class="t-node">
+          <div class="year">2025–26</div>
+          <div class="event-card">
+            <strong>Operational Reality</strong>
+            Ukraine fields $1–2K interceptor drones at scale. Coyote 3NK recoverable interceptor defeats swarms in U.S. Army tests
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- COST CRISIS -->
+  <div class="cost-section">
+    <div class="section-label">02 — The Cost Asymmetry Crisis</div>
+
+    <div class="ratio-callout">
+      <div class="ratio-number">15,000×</div>
+      <div class="ratio-text">
+        <strong>Cost disadvantage when intercepting with Patriot missiles.</strong><br>
+        A $200 enemy drone shot down with a $3M+ Patriot missile. Russia launched nearly 8,000 drones against Ukraine in just 10 weeks of 2025. Traditional air defense economics have collapsed.
+      </div>
+    </div>
+
+    <div class="cost-grid">
+      <div class="cost-panel threat">
+        <h3>⚠ Threat — Attack Drones</h3>
+        <div class="cost-bar-wrap">
+          <div class="cost-bar-item">
+            <div class="cost-bar-label">FPV / Hobby drone</div>
+            <div class="cost-bar-track">
+              <div class="cost-bar-fill" style="width:2%; background:rgba(200,60,40,0.5); color:#e08070; animation-delay:0.1s">$200</div>
+            </div>
+          </div>
+          <div class="cost-bar-item">
+            <div class="cost-bar-label">Shahed-136 (Russia)</div>
+            <div class="cost-bar-track">
+              <div class="cost-bar-fill" style="width:8%; background:rgba(200,60,40,0.6); color:#e08070; animation-delay:0.2s">$38K</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cost-panel defense">
+        <h3>🛡 Defense — Interceptor Costs</h3>
+        <div class="cost-bar-wrap">
+          <div class="cost-bar-item">
+            <div class="cost-bar-label">Ukrainian drone interceptor</div>
+            <div class="cost-bar-track">
+              <div class="cost-bar-fill" style="width:1%; background:rgba(40,180,80,0.6); color:#80e090; animation-delay:0.1s">$1–2K</div>
+            </div>
+          </div>
+          <div class="cost-bar-item">
+            <div class="cost-bar-label">Iron Beam laser (Israel)</div>
+            <div class="cost-bar-track">
+              <div class="cost-bar-fill" style="width:1%; background:rgba(40,180,80,0.5); color:#80e090; animation-delay:0.15s">$3.50</div>
+            </div>
+          </div>
+          <div class="cost-bar-item">
+            <div class="cost-bar-label">Coyote Block 2/3</div>
+            <div class="cost-bar-track">
+              <div class="cost-bar-fill" style="width:5%; background:rgba(80,160,220,0.6); color:#90d0f0; animation-delay:0.2s">$100–200K</div>
+            </div>
+          </div>
+          <div class="cost-bar-item">
+            <div class="cost-bar-label">Stinger missile</div>
+            <div class="cost-bar-track">
+              <div class="cost-bar-fill" style="width:12%; background:rgba(80,100,200,0.6); color:#a0b0f0; animation-delay:0.25s">$480K</div>
+            </div>
+          </div>
+          <div class="cost-bar-item">
+            <div class="cost-bar-label">Patriot PAC-3 missile</div>
+            <div class="cost-bar-track">
+              <div class="cost-bar-fill" style="width:100%; background:rgba(180,60,40,0.7); color:#f0a090; animation-delay:0.3s">$3–4M</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SOLUTIONS -->
+  <div class="solutions-section">
+    <div class="section-label">03 — Emerging Counter-Drone Architecture</div>
+
+    <div class="solutions-grid">
+
+      <div class="sol-card swarm">
+        <div class="sol-type">● Kinetic Swarm (Epstein Vision)</div>
+        <h4>Ukrainian "Shahed Killers"</h4>
+        <p>Mass-produced interceptor drones delivering kinetic energy on impact. Pilots using FPV goggles or automated tracking. The concept Epstein described — realized in a $1,000 commercial package.</p>
+        <div class="sol-cost">Cost/engagement: <span class="val">$1,000–2,000</span></div>
+      </div>
+
+      <div class="sol-card kinetic">
+        <div class="sol-type">● Kinetic — Expendable</div>
+        <h4>Coyote Block 2</h4>
+        <p>Jet-powered tube-launched interceptor drone with kinetic warhead. Paired with KuRFS radar for automated target handoff. Cheaper than missiles, but still 500× the cost of a Shahed.</p>
+        <div class="sol-cost">Cost/engagement: <span class="val">~$100–200K</span></div>
+      </div>
+
+      <div class="sol-card non-kinetic">
+        <div class="sol-type">● Non-Kinetic — Recoverable</div>
+        <h4>Coyote Block 3NK</h4>
+        <p>Defeated 10 drones in Oct 2025 Army demo, then recovered by net for reuse. Employs microwave or EW payload to disable electronics — no warhead, no kinetic impact, redeployable.</p>
+        <div class="sol-cost">Recoverable: <span class="val">reused per sortie</span></div>
+      </div>
+
+      <div class="sol-card energy">
+        <div class="sol-type">● Directed Energy</div>
+        <h4>Iron Beam (Israel)</h4>
+        <p>Ground-based high-energy laser. Operational since 2025. Engages rockets, mortars, and drones that would otherwise consume expensive missiles. Economics are transformative at scale.</p>
+        <div class="sol-cost">Cost/engagement: <span class="val">~$3.50 electricity</span></div>
+      </div>
+
+      <div class="sol-card non-kinetic">
+        <div class="sol-type">● Electronic Warfare</div>
+        <h4>RF Jamming / GPS Denial</h4>
+        <p>First line of defense for RF-controlled and GPS-guided drones. Low cost, rapid response, minimal collateral. Effectiveness declining against fiber-optic guided FPV drones — an emerging gap.</p>
+        <div class="sol-cost">Effectiveness: <span class="val">degrading vs. fiber-optic</span></div>
+      </div>
+
+      <div class="sol-card energy">
+        <div class="sol-type">● Directed Energy — Area Effect</div>
+        <h4>High-Power Microwave (HPM)</h4>
+        <p>Emits bursts that disable electronics across multiple drones simultaneously — ideal against swarms. Unlike lasers (one-at-a-time) or missiles, HPM is inherently swarm-scalable with near-zero marginal cost.</p>
+        <div class="sol-cost">Swarm scalable: <span class="val">wide-area neutralization</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- VERDICT -->
+  <div class="verdict-section">
+    <div class="section-label">04 — Assessment</div>
+    <div class="verdict-box">
+      <h3>Strategic Verdict</h3>
+      <div class="verdict-points">
+        <div class="vp">
+          <div class="vp-icon">▶</div>
+          <div><strong>Epstein's kinetic swarm concept is now operationally real</strong> — Ukraine proved it at scale with $1–2K interceptors. The physics were always right; it took commercial drone manufacturing to make it affordable.</div>
+        </div>
+        <div class="vp">
+          <div class="vp-icon">▶</div>
+          <div><strong>The U.S. military's version still has a cost problem:</strong> even the Coyote family at $100–200K per unit is not cost-advantageous against a swarm of $200 FPV drones. Volume and price must fall further.</div>
+        </div>
+        <div class="vp">
+          <div class="vp-icon">▶</div>
+          <div><strong>The long-term answer is layered and tiered:</strong> cheap swarm interceptors thin the mass; HPM/EW handles swarms; lasers handle high-value single targets; missiles handle ballistic and cruise threats. No single solution wins.</div>
+        </div>
+        <div class="vp">
+          <div class="vp-icon">▶</div>
+          <div><strong>The DARPA MAV program's deeper legacy:</strong> it seeded the autonomy, MEMS, and miniaturized propulsion research that now powers both the offensive drone swarms and the next-generation interceptors trying to defeat them.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
