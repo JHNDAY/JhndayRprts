@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Literacy: A 5-Week BOLLI Course</title>
+<title>The AI Literacy Revolution: Essential Computing Skills from Basics to Mastery</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,300;400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -786,17 +786,45 @@
   }
 
   /* ── INSTRUCTOR TOGGLE ── */
+  #instructor-trigger {
+    position: fixed;
+    top: 10px;
+    right: 14px;
+    z-index: 200;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    opacity: 0.18;
+    transition: opacity 0.2s;
+    line-height: 1;
+    padding: 4px;
+    user-select: none;
+  }
+
+  #instructor-trigger:hover {
+    opacity: 0.55;
+  }
+
+  #instructor-trigger.active {
+    opacity: 0.75;
+  }
+
   #instructor-bar {
     background: #1a2744;
     border-bottom: 3px solid #c9952a;
     padding: 10px 24px;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: space-between;
     position: sticky;
     top: 0;
     z-index: 100;
     box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+
+  #instructor-bar.visible {
+    display: flex;
   }
 
   #instructor-bar .bar-label {
@@ -822,17 +850,8 @@
     border: none;
     cursor: pointer;
     transition: all 0.2s ease;
-  }
-
-  #toggle-btn.on {
     background: #c9952a;
     color: #1a2744;
-  }
-
-  #toggle-btn.off {
-    background: rgba(255,255,255,0.12);
-    color: rgba(255,255,255,0.7);
-    border: 1px solid rgba(255,255,255,0.2);
   }
 
   #toggle-btn:hover {
@@ -850,22 +869,26 @@
     .week-tab { display: none; }
     .week-panel { display: block !important; page-break-after: always; }
     #instructor-bar { display: none; }
+    #instructor-trigger { display: none; }
   }
 </style>
 </head>
 <body>
 
+<!-- ═══════════════════ INSTRUCTOR TRIGGER (subtle corner icon) ═══════════════════ -->
+<button id="instructor-trigger" onclick="toggleInstructor()" title="Instructor view">🎓</button>
+
 <!-- ═══════════════════ INSTRUCTOR BAR ═══════════════════ -->
 <div id="instructor-bar">
   <div class="bar-label">🎓 <span>Instructor View</span> — Session timelines &amp; prep notes</div>
-  <button id="toggle-btn" class="on" onclick="toggleInstructor()">TIMELINE ON</button>
+  <button id="toggle-btn" onclick="toggleInstructor()">HIDE TIMELINES</button>
 </div>
 
 <!-- ═══════════════════ HEADER ═══════════════════ -->
 <header>
   <div class="header-inner">
     <div class="header-badge">BOLLI · Brandeis University</div>
-    <h1>AI Literacy: <em>A 5-Week Course</em></h1>
+    <h1>The AI Literacy Revolution: <em>Essential Computing Skills from Basics to Mastery</em></h1>
     <p class="header-sub">Developed from two years of field-tested AI education at BOLLI</p>
     <div class="header-meta">
       <div class="meta-pill">
@@ -894,7 +917,7 @@
     <div class="overview-grid">
       <div class="overview-item">
         <h3>Context</h3>
-        <p>Grows from two successful BOLLI ChatBot courses (≈50 students each) and the curriculum committee's request for a third. Part of Brandeis University's emerging AI strategy.</p>
+        <p>Grows from two successful BOLLI ChatBot courses. Part of Brandeis University's emerging AI strategy.</p>
       </div>
       <div class="overview-item">
         <h3>Audience</h3>
@@ -955,7 +978,7 @@
     </button>
     <button class="week-tab" data-week="3" onclick="showWeek(3)">
       <span class="tab-week-num">Week 3</span>
-      <span class="tab-week-title">Current Events</span>
+      <span class="tab-week-title">Current Events Current Eventsamp; Political Discourse</span>
     </button>
     <button class="week-tab" data-week="4" onclick="showWeek(4)">
       <span class="tab-week-num">Week 4</span>
@@ -1057,20 +1080,21 @@
         <div class="demo-card" style="border-left-color: var(--navy-light); background: #eef1f9;">
           <span class="demo-icon">⚡</span>
           <h5>✦ Featured: Generative AI → RAG Visualization</h5>
-          <p>The conceptual centerpiece of Week 1. This interactive HTML visualization — screen-shared live — walks students through how basic generative AI works, what makes RAG a "cosmic step forward," and the key differences that matter for how they'll use AI throughout the course. Opens the collapsible sections at the class's pace. Used at 0:20–0:40 as the bridge between Digital Fluency framing and the first hands-on browser session.</p>
-          <a href="https://claude.ai/chat/0fd05a98-47fa-46f9-b1a2-926ac4b65e99" target="_blank">Source conversation ↗</a>
+          <p>An interactive visualization with collapsible sections that explains how AI generates language — how it learns from vast amounts of text, predicts what comes next, and why that makes it different from a search engine. Introduces RAG (Retrieval-Augmented Generation) as the next step: an AI that can draw from specific documents you provide, not just its general training. Each section opens progressively, inviting exploration rather than passive reading.</p>
+          <a href="https://jhnday.github.io/JhndayRprts/Generative%20AI%20vs%20RAG%20for%20Current%20Events" target="_blank">Generative to RAG ↗</a>
         </div>
         <div class="demo-card">
           <span class="demo-icon">📖</span>
           <h5>Safari &amp; Chrome Tutorial (Interactive)</h5>
-          <p>Students receive the self-paced HTML tutorial. Instructor uses it as the live demo reference throughout the session. The "On Demand" keyword search feature lets students look up topics as questions arise.</p>
-          <a href="https://claude.ai/chat/7d914703-ff99-4060-8b90-88876be1aba0" target="_blank">Source conversation ↗</a>
+          <p>Self-paced interactive tutorials covering the essential skills of web browsing — from opening a browser and navigating to a URL, to managing tabs, bookmarking pages, and using the built-in search tools. Includes an "On Demand" keyword search feature so you can look up exactly the skill you need, when you need it.</p>
+          <a href="https://jhnday.github.io/JhndayRprts/safari_tutorial_mac_enhanced" target="_blank">🧭 Safari Browser Skills Tutorial ↗</a><br>
+          <a href="https://jhnday.github.io/JhndayRprts/chrome_tutorial_enhanced" target="_blank">🌐 Chrome Browser Skills Tutorial ↗</a>
         </div>
         <div class="demo-card">
-          <span class="demo-icon">🤖</span>
+          <span class="demo-icon">💬</span>
           <h5>First Conversation with Claude</h5>
-          <p>Live demo: instructor types a question and walks through the response together with students. Students see AI in action before attempting it themselves — removing anxiety, building curiosity. The Generative AI viz is now the frame students bring to this moment.</p>
-          <a href="https://claude.ai/chat/82eb8299-981b-4f8d-8e3f-f90e50a7ac8e" target="_blank">Source conversation ↗</a>
+          <p>Your first live exchange with an AI — typing a question about something you genuinely care about and reading what comes back. Unlike a Google search, Claude responds in full sentences, follows your line of thinking, and invites you to go deeper. This is where the conversational nature of AI becomes real rather than theoretical.</p>
+          <a href="https://scratchpad.cc/" target="_blank">Let's Talk ↗</a> with <a href="https://claude.ai/new" target="_blank">Claude ↗</a>
         </div>
       </div>
 
@@ -1185,25 +1209,26 @@
         <div class="demo-card">
           <span class="demo-icon">📰</span>
           <h5>Split-Screen Immersive Reading</h5>
-          <p>The signature demo for Week 2. A short article or essay is pre-selected (instructor's choice). Students replicate the split-screen setup and use Claude as a reading companion — asking questions, going deeper, getting summaries.</p>
-          <a href="https://claude.ai/chat/32c86117-b134-4a0c-9531-9644f1d8ee32" target="_blank">Source tutorial ↗</a>
+          <p>A reading workflow that places a text — an article, essay, or poem — on one half of your screen and Claude on the other. As you read, you can ask questions, request a summary of a difficult passage, explore the author's argument, or generate discussion questions, all without leaving the page. Reading becomes a conversation.</p>
+          <a href="https://scratchpad.cc/" target="_blank">Source tutorial ↗</a>
         </div>
         <div class="demo-card" style="border-left-color: var(--navy-light); background: #eef1f9;">
           <span class="demo-icon">🧠</span>
           <h5>✦ Featured: Foundations: Intelligence &amp; Conversation</h5>
-          <p>The retrospective framework visualization used at 1:05–1:20. Four sections — Digital &amp; Organic Intelligence, Importance of Conversation, Balancing the Strengths, Meaning of Words — give students language for what they've just experienced in the split-screen activity. The Proust framework is woven in as a companion framing. Because students arrive with real experience to connect it to, this viz lands far more powerfully here than it would have cold.</p>
-          <a href="https://claude.ai/chat/c71d2a11-3529-4297-a05d-f1c1872da1f5" target="_blank">Source conversation ↗</a>
+          <p>An interactive visualization exploring four ideas that reshape how you engage with AI: the difference between digital and organic intelligence; why conversation — not commands — is the key to getting real value from AI; how to balance what AI does well with what only human judgment can provide; and how the specific words you choose change what AI understands. A framework for everything that follows in the course.</p>
+          <a href="https://jhnday.github.io/CrntEvnts/Foundations_%20Intelligence%20&%20Conversation%20-%20Crnt%20Events" target="_blank">Foundations ↗</a>
         </div>
         <div class="demo-card">
           <span class="demo-icon">🌺</span>
           <h5>Proust Framework Visualization</h5>
-          <p>The three-part Proust metaphor for AI conversation: <em>Pensée Perdue</em>, <em>Pensée Nouvelle</em>, <em>Bibliothèque Infinie</em>. Woven into the Foundations viz discussion as a poetic complement to its analytical framing.</p>
-          <a href="https://claude.ai/chat/10c8e0b6-7425-429d-a750-4324dd975008" target="_blank">Source conversation ↗</a>
+          <p>A poetic framework for understanding what AI conversation can recover and create: <em>Pensée Perdue</em> — thoughts you had but couldn't quite articulate, which AI helps surface; <em>Pensée Nouvelle</em> — ideas you hadn't considered, which AI introduces; and <em>Bibliothèque Infinie</em> — the vast library of human knowledge AI draws from in every exchange. Proust as a lens for the digital age.</p>
+          <a href="https://jhnday.github.io/JhndayRprts/madeleine_visualization.html" target="_blank">Proust and AI ↗</a><br>
+          <a href="https://jhnday.github.io/JhndayRprts/pensee_nouvelle_with_bibliotheque" target="_blank">To Infinity and Beyond ↗</a>
         </div>
         <div class="demo-card">
           <span class="demo-icon">🔬</span>
           <h5>Claude vs. Gemini: Research Modes</h5>
-          <p>Optional side demonstration: comparing Claude's conversational, iterative research mode with Gemini's Deep Research approach — showing students the breadth of AI tools available and how to choose between them.</p>
+          <p>A side-by-side look at two distinct approaches to AI-assisted research: Claude's conversational, iterative style — where each exchange builds on the last — versus Gemini's Deep Research mode, which takes a broader systematic sweep. Understanding the difference helps you choose the right tool for the kind of thinking you want to do.</p>
           <a href="https://claude.ai/chat/7820eb2a-fc48-408e-834b-83e4bfc5b193" target="_blank">Source conversation ↗</a>
         </div>
       </div>
@@ -1325,19 +1350,20 @@
         <div class="demo-card">
           <span class="demo-icon">📰</span>
           <h5>Current Events Portal</h5>
-          <p>The BOLLI Current Events Study Group portal serves as the live news source for this session. Students learn to use it alongside Claude as a research pairing — portal for news, Claude for context and analysis.</p>
+          <p>A curated portal of current news organized for discussion — the same resource used by the BOLLI Current Events Study Group. Paired with Claude, it becomes a two-part research environment: the portal surfaces what is happening; Claude provides the historical context, competing interpretations, and deeper background that transforms a headline into a subject worth discussing.</p>
+          <a href="https://jhnday.github.io/CrntEvnts/current_affairs_central.html" target="_blank">Current Events ↗</a>
         </div>
         <div class="demo-card">
           <span class="demo-icon">⚖️</span>
           <h5>Left/Right Structured Analysis Prompt</h5>
-          <p>A reusable prompt template for exploring any political issue from multiple perspectives. Students leave with a prompt they can use independently: "Explain the strongest [view] argument for [issue]. Then [opposing view]. Where might they agree?"</p>
-          <a href="https://claude.ai/chat/d148c40c-8930-4c74-81db-584633143d68" target="_blank">Source conversation ↗</a>
+          <p>A reusable conversation template for exploring any political issue from multiple perspectives: the strongest progressive argument, the strongest conservative argument, and where the two sides might actually find common ground. The goal is not balance for its own sake but a richer understanding of why reasonable people disagree — and what they might share beneath the disagreement.</p>
+          <a href="https://drive.google.com/drive/folders/12OeiGFGc_dAG5L4As5DNgDW7n-WxjNv4?usp=drive_link" target="_blank">Left/Right Prompt ↗</a>
         </div>
         <div class="demo-card">
           <span class="demo-icon">🔍</span>
           <h5>"Fruit Salad" Prompting Demo</h5>
-          <p>Barbara Friedman's technique: dropping a collection of loosely related ideas into Claude and asking it to find the pattern or argument. Useful for synthesizing many current events into a coherent theme.</p>
-          <a href="https://claude.ai/chat/9839a88c-8142-486f-9a4e-4de33a0085d0" target="_blank">Source conversation ↗</a>
+          <p>A technique for when your ideas are plentiful but unorganized: drop a collection of loosely related observations, clippings, or notes into Claude and ask it to find the argument, pattern, or theme connecting them. Particularly useful for synthesizing a week's worth of news into a coherent discussion thread — letting AI do the organizational work so you can do the thinking.</p>
+          <a href="https://scratchpad.cc/" target="_blank">Make Some Fruit Salad ↗</a>
         </div>
       </div>
 
@@ -1435,20 +1461,14 @@
         <div class="demo-card">
           <span class="demo-icon">🎭</span>
           <h5>Literary Text for Immersive Reading</h5>
-          <p>Instructor pre-selects a short literary text (play scene or story excerpt). Students arrive having read it once. The session is their second reading — with Claude as their companion. Suggested: a contemporary short play or a classic story BOLLI members may know.</p>
-          <a href="https://claude.ai/chat/32c86117-b134-4a0c-9531-9644f1d8ee32" target="_blank">Split-screen tutorial ↗</a>
+          <p>A short literary work — a scene from a play or a story excerpt — read twice: once before class on your own, and once in session with Claude alongside the text. The second reading is a conversation: What is this character really after? What does this passage mean in its historical moment? What questions would you bring to a reading group? AI becomes a knowledgeable companion for the close reading you already know how to do.</p>
+          <a href="https://scratchpad.cc/" target="_blank">Split-screen tutorial ↗</a>
         </div>
         <div class="demo-card">
           <span class="demo-icon">🏛️</span>
           <h5>Roman History RAG Study Guide</h5>
-          <p>Using Nick Holmes's Imperial Rome course materials as the RAG source. Claude generates a study guide, discussion questions, and contemporary connections from the actual course content — demonstrating RAG's power for course preparation.</p>
+          <p>RAG in action: actual materials from Nick Holmes's Imperial Rome course are uploaded into Claude, which then generates a study guide, key discussion questions, and contemporary parallels drawn directly from the course content. The result is an AI that knows this specific course — not just Roman history in general — demonstrating how RAG transforms a general-purpose tool into a course-specific intellectual resource.</p>
           <a href="https://claude.ai/chat/d9efd7d6-ec54-4f98-9c6e-8dc13b8b63e1" target="_blank">Roman Architecture source ↗</a>
-        </div>
-        <div class="demo-card">
-          <span class="demo-icon">⚡</span>
-          <h5>Generative AI → RAG Visualization</h5>
-          <p>One-page interactive visualization contrasting basic generative AI with RAG — framed as "a cosmic step forward" in making AI genuinely useful for specific intellectual purposes.</p>
-          <a href="https://claude.ai/chat/0fd05a98-47fa-46f9-b1a2-926ac4b65e99" target="_blank">Source conversation ↗</a>
         </div>
       </div>
 
@@ -1552,18 +1572,18 @@
         <div class="demo-card">
           <span class="demo-icon">🏥</span>
           <h5>Medical Literacy Prompt Set</h5>
-          <p>A curated set of 5–6 reusable prompts students take home: for understanding diagnoses, preparing for doctor visits, evaluating research headlines, and tracking a medical topic over time. Designed for autonomous use after the course.</p>
+          <p>A set of ready-to-use conversation starters for navigating medical information with AI: asking Claude to explain a diagnosis in plain language, preparing questions for a doctor's appointment, making sense of a research headline, or tracking a condition over time. Designed for use independently after the course — a practical resource for the intersection of health literacy and AI.</p>
         </div>
         <div class="demo-card">
           <span class="demo-icon">📜</span>
           <h5>The Gutenberg Moment Framing</h5>
-          <p>From the 2025 BOLLI course design sessions: framing AI as a civilizational inflection comparable to the printing press. Used to anchor the technology-and-civilization conversation in historical perspective rather than futurist anxiety.</p>
+          <p>A framework for placing AI in civilizational perspective: the printing press didn't just make books cheaper — it rewired who had access to knowledge, how ideas spread, and what became possible in science, religion, and politics. AI is a comparable inflection point. This framing invites a historical rather than anxious conversation about what is actually changing, and why the question of access to intelligence matters as much as intelligence itself.</p>
           <a href="https://claude.ai/chat/d148c40c-8930-4c74-81db-584633143d68" target="_blank">Source conversation ↗</a>
         </div>
         <div class="demo-card">
           <span class="demo-icon">🎓</span>
           <h5>Course Completion: Personal AI Toolkit</h5>
-          <p>Each student leaves with a personalized reference: their bookmarked tutorials, their saved prompt templates from Weeks 3–5, and the split-screen workflow — a practical toolkit for continued AI literacy after the course ends.</p>
+          <p>Everything built across five weeks, gathered in one place: the browser tutorials bookmarked and ready, the prompt templates from Weeks 3 through 5 saved for reuse, and the split-screen workflow available whenever you pick up a text you want to explore more deeply. Not a certificate — a working toolkit for continued, independent use of AI in the subjects that matter to you.</p>
           <a href="https://claude.ai/chat/440dcc0b-20a4-485e-8121-296052d55d4a" target="_blank">Skill creator source ↗</a>
         </div>
       </div>
@@ -1622,33 +1642,40 @@
   // ─────────────────────────────────────────────
   // INSTRUCTOR MODE CONTROL
   // To distribute the student version:
-  //   change instructorMode to false — the toggle
-  //   bar will disappear and timelines will be hidden.
+  //   change instructorMode to false — the trigger
+  //   icon and bar will disappear entirely.
   // ─────────────────────────────────────────────
   const instructorMode = true;
 
   function initInstructor() {
+    const trigger = document.getElementById('instructor-trigger');
     const bar = document.getElementById('instructor-bar');
-    const btn = document.getElementById('toggle-btn');
     if (!instructorMode) {
-      // Student mode: hide bar entirely, hide all instructor content
+      // Student mode: hide everything
+      trigger.style.display = 'none';
       bar.style.display = 'none';
       document.body.classList.add('instructor-hidden');
     } else {
-      // Instructor mode: bar visible, timelines showing by default
-      document.body.classList.remove('instructor-hidden');
+      // Instructor mode: small icon visible, bar hidden, timelines hidden by default
+      document.body.classList.add('instructor-hidden');
     }
   }
 
   function toggleInstructor() {
+    const trigger = document.getElementById('instructor-trigger');
+    const bar = document.getElementById('instructor-bar');
     const btn = document.getElementById('toggle-btn');
     const hidden = document.body.classList.toggle('instructor-hidden');
     if (hidden) {
-      btn.textContent = 'TIMELINE OFF';
-      btn.className = 'off';
+      // Timelines now hidden — hide bar too, icon goes dim
+      bar.classList.remove('visible');
+      trigger.classList.remove('active');
+      btn.textContent = 'HIDE TIMELINES';
     } else {
-      btn.textContent = 'TIMELINE ON';
-      btn.className = 'on';
+      // Timelines now showing — show bar, icon goes brighter
+      bar.classList.add('visible');
+      trigger.classList.add('active');
+      btn.textContent = 'HIDE TIMELINES';
     }
   }
 
