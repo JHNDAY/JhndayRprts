@@ -315,7 +315,19 @@
 
   .week-tab.active {
     color: var(--white);
-    font-weight: 600;
+    font-weight: 700;
+    transform: translateY(-3px);
+    box-shadow: 0 -2px 0 var(--gold) inset, 0 -6px 20px rgba(0,0,0,0.25);
+    z-index: 2;
+  }
+
+  .week-tab.active .tab-week-num {
+    opacity: 1;
+    color: var(--gold-light);
+  }
+
+  .week-tab.active .tab-week-title {
+    font-size: 13px;
   }
 
   .week-tab[data-week="1"].active { background: var(--week1); }
@@ -323,6 +335,18 @@
   .week-tab[data-week="3"].active { background: var(--week3); }
   .week-tab[data-week="4"].active { background: var(--week4); }
   .week-tab[data-week="5"].active { background: var(--week5); }
+
+  #week-prompt {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text-light);
+    text-align: center;
+    padding: 18px;
+    background: var(--white);
+    border-radius: 0 0 16px 16px;
+    letter-spacing: 0.04em;
+    box-shadow: var(--shadow-lg);
+  }
 
   /* ── WEEK PANELS ── */
   .week-panel {
@@ -908,6 +932,27 @@
         Instructor Facilitates the Room
       </div>
     </div>
+    <div style="margin-top: 24px;">
+      <a href="#weekly-sessions" style="
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--gold);
+        color: var(--navy);
+        font-family: 'DM Sans', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        padding: 10px 22px;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 12px rgba(201,149,42,0.35);
+      " onmouseover="this.style.background='#e8b84b'; this.style.transform='translateY(-1px)'"
+         onmouseout="this.style.background='#c9952a'; this.style.transform='translateY(0)'">
+        Jump to Weekly Sessions ↓
+      </a>
+    </div>
   </div>
 </header>
 
@@ -961,14 +1006,14 @@
   </div>
 
   <!-- ───────────── WEEKLY SCHEDULE ───────────── -->
-  <div class="section-header">
+  <div class="section-header" id="weekly-sessions">
     <h2>Weekly Schedule</h2>
     <p>Select a week to view the full session plan</p>
   </div>
 
   <!-- Tabs -->
   <div class="week-tabs">
-    <button class="week-tab active" data-week="1" onclick="showWeek(1)">
+    <button class="week-tab" data-week="1" onclick="showWeek(1)">
       <span class="tab-week-num">Week 1</span>
       <span class="tab-week-title">Digital Fluency I</span>
     </button>
@@ -989,9 +1034,10 @@
       <span class="tab-week-title">Science &amp; Technology</span>
     </button>
   </div>
+  <div id="week-prompt">↑ Select a week to begin</div>
 
   <!-- ══════════ WEEK 1 ══════════ -->
-  <div class="week-panel active" data-week="1">
+  <div class="week-panel" data-week="1">
     <div class="week-panel-header" data-week-num="1">
       <div class="week-label">Week 1 · Digital Fluency</div>
       <h2>Getting Started: Your Browser as Your Launchpad</h2>
@@ -1684,11 +1730,16 @@
     document.querySelectorAll('.week-panel').forEach(p => p.classList.remove('active'));
     document.querySelector(`.week-tab[data-week="${n}"]`).classList.add('active');
     document.querySelector(`.week-panel[data-week="${n}"]`).classList.add('active');
+    // Hide the prompt the moment any tab is clicked
+    const prompt = document.getElementById('week-prompt');
+    if (prompt) prompt.style.display = 'none';
     document.querySelector(`.week-panel[data-week="${n}"]`).scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  // Run on load
-  document.addEventListener('DOMContentLoaded', initInstructor);
+  document.addEventListener('DOMContentLoaded', function() {
+    initInstructor();
+    // No week selected on arrival — prompt guides the student
+  });
 </script>
 </body>
 </html>
