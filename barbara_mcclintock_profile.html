@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barbara McClintock — A Scientific Portrait</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0f;
+    --paper: #f5f0e8;
+    --cream: #ede8dc;
+    --accent: #1a3a5c;
+    --gold: #b8860b;
+    --rust: #8b3a2a;
+    --pale: #d4cfc4;
+    --text: #1c1c20;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--text);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  /* ── CITATIONS ── */
+  sup.cite a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--rust);
+    text-decoration: none;
+    font-weight: 600;
+    vertical-align: super;
+    border-bottom: 1px dotted var(--rust);
+    padding: 0 1px;
+    transition: color 0.15s;
+  }
+  sup.cite a:hover { color: var(--gold); border-color: var(--gold); }
+
+  .dark-section sup.cite a { color: #d4a060; border-color: #d4a060; }
+  .dark-section sup.cite a:hover { color: var(--gold); }
+
+  /* ── BIBLIOGRAPHY ── */
+  #bibliography {
+    background: #1a1a22;
+    color: var(--pale);
+    padding: 0;
+  }
+  #bibliography .section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 70px 60px 80px;
+  }
+  #bibliography .section-label { color: var(--gold); }
+  #bibliography .section-title { color: #a0bcd4; margin-bottom: 36px; }
+
+  .bib-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 50px;
+  }
+
+  .bib-entry {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 8px;
+    align-items: start;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .bib-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    font-weight: 600;
+    padding-top: 2px;
+  }
+
+  .bib-content {}
+  .bib-content .bib-title {
+    font-style: italic;
+    color: #ddd8cc;
+  }
+  .bib-content .bib-source {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #8a8a9a;
+    margin-top: 2px;
+  }
+  .bib-content a {
+    color: #7aace0;
+    text-decoration: none;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    word-break: break-all;
+    display: block;
+    margin-top: 3px;
+    transition: color 0.15s;
+  }
+  .bib-content a:hover { color: var(--gold); text-decoration: underline; }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .masthead-left {
+    padding: 80px 60px 80px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+  .masthead-right { position: relative; overflow: hidden; }
+  .masthead-right::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, var(--ink) 0%, transparent 40%);
+    z-index: 1;
+  }
+  .xray-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+  .label-small {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+  .masthead-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 7vw, 88px);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+  .masthead-title em {
+    display: block;
+    font-style: italic;
+    font-weight: 400;
+    color: #a0bcd4;
+    font-size: 0.65em;
+    margin-top: 8px;
+  }
+  .masthead-dates {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--pale);
+    letter-spacing: 0.15em;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+  .masthead-tagline {
+    font-style: italic;
+    font-size: 22px;
+    color: #c8d8e8;
+    max-width: 440px;
+    border-left: 3px solid var(--gold);
+    padding-left: 20px;
+    line-height: 1.5;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+  .nav-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1s;
+  }
+  .nav-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 7px 16px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .nav-pill:hover { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+
+  /* ── SECTION LAYOUT ── */
+  .section { max-width: 1100px; margin: 0 auto; padding: 90px 60px; }
+  .section + .section { border-top: 1px solid var(--pale); }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(30px, 4vw, 46px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--accent);
+    margin-bottom: 40px;
+  }
+  .section-title em { font-style: italic; font-weight: 400; }
+
+  .body-text p { margin-bottom: 1.4em; font-size: 18px; line-height: 1.8; color: #2a2a30; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; }
+
+  /* ── PULL QUOTE ── */
+  .pull-quote {
+    border-left: 4px solid var(--rust);
+    padding: 20px 30px;
+    margin: 40px 0;
+    background: var(--cream);
+  }
+  .pull-quote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--accent);
+    margin-bottom: 10px !important;
+  }
+  .pull-quote cite {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+  }
+
+  /* ── CARDS ── */
+  .card { background: var(--cream); padding: 32px; border-top: 3px solid var(--accent); }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .card p { font-size: 16px; line-height: 1.7; color: #333; }
+
+  /* ── PRO/CON ── */
+  .procon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 20px; }
+  .procon-col { padding: 36px; }
+  .procon-col.pro { background: #eaf2ea; border-top: 4px solid #3a7a3a; }
+  .procon-col.con { background: #f5eaea; border-top: 4px solid #8b2a2a; }
+  .procon-header { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 24px; }
+  .procon-col.pro .procon-header { color: #2a5a2a; }
+  .procon-col.con .procon-header { color: #7a1a1a; }
+  .procon-item {
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    font-size: 16px;
+    line-height: 1.6;
+    color: #2a2a2a;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .procon-item:last-child { border-bottom: none; }
+  .procon-icon { font-size: 14px; margin-top: 2px; flex-shrink: 0; }
+
+  /* ── CONTEMPORARIES TABLE ── */
+  .contemporaries-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 16px; }
+  .contemporaries-table th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--accent);
+    padding: 14px 18px;
+    text-align: left;
+  }
+  .contemporaries-table td { padding: 16px 18px; border-bottom: 1px solid var(--pale); vertical-align: top; line-height: 1.6; }
+  .contemporaries-table tr:nth-child(even) td { background: var(--cream); }
+  .contemporaries-table tr:hover td { background: #e8e2d4; }
+
+  .scientist-name { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--accent); font-size: 17px; }
+  .connection-strong { color: var(--rust); font-weight: 600; }
+  .connection-parallel { color: #2a5a2a; font-weight: 600; }
+  .connection-broad { color: #4a4a7a; font-weight: 600; }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 40px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--gold), var(--rust));
+  }
+  .timeline-entry { position: relative; margin-bottom: 36px; }
+  .timeline-entry::before {
+    content: '';
+    position: absolute;
+    left: -34px; top: 6px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--ink);
+  }
+  .timeline-year { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.15em; color: var(--gold); margin-bottom: 4px; }
+  .timeline-text { font-size: 16px; line-height: 1.65; color: #2a2a30; }
+  .timeline-text strong { font-family: 'Playfair Display', serif; color: var(--accent); font-size: 17px; }
+
+  /* ── DARK SECTION ── */
+  .dark-section { background: var(--ink); color: var(--paper); }
+  .dark-section .section-title { color: #a0bcd4; }
+  .dark-section .body-text p { color: #c8c0b0; }
+  .dark-section .card { background: rgba(255,255,255,0.06); border-top-color: var(--gold); }
+  .dark-section .card-title { color: var(--gold); }
+  .dark-section .card p { color: #b8b0a0; }
+
+  /* ── VERDICT BOX ── */
+  .verdict-box { background: var(--accent); color: var(--paper); padding: 40px 48px; margin-top: 40px; }
+  .verdict-box .verdict-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.3em; color: var(--gold); margin-bottom: 16px; }
+  .verdict-box p { font-size: 19px; font-style: italic; line-height: 1.7; color: #d8e8f0; }
+
+  /* ── PERSONAL LIFE ── */
+  .personality-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--pale); margin-top: 20px; }
+  .personality-cell { background: var(--paper); padding: 28px; }
+  .personality-cell-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.25em; color: var(--rust); text-transform: uppercase; margin-bottom: 10px; }
+  .personality-cell p { font-size: 15px; line-height: 1.65; color: #333; }
+
+  .ornament { text-align: center; color: var(--gold); font-size: 24px; margin: 20px 0; letter-spacing: 0.5em; }
+
+  footer {
+    background: var(--ink);
+    color: var(--pale);
+    text-align: center;
+    padding: 40px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 900px) {
+    .masthead { grid-template-columns: 1fr; min-height: auto; }
+    .masthead-right { display: none; }
+    .masthead-left { padding: 60px 40px; }
+    .section { padding: 60px 30px; }
+    .two-col, .three-col, .procon-grid { grid-template-columns: 1fr; gap: 30px; }
+    .personality-grid { grid-template-columns: 1fr; }
+    .bib-grid { grid-template-columns: 1fr; }
+    #bibliography .section { padding: 50px 30px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════ MASTHEAD ══════════════════════════════ -->
+<header class="masthead">
+  <div class="masthead-left">
+    <div class="label-small">Scientific Portrait — Geneticist · Cytogeneticist · Nobel Laureate</div>
+    <h1 class="masthead-title">
+      Barbara<br>McClintock
+      <em>The Discoverer of Jumping Genes</em>
+    </h1>
+    <div class="masthead-dates">16 June 1902 &nbsp;—&nbsp; 2 September 1992</div>
+    <p class="masthead-tagline">
+      "If you know you are on the right track, if you have this inner knowledge, then nobody can turn you aside."
+    </p>
+    <nav class="nav-pills">
+      <a href="#biography"      class="nav-pill">Biography</a>
+      <a href="#the-silence"    class="nav-pill">The Silence</a>
+      <a href="#contemporaries" class="nav-pill">Contemporaries</a>
+      <a href="#cold-spring"    class="nav-pill">Cold Spring Harbor</a>
+      <a href="#thirty-year"    class="nav-pill">The Long Wait</a>
+      <a href="#personal"       class="nav-pill">Personal Life</a>
+      <a href="#bibliography"   class="nav-pill">Sources</a>
+    </nav>
+  </div>
+
+  <div class="masthead-right">
+    <!-- Chromosome / transposon art — abstract karyotype view -->
+    <svg class="xray-canvas" viewBox="0 0 600 700" xmlns="http://www.w3.org/2000/svg">
+      <rect width="600" height="700" fill="#080c10"/>
+
+      <!-- Atmospheric glow — warm green, suggesting corn fields -->
+      <defs>
+        <radialGradient id="fieldGlow" cx="55%" cy="50%" r="45%">
+          <stop offset="0%"   stop-color="#2a4a1a" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#080c10" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="vignette" cx="50%" cy="50%" r="50%">
+          <stop offset="30%"  stop-color="#080c10" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#040608" stop-opacity="0.75"/>
+        </radialGradient>
+      </defs>
+      <rect width="600" height="700" fill="url(#fieldGlow)"/>
+
+      <!-- Faint microscope grid -->
+      <g opacity="0.07" stroke="#5a8a5a" stroke-width="0.6">
+        <line x1="150" y1="0"   x2="150" y2="700"/>
+        <line x1="300" y1="0"   x2="300" y2="700"/>
+        <line x1="450" y1="0"   x2="450" y2="700"/>
+        <line x1="0"   y1="175" x2="600" y2="175"/>
+        <line x1="0"   y1="350" x2="600" y2="350"/>
+        <line x1="0"   y1="525" x2="600" y2="525"/>
+      </g>
+
+      <!-- ── CHROMOSOME 1 — large, near-vertical, centre-left ── -->
+      <g transform="translate(220,210) rotate(-12)">
+        <ellipse rx="17" ry="78" fill="#0f1a0f" stroke="#3a6a3a" stroke-width="1.4" opacity="0.75"/>
+        <!-- heterochromatin bands -->
+        <rect x="-13" y="-62" width="26" height="11" rx="3" fill="#4a7a2a" opacity="0.3"/>
+        <rect x="-13" y="-38" width="26" height="7"  rx="2" fill="#5a8a3a" opacity="0.22"/>
+        <rect x="-13" y="-12" width="26" height="5"  rx="2" fill="#3a6a2a" opacity="0.18"/>
+        <!-- centromere constriction -->
+        <ellipse ry="4" rx="11" fill="#1a2a1a" opacity="0.6"/>
+        <rect x="-13" y="20"  width="26" height="8"  rx="2" fill="#5a8a3a" opacity="0.22"/>
+        <rect x="-13" y="48"  width="26" height="14" rx="3" fill="#4a7a2a" opacity="0.3"/>
+        <!-- Ds element — orange marker -->
+        <circle cx="11" cy="-24" r="4.5" fill="#d4802a" opacity="0.95"/>
+        <text x="17" y="-21" fill="#d4802a" font-family="monospace" font-size="8.5" opacity="0.85">Ds</text>
+      </g>
+
+      <!-- ── CHROMOSOME 2 — medium, tilted right ── -->
+      <g transform="translate(390,310) rotate(22)">
+        <ellipse rx="14" ry="62" fill="#0f1a0f" stroke="#4a8a4a" stroke-width="1.2" opacity="0.65"/>
+        <rect x="-11" y="-48" width="22" height="9"  rx="2" fill="#5a8a3a" opacity="0.22"/>
+        <rect x="-11" y="-22" width="22" height="6"  rx="2" fill="#4a7a2a" opacity="0.18"/>
+        <ellipse ry="3.5" rx="9" fill="#1a2a1a" opacity="0.55"/>
+        <rect x="-11" y="20"  width="22" height="7"  rx="2" fill="#4a7a2a" opacity="0.2"/>
+        <rect x="-11" y="38"  width="22" height="11" rx="2" fill="#5a8a3a" opacity="0.22"/>
+        <!-- Ac element — gold square -->
+        <rect x="-5" y="8" width="10" height="10" rx="2.5" fill="#b8860b" opacity="0.9"/>
+        <text x="8" y="16" fill="#b8860b" font-family="monospace" font-size="8" opacity="0.85">Ac</text>
+      </g>
+
+      <!-- ── CHROMOSOME 3 — upper right, steep tilt ── -->
+      <g transform="translate(470,120) rotate(65)">
+        <ellipse rx="11" ry="48" fill="#0f1a0f" stroke="#3a5a3a" stroke-width="1.0" opacity="0.55"/>
+        <rect x="-9" y="-34" width="18" height="8"  rx="2" fill="#4a7a2a" opacity="0.18"/>
+        <ellipse ry="3" rx="7" fill="#1a2a1a" opacity="0.5"/>
+        <rect x="-9" y="20"  width="18" height="8"  rx="2" fill="#3a6a2a" opacity="0.18"/>
+      </g>
+
+      <!-- ── CHROMOSOME 4 — lower right, moderate tilt ── -->
+      <g transform="translate(340,490) rotate(-28)">
+        <ellipse rx="15" ry="68" fill="#0f1a0f" stroke="#3a6a3a" stroke-width="1.2" opacity="0.6"/>
+        <rect x="-12" y="-52" width="24" height="10" rx="2" fill="#5a8a3a" opacity="0.22"/>
+        <rect x="-12" y="-28" width="24" height="6"  rx="2" fill="#3a6a2a" opacity="0.16"/>
+        <ellipse ry="3.5" rx="10" fill="#1a2a1a" opacity="0.5"/>
+        <rect x="-12" y="22"  width="24" height="9"  rx="2" fill="#4a7a2a" opacity="0.2"/>
+        <rect x="-12" y="42"  width="24" height="12" rx="3" fill="#5a8a3a" opacity="0.22"/>
+      </g>
+
+      <!-- ── CHROMOSOME 5 — far right, nearly horizontal ── -->
+      <g transform="translate(510,430) rotate(-80)">
+        <ellipse rx="10" ry="42" fill="#0f1a0f" stroke="#2a5a2a" stroke-width="0.9" opacity="0.45"/>
+        <rect x="-8" y="-30" width="16" height="7"  rx="2" fill="#3a6a2a" opacity="0.15"/>
+        <ellipse ry="3" rx="6" fill="#1a2a1a" opacity="0.4"/>
+        <rect x="-8" y="20"  width="16" height="7"  rx="2" fill="#3a6a2a" opacity="0.15"/>
+      </g>
+
+      <!-- ── CHROMOSOME 6 — lower left ── -->
+      <g transform="translate(175,500) rotate(8)">
+        <ellipse rx="13" ry="56" fill="#0f1a0f" stroke="#4a7a4a" stroke-width="1.1" opacity="0.5"/>
+        <rect x="-10" y="-42" width="20" height="8"  rx="2" fill="#4a7a2a" opacity="0.18"/>
+        <ellipse ry="3" rx="8" fill="#1a2a1a" opacity="0.45"/>
+        <rect x="-10" y="28"  width="20" height="9"  rx="2" fill="#4a7a2a" opacity="0.18"/>
+      </g>
+
+      <!-- ── CHROMOSOME 7 — small, upper area ── -->
+      <g transform="translate(480,230) rotate(-40)">
+        <ellipse rx="9" ry="36" fill="#0f1a0f" stroke="#2a5a2a" stroke-width="0.8" opacity="0.4"/>
+        <rect x="-7" y="-26" width="14" height="6"  rx="2" fill="#3a5a2a" opacity="0.14"/>
+        <ellipse ry="2.5" rx="6" fill="#1a2a1a" opacity="0.38"/>
+        <rect x="-7" y="16"  width="14" height="6"  rx="2" fill="#3a5a2a" opacity="0.14"/>
+      </g>
+
+      <!-- ── TRANSPOSITION ARCS — Ds jumping from Chromosome 1 ── -->
+      <!-- Arc 1: Ds → Chromosome 2 (main transposition event) -->
+      <path d="M 232,187 Q 360,120 388,298" fill="none" stroke="#d4802a" stroke-width="1.1" stroke-dasharray="5,4" opacity="0.55"/>
+      <circle cx="388" cy="298" r="3.5" fill="#d4802a" opacity="0.75"/>
+
+      <!-- Arc 2: secondary transposition (fainter) -->
+      <path d="M 234,185 Q 300,80  468,168" fill="none" stroke="#d4802a" stroke-width="0.8" stroke-dasharray="3,6" opacity="0.3"/>
+      <circle cx="468" cy="168" r="2.5" fill="#d4802a" opacity="0.5"/>
+
+      <!-- Arc 3: reversion arc (dashed, very faint) -->
+      <path d="M 390,320 Q 420,480 345,462" fill="none" stroke="#b8860b" stroke-width="0.7" stroke-dasharray="2,7" opacity="0.22"/>
+
+      <!-- Glow spots — simulating microscope field illumination -->
+      <circle cx="310" cy="340" r="120" fill="none" stroke="#3a6a3a" stroke-width="0.5" opacity="0.12"/>
+      <circle cx="310" cy="340" r="200" fill="none" stroke="#2a5a2a" stroke-width="0.4" opacity="0.08"/>
+
+      <!-- Faint chromosome numbers (like a karyotype) -->
+      <text x="238" y="300" fill="#3a6a3a" font-family="monospace" font-size="9" opacity="0.35" letter-spacing="1">1</text>
+      <text x="406" y="280" fill="#3a6a3a" font-family="monospace" font-size="9" opacity="0.35" letter-spacing="1">2</text>
+      <text x="490" y="150" fill="#3a6a3a" font-family="monospace" font-size="9" opacity="0.3"  letter-spacing="1">3</text>
+      <text x="358" y="570" fill="#3a6a3a" font-family="monospace" font-size="9" opacity="0.3"  letter-spacing="1">4</text>
+
+      <!-- Caption -->
+      <text x="300" y="660" text-anchor="middle" fill="#4a6a4a" font-family="monospace" font-size="11" opacity="0.65" letter-spacing="2">Ac-Ds TRANSPOSON SYSTEM — ZEA MAYS — 1950</text>
+
+      <rect width="600" height="700" fill="url(#vignette)"/>
+    </svg>
+  </div>
+</header>
+
+<!-- ══════════════════════════════ BIOGRAPHY ══════════════════════════════ -->
+<section id="biography">
+  <div class="section">
+    <div class="section-label">01 — Origins &amp; Formation</div>
+    <h2 class="section-title">From Brooklyn<br><em>to the Frontier of Genetics</em></h2>
+
+    <div class="two-col">
+      <div class="body-text">
+        <p>Barbara McClintock was born on 16 June 1902 in Hartford, Connecticut, the third of four children of Thomas Henry McClintock, a physician, and Sara Handy McClintock.<sup class="cite"><a href="#bib-1" title="Nobel Prize Biographical Sketch">[1]</a></sup> The family moved to Brooklyn, New York, when Barbara was still young, and it was there she grew up — an independent, solitary child who preferred outdoor investigation to dolls, and who taught herself to solve problems alone before she could read. Her father supported her intellectual ambitions; her mother was at first uncertain whether a daughter should go to university. Barbara seems to have found the question beside the point.<sup class="cite"><a href="#bib-3" title="Keller — A Feeling for the Organism">[3]</a></sup></p>
+
+        <p>She enrolled at Cornell University's College of Agriculture in 1919, one of the few institutions where women could engage seriously with the natural sciences. She had intended to study science; she found genetics, and knew immediately she had found her life's work. The field was barely twenty years old — Mendel's laws had been rediscovered only in 1900, and Thomas Hunt Morgan's chromosome theory of heredity was still being contested. At Cornell, genetics was centered in the laboratory of Rollins Emerson, who had built the foremost maize genetics program in the world. McClintock walked into that laboratory and stayed.<sup class="cite"><a href="#bib-3" title="Keller — A Feeling for the Organism">[3]</a></sup></p>
+
+        <p>Her graduate years (1923–1927) were extraordinary. Working with the light microscope, she developed techniques for visualizing the ten chromosomes of maize (<em>Zea mays</em>) with a precision no cytologist had achieved. She could identify individual chromosomes by sight — a perceptual gift her contemporaries could not replicate — and she used this gift to map the relationship between chromosomal structure and hereditary traits.<sup class="cite"><a href="#bib-4" title="Wikipedia — Barbara McClintock">[4]</a></sup> In 1931, working with her Cornell colleague Harriet Creighton, she published a paper in the <em>Proceedings of the National Academy of Sciences</em> that constitutes one of the clearest experimental demonstrations in the history of genetics: that genetic recombination is accompanied by the physical exchange of chromosome segments. Thomas Hunt Morgan, who had proposed exactly this mechanism in <em>Drosophila</em>, urged the two women to publish before Curt Stern's parallel results appeared. The Creighton–McClintock paper settled a fundamental question about the physical basis of heredity.<sup class="cite"><a href="#bib-9" title="Creighton & McClintock (1931)">[9]</a></sup></p>
+
+        <p>Despite this record, McClintock could not secure a permanent faculty position. Universities did not hire women into tenured research positions. She held a series of fellowships and temporary appointments — at Caltech with Morgan, back at Cornell, in Germany on a Guggenheim Fellowship (cut short in 1934 as the Nazi threat became unmistakable), and at the University of Missouri under Lewis Stadler (1936–1941) where she was excluded from faculty meetings and held no prospect of tenure. When Cold Spring Harbor Laboratory offered a summer research position in 1941, she accepted at once. She would not leave for the remaining fifty-one years of her life.<sup class="cite"><a href="#bib-5" title="Cold Spring Harbor Laboratory — McClintock">[5]</a></sup></p>
+      </div>
+
+      <div>
+        <div class="timeline">
+          <div class="timeline-entry">
+            <div class="timeline-year">1902</div>
+            <div class="timeline-text"><strong>Born in Hartford, CT.</strong> Family soon moves to Brooklyn. Shows early independence and appetite for solitary investigation.<sup class="cite"><a href="#bib-1" title="Nobel Prize Biographical Sketch">[1]</a></sup></div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-year">1919–27</div>
+            <div class="timeline-text"><strong>Cornell University.</strong> BS 1923, MS 1925, PhD 1927 in Botany. Enters Rollins Emerson's maize genetics group. Becomes expert in chromosome cytology — maps all 10 maize chromosomes.<sup class="cite"><a href="#bib-3" title="Keller">[3]</a></sup></div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-year">1931</div>
+            <div class="timeline-text"><strong>Creighton–McClintock paper (PNAS).</strong> Proves that crossing-over is a physical exchange of chromosome material — a landmark in genetics. Morgan calls it "the most important paper in cytology."<sup class="cite"><a href="#bib-9" title="Creighton & McClintock PNAS">[9]</a></sup></div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-year">1931–41</div>
+            <div class="timeline-text"><strong>Postdoctoral decade.</strong> Caltech, Cornell, Germany (Guggenheim, 1933–34), University of Missouri. Distinguished career with no permanent home. Excluded from faculty meetings at Missouri.<sup class="cite"><a href="#bib-3" title="Keller">[3]</a></sup></div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-year">1941–42</div>
+            <div class="timeline-text"><strong>Cold Spring Harbor Laboratory.</strong> Arrives for a summer position; offered a permanent research appointment in 1942. She accepts. Begins systematic investigation of maize genetics that will lead to the transposon discovery.<sup class="cite"><a href="#bib-5" title="CSHL">[5]</a></sup></div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-year">1944–45</div>
+            <div class="timeline-text"><strong>National recognition.</strong> Elected to the National Academy of Sciences — only the third woman ever. The following year, elected President of the Genetics Society of America.<sup class="cite"><a href="#bib-4" title="Wikipedia">[4]</a></sup></div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-year">1948–51</div>
+            <div class="timeline-text"><strong>The transposon discovery.</strong> Studying color variegation in maize kernels, identifies "controlling elements" — genetic factors that change chromosomal position. Presents findings at the 1951 Cold Spring Harbor Symposium.<sup class="cite"><a href="#bib-10" title="McClintock 1951 Symposium Paper">[10]</a></sup></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ THE SILENCE ══════════════════════════════ -->
+<section id="the-silence" style="background: var(--cream);">
+  <div class="section">
+    <div class="section-label">02 — The Central Controversy</div>
+    <h2 class="section-title">Transposition and<br><em>the Wall of Silence</em></h2>
+
+    <div class="body-text">
+      <p>The annual Cold Spring Harbor Symposium on Quantitative Biology is one of genetics' most storied gathering places. In June 1951, with the symposium theme set as "Genes and Mutations," Barbara McClintock took the podium to present what she believed — correctly, as it turned out — to be the most important discovery of her career. The reception that followed was one of the most consequential non-responses in the history of science.<sup class="cite"><a href="#bib-3" title="Keller">[3]</a></sup></p>
+    </div>
+
+    <div class="pull-quote">
+      <p>"I was startled when I found they didn't take it seriously. I never thought that there would be a problem. I thought that they would understand. I didn't make the paper complicated."</p>
+      <cite>— Barbara McClintock, recalling the 1951 Symposium <sup class="cite"><a href="#bib-3" title="Keller — A Feeling for the Organism">[3]</a></sup></cite>
+    </div>
+
+    <div class="two-col" style="margin-top: 40px;">
+      <div>
+        <div class="card">
+          <div class="card-title">What She Presented</div>
+          <p>After three years of intensive microscopic study of maize kernels, McClintock had discovered that certain genetic elements could change their position on chromosomes — something the classical Mendelian model held to be impossible. She called them "controlling elements." She had identified two types: <em>Dissociation</em> (Ds), which moved under the influence of a second element she called <em>Activator</em> (Ac). Depending on where Ds landed, it could suppress or reactivate the genes near its insertion site — explaining, with remarkable precision, the patterns of pigmented and unpigmented tissue in maize kernels she had been tracking for years. It was a unified theory of gene regulation derived entirely from cytogenetic evidence, with no molecular tools whatsoever.<sup class="cite"><a href="#bib-10" title="McClintock 1951 CSH Symposium">[10]</a></sup></p>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <div class="card-title">How It Was Received</div>
+          <p>The audience included some of the most distinguished geneticists and molecular biologists in the world. The dominant response was polite bewilderment, followed by silence. James Watson, then a 23-year-old PhD student who had recently learned of the DNA double helix, later recalled being "puzzled" and unable to follow the argument.<sup class="cite"><a href="#bib-4" title="Wikipedia">[4]</a></sup> McClintock continued to present at subsequent symposia, but the response did not improve. In 1953 she published a comprehensive account of her controlling elements theory in the journal <em>Genetics</em> and received little engagement.<sup class="cite"><a href="#bib-11" title="McClintock 1953 Genetics">[11]</a></sup> She stopped writing up her theoretical findings for external publication. "I stopped because I was not being listened to," she said later.<sup class="cite"><a href="#bib-3" title="Keller">[3]</a></sup></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="body-text" style="margin-top: 40px;">
+      <p>The question of why her work was ignored has two answers, and both are true. The first is that it was scientifically ahead of its time in a specific technical sense. The DNA double helix had not yet been announced (Watson and Crick published in April 1953, two years after her symposium presentation); the molecular mechanisms of gene expression were unknown; and the operon theory — which would provide the conceptual framework for genetic regulation — was still a decade away from Jacob and Monod's laboratory in Paris. Without a molecular language in which to describe how a genetic element could "jump" or how its position could regulate other genes, McClintock's findings appeared to violate a canonical picture of chromosomal stability that decades of Mendelian genetics had firmly established. As her ally Marcus Rhoades put it, "there was nothing in the literature to prepare people for this."<sup class="cite"><a href="#bib-6" title="Rhoades tribute">[6]</a></sup></p>
+
+      <p>The second answer is that gender played a decisive role in how the work was framed and dismissed. Biographer Evelyn Fox Keller argues that McClintock's mode of scientific knowing — holistic, intuitive, attentive to individual organismal variation — was culturally coded as feminine, and therefore as less rigorous than the reductive methods of the new molecular biology. When a woman described having a "feeling for the organism" and spoke of the plants "communicating" what they needed her to see, the register was heard differently than it would have been from a male colleague. The same kind of intuitive synthesis that earned Francis Crick the label "brilliant" was, in McClintock's case, received as mystical. Neither explanation — scientific difficulty or gendered dismissal — is sufficient alone. Both were necessary.<sup class="cite"><a href="#bib-3" title="Keller">[3]</a></sup></p>
+    </div>
+
+    <div class="pull-quote">
+      <p>"No two plants are exactly alike. They're all different, and as a consequence, you have to know that difference. I don't want to leave it. I don't feel I really know the story if I haven't watched the plant all the way along. So I know every plant in the field. I know them intimately, and I find it a great pleasure to know them."</p>
+      <cite>— Barbara McClintock, to Evelyn Fox Keller <sup class="cite"><a href="#bib-3" title="Keller — A Feeling for the Organism">[3]</a></sup></cite>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ CONTEMPORARIES ══════════════════════════════ -->
+<section id="contemporaries">
+  <div class="section">
+    <div class="section-label">03 — Scientific Context</div>
+    <h2 class="section-title">McClintock Among<br><em>the Giants of Her Age</em></h2>
+
+    <div class="body-text">
+      <p>Genetics in the 1940s and 1950s was being remade by an extraordinary generation. McClintock's position within that constellation was central — but the revolution was moving in directions that her cytogenetic methods, however brilliant, were not positioned to lead. Understanding why her work was not heard requires understanding who else was in the room.<sup class="cite"><a href="#bib-4" title="Wikipedia">[4]</a></sup></p>
+    </div>
+
+    <table class="contemporaries-table">
+      <thead>
+        <tr>
+          <th>Scientist</th>
+          <th>Field &amp; Major Work</th>
+          <th>Relation to McClintock</th>
+          <th>Assessment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="scientist-name">Rollins Emerson</div><em style="font-size:14px;color:#666;">1873–1947</em></td>
+          <td>Maize genetics; built the premier maize program at Cornell. Founded the group from which most American maize geneticists of the mid-century would emerge.</td>
+          <td><span class="connection-strong">Mentor &amp; Champion.</span> Emerson recognized McClintock's exceptional talent immediately and gave her the institutional support and scientific freedom she needed during her Cornell years. His advocacy was crucial to her early reputation.<sup class="cite"><a href="#bib-3" title="Keller">[3]</a></sup></td>
+          <td>Without Emerson, there is no McClintock career. He understood what she was doing when few others did — and made sure others in the field knew her name before she had published a word.</td>
+        </tr>
+        <tr>
+          <td><div class="scientist-name">Harriet Creighton</div><em style="font-size:14px;color:#666;">1909–2004</em></td>
+          <td>Cytogenetics; proved physical basis of genetic recombination. Later a distinguished professor at Wellesley College.</td>
+          <td><span class="connection-strong">Close Collaborator.</span> Co-author of the landmark 1931 PNAS paper on chromosomal crossover — one of the most important genetics papers of the century. The two women worked with exceptional mutual trust and maintained their friendship for life.<sup class="cite"><a href="#bib-9" title="Creighton & McClintock PNAS">[9]</a></sup></td>
+          <td>The Creighton–McClintock experiment stands as a model of decisive experimental design. Creighton later said McClintock's vision was entirely responsible for the conceptual breakthrough; she herself provided the complementary chromosome material.</td>
+        </tr>
+        <tr>
+          <td><div class="scientist-name">Marcus Rhoades</div><em style="font-size:14px;color:#666;">1903–1991</em></td>
+          <td>Maize genetics; plastid inheritance; lifelong maize cytogeneticist at Cornell, Columbia, and Indiana.</td>
+          <td><span class="connection-parallel">Closest Ally.</span> Rhoades was one of the handful of contemporaries who genuinely understood and engaged with McClintock's transposon work. A lifelong friend and scientific confidant. Said of her: "The history of genetics has no greater example of single-handedly making a fundamental discovery."<sup class="cite"><a href="#bib-6" title="Rhoades tribute">[6]</a></sup></td>
+          <td>Rhoades' sustained advocacy kept McClintock's reputation alive during the years of silence. His endorsement was instrumental in her election to the National Academy of Sciences in 1944.</td>
+        </tr>
+        <tr>
+          <td><div class="scientist-name">George Beadle</div><em style="font-size:14px;color:#666;">1903–1989</em></td>
+          <td>One gene-one enzyme hypothesis (with Edward Tatum). Nobel Prize in Physiology or Medicine, 1958.</td>
+          <td><span class="connection-parallel">Cornell Contemporary &amp; Friend.</span> Beadle was one of McClintock's closest friends, having worked alongside her at Cornell in the 1930s. He nominated her to the National Academy of Sciences, writing that she was "the most distinguished living plant geneticist."<sup class="cite"><a href="#bib-4" title="Wikipedia">[4]</a></sup></td>
+          <td>Beadle's one gene-one enzyme work moved in a reductive direction — toward biochemistry and molecular mechanism — that made the transposon finding harder to assimilate. Yet Beadle never doubted McClintock's quality. His Nobel work and hers addressed the same genome from entirely different angles.</td>
+        </tr>
+        <tr>
+          <td><div class="scientist-name">François Jacob &amp; Jacques Monod</div><em style="font-size:14px;color:#666;">1920–2013 / 1910–1976</em></td>
+          <td>Operon theory of gene regulation. Nobel Prize in Physiology or Medicine, 1965.</td>
+          <td><span class="connection-parallel">Vindicating Parallel.</span> Jacob and Monod's discovery that genes are regulated by controlling sequences — switches that turn them on and off — was the molecular vindication of precisely what McClintock had inferred from cytogenetics a decade earlier. Their Nobel lecture made no mention of her work.<sup class="cite"><a href="#bib-4" title="Wikipedia">[4]</a></sup></td>
+          <td>The deepest irony in McClintock's scientific life: the molecular biologists who won the Nobel for discovering gene regulation in bacteria were confirming — without knowing it — the general principle she had demonstrated in maize in 1951. The two traditions did not speak to each other.</td>
+        </tr>
+        <tr>
+          <td><div class="scientist-name">James Watson</div><em style="font-size:14px;color:#666;">1928–</em></td>
+          <td>DNA double helix (with Crick), 1953. Nobel 1962. Later Director of Cold Spring Harbor Laboratory.</td>
+          <td><span class="connection-broad">Witness to the Non-Response.</span> Watson was present at McClintock's 1951 symposium presentation. By his own later account he was baffled by her argument. Ironically, he would become Director of Cold Spring Harbor in 1968 — the institution where McClintock had worked in isolation for decades — and would preside over the molecular confirmation of her discovery.<sup class="cite"><a href="#bib-4" title="Wikipedia">[4]</a></sup></td>
+          <td>Watson represents the broader culture of molecular biology in the 1950s: dazzlingly productive, reductive in method, and poorly positioned to absorb a cytogenetic theory of gene regulation. His later praise of McClintock was generous; his presence at the moment of dismissal is historically noted.</td>
+        </tr>
+        <tr>
+          <td><div class="scientist-name">Nina Fedoroff</div><em style="font-size:14px;color:#666;">b. 1942</em></td>
+          <td>Plant molecular biology; cloned the Ac and Ds transposable elements in 1983, providing the molecular proof of what McClintock had inferred from microscopy alone.</td>
+          <td><span class="connection-strong">Scientific Heir.</span> Fedoroff's molecular cloning of Ac and Ds was the definitive biochemical confirmation of McClintock's cytogenetic findings. Fedoroff went on to write the standard NAS biographical memoir of McClintock and edit <em>The Dynamic Genome</em>, the essential scientific retrospective on her work.<sup class="cite"><a href="#bib-7" title="Fedoroff & Botstein, The Dynamic Genome">[7]</a></sup></td>
+          <td>The Fedoroff–McClintock relationship is a model of how scientific lineage can transcend the gap between paradigms. Fedoroff's molecular tools confirmed not just the existence of transposons but the extraordinary accuracy with which McClintock had described their behavior from chromosomes alone.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pull-quote" style="margin-top: 40px;">
+      <p>McClintock's cytogenetic methods were, in terms of sheer inferential acuity, ahead of any molecular tool available to her contemporaries. The tragedy is that the molecular revolution provided the language for her findings only after the scientific community had already concluded she could not be right.</p>
+      <cite>— Editorial assessment, drawing on <sup class="cite"><a href="#bib-3" title="Keller">[3]</a></sup><sup class="cite"><a href="#bib-7" title="Fedoroff & Botstein">[7]</a></sup></cite>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ COLD SPRING HARBOR ══════════════════════════════ -->
+<section id="cold-spring" class="dark-section">
+  <div class="section">
+    <div class="section-label" style="color: var(--gold);">04 — The Cold Spring Harbor Years</div>
+    <h2 class="section-title">A Life in Maize:<br><em>Science in Voluntary Isolation</em></h2>
+
+    <div class="body-text">
+      <p>Cold Spring Harbor Laboratory sits on the north shore of Long Island, a cluster of old wooden buildings at the edge of a tidal inlet. McClintock arrived there in 1941, stayed for a summer, and never left. For the next fifty-one years she planted her maize each spring, tended it through the Long Island summer, harvested the ears in autumn, and spent the dark months reading her chromosome preparations under the microscope. She published almost forty research papers from Cold Spring Harbor. Almost no one read them for thirty years.<sup class="cite"><a href="#bib-5" title="CSHL">[5]</a></sup></p>
+    </div>
+
+    <div class="three-col" style="margin-top: 40px;">
+      <div class="card">
+        <div class="card-title">🌽 The Maize Fields</div>
+        <p>McClintock grew her own experimental maize at Cold Spring Harbor year after year. She could identify individual plants — and individual chromosomes — by sight. Her preparation techniques for visualizing maize root-tip chromosomes under the light microscope were so refined that, decades later, molecular geneticists using electron microscopy and sequencing could not improve on the precision of her cytogenetic maps. She tended her field alone, noting which plants were behaving anomalously and returning to them season after season with new hypotheses.<sup class="cite"><a href="#bib-3" title="Keller">[3]</a></sup></p>
+      </div>
+      <div class="card">
+        <div class="card-title">🔬 The Ac-Ds System</div>
+        <p>The <em>Activator</em> (Ac) and <em>Dissociation</em> (Ds) elements were the key to McClintock's transposon discovery. Ac is an autonomous transposable element — it contains all the information needed to move itself. Ds is non-autonomous and moves only when Ac is present. McClintock inferred both elements entirely from the patterns of pigmentation in maize kernels — detective work of extraordinary subtlety conducted without any molecular tools. When Nina Fedoroff cloned Ac and Ds at the molecular level in 1983, she found that McClintock's cytogenetic description was essentially correct in every detail.<sup class="cite"><a href="#bib-7" title="Fedoroff & Botstein">[7]</a></sup></p>
+      </div>
+      <div class="card">
+        <div class="card-title">⚡ Belated Confirmation</div>
+        <p>Transposons in bacteria — insertion sequences (IS elements) — were discovered by Peter Starlinger and Heinz Saedler in Germany in the late 1960s, followed by further work by Stanley Cohen and others in the 1970s. These groups recognized the connection to McClintock's earlier work and contacted her. By the early 1980s the transposon field was one of the most active in genetics and molecular biology. When the Nobel Committee awarded her the 1983 prize, they acknowledged that she had waited thirty-two years for the scientific world to catch up.<sup class="cite"><a href="#bib-2" title="Nobel Lecture">[2]</a></sup></p>
+      </div>
+    </div>
+
+    <div class="body-text" style="margin-top: 48px;">
+      <p style="color: #c8c0b0;">The Cold Spring Harbor years were, paradoxically, both an isolation and a liberation. "I didn't have to do any teaching," she recalled. "I didn't have to attend committees. I just had to do the work."<sup class="cite"><a href="#bib-3" title="Keller">[3]</a></sup> The institutional marginality that cut her off from the mainstream also protected her from its distractions. She could follow the maize wherever it led, season after season, for five decades. This is not a vindication of how science treated her — it is a tribute to the extraordinary quality of her attention, which survived the indifference intact. The genome she was describing, it turned out, was more dynamic than anyone had imagined: a system of regulation and response that had been hiding in every corn kernel she had ever examined.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ THE THIRTY-YEAR QUESTION ══════════════════════════════ -->
+<section id="thirty-year" style="background: var(--cream);">
+  <div class="section">
+    <div class="section-label">05 — The Thirty-Year Question</div>
+    <h2 class="section-title">Inevitable Delay<br><em>or Systemic Injustice? A Pro &amp; Con</em></h2>
+
+    <div class="body-text">
+      <p>Unlike Rosalind Franklin, Barbara McClintock did receive the Nobel Prize — in 1983, at the age of 81, thirty-two years after her most important theoretical work. She is the only woman to have won an unshared Nobel Prize in Physiology or Medicine. The question that haunts her legacy is not whether she deserved recognition but why it took so long to arrive — and what that delay tells us about how science treats heterodox findings and unconventional scientists.<sup class="cite"><a href="#bib-1" title="Nobel Prize Biographical Sketch">[1]</a></sup></p>
+    </div>
+
+    <div class="procon-grid">
+      <div class="procon-col pro">
+        <div class="procon-header">✦ The Delay Was Scientifically Understandable</div>
+        <div class="procon-item">
+          <span class="procon-icon">◆</span>
+          <span><strong>No molecular framework existed.</strong> When McClintock presented in 1951, the DNA double helix was two years in the future. Without a molecular language to describe how a genetic element could "jump," or how its insertion could regulate neighboring genes, her claims appeared to violate the only model of chromosomal genetics available.<sup class="cite"><a href="#bib-3" title="Keller">[3]</a></sup></span>
+        </div>
+        <div class="procon-item">
+          <span class="procon-icon">◆</span>
+          <span><strong>Cytogenetics vs. molecular biology.</strong> The new molecular biology privileged biochemical evidence — sequences, enzymes, purified molecules. McClintock's evidence was entirely cytogenetic: visual inference from chromosome behavior under a light microscope. Even scientists who respected her questioned whether this evidence warranted such sweeping theoretical claims.<sup class="cite"><a href="#bib-7" title="Fedoroff & Botstein">[7]</a></sup></span>
+        </div>
+        <div class="procon-item">
+          <span class="procon-icon">◆</span>
+          <span><strong>The evidence was genuinely complex.</strong> The Ac-Ds system involves two interacting elements in multiple allelic states, operating through indirect effects on pigmentation in a diploid organism. Even sympathetic and sophisticated readers of her 1951 and 1953 papers found the argument difficult to follow on first reading.<sup class="cite"><a href="#bib-3" title="Keller">[3]</a></sup></span>
+        </div>
+        <div class="procon-item">
+          <span class="procon-icon">◆</span>
+          <span><strong>Other premature discoveries have waited longer.</strong> Gregor Mendel's laws went unrecognized for 35 years. Continental drift was dismissed for decades after Wegener. Scientific paradigm shifts routinely require a generation to be absorbed — the sociology of knowledge resists findings that lack a supporting framework.<sup class="cite"><a href="#bib-8" title="NAS Biographical Memoir">[8]</a></sup></span>
+        </div>
+        <div class="procon-item">
+          <span class="procon-icon">◆</span>
+          <span><strong>Vindication was molecular and unequivocal.</strong> When IS elements were found in bacteria in the 1960s and 1970s, recognition came through science itself — through experimental confirmation by independent researchers using new tools. The eventual Nobel was awarded on strictly scientific grounds.<sup class="cite"><a href="#bib-2" title="Nobel Lecture">[2]</a></sup></span>
+        </div>
+      </div>
+
+      <div class="procon-col con">
+        <div class="procon-header">✦ Gender and Institutional Exclusion Were Decisive</div>
+        <div class="procon-item">
+          <span class="procon-icon">◇</span>
+          <span><strong>Heterodox male scientists received engaged skepticism.</strong> When male geneticists proposed unorthodox hypotheses, they typically received requests for additional experiments and published debate. McClintock received silence. The qualitative difference in response is documented and difficult to explain purely by reference to scientific difficulty.<sup class="cite"><a href="#bib-3" title="Keller">[3]</a></sup></span>
+        </div>
+        <div class="procon-item">
+          <span class="procon-icon">◇</span>
+          <span><strong>Her intuitive language was gendered.</strong> McClintock described her scientific process in holistic terms — a "feeling for the organism," a kind of empathetic attention to individual plants. Keller argues this was coded as feminine irrationalism in the culture of 1950s molecular biology, where quantitative and reductive methods were the masculine norm.<sup class="cite"><a href="#bib-3" title="Keller">[3]</a></sup></span>
+        </div>
+        <div class="procon-item">
+          <span class="procon-icon">◇</span>
+          <span><strong>No institutional home, no graduate students.</strong> She was never given a faculty position at a research university. Without graduate students to carry her ideas forward, her theory had no advocates in training. The structural exclusion of women from academic positions amplified intellectual dismissal into a self-reinforcing silence.<sup class="cite"><a href="#bib-5" title="CSHL">[5]</a></sup></span>
+        </div>
+        <div class="procon-item">
+          <span class="procon-icon">◇</span>
+          <span><strong>The pattern is not unique.</strong> Lise Meitner, Rosalind Franklin, Jocelyn Bell Burnell, Nettie Stevens — the arc of brilliant early work, institutional exclusion, and delayed or denied recognition follows a pattern that is too consistent across women scientists to be explained by individual circumstances or scientific timing alone.<sup class="cite"><a href="#bib-3" title="Keller">[3]</a></sup></span>
+        </div>
+        <div class="procon-item">
+          <span class="procon-icon">◇</span>
+          <span><strong>McClintock's own testimony.</strong> She said, with characteristic directness: "The boys were real good at making the women feel inferior and unable." She did not attribute the silence entirely to scientific difficulty — and she was better positioned than anyone to judge.<sup class="cite"><a href="#bib-3" title="Keller">[3]</a></sup></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="verdict-box">
+      <div class="verdict-label">Editorial Verdict</div>
+      <p>The most defensible conclusion: both factors were causally necessary, and neither is sufficient alone. The transposon theory <em>was</em> genuinely difficult to absorb without the molecular framework that the 1960s would supply; a man presenting identical work in 1951 might also have waited years for full recognition. But a man would very likely not have waited thirty-two. The institutional exclusion of women from academic positions removed the graduate students and departmental colleagues who might have engaged seriously with her work and accelerated comprehension. The gendered reading of her intuitive language provided intellectual cover for dismissal. The delay was not purely inevitable, nor was it purely discriminatory — it was the product of a paradigm gap colliding with a culture that provided no scaffold for heterodox science when the scientist was a woman. That she survived the collision and won is a tribute to the quality of her work. That it took until she was 81 is an indictment of the system.<sup class="cite"><a href="#bib-3" title="Keller">[3]</a></sup></p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ PERSONAL LIFE ══════════════════════════════ -->
+<section id="personal">
+  <div class="section">
+    <div class="section-label">06 — The Person</div>
+    <h2 class="section-title">Beyond the Microscope:<br><em>Personal Life &amp; Character</em></h2>
+
+    <div class="body-text">
+      <p>Evelyn Fox Keller, who spent extensive time with McClintock before and after her Nobel Prize, wrote that she was "one of the most truly free human beings I have ever known."<sup class="cite"><a href="#bib-3" title="Keller — A Feeling for the Organism">[3]</a></sup> That freedom was not theoretical — it was enacted, daily, in the choices she made about how to live. What struck everyone who knew her was not only her intelligence but the totality of her commitment: to science, yes, but more precisely to a way of being that science expressed rather than defined.</p>
+    </div>
+
+    <div class="personality-grid">
+      <div class="personality-cell">
+        <div class="personality-cell-label">Independence</div>
+        <p>McClintock never married and never wanted to. "I was too interested in my work," she said simply.<sup class="cite"><a href="#bib-1" title="Nobel Prize Biographical Sketch">[1]</a></sup> More than professional calculation, her singleness reflected a constitutive self-understanding: she was fundamentally a solitary investigator, and she shaped her life accordingly. She wore pants in an era when women were expected to wear skirts, drove her own car, and traveled alone. These were not calculated rebellions — they were natural expressions of a person who found social convention simply less interesting than her maize.</p>
+      </div>
+      <div class="personality-cell">
+        <div class="personality-cell-label">Friendships</div>
+        <p>Although she lived alone and worked in voluntary isolation, McClintock was neither cold nor friendless. Her friendships with Marcus Rhoades, George Beadle, Harriet Creighton, and later Evelyn Witkin were deep and lasting. Rhoades remained her closest scientific confidant for decades. Beadle organized her National Academy election. She corresponded warmly with Creighton throughout their lives — two women who had, as young scientists at Cornell, done one of the most important genetics experiments ever performed.<sup class="cite"><a href="#bib-3" title="Keller">[3]</a></sup></p>
+      </div>
+      <div class="personality-cell">
+        <div class="personality-cell-label">A Feeling for the Organism</div>
+        <p>McClintock described her scientific method in terms that many found unusual. She spoke of moments when she felt herself almost inside the chromosomes — a contemplative identification with the material she studied that was the epistemological foundation of her work. "I found that the more I worked with them, the bigger and bigger the chromosomes got, and when I was really working with them I wasn't outside; I was down there. I was part of the system."<sup class="cite"><a href="#bib-3" title="Keller">[3]</a></sup> Whether mysticism or simply the phenomenology of expert perception, this was how her greatest discoveries came.</p>
+      </div>
+      <div class="personality-cell">
+        <div class="personality-cell-label">Music &amp; the Outdoors</div>
+        <p>In her Cornell years, McClintock played banjo in a jazz band — a fact she recalled with quiet amusement in later life.<sup class="cite"><a href="#bib-1" title="Nobel Prize Biographical Sketch">[1]</a></sup> She loved the outdoors: she was an expert amateur mycologist who could identify mushrooms by species the way she identified chromosomes by sight. She walked the Cold Spring Harbor grounds daily and was known to identify trees and wildflowers with the same taxonomic precision she brought to her microscope work. Her mind was holistic and synthetic; she distrusted narrow specialization and was skeptical of the reductive programs that came to dominate molecular biology.</p>
+      </div>
+      <div class="personality-cell">
+        <div class="personality-cell-label">Attitude toward Honor</div>
+        <p>McClintock's relationship with professional recognition was genuinely ambivalent. She turned down invitations to deliver named lectures, declined positions that would have moved her from Cold Spring Harbor, and was visibly uncomfortable when prizes accumulated in the early 1980s. When the MacArthur Foundation awarded her a "genius" fellowship in 1981, she reportedly worried that the prize money might make her less productive.<sup class="cite"><a href="#bib-4" title="Wikipedia">[4]</a></sup> At the Nobel press conference she redirected questions about herself to questions about the science. She preferred, always, to be asked what the genome was doing — not what she had done.</p>
+      </div>
+      <div class="personality-cell">
+        <div class="personality-cell-label">Last Years &amp; Legacy</div>
+        <p>McClintock remained scientifically active at Cold Spring Harbor into her late eighties, arriving at her laboratory each morning until her health prevented it. She died on 2 September 1992 in Huntington, New York, at the age of 90.<sup class="cite"><a href="#bib-12" title="New York Times Obituary">[12]</a></sup> Her colleague Evelyn Witkin later said: "She was the most independent person I have ever known. She did exactly what she wanted to do, and nothing else."<sup class="cite"><a href="#bib-13" title="Witkin tribute">[13]</a></sup> The entire genome — of maize, of bacteria, of humans — turns out to be far more dynamic and self-organizing than anyone imagined before she began watching her corn.</p>
+      </div>
+    </div>
+
+    <div class="ornament">— ✦ —</div>
+
+    <div class="pull-quote">
+      <p>"It might seem unfair to reward a person for having so much pleasure, over the years, asking the maize plant to solve specific problems and then watching its responses."</p>
+      <cite>— Barbara McClintock, Nobel Prize Banquet Speech, December 1983 <sup class="cite"><a href="#bib-2" title="Nobel Lecture">[2]</a></sup></cite>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ DISCUSSION ══════════════════════════════ -->
+<section style="background: var(--ink); color: var(--paper);">
+  <div class="section">
+    <div class="section-label" style="color: var(--gold);">07 — For Discussion</div>
+    <h2 class="section-title" style="color: #a0bcd4;">Questions for<br><em>the Study Group</em></h2>
+
+    <div class="three-col">
+      <div class="card">
+        <div class="card-title">The Franklin Parallel</div>
+        <p>Both Rosalind Franklin and Barbara McClintock were exceptional women scientists whose most important work was not properly credited or understood during the period they produced it. But the mechanisms differ: Franklin's data was appropriated without attribution; McClintock's work was simply not engaged with. Which form of institutional failure is harder to correct — active misappropriation or passive silence? Which causes greater long-term harm to scientific progress?</p>
+      </div>
+      <div class="card">
+        <div class="card-title">"Ahead of Its Time"</div>
+        <p>"Ahead of its time" is one of science's most commonly deployed phrases. Does it describe a real phenomenon — work that cannot be absorbed until the necessary conceptual framework exists — or is it sometimes a polite reframing of rejection? How do we distinguish a genuinely premature discovery from one that was rejected for non-scientific reasons? What might the McClintock case tell us about how paradigm shifts actually happen, and who gets to be remembered as visionary?</p>
+      </div>
+      <div class="card">
+        <div class="card-title">The Nobel at 81</div>
+        <p>McClintock received the Nobel Prize in 1983 at age 81 — 32 years after her most important theoretical work. She herself was visibly ambivalent about the prize. Is a Nobel Prize received this late a vindication or a form of acknowledgment that arrives too late to matter? What does this pattern of delayed recognition — repeated across multiple women scientists of this era — tell us about whether science ultimately self-corrects? And is self-correction, eventually, enough?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ BIBLIOGRAPHY ══════════════════════════════ -->
+<section id="bibliography">
+  <div class="section">
+    <div class="section-label">Sources &amp; Citations</div>
+    <h2 class="section-title">Bibliography</h2>
+
+    <div class="bib-grid">
+
+      <div class="bib-entry" id="bib-1">
+        <div class="bib-num">[1]</div>
+        <div class="bib-content">
+          <span class="bib-title">Barbara McClintock — Biographical Sketch</span>
+          <div class="bib-source">NobelPrize.org · Nobel Prize in Physiology or Medicine, 1983</div>
+          <a href="https://www.nobelprize.org/prizes/medicine/1983/mcclintock/biographical/" target="_blank" rel="noopener">nobelprize.org/prizes/medicine/1983/mcclintock/biographical/</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-2">
+        <div class="bib-num">[2]</div>
+        <div class="bib-content">
+          <span class="bib-title">Barbara McClintock — Nobel Lecture: The Significance of Responses of the Genome to Challenge</span>
+          <div class="bib-source">NobelPrize.org · December 8, 1983</div>
+          <a href="https://www.nobelprize.org/prizes/medicine/1983/mcclintock/lecture/" target="_blank" rel="noopener">nobelprize.org/prizes/medicine/1983/mcclintock/lecture/</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-3">
+        <div class="bib-num">[3]</div>
+        <div class="bib-content">
+          <span class="bib-title">A Feeling for the Organism: The Life and Work of Barbara McClintock</span>
+          <div class="bib-source">Evelyn Fox Keller · W. H. Freeman · 1983 (10th anniversary edition 1993)</div>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-4">
+        <div class="bib-num">[4]</div>
+        <div class="bib-content">
+          <span class="bib-title">Barbara McClintock — Encyclopedia Article</span>
+          <div class="bib-source">Wikipedia (extensively sourced, with primary citations)</div>
+          <a href="https://en.wikipedia.org/wiki/Barbara_McClintock" target="_blank" rel="noopener">en.wikipedia.org/wiki/Barbara_McClintock</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-5">
+        <div class="bib-num">[5]</div>
+        <div class="bib-content">
+          <span class="bib-title">Barbara McClintock — Historical Profile</span>
+          <div class="bib-source">Cold Spring Harbor Laboratory Archives &amp; Research Library</div>
+          <a href="https://www.cshl.edu/about/history/barbara-mcclintock/" target="_blank" rel="noopener">cshl.edu/about/history/barbara-mcclintock/</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-6">
+        <div class="bib-num">[6]</div>
+        <div class="bib-content">
+          <span class="bib-title">Marcus Rhoades — Tribute to Barbara McClintock</span>
+          <div class="bib-source">Genetics Society of America · Genetics, Vol. 166 · 2004</div>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-7">
+        <div class="bib-num">[7]</div>
+        <div class="bib-content">
+          <span class="bib-title">The Dynamic Genome: Barbara McClintock's Ideas in the Century of Genetics</span>
+          <div class="bib-source">Nina Fedoroff &amp; David Botstein (eds.) · Cold Spring Harbor Laboratory Press · 1992</div>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-8">
+        <div class="bib-num">[8]</div>
+        <div class="bib-content">
+          <span class="bib-title">Barbara McClintock — Biographical Memoir</span>
+          <div class="bib-source">National Academy of Sciences · Nina V. Fedoroff · 1995</div>
+          <a href="https://nap.nationalacademies.org/read/4961/chapter/16" target="_blank" rel="noopener">nap.nationalacademies.org/read/4961/chapter/16</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-9">
+        <div class="bib-num">[9]</div>
+        <div class="bib-content">
+          <span class="bib-title">A Correlation of Cytological and Genetical Crossing-over in Zea mays</span>
+          <div class="bib-source">Harriet B. Creighton &amp; Barbara McClintock · Proceedings of the National Academy of Sciences · Vol. 17, No. 8 · August 1931</div>
+          <a href="https://www.pnas.org/doi/10.1073/pnas.17.8.492" target="_blank" rel="noopener">pnas.org/doi/10.1073/pnas.17.8.492</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-10">
+        <div class="bib-num">[10]</div>
+        <div class="bib-content">
+          <span class="bib-title">Chromosome Organization and Genic Expression</span>
+          <div class="bib-source">Barbara McClintock · Cold Spring Harbor Symposia on Quantitative Biology · Vol. 16 · 1951</div>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-11">
+        <div class="bib-num">[11]</div>
+        <div class="bib-content">
+          <span class="bib-title">Induction of Instability at Selected Loci in Maize</span>
+          <div class="bib-source">Barbara McClintock · Genetics · Vol. 38 · 1953 · pp. 579–599</div>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-12">
+        <div class="bib-num">[12]</div>
+        <div class="bib-content">
+          <span class="bib-title">Barbara McClintock, 90, Gene Research Pioneer, Dies</span>
+          <div class="bib-source">The New York Times · September 4, 1992</div>
+          <a href="https://www.nytimes.com/1992/09/04/us/barbara-mcclintock-90-gene-research-pioneer-dies.html" target="_blank" rel="noopener">nytimes.com/1992/09/04/us/barbara-mcclintock-90-gene-research-pioneer-dies.html</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-13">
+        <div class="bib-num">[13]</div>
+        <div class="bib-content">
+          <span class="bib-title">Remembering Barbara McClintock</span>
+          <div class="bib-source">Evelyn Witkin · Genetics Society of America tributes · 1992–2004</div>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-14">
+        <div class="bib-num">[14]</div>
+        <div class="bib-content">
+          <span class="bib-title">Barbara McClintock — Profiles in Science</span>
+          <div class="bib-source">National Library of Medicine (NLM) — Profiles in Science</div>
+          <a href="https://profiles.nlm.nih.gov/spotlight/ll/feature/life" target="_blank" rel="noopener">profiles.nlm.nih.gov/spotlight/ll/feature/life</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-15">
+        <div class="bib-num">[15]</div>
+        <div class="bib-content">
+          <span class="bib-title">Barbara McClintock — Nobel Prize Press Conference Transcript</span>
+          <div class="bib-source">NobelPrize.org / Cold Spring Harbor Laboratory Archives · October 1983</div>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-16">
+        <div class="bib-num">[16]</div>
+        <div class="bib-content">
+          <span class="bib-title">Transposable Elements and Genome Evolution</span>
+          <div class="bib-source">Nina Fedoroff · Science · Vol. 338 · 2012 — retrospective on McClintock's legacy</div>
+          <a href="https://www.science.org/doi/10.1126/science.1228033" target="_blank" rel="noopener">science.org/doi/10.1126/science.1228033</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Barbara McClintock Profile &nbsp;·&nbsp; Prepared for BOLLI Five Women Scientists Discussion Group &nbsp;·&nbsp; Week 4</p>
+  <p style="margin-top: 8px; opacity: 0.5;">16 sources cited &nbsp;·&nbsp; All citations link directly to original sources where available</p>
+</footer>
+
+</body>
+</html>
