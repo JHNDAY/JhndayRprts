@@ -888,12 +888,81 @@
     display: none !important;
   }
 
-  /* Print */
+  /* ── RESOURCE BAR ── */
+  #resource-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 150;
+    background: var(--navy);
+    border-top: 2px solid var(--gold);
+    padding: 8px 24px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+    flex-wrap: wrap;
+  }
+
+  .resource-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .resource-group-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    white-space: nowrap;
+  }
+
+  .resource-divider {
+    width: 1px;
+    height: 20px;
+    background: rgba(255,255,255,0.15);
+  }
+
+  .resource-link {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    padding: 4px 10px;
+    border-radius: 5px;
+    border: 1px solid rgba(255,255,255,0.12);
+    transition: all 0.18s ease;
+    white-space: nowrap;
+  }
+
+  .resource-link:hover {
+    background: rgba(255,255,255,0.1);
+    color: var(--white);
+    border-color: rgba(255,255,255,0.3);
+  }
+
+  .resource-link.writing {
+    border-color: rgba(201,149,42,0.3);
+    color: rgba(232,184,75,0.85);
+  }
+
+  .resource-link.writing:hover {
+    background: rgba(201,149,42,0.12);
+    color: var(--gold-light);
+    border-color: var(--gold);
+  }
+
+  /* Push page content up so bar doesn't cover footer */
+  body { padding-bottom: 52px; }
+
   @media print {
-    .week-tab { display: none; }
-    .week-panel { display: block !important; page-break-after: always; }
-    #instructor-bar { display: none; }
-    #instructor-trigger { display: none; }
+    #resource-bar { display: none; }
+    body { padding-bottom: 0; }
   }
 </style>
 </head>
@@ -1127,7 +1196,13 @@
           <span class="demo-icon">⚡</span>
           <h5>✦ Featured: Generative AI → RAG Visualization</h5>
           <p>An interactive visualization with collapsible sections that explains how AI generates language — how it learns from vast amounts of text, predicts what comes next, and why that makes it different from a search engine. Introduces RAG (Retrieval-Augmented Generation) as the next step: an AI that can draw from specific documents you provide, not just its general training. Each section opens progressively, inviting exploration rather than passive reading.</p>
-          <a href="https://jhnday.github.io/JhndayRprts/Generative%20AI%20vs%20RAG%20for%20Current%20Events" target="_blank">Generative to RAG ↗</a>
+          <a href="https://jhnday.github.io/JhndayRprts/Generative_AI_vs_RAG_for_BOLLI_Course_Work" target="_blank">Generative to RAG ↗</a>
+        </div>
+        <div class="demo-card">
+          <span class="demo-icon">💬</span>
+          <h5>First Conversation with Claude</h5>
+          <p>Your first live exchange with an AI — typing a question about something you genuinely care about and reading what comes back. Unlike a Google search, Claude responds in full sentences, follows your line of thinking, and invites you to go deeper. This is where the conversational nature of AI becomes real rather than theoretical.</p>
+          <a href="https://scratchpad.cc/" target="_blank">Let's Talk ↗</a> with <a href="https://claude.ai/new" target="_blank">Claude ↗</a>
         </div>
         <div class="demo-card">
           <span class="demo-icon">📖</span>
@@ -1135,12 +1210,6 @@
           <p>Self-paced interactive tutorials covering the essential skills of web browsing — from opening a browser and navigating to a URL, to managing tabs, bookmarking pages, and using the built-in search tools. Includes an "On Demand" keyword search feature so you can look up exactly the skill you need, when you need it.</p>
           <a href="https://jhnday.github.io/JhndayRprts/safari_tutorial_mac_enhanced" target="_blank">🧭 Safari Browser Skills Tutorial ↗</a><br>
           <a href="https://jhnday.github.io/JhndayRprts/chrome_tutorial_enhanced" target="_blank">🌐 Chrome Browser Skills Tutorial ↗</a>
-        </div>
-        <div class="demo-card">
-          <span class="demo-icon">💬</span>
-          <h5>First Conversation with Claude</h5>
-          <p>Your first live exchange with an AI — typing a question about something you genuinely care about and reading what comes back. Unlike a Google search, Claude responds in full sentences, follows your line of thinking, and invites you to go deeper. This is where the conversational nature of AI becomes real rather than theoretical.</p>
-          <a href="https://scratchpad.cc/" target="_blank">Let's Talk ↗</a> with <a href="https://claude.ai/new" target="_blank">Claude ↗</a>
         </div>
       </div>
 
@@ -1258,24 +1327,17 @@
           <p>A reading workflow that places a text — an article, essay, or poem — on one half of your screen and Claude on the other. As you read, you can ask questions, request a summary of a difficult passage, explore the author's argument, or generate discussion questions, all without leaving the page. Reading becomes a conversation.</p>
           <a href="https://scratchpad.cc/" target="_blank">Source tutorial ↗</a>
         </div>
+        <div class="demo-card">
+          <span class="demo-icon">📖</span>
+          <h5>Immersive Reading with AI Companion</h5>
+          <p>A step-by-step tutorial for setting up and using the split-screen reading workflow — how to open a text alongside Claude, what kinds of questions to ask at different stages of reading, and how to let the conversation deepen rather than replace your own engagement with a text. The practical how-to behind the split-screen demo.</p>
+          <a href="https://jhnday.github.io/JhndayRprts/immersive_reading_tutorial" target="_blank">Immersive Reading Tutorial ↗</a>
+        </div>
         <div class="demo-card" style="border-left-color: var(--navy-light); background: #eef1f9;">
           <span class="demo-icon">🧠</span>
           <h5>✦ Featured: Foundations: Intelligence &amp; Conversation</h5>
           <p>An interactive visualization exploring four ideas that reshape how you engage with AI: the difference between digital and organic intelligence; why conversation — not commands — is the key to getting real value from AI; how to balance what AI does well with what only human judgment can provide; and how the specific words you choose change what AI understands. A framework for everything that follows in the course.</p>
-          <a href="https://jhnday.github.io/CrntEvnts/Foundations_%20Intelligence%20&%20Conversation%20-%20Crnt%20Events" target="_blank">Foundations ↗</a>
-        </div>
-        <div class="demo-card">
-          <span class="demo-icon">🌺</span>
-          <h5>Proust Framework Visualization</h5>
-          <p>A poetic framework for understanding what AI conversation can recover and create: <em>Pensée Perdue</em> — thoughts you had but couldn't quite articulate, which AI helps surface; <em>Pensée Nouvelle</em> — ideas you hadn't considered, which AI introduces; and <em>Bibliothèque Infinie</em> — the vast library of human knowledge AI draws from in every exchange. Proust as a lens for the digital age.</p>
-          <a href="https://jhnday.github.io/JhndayRprts/madeleine_visualization.html" target="_blank">Proust and AI ↗</a><br>
-          <a href="https://jhnday.github.io/JhndayRprts/pensee_nouvelle_with_bibliotheque" target="_blank">To Infinity and Beyond ↗</a>
-        </div>
-        <div class="demo-card">
-          <span class="demo-icon">🔬</span>
-          <h5>Claude vs. Gemini: Research Modes</h5>
-          <p>A side-by-side look at two distinct approaches to AI-assisted research: Claude's conversational, iterative style — where each exchange builds on the last — versus Gemini's Deep Research mode, which takes a broader systematic sweep. Understanding the difference helps you choose the right tool for the kind of thinking you want to do.</p>
-          <a href="https://claude.ai/chat/7820eb2a-fc48-408e-834b-83e4bfc5b193" target="_blank">Source conversation ↗</a>
+          <a href="https://jhnday.github.io/JhndayRprts/Foundations_%20Intelligence%20&%20Conversation%20-%20Current%20Events%20Discussion%20Group" target="_blank">Foundations ↗</a>
         </div>
       </div>
 
@@ -1289,7 +1351,6 @@
           <span class="concept-pill">Digital vs. Organic Intelligence</span>
           <span class="concept-pill">Importance of Conversation</span>
           <span class="concept-pill">Meaning of Words in AI</span>
-          <span class="concept-pill">Proust Framework</span>
           <span class="concept-pill">Balancing Human &amp; AI Strengths</span>
         </div>
       </div>
@@ -1411,6 +1472,12 @@
           <p>A technique for when your ideas are plentiful but unorganized: drop a collection of loosely related observations, clippings, or notes into Claude and ask it to find the argument, pattern, or theme connecting them. Particularly useful for synthesizing a week's worth of news into a coherent discussion thread — letting AI do the organizational work so you can do the thinking.</p>
           <a href="https://scratchpad.cc/" target="_blank">Make Some Fruit Salad ↗</a>
         </div>
+        <div class="demo-card">
+          <span class="demo-icon">🔬</span>
+          <h5>Claude vs. Gemini: Research Modes</h5>
+          <p>A side-by-side look at two distinct approaches to AI-assisted research: Claude's conversational, iterative style — where each exchange builds on the last — versus Gemini's Deep Research mode, which takes a broader systematic sweep. When you're tracking a developing news story or political issue, understanding which tool to reach for makes a real difference to the quality of what you find.</p>
+          <a href="https://claude.ai/chat/7820eb2a-fc48-408e-834b-83e4bfc5b193" target="_blank">Source conversation ↗</a>
+        </div>
       </div>
 
       <div class="concepts-band">
@@ -1511,10 +1578,23 @@
           <a href="https://scratchpad.cc/" target="_blank">Split-screen tutorial ↗</a>
         </div>
         <div class="demo-card">
+          <span class="demo-icon">📖</span>
+          <h5>Immersive Reading with AI Companion</h5>
+          <p>The full tutorial for reading with AI — revisited here in the context of literature and history, where the technique reaches its full depth. Use it as a reference for the kinds of questions that unlock a literary text: character motivation, historical context, thematic resonance, and the questions a reading group would most want to discuss.</p>
+          <a href="https://jhnday.github.io/JhndayRprts/immersive_reading_tutorial" target="_blank">Immersive Reading Tutorial ↗</a>
+        </div>
+        <div class="demo-card">
           <span class="demo-icon">🏛️</span>
           <h5>Roman History RAG Study Guide</h5>
           <p>RAG in action: actual materials from Nick Holmes's Imperial Rome course are uploaded into Claude, which then generates a study guide, key discussion questions, and contemporary parallels drawn directly from the course content. The result is an AI that knows this specific course — not just Roman history in general — demonstrating how RAG transforms a general-purpose tool into a course-specific intellectual resource.</p>
           <a href="https://claude.ai/chat/d9efd7d6-ec54-4f98-9c6e-8dc13b8b63e1" target="_blank">Roman Architecture source ↗</a>
+        </div>
+        <div class="demo-card">
+          <span class="demo-icon">🌺</span>
+          <h5>Proust Framework Visualization</h5>
+          <p>A poetic framework for understanding what AI conversation can recover and create: <em>Pensée Perdue</em> — thoughts you had but couldn't quite articulate, which AI helps surface; <em>Pensée Nouvelle</em> — ideas you hadn't considered, which AI introduces; and <em>Bibliothèque Infinie</em> — the vast library of human knowledge AI draws from in every exchange. Encountered here alongside real literary and historical texts, the metaphors finally have something concrete to attach to.</p>
+          <a href="https://jhnday.github.io/JhndayRprts/madeleine_visualization.html" target="_blank">Proust and AI ↗</a><br>
+          <a href="https://jhnday.github.io/JhndayRprts/pensee_nouvelle_with_bibliotheque" target="_blank">Pensée Nouvelle ↗</a>
         </div>
       </div>
 
@@ -1632,6 +1712,12 @@
           <p>Everything built across five weeks, gathered in one place: the browser tutorials bookmarked and ready, the prompt templates from Weeks 3 through 5 saved for reuse, and the split-screen workflow available whenever you pick up a text you want to explore more deeply. Not a certificate — a working toolkit for continued, independent use of AI in the subjects that matter to you.</p>
           <a href="https://claude.ai/chat/440dcc0b-20a4-485e-8121-296052d55d4a" target="_blank">Skill creator source ↗</a>
         </div>
+        <div class="demo-card">
+          <span class="demo-icon">🌐</span>
+          <h5>HTML: Lingua Franca of Visualization</h5>
+          <p>A capstone explanation of why every visualization in this course looks the way it does. Drawing on 30 years of web history and over a billion websites, AI has absorbed more design patterns than any human designer. Now that students have seen vizs across five weeks, this is the moment to pull back the curtain: you brought the ideas; AI knew how to make them visually clear. The answer to a question five weeks in the making.</p>
+          <a href="https://jhnday.github.io/JhndayRprts/sgl_html_simple" target="_blank">HTML: Lingua Franca ↗</a>
+        </div>
       </div>
 
       <div class="concepts-band">
@@ -1741,5 +1827,21 @@
     // No week selected on arrival — prompt guides the student
   });
 </script>
+<!-- ═══════════════════ RESOURCE BAR ═══════════════════ -->
+<div id="resource-bar">
+  <div class="resource-group">
+    <span class="resource-group-label">Chat with AI</span>
+    <a class="resource-link" href="https://claude.ai/new" target="_blank">Claude</a>
+    <a class="resource-link" href="https://chatgpt.com" target="_blank">ChatGPT</a>
+    <a class="resource-link" href="https://gemini.google.com" target="_blank">Gemini</a>
+  </div>
+  <div class="resource-divider"></div>
+  <div class="resource-group">
+    <span class="resource-group-label">Writing Tools</span>
+    <a class="resource-link writing" href="https://scratchpad.cc/" target="_blank">ScratchPad</a>
+    <a class="resource-link writing" href="https://docs.new" target="_blank">New Google Doc</a>
+  </div>
+</div>
+
 </body>
 </html>
