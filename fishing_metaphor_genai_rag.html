@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hook, Line & Sinker vs Cast Net — Generative AI vs RAG</title>
+<style>
+  :root {
+    --navy: #003478;
+    --gold: #FFBD00;
+    --gold-dark: #D4A000;
+    --navy-deep: #001840;
+    --navy-mid: #002B60;
+    --water-surface: #C4DFF0;
+    --water-shallow: #9FD0E8;
+    --rag-pond: #1C4E8A;
+    --sand: #B8975A;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: #f7f5f0;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    color: #1a1a1a;
+  }
+  .card {
+    max-width: 780px;
+    margin: 0 auto;
+    background: white;
+    border: 1px solid #d0cfc8;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 16px rgba(0,52,120,0.08);
+  }
+  .card-header {
+    background: var(--navy);
+    padding: 1.5rem 2rem 1.25rem;
+    border-bottom: 4px solid var(--gold);
+  }
+  .card-header h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: .01em;
+    margin-bottom: .25rem;
+  }
+  .card-header .subtitle {
+    font-size: .8rem;
+    color: rgba(255,189,0,.65);
+    font-style: italic;
+    letter-spacing: .03em;
+  }
+  .tabs {
+    display: flex;
+    background: #f0ede6;
+    border-bottom: 1px solid #d0cfc8;
+  }
+  .tab {
+    flex: 1;
+    padding: 10px 6px;
+    font-size: .78rem;
+    font-family: Georgia, serif;
+    background: transparent;
+    border: none;
+    border-right: 1px solid #d0cfc8;
+    cursor: pointer;
+    color: #555;
+    transition: all .15s;
+    line-height: 1.35;
+    text-align: center;
+  }
+  .tab:last-child { border-right: none; }
+  .tab:hover { background: #e8e4da; color: var(--navy); }
+  .tab.active {
+    background: var(--navy);
+    color: var(--gold);
+    font-weight: 700;
+  }
+  .panel { display: none; padding: 1.5rem 2rem 1.75rem; }
+  .panel.active { display: block; }
+  .panel svg { display: block; width: 100%; margin-bottom: 1rem; }
+  .caption {
+    font-size: .85rem;
+    color: #444;
+    line-height: 1.65;
+    background: #f7f5f0;
+    border-left: 3px solid var(--gold);
+    padding: .65rem 1rem;
+    border-radius: 0 6px 6px 0;
+  }
+  .caption strong { color: var(--navy); }
+  /* Panel 3 controls */
+  .catch-box {
+    border: 1px solid #d0cfc8;
+    border-radius: 8px;
+    background: #f7f5f0;
+    padding: .75rem 1rem;
+    margin-bottom: .6rem;
+  }
+  .catch-label {
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: #888;
+    margin-bottom: .3rem;
+    font-family: Georgia, serif;
+  }
+  .catch-words {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--navy);
+    min-height: 2rem;
+    font-family: Georgia, serif;
+    letter-spacing: .01em;
+  }
+  .bait-line {
+    font-size: .78rem;
+    color: #666;
+    font-style: italic;
+    margin-bottom: .8rem;
+    min-height: 1.1rem;
+  }
+  .ctrl-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: .75rem;
+  }
+  .cast-counter {
+    font-size: .8rem;
+    color: #666;
+    font-family: Georgia, serif;
+    font-style: italic;
+  }
+  .btn-row { display: flex; gap: 8px; }
+  .btn {
+    font-family: Georgia, serif;
+    font-size: .8rem;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background: white;
+    color: #444;
+    transition: all .15s;
+  }
+  .btn:hover { background: #eee; }
+  .btn.primary {
+    background: var(--navy);
+    color: var(--gold);
+    border-color: var(--navy);
+    font-weight: 700;
+  }
+  .btn.primary:hover { background: #004499; }
+  .btn:disabled { opacity: .4; cursor: not-allowed; }
+  @keyframes tok { from { opacity:0; transform: translateY(-4px); } to { opacity:1; transform: translateY(0); } }
+  .tok { display: inline; animation: tok .3s ease-out; }
+  .fish-g { transition: opacity .5s ease; }
+  .fish-g.dim { opacity: .12; }
+  .fish-g.lit { opacity: 1; }
+  .fish-g.gone { opacity: .06; }
+  .panel-label {
+    display: inline-block;
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--navy);
+    background: #e8e4da;
+    border: 1px solid #c8c4bc;
+    border-radius: 4px;
+    padding: 3px 8px;
+    margin-bottom: .9rem;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="card-header">
+    <h1>Hook, Line &amp; Sinker — vs — The Cast Net</h1>
+    <div class="subtitle">A fishing metaphor for Generative AI and RAG (Retrieval-Augmented Generation)</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchPanel(0,this)">🪝 Hook, Line &amp; Sinker</button>
+    <button class="tab" onclick="switchPanel(1,this)">🕸 Cast Net (RAG)</button>
+    <button class="tab" onclick="switchPanel(2,this)">🔄 Sequential Casts</button>
+    <button class="tab" onclick="switchPanel(3,this)">🔁 Repeated Net Casts</button>
+  </div>
+
+  <!-- PANEL 0: Hook, Line & Sinker -->
+  <div class="panel active" id="p0">
+    <div class="panel-label">Generative AI — base model</div>
+    <svg viewBox="0 0 720 320">
+      <!-- Sky -->
+      <rect x="0" y="0" width="720" height="85" fill="#C4DFF0"/>
+      <!-- Deep ocean -->
+      <rect x="0" y="85" width="720" height="235" fill="#001840"/>
+      <!-- Waterline -->
+      <rect x="0" y="83" width="720" height="6" fill="#1E6090" fill-opacity=".55"/>
+      <!-- Invisible fish in the depths (dimly visible) -->
+      <g opacity=".13">
+        <ellipse cx="100" cy="200" rx="18" ry="8" fill="#FFBD00"/>
+        <polygon points="82,196 71,200 82,204" fill="#D4A000"/>
+        <ellipse cx="510" cy="268" rx="22" ry="9" fill="#FFBD00"/>
+        <polygon points="488,263 476,268 488,273" fill="#D4A000"/>
+        <ellipse cx="620" cy="178" rx="14" ry="6" fill="#FFBD00"/>
+        <polygon points="606,174 597,178 606,182" fill="#D4A000"/>
+        <ellipse cx="205" cy="290" rx="20" ry="8" fill="#FFBD00"/>
+        <polygon points="185,286 174,290 185,294" fill="#D4A000"/>
+        <ellipse cx="440" cy="188" rx="16" ry="7" fill="#FFBD00"/>
+        <polygon points="424,184 414,188 424,192" fill="#D4A000"/>
+        <ellipse cx="165" cy="245" rx="12" ry="5" fill="#FFBD00"/>
+        <polygon points="153,241 145,245 153,249" fill="#D4A000"/>
+        <ellipse cx="350" cy="305" rx="19" ry="8" fill="#FFBD00"/>
+        <polygon points="331,301 320,305 331,309" fill="#D4A000"/>
+        <ellipse cx="560" cy="215" rx="13" ry="5" fill="#FFBD00"/>
+      </g>
+      <!-- Fishing rod (top right) -->
+      <line x1="638" y1="10" x2="560" y2="75" stroke="#6B4520" stroke-width="5" stroke-linecap="round"/>
+      <!-- Line -->
+      <line x1="560" y1="75" x2="362" y2="220" stroke="#D8D8D8" stroke-width="1.2" stroke-opacity=".9"/>
+      <!-- Sinker -->
+      <ellipse cx="362" cy="227" rx="7" ry="13" fill="#6A6A6A"/>
+      <!-- Hook -->
+      <path d="M 362 240 L 362 272 A 14 14 0 0 1 334 272 L 334 258" fill="none" stroke="#999" stroke-width="3" stroke-linecap="round"/>
+      <line x1="334" y1="258" x2="342" y2="249" stroke="#999" stroke-width="3" stroke-linecap="round"/>
+      <!-- The single caught fish -->
+      <polygon points="390,248 406,258 390,268" fill="#D4A000"/>
+      <ellipse cx="364" cy="258" rx="28" ry="13" fill="#FFBD00"/>
+      <polygon points="358,244 372,244 365,236" fill="#D4A000"/>
+      <circle cx="350" cy="254" r="5" fill="#001840"/>
+      <circle cx="351" cy="253" r="1.8" fill="white"/>
+      <!-- Token label -->
+      <rect x="338" y="275" width="52" height="19" rx="9" fill="#003478"/>
+      <text x="364" y="288" text-anchor="middle" font-size="11" fill="#FFBD00" font-family="Georgia,serif" font-weight="700">"the"</text>
+      <!-- Annotation -->
+      <rect x="436" y="235" width="196" height="50" rx="7" fill="#FFBD00" fill-opacity=".1" stroke="#FFBD00" stroke-width=".7" stroke-opacity=".6"/>
+      <text x="534" y="256" text-anchor="middle" font-size="12" fill="#FFBD00" font-family="Georgia,serif" font-weight="700">One fish = one token</text>
+      <text x="534" y="274" text-anchor="middle" font-size="11" fill="#FFBD00" fill-opacity=".7" font-family="Georgia,serif">per cast</text>
+      <!-- Ocean label -->
+      <text x="364" y="313" text-anchor="middle" font-size="11" fill="#4A80BB" font-family="Georgia,serif">Vast ocean of parametric training data — invisible, unbounded</text>
+    </svg>
+    <div class="caption">
+      One hook, one cast — one token. The model fishes a <strong>vast, invisible ocean</strong> (its training corpus) and returns a single word at a time from parametric memory. You cannot see the bottom. You cannot choose which fish are there. You can only bait the hook with your prompt and wait.
+    </div>
+  </div>
+
+  <!-- PANEL 1: Cast Net (RAG) -->
+  <div class="panel" id="p1">
+    <div class="panel-label">RAG — Retrieval-Augmented Generation</div>
+    <svg viewBox="0 0 720 320">
+      <defs>
+        <clipPath id="pondClip"><ellipse cx="362" cy="206" rx="260" ry="100"/></clipPath>
+      </defs>
+      <!-- Sky -->
+      <rect x="0" y="0" width="720" height="120" fill="#D5ECF8"/>
+      <!-- Sandy bank -->
+      <rect x="0" y="166" width="720" height="154" fill="#B8975A" fill-opacity=".25"/>
+      <!-- Pond fill -->
+      <ellipse cx="362" cy="206" rx="274" ry="114" fill="#9B7B40" fill-opacity=".45"/>
+      <ellipse cx="362" cy="206" rx="260" ry="100" fill="#1C4E8A"/>
+      <!-- Grid inside pond -->
+      <g clip-path="url(#pondClip)" opacity=".18">
+        <line x1="120" y1="106" x2="120" y2="306" stroke="white" stroke-width="1"/>
+        <line x1="175" y1="106" x2="175" y2="306" stroke="white" stroke-width="1"/>
+        <line x1="230" y1="106" x2="230" y2="306" stroke="white" stroke-width="1"/>
+        <line x1="285" y1="106" x2="285" y2="306" stroke="white" stroke-width="1"/>
+        <line x1="340" y1="106" x2="340" y2="306" stroke="white" stroke-width="1"/>
+        <line x1="395" y1="106" x2="395" y2="306" stroke="white" stroke-width="1"/>
+        <line x1="450" y1="106" x2="450" y2="306" stroke="white" stroke-width="1"/>
+        <line x1="505" y1="106" x2="505" y2="306" stroke="white" stroke-width="1"/>
+        <line x1="560" y1="106" x2="560" y2="306" stroke="white" stroke-width="1"/>
+        <line x1="88" y1="150" x2="636" y2="150" stroke="white" stroke-width="1"/>
+        <line x1="88" y1="185" x2="636" y2="185" stroke="white" stroke-width="1"/>
+        <line x1="88" y1="220" x2="636" y2="220" stroke="white" stroke-width="1"/>
+        <line x1="88" y1="255" x2="636" y2="255" stroke="white" stroke-width="1"/>
+        <line x1="88" y1="288" x2="636" y2="288" stroke="white" stroke-width="1"/>
+      </g>
+      <!-- Pond rim -->
+      <ellipse cx="362" cy="206" rx="260" ry="100" fill="none" stroke="white" stroke-width="1.5" stroke-opacity=".5"/>
+      <!-- Net ropes -->
+      <line x1="148" y1="132" x2="362" y2="52" stroke="white" stroke-width="2.2" stroke-opacity=".6" stroke-linecap="round"/>
+      <line x1="255" y1="106" x2="362" y2="52" stroke="white" stroke-width="1.8" stroke-opacity=".5" stroke-linecap="round"/>
+      <line x1="362" y1="106" x2="362" y2="52" stroke="white" stroke-width="1.6" stroke-opacity=".45" stroke-linecap="round"/>
+      <line x1="469" y1="106" x2="362" y2="52" stroke="white" stroke-width="1.8" stroke-opacity=".5" stroke-linecap="round"/>
+      <line x1="576" y1="132" x2="362" y2="52" stroke="white" stroke-width="2.2" stroke-opacity=".6" stroke-linecap="round"/>
+      <!-- Net pull point -->
+      <circle cx="362" cy="46" r="9" fill="white" fill-opacity=".45"/>
+      <!-- Fish 1: History -->
+      <polygon points="163,196 150,202 163,208" fill="#D4A000"/>
+      <ellipse cx="185" cy="202" rx="20" ry="9" fill="#FFBD00"/>
+      <polygon points="180,192 192,192 186,184" fill="#D4A000"/>
+      <circle cx="197" cy="199" r="3.5" fill="#001840"/>
+      <circle cx="198" cy="198" r="1.2" fill="white"/>
+      <rect x="162" y="213" width="46" height="16" rx="8" fill="#002C60" fill-opacity=".92"/>
+      <text x="185" y="225" text-anchor="middle" font-size="10" fill="#FFBD00" font-family="Georgia,serif">History</text>
+      <!-- Fish 2: Theory -->
+      <polygon points="265,164 252,170 265,176" fill="#D4A000"/>
+      <ellipse cx="287" cy="170" rx="20" ry="9" fill="#FFBD00"/>
+      <polygon points="282,160 294,160 288,152" fill="#D4A000"/>
+      <circle cx="299" cy="167" r="3.5" fill="#001840"/>
+      <circle cx="300" cy="166" r="1.2" fill="white"/>
+      <rect x="264" y="181" width="46" height="16" rx="8" fill="#002C60" fill-opacity=".92"/>
+      <text x="287" y="193" text-anchor="middle" font-size="10" fill="#FFBD00" font-family="Georgia,serif">Theory</text>
+      <!-- Fish 3: Methods -->
+      <polygon points="358,152 345,158 358,164" fill="#D4A000"/>
+      <ellipse cx="380" cy="158" rx="20" ry="9" fill="#FFBD00"/>
+      <polygon points="375,148 387,148 381,140" fill="#D4A000"/>
+      <circle cx="392" cy="155" r="3.5" fill="#001840"/>
+      <circle cx="393" cy="154" r="1.2" fill="white"/>
+      <rect x="355" y="169" width="50" height="16" rx="8" fill="#002C60" fill-opacity=".92"/>
+      <text x="380" y="181" text-anchor="middle" font-size="10" fill="#FFBD00" font-family="Georgia,serif">Methods</text>
+      <!-- Fish 4: Results -->
+      <polygon points="452,172 439,178 452,184" fill="#D4A000"/>
+      <ellipse cx="474" cy="178" rx="20" ry="9" fill="#FFBD00"/>
+      <polygon points="469,168 481,168 475,160" fill="#D4A000"/>
+      <circle cx="486" cy="175" r="3.5" fill="#001840"/>
+      <circle cx="487" cy="174" r="1.2" fill="white"/>
+      <rect x="451" y="189" width="46" height="16" rx="8" fill="#002C60" fill-opacity=".92"/>
+      <text x="474" y="201" text-anchor="middle" font-size="10" fill="#FFBD00" font-family="Georgia,serif">Results</text>
+      <!-- Fish 5: Concl. -->
+      <polygon points="533,200 520,206 533,212" fill="#D4A000"/>
+      <ellipse cx="555" cy="206" rx="20" ry="9" fill="#FFBD00"/>
+      <polygon points="550,196 562,196 556,188" fill="#D4A000"/>
+      <circle cx="567" cy="203" r="3.5" fill="#001840"/>
+      <circle cx="568" cy="202" r="1.2" fill="white"/>
+      <rect x="530" y="217" width="50" height="16" rx="8" fill="#002C60" fill-opacity=".92"/>
+      <text x="555" y="229" text-anchor="middle" font-size="10" fill="#FFBD00" font-family="Georgia,serif">Concl.</text>
+      <!-- Fish 6: Defn. -->
+      <polygon points="220,237 207,242 220,247" fill="#D4A000"/>
+      <ellipse cx="240" cy="242" rx="20" ry="9" fill="#FFBD00"/>
+      <polygon points="235,232 247,232 241,224" fill="#D4A000"/>
+      <circle cx="252" cy="239" r="3.5" fill="#001840"/>
+      <circle cx="253" cy="238" r="1.2" fill="white"/>
+      <rect x="217" y="253" width="46" height="16" rx="8" fill="#002C60" fill-opacity=".92"/>
+      <text x="240" y="265" text-anchor="middle" font-size="10" fill="#FFBD00" font-family="Georgia,serif">Defn.</text>
+      <!-- Fish 7: Refs. -->
+      <polygon points="361,254 348,260 361,266" fill="#D4A000"/>
+      <ellipse cx="381" cy="260" rx="20" ry="9" fill="#FFBD00"/>
+      <polygon points="376,250 388,250 382,242" fill="#D4A000"/>
+      <circle cx="393" cy="257" r="3.5" fill="#001840"/>
+      <circle cx="394" cy="256" r="1.2" fill="white"/>
+      <rect x="358" y="271" width="46" height="16" rx="8" fill="#002C60" fill-opacity=".92"/>
+      <text x="381" y="283" text-anchor="middle" font-size="10" fill="#FFBD00" font-family="Georgia,serif">Refs.</text>
+      <!-- Fish 8: Intro. -->
+      <polygon points="454,240 441,246 454,252" fill="#D4A000"/>
+      <ellipse cx="474" cy="246" rx="20" ry="9" fill="#FFBD00"/>
+      <polygon points="469,236 481,236 475,228" fill="#D4A000"/>
+      <circle cx="486" cy="243" r="3.5" fill="#001840"/>
+      <circle cx="487" cy="242" r="1.2" fill="white"/>
+      <rect x="451" y="257" width="46" height="16" rx="8" fill="#002C60" fill-opacity=".92"/>
+      <text x="474" y="269" text-anchor="middle" font-size="10" fill="#FFBD00" font-family="Georgia,serif">Intro.</text>
+      <!-- Pond label -->
+      <text x="362" y="100" text-anchor="middle" font-size="11" fill="#4A80BB" font-family="Georgia,serif">Your curated reference corpus — bounded, visible, stocked by you</text>
+    </svg>
+    <div class="caption">
+      RAG casts a net into a <strong>bounded, curated pond</strong> — a document store you built and can inspect. One cast hauls back an <strong>entire reference library</strong>: history, theory, methods, results, all at once. Only then does generation begin — reasoning over the whole haul, not fishing blindly from memory.
+    </div>
+  </div>
+
+  <!-- PANEL 2: Sequential Casts -->
+  <div class="panel" id="p2">
+    <div class="panel-label">Autoregressive generation — sequential casts</div>
+    <div class="catch-box">
+      <div class="catch-label">The catch so far</div>
+      <div class="catch-words" id="catchWords"><span id="emptyMsg" style="font-size:.95rem;font-weight:400;font-style:italic;color:#aaa">No casts yet — start fishing</span></div>
+    </div>
+    <div class="bait-line" id="baitLine">Bait for cast 1: [start of sequence / prompt]</div>
+    <svg viewBox="0 0 720 240" id="seqSvg">
+      <!-- Sky -->
+      <rect x="0" y="0" width="720" height="62" fill="#C4DFF0"/>
+      <!-- Ocean -->
+      <rect x="0" y="62" width="720" height="178" fill="#001840"/>
+      <rect x="0" y="60" width="720" height="6" fill="#1E6090" fill-opacity=".5"/>
+      <!-- Central line from rod -->
+      <line x1="360" y1="0" x2="360" y2="96" stroke="#D8D8D8" stroke-width=".9" stroke-opacity=".7"/>
+      <!-- Sinker -->
+      <ellipse cx="360" cy="100" rx="5" ry="9" fill="#6A6A6A"/>
+      <!-- Hook -->
+      <path d="M 360 109 L 360 134 A 13 13 0 0 1 334 134 L 334 122" fill="none" stroke="#999" stroke-width="2.2" stroke-linecap="round"/>
+      <line x1="334" y1="122" x2="341" y2="114" stroke="#999" stroke-width="2.2" stroke-linecap="round"/>
+      <!-- Cast label -->
+      <rect x="318" y="6" width="84" height="22" rx="11" fill="#FFBD00" fill-opacity=".15" stroke="#FFBD00" stroke-width=".6" stroke-opacity=".5"/>
+      <text id="castBadge" x="360" y="21" text-anchor="middle" font-size="11" fill="#FFBD00" font-family="Georgia,serif" font-weight="700">Cast 1 of 6</text>
+      <!-- Fish 0: "The" -->
+      <g id="f0" class="fish-g lit">
+        <polygon points="94,152 80,158 94,164" fill="#D4A000"/>
+        <ellipse cx="116" cy="158" rx="24" ry="11" fill="#FFBD00"/>
+        <polygon points="111,147 123,147 117,139" fill="#D4A000"/>
+        <circle cx="129" cy="154" r="4" fill="#001840"/>
+        <circle cx="130" cy="153" r="1.5" fill="white"/>
+        <rect x="91" y="171" width="50" height="17" rx="8" fill="#003478"/>
+        <text x="116" y="184" text-anchor="middle" font-size="11" fill="#FFBD00" font-family="Georgia,serif" font-weight="700">"The"</text>
+      </g>
+      <!-- Fish 1: "old" -->
+      <g id="f1" class="fish-g dim">
+        <polygon points="208,130 194,136 208,142" fill="#D4A000"/>
+        <ellipse cx="230" cy="136" rx="24" ry="11" fill="#FFBD00"/>
+        <polygon points="225,125 237,125 231,117" fill="#D4A000"/>
+        <circle cx="243" cy="132" r="4" fill="#001840"/>
+        <circle cx="244" cy="131" r="1.5" fill="white"/>
+        <rect x="205" y="149" width="50" height="17" rx="8" fill="#003478"/>
+        <text x="230" y="162" text-anchor="middle" font-size="11" fill="#FFBD00" font-family="Georgia,serif" font-weight="700">"old"</text>
+      </g>
+      <!-- Fish 2: "man" -->
+      <g id="f2" class="fish-g dim">
+        <polygon points="340,176 326,182 340,188" fill="#D4A000"/>
+        <ellipse cx="362" cy="182" rx="24" ry="11" fill="#FFBD00"/>
+        <polygon points="357,171 369,171 363,163" fill="#D4A000"/>
+        <circle cx="375" cy="178" r="4" fill="#001840"/>
+        <circle cx="376" cy="177" r="1.5" fill="white"/>
+        <rect x="337" y="195" width="50" height="17" rx="8" fill="#003478"/>
+        <text x="362" y="208" text-anchor="middle" font-size="11" fill="#FFBD00" font-family="Georgia,serif" font-weight="700">"man"</text>
+      </g>
+      <!-- Fish 3: "fished" -->
+      <g id="f3" class="fish-g dim">
+        <polygon points="472,142 458,148 472,154" fill="#D4A000"/>
+        <ellipse cx="494" cy="148" rx="24" ry="11" fill="#FFBD00"/>
+        <polygon points="489,137 501,137 495,129" fill="#D4A000"/>
+        <circle cx="507" cy="144" r="4" fill="#001840"/>
+        <circle cx="508" cy="143" r="1.5" fill="white"/>
+        <rect x="467" y="161" width="54" height="17" rx="8" fill="#003478"/>
+        <text x="494" y="174" text-anchor="middle" font-size="11" fill="#FFBD00" font-family="Georgia,serif" font-weight="700">"fished"</text>
+      </g>
+      <!-- Fish 4: "alone" -->
+      <g id="f4" class="fish-g dim">
+        <polygon points="582,162 568,168 582,174" fill="#D4A000"/>
+        <ellipse cx="604" cy="168" rx="24" ry="11" fill="#FFBD00"/>
+        <polygon points="599,157 611,157 605,149" fill="#D4A000"/>
+        <circle cx="617" cy="164" r="4" fill="#001840"/>
+        <circle cx="618" cy="163" r="1.5" fill="white"/>
+        <rect x="577" y="181" width="54" height="17" rx="8" fill="#003478"/>
+        <text x="604" y="194" text-anchor="middle" font-size="11" fill="#FFBD00" font-family="Georgia,serif" font-weight="700">"alone"</text>
+      </g>
+      <!-- Fish 5: "." -->
+      <g id="f5" class="fish-g dim">
+        <polygon points="152,205 138,211 152,217" fill="#D4A000"/>
+        <ellipse cx="172" cy="211" rx="22" ry="10" fill="#FFBD00"/>
+        <polygon points="167,201 179,201 173,193" fill="#D4A000"/>
+        <circle cx="185" cy="208" r="4" fill="#001840"/>
+        <circle cx="186" cy="207" r="1.5" fill="white"/>
+        <rect x="151" y="224" width="42" height="17" rx="8" fill="#003478"/>
+        <text x="172" y="237" text-anchor="middle" font-size="11" fill="#FFBD00" font-family="Georgia,serif" font-weight="700">"."</text>
+      </g>
+    </svg>
+    <div class="ctrl-row">
+      <div class="cast-counter" id="castCounter">Cast 1 of 6</div>
+      <div class="btn-row">
+        <button class="btn" onclick="resetSeq()">Reset</button>
+        <button class="btn primary" id="nextBtn" onclick="nextCast()">Next cast →</button>
+      </div>
+    </div>
+    <div style="margin-top:1rem">
+      <div class="caption">
+        Each cast uses <strong>all previous catches as context</strong> — the bait changes every round, growing richer. One token per cast, one word at a time, building from nothing. The ocean doesn't change; what changes is <strong>the question you're asking of it</strong>.
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- PANEL 3: Multi-hop RAG -->
+  <div class="panel" id="p3">
+    <div class="panel-label">Multi-hop RAG — repeated net casts</div>
+
+    <!-- Status / haul display -->
+    <div style="display:flex;gap:10px;margin-bottom:.65rem">
+      <div class="catch-box" style="flex:1">
+        <div class="catch-label">Haul from cast 1</div>
+        <div id="mhHaul1" style="font-size:.82rem;color:#999;font-style:italic;min-height:1.4rem">— nothing yet —</div>
+      </div>
+      <div class="catch-box" style="flex:1">
+        <div class="catch-label">Haul from cast 2</div>
+        <div id="mhHaul2" style="font-size:.82rem;color:#999;font-style:italic;min-height:1.4rem">— nothing yet —</div>
+      </div>
+    </div>
+    <div class="bait-line" id="mhStatus">Cast 1 uses the original query — a broad sweep of the pond.</div>
+
+    <svg viewBox="0 0 720 290" id="mhSvg">
+      <defs>
+        <clipPath id="mhPondClip"><ellipse cx="360" cy="175" rx="272" ry="95"/></clipPath>
+      </defs>
+      <!-- Sky -->
+      <rect x="0" y="0" width="720" height="90" fill="#D5ECF8"/>
+      <!-- Sandy bank -->
+      <ellipse cx="360" cy="190" rx="296" ry="120" fill="#B8975A" fill-opacity=".28"/>
+      <!-- Pond -->
+      <ellipse cx="360" cy="175" rx="272" ry="95" fill="#1C4E8A"/>
+      <!-- Grid -->
+      <g clip-path="url(#mhPondClip)" opacity=".15">
+        <line x1="110" y1="80" x2="110" y2="270" stroke="white" stroke-width="1"/>
+        <line x1="165" y1="80" x2="165" y2="270" stroke="white" stroke-width="1"/>
+        <line x1="220" y1="80" x2="220" y2="270" stroke="white" stroke-width="1"/>
+        <line x1="275" y1="80" x2="275" y2="270" stroke="white" stroke-width="1"/>
+        <line x1="330" y1="80" x2="330" y2="270" stroke="white" stroke-width="1"/>
+        <line x1="390" y1="80" x2="390" y2="270" stroke="white" stroke-width="1"/>
+        <line x1="445" y1="80" x2="445" y2="270" stroke="white" stroke-width="1"/>
+        <line x1="500" y1="80" x2="500" y2="270" stroke="white" stroke-width="1"/>
+        <line x1="555" y1="80" x2="555" y2="270" stroke="white" stroke-width="1"/>
+        <line x1="88" y1="130" x2="632" y2="130" stroke="white" stroke-width="1"/>
+        <line x1="88" y1="165" x2="632" y2="165" stroke="white" stroke-width="1"/>
+        <line x1="88" y1="200" x2="632" y2="200" stroke="white" stroke-width="1"/>
+        <line x1="88" y1="235" x2="632" y2="235" stroke="white" stroke-width="1"/>
+      </g>
+      <!-- Pond rim -->
+      <ellipse cx="360" cy="175" rx="272" ry="95" fill="none" stroke="white" stroke-width="1.5" stroke-opacity=".4"/>
+
+      <!-- NET 1: broad oval over left-centre zone, hidden initially -->
+      <ellipse id="mhNet1" cx="270" cy="172" rx="175" ry="72" fill="none"
+        stroke="#FFBD00" stroke-width="2" stroke-dasharray="8 5" stroke-opacity="0"
+        style="transition:stroke-opacity .6s ease"/>
+      <!-- Net 1 pull ropes -->
+      <line id="mhRope1a" x1="140" y1="115" x2="270" y2="48" stroke="#FFBD00" stroke-width="1.8" stroke-opacity="0" style="transition:stroke-opacity .6s ease" stroke-linecap="round"/>
+      <line id="mhRope1b" x1="270" y1="100" x2="270" y2="48" stroke="#FFBD00" stroke-width="1.5" stroke-opacity="0" style="transition:stroke-opacity .6s ease" stroke-linecap="round"/>
+      <line id="mhRope1c" x1="400" y1="114" x2="270" y2="48" stroke="#FFBD00" stroke-width="1.8" stroke-opacity="0" style="transition:stroke-opacity .6s ease" stroke-linecap="round"/>
+      <circle id="mhPull1" cx="270" cy="43" r="8" fill="#FFBD00" fill-opacity="0" style="transition:fill-opacity .6s ease"/>
+
+      <!-- NET 2: tighter oval over right zone, hidden initially -->
+      <ellipse id="mhNet2" cx="490" cy="185" rx="130" ry="60" fill="none"
+        stroke="#9FE1CB" stroke-width="2" stroke-dasharray="6 4" stroke-opacity="0"
+        style="transition:stroke-opacity .6s ease"/>
+      <!-- Net 2 pull ropes -->
+      <line id="mhRope2a" x1="385" y1="135" x2="490" y2="52" stroke="#9FE1CB" stroke-width="1.8" stroke-opacity="0" style="transition:stroke-opacity .6s ease" stroke-linecap="round"/>
+      <line id="mhRope2b" x1="490" y1="125" x2="490" y2="52" stroke="#9FE1CB" stroke-width="1.5" stroke-opacity="0" style="transition:stroke-opacity .6s ease" stroke-linecap="round"/>
+      <line id="mhRope2c" x1="595" y1="138" x2="490" y2="52" stroke="#9FE1CB" stroke-width="1.8" stroke-opacity="0" style="transition:stroke-opacity .6s ease" stroke-linecap="round"/>
+      <circle id="mhPull2" cx="490" cy="47" r="8" fill="#9FE1CB" fill-opacity="0" style="transition:fill-opacity .6s ease"/>
+
+      <!-- FISH in pond — cast-1 group (gold) -->
+      <g id="mhF0" class="mh-fish" style="opacity:.2;transition:opacity .5s">
+        <polygon points="138,163 124,169 138,175" fill="#D4A000"/>
+        <ellipse cx="160" cy="169" rx="22" ry="10" fill="#FFBD00"/>
+        <polygon points="155,159 167,159 161,151" fill="#D4A000"/>
+        <circle cx="173" cy="166" r="3.5" fill="#001840"/><circle cx="174" cy="165" r="1.2" fill="white"/>
+        <rect x="137" y="181" width="46" height="15" rx="7" fill="#003478" fill-opacity=".9"/>
+        <text x="160" y="192" text-anchor="middle" font-size="10" fill="#FFBD00" font-family="Georgia,serif">History</text>
+      </g>
+      <g id="mhF1" class="mh-fish" style="opacity:.2;transition:opacity .5s">
+        <polygon points="226,143 212,149 226,155" fill="#D4A000"/>
+        <ellipse cx="248" cy="149" rx="22" ry="10" fill="#FFBD00"/>
+        <polygon points="243,139 255,139 249,131" fill="#D4A000"/>
+        <circle cx="261" cy="146" r="3.5" fill="#001840"/><circle cx="262" cy="145" r="1.2" fill="white"/>
+        <rect x="224" y="161" width="48" height="15" rx="7" fill="#003478" fill-opacity=".9"/>
+        <text x="248" y="172" text-anchor="middle" font-size="10" fill="#FFBD00" font-family="Georgia,serif">Theory</text>
+      </g>
+      <g id="mhF2" class="mh-fish" style="opacity:.2;transition:opacity .5s">
+        <polygon points="318,165 304,171 318,177" fill="#D4A000"/>
+        <ellipse cx="340" cy="171" rx="22" ry="10" fill="#FFBD00"/>
+        <polygon points="335,161 347,161 341,153" fill="#D4A000"/>
+        <circle cx="353" cy="168" r="3.5" fill="#001840"/><circle cx="354" cy="167" r="1.2" fill="white"/>
+        <rect x="314" y="183" width="52" height="15" rx="7" fill="#003478" fill-opacity=".9"/>
+        <text x="340" y="194" text-anchor="middle" font-size="10" fill="#FFBD00" font-family="Georgia,serif">Methods</text>
+      </g>
+      <g id="mhF3" class="mh-fish" style="opacity:.2;transition:opacity .5s">
+        <polygon points="178,207 164,213 178,219" fill="#D4A000"/>
+        <ellipse cx="200" cy="213" rx="22" ry="10" fill="#FFBD00"/>
+        <polygon points="195,203 207,203 201,195" fill="#D4A000"/>
+        <circle cx="213" cy="210" r="3.5" fill="#001840"/><circle cx="214" cy="209" r="1.2" fill="white"/>
+        <rect x="177" y="225" width="46" height="15" rx="7" fill="#003478" fill-opacity=".9"/>
+        <text x="200" y="236" text-anchor="middle" font-size="10" fill="#FFBD00" font-family="Georgia,serif">Defn.</text>
+      </g>
+
+      <!-- FISH in pond — cast-2 group (teal) -->
+      <g id="mhF4" class="mh-fish" style="opacity:.2;transition:opacity .5s">
+        <polygon points="418,152 404,158 418,164" fill="#0F6E56"/>
+        <ellipse cx="440" cy="158" rx="22" ry="10" fill="#1D9E75"/>
+        <polygon points="435,142 447,142 441,134" fill="#0F6E56"/>
+        <circle cx="453" cy="155" r="3.5" fill="#001840"/><circle cx="454" cy="154" r="1.2" fill="white"/>
+        <rect x="415" y="170" width="50" height="15" rx="7" fill="#085041" fill-opacity=".9"/>
+        <text x="440" y="181" text-anchor="middle" font-size="10" fill="#9FE1CB" font-family="Georgia,serif">Results</text>
+      </g>
+      <g id="mhF5" class="mh-fish" style="opacity:.2;transition:opacity .5s">
+        <polygon points="512,175 498,181 512,187" fill="#0F6E56"/>
+        <ellipse cx="534" cy="181" rx="22" ry="10" fill="#1D9E75"/>
+        <polygon points="529,165 541,165 535,157" fill="#0F6E56"/>
+        <circle cx="547" cy="178" r="3.5" fill="#001840"/><circle cx="548" cy="177" r="1.2" fill="white"/>
+        <rect x="511" y="193" width="46" height="15" rx="7" fill="#085041" fill-opacity=".9"/>
+        <text x="534" y="204" text-anchor="middle" font-size="10" fill="#9FE1CB" font-family="Georgia,serif">Data</text>
+      </g>
+      <g id="mhF6" class="mh-fish" style="opacity:.2;transition:opacity .5s">
+        <polygon points="455,210 441,216 455,222" fill="#0F6E56"/>
+        <ellipse cx="477" cy="216" rx="22" ry="10" fill="#1D9E75"/>
+        <polygon points="472,200 484,200 478,192" fill="#0F6E56"/>
+        <circle cx="490" cy="213" r="3.5" fill="#001840"/><circle cx="491" cy="212" r="1.2" fill="white"/>
+        <rect x="452" y="228" width="50" height="15" rx="7" fill="#085041" fill-opacity=".9"/>
+        <text x="477" y="239" text-anchor="middle" font-size="10" fill="#9FE1CB" font-family="Georgia,serif">Analysis</text>
+      </g>
+
+      <!-- Gap flag — shown after cast 1 -->
+      <g id="mhGapFlag" style="opacity:0;transition:opacity .5s">
+        <rect x="374" y="148" width="130" height="28" rx="6" fill="#7F1D1D" fill-opacity=".88"/>
+        <text x="439" y="166" text-anchor="middle" font-size="10" fill="#FCA5A5" font-family="Georgia,serif" font-weight="700">Gap: empirical data missing</text>
+      </g>
+
+      <!-- Pond label -->
+      <text x="360" y="85" text-anchor="middle" font-size="11" fill="#4A80BB" font-family="Georgia,serif">Curated reference corpus — bounded, visible</text>
+    </svg>
+
+    <div class="ctrl-row">
+      <div class="cast-counter" id="mhCounter">Ready for cast 1</div>
+      <div class="btn-row">
+        <button class="btn" onclick="resetMH()">Reset</button>
+        <button class="btn primary" id="mhBtn" onclick="stepMH()">Cast net 1 →</button>
+      </div>
+    </div>
+
+    <div style="margin-top:1rem">
+      <div class="caption" id="mhCaption">
+        The first cast is <strong>broad</strong> — a wide net sweeping the pond on the original query. Examine the haul, identify what is missing, then cast again with a <strong>refined query</strong> targeting the gap. Each cast informs the next. <em>Under the hood: the combined haul from all casts is then handed to the model, which fishes sequentially with the hook — one token at a time — across the enriched context.</em>
+      </div>
+    </div>
+  </div>
+
+<script>
+  function switchPanel(i, btn) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('p' + i).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  const words = ['The', 'old', 'man', 'fished', 'alone', '.'];
+  const bait = [
+    'Bait for cast 1: [start of sequence / prompt]',
+    'Bait for cast 2: "The"',
+    'Bait for cast 3: "The old"',
+    'Bait for cast 4: "The old man"',
+    'Bait for cast 5: "The old man fished"',
+    'Bait for cast 6: "The old man fished alone"',
+  ];
+  let step = 0, started = false;
+
+  function nextCast() {
+    if (step >= words.length) return;
+    if (!started) {
+      document.getElementById('catchWords').innerHTML = '';
+      started = true;
+    }
+    // Fade caught fish
+    const prev = document.getElementById('f' + step);
+    if (prev) { prev.classList.remove('lit'); prev.classList.add('gone'); }
+    // Add word to catch
+    const sp = document.createElement('span');
+    sp.className = 'tok';
+    sp.textContent = (step > 0 ? ' ' : '') + words[step];
+    document.getElementById('catchWords').appendChild(sp);
+    step++;
+    if (step < words.length) {
+      // Light up next fish
+      const nxt = document.getElementById('f' + step);
+      if (nxt) { nxt.classList.remove('dim'); nxt.classList.add('lit'); }
+      document.getElementById('baitLine').textContent = bait[step];
+      document.getElementById('castCounter').textContent = 'Cast ' + (step + 1) + ' of ' + words.length;
+      document.getElementById('castBadge').textContent = 'Cast ' + (step + 1) + ' of ' + words.length;
+    } else {
+      document.getElementById('baitLine').textContent = 'All words caught — "The old man fished alone." is complete.';
+      document.getElementById('castCounter').textContent = 'Sequence complete!';
+      document.getElementById('castBadge').textContent = 'Done!';
+      document.getElementById('nextBtn').disabled = true;
+    }
+  }
+
+  // --- Panel 4: Multi-hop RAG ---
+  let mhStep = 0;
+  const cast1Fish = [0,1,2,3];
+  const cast2Fish = [4,5,6];
+
+  const mhStatuses = [
+    'Cast 1 uses the original query — a broad sweep of the pond.',
+    'Haul 1 in hand: History, Theory, Methods, Defn. — but empirical data is missing. Refine the query and cast again.',
+    'Haul 2 adds the missing evidence: Results, Data, Analysis. Combined haul is ready for generation.',
+    'Full haul assembled. The model now fishes word by word — hook and line — across this enriched context.'
+  ];
+  const mhBtnLabels = ['Cast net 1 →', 'Refine query — cast net 2 →', 'Combine hauls →', 'Done'];
+  const mhHaul1Items = 'History · Theory · Methods · Defn.';
+  const mhHaul2Items = 'Results · Data · Analysis';
+
+  function showNet(n, visible) {
+    const opacity = visible ? '1' : '0';
+    ['mhNet'+n,'mhRope'+n+'a','mhRope'+n+'b','mhRope'+n+'c'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.strokeOpacity = opacity;
+    });
+    const pull = document.getElementById('mhPull'+n);
+    if (pull) pull.style.fillOpacity = visible ? '0.55' : '0';
+  }
+
+  function showFish(ids, opacity) {
+    ids.forEach(i => {
+      const f = document.getElementById('mhF'+i);
+      if (f) f.style.opacity = opacity;
+    });
+  }
+
+  function stepMH() {
+    if (mhStep === 0) {
+      showNet(1, true);
+      showFish(cast1Fish, '1');
+      document.getElementById('mhHaul1').textContent = mhHaul1Items;
+      document.getElementById('mhHaul1').style.color = '#FFBD00';
+      document.getElementById('mhHaul1').style.fontStyle = 'normal';
+      document.getElementById('mhHaul1').style.fontWeight = '700';
+      document.getElementById('mhGapFlag').style.opacity = '1';
+    } else if (mhStep === 1) {
+      showNet(2, true);
+      showFish(cast2Fish, '1');
+      document.getElementById('mhGapFlag').style.opacity = '0';
+      document.getElementById('mhHaul2').textContent = mhHaul2Items;
+      document.getElementById('mhHaul2').style.color = '#1D9E75';
+      document.getElementById('mhHaul2').style.fontStyle = 'normal';
+      document.getElementById('mhHaul2').style.fontWeight = '700';
+    } else if (mhStep === 2) {
+      document.getElementById('mhCaption').innerHTML =
+        'Combined haul from both casts is now the full context. The model fishes token by token — hook and line — across <strong>both</strong> hauls at once. This is what actually happens inside a RAG system: net first, then hook. <em>Multi-hop RAG can repeat the net-cast cycle as many times as needed before the hook is ever dropped.</em>';
+    } else {
+      return;
+    }
+    mhStep++;
+    document.getElementById('mhStatus').textContent = mhStatuses[mhStep] || mhStatuses[mhStatuses.length-1];
+    document.getElementById('mhCounter').textContent = mhStep < 3 ? 'After cast ' + mhStep : 'Ready for generation';
+    const btn = document.getElementById('mhBtn');
+    btn.textContent = mhBtnLabels[mhStep] || 'Done';
+    if (mhStep >= 3) btn.disabled = true;
+  }
+
+  function resetMH() {
+    mhStep = 0;
+    showNet(1, false); showNet(2, false);
+    showFish([0,1,2,3,4,5,6], '0.2');
+    document.getElementById('mhGapFlag').style.opacity = '0';
+    document.getElementById('mhHaul1').textContent = '— nothing yet —';
+    document.getElementById('mhHaul1').style.color = '#999';
+    document.getElementById('mhHaul1').style.fontStyle = 'italic';
+    document.getElementById('mhHaul1').style.fontWeight = '400';
+    document.getElementById('mhHaul2').textContent = '— nothing yet —';
+    document.getElementById('mhHaul2').style.color = '#999';
+    document.getElementById('mhHaul2').style.fontStyle = 'italic';
+    document.getElementById('mhHaul2').style.fontWeight = '400';
+    document.getElementById('mhStatus').textContent = mhStatuses[0];
+    document.getElementById('mhCounter').textContent = 'Ready for cast 1';
+    document.getElementById('mhBtn').textContent = mhBtnLabels[0];
+    document.getElementById('mhBtn').disabled = false;
+    document.getElementById('mhCaption').innerHTML =
+      'The first cast is <strong>broad</strong> — a wide net sweeping the pond on the original query. Examine the haul, identify what is missing, then cast again with a <strong>refined query</strong> targeting the gap. Each cast informs the next. <em>Under the hood: the combined haul from all casts is then handed to the model, which fishes sequentially with the hook — one token at a time — across the enriched context.</em>';
+  }
+
+  function resetSeq() {
+    step = 0; started = false;
+    document.querySelectorAll('#p2 .fish-g').forEach((f, i) => {
+      f.classList.remove('lit', 'gone', 'dim');
+      f.classList.add(i === 0 ? 'lit' : 'dim');
+    });
+    document.getElementById('catchWords').innerHTML = '<span id="emptyMsg" style="font-size:.95rem;font-weight:400;font-style:italic;color:#aaa">No casts yet — start fishing</span>';
+    document.getElementById('baitLine').textContent = bait[0];
+    document.getElementById('castCounter').textContent = 'Cast 1 of 6';
+    document.getElementById('castBadge').textContent = 'Cast 1 of 6';
+    document.getElementById('nextBtn').disabled = false;
+  }
+</script>
+</body>
+</html>
