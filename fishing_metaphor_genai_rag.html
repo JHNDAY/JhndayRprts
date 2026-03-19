@@ -250,7 +250,7 @@
   <!-- PANEL 1: Cast Net (RAG) -->
   <div class="panel" id="p1">
     <div class="panel-label">RAG — Retrieval-Augmented Generation</div>
-    <svg viewBox="0 0 720 320">
+    <svg viewBox="0 0 720 345">
       <defs>
         <clipPath id="pondClip"><ellipse cx="362" cy="206" rx="260" ry="100"/></clipPath>
       </defs>
@@ -353,7 +353,7 @@
       <rect x="451" y="257" width="46" height="16" rx="8" fill="#002C60" fill-opacity=".92"/>
       <text x="474" y="269" text-anchor="middle" font-size="10" fill="#FFBD00" font-family="Georgia,serif">Intro.</text>
       <!-- Pond label -->
-      <text x="362" y="100" text-anchor="middle" font-size="11" fill="#4A80BB" font-family="Georgia,serif">Your curated reference corpus — bounded, visible, stocked by you</text>
+      <text x="362" y="334" text-anchor="middle" font-size="11" fill="#4A80BB" font-family="Georgia,serif">Your curated reference corpus — bounded, visible, stocked by you</text>
     </svg>
     <div class="caption">
       RAG casts a net into a <strong>bounded, curated pond</strong> — a document store you built and can inspect. One cast hauls back an <strong>entire reference library</strong>: history, theory, methods, results, all at once. Only then does generation begin — reasoning over the whole haul, not fishing blindly from memory.
@@ -475,7 +475,7 @@
         <div id="mhHaul2" style="font-size:.82rem;color:#999;font-style:italic;min-height:1.4rem">— nothing yet —</div>
       </div>
     </div>
-    <div class="bait-line" id="mhStatus">Cast 1 uses the original query — a broad sweep of the pond.</div>
+    <div class="bait-line" id="mhStatus">You ask a broad question — cast your first net across the pond.</div>
 
     <svg viewBox="0 0 720 290" id="mhSvg">
       <defs>
@@ -589,25 +589,24 @@
       <!-- Gap flag — shown after cast 1 -->
       <g id="mhGapFlag" style="opacity:0;transition:opacity .5s">
         <rect x="374" y="148" width="130" height="28" rx="6" fill="#7F1D1D" fill-opacity=".88"/>
-        <text x="439" y="166" text-anchor="middle" font-size="10" fill="#FCA5A5" font-family="Georgia,serif" font-weight="700">Gap: empirical data missing</text>
+        <text x="439" y="166" text-anchor="middle" font-size="10" fill="#FCA5A5" font-family="Georgia,serif" font-weight="700">You notice: empirical data missing</text>
       </g>
 
       <!-- Pond label -->
-      <text x="360" y="85" text-anchor="middle" font-size="11" fill="#4A80BB" font-family="Georgia,serif">Curated reference corpus — bounded, visible</text>
+      <text x="360" y="282" text-anchor="middle" font-size="11" fill="#4A80BB" font-family="Georgia,serif">Curated reference corpus — bounded, visible</text>
     </svg>
 
     <div class="ctrl-row">
       <div class="cast-counter" id="mhCounter">Ready for cast 1</div>
       <div class="btn-row">
         <button class="btn" onclick="resetMH()">Reset</button>
-        <button class="btn primary" id="mhBtn" onclick="stepMH()">Cast net 1 →</button>
+        <button class="btn primary" id="mhBtn" onclick="stepMH()">You ask — cast net 1 →</button>
       </div>
     </div>
 
     <div style="margin-top:1rem">
       <div class="caption" id="mhCaption">
-        The first cast is <strong>broad</strong> — a wide net sweeping the pond on the original query. Examine the haul, identify what is missing, then cast again with a <strong>refined query</strong> targeting the gap. Each cast informs the next. <em>Under the hood: the combined haul from all casts is then handed to the model, which fishes sequentially with the hook — one token at a time — across the enriched context.</em>
-      </div>
+        The first cast is <strong>yours</strong> — a broad question, sweeping the pond. You read what comes back. You notice what's missing. Then <strong>you</strong> decide to cast again with a sharper question. Each cast is driven by your reading of the last haul, not by the system. <em>This is RAG as conversation: you ask, you read, you notice, you ask again.</em></div>
     </div>
   </div>
 
@@ -666,12 +665,12 @@
   const cast2Fish = [4,5,6];
 
   const mhStatuses = [
-    'Cast 1 uses the original query — a broad sweep of the pond.',
-    'Haul 1 in hand: History, Theory, Methods, Defn. — but empirical data is missing. Refine the query and cast again.',
-    'Haul 2 adds the missing evidence: Results, Data, Analysis. Combined haul is ready for generation.',
-    'Full haul assembled. The model now fishes word by word — hook and line — across this enriched context.'
+    'You ask a broad question — cast your first net across the pond.',
+    'You read the haul. You notice: the theory is here, but where is the actual data? You decide to search again.',
+    'You cast a second net — this time targeted at exactly what you identified was missing.',
+    'Both hauls combined. You hand the full catch to Claude, which now generates — word by word — across everything you retrieved.'
   ];
-  const mhBtnLabels = ['Cast net 1 →', 'Refine query — cast net 2 →', 'Combine hauls →', 'Done'];
+  const mhBtnLabels = ['You ask — cast net 1 →', 'You notice the gap — search for evidence →', 'Combine your hauls →', 'Done'];
   const mhHaul1Items = 'History · Theory · Methods · Defn.';
   const mhHaul2Items = 'Results · Data · Analysis';
 
@@ -711,7 +710,7 @@
       document.getElementById('mhHaul2').style.fontWeight = '700';
     } else if (mhStep === 2) {
       document.getElementById('mhCaption').innerHTML =
-        'Combined haul from both casts is now the full context. The model fishes token by token — hook and line — across <strong>both</strong> hauls at once. This is what actually happens inside a RAG system: net first, then hook. <em>Multi-hop RAG can repeat the net-cast cycle as many times as needed before the hook is ever dropped.</em>';
+        'You have both hauls now. You hand the combined catch to Claude, which generates — word by word, hook and line — across everything you retrieved. <em>The net was yours to cast. The questions were yours to ask. RAG only works because you were in the loop, reading, noticing, deciding.</em>';
     } else {
       return;
     }
@@ -741,7 +740,7 @@
     document.getElementById('mhBtn').textContent = mhBtnLabels[0];
     document.getElementById('mhBtn').disabled = false;
     document.getElementById('mhCaption').innerHTML =
-      'The first cast is <strong>broad</strong> — a wide net sweeping the pond on the original query. Examine the haul, identify what is missing, then cast again with a <strong>refined query</strong> targeting the gap. Each cast informs the next. <em>Under the hood: the combined haul from all casts is then handed to the model, which fishes sequentially with the hook — one token at a time — across the enriched context.</em>';
+      'The first cast is <strong>yours</strong> — a broad question, sweeping the pond. You read what comes back. You notice what\'s missing. Then <strong>you</strong> decide to cast again with a sharper question. Each cast is driven by your reading of the last haul, not by the system. <em>This is RAG as conversation: you ask, you read, you notice, you ask again.</em>';
   }
 
   function resetSeq() {
