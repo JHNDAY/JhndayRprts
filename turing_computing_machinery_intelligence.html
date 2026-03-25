@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computing Machinery and Intelligence — A. M. Turing (1950)</title>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1510;
+    --ink-light: #3d3028;
+    --ink-faint: #7a6a5a;
+    --paper: #f7f2e8;
+    --paper-warm: #ede5d0;
+    --paper-mid: #e0d5be;
+    --rule: #c4b89a;
+    --accent: #8b2020;
+    --accent-light: #a83030;
+    --gold: #9b7b3a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { font-size: 18px; scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-weight: 400;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  /* Subtle paper texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* ---- MASTHEAD ---- */
+  .masthead {
+    background: var(--paper-warm);
+    border-bottom: 3px double var(--rule);
+    text-align: center;
+    padding: 2.5rem 2rem 2rem;
+  }
+
+  .journal-label {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .journal-name {
+    font-family: 'IM Fell English', serif;
+    font-size: 4rem;
+    letter-spacing: 0.18em;
+    line-height: 1;
+    color: var(--ink);
+    display: block;
+  }
+
+  .journal-subtitle {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+    margin: 0.4rem 0 0.2rem;
+  }
+
+  .journal-meta {
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.82rem;
+    color: var(--ink-faint);
+    font-style: italic;
+    margin-top: 0.5rem;
+  }
+
+  .rule-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin: 1rem 0;
+    color: var(--rule);
+  }
+
+  .rule-ornament::before, .rule-ornament::after {
+    content: '';
+    flex: 1;
+    max-width: 120px;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .ornament-char {
+    font-size: 1.2rem;
+    color: var(--gold);
+  }
+
+  /* ---- LAYOUT ---- */
+  .wrapper {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ---- ARTICLE HEADER ---- */
+  .article-header {
+    text-align: center;
+    padding: 3rem 0 2rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .article-label {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .article-title {
+    font-family: 'IM Fell English', serif;
+    font-size: 2.4rem;
+    line-height: 1.15;
+    color: var(--ink);
+    font-weight: normal;
+    margin-bottom: 1.2rem;
+  }
+
+  .article-author {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-light);
+    font-variant: small-caps;
+  }
+
+  /* ---- TOC ---- */
+  .toc {
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--accent);
+    padding: 1.5rem 2rem;
+    margin: 2.5rem 0;
+    font-size: 0.9rem;
+  }
+
+  .toc-title {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--ink-faint);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  .toc ol {
+    padding-left: 1.2rem;
+    line-height: 2;
+  }
+
+  .toc a {
+    color: var(--ink-light);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--rule);
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .toc a:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* ---- BODY TEXT ---- */
+  .article-body {
+    padding: 2rem 0 4rem;
+  }
+
+  .article-body p {
+    margin-bottom: 1.1rem;
+    font-size: 1rem;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  /* Drop cap on first paragraph */
+  .article-body > section:first-of-type > p:first-of-type::first-letter {
+    font-family: 'IM Fell English', serif;
+    font-size: 4.2rem;
+    line-height: 0.75;
+    float: left;
+    margin-right: 0.1em;
+    margin-top: 0.05em;
+    color: var(--accent);
+  }
+
+  /* ---- SECTIONS ---- */
+  section {
+    margin-bottom: 2.5rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin: 2.5rem 0 1.2rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .section-num {
+    font-family: 'IM Fell English', serif;
+    font-size: 0.9rem;
+    color: var(--accent);
+    min-width: 1.8rem;
+    font-style: italic;
+  }
+
+  .section-title {
+    font-family: 'IM Fell English', serif;
+    font-size: 1.25rem;
+    font-weight: normal;
+    color: var(--ink);
+    font-style: italic;
+  }
+
+  /* Subsections for the "Objections" */
+  .objection-header {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink-light);
+    margin: 1.8rem 0 0.6rem;
+  }
+
+  .objection-label {
+    color: var(--accent);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  /* ---- DIALOGUE BLOCK ---- */
+  .dialogue {
+    background: var(--paper-mid);
+    border-left: 3px solid var(--gold);
+    padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+  }
+
+  .dialogue p {
+    margin-bottom: 0.5rem !important;
+    text-align: left !important;
+  }
+
+  .dialogue p:last-child { margin-bottom: 0 !important; }
+
+  .dialogue .speaker {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    color: var(--ink-faint);
+    margin-right: 0.25rem;
+  }
+
+  /* ---- PULL QUOTE ---- */
+  .pull-quote {
+    margin: 2rem 0;
+    padding: 1.5rem 2rem;
+    border-top: 2px solid var(--accent);
+    border-bottom: 2px solid var(--accent);
+    text-align: center;
+  }
+
+  .pull-quote p {
+    font-family: 'IM Fell English', serif;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    color: var(--ink-light);
+    font-style: italic;
+    margin: 0 !important;
+    text-align: center !important;
+  }
+
+  /* ---- FOOTNOTE ---- */
+  .footnote {
+    font-size: 0.82rem;
+    color: var(--ink-faint);
+    font-style: italic;
+    border-top: 1px solid var(--rule);
+    margin-top: 1rem;
+    padding-top: 0.6rem;
+  }
+
+  .footnote-marker {
+    font-size: 0.7rem;
+    vertical-align: super;
+    color: var(--accent);
+  }
+
+  /* ---- IMITATION GAME TABLE ---- */
+  .state-table {
+    margin: 1.5rem auto;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    font-family: 'Crimson Pro', serif;
+  }
+
+  .state-table th, .state-table td {
+    border: 1px solid var(--rule);
+    padding: 0.4rem 1rem;
+    text-align: center;
+    color: var(--ink-light);
+  }
+
+  .state-table th {
+    background: var(--paper-warm);
+    font-variant: small-caps;
+    letter-spacing: 0.05em;
+    color: var(--ink);
+  }
+
+  .state-table caption {
+    caption-side: bottom;
+    font-size: 0.78rem;
+    color: var(--ink-faint);
+    font-style: italic;
+    padding-top: 0.4rem;
+  }
+
+  /* ---- BIBLIOGRAPHY ---- */
+  .bibliography {
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    padding: 1.5rem 2rem;
+    margin-top: 2rem;
+    font-size: 0.88rem;
+  }
+
+  .bibliography h3 {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--ink-faint);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  .bib-entry {
+    margin-bottom: 0.7rem;
+    line-height: 1.5;
+    color: var(--ink-light);
+    padding-left: 1.5rem;
+    text-indent: -1.5rem;
+  }
+
+  /* ---- Q&A FORMAT ---- */
+  .qa-block {
+    margin: 1rem 0;
+    padding: 1rem 1.5rem;
+    background: var(--paper-warm);
+    border-left: 2px solid var(--rule);
+    font-size: 0.95rem;
+  }
+
+  .qa-block p { text-align: left !important; margin-bottom: 0.35rem !important; }
+
+  .qa-label {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 0.8rem;
+    color: var(--gold);
+    margin-right: 0.3rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* ---- COLOPHON ---- */
+  .colophon {
+    text-align: center;
+    padding: 2.5rem 0;
+    border-top: 3px double var(--rule);
+    margin-top: 3rem;
+  }
+
+  .colophon p {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    color: var(--ink-faint);
+    line-height: 2;
+  }
+
+  /* ---- STICKY NAV ---- */
+  .sticky-nav {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 100;
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 0.6rem 0.9rem;
+    font-family: 'IM Fell English SC', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    display: none;
+  }
+
+  @media (min-width: 900px) { .sticky-nav { display: block; } }
+  .sticky-nav:hover { background: var(--paper-mid); color: var(--accent); }
+
+  /* ---- SCROLL PROGRESS ---- */
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.1s;
+    z-index: 200;
+  }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 600px) {
+    html { font-size: 16px; }
+    .journal-name { font-size: 2.8rem; }
+    .article-title { font-size: 1.8rem; }
+    .wrapper { padding: 0 1.2rem; }
+    .sticky-nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<button class="sticky-nav" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Top</button>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <span class="journal-label">Vol. LIX. No. 236.</span>
+  <span class="journal-name">MIND</span>
+  <p class="journal-subtitle">A Quarterly Review of Psychology and Philosophy</p>
+  <div class="rule-ornament"><span class="ornament-char">❧</span></div>
+  <p class="journal-meta">October, 1950</p>
+</header>
+
+<main class="wrapper">
+
+  <!-- ARTICLE HEADER -->
+  <header class="article-header">
+    <span class="article-label">I. &mdash; Article</span>
+    <h1 class="article-title">Computing Machinery<br>and Intelligence</h1>
+    <p class="article-author">By A. M. Turing</p>
+  </header>
+
+  <!-- TABLE OF CONTENTS -->
+  <nav class="toc">
+    <p class="toc-title">Contents</p>
+    <ol>
+      <li><a href="#s1">The Imitation Game</a></li>
+      <li><a href="#s2">Critique of the New Problem</a></li>
+      <li><a href="#s3">The Machines Concerned in the Game</a></li>
+      <li><a href="#s4">Digital Computers</a></li>
+      <li><a href="#s5">Universality of Digital Computers</a></li>
+      <li><a href="#s6">Contrary Views on the Main Question</a></li>
+      <li><a href="#s7">Learning Machines</a></li>
+      <li><a href="#bibliography">Bibliography</a></li>
+    </ol>
+  </nav>
+
+  <article class="article-body">
+
+    <!-- SECTION 1 -->
+    <section id="s1">
+      <div class="section-header">
+        <span class="section-num">1.</span>
+        <h2 class="section-title">The Imitation Game</h2>
+      </div>
+
+      <p>I propose to consider the question, 'Can machines think?' This should begin with definitions of the meaning of the terms 'machine' and 'think'. The definitions might be framed so as to reflect so far as possible the normal use of the words, but this attitude is dangerous. If the meaning of the words 'machine' and 'think' are to be found by examining how they are commonly used it is difficult to escape the conclusion that the meaning and the answer to the question, 'Can machines think?' is to be sought in a statistical survey such as a Gallup poll. But this is absurd. Instead of attempting such a definition I shall replace the question by another, which is closely related to it and is expressed in relatively unambiguous words.</p>
+
+      <p>The new form of the problem can be described in terms of a game which we call the 'imitation game'. It is played with three people, a man (A), a woman (B), and an interrogator (C) who may be of either sex. The interrogator stays in a room apart from the other two. The object of the game for the interrogator is to determine which of the other two is the man and which is the woman. He knows them by labels X and Y, and at the end of the game he says either 'X is A and Y is B' or 'X is B and Y is A'. The interrogator is allowed to put questions to A and B thus:</p>
+
+      <div class="dialogue">
+        <p><span class="speaker">C:</span> Will X please tell me the length of his or her hair?</p>
+      </div>
+
+      <p>Now suppose X is actually A, then A must answer. It is A's object in the game to try and cause C to make the wrong identification. His answer might therefore be: <em>'My hair is shingled, and the longest strands are about nine inches long.'</em></p>
+
+      <p>In order that tones of voice may not help the interrogator the answers should be written, or better still, typewritten. The ideal arrangement is to have a teleprinter communicating between the two rooms. Alternatively the question and answers can be repeated by an intermediary. The object of the game for the third player (B) is to help the interrogator. The best strategy for her is probably to give truthful answers. She can add such things as 'I am the woman, don't listen to him!' to her answers, but it will avail nothing as the man can make similar remarks.</p>
+
+      <p>We now ask the question, 'What will happen when a machine takes the part of A in this game?' Will the interrogator decide wrongly as often when the game is played like this as he does when the game is played between a man and a woman? These questions replace our original, 'Can machines think?'</p>
+    </section>
+
+    <!-- SECTION 2 -->
+    <section id="s2">
+      <div class="section-header">
+        <span class="section-num">2.</span>
+        <h2 class="section-title">Critique of the New Problem</h2>
+      </div>
+
+      <p>As well as asking, 'What is the answer to this new form of the question', one may ask, 'Is this new question a worthy one to investigate?' This latter question we investigate without further ado, thereby cutting short an infinite regress.</p>
+
+      <p>The new problem has the advantage of drawing a fairly sharp line between the physical and the intellectual capacities of a man. No engineer or chemist claims to be able to produce a material which is indistinguishable from the human skin. It is possible that at some time this might be done, but even supposing this invention available we should feel there was little point in trying to make a 'thinking machine' more human by dressing it up in such artificial flesh. The form in which we have set the problem reflects this fact in the condition which prevents the interrogator from seeing or touching the other competitors, or hearing their voices.</p>
+
+      <p>Some other advantages of the proposed criterion may be shown up by specimen questions and answers. Thus:</p>
+
+      <div class="qa-block">
+        <p><span class="qa-label">Q:</span> Please write me a sonnet on the subject of the Forth Bridge.</p>
+        <p><span class="qa-label">A:</span> Count me out on this one. I never could write poetry.</p>
+        <p><span class="qa-label">Q:</span> Add 34957 to 70764.</p>
+        <p><span class="qa-label">A:</span> <em>(Pause about 30 seconds and then give as answer)</em> 105621.</p>
+        <p><span class="qa-label">Q:</span> Do you play chess?</p>
+        <p><span class="qa-label">A:</span> Yes.</p>
+        <p><span class="qa-label">Q:</span> I have K at my K1, and no other pieces. You have only K at K6 and R at R1. It is your move. What do you play?</p>
+        <p><span class="qa-label">A:</span> <em>(After a pause of 15 seconds)</em> R–R8 mate.</p>
+      </div>
+
+      <p>The question and answer method seems to be suitable for introducing almost any one of the fields of human endeavour that we wish to include. We do not wish to penalise the machine for its inability to shine in beauty competitions, nor to penalise a man for losing in a race against an aeroplane. The conditions of our game make these disabilities irrelevant.</p>
+
+      <p>The game may perhaps be criticised on the ground that the odds are weighted too heavily against the machine. If the man were to try and pretend to be the machine he would clearly make a very poor showing. He would be given away at once by slowness and inaccuracy in arithmetic. May not machines carry out something which ought to be described as thinking but which is very different from what a man does? This objection is a very strong one, but at least we can say that if, nevertheless, a machine can be constructed to play the imitation game satisfactorily, we need not be troubled by this objection.</p>
+    </section>
+
+    <!-- SECTION 3 -->
+    <section id="s3">
+      <div class="section-header">
+        <span class="section-num">3.</span>
+        <h2 class="section-title">The Machines Concerned in the Game</h2>
+      </div>
+
+      <p>The question which we put in §1 will not be quite definite until we have specified what we mean by the word 'machine'. It is natural that we should wish to permit every kind of engineering technique to be used in our machines. We also wish to allow the possibility that an engineer or team of engineers may construct a machine which works, but whose manner of operation cannot be satisfactorily described by its constructors because they have applied a method which is largely experimental. Finally, we wish to exclude from the machines men born in the usual manner.</p>
+
+      <p>It is difficult to frame the definitions so as to satisfy these three conditions. One might for instance insist that the team of engineers should be all of one sex, but this would not really be satisfactory, for it is probably possible to rear a complete individual from a single cell of the skin (say) of a man. To do so would be a feat of biological technique deserving of the very highest praise, but we would not be inclined to regard it as a case of 'constructing a thinking machine'. This prompts us to abandon the requirement that every kind of technique should be permitted. We are the more ready to do so in view of the fact that the present interest in 'thinking machines' has been aroused by a particular kind of machine, usually called an 'electronic computer' or 'digital computer'. Following this suggestion we only permit digital computers to take part in our game.</p>
+
+      <p>There are already a number of digital computers in working order, and it may be asked, 'Why not try the experiment straight away?' The short answer is that we are not asking whether all digital computers would do well in the game nor whether the computers at present available would do well, but whether there are imaginable computers which would do well.</p>
+    </section>
+
+    <!-- SECTION 4 -->
+    <section id="s4">
+      <div class="section-header">
+        <span class="section-num">4.</span>
+        <h2 class="section-title">Digital Computers</h2>
+      </div>
+
+      <p>The idea behind digital computers may be explained by saying that these machines are intended to carry out any operations which could be done by a human computer. The human computer is supposed to be following fixed rules; he has no authority to deviate from them in any detail. We may suppose that these rules are supplied in a book, which is altered whenever he is put on to a new job. He has also an unlimited supply of paper on which he does his calculations.</p>
+
+      <p>A digital computer can usually be regarded as consisting of three parts:</p>
+
+      <div class="qa-block">
+        <p><span class="qa-label">(i)</span> Store.</p>
+        <p><span class="qa-label">(ii)</span> Executive unit.</p>
+        <p><span class="qa-label">(iii)</span> Control.</p>
+      </div>
+
+      <p>The store is a store of information, and corresponds to the human computer's paper, whether this is the paper on which he does his calculations or that on which his book of rules is printed. In so far as the human computer does calculations in his head a part of the store will correspond to his memory.</p>
+
+      <p>The executive unit is the part which carries out the various individual operations involved in a calculation. What these individual operations are will vary from machine to machine. Usually fairly lengthy operations can be done such as 'Multiply 3540675445 by 7076345687' but in some machines only very simple ones such as 'Write down 0' are possible.</p>
+
+      <p>We have mentioned that the 'book of rules' supplied to the computer is replaced in the machine by a part of the store. It is then called the 'table of instructions'. It is the duty of the control to see that these instructions are obeyed correctly and in the right order. The information in the store is usually broken up into packets of moderately small size.</p>
+
+      <p>To take a domestic analogy. Suppose Mother wants Tommy to call at the cobbler's every morning on his way to school to see if her shoes are done, she can ask him afresh every morning. Alternatively she can stick up a notice once and for all in the hall which he will see when he leaves for school and which tells him to call for the shoes, and also to destroy the notice when he comes back if he has the shoes with him.</p>
+
+      <p>Constructing instruction tables is usually described as 'programming'. To 'programme a machine to carry out the operation A' means to put the appropriate instruction table into the machine so that it will do A.</p>
+
+      <p>The idea of a digital computer is an old one. Charles Babbage, Lucasian Professor of Mathematics at Cambridge from 1828 to 1839, planned such a machine, called the Analytical Engine, but it was never completed. Although Babbage had all the essential ideas, his machine was not at that time such a very attractive prospect. The speed which would have been available would be definitely faster than a human computer but something like 100 times slower than the Manchester machine.</p>
+
+      <p>The fact that Babbage's Analytical Engine was to be entirely mechanical will help us to rid ourselves of a superstition. Importance is often attached to the fact that modern digital computers are electrical, and that the nervous system also is electrical. Since Babbage's machine was not electrical, and since all digital computers are in a sense equivalent, we see that this use of electricity cannot be of theoretical importance. If we wish to find such similarities we should look rather for mathematical analogies of function.</p>
+    </section>
+
+    <!-- SECTION 5 -->
+    <section id="s5">
+      <div class="section-header">
+        <span class="section-num">5.</span>
+        <h2 class="section-title">Universality of Digital Computers</h2>
+      </div>
+
+      <p>The digital computers considered in the last section may be classified amongst the 'discrete state machines'. These are the machines which move by sudden jumps or clicks from one quite definite state to another. These states are sufficiently different for the possibility of confusion between them to be ignored. Strictly speaking there are no such machines. Everything really moves continuously. But there are many kinds of machine which can profitably be thought of as being discrete state machines.</p>
+
+      <p>As an example of a discrete state machine we might consider a wheel which clicks round through 120° once a second. This machine could be described abstractly as follows:</p>
+
+      <table class="state-table">
+        <thead>
+          <tr>
+            <th colspan="2"></th>
+            <th colspan="3">Last State</th>
+          </tr>
+          <tr>
+            <th colspan="2"></th>
+            <th>q₁</th><th>q₂</th><th>q₃</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="2" style="font-variant:small-caps;font-size:0.8rem;color:var(--ink-faint);">Input</td>
+            <td>i₀</td><td>q₂</td><td>q₃</td><td>q₁</td>
+          </tr>
+          <tr>
+            <td>i₁</td><td>q₁</td><td>q₂</td><td>q₃</td>
+          </tr>
+        </tbody>
+        <caption>State-transition table for an example discrete-state machine</caption>
+      </table>
+
+      <p>It will seem that given the initial state of the machine and the input signals it is always possible to predict all future states. This is reminiscent of Laplace's view that from the complete state of the universe at one moment of time, as described by the positions and velocities of all particles, it should be possible to predict all future states.</p>
+
+      <p>Digital computers fall within the class of discrete state machines. But the number of states of which such a machine is capable is usually enormously large. For instance, the number for the machine now working at Manchester is about 2<sup>165,000</sup>, i.e. about 10<sup>50,000</sup>.</p>
+
+      <p>This special property of digital computers, that they can mimic any discrete state machine, is described by saying that they are <em>universal</em> machines. The existence of machines with this property has the important consequence that, considerations of speed apart, it is unnecessary to design various new machines to do various computing processes. They can all be done with one digital computer, suitably programmed for each case.</p>
+
+      <div class="pull-quote">
+        <p>"In view of the universality property we see that all digital computers are in a sense equivalent."</p>
+      </div>
+    </section>
+
+    <!-- SECTION 6 -->
+    <section id="s6">
+      <div class="section-header">
+        <span class="section-num">6.</span>
+        <h2 class="section-title">Contrary Views on the Main Question</h2>
+      </div>
+
+      <p>We may now consider the ground to have been cleared and we are ready to proceed to the debate on our question, 'Can machines think?' I believe that in about fifty years' time it will be possible to programme computers, with a storage capacity of about 10<sup>9</sup>, to make them play the imitation game so well that an average interrogator will not have more than 70 per cent chance of making the right identification after five minutes of questioning. The original question, 'Can machines think?' I believe to be too meaningless to deserve discussion. Nevertheless I believe that at the end of the century the use of words and general educated opinion will have altered so much that one will be able to speak of machines thinking without expecting to be contradicted.</p>
+
+      <p>I now proceed to consider opinions opposed to my own.</p>
+
+      <!-- Objection 1 -->
+      <div class="objection-header">
+        <span class="objection-label">(1)</span> The Theological Objection
+      </div>
+      <p>Thinking is a function of man's immortal soul. God has given an immortal soul to every man and woman, but not to any other animal or to machines. Hence no animal or machine can think.</p>
+      <p>I am unable to accept any part of this, but will attempt to reply in theological terms. It appears to me that the argument quoted above implies a serious restriction of the omnipotence of the Almighty. Should we not believe that He has freedom to confer a soul on an elephant if He sees fit? An argument of exactly similar form may be made for the case of machines. In attempting to construct such machines we should not be irreverently usurping His power of creating souls, any more than we are in the procreation of children: rather we are, in either case, instruments of His will providing mansions for the souls that He creates.</p>
+      <p>I am not very impressed with theological arguments whatever they may be used to support. Such arguments have often been found unsatisfactory in the past. In the time of Galileo it was argued that the texts "And the sun stood still . . . and hasted not to go down about a whole day" (Joshua x. 13) were an adequate refutation of the Copernican theory. With our present knowledge such an argument appears futile.</p>
+
+      <!-- Objection 2 -->
+      <div class="objection-header">
+        <span class="objection-label">(2)</span> The 'Heads in the Sand' Objection
+      </div>
+      <div class="dialogue">
+        <p>"The consequences of machines thinking would be too dreadful. Let us hope and believe that they cannot do so."</p>
+      </div>
+      <p>This argument is seldom expressed quite so openly as in the form above. But it affects most of us who think about it at all. We like to believe that Man is in some subtle way superior to the rest of creation. It is best if he can be shown to be necessarily superior, for then there is no danger of him losing his commanding position. I do not think that this argument is sufficiently substantial to require refutation. Consolation would be more appropriate: perhaps this should be sought in the transmigration of souls.</p>
+
+      <!-- Objection 3 -->
+      <div class="objection-header">
+        <span class="objection-label">(3)</span> The Mathematical Objection
+      </div>
+      <p>There are a number of results of mathematical logic which can be used to show that there are limitations to the powers of discrete-state machines. The best known of these results is known as Gödel's theorem, and shows that in any sufficiently powerful logical system statements can be formulated which can neither be proved nor disproved within the system, unless possibly the system itself is inconsistent. There are other, in some respects similar, results due to Church, Kleene, Rosser, and Turing.</p>
+      <p>The short answer to this argument is that although it is established that there are limitations to the powers of any particular machine, it has only been stated, without any sort of proof, that no such limitations apply to the human intellect. We too often give wrong answers to questions ourselves to be justified in being very pleased at such evidence of fallibility on the part of the machines. In short, then, there might be men cleverer than any given machine, but then again there might be other machines cleverer again, and so on.</p>
+
+      <!-- Objection 4 -->
+      <div class="objection-header">
+        <span class="objection-label">(4)</span> The Argument from Consciousness
+      </div>
+      <div class="dialogue">
+        <p>"Not until a machine can write a sonnet or compose a concerto because of thoughts and emotions felt, and not by the chance fall of symbols, could we agree that machine equals brain — that is, not only write it but know that it had written it. No mechanism could feel (and not merely artificially signal, an easy contrivance) pleasure at its successes, grief when its valves fuse, be warmed by flattery, be made miserable by its mistakes, be charmed by sex, be angry or depressed when it cannot get what it wants."</p>
+        <p style="font-size:0.82rem;color:var(--ink-faint);font-style:italic;">— Professor Jefferson, Lister Oration for 1949</p>
+      </div>
+      <p>This argument appears to be a denial of the validity of our test. According to the most extreme form of this view the only way by which one could be sure that a machine thinks is to be the machine and to feel oneself thinking. It is in fact the solipsist point of view. It may be the most logical view to hold but it makes communication of ideas difficult. Instead of arguing continually over this point it is usual to have the polite convention that everyone thinks.</p>
+
+      <p>Let us listen in to a part of such a <em>viva voce</em>:</p>
+
+      <div class="dialogue">
+        <p><span class="speaker">Interrogator:</span> In the first line of your sonnet which reads 'Shall I compare thee to a summer's day', would not 'a spring day' do as well or better?</p>
+        <p><span class="speaker">Witness:</span> It wouldn't scan.</p>
+        <p><span class="speaker">Interrogator:</span> How about 'a winter's day'? That would scan all right.</p>
+        <p><span class="speaker">Witness:</span> Yes, but nobody wants to be compared to a winter's day.</p>
+        <p><span class="speaker">Interrogator:</span> Would you say Mr. Pickwick reminded you of Christmas?</p>
+        <p><span class="speaker">Witness:</span> In a way.</p>
+        <p><span class="speaker">Interrogator:</span> Yet Christmas is a winter's day, and I do not think Mr. Pickwick would mind the comparison.</p>
+        <p><span class="speaker">Witness:</span> I don't think you're serious. By a winter's day one means a typical winter's day, rather than a special one like Christmas.</p>
+      </div>
+
+      <p>I do not wish to give the impression that I think there is no mystery about consciousness. There is, for instance, something of a paradox connected with any attempt to localise it. But I do not think these mysteries necessarily need to be solved before we can answer the question with which we are concerned in this paper.</p>
+
+      <!-- Objection 5 -->
+      <div class="objection-header">
+        <span class="objection-label">(5)</span> Arguments from Various Disabilities
+      </div>
+      <p>These arguments take the form, "I grant you that you can make machines do all the things you have mentioned but you will never be able to make one to do X." Numerous features X are suggested in this connexion:</p>
+      <p style="margin-left:1.5rem;font-style:italic;color:var(--ink-light);">Be kind, resourceful, beautiful, friendly, have initiative, have a sense of humour, tell right from wrong, make mistakes, fall in love, enjoy strawberries and cream, make some one fall in love with it, learn from experience, use words properly, be the subject of its own thought, have as much diversity of behaviour as a man, do something really new.</p>
+      <p>No support is usually offered for these statements. I believe they are mostly founded on the principle of scientific induction. A man has seen thousands of machines in his lifetime. From what he sees of them he draws a number of general conclusions. They are ugly, each is designed for a very limited purpose, when required for a minutely different purpose they are useless. Naturally he concludes that these are necessary properties of machines in general.</p>
+
+      <!-- Objection 6 -->
+      <div class="objection-header">
+        <span class="objection-label">(6)</span> Lady Lovelace's Objection
+      </div>
+      <div class="dialogue">
+        <p>"The Analytical Engine has no pretensions to originate anything. It can do whatever we know how to order it to perform."</p>
+        <p style="font-size:0.82rem;color:var(--ink-faint);font-style:italic;">— Countess of Lovelace, <em>Translator's notes to an article on Babbage's Analytical Engine</em> (1842)</p>
+      </div>
+      <p>A variant of Lady Lovelace's objection states that a machine can 'never do anything really new'. This may be parried for a moment with the saw, 'There is nothing new under the sun'. Who can be certain that 'original work' that he has done was not simply the growth of the seed planted in him by teaching, or the effect of following well-known general principles.</p>
+      <p>Machines take me by surprise with great frequency. This is largely because I do not do sufficient calculation to decide what to expect them to do, or rather because, although I do a calculation, I do it in a hurried, slipshod fashion, taking risks. The view that machines cannot give rise to surprises is due, I believe, to a fallacy to which philosophers and mathematicians are particularly subject. This is the assumption that as soon as a fact is presented to a mind all consequences of that fact spring into the mind simultaneously with it.</p>
+
+      <!-- Objection 7 -->
+      <div class="objection-header">
+        <span class="objection-label">(7)</span> Argument from Continuity in the Nervous System
+      </div>
+      <p>The nervous system is certainly not a discrete-state machine. A small error in the information about the size of a nervous impulse impinging on a neuron may make a large difference to the size of the outgoing impulse. It may be argued that, this being so, one cannot expect to be able to mimic the behaviour of the nervous system with a discrete-state system.</p>
+      <p>It is true that a discrete-state machine must be different from a continuous machine. But if we adhere to the conditions of the imitation game, the interrogator will not be able to take any advantage of this difference. It would not be possible for a digital computer to predict exactly what answers a differential analyser would give to a problem, but it would be quite capable of giving the right sort of answer.</p>
+
+      <!-- Objection 8 -->
+      <div class="objection-header">
+        <span class="objection-label">(8)</span> The Argument from Informality of Behaviour
+      </div>
+      <p>It is not possible to produce a set of rules purporting to describe what a man should do in every conceivable set of circumstances. One might for instance have a rule that one is to stop when one sees a red traffic light, and to go if one sees a green one, but what if by some fault both appear together?</p>
+      <p>From this it is argued that we cannot be machines. The argument seems to run something like this. 'If each man had a definite set of rules of conduct by which he regulated his life he would be no better than a machine. But there are no such rules, so men cannot be machines.' The undistributed middle is glaring. There may however be a certain confusion between 'rules of conduct' and 'laws of behaviour' to cloud the issue.</p>
+
+      <!-- Objection 9 -->
+      <div class="objection-header">
+        <span class="objection-label">(9)</span> The Argument from Extra-Sensory Perception
+      </div>
+      <p>I assume that the reader is familiar with the idea of extra-sensory perception, and the meaning of the four items of it, viz. telepathy, clairvoyance, precognition and psycho-kinesis. These disturbing phenomena seem to deny all our usual scientific ideas. Unfortunately the statistical evidence, at least for telepathy, is overwhelming.</p>
+      <p>This argument is to my mind quite a strong one. One can say in reply that many scientific theories seem to remain workable in practice, in spite of clashing with E.S.P.; that in fact one can get along very nicely if one forgets about it. This is rather cold comfort, and one fears that thinking is just the kind of phenomenon where E.S.P. may be especially relevant. If telepathy is admitted it will be necessary to tighten our test up. To put the competitors into a 'telepathy-proof room' would satisfy all requirements.</p>
+    </section>
+
+    <!-- SECTION 7 -->
+    <section id="s7">
+      <div class="section-header">
+        <span class="section-num">7.</span>
+        <h2 class="section-title">Learning Machines</h2>
+      </div>
+
+      <p>The reader will have anticipated that I have no very convincing arguments of a positive nature to support my views. If I had I should not have taken such pains to point out the fallacies in contrary views. Such evidence as I have I shall now give.</p>
+
+      <p>Let us return for a moment to Lady Lovelace's objection, which stated that the machine can only do what we tell it to do. One could say that a man can 'inject' an idea into the machine, and that it will respond to a certain extent and then drop into quiescence, like a piano string struck by a hammer. Another simile would be an atomic pile of less than critical size: an injected idea is to correspond to a neutron entering the pile from without. If, however, the size of the pile is sufficiently increased, the disturbance caused by such an incoming neutron will very likely go on and on increasing until the whole pile is destroyed. Is there a corresponding phenomenon for minds, and is there one for machines?</p>
+
+      <p>The 'skin of an onion' analogy is also helpful. In considering the functions of the mind or the brain we find certain operations which we can explain in purely mechanical terms. This we say does not correspond to the real mind: it is a sort of skin which we must strip off if we are to find the real mind. But then in what remains we find a further skin to be stripped off, and so on. Proceeding in this way do we ever come to the 'real' mind, or do we eventually come to the skin which has nothing in it? In the latter case the whole mind is mechanical.</p>
+
+      <div class="pull-quote">
+        <p>"Instead of trying to produce a programme to simulate the adult mind, why not rather try to produce one which simulates the child's?"</p>
+      </div>
+
+      <p>As I have explained, the problem is mainly one of programming. Estimates of the storage capacity of the brain vary from 10<sup>10</sup> to 10<sup>15</sup> binary digits. I incline to the lower values and believe that only a very small fraction is used for the higher types of thinking. Most of it is probably used for the retention of visual impressions. I should be surprised if more than 10<sup>9</sup> was required for satisfactory playing of the imitation game, at any rate against a blind man.</p>
+
+      <p>In the process of trying to imitate an adult human mind we are bound to think a good deal about the process which has brought it to the state that it is in. We may notice three components:</p>
+
+      <div class="qa-block">
+        <p><span class="qa-label">(a)</span> The initial state of the mind, say at birth,</p>
+        <p><span class="qa-label">(b)</span> The education to which it has been subjected,</p>
+        <p><span class="qa-label">(c)</span> Other experience, not to be described as education, to which it has been subjected.</p>
+      </div>
+
+      <p>Instead of trying to produce a programme to simulate the adult mind, why not rather try to produce one which simulates the child's? If this were then subjected to an appropriate course of education one would obtain the adult brain. Presumably the child-brain is something like a note-book as one buys it from the stationers. Rather little mechanism, and lots of blank sheets.</p>
+
+      <p>We have thus divided our problem into two parts. The child-programme and the education process. These two remain very closely connected. We cannot expect to find a good child-machine at the first attempt. One must experiment with teaching one such machine and see how well it learns. There is an obvious connection between this process and evolution, by the identifications:</p>
+
+      <div class="qa-block">
+        <p><span class="qa-label">→</span> Structure of the child machine = Hereditary material</p>
+        <p><span class="qa-label">→</span> Changes in the child machine = Mutations</p>
+        <p><span class="qa-label">→</span> Natural selection = Judgment of the experimenter</p>
+      </div>
+
+      <p>We normally associate punishments and rewards with the teaching process. The machine has to be so constructed that events which shortly preceded the occurrence of a punishment-signal are unlikely to be repeated, whereas a reward-signal increased the probability of repetition of the events which led up to it. These definitions do not presuppose any feelings on the part of the machine.</p>
+
+      <p>The idea of a learning machine may appear paradoxical to some readers. How can the rules of operation of the machine change? They should describe completely how the machine will react whatever its history might be, whatever changes it might undergo. The rules are thus quite time-invariant. The explanation of the paradox is that the rules which get changed in the learning process are of a rather less pretentious kind, claiming only an ephemeral validity. The reader may draw a parallel with the Constitution of the United States.</p>
+
+      <p>It is probably wise to include a random element in a learning machine. A random element is rather useful when we are searching for a solution of some problem. The learning process may be regarded as a search for a form of behaviour which will satisfy the teacher (or some other criterion). Since there is probably a very large number of satisfactory solutions the random method seems to be better than the systematic. It should be noticed that it is used in the analogous process of evolution.</p>
+
+      <p>We may hope that machines will eventually compete with men in all purely intellectual fields. But which are the best ones to start with? Even this is a difficult decision. Many people think that a very abstract activity, like the playing of chess, would be best. It can also be maintained that it is best to provide the machine with the best sense organs that money can buy, and then teach it to understand and speak English. Again I do not know what the right answer is, but I think both approaches should be tried.</p>
+
+      <div class="pull-quote">
+        <p>"We can only see a short distance ahead, but we can see plenty there that needs to be done."</p>
+      </div>
+    </section>
+
+    <!-- BIBLIOGRAPHY -->
+    <section id="bibliography">
+      <div class="section-header">
+        <span class="section-num">❧</span>
+        <h2 class="section-title">Bibliography</h2>
+      </div>
+
+      <div class="bibliography">
+        <h3>Works Cited</h3>
+        <p class="bib-entry">Butler, Samuel. <em>Erewhon.</em> London, 1865. Chapters 23, 24, 25, The Book of the Machines.</p>
+        <p class="bib-entry">Church, Alonzo. "An Unsolvable Problem of Elementary Number Theory." <em>American J. of Math.</em>, 58 (1936), 345–363.</p>
+        <p class="bib-entry">Gödel, K. "Über formal unentscheidbare Sätze der Principia Mathematica und verwandter Systeme, I." <em>Monatshefte für Math. und Phys.</em>, (1931), 173–189.</p>
+        <p class="bib-entry">Hartree, D. R. <em>Calculating Instruments and Machines.</em> New York, 1949.</p>
+        <p class="bib-entry">Jefferson, G. "The Mind of Mechanical Man." Lister Oration for 1949. <em>British Medical Journal,</em> vol. i (1949), 1105–1121.</p>
+        <p class="bib-entry">Kleene, S. C. "General Recursive Functions of Natural Numbers." <em>American J. of Math.,</em> 57 (1935), 153–173 and 219–244.</p>
+        <p class="bib-entry">Lovelace, Countess of. 'Translator's notes to an article on Babbage's Analytical Engine.' <em>Scientific Memoirs</em> (ed. R. Taylor), vol. 3 (1842), 691–731.</p>
+        <p class="bib-entry">Russell, Bertrand. <em>History of Western Philosophy.</em> London, 1940.</p>
+        <p class="bib-entry">Turing, A. M. "On Computable Numbers, with an Application to the Entscheidungsproblem." <em>Proc. London Math. Soc.</em> (2), 42 (1937), 230–265.</p>
+      </div>
+    </section>
+
+  </article>
+
+  <footer class="colophon">
+    <p>Victoria University of Manchester</p>
+    <p>Reprinted from <em>Mind,</em> Vol. LIX, No. 236, October 1950, pp. 433–460</p>
+    <p>Downloaded from academic.oup.com/mind</p>
+  </footer>
+
+</main>
+
+<script>
+  // Scroll progress bar
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    document.getElementById('progress').style.width = pct + '%';
+  });
+</script>
+</body>
+</html>
