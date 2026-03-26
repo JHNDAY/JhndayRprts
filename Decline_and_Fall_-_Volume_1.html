@@ -567,6 +567,31 @@ a:hover {
       anchor: 'chap15.1', parts: ['chap15.2','chap15.3','chap15.4','chap15.5','chap15.6','chap15.7','chap15.8','chap15.9'] }
   ];
 
+  // ── Helper: all anchor IDs for a chapter ────────────────────────
+  function getChapterAnchors(ch) {
+    var anchors = [ch.anchor];
+    (ch.parts || []).forEach(function (p) { anchors.push(p); });
+    return anchors;
+  }
+
+  function wordCountForAnchors(anchors) {
+    var total = 0;
+    anchors.forEach(function (aid) {
+      var anchor = document.getElementById(aid);
+      if (!anchor) return;
+      var div = anchor.closest('div.chapter');
+      if (!div) return;
+      var txt = (div.innerText || div.textContent || '');
+      total += txt.trim().split(/\s+/).filter(Boolean).length;
+    });
+    return total;
+  }
+
+  function formatWC(n) {
+    var pages = Math.round(n / 300);
+    return '~' + pages + ' pp.';
+  }
+
   // ── Build TOC table ─────────────────────────────────────────────
   var table = document.createElement('table');
   table.id = 'toc-table';
@@ -602,6 +627,13 @@ a:hover {
 
     tr.appendChild(tdMain);
 
+    // Word count cell — computed live from DOM
+    var tdWc = document.createElement('td');
+    tdWc.style.cssText = 'width:5em;text-align:right;vertical-align:middle;font-size:0.78em;color:#8b6c3a;font-style:italic;white-space:nowrap;padding-right:0.5em;';
+    tdWc.dataset.wcAnchors = JSON.stringify(getChapterAnchors(ch));
+    tdMain.appendChild(document.createElement('span')); // placeholder
+    tr.appendChild(tdWc);
+
     // Summary button cell (only for numbered chapters)
     var tdBtn = document.createElement('td');
     tdBtn.className = 'toc-btn-cell';
@@ -618,6 +650,14 @@ a:hover {
   });
 
   document.getElementById('toc-table-container').appendChild(table);
+
+  // Populate word counts after full document is loaded
+  window.addEventListener('load', function () {
+    table.querySelectorAll('td[data-wc-anchors]').forEach(function (td) {
+      var anchors = JSON.parse(td.dataset.wcAnchors);
+      td.textContent = formatWC(wordCountForAnchors(anchors));
+    });
+  });
 
   // ── Pre-baked summaries (no API dependency — works offline) ────
   var SUMMARIES = {
@@ -661,13 +701,6 @@ a:hover {
   var sumReadLink = document.getElementById('sum-read-link');
 
   // ── Chapter Reader ───────────────────────────────────────────────
-  // Collect all part anchors for a chapter (anchor + parts array)
-  function getChapterAnchors(ch) {
-    var anchors = [ch.anchor];
-    (ch.parts || []).forEach(function (p) { anchors.push(p); });
-    return anchors;
-  }
-
   // Gather inner HTML of all chapter divs matching this chapter
   function collectChapterHTML(ch) {
     var anchors = getChapterAnchors(ch);
