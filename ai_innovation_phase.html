@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI's Innovation Phase</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0e0e0e;
+    --paper: #f5f0e8;
+    --cream: #ede7d9;
+    --amber: #c8860a;
+    --amber-light: #e8a020;
+    --amber-pale: #f5d98a;
+    --rust: #8b3a1c;
+    --slate: #2c3240;
+    --muted: #6b6355;
+    --rule: #c8b99a;
+    --rule-light: #e0d5c3;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Libre Baskerville', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* MASTHEAD */
+  .masthead {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 3rem 4rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .masthead::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 28px,
+      rgba(200,134,10,0.06) 28px,
+      rgba(200,134,10,0.06) 29px
+    );
+    pointer-events: none;
+  }
+
+  .masthead-kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.2s;
+  }
+
+  .masthead h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.2rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.35s;
+  }
+
+  .masthead h1 em {
+    font-style: italic;
+    color: var(--amber-light);
+  }
+
+  .masthead-sub {
+    font-size: 1.05rem;
+    color: #b0a898;
+    max-width: 620px;
+    line-height: 1.6;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.5s;
+  }
+
+  .masthead-meta {
+    margin-top: 2rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid #2e2e2e;
+    display: flex;
+    gap: 2.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    color: #5a5550;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.65s;
+  }
+
+  .masthead-meta span { color: var(--amber); margin-right: 0.5em; }
+
+  /* LAYOUT */
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* THESIS BLOCK */
+  .thesis {
+    border-left: 4px solid var(--amber);
+    background: var(--cream);
+    padding: 2rem 2.5rem;
+    margin: 3rem 0;
+    position: relative;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.8s;
+  }
+
+  .thesis-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.8rem;
+  }
+
+  .thesis p {
+    font-size: 1.15rem;
+    line-height: 1.65;
+    color: var(--slate);
+    font-style: italic;
+  }
+
+  /* SECTION HEADERS */
+  .section-rule {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 3.5rem 0 2rem;
+  }
+
+  .section-rule-line {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .section-rule-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* THE THRESHOLD DIAGRAM */
+  .threshold-diagram {
+    background: var(--ink);
+    border-radius: 2px;
+    padding: 2.5rem;
+    margin: 2rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .threshold-diagram::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(200,134,10,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .threshold-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--paper);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    font-style: italic;
+  }
+
+  .threshold-stages {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+
+  .threshold-stages::before {
+    content: '';
+    position: absolute;
+    top: 28px;
+    left: 12.5%;
+    right: 12.5%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--amber) 0%, var(--amber-light) 50%, #4a9a6a 100%);
+    z-index: 1;
+  }
+
+  .stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 0.5rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .stage-dot {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    border: 2px solid transparent;
+    flex-shrink: 0;
+  }
+
+  .stage-dot.invention { background: #1e1e1e; border-color: #3a3530; }
+  .stage-dot.development { background: #1e1a14; border-color: var(--amber); }
+  .stage-dot.threshold { background: var(--amber); border-color: var(--amber-light); box-shadow: 0 0 20px rgba(200,134,10,0.5); }
+  .stage-dot.cascade { background: #1a2e1e; border-color: #4a9a6a; }
+
+  .stage-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .stage-desc {
+    font-size: 0.78rem;
+    color: #7a726a;
+    line-height: 1.4;
+  }
+
+  .stage.active .stage-name { color: var(--amber-light); }
+  .stage.active .stage-desc { color: #c0b8a8; }
+
+  .threshold-badge {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--amber);
+    color: var(--ink);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 2px;
+    white-space: nowrap;
+    font-weight: 700;
+  }
+
+  /* SOLAR vs AI COMPARISON */
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .comp-card {
+    border: 1px solid var(--rule);
+    padding: 1.8rem;
+    background: white;
+    position: relative;
+  }
+
+  .comp-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1.2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .comp-icon {
+    font-size: 1.6rem;
+  }
+
+  .comp-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .comp-card-subtitle {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .comp-metric {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--rule-light);
+    font-size: 0.85rem;
+  }
+
+  .comp-metric:last-child { border-bottom: none; }
+
+  .comp-metric-label { color: var(--muted); }
+  .comp-metric-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--amber);
+    font-weight: 700;
+  }
+
+  /* ARGUMENT CARDS */
+  .arg-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin: 2rem 0;
+  }
+
+  .arg-card {
+    padding: 1.6rem;
+    border: 1px solid var(--rule);
+    background: white;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .arg-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  }
+
+  .arg-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+  }
+
+  .arg-card.strong::before { background: var(--amber); }
+  .arg-card.strain::before { background: var(--rust); }
+
+  .arg-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--rule-light);
+    line-height: 1;
+    margin-bottom: 0.6rem;
+  }
+
+  .arg-card.strong .arg-num { color: rgba(200,134,10,0.15); }
+  .arg-card.strain .arg-num { color: rgba(139,58,28,0.12); }
+
+  .arg-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
+  }
+
+  .arg-body {
+    font-size: 0.84rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .arg-tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 1px;
+    margin-bottom: 0.8rem;
+  }
+
+  .arg-card.strong .arg-tag { background: rgba(200,134,10,0.12); color: var(--amber); }
+  .arg-card.strain .arg-tag { background: rgba(139,58,28,0.1); color: var(--rust); }
+
+  /* VERDICT */
+  .verdict {
+    background: var(--slate);
+    color: var(--paper);
+    padding: 3rem;
+    margin: 3rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .verdict::before {
+    content: '"';
+    position: absolute;
+    top: -1rem;
+    right: 2rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 14rem;
+    color: rgba(200,134,10,0.08);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .verdict-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.5rem;
+  }
+
+  .verdict-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .verdict-item-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--amber-light);
+    margin-bottom: 0.3rem;
+  }
+
+  .verdict-item-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #5a7a65;
+    margin-bottom: 0.6rem;
+  }
+
+  .verdict-item-body {
+    font-size: 0.88rem;
+    color: #9090a0;
+    line-height: 1.6;
+  }
+
+  .verdict-caveat {
+    border-top: 1px solid #3a3a4a;
+    padding-top: 1.5rem;
+    font-size: 0.9rem;
+    color: #7a7a8a;
+    font-style: italic;
+  }
+
+  .verdict-caveat strong {
+    color: var(--amber);
+    font-style: normal;
+  }
+
+  /* IEA CALLOUT */
+  .callout {
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--amber);
+    padding: 1.5rem 2rem;
+    margin: 2rem 0;
+    font-size: 0.9rem;
+    color: var(--slate);
+  }
+
+  .callout-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.5rem;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 3px double var(--rule);
+    padding: 2rem 2rem;
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-top: 3rem;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* SOURCES */
+  .sources-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin: 2rem 0 3rem;
+  }
+
+  .source-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .source-group-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .source-item {
+    display: grid;
+    grid-template-columns: 2rem 1fr 1rem;
+    gap: 0.6rem;
+    align-items: start;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--rule-light);
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.15s ease;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+
+  .source-item:last-child { border-bottom: none; }
+
+  .source-item:hover {
+    background: white;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin: 0 -0.5rem;
+  }
+
+  .source-item:hover .source-title { color: var(--amber); }
+  .source-item:hover .source-arrow { color: var(--amber); transform: translate(2px, -2px); }
+
+  .source-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--amber);
+    padding-top: 2px;
+    letter-spacing: 0.05em;
+  }
+
+  .source-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--ink);
+    margin-bottom: 0.2rem;
+    transition: color 0.15s ease;
+  }
+
+  .source-author {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    margin-bottom: 0.3rem;
+  }
+
+  .source-note {
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  .source-arrow {
+    font-size: 0.8rem;
+    color: var(--rule);
+    padding-top: 2px;
+    transition: color 0.15s ease, transform 0.15s ease;
+    text-align: right;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 700px) {
+    .masthead { padding: 2rem 1.5rem; }
+    .arg-grid, .comparison, .verdict-grid, .sources-grid { grid-template-columns: 1fr; }
+    .threshold-stages { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .threshold-stages::before { display: none; }
+    .page { padding: 0 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-kicker">Technology &amp; Economic Analysis · 2025–26</div>
+  <h1>AI Is Now in Its<br><em>Innovation Phase</em></h1>
+  <div class="masthead-sub">Assessing the hypothesis that artificial intelligence has crossed the mass-production threshold — and that the results will be both very large and deeply surprising.</div>
+  <div class="masthead-meta">
+    <div><span>Frame</span> Schumpeterian Innovation Theory</div>
+    <div><span>Analogy</span> Solar PV Commoditization</div>
+    <div><span>Verdict</span> Hypothesis Confirmed, With Caveats</div>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="thesis reveal">
+    <div class="thesis-label">Core Thesis</div>
+    <p>Innovation ignites not at invention, but at commoditization — when the means of production are cheap enough for entrepreneurial agents to cascade. AI has now crossed that threshold. The API-ization of frontier intelligence is the functional equivalent of cheap photons from a solar panel: the means of cognitive production have been commoditized.</p>
+  </div>
+
+  <!-- THE THRESHOLD -->
+  <div class="section-rule reveal">
+    <div class="section-rule-line"></div>
+    <div class="section-rule-label">I. The Mass-Production Threshold</div>
+    <div class="section-rule-line"></div>
+  </div>
+
+  <div class="threshold-diagram reveal">
+    <div class="threshold-title">The Innovation Cascade: From Invention to Entrepreneurial Explosion</div>
+    <div class="threshold-stages">
+      <div class="stage">
+        <div class="stage-dot invention">💡</div>
+        <div class="stage-name">Invention</div>
+        <div class="stage-desc">Big idea demonstrated in the lab. Value is latent.</div>
+      </div>
+      <div class="stage">
+        <div class="stage-dot development">⚙️</div>
+        <div class="stage-name">Development</div>
+        <div class="stage-desc">Engineering matures. Costs high, access restricted.</div>
+      </div>
+      <div class="stage active">
+        <div class="stage-dot threshold">⚡</div>
+        <div class="threshold-badge">AI is here</div>
+        <div class="stage-name">Mass-Production Threshold</div>
+        <div class="stage-desc">Cost collapses. The substrate becomes a commodity. Entrepreneurs pour in.</div>
+      </div>
+      <div class="stage">
+        <div class="stage-dot cascade">🌊</div>
+        <div class="stage-name">Innovation Cascade</div>
+        <div class="stage-desc">Applications multiply. Surprises dominate. GDP-scale effects emerge.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout reveal">
+    <div class="callout-label">Historical Precedent · Solar PV</div>
+    The IEA repeatedly <strong>underestimated</strong> solar penetration because their models couldn't anticipate the entrepreneurial cascade that cheap panels would unleash. Market penetration exceeded all forecasts — not because the technology was magic, but because learning curves were steeper than modeled, and entrepreneurs found applications the forecasters hadn't imagined. Both dynamics appear operative in AI right now.
+  </div>
+
+  <!-- COMPARISON -->
+  <div class="section-rule reveal">
+    <div class="section-rule-line"></div>
+    <div class="section-rule-label">II. Solar PV vs. AI — The Structural Parallel</div>
+    <div class="section-rule-line"></div>
+  </div>
+
+  <div class="comparison reveal">
+    <div class="comp-card">
+      <div class="comp-card-header">
+        <div class="comp-icon">☀️</div>
+        <div>
+          <div class="comp-card-title">Solar PV</div>
+          <div class="comp-card-subtitle">The reference case</div>
+        </div>
+      </div>
+      <div class="comp-metric"><span class="comp-metric-label">Commodity produced</span><span class="comp-metric-value">Electrons</span></div>
+      <div class="comp-metric"><span class="comp-metric-label">Bottleneck broken</span><span class="comp-metric-value">Thermal energy cost</span></div>
+      <div class="comp-metric"><span class="comp-metric-label">Deployment agent</span><span class="comp-metric-value">Installers / utilities</span></div>
+      <div class="comp-metric"><span class="comp-metric-label">IEA forecast accuracy</span><span class="comp-metric-value">Persistently wrong (low)</span></div>
+      <div class="comp-metric"><span class="comp-metric-label">Social friction</span><span class="comp-metric-value">Moderate</span></div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-card-header">
+        <div class="comp-icon">🧠</div>
+        <div>
+          <div class="comp-card-title">AI (LLMs via API)</div>
+          <div class="comp-card-subtitle">The current case</div>
+        </div>
+      </div>
+      <div class="comp-metric"><span class="comp-metric-label">Commodity produced</span><span class="comp-metric-value">Cognition / decisions</span></div>
+      <div class="comp-metric"><span class="comp-metric-label">Bottleneck broken</span><span class="comp-metric-value">Cost of cognitive labor</span></div>
+      <div class="comp-metric"><span class="comp-metric-label">Deployment agent</span><span class="comp-metric-value">API-enabled entrepreneurs</span></div>
+      <div class="comp-metric"><span class="comp-metric-label">Forecast accuracy</span><span class="comp-metric-value">Already surprising optimists</span></div>
+      <div class="comp-metric"><span class="comp-metric-label">Social friction</span><span class="comp-metric-value">High — cognitive displacement</span></div>
+    </div>
+  </div>
+
+  <!-- WHERE ANALOGY IS STRONG -->
+  <div class="section-rule reveal">
+    <div class="section-rule-line"></div>
+    <div class="section-rule-label">III. Where the Analogy Holds</div>
+    <div class="section-rule-line"></div>
+  </div>
+
+  <div class="arg-grid reveal">
+    <div class="arg-card strong">
+      <div class="arg-tag">Structural match</div>
+      <div class="arg-num">01</div>
+      <div class="arg-title">Infrastructure Is Now Separable from Application</div>
+      <div class="arg-body">As a solar installer need not understand semiconductor physics, an entrepreneur deploying AI-powered legal research need not understand transformer architectures. The abstraction layer is complete enough for mass deployment by non-specialists. This is the crucial democratization moment.</div>
+    </div>
+    <div class="arg-card strong">
+      <div class="arg-tag">Scope advantage</div>
+      <div class="arg-num">02</div>
+      <div class="arg-title">Combinatorial Explosion Across Every Domain</div>
+      <div class="arg-body">Solar displaces one thing: thermal energy generation. AI potentially displaces or augments the cognitive labor embedded in every sector simultaneously — law, medicine, education, logistics, drug discovery, software engineering itself. The surface area for entrepreneurial attack is historically unprecedented.</div>
+    </div>
+    <div class="arg-card strong">
+      <div class="arg-tag">Early confirmation</div>
+      <div class="arg-num">03</div>
+      <div class="arg-title">The "Surprising" Prediction Is Already Being Validated</div>
+      <div class="arg-body">GitHub Copilot adoption speed. AI's effective demolition of the bar exam barrier. AlphaFold's resolution of a 50-year protein-folding problem in a single release. These are not incremental improvements — they are phase transitions, arriving faster than even optimistic forecasts. The IEA effect, again.</div>
+    </div>
+  </div>
+
+  <!-- WHERE ANALOGY STRAINS -->
+  <div class="section-rule reveal">
+    <div class="section-rule-line"></div>
+    <div class="section-rule-label">IV. Where the Analogy Strains — or Gets More Interesting</div>
+    <div class="section-rule-line"></div>
+  </div>
+
+  <div class="arg-grid reveal">
+    <div class="arg-card strain">
+      <div class="arg-tag">Crucial asymmetry</div>
+      <div class="arg-num">01</div>
+      <div class="arg-title">Solar Converted Energy. AI Converts Agency.</div>
+      <div class="arg-body">A panel produces electrons that slot into existing infrastructure. AI produces decisions, diagnoses, and code — outputs previously reserved for credentialed human agents. The innovation cascade isn't just new products; it's the restructuring of entire professions. Social friction will be substantially higher, making the timeline non-linear.</div>
+    </div>
+    <div class="arg-card strain">
+      <div class="arg-tag">Platform risk</div>
+      <div class="arg-num">02</div>
+      <div class="arg-title">The "Big Idea" Is Still Becoming Itself</div>
+      <div class="arg-body">With PV, the physics was settled — the task was engineering and manufacturing scale. With AI, the underlying capability is in rapid, unpredictable development. Entrepreneurs build on a substrate that is itself changing. Products may be deprecated by the next model release — the so-called "getting Anthropic'd" problem.</div>
+    </div>
+    <div class="arg-card strain">
+      <div class="arg-tag">Topology difference</div>
+      <div class="arg-num">03</div>
+      <div class="arg-title">Network Effects and Concentration Risk</div>
+      <div class="arg-body">Solar's commodity structure is genuinely distributed — anyone can put panels on a roof. AI's commodity layer sits atop a highly concentrated model infrastructure: Anthropic, OpenAI, Google, Meta, with China as a parallel track. The entrepreneurial layer is open, but the foundational layer is oligopolistic — a different and more fragile innovation topology.</div>
+    </div>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="section-rule reveal">
+    <div class="section-rule-line"></div>
+    <div class="section-rule-label">V. Verdict</div>
+    <div class="section-rule-line"></div>
+  </div>
+
+  <div class="verdict reveal">
+    <div class="verdict-label">Assessment of the Hypothesis</div>
+    <div class="verdict-grid">
+      <div class="verdict-item">
+        <div class="verdict-item-label">Large?</div>
+        <div class="verdict-item-tag">✓ Confirmed</div>
+        <div class="verdict-item-body">Almost certainly. General-purpose technologies that cross the mass-production threshold reliably produce productivity gains measured in GDP percentage points over decade-plus horizons. AI's breadth of cognitive application suggests a magnitude potentially exceeding electricity and the internet.</div>
+      </div>
+      <div class="verdict-item">
+        <div class="verdict-item-label">Surprising?</div>
+        <div class="verdict-item-tag">✓ Confirmed — and specifically so</div>
+        <div class="verdict-item-body">The surprises will not come from current focal points (chatbots, content generation) but from second and third-order applications not yet named. The internet's transformative applications — social media, gig economy, streaming — were not forecast by TCP/IP's architects. The AI equivalents are probably not yet in anyone's pitch deck.</div>
+      </div>
+    </div>
+    <div class="verdict-caveat">
+      <strong>The main caveat:</strong> the social and institutional absorption of a <em>cognitive</em> general-purpose technology may be choppier and more contested than an <em>energetic</em> one. But that would delay, not prevent, the predicted cascade. The hypothesis is well-constructed and probably correct in its broad strokes.
+    </div>
+  </div>
+
+</div>
+
+  <!-- SOURCES -->
+  <div class="section-rule reveal">
+    <div class="section-rule-line"></div>
+    <div class="section-rule-label">VI. Sources &amp; Further Reading</div>
+    <div class="section-rule-line"></div>
+  </div>
+
+  <div class="sources-grid reveal">
+
+    <div class="source-group">
+      <div class="source-group-label">Theoretical Framework</div>
+      <a class="source-item" href="https://www.hup.harvard.edu/books/9780674009684" target="_blank" rel="noopener">
+        <div class="source-num">S1</div>
+        <div class="source-content">
+          <div class="source-title">Capitalism, Socialism and Democracy</div>
+          <div class="source-author">Joseph A. Schumpeter · Harvard University Press, 1942</div>
+          <div class="source-note">Origin of "creative destruction" and the role of entrepreneurial agents in innovation cascades.</div>
+        </div>
+        <div class="source-arrow">↗</div>
+      </a>
+      <a class="source-item" href="https://www.carlotaperez.org/research#major" target="_blank" rel="noopener">
+        <div class="source-num">S2</div>
+        <div class="source-content">
+          <div class="source-title">Technological Revolutions and Financial Capital</div>
+          <div class="source-author">Carlota Perez · Edward Elgar, 2002</div>
+          <div class="source-note">The definitive account of how GPTs move from installation to deployment phase via a financial bubble and crash.</div>
+        </div>
+        <div class="source-arrow">↗</div>
+      </a>
+      <a class="source-item" href="https://www.nber.org/papers/w15180" target="_blank" rel="noopener">
+        <div class="source-num">S3</div>
+        <div class="source-content">
+          <div class="source-title">General Purpose Technologies and Economic Growth</div>
+          <div class="source-author">Bresnahan &amp; Trajtenberg · NBER Working Paper, 1992</div>
+          <div class="source-note">Foundational paper establishing the GPT framework: technologies that improve endogenously and spawn innovation in user sectors.</div>
+        </div>
+        <div class="source-arrow">↗</div>
+      </a>
+    </div>
+
+    <div class="source-group">
+      <div class="source-group-label">Solar PV &amp; IEA Forecasting Failures</div>
+      <a class="source-item" href="https://www.carbonbrief.org/analysis-why-the-iea-under-predicted-renewables-growth-for-two-decades/" target="_blank" rel="noopener">
+        <div class="source-num">S4</div>
+        <div class="source-content">
+          <div class="source-title">Why the IEA Under-Predicted Renewables Growth for Two Decades</div>
+          <div class="source-author">Carbon Brief · Analysis, 2023</div>
+          <div class="source-note">Documents the IEA's systematic underestimation of solar deployment — the empirical backbone of the commoditization analogy.</div>
+        </div>
+        <div class="source-arrow">↗</div>
+      </a>
+      <a class="source-item" href="https://www.iea.org/reports/world-energy-outlook-2024" target="_blank" rel="noopener">
+        <div class="source-num">S5</div>
+        <div class="source-content">
+          <div class="source-title">World Energy Outlook 2024</div>
+          <div class="source-author">International Energy Agency · 2024</div>
+          <div class="source-note">Current IEA forecast; solar now exceeds prior projections by wide margins in every edition since 2010.</div>
+        </div>
+        <div class="source-arrow">↗</div>
+      </a>
+    </div>
+
+    <div class="source-group">
+      <div class="source-group-label">AI Capability Milestones</div>
+      <a class="source-item" href="https://www.nature.com/articles/s41586-021-03819-2" target="_blank" rel="noopener">
+        <div class="source-num">S6</div>
+        <div class="source-content">
+          <div class="source-title">Highly Accurate Protein Structure Prediction with AlphaFold</div>
+          <div class="source-author">Jumper et al. · Nature, 2021</div>
+          <div class="source-note">Resolution of a 50-year grand challenge in structural biology in a single release — a canonical example of AI-as-phase-transition.</div>
+        </div>
+        <div class="source-arrow">↗</div>
+      </a>
+      <a class="source-item" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4389233" target="_blank" rel="noopener">
+        <div class="source-num">S7</div>
+        <div class="source-content">
+          <div class="source-title">GPT-4 Passes the Bar Exam</div>
+          <div class="source-author">Katz, Bommarito, Gao, Arredondo · SSRN, 2023</div>
+          <div class="source-note">GPT-4 scored in the top ~10% of bar exam takers — the empirical basis for "demolishing the bar exam barrier."</div>
+        </div>
+        <div class="source-arrow">↗</div>
+      </a>
+      <a class="source-item" href="https://github.blog/news-insights/research/survey-reveals-ais-impact-on-the-developer-experience/" target="_blank" rel="noopener">
+        <div class="source-num">S8</div>
+        <div class="source-content">
+          <div class="source-title">Survey Reveals AI's Impact on the Developer Experience</div>
+          <div class="source-author">GitHub Blog · 2023</div>
+          <div class="source-note">Copilot adoption data: developers complete tasks ~55% faster; 92% of surveyed devs report using AI coding tools.</div>
+        </div>
+        <div class="source-arrow">↗</div>
+      </a>
+    </div>
+
+    <div class="source-group">
+      <div class="source-group-label">AI as General-Purpose Technology</div>
+      <a class="source-item" href="https://www.nber.org/papers/w24001" target="_blank" rel="noopener">
+        <div class="source-num">S9</div>
+        <div class="source-content">
+          <div class="source-title">Artificial Intelligence and the Modern Productivity Paradox</div>
+          <div class="source-author">Brynjolfsson, Rock, Syverson · NBER, 2017</div>
+          <div class="source-note">Frames AI explicitly as a GPT and explains why productivity gains lag adoption — anticipates the "choppier absorption" caveat.</div>
+        </div>
+        <div class="source-arrow">↗</div>
+      </a>
+      <a class="source-item" href="https://www.goldmansachs.com/insights/articles/generative-ai-could-raise-global-gdp-by-7-percent" target="_blank" rel="noopener">
+        <div class="source-num">S10</div>
+        <div class="source-content">
+          <div class="source-title">Generative AI Could Raise Global GDP by 7%</div>
+          <div class="source-author">Goldman Sachs Global Investment Research · 2023</div>
+          <div class="source-note">Macro-scale productivity estimate; supports the "large effects measured in GDP percentage points" claim.</div>
+        </div>
+        <div class="source-arrow">↗</div>
+      </a>
+      <a class="source-item" href="https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/the-economic-potential-of-generative-ai" target="_blank" rel="noopener">
+        <div class="source-num">S11</div>
+        <div class="source-content">
+          <div class="source-title">The Economic Potential of Generative AI</div>
+          <div class="source-author">McKinsey Global Institute · 2023</div>
+          <div class="source-note">Estimates $2.6–4.4 trillion in annual value across use cases; documents the breadth of sector exposure.</div>
+        </div>
+        <div class="source-arrow">↗</div>
+      </a>
+    </div>
+
+  </div>
+
+</div>
+
+<footer>
+  Analysis: AI Innovation Phase Assessment · Based on Schumpeterian GPT Theory &amp; Solar PV Commoditization Parallel · BOLLI Current Events Discussion Group
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
