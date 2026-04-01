@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jennifer Doudna — A Scientific Portrait</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #08100c;
+    --paper: #f2f5f0;
+    --cream: #e4ebe1;
+    --accent: #1a4830;
+    --gold: #b89015;
+    --rust: #6b3015;
+    --pale: #bfccc0;
+    --text: #1a201c;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--text);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  /* ── CITATIONS ── */
+  sup.cite a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--rust);
+    text-decoration: none;
+    font-weight: 600;
+    vertical-align: super;
+    border-bottom: 1px dotted var(--rust);
+    padding: 0 1px;
+    transition: color 0.15s;
+  }
+  sup.cite a:hover { color: var(--gold); border-color: var(--gold); }
+  .dark-section sup.cite a { color: #c4a870; border-color: #c4a870; }
+  .dark-section sup.cite a:hover { color: var(--gold); }
+
+  /* ── BIBLIOGRAPHY ── */
+  #bibliography {
+    background: #0e1a10;
+    color: var(--pale);
+    padding: 0;
+  }
+  #bibliography .section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 70px 60px 80px;
+  }
+  #bibliography .section-label { color: var(--gold); }
+  #bibliography .section-title { color: #8abca4; margin-bottom: 36px; }
+
+  .bib-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 50px;
+  }
+  .bib-entry {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 8px;
+    align-items: start;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .bib-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    font-weight: 600;
+    padding-top: 2px;
+  }
+  .bib-content .bib-title { font-style: italic; color: #ddd8cc; }
+  .bib-content .bib-source {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #7a8a7a;
+    margin-top: 2px;
+  }
+  .bib-content a {
+    color: #7acea0;
+    text-decoration: none;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    word-break: break-all;
+    display: block;
+    margin-top: 3px;
+    transition: color 0.15s;
+  }
+  .bib-content a:hover { color: var(--gold); text-decoration: underline; }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .masthead-left {
+    padding: 80px 60px 80px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+  .masthead-right { position: relative; overflow: hidden; }
+  .masthead-right::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, var(--ink) 0%, transparent 40%);
+    z-index: 1;
+  }
+  .crispr-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+  .label-small {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+  .masthead-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 7vw, 88px);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+  .masthead-title em {
+    display: block;
+    font-style: italic;
+    font-weight: 400;
+    color: #8abca4;
+    font-size: 0.65em;
+    margin-top: 8px;
+  }
+  .masthead-dates {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--pale);
+    letter-spacing: 0.15em;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+  .masthead-tagline {
+    font-style: italic;
+    font-size: 22px;
+    color: #c4dcd0;
+    max-width: 440px;
+    border-left: 3px solid var(--gold);
+    padding-left: 20px;
+    line-height: 1.5;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+  .nav-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1s;
+  }
+  .nav-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 7px 16px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .nav-pill:hover { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+
+  /* ── SECTION LAYOUT ── */
+  .section { max-width: 1100px; margin: 0 auto; padding: 90px 60px; }
+  .section + .section { border-top: 1px solid var(--pale); }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(30px, 4vw, 46px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--accent);
+    margin-bottom: 40px;
+  }
+  .section-title em { font-style: italic; font-weight: 400; }
+
+  .body-text p { margin-bottom: 1.4em; font-size: 18px; line-height: 1.8; color: #2a302c; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; }
+
+  /* ── PULL QUOTE ── */
+  .pull-quote {
+    border-left: 4px solid var(--rust);
+    padding: 20px 30px;
+    margin: 40px 0;
+    background: var(--cream);
+  }
+  .pull-quote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--accent);
+    margin-bottom: 10px !important;
+  }
+  .pull-quote cite {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+  }
+
+  /* ── CARDS ── */
+  .card { background: var(--cream); padding: 32px; border-top: 3px solid var(--accent); }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .card p { font-size: 16px; line-height: 1.7; color: #333; }
+
+  /* ── PRO/CON ── */
+  .procon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 20px; }
+  .procon-col { padding: 36px; }
+  .procon-col.pro { background: #eaf2ea; border-top: 4px solid #2a6a3a; }
+  .procon-col.con { background: #f2eae5; border-top: 4px solid #8b3a1a; }
+  .procon-header { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 24px; }
+  .procon-col.pro .procon-header { color: #1a4a2a; }
+  .procon-col.con .procon-header { color: #6a2a0a; }
+  .procon-item {
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    font-size: 16px;
+    line-height: 1.6;
+    color: #2a2a2a;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .procon-item:last-child { border-bottom: none; }
+  .procon-icon { font-size: 14px; margin-top: 2px; flex-shrink: 0; }
+
+  /* ── CONTEMPORARIES TABLE ── */
+  .contemporaries-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 16px; }
+  .contemporaries-table th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--accent);
+    padding: 14px 18px;
+    text-align: left;
+  }
+  .contemporaries-table td { padding: 16px 18px; border-bottom: 1px solid var(--pale); vertical-align: top; line-height: 1.6; }
+  .contemporaries-table tr:nth-child(even) td { background: var(--cream); }
+  .contemporaries-table tr:hover td { background: #d8e8d4; }
+  .scientist-name { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--accent); font-size: 17px; }
+  .connection-strong { color: var(--rust); font-weight: 600; }
+  .connection-parallel { color: #2a5a2a; font-weight: 600; }
+  .connection-broad { color: #3a4a6a; font-weight: 600; }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 40px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--gold), var(--rust));
+  }
+  .timeline-entry { position: relative; margin-bottom: 36px; }
+  .timeline-entry::before {
+    content: '';
+    position: absolute;
+    left: -34px; top: 6px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--ink);
+  }
+  .timeline-year { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.15em; color: var(--gold); margin-bottom: 4px; }
+  .timeline-text { font-size: 16px; line-height: 1.65; color: #2a302c; }
+  .timeline-text strong { font-family: 'Playfair Display', serif; color: var(--accent); font-size: 17px; }
+
+  /* ── DARK SECTION ── */
+  .dark-section { background: var(--ink); color: var(--paper); }
+  .dark-section .section-title { color: #8abca4; }
+  .dark-section .body-text p { color: #b8c8b8; }
+  .dark-section .card { background: rgba(255,255,255,0.06); border-top-color: var(--gold); }
+  .dark-section .card-title { color: var(--gold); }
+  .dark-section .card p { color: #a8b8a8; }
+
+  /* ── VERDICT BOX ── */
+  .verdict-box { background: var(--accent); color: var(--paper); padding: 40px 48px; margin-top: 40px; }
+  .verdict-box .verdict-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.3em; color: var(--gold); margin-bottom: 16px; }
+  .verdict-box p { font-size: 19px; font-style: italic; line-height: 1.7; color: #d4ece0; }
+
+  /* ── PERSONAL LIFE ── */
+  .personality-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--pale); margin-top: 20px; }
+  .personality-cell { background: var(--paper); padding: 28px; }
+  .personality-cell-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.25em; color: var(--rust); text-transform: uppercase; margin-bottom: 10px; }
+  .personality-cell p { font-size: 15px; line-height: 1.65; color: #333; }
+
+  .ornament { text-align: center; color: var(--gold); font-size: 24px; margin: 20px 0; letter-spacing: 0.5em; }
+
+  footer {
+    background: var(--ink);
+    color: var(--pale);
+    text-align: center;
+    padding: 40px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 900px) {
+    .masthead { grid-template-columns: 1fr; min-height: auto; }
+    .masthead-right { display: none; }
+    .masthead-left { padding: 60px 40px; }
+    .section { padding: 60px 30px; }
+    .two-col, .three-col, .procon-grid { grid-template-columns: 1fr; gap: 30px; }
+    .personality-grid { grid-template-columns: 1fr; }
+    .bib-grid { grid-template-columns: 1fr; }
+    #bibliography .section { padding: 50px 30px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════ MASTHEAD ══════════════════════════════ -->
+<header class="masthead">
+  <div class="masthead-left">
+    <div class="label-small">Scientific Portrait — Biochemist · Structural Biologist · Nobel Laureate</div>
+    <h1 class="masthead-title">
+      Jennifer<br>Doudna
+      <em>The Architect of the CRISPR Revolution</em>
+    </h1>
+    <div class="masthead-dates">b. 19 February 1964 &nbsp;·&nbsp; Nobel Chemistry 2020</div>
+    <p class="masthead-tagline">
+      "CRISPR is a tool. What we do with it is a choice."
+    </p>
+    <nav class="nav-pills">
+      <a href="#biography"       class="nav-pill">Biography</a>
+      <a href="#priority"        class="nav-pill">The Patent Wars</a>
+      <a href="#contemporaries"  class="nav-pill">Contemporaries</a>
+      <a href="#applied"         class="nav-pill">The Applications</a>
+      <a href="#nobel"           class="nav-pill">Nobel &amp; Ethics</a>
+      <a href="#personal"        class="nav-pill">Personal Life</a>
+      <a href="#bibliography"    class="nav-pill">Sources</a>
+    </nav>
+  </div>
+
+  <div class="masthead-right">
+    <!-- Abstract CRISPR-Cas9 visualization -->
+    <svg class="crispr-canvas" viewBox="0 0 600 700" xmlns="http://www.w3.org/2000/svg">
+      <rect width="600" height="700" fill="#080e0a"/>
+
+      <!-- Outer protein-scale rings suggesting Cas9 bilobed structure -->
+      <g transform="translate(300,340)">
+        <ellipse rx="260" ry="220" fill="none" stroke="#2a6a3a" stroke-width="0.6" opacity="0.25"/>
+        <ellipse rx="200" ry="165" fill="none" stroke="#3a8a50" stroke-width="0.5" opacity="0.3"/>
+        <ellipse rx="150" ry="120" fill="none" stroke="#4aaa60" stroke-width="0.5" opacity="0.3"/>
+        <!-- Lobe 1: Recognition lobe (upper) -->
+        <ellipse cx="-30" cy="-55" rx="110" ry="80" fill="#1a3a22" opacity="0.35" stroke="#3a7a48" stroke-width="1"/>
+        <!-- Lobe 2: Nuclease lobe (lower) -->
+        <ellipse cx="25" cy="60"  rx="100" ry="78" fill="#1a3a22" opacity="0.3" stroke="#3a7a48" stroke-width="0.8"/>
+        <!-- Central PAM-interaction domain hint -->
+        <ellipse cx="0" cy="0" rx="38" ry="32" fill="#224430" opacity="0.6" stroke="#5aaa70" stroke-width="1.2"/>
+      </g>
+
+      <!-- Guide RNA strand (sinuous path through Cas9) -->
+      <g opacity="0.7">
+        <path d="M 80 200 Q 160 180 220 250 Q 280 310 320 290 Q 380 265 440 290 Q 500 315 540 280"
+              fill="none" stroke="#60d890" stroke-width="2" stroke-dasharray="6,4" opacity="0.6"/>
+        <!-- RNA nodes -->
+        <circle cx="160" cy="185" r="3.5" fill="#60d890" opacity="0.8"/>
+        <circle cx="240" cy="258" r="3"   fill="#60d890" opacity="0.7"/>
+        <circle cx="320" cy="288" r="3.5" fill="#60d890" opacity="0.8"/>
+        <circle cx="405" cy="278" r="3"   fill="#50c880" opacity="0.7"/>
+        <circle cx="490" cy="285" r="3"   fill="#50c880" opacity="0.6"/>
+      </g>
+
+      <!-- DNA double strand (target) -->
+      <g opacity="0.6">
+        <!-- Strand 1 -->
+        <path d="M 60 330 Q 120 310 180 340 Q 240 370 300 345 Q 360 320 420 348 Q 480 375 540 355"
+              fill="none" stroke="#a4d8b8" stroke-width="2.2" opacity="0.65"/>
+        <!-- Strand 2 -->
+        <path d="M 60 365 Q 120 385 180 358 Q 240 330 300 358 Q 360 386 420 360 Q 480 334 540 360"
+              fill="none" stroke="#80c4a0" stroke-width="2.2" opacity="0.55"/>
+        <!-- Base-pair rungs -->
+        <line x1="140" y1="322" x2="140" y2="378" stroke="#70b890" stroke-width="1" opacity="0.5"/>
+        <line x1="200" y1="336" x2="200" y2="366" stroke="#70b890" stroke-width="1" opacity="0.5"/>
+        <line x1="260" y1="355" x2="260" y2="338" stroke="#70b890" stroke-width="1" opacity="0.5"/>
+        <line x1="320" y1="344" x2="320" y2="363" stroke="#70b890" stroke-width="1" opacity="0.5"/>
+        <line x1="380" y1="330" x2="380" y2="370" stroke="#70b890" stroke-width="1" opacity="0.5"/>
+        <line x1="440" y1="348" x2="440" y2="358" stroke="#70b890" stroke-width="1" opacity="0.5"/>
+        <line x1="500" y1="360" x2="500" y2="347" stroke="#70b890" stroke-width="1" opacity="0.5"/>
+      </g>
+
+      <!-- CRISPR cut site — double-strand break marker -->
+      <g transform="translate(300,348)" opacity="0.9">
+        <!-- Cut marks (scissors symbol abstracted) -->
+        <line x1="-14" y1="-22" x2="14" y2="-8"  stroke="#f0b040" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="-14" y1="22"  x2="14" y2="8"   stroke="#f0b040" stroke-width="2.5" stroke-linecap="round"/>
+        <circle r="5" fill="#f0b040" opacity="0.85"/>
+        <circle r="12" fill="none" stroke="#f0b040" stroke-width="1" opacity="0.4"/>
+        <circle r="22" fill="none" stroke="#d09030" stroke-width="0.7" opacity="0.3"/>
+      </g>
+
+      <!-- Molecular interaction dots (binding residues) -->
+      <g transform="translate(300,340)" opacity="0.75">
+        <circle cx="-90" cy="-45" r="3.2" fill="#a0e0b8" opacity="0.85"/>
+        <circle cx="85"  cy="-55" r="2.8" fill="#80d0a0" opacity="0.75"/>
+        <circle cx="-50" cy="90"  r="3"   fill="#a0e0b8" opacity="0.8"/>
+        <circle cx="100" cy="80"  r="2.5" fill="#80d0a0" opacity="0.7"/>
+        <circle cx="-130" cy="10" r="2"   fill="#60c080" opacity="0.6"/>
+        <circle cx="140"  cy="20" r="2"   fill="#60c080" opacity="0.6"/>
+        <circle cx="-70"  cy="-110" r="1.8" fill="#50b070" opacity="0.5"/>
+        <circle cx="50"   cy="-115" r="1.8" fill="#50b070" opacity="0.5"/>
+        <circle cx="-150" cy="-70" r="1.5" fill="#40a060" opacity="0.45"/>
+        <circle cx="155"  cy="-75" r="1.5" fill="#40a060" opacity="0.45"/>
+        <circle cx="-155" cy="85"  r="1.5" fill="#40a060" opacity="0.4"/>
+        <circle cx="150"  cy="100" r="1.5" fill="#40a060" opacity="0.4"/>
+      </g>
+
+      <!-- Label -->
+      <text x="300" y="660" text-anchor="middle" fill="#3a7a50" font-family="monospace" font-size="12" opacity="0.75" letter-spacing="3">CRISPR-CAS9 · GUIDE RNA · 2012</text>
+
+      <defs>
+        <radialGradient id="glow2" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#0a2010" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#040808" stop-opacity="0.65"/>
+        </radialGradient>
+      </defs>
+      <rect width="600" height="700" fill="url(#glow2)"/>
+    </svg>
+  </div>
+</header>
+
+<!-- ══════════════════════════════ BIOGRAPHY ══════════════════════════════ -->
+<section id="biography">
+  <div class="section">
+    <div class="section-label">01 — Origins &amp; Formation</div>
+    <h2 class="section-title">From Hilo<br><em>to the Frontier of Molecular Biology</em></h2>
+
+    <div class="two-col">
+      <div class="body-text">
+        <p>Jennifer Anne Doudna was born on February 19, 1964, in Washington, D.C., the eldest of three daughters. When she was seven, her father Martin — a professor of literature and rhetoric — moved the family to Hilo, on the Big Island of Hawaii, where he had accepted a position at the University of Hawaii.<sup class="cite"><a href="#bib-1" title="Wikipedia: Jennifer Doudna">[1]</a></sup> The island was formative: Hilo's volcanic geology, coral reefs, and extravagant biodiversity gave Doudna an early reverence for complex natural systems and a persistent itch to understand how they worked.</p>
+
+        <p>At twelve, she came home one afternoon to find a paperback her father had left on her bed: James Watson's <em>The Double Helix</em>. She read it in a single sitting. "When I got to the end," she later wrote, "I knew that I wanted to be a scientist."<sup class="cite"><a href="#bib-11" title="A Crack in Creation — Doudna &amp; Sternberg">[11]</a></sup> A junior-high guidance counselor told her that girls didn't become scientists. She ignored the advice with a composure that would become characteristic.</p>
+
+        <p>At Pomona College she majored in biochemistry, then took her PhD at Harvard (1989) under Nobel laureate Jack Szostak, studying the catalytic properties of RNA — how these molecules, long presumed mere messengers, could themselves act as enzymes.<sup class="cite"><a href="#bib-3" title="HHMI Scientist Profile">[3]</a></sup> A postdoctoral fellowship with Thomas Cech at Colorado, who had just won the Nobel for discovering RNA catalysis (ribozymes), reinforced this conviction: RNA was a key to life's deepest logic.<sup class="cite"><a href="#bib-4" title="Nobel Prize — Doudna Facts">[4]</a></sup></p>
+
+        <p>At Yale (1994–2002) and then Berkeley (2002–present), Doudna built a world-class structural biology laboratory, using X-ray crystallography and cryo-electron microscopy to map how RNA molecules fold and function in three dimensions.<sup class="cite"><a href="#bib-2" title="Science History Institute — Doudna">[2]</a></sup> She was already a major figure in RNA biology — known for crystallizing the self-splicing Group I intron ribozyme — before a casual conversation at a 2011 microbiology conference in Puerto Rico changed everything.<sup class="cite"><a href="#bib-5" title="The New Yorker — The Gene Hackers">[5]</a></sup></p>
+      </div>
+
+      <div>
+        <div class="timeline">
+          <div class="timeline-entry">
+            <div class="timeline-year">1964</div>
+            <div class="timeline-text"><strong>Born in Washington, D.C.</strong> Family moves to Hilo, Hawaii, when Jennifer is seven. Her father is a literature professor; her mother a homemaker and teacher.<sup class="cite"><a href="#bib-1" title="Wikipedia">[1]</a></sup></div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-year">1985</div>
+            <div class="timeline-text"><strong>B.A. Chemistry, Pomona College.</strong> Reportedly told by a counselor that women don't become scientists. Ignores the advice and applies to Harvard.<sup class="cite"><a href="#bib-11" title="A Crack in Creation">[11]</a></sup></div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-year">1989</div>
+            <div class="timeline-text"><strong>PhD, Harvard University.</strong> Under Nobel laureate Jack Szostak; dissertation on RNA catalytic mechanisms.<sup class="cite"><a href="#bib-3" title="HHMI">[3]</a></sup></div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-year">1991–94</div>
+            <div class="timeline-text"><strong>Postdoc with Thomas Cech, University of Colorado.</strong> Crystallizes Group I intron ribozyme — landmark structural biology of RNA.<sup class="cite"><a href="#bib-4" title="Nobel Prize Facts">[4]</a></sup></div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-year">1994–2002</div>
+            <div class="timeline-text"><strong>Assistant then Associate Professor, Yale University.</strong> Builds international reputation in RNA structural biology.<sup class="cite"><a href="#bib-2" title="Science History Institute">[2]</a></sup></div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-year">2002</div>
+            <div class="timeline-text"><strong>Moves to UC Berkeley; joins HHMI.</strong> Continues RNA structural work; marries structural biologist Jamie Cate.<sup class="cite"><a href="#bib-1" title="Wikipedia">[1]</a></sup></div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-year">2011–12</div>
+            <div class="timeline-text"><strong>Meets Charpentier; CRISPR collaboration begins.</strong> The June 2012 <em>Science</em> paper (Jinek et al.) demonstrates programmable DNA cutting with CRISPR-Cas9.<sup class="cite"><a href="#bib-6" title="Jinek et al. 2012 — Science">[6]</a></sup></div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-year">2013–22</div>
+            <div class="timeline-text"><strong>The patent wars.</strong> Berkeley and Broad Institute dispute who owns CRISPR. Doudna co-founds multiple biotech companies, testifies before Congress.<sup class="cite"><a href="#bib-7" title="STAT News — Patent Wars">[7]</a></sup></div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-year">2020</div>
+            <div class="timeline-text"><strong>Nobel Prize in Chemistry</strong>, shared with Emmanuelle Charpentier — the first all-female Nobel Chemistry duo.<sup class="cite"><a href="#bib-4" title="Nobel Prize Facts">[4]</a></sup></div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-year">2023</div>
+            <div class="timeline-text"><strong>Casgevy approved by FDA</strong> — first CRISPR-based medicine cleared for clinical use, for sickle cell disease and beta-thalassemia.<sup class="cite"><a href="#bib-12" title="FDA Casgevy Approval">[12]</a></sup></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ PRIORITY DISPUTE ══════════════════════════════ -->
+<section id="priority" style="background: var(--cream);">
+  <div class="section">
+    <div class="section-label">02 — The Central Controversy</div>
+    <h2 class="section-title">The CRISPR<br><em>Patent Wars</em></h2>
+
+    <div class="body-text">
+      <p>The story of CRISPR's development is one of the most fiercely contested priority disputes in modern science — pitting two Berkeley researchers and a Swedish microbiologist against a billionaire-backed Boston institution, playing out simultaneously in scientific journals, the U.S. Patent Office, federal appeals courts, and the court of public opinion.<sup class="cite"><a href="#bib-7" title="STAT News — Patent Wars">[7]</a></sup></p>
+    </div>
+
+    <div class="pull-quote">
+      <p>"We worked on the biochemistry. Then Feng Zhang and others worked out how to make it work in living cells. These are both important contributions. The question is how you value them."</p>
+      <cite>— Jennifer Doudna, various interviews <sup class="cite"><a href="#bib-5" title="The New Yorker">[5]</a></sup></cite>
+    </div>
+
+    <div class="two-col" style="margin-top: 40px;">
+      <div>
+        <div class="card">
+          <div class="card-title">The 2012 Breakthrough</div>
+          <p>In June 2012, Doudna, Charpentier, and their collaborators published in <em>Science</em> a demonstration that CRISPR-Cas9 could be programmed using a synthetic guide RNA to cut specific DNA sequences — in a purified, cell-free (in vitro) system.<sup class="cite"><a href="#bib-6" title="Jinek et al. 2012">[6]</a></sup> The key conceptual leap was simplification: what had been a two-RNA system in bacteria could be compressed into a single guide RNA, making the molecular machinery vastly more practical to engineer. This was, as Walter Isaacson later wrote, "the crucial innovation that made CRISPR a tool."<sup class="cite"><a href="#bib-13" title="The Code Breaker — Isaacson">[13]</a></sup> The paper was submitted April 15, published June 28, and received by the field as a landmark — but the race had already begun.</p>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-title">The Broad Institute's Claim</div>
+          <p>In December 2012, Feng Zhang at the Broad Institute filed a patent application — paying extra for expedited review — claiming CRISPR-Cas9 operating in eukaryotic (mammalian) cells. Zhang's paper appeared in <em>Science</em> in January 2013, simultaneous with a similar demonstration from George Church at Harvard.<sup class="cite"><a href="#bib-7" title="STAT News">[7]</a></sup> The Broad's argument, which ultimately prevailed in U.S. patent proceedings through 2017, was that extending CRISPR to eukaryotic cells was a non-obvious additional invention. Berkeley's counterargument — that the in vitro demonstration clearly anticipated the eukaryotic application — persuaded the European Patent Office, which granted foundational patents to Doudna and Charpentier. The U.S. and European outcomes thus split: Broad controls U.S. patents for CRISPR in eukaryotic cells; Berkeley/Doudna/Charpentier hold broader and European rights.<sup class="cite"><a href="#bib-8" title="Nature — CRISPR Patent Timeline">[8]</a></sup></p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 40px;" class="body-text">
+      <p>The dispute crystallized a deeper tension in how modern science allocates credit. Doudna and Charpentier identified the biochemical mechanism; Zhang and Church made it operate in the cells that matter for medicine. Each step was essential. But intellectual property law, Nobel committees, and popular narrative are all forced to produce a winner — and they do not agree. The patents have generated enormous licensing revenue, divided the biotech industry, and reportedly strained collegial relationships. Several companies Doudna co-founded — Caribou Biosciences, Intellia Therapeutics — hold Berkeley-licensed IP; Editas Medicine, originally co-founded by Doudna, pivoted to Broad licensing after the 2017 ruling, and Doudna departed its scientific advisory board.<sup class="cite"><a href="#bib-7" title="STAT News">[7]</a></sup></p>
+
+      <p>What is not in dispute is the sequence of intellectual influence. Doudna and Charpentier's 2012 paper was the direct stimulus for Zhang's race to demonstrate eukaryotic application. Zhang himself stated in lab notebooks that he read the Doudna-Charpentier manuscript before completing his own work.<sup class="cite"><a href="#bib-13" title="Isaacson — The Code Breaker">[13]</a></sup> Whether that constitutes dependency or merely inspiration — the core question in patent law — remains unresolved as a matter of scientific ethics even after the legal outcome.</p>
+    </div>
+
+    <div class="pull-quote">
+      <p>"The basic tool for cutting DNA was discovered in bacteria, worked out in a test tube, and then applied to human cells by multiple groups almost simultaneously. Science is not a series of singular moments. It is a cascade."</p>
+      <cite>— Editorial synthesis, drawing on <sup class="cite"><a href="#bib-5" title="The New Yorker">[5]</a></sup> and <sup class="cite"><a href="#bib-13" title="Isaacson">[13]</a></sup></cite>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ CONTEMPORARIES ══════════════════════════════ -->
+<section id="contemporaries">
+  <div class="section">
+    <div class="section-label">03 — Scientific Context</div>
+    <h2 class="section-title">Doudna Among<br><em>the Giants of Her Age</em></h2>
+
+    <div class="body-text">
+      <p>CRISPR's development was the product of converging scientific traditions — bacterial immunity, structural biology, genetic engineering, and bioethics — brought together in the first decade of the twenty-first century by an unusually dense concentration of talent. Doudna's position in this constellation was central but not solitary.<sup class="cite"><a href="#bib-2" title="Science History Institute">[2]</a></sup></p>
+    </div>
+
+    <table class="contemporaries-table">
+      <thead>
+        <tr>
+          <th>Scientist</th>
+          <th>Field &amp; Major Work</th>
+          <th>Relation to Doudna</th>
+          <th>Assessment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="scientist-name">Emmanuelle Charpentier</div><em style="font-size:14px;color:#666;">b. 1968</em></td>
+          <td>Microbiology; pathogen-host interaction; discovered tracrRNA in <em>Streptococcus pyogenes</em> (2011). Max Planck Institute Director.</td>
+          <td><span class="connection-strong">Direct Collaborator &amp; Co-Nobel.</span> Charpentier identified the tracrRNA component without which CRISPR-Cas9 could not be simplified into a single guide. She approached Doudna at the 2011 ASM conference in Puerto Rico; the collaboration began by email and Skype across continents.<sup class="cite"><a href="#bib-5" title="The New Yorker">[5]</a></sup></td>
+          <td>Equal partner in the 2012 discovery; the Nobel correctly reflects this. Charpentier and Doudna have worked largely independently since, with occasionally different public emphases. Their collaboration was intellectually symmetrical: Charpentier provided the microbiology; Doudna the structural biochemistry.<sup class="cite"><a href="#bib-4" title="Nobel Prize Facts">[4]</a></sup></td>
+        </tr>
+        <tr>
+          <td><div class="scientist-name">Feng Zhang</div><em style="font-size:14px;color:#666;">b. 1981</em></td>
+          <td>Neuroscience; optogenetics; CRISPR in mammalian cells. Core member, Broad Institute.</td>
+          <td><span class="connection-strong">Primary Patent Rival.</span> Zhang demonstrated CRISPR-Cas9 operating in human cells in January 2013, six months after the Doudna-Charpentier in vitro paper. Broad's aggressive patent strategy won U.S. rights to eukaryotic CRISPR applications.<sup class="cite"><a href="#bib-7" title="STAT News">[7]</a></sup></td>
+          <td>The hardest counterfactual in recent science: would CRISPR have become a therapeutic tool without Zhang? Almost certainly yes, within months — but Zhang's demonstration removed a key uncertainty faster. His exclusion from the Nobel, given that all CRISPR medicines depend on eukaryotic cell editing, is widely considered a significant oversight by the committee.<sup class="cite"><a href="#bib-8" title="Nature CRISPR">[8]</a></sup></td>
+        </tr>
+        <tr>
+          <td><div class="scientist-name">Jack Szostak</div><em style="font-size:14px;color:#666;">b. 1952 · Nobel 2009</em></td>
+          <td>RNA biology; ribozymes; telomere structure and replication. Nobel Chemistry 2009 (shared).</td>
+          <td><span class="connection-parallel">PhD Mentor.</span> Szostak introduced Doudna to catalytic RNA and modeled the habit of pursuing fundamental mechanisms over applied payoff — the disposition that eventually led her to CRISPR.<sup class="cite"><a href="#bib-3" title="HHMI">[3]</a></sup></td>
+          <td>Doudna's intellectual lineage runs directly through Szostak and Cech to the RNA World hypothesis. This background made her unusually equipped to understand the CRISPR guide RNA — not as a curiosity of bacterial immunity, but as a precision molecular tool.</td>
+        </tr>
+        <tr>
+          <td><div class="scientist-name">Thomas Cech</div><em style="font-size:14px;color:#666;">b. 1947 · Nobel 1989</em></td>
+          <td>Discovery of RNA self-splicing; ribozymes as enzymes. Nobel Chemistry 1989.</td>
+          <td><span class="connection-parallel">Postdoctoral Mentor.</span> Doudna crystallized Cech's Group I intron ribozyme during her postdoc — the first high-resolution structure of a catalytic RNA — and later called this the most technically demanding work of her career.<sup class="cite"><a href="#bib-3" title="HHMI">[3]</a></sup></td>
+          <td>Cech's Nobel work established that RNA could catalyze chemical reactions — overturning the protein-centric view of molecular biology. Without this conceptual foundation, CRISPR guide RNA would have been interpreted as merely regulatory. Doudna's structural intuitions trace directly to Cech's laboratory.</td>
+        </tr>
+        <tr>
+          <td><div class="scientist-name">Paul Berg</div><em style="font-size:14px;color:#666;">1926–2023 · Nobel 1980</em></td>
+          <td>Recombinant DNA technology. Organizer of the 1975 Asilomar Conference on biosafety.</td>
+          <td><span class="connection-broad">Historical Precedent.</span> When Doudna organized the 2015 Napa Valley CRISPR summit and called for an international moratorium on human germline editing, she consciously modeled the initiative on Berg's 1975 Asilomar precedent — which paused recombinant DNA research until safety guidelines were established.<sup class="cite"><a href="#bib-9" title="Science — CRISPR Moratorium Statement">[9]</a></sup></td>
+          <td>Berg's Asilomar moment succeeded: the field self-regulated, guidelines were established, and recombinant DNA became both safe and enormously productive. Whether the CRISPR governance effort will achieve the same result is the defining open question of the field. Berg, who lived to see CRISPR, expressed cautious optimism.</td>
+        </tr>
+        <tr>
+          <td><div class="scientist-name">He Jiankui</div><em style="font-size:14px;color:#666;">b. 1984; imprisoned 2019</em></td>
+          <td>Biophysics; reproductive biology; genetic engineering. Former associate professor, Southern University of Science and Technology, Shenzhen.</td>
+          <td><span class="connection-strong">Ethical Antagonist.</span> In November 2018, He announced the birth of twin girls whose CCR5 gene had been edited as embryos using CRISPR — the first heritable human genome edits. Doudna, who had received advance warning He might attempt this, described her reaction as "horrified."<sup class="cite"><a href="#bib-10" title="Nature — He Jiankui Response">[10]</a></sup></td>
+          <td>He's experiment — condemned by virtually the entire global scientific community, and by the Chinese government, which imprisoned him for three years — crystallized fears that CRISPR's very accessibility made it uniquely dangerous. It gave force to every argument Doudna had been making about the need for governance frameworks. His sentence has not deterred all researchers: a Russian scientist announced similar intentions in 2019.<sup class="cite"><a href="#bib-10" title="Nature — He Jiankui">[10]</a></sup></td>
+        </tr>
+        <tr>
+          <td><div class="scientist-name">Francisco Mojica</div><em style="font-size:14px;color:#666;">b. 1963</em></td>
+          <td>Microbiology; identified CRISPR repeat sequences in archaea and bacteria (1993–2005). University of Alicante.</td>
+          <td><span class="connection-broad">Foundational Discoverer.</span> Mojica identified the CRISPR repeat sequences and correctly hypothesized they were an adaptive immune system — the foundational observation without which the entire edifice is impossible. He published in 2005 after several journals rejected the paper.<sup class="cite"><a href="#bib-16" title="The Scientist — Mojica Profile">[16]</a></sup></td>
+          <td>The clearest case of unrecognized priority in the CRISPR story. Mojica was not part of the 2020 Nobel, despite being the person who first understood what CRISPR was. His story is the closest analog in the CRISPR saga to Rosalind Franklin's in the DNA story — a foundational contribution absorbed into a grander narrative that centers later and louder figures.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pull-quote" style="margin-top: 40px;">
+      <p>Doudna's structural biology background — her instinct to ask what a molecule looked like before asking what it could do — was the decisive disciplinary advantage in the CRISPR story. Her laboratory was one of very few in the world with both the technical expertise and the conceptual orientation to convert Charpentier's microbiological finding into a precision biochemical tool.</p>
+      <cite>— Editorial assessment, drawing on <sup class="cite"><a href="#bib-2" title="Science History Institute">[2]</a></sup> and <sup class="cite"><a href="#bib-13" title="Isaacson">[13]</a></sup></cite>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ APPLICATIONS ══════════════════════════════ -->
+<section id="applied" class="dark-section">
+  <div class="section">
+    <div class="section-label" style="color: var(--gold);">04 — The Applied Revolution</div>
+    <h2 class="section-title">Beyond the Discovery:<br><em>What CRISPR Is Actually Doing</em></h2>
+
+    <div class="body-text">
+      <p>The decade since 2012 has seen CRISPR move from a remarkable biochemical curiosity to a clinical reality — a speed of translation without precedent in the history of molecular biology. Much of this work has been carried out by Doudna's broader laboratory ecosystem, including the Innovative Genomics Institute she co-founded at Berkeley in 2014 and the constellation of biotech companies spun from her research.<sup class="cite"><a href="#bib-14" title="IGI — Innovative Genomics Institute">[14]</a></sup></p>
+    </div>
+
+    <div class="three-col" style="margin-top: 40px;">
+      <div class="card">
+        <div class="card-title">💊 Casgevy: The First CRISPR Medicine</div>
+        <p>In December 2023, the FDA approved Casgevy (exagamglogene autotemcel), co-developed by Vertex Pharmaceuticals and CRISPR Therapeutics — the first CRISPR-based therapy cleared for clinical use, for sickle cell disease and beta-thalassemia.<sup class="cite"><a href="#bib-12" title="FDA Casgevy Approval">[12]</a></sup> The therapy edits patients' own stem cells to reactivate fetal hemoglobin, effectively bypassing the defective adult gene. Trial results in 2023 showed that 28 of 29 patients with severe sickle cell disease were free of vaso-occlusive pain crises for at least 12 months — a result that the trial investigators described as potentially curative.<sup class="cite"><a href="#bib-12" title="FDA Casgevy">[12]</a></sup> The approval was described by the New England Journal of Medicine as a turning point for gene therapy as a field.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">🦠 COVID Diagnostics: MAMMOTH</div>
+        <p>Within weeks of the WHO declaring COVID-19 a pandemic in March 2020, Doudna mobilized her Berkeley laboratory and co-founded MAMMOTH Biosciences — one of two competing ventures (the other, SHERLOCK, was from Broad) applying CRISPR enzymes to rapid nucleic acid diagnostics.<sup class="cite"><a href="#bib-14" title="IGI">[14]</a></sup> CRISPR-based detection systems can identify viral RNA with sensitivity comparable to PCR but with dramatically lower infrastructure requirements, making them candidates for point-of-care diagnostics in low-resource settings. Doudna's IGI also repurposed its campus CRISPR labs into a volunteer COVID testing center, processing thousands of tests per day at the 2020 peak.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">🌾 Agriculture &amp; the Food Supply</div>
+        <p>CRISPR has entered agricultural use more quickly than therapeutics, partly because regulatory frameworks for gene editing in crops are less stringent than for human medicine. Doudna's Berkeley group and IGI have worked on disease-resistant rice, mushrooms engineered not to brown, and wheat with altered gluten structures.<sup class="cite"><a href="#bib-15" title="IGI — Agriculture">[15]</a></sup> In a world facing climate-driven agricultural disruption, drought-tolerant, disease-resistant staple crops developed through CRISPR represent one of the technology's most consequential near-term applications — and one of the most equitable, if intellectual property structures allow poor countries affordable access to the tools.</p>
+      </div>
+    </div>
+
+    <div class="body-text" style="margin-top: 48px;">
+      <p style="color: #b8c8b8;">The applied revolution also has a shadow. CRISPR is cheap enough — a basic experimental setup costs under $200 — that it has moved into university teaching laboratories and, notoriously, biohacker spaces. The same accessibility that makes CRISPR democratizing also makes it potentially ungovernable. Doudna has consistently argued that the scientific community must lead on governance precisely because the technology has outrun existing regulatory frameworks — and that the alternative is to cede the field to those who have less regard for the consequences.<sup class="cite"><a href="#bib-9" title="Science — Moratorium">[9]</a></sup></p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ NOBEL & ETHICS ══════════════════════════════ -->
+<section id="nobel" style="background: var(--cream);">
+  <div class="section">
+    <div class="section-label">05 — The Nobel &amp; Its Discontents</div>
+    <h2 class="section-title">The Prize, the Excluded,<br><em>and the Ethical Reckoning</em></h2>
+
+    <div class="body-text">
+      <p>On October 7, 2020, the Royal Swedish Academy of Sciences awarded the Nobel Prize in Chemistry to Jennifer Doudna and Emmanuelle Charpentier "for the development of a method for genome editing." It was the first time two women had shared a Nobel Prize in Chemistry — and the sixth time a woman had won it in the prize's 119-year history.<sup class="cite"><a href="#bib-4" title="Nobel Prize Facts">[4]</a></sup> Doudna, told by telephone at home in Berkeley, reportedly wept.</p>
+    </div>
+
+    <div class="procon-grid">
+      <div class="procon-col pro">
+        <div class="procon-header">✦ The Case For This Award</div>
+        <div class="procon-item">
+          <span class="procon-icon">◆</span>
+          <span><strong>The 2012 paper was the conceptual breakthrough.</strong> Demonstrating programmable DNA cutting in a defined biochemical system — and simplifying the guide RNA — was the core intellectual leap. Applications follow from principles; the Nobel has always prioritized foundational discovery over application.<sup class="cite"><a href="#bib-6" title="Jinek et al. 2012">[6]</a></sup></span>
+        </div>
+        <div class="procon-item">
+          <span class="procon-icon">◆</span>
+          <span><strong>The collaborative structure was clear.</strong> Doudna and Charpentier's division of labor — Charpentier contributing the microbiology, Doudna the structural biochemistry — is well-documented and intellectually coherent. Two recipients accurately reflects the nature of the partnership.<sup class="cite"><a href="#bib-5" title="The New Yorker">[5]</a></sup></span>
+        </div>
+        <div class="procon-item">
+          <span class="procon-icon">◆</span>
+          <span><strong>Speed of impact validates the choice.</strong> Eight years from paper to Nobel is extraordinarily fast — and the field justified the urgency. Casgevy's 2023 FDA approval means the prize was given not for a theoretical possibility but for a therapy now treating patients.<sup class="cite"><a href="#bib-12" title="FDA Casgevy">[12]</a></sup></span>
+        </div>
+        <div class="procon-item">
+          <span class="procon-icon">◆</span>
+          <span><strong>The symbolic dimension matters.</strong> In a field historically dominated by men and by large, well-funded American institutions, awarding CRISPR to two women — one at a public university, one at a European research institute — sends a signal about who science is for and what paths lead to its highest recognition.<sup class="cite"><a href="#bib-4" title="Nobel Prize Facts">[4]</a></sup></span>
+        </div>
+      </div>
+
+      <div class="procon-col con">
+        <div class="procon-header">✦ The Legitimate Objections</div>
+        <div class="procon-item">
+          <span class="procon-icon">◇</span>
+          <span><strong>Feng Zhang was excluded from his own technology.</strong> The FDA-approved therapy, Casgevy, operates in eukaryotic cells — Zhang's contribution. Awarding the Nobel for a demonstration that works only in test tubes, while excluding the researcher who made it work in human cells, privileges the biochemist's tradition over the engineer's.<sup class="cite"><a href="#bib-8" title="Nature CRISPR">[8]</a></sup></span>
+        </div>
+        <div class="procon-item">
+          <span class="procon-icon">◇</span>
+          <span><strong>Francisco Mojica is the absent name.</strong> Without Mojica's 1993–2005 identification of CRISPR repeats and his hypothesis that they represent an adaptive immune system, the 2012 paper would have had no foundation. The Nobel Committee's decision to award the prize to those who made CRISPR useful rather than those who found it is a defensible choice — but it is a choice, not an objective verdict.<sup class="cite"><a href="#bib-16" title="The Scientist — Mojica">[16]</a></sup></span>
+        </div>
+        <div class="procon-item">
+          <span class="procon-icon">◇</span>
+          <span><strong>The timing of the germline editing crisis.</strong> The Nobel was awarded just two years after He Jiankui's CRISPR babies controversy — a scandal the CRISPR community had not fully addressed. Some argued the prize arrived before adequate governance frameworks were in place, and that its prestige could accelerate applications ahead of ethics.<sup class="cite"><a href="#bib-9" title="Science — Moratorium">[9]</a></sup></span>
+        </div>
+        <div class="procon-item">
+          <span class="procon-icon">◇</span>
+          <span><strong>The three-person limit forced a false binary.</strong> A prize that included Zhang alongside Doudna and Charpentier would have more accurately reflected the distributed, multi-laboratory nature of CRISPR's development — and would have been more defensible to the research community. The three-person limit, when discovery is inherently collaborative, consistently distorts the historical record.<sup class="cite"><a href="#bib-13" title="Isaacson">[13]</a></sup></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="verdict-box">
+      <div class="verdict-label">The Ethical Dimension</div>
+      <p>Doudna's most significant contribution may not be the 2012 paper but her decade of ethical engagement since. She has called for moratoriums, organized international summits, co-authored governance frameworks, testified before Congress, and written — in <em>A Crack in Creation</em> — the most serious scientist's account of a discovery's moral weight since Oppenheimer. "I have a responsibility," she has said, "that goes beyond the science."<sup class="cite"><a href="#bib-11" title="A Crack in Creation">[11]</a></sup> Whether the governance structures she has advocated will prove adequate to the technology she helped create is a question still very much open.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ PERSONAL LIFE ══════════════════════════════ -->
+<section id="personal">
+  <div class="section">
+    <div class="section-label">06 — The Person</div>
+    <h2 class="section-title">Beyond the Laboratory:<br><em>Personal Life &amp; Character</em></h2>
+
+    <div class="body-text">
+      <p>Doudna is, by the consistent accounts of colleagues and journalists who have spent time with her, warmer in person than the occasional severity of her public persona suggests. She is competitive — she has not disguised this — but in conversation she is more likely to ask questions than to issue pronouncements. Her intellectual style runs toward precision over performance.</p>
+    </div>
+
+    <div class="personality-grid">
+      <div class="personality-cell">
+        <div class="personality-cell-label">Hawaii &amp; Origins</div>
+        <p>Doudna credits Hilo with instilling a wonder at complexity that she has never lost. "Growing up in Hawaii, surrounded by extraordinary biodiversity, I was always asking: how does this work?"<sup class="cite"><a href="#bib-11" title="A Crack in Creation">[11]</a></sup> Her father's bookshelf — Hemingway, Faulkner, Watson's <em>Double Helix</em> — shaped her sense that both science and literature were modes of truth-seeking. She has returned to Hawaii for family visits throughout her career and speaks of the Big Island with something close to reverence.</p>
+      </div>
+      <div class="personality-cell">
+        <div class="personality-cell-label">Marriage &amp; Family</div>
+        <p>Doudna is married to Jamie Cate, a structural biologist who studies protein synthesis and is also a professor at UC Berkeley.<sup class="cite"><a href="#bib-1" title="Wikipedia">[1]</a></sup> They have one son, Andrew. Colleagues note that Doudna and Cate's shared scientific world — both are crystallographers by training — gives their household a particular intellectual density. She has spoken candidly about the challenge of maintaining scientific ambition alongside motherhood in an era when the structural support for female scientists remained, in her view, inadequate.</p>
+      </div>
+      <div class="personality-cell">
+        <div class="personality-cell-label">The Watson Moment</div>
+        <p>The discovery of <em>The Double Helix</em> on her bed at age twelve is the origin story Doudna returns to most often in interviews and in <em>A Crack in Creation</em>.<sup class="cite"><a href="#bib-11" title="A Crack in Creation">[11]</a></sup> The book's narrative of racing, competing, and succeeding through a combination of insight and opportunism both attracted and unsettled her. She later met Watson and found the encounter difficult: the man who had given her the courage to pursue science was also the man whose treatment of Rosalind Franklin she found indefensible.</p>
+      </div>
+      <div class="personality-cell">
+        <div class="personality-cell-label">The Nightmare</div>
+        <p>In her book, Doudna describes a recurring nightmare that followed He Jiankui's CRISPR babies announcement: a man in the shadows wants her to explain CRISPR to him, and when she looks up, she sees Hitler's face.<sup class="cite"><a href="#bib-11" title="A Crack in Creation">[11]</a></sup> She has used this image publicly — not for drama, but as evidence that the creators of powerful technologies bear a moral weight that cannot be delegated to regulators or ethicists after the fact. The nightmare has become one of the most quoted passages in the recent literature of science ethics.</p>
+      </div>
+      <div class="personality-cell">
+        <div class="personality-cell-label">Competitive Temperament</div>
+        <p>Doudna is not publicly modest about ambition. She acknowledges the patent dispute directly, has not concealed frustration with the Broad's legal strategy, and has described in interviews the moment she learned Zhang had beaten her to the eukaryotic demonstration as one of the hardest of her career.<sup class="cite"><a href="#bib-13" title="Isaacson">[13]</a></sup> Former students describe her as a demanding mentor who sets very high standards and is unsparingly direct. The same intensity that powered the 2012 breakthrough is not always comfortable to work near.</p>
+      </div>
+      <div class="personality-cell">
+        <div class="personality-cell-label">Outdoor Life &amp; Presence</div>
+        <p>Doudna is an avid hiker — the Berkeley Hills and the coastal trails of Northern California are regular terrain — and attributes part of her capacity for sustained intellectual focus to time spent outside.<sup class="cite"><a href="#bib-3" title="HHMI">[3]</a></sup> Friends describe her as capable of complete presence: "When Jennifer is listening to you, she is entirely listening to you," one collaborator told a journalist. She brings the same full attention to science: multiple colleagues note that she has the ability to see a problem whole when others are still cataloguing its parts.</p>
+      </div>
+    </div>
+
+    <div class="ornament">— ✦ —</div>
+
+    <div class="pull-quote">
+      <p>"Science is not just a career — it is a calling that requires you to be constantly willing to be wrong. And to be excited about being wrong, because it means you are closer to the truth."</p>
+      <cite>— Jennifer Doudna, Berkeley commencement remarks <sup class="cite"><a href="#bib-3" title="HHMI Profile">[3]</a></sup></cite>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ DISCUSSION ══════════════════════════════ -->
+<section style="background: var(--ink); color: var(--paper);">
+  <div class="section">
+    <div class="section-label" style="color: var(--gold);">07 — For Discussion</div>
+    <h2 class="section-title" style="color: #8abca4;">Questions for<br><em>the Study Group</em></h2>
+
+    <div class="three-col">
+      <div class="card">
+        <div class="card-title">The Franklin Parallel</div>
+        <p>Doudna found her calling by reading Watson's account of Rosalind Franklin's story as a twelve-year-old. She later identified Franklin's exclusion as a moral failure. Yet Francisco Mojica — who found CRISPR and understood what it was — was excluded from the Nobel, and his story is still obscure to the public. Is the CRISPR allocation of credit meaningfully different from the DNA allocation? Does Doudna's own success make it harder or easier to see the parallel?</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Asilomar Then and Now</div>
+        <p>Paul Berg's 1975 Asilomar conference succeeded: recombinant DNA became both safe and productive under self-regulation. Doudna has tried to replicate that model for CRISPR — but the technology is cheaper, more globally distributed, and the application space (human germline editing) is far more politically and ethically charged. What would a successful governance framework for CRISPR look like, and who has the authority to impose it?</p>
+      </div>
+      <div class="card">
+        <div class="card-title">The Equity Problem</div>
+        <p>Casgevy, the first approved CRISPR therapy, costs approximately $2.2 million per patient — effectively placing it beyond the reach of the sickle cell patients most burdened by the disease in sub-Saharan Africa and South Asia. CRISPR was discovered in bacteria found everywhere; the intellectual property it generated is held by a small number of mostly American institutions. How should scientists, policymakers, and the public think about this gap between scientific promise and medical access?</p>
+      </div>
+      <div class="card">
+        <div class="card-title">He Jiankui: Individual vs. System</div>
+        <p>He Jiankui was imprisoned; the broader community has continued. But the technical barriers to germline editing have continued to fall, and several researchers have announced intentions to pursue it in contexts with less oversight. Was He an aberration, or a preview? Does imprisoning one scientist change the structural incentives that produced him?</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Science Communication</div>
+        <p>Doudna wrote <em>A Crack in Creation</em> before the Nobel, arguably one of the best books by a practicing scientist about a discovery still in progress. It has shaped public understanding of CRISPR at least as much as any paper. Should scientists be expected to communicate to the public — and does the obligation increase in proportion to the power of the technology they develop?</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Treatment vs. Enhancement</div>
+        <p>Casgevy corrects a disease caused by a single gene mutation. But CRISPR could, in principle, be used to enhance intelligence, height, or athletic ability if the genetic architecture were sufficiently understood. Most scientists draw a sharp line between treating disease and enhancing traits — but the line is not always obvious. Where would your study group place it, and on what principle?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ BIBLIOGRAPHY ══════════════════════════════ -->
+<section id="bibliography">
+  <div class="section">
+    <div class="section-label">Sources &amp; Citations</div>
+    <h2 class="section-title">Bibliography</h2>
+
+    <div class="bib-grid">
+
+      <div class="bib-entry" id="bib-1">
+        <div class="bib-num">[1]</div>
+        <div class="bib-content">
+          <span class="bib-title">Jennifer Doudna — Encyclopedia Entry</span>
+          <div class="bib-source">Wikipedia (extensively sourced, with primary citations)</div>
+          <a href="https://en.wikipedia.org/wiki/Jennifer_Doudna" target="_blank" rel="noopener">en.wikipedia.org/wiki/Jennifer_Doudna</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-2">
+        <div class="bib-num">[2]</div>
+        <div class="bib-content">
+          <span class="bib-title">Jennifer Doudna — Scientific Biography</span>
+          <div class="bib-source">Science History Institute</div>
+          <a href="https://www.sciencehistory.org/education/scientific-biographies/jennifer-doudna/" target="_blank" rel="noopener">sciencehistory.org/education/scientific-biographies/jennifer-doudna/</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-3">
+        <div class="bib-num">[3]</div>
+        <div class="bib-content">
+          <span class="bib-title">Jennifer Doudna — Scientist Profile</span>
+          <div class="bib-source">Howard Hughes Medical Institute (HHMI)</div>
+          <a href="https://www.hhmi.org/scientists/jennifer-doudna" target="_blank" rel="noopener">hhmi.org/scientists/jennifer-doudna</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-4">
+        <div class="bib-num">[4]</div>
+        <div class="bib-content">
+          <span class="bib-title">The Nobel Prize in Chemistry 2020 — Facts &amp; Announcement</span>
+          <div class="bib-source">The Nobel Prize Official Website · October 2020</div>
+          <a href="https://www.nobelprize.org/prizes/chemistry/2020/doudna/facts/" target="_blank" rel="noopener">nobelprize.org/prizes/chemistry/2020/doudna/facts/</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-5">
+        <div class="bib-num">[5]</div>
+        <div class="bib-content">
+          <span class="bib-title">The Gene Hackers</span>
+          <div class="bib-source">The New Yorker · Michael Specter · November 16, 2015</div>
+          <a href="https://www.newyorker.com/magazine/2015/11/16/the-gene-hackers" target="_blank" rel="noopener">newyorker.com/magazine/2015/11/16/the-gene-hackers</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-6">
+        <div class="bib-num">[6]</div>
+        <div class="bib-content">
+          <span class="bib-title">A Programmable Dual-RNA–Guided DNA Endonuclease in Adaptive Bacterial Immunity</span>
+          <div class="bib-source">Science · Jinek, Chylinski, Fonfara, Hauer, Doudna, Charpentier · June 28, 2012</div>
+          <a href="https://www.science.org/doi/10.1126/science.1225829" target="_blank" rel="noopener">science.org/doi/10.1126/science.1225829</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-7">
+        <div class="bib-num">[7]</div>
+        <div class="bib-content">
+          <span class="bib-title">The CRISPR Patent Fight: A Timeline</span>
+          <div class="bib-source">STAT News · February 2017 (updated)</div>
+          <a href="https://www.statnews.com/2017/02/15/crispr-patent-fight-broad-berkeley/" target="_blank" rel="noopener">statnews.com/2017/02/15/crispr-patent-fight-broad-berkeley/</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-8">
+        <div class="bib-num">[8]</div>
+        <div class="bib-content">
+          <span class="bib-title">CRISPR: A Decade of Breakthroughs, and Controversies</span>
+          <div class="bib-source">Nature · News Feature · 2022</div>
+          <a href="https://www.nature.com/articles/d41586-022-02420-x" target="_blank" rel="noopener">nature.com/articles/d41586-022-02420-x</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-9">
+        <div class="bib-num">[9]</div>
+        <div class="bib-content">
+          <span class="bib-title">A Prudent Path Forward for Genomic Engineering and Germline Gene Modification</span>
+          <div class="bib-source">Science · Baltimore, Berg, Doudna et al. · April 3, 2015</div>
+          <a href="https://www.science.org/doi/10.1126/science.aab1028" target="_blank" rel="noopener">science.org/doi/10.1126/science.aab1028</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-10">
+        <div class="bib-num">[10]</div>
+        <div class="bib-content">
+          <span class="bib-title">CRISPR-Baby Scientist Faces the Music After Jail Time</span>
+          <div class="bib-source">Nature · May 2023</div>
+          <a href="https://www.nature.com/articles/d41586-023-01688-5" target="_blank" rel="noopener">nature.com/articles/d41586-023-01688-5</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-11">
+        <div class="bib-num">[11]</div>
+        <div class="bib-content">
+          <span class="bib-title">A Crack in Creation: Gene Editing and the Unthinkable Power to Control Evolution</span>
+          <div class="bib-source">Jennifer Doudna &amp; Samuel Sternberg · Houghton Mifflin Harcourt · 2017</div>
+          <a href="https://www.hmhbooks.com/shop/books/a-crack-in-creation/9780544716940" target="_blank" rel="noopener">hmhbooks.com/shop/books/a-crack-in-creation/9780544716940</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-12">
+        <div class="bib-num">[12]</div>
+        <div class="bib-content">
+          <span class="bib-title">FDA Approves First Gene Therapies to Treat Patients with Sickle Cell Disease</span>
+          <div class="bib-source">U.S. Food &amp; Drug Administration · December 8, 2023</div>
+          <a href="https://www.fda.gov/news-events/press-announcements/fda-approves-first-gene-therapies-treat-patients-sickle-cell-disease" target="_blank" rel="noopener">fda.gov/news-events/press-announcements/fda-approves-first-gene-therapies…</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-13">
+        <div class="bib-num">[13]</div>
+        <div class="bib-content">
+          <span class="bib-title">The Code Breaker: Jennifer Doudna, Gene Editing, and the Future of the Human Race</span>
+          <div class="bib-source">Walter Isaacson · Simon &amp; Schuster · 2021</div>
+          <a href="https://www.simonandschuster.com/books/The-Code-Breaker/Walter-Isaacson/9781982115852" target="_blank" rel="noopener">simonandschuster.com/books/The-Code-Breaker/Walter-Isaacson/9781982115852</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-14">
+        <div class="bib-num">[14]</div>
+        <div class="bib-content">
+          <span class="bib-title">Innovative Genomics Institute — Research Overview</span>
+          <div class="bib-source">UC Berkeley / UCSF · innovativegenomics.org</div>
+          <a href="https://innovativegenomics.org/research/" target="_blank" rel="noopener">innovativegenomics.org/research/</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-15">
+        <div class="bib-num">[15]</div>
+        <div class="bib-content">
+          <span class="bib-title">CRISPR in Agriculture: An Overview</span>
+          <div class="bib-source">Innovative Genomics Institute (IGI) — Science Policy &amp; Communications</div>
+          <a href="https://innovativegenomics.org/crisprpedia/crispr-in-agriculture/" target="_blank" rel="noopener">innovativegenomics.org/crisprpedia/crispr-in-agriculture/</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-16">
+        <div class="bib-num">[16]</div>
+        <div class="bib-content">
+          <span class="bib-title">The Unsung Hero of CRISPR: Francisco Mojica</span>
+          <div class="bib-source">The Scientist · February 2020</div>
+          <a href="https://www.the-scientist.com/the-unsung-hero-of-crispr-67256" target="_blank" rel="noopener">the-scientist.com/the-unsung-hero-of-crispr-67256</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-17">
+        <div class="bib-num">[17]</div>
+        <div class="bib-content">
+          <span class="bib-title">Permanent Establishment of an International Commission on the Clinical Use of Human Germline Genome Editing</span>
+          <div class="bib-source">National Academies of Sciences, Engineering, and Medicine · 2020 Report</div>
+          <a href="https://www.nationalacademies.org/news/2020/09/permanent-body-to-oversee-heritable-human-genome-editing-needed" target="_blank" rel="noopener">nationalacademies.org/news/2020/09/permanent-body-to-oversee-heritable-human-genome-editing-needed</a>
+        </div>
+      </div>
+
+      <div class="bib-entry" id="bib-18">
+        <div class="bib-num">[18]</div>
+        <div class="bib-content">
+          <span class="bib-title">Jennifer Doudna: How CRISPR Lets Us Edit Our DNA</span>
+          <div class="bib-source">TED Talk · TED2015 · Jennifer Doudna</div>
+          <a href="https://www.ted.com/talks/jennifer_doudna_how_crispr_lets_us_edit_our_dna" target="_blank" rel="noopener">ted.com/talks/jennifer_doudna_how_crispr_lets_us_edit_our_dna</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Jennifer Doudna Profile &nbsp;·&nbsp; Prepared for BOLLI Five Women Scientists Discussion Group &nbsp;·&nbsp; Week 4</p>
+  <p style="margin-top: 8px; opacity: 0.5;">18 sources cited &nbsp;·&nbsp; All citations link directly to original sources</p>
+</footer>
+
+</body>
+</html>
