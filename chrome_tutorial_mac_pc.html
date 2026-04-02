@@ -31,19 +31,215 @@
         }
         .platform-badge {
             display: inline-block;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.85em;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 1em;
             font-weight: 600;
             margin: 5px 5px 5px 0;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+        .platform-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         .mac-badge {
             background: #e8f4fd;
             color: #1e88e5;
         }
+        .mac-badge.active {
+            background: #1e88e5;
+            color: white;
+            border-color: #1565c0;
+            box-shadow: 0 4px 12px rgba(30,136,229,0.4);
+        }
         .windows-badge {
             background: #fff3e0;
             color: #f57c00;
+        }
+        .windows-badge.active {
+            background: #f57c00;
+            color: white;
+            border-color: #e65100;
+            box-shadow: 0 4px 12px rgba(245,124,0,0.4);
+        }
+        /* Hide platform-specific content when filter is active */
+        body.filter-mac .windows-specific,
+        body.filter-mac .shortcut-box.windows {
+            display: none !important;
+        }
+        body.filter-windows .mac-specific,
+        body.filter-windows .shortcut-box.mac {
+            display: none !important;
+        }
+
+        /* ON DEMAND SECTION STYLES */
+        .on-demand-section {
+            background: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.15);
+            border-left: 6px solid #11998e;
+        }
+        .on-demand-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .on-demand-header h2 {
+            color: #11998e;
+            margin: 0 0 10px 0;
+            font-size: 1.8em;
+        }
+        .on-demand-header p {
+            color: #666;
+            font-size: 1.1em;
+            margin: 0;
+        }
+        .prompt-container {
+            margin-bottom: 25px;
+        }
+        .prompt-input {
+            width: 100%;
+            padding: 18px;
+            font-size: 1.1em;
+            border: 3px solid #dee2e6;
+            border-radius: 10px;
+            font-family: inherit;
+            transition: all 0.3s;
+            box-sizing: border-box;
+        }
+        .prompt-input:focus {
+            outline: none;
+            border-color: #11998e;
+            box-shadow: 0 0 0 3px rgba(17, 153, 142, 0.1);
+        }
+        .prompt-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .search-btn, .clear-btn {
+            flex: 1;
+            padding: 15px 30px;
+            font-size: 1.05em;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .search-btn {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(17, 153, 142, 0.4);
+        }
+        .clear-btn {
+            background: #f8f9fa;
+            color: #495057;
+            border: 2px solid #dee2e6;
+        }
+        .clear-btn:hover {
+            background: #e9ecef;
+            border-color: #adb5bd;
+        }
+        .example-queries {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .example-queries h4 {
+            margin: 0 0 12px 0;
+            color: #495057;
+            font-size: 1em;
+        }
+        .example-tag {
+            display: inline-block;
+            padding: 8px 16px;
+            margin: 5px 5px 5px 0;
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 20px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .example-tag:hover {
+            background: #11998e;
+            color: white;
+            border-color: #11998e;
+            transform: translateY(-2px);
+        }
+        .results-container {
+            display: none;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 3px solid #11998e;
+        }
+        .results-container.visible {
+            display: block;
+        }
+        .results-header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .results-header h3 {
+            margin: 0 0 5px 0;
+        }
+        .results-header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+        .result-item {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #11998e;
+        }
+        .result-item h4 {
+            margin: 0 0 15px 0;
+            color: #11998e;
+            font-size: 1.2em;
+        }
+        .result-steps {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+        .result-steps ol {
+            margin: 0;
+            padding-left: 25px;
+        }
+        .result-steps li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            background: #fff3cd;
+            border-radius: 8px;
+            border: 2px solid #ffc107;
+        }
+        .no-results h3 {
+            color: #856404;
+            margin: 0 0 10px 0;
+        }
+        .no-results p {
+            color: #856404;
+            margin: 0;
         }
         .progress-bar {
             background: white;
@@ -448,12 +644,14 @@
     <div class="header">
         <h1>🌐 Chrome Browser Skills Tutorial</h1>
         <p class="subtitle">Essential keyboard shortcuts and techniques for BOLLI members</p>
-        <div style="margin-top: 15px;">
-            <span class="platform-badge mac-badge">🍎 Mac</span>
-            <span class="platform-badge windows-badge">🪟 Windows</span>
+        <div style="margin-top: 20px;">
+            <p style="margin: 0 0 10px 0; font-size: 1em; opacity: 0.9;">Show instructions for:</p>
+            <span class="platform-badge mac-badge" onclick="setPlatformFilter('mac')">🍎 Mac</span>
+            <span class="platform-badge windows-badge" onclick="setPlatformFilter('windows')">🪟 Windows</span>
         </div>
     </div>
 
+    <!-- ON DEMAND SECTION -->
     <div class="progress-bar">
         <h3 style="margin-top: 0;">Your Learning Progress</h3>
         <div class="progress-container">
@@ -551,7 +749,7 @@
                     <li><strong>What it does:</strong> Lets you report confusing instructions, technical problems, or areas where you need more help</li>
                     <li><strong>Why it matters:</strong> Your feedback helps us improve the tutorial for everyone and alerts instructors to common difficulties</li>
                     <li><strong>How we help:</strong> Issues are reviewed regularly, and we update lessons based on your feedback</li>
-                    <li><strong>Submit to instructors:</strong> Click "📊 Submit to Google Sheets" to send your issues directly to BOLLI instructors for personalized assistance</li>
+                    <li><strong>Submit to instructors:</strong> Click "📊 Submit to Tutorial Support" to send your issues directly to BOLLI instructors for personalized assistance</li>
                 </ul>
             </div>
             
@@ -567,6 +765,47 @@
             </div>
             <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed-how-to')">▲ Collapse This Section</button>
         </div>
+    </div>
+
+    <!-- ON DEMAND SECTION -->
+    <div class="on-demand-section">
+        <div class="on-demand-header" onclick="toggleOnDemand()" style="cursor:pointer; user-select:none;">
+            <h2 style="display:flex; align-items:center; justify-content:center; gap:15px;">
+                🎯 On Demand: Find What You Need
+                <span id="onDemandArrow" style="font-size:0.7em; color:#11998e; transition:transform 0.3s; transform:rotate(-90deg);">▼</span>
+            </h2>
+            <p>Tell me what you want to accomplish, and I'll show you exactly how!</p>
+        </div>
+
+        <div id="onDemandBody" style="display:none;">
+        <div class="prompt-container">
+            <textarea 
+                id="userPrompt" 
+                class="prompt-input" 
+                placeholder="Example: I want to copy text from one document to another with both visible..."
+                rows="3"></textarea>
+            
+            <div class="prompt-buttons">
+                <button class="search-btn" onclick="searchTutorial()">🔍 Find My Steps</button>
+                <button class="clear-btn" onclick="clearSearch()">✕ Clear</button>
+            </div>
+        </div>
+        
+        <div class="example-queries">
+            <h4>💡 Try these examples:</h4>
+            <span class="example-tag" onclick="fillExample('Copy text from one document to another with both documents visible in browser')">Copy between two documents</span>
+            <span class="example-tag" onclick="fillExample('Save a webpage for offline reading')">Save for offline reading</span>
+            <span class="example-tag" onclick="fillExample('Make text bigger on a webpage')">Make text bigger</span>
+            <span class="example-tag" onclick="fillExample('Find a specific word on a long webpage')">Find specific text</span>
+            <span class="example-tag" onclick="fillExample('Organize all my open tabs')">Organize tabs</span>
+            <span class="example-tag" onclick="fillExample('Save a webpage as PDF')">Save as PDF</span>
+            <span class="example-tag" onclick="fillExample('View two windows side by side on my screen')">Split Screens</span>
+        </div>
+        
+        <div id="resultsContainer" class="results-container">
+            <!-- Results will be inserted here dynamically -->
+        </div>
+        </div><!-- end onDemandBody -->
     </div>
 
     <!-- LESSON 1: Finding Your Keys -->
@@ -1088,6 +1327,16 @@
             <div class="step">
                 <span class="step-number">4</span>
                 <strong>Adjust the divider</strong> - Drag the vertical line between windows to adjust sizes
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Chrome Built-in Split View:</strong> Chrome has its own tab-splitting feature — no keyboard shortcut needed!
+                <ul style="margin-top: 10px;">
+                    <li>Right-click any tab and choose <strong>"Add tab to new split view"</strong> <span style="font-size:1.1em;">⧉</span></li>
+                    <li>Chrome splits the browser window in two — one tab on each side</li>
+                    <li>Click any other tab to fill the second panel</li>
+                    <li>Great for comparing two pages without resizing any windows</li>
+                </ul>
             </div>
             
             <div class="tip-box">
@@ -1750,7 +1999,221 @@
             // Initial progress update
             updateProgress();
             updateDashboard();
+
+            loadPlatformFilter();
+
+            // Allow Enter key to trigger On Demand search
+            const promptEl = document.getElementById('userPrompt');
+            if (promptEl) {
+                promptEl.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        searchTutorial();
+                    }
+                });
+            }
         });
+
+        // ── PLATFORM FILTER ──────────────────────────────────────────────
+        function setPlatformFilter(platform) {
+            const clickedButton = platform === 'mac' ?
+                document.querySelector('.mac-badge') :
+                document.querySelector('.windows-badge');
+
+            if (clickedButton.classList.contains('active')) {
+                document.body.classList.remove('filter-mac', 'filter-windows');
+                document.querySelectorAll('.platform-badge').forEach(b => b.classList.remove('active'));
+                localStorage.setItem('platformFilter', 'both');
+            } else {
+                document.body.classList.remove('filter-mac', 'filter-windows');
+                document.querySelectorAll('.platform-badge').forEach(b => b.classList.remove('active'));
+                if (platform === 'mac') {
+                    document.body.classList.add('filter-mac');
+                    document.querySelector('.mac-badge').classList.add('active');
+                } else {
+                    document.body.classList.add('filter-windows');
+                    document.querySelector('.windows-badge').classList.add('active');
+                }
+                localStorage.setItem('platformFilter', platform);
+            }
+
+            const rc = document.getElementById('resultsContainer');
+            const prompt = document.getElementById('userPrompt');
+            if (rc && rc.classList.contains('visible') && prompt && prompt.value) {
+                searchTutorial();
+            }
+        }
+
+        function loadPlatformFilter() {
+            const saved = localStorage.getItem('platformFilter');
+            if (saved && saved !== 'both') {
+                if (saved === 'mac') {
+                    document.body.classList.add('filter-mac');
+                    document.querySelector('.mac-badge').classList.add('active');
+                } else if (saved === 'windows') {
+                    document.body.classList.add('filter-windows');
+                    document.querySelector('.windows-badge').classList.add('active');
+                }
+            }
+        }
+
+        // ── ON DEMAND SEARCH ─────────────────────────────────────────────
+        const tutorialKnowledge = {
+            tabs: {
+                keywords: ['tab', 'tabs', 'window', 'windows', 'multiple', 'switch', 'organize', 'manage', 'close', 'reopen'],
+                tasks: [
+                    { goal: 'open new tab', keywords: ['open', 'new', 'create'], title: 'Opening a New Tab',
+                      steps: ['Mac: Press ⌘ Cmd + T', 'Windows: Press Ctrl + T', 'Or click the + button next to your existing tabs'] },
+                    { goal: 'close tab', keywords: ['close', 'exit', 'quit', 'remove'], title: 'Closing Tabs',
+                      steps: ['Mac: Press ⌘ Cmd + W to close current tab', 'Windows: Press Ctrl + W to close current tab',
+                              'Click the X on the tab', 'To reopen: Mac ⌘ Cmd + Shift + T, Windows Ctrl + Shift + T'] },
+                    { goal: 'switch between tabs', keywords: ['switch', 'move', 'navigate', 'jump', 'between', 'different'], title: 'Switching Between Tabs',
+                      steps: ['Click on any tab to switch to it', 'Mac: ⌘ Cmd + 1-9 to jump to specific tab number',
+                              'Windows: Ctrl + 1-9 to jump to specific tab number', 'Use Control + Tab to move to next tab', 'Drag tabs to reorder them'] },
+                    { goal: 'view multiple tabs', keywords: ['multiple', 'two', 'several', 'both', 'side by side', 'compare', 'together', 'split', 'view'], title: 'Viewing Multiple Tabs Side by Side',
+                      steps: [
+                        'Chrome built-in: Right-click any tab and choose "Add tab to new split view" — Chrome splits instantly, no resizing needed',
+                        'Drag a tab out of the Chrome window to create a new window',
+                        'Resize both windows so they fit side by side on your screen',
+                        'Mac: Use Mission Control to arrange windows',
+                        'Windows: Use Windows + Left/Right arrow to snap windows to sides'
+                      ] }
+                ]
+            },
+            bookmarks: {
+                keywords: ['bookmark', 'save', 'favorite', 'organize', 'folder', 'bar'],
+                tasks: [
+                    { goal: 'create bookmark', keywords: ['create', 'bookmark', 'add bookmark', 'save page', 'save site'], title: 'Creating a Bookmark',
+                      steps: ['Mac: Press ⌘ Cmd + D', 'Windows: Press Ctrl + D',
+                              'Or click the ⭐ star icon in the address bar', 'Choose a folder location and click "Done"'] },
+                    { goal: 'organize bookmarks', keywords: ['organize', 'manage', 'folders', 'rearrange', 'delete'], title: 'Organizing Bookmarks',
+                      steps: ['Mac: Press ⌘ Cmd + Shift + O to open Bookmark Manager', 'Windows: Press Ctrl + Shift + O to open Bookmark Manager',
+                              'Create folders by clicking "Add new folder"', 'Drag and drop bookmarks to rearrange them',
+                              'Delete bookmarks by right-clicking and selecting "Delete"'] },
+                    { goal: 'show bookmarks bar', keywords: ['show', 'display', 'bar', 'toolbar', 'visible'], title: 'Showing the Bookmarks Bar',
+                      steps: ['Mac: Press ⌘ Cmd + Option + B', 'Windows: Press Ctrl + Shift + B',
+                              'The bookmarks bar appears below the address bar', 'Your most-used bookmarks can be placed here for quick access'] }
+                ]
+            },
+            zoom: {
+                keywords: ['zoom', 'bigger', 'smaller', 'larger', 'size', 'text', 'magnify', 'enlarge', 'shrink'],
+                tasks: [
+                    { goal: 'make text bigger', keywords: ['bigger', 'larger', 'increase', 'zoom in', 'magnify', 'enlarge'], title: 'Making Text Bigger (Zoom In)',
+                      steps: ['Mac: Press ⌘ Cmd + Plus (+)', 'Windows: Press Ctrl + Plus (+)', 'Keep pressing to zoom in more', 'Each website remembers its zoom level'] },
+                    { goal: 'make text smaller', keywords: ['smaller', 'decrease', 'zoom out', 'shrink', 'reduce'], title: 'Making Text Smaller (Zoom Out)',
+                      steps: ['Mac: Press ⌘ Cmd + Minus (-)', 'Windows: Press Ctrl + Minus (-)', 'Keep pressing to zoom out more'] },
+                    { goal: 'reset zoom', keywords: ['reset', 'normal', 'default', '100%', 'original'], title: 'Resetting Zoom to Normal',
+                      steps: ['Mac: Press ⌘ Cmd + 0 (zero)', 'Windows: Press Ctrl + 0 (zero)', 'This returns the page to 100% zoom'] }
+                ]
+            },
+            find: {
+                keywords: ['find', 'search', 'locate', 'word', 'text', 'phrase', 'look for'],
+                tasks: [
+                    { goal: 'find text on page', keywords: ['find', 'search', 'locate', 'look for', 'word', 'phrase', 'specific'], title: 'Finding Text on a Webpage',
+                      steps: ['Mac: Press ⌘ Cmd + F', 'Windows: Press Ctrl + F', 'Type the word or phrase you want to find',
+                              'Chrome highlights all matches on the page', 'Use the up/down arrows to jump between matches', 'Press Esc to close the find box'] },
+                    { goal: 'find next occurrence', keywords: ['next', 'another', 'continue', 'more'], title: 'Finding Next Match',
+                      steps: ['After searching, press ⌘ Cmd + G (Mac) or Ctrl + G (Windows)', 'Or click the down arrow in the find box',
+                              'To go to previous match: ⌘ Cmd + Shift + G (Mac) or Ctrl + Shift + G (Windows)'] }
+                ]
+            },
+            history: {
+                keywords: ['history', 'visited', 'previous', 'past', 'recently', 'clear', 'delete'],
+                tasks: [
+                    { goal: 'view history', keywords: ['view', 'see', 'show', 'check', 'look at', 'recently'], title: 'Viewing Your Browsing History',
+                      steps: ['Mac: Press ⌘ Cmd + Y', 'Windows: Press Ctrl + H', 'You can search your history using the search box',
+                              'Click on any item to revisit that page'] },
+                    { goal: 'clear history', keywords: ['clear', 'delete', 'remove', 'erase', 'clean'], title: 'Clearing Your History',
+                      steps: ['Mac: Press ⌘ Cmd + Shift + Delete', 'Windows: Press Ctrl + Shift + Delete',
+                              'Or open History and click "Clear browsing data"', 'Choose time range and what to clear',
+                              'WARNING: This also clears cookies and may log you out of websites'] }
+                ]
+            },
+            print: {
+                keywords: ['print', 'pdf', 'save', 'paper', 'document', 'offline'],
+                tasks: [
+                    { goal: 'print webpage', keywords: ['print', 'printer', 'paper', 'hard copy'], title: 'Printing a Webpage',
+                      steps: ['Mac: Press ⌘ Cmd + P', 'Windows: Press Ctrl + P', 'Select your printer from the Destination dropdown',
+                              'Adjust settings like page range, color, etc.', 'Click "Print" button'] },
+                    { goal: 'save as pdf', keywords: ['pdf', 'save', 'download', 'offline', 'reading', 'document'], title: 'Saving a Webpage as PDF',
+                      steps: ['Mac: Press ⌘ Cmd + P', 'Windows: Press Ctrl + P',
+                              'In the print dialog, change Destination to "Save as PDF"', 'Click "Save" button',
+                              'Choose where to save the file and click "Save" again', 'The PDF is now saved for offline reading!'] }
+                ]
+            }
+        };
+
+        function searchTutorial() {
+            const query = document.getElementById('userPrompt').value.toLowerCase().trim();
+            if (!query) { alert('Please describe what you want to accomplish!'); return; }
+
+            const queryWords = query.split(/\s+/);
+            const results = [];
+
+            for (const [lesson, data] of Object.entries(tutorialKnowledge)) {
+                for (const task of data.tasks) {
+                    let matchScore = 0;
+                    for (const kw of task.keywords) { if (query.includes(kw)) matchScore += 3; }
+                    for (const kw of data.keywords) { if (query.includes(kw)) matchScore += 2; }
+                    for (const word of queryWords) {
+                        if (word.length > 3 && task.keywords.some(k => k.length > 3 && (k.includes(word) || word.includes(k)))) matchScore += 1;
+                    }
+                    if (matchScore > 0) results.push({ ...task, matchScore, lesson });
+                }
+            }
+            results.sort((a, b) => b.matchScore - a.matchScore);
+            displayOnDemandResults(results, query);
+        }
+
+        function displayOnDemandResults(results, query) {
+            const rc = document.getElementById('resultsContainer');
+            const isMac = document.body.classList.contains('filter-mac');
+            const isWin = document.body.classList.contains('filter-windows');
+
+            if (results.length === 0) {
+                rc.innerHTML = '<div class="no-results"><h3>🔍 No exact match found</h3>' +
+                    '<p>Try rephrasing your question or browse the full tutorial below.</p>' +
+                    '<p style="margin-top:10px;"><strong>Suggested:</strong> Try one of the example queries above!</p></div>';
+            } else {
+                const top = results.slice(0, 3);
+                let html = '<div class="results-header"><h3>✨ Here\'s how to: "' + query + '"</h3>' +
+                    '<p>Found ' + top.length + ' relevant ' + (top.length === 1 ? 'solution' : 'solutions') + '</p></div>';
+
+                top.forEach((result, idx) => {
+                    let steps = result.steps;
+                    if (isMac) steps = steps.filter(s => !s.startsWith('Windows:') && !s.includes('🪟'));
+                    else if (isWin) steps = steps.filter(s => !s.startsWith('Mac:') && !s.includes('🍎') && !s.includes('⌘'));
+
+                    html += '<div class="result-item"><h4>' + (idx + 1) + '. ' + result.title + '</h4>' +
+                        '<div class="result-steps"><ol>' +
+                        steps.map(s => '<li>' + s + '</li>').join('') +
+                        '</ol></div></div>';
+                });
+                rc.innerHTML = html;
+            }
+            rc.classList.add('visible');
+            rc.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function clearSearch() {
+            document.getElementById('userPrompt').value = '';
+            const rc = document.getElementById('resultsContainer');
+            rc.classList.remove('visible');
+            rc.innerHTML = '';
+        }
+
+        function fillExample(text) {
+            document.getElementById('userPrompt').value = text;
+            searchTutorial();
+        }
+
+        function toggleOnDemand() {
+            const body = document.getElementById('onDemandBody');
+            const arrow = document.getElementById('onDemandArrow');
+            const collapsed = body.style.display === 'none';
+            body.style.display = collapsed ? 'block' : 'none';
+            arrow.style.transform = collapsed ? 'rotate(0deg)' : 'rotate(-90deg)';
+        }
 
         // My Issues functionality (identical to Safari version, will use same Google Sheet)
         function openMyIssues(lessonName) {
@@ -2034,7 +2497,7 @@
             </div>
         </div>
         
-        <button class="submit-sheets-btn" onclick="submitToGoogleSheets()" id="submitSheetsBtn">📊 Submit to Google Sheets</button>
+        <button class="submit-sheets-btn" onclick="submitToGoogleSheets()" id="submitSheetsBtn">📊 Submit to Tutorial Support</button>
         <button class="download-btn" onclick="downloadIssues()">💾 Download All Issues</button>
         <button class="clear-all-btn" onclick="clearAllIssues()">Clear All Issues</button>
         
@@ -2285,7 +2748,7 @@
             loadUserInfo();
             attachIssueDragListeners();
         });
-        
+
         async function submitToGoogleSheets() {
             const myIssues = JSON.parse(localStorage.getItem('tutorialIssues') || '[]');
             
@@ -2330,7 +2793,7 @@
                     
                     setTimeout(() => {
                         button.disabled = false;
-                        button.textContent = '📊 Submit to Google Sheets';
+                        button.textContent = '📊 Submit to Tutorial Support';
                         button.style.background = '';
                     }, 2000);
                     
@@ -2341,7 +2804,7 @@
                     button.textContent = '✓ Submitted!';
                     setTimeout(() => {
                         button.disabled = false;
-                        button.textContent = '📊 Submit to Google Sheets';
+                        button.textContent = '📊 Submit to Tutorial Support';
                     }, 2000);
                     showNotification('✓ ' + myIssues.length + ' issue(s) submitted!');
                 });
@@ -2349,7 +2812,7 @@
             } catch (error) {
                 console.error('Error:', error);
                 button.disabled = false;
-                button.textContent = '📊 Submit to Google Sheets';
+                button.textContent = '📊 Submit to Tutorial Support';
                 showNotification('❌ Error submitting. Please try again.', true);
             }
         }
