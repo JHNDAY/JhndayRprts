@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>729 Times Happier — Plato, Power & the AI Moguls</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f7f2ea;
+    --parchment: #ede7d9;
+    --warm-white: #faf7f2;
+    --terracotta: #c0614a;
+    --terra-dim: rgba(192,97,74,0.10);
+    --gold: #b8872a;
+    --gold-light: #d4a84b;
+    --gold-dim: rgba(184,135,42,0.12);
+    --sage: #5a7a5e;
+    --sage-dim: rgba(90,122,94,0.12);
+    --charcoal: #2e2a24;
+    --mid: #5a5248;
+    --dim: #8a8278;
+    --border: rgba(90,82,72,0.15);
+    --border-strong: rgba(90,82,72,0.28);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    color: var(--charcoal);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  .masthead {
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--border-strong);
+    padding: 48px 48px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .masthead::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--terracotta), var(--gold-light), var(--sage));
+  }
+  .masthead-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: center;
+  }
+  .eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow::before { content:''; display:inline-block; width:24px; height:1px; background:var(--terracotta); }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4.5vw, 54px);
+    font-weight: 900;
+    line-height: 1.06;
+    letter-spacing: -0.02em;
+    color: var(--charcoal);
+    margin-bottom: 6px;
+  }
+  .subtitle { font-size: 18px; font-weight: 300; font-style: italic; color: var(--mid); margin-bottom: 14px; }
+  .meta { font-family: 'Jost', sans-serif; font-size: 11px; color: var(--dim); letter-spacing: 0.06em; }
+  .big-729 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(56px, 9vw, 108px);
+    font-weight: 900;
+    color: var(--terracotta);
+    line-height: 1;
+    opacity: 0.15;
+    user-select: none;
+  }
+
+  .tab-nav {
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--border-strong);
+    padding: 0 48px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .tab-list { max-width: 900px; margin: 0 auto; display: flex; overflow-x: auto; scrollbar-width: none; }
+  .tab-list::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dim);
+    padding: 15px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .tab-btn:hover { color: var(--mid); }
+  .tab-btn.active { color: var(--charcoal); border-bottom-color: var(--terracotta); }
+
+  .main { max-width: 900px; margin: 0 auto; padding: 44px 48px 80px; }
+
+  @media (max-width: 640px) {
+    .masthead { padding: 32px 20px 28px; }
+    .masthead-inner { grid-template-columns: 1fr; }
+    .big-729 { display: none; }
+    .tab-nav { padding: 0 20px; }
+    .main { padding: 28px 20px 60px; }
+  }
+
+  .panel { display: none; animation: fadeIn 0.28s ease; }
+  .panel.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:none; } }
+
+  .sec-head {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin: 40px 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .sec-head::after { content:''; flex:1; height:1px; background:var(--border-strong); }
+
+  .card { background: var(--warm-white); border: 1px solid var(--border-strong); border-radius: 4px; padding: 22px 26px; margin-bottom: 18px; }
+  .card-label { font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); margin-bottom: 7px; }
+  .card-title { font-size: 17px; font-weight: 600; color: var(--charcoal); margin-bottom: 10px; }
+  .card-body { font-size: 15px; line-height: 1.78; color: var(--mid); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 22px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 22px; }
+  @media (max-width: 640px) { .grid-2 { grid-template-columns:1fr; } .grid-3 { grid-template-columns:1fr; } }
+
+  .hap-cell { background:var(--parchment); border:1px solid var(--border); border-radius:3px; padding:16px 18px; }
+  .hap-icon { font-size:17px; margin-bottom:7px; }
+  .hap-name { font-size:14px; font-weight:600; color:var(--charcoal); margin-bottom:5px; }
+  .hap-desc { font-size:13px; line-height:1.65; color:var(--mid); }
+
+  .soul-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:28px; }
+  @media (max-width:640px) { .soul-grid { grid-template-columns:1fr; } }
+  .soul-card { border-radius:3px; padding:18px; border-left:4px solid; }
+  .soul-card.rational { background:rgba(90,122,94,0.08); border-color:var(--sage); }
+  .soul-card.spirited { background:rgba(184,135,42,0.08); border-color:var(--gold); }
+  .soul-card.appetitive { background:rgba(192,97,74,0.08); border-color:var(--terracotta); }
+  .soul-part-name { font-size:12px; font-weight:600; font-family:'Jost',sans-serif; letter-spacing:0.08em; margin-bottom:7px; }
+  .soul-card.rational .soul-part-name { color:var(--sage); }
+  .soul-card.spirited .soul-part-name { color:var(--gold); }
+  .soul-card.appetitive .soul-part-name { color:var(--terracotta); }
+  .soul-desc { font-size:13px; line-height:1.65; color:var(--mid); }
+
+  .math-box { background:var(--warm-white); border:1px solid var(--border-strong); border-radius:3px; margin:18px 0; overflow:hidden; }
+  .math-row { display:flex; justify-content:space-between; align-items:center; padding:11px 20px; border-bottom:1px solid var(--border); font-size:14px; }
+  .math-row:last-child { border-bottom:none; }
+  .math-lbl { color:var(--mid); }
+  .math-val { font-family:'Jost',sans-serif; font-weight:600; font-size:13px; }
+  .math-val.highlight { color:var(--terracotta); font-size:15px; }
+
+  .big-number-block { text-align:center; margin:28px 0 6px; }
+  .big-num { font-family:'Playfair Display',serif; font-size:84px; font-weight:900; color:var(--terracotta); line-height:1; }
+  .big-caption { font-family:'Jost',sans-serif; font-size:11px; color:var(--dim); letter-spacing:0.08em; margin-top:6px; }
+
+  .spectrum-bar { display:flex; height:50px; border-radius:3px; overflow:hidden; border:1px solid var(--border-strong); margin:14px 0 7px; }
+  .spec-seg { display:flex; align-items:center; justify-content:center; font-family:'Jost',sans-serif; font-size:11px; font-weight:500; letter-spacing:0.07em; }
+  .spec-seg.just { background:var(--sage); color:#fff; flex:4; }
+  .spec-seg.mid { background:var(--parchment); color:var(--mid); flex:3; }
+  .spec-seg.tyr { background:var(--terracotta); color:#fff; flex:1; }
+  .spectrum-labels { display:flex; justify-content:space-between; font-family:'Jost',sans-serif; font-size:10px; letter-spacing:0.1em; color:var(--dim); margin-bottom:22px; }
+
+  .co-tab-row { display:flex; gap:8px; margin-bottom:22px; flex-wrap:wrap; }
+  .co-btn { font-family:'Jost',sans-serif; font-size:11px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; padding:7px 16px; border:1px solid var(--border-strong); border-radius:2px; cursor:pointer; background:transparent; color:var(--dim); transition:all 0.2s; }
+  .co-btn:hover { color:var(--mid); background:var(--parchment); }
+  .co-btn.active { background:var(--charcoal); color:var(--cream); border-color:var(--charcoal); }
+  .co-panel { display:none; animation:fadeIn 0.22s ease; }
+  .co-panel.active { display:block; }
+
+  .co-header { display:flex; align-items:center; gap:14px; margin-bottom:22px; padding-bottom:18px; border-bottom:1px solid var(--border); }
+  .co-dot { width:46px; height:46px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Jost',sans-serif; font-weight:600; font-size:13px; flex-shrink:0; }
+  .dot-oai { background:rgba(90,122,94,0.15); color:var(--sage); }
+  .dot-ant { background:rgba(192,97,74,0.12); color:var(--terracotta); }
+  .dot-goo { background:rgba(184,135,42,0.12); color:var(--gold); }
+  .co-name { font-family:'Playfair Display',serif; font-size:21px; font-weight:700; color:var(--charcoal); }
+  .co-lead { font-family:'Jost',sans-serif; font-size:11px; color:var(--dim); margin-top:2px; }
+
+  .power-row { margin-bottom:14px; }
+  .power-label-row { display:flex; justify-content:space-between; font-family:'Jost',sans-serif; font-size:11px; color:var(--mid); margin-bottom:5px; }
+  .power-track { height:7px; background:var(--parchment); border-radius:4px; overflow:hidden; border:1px solid var(--border); }
+  .power-fill { height:100%; border-radius:4px; }
+  .fill-power { background:var(--terracotta); }
+  .fill-ethical { background:var(--gold); }
+  .fill-gov { background:var(--sage); }
+
+  /* ── QUESTIONS ── */
+  .q-list { list-style:none; }
+  .q-item {
+    display: flex;
+    gap: 18px;
+    padding: 20px 14px;
+    border-bottom: 1px solid var(--border);
+    border-radius: 3px;
+    transition: background 0.15s;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+  .q-item:hover { background: var(--parchment); }
+  .q-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--border-strong);
+    line-height: 1.2;
+    min-width: 34px;
+    transition: color 0.2s;
+    flex-shrink: 0;
+  }
+  .q-item:hover .q-num { color: var(--terracotta); }
+  .q-body { flex: 1; }
+  .q-text { font-size: 15px; line-height: 1.72; color: var(--charcoal); }
+  .q-tags { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .q-tag { font-family:'Jost',sans-serif; font-size:10px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; padding:3px 9px; border-radius:2px; }
+  .tag-plato { background:var(--sage-dim); color:var(--sage); }
+  .tag-amodei { background:var(--terra-dim); color:var(--terracotta); }
+  .tag-all { background:var(--gold-dim); color:var(--gold); }
+  .q-cta {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    color: var(--terracotta);
+    margin-top: 8px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    letter-spacing: 0.06em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .q-item:hover .q-cta { opacity: 1; }
+
+  .anchor-block { background:var(--warm-white); border-left:4px solid var(--terracotta); padding:18px 22px; margin:26px 0; border-radius:0 3px 3px 0; }
+  .anchor-label { font-family:'Jost',sans-serif; font-size:10px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--terracotta); margin-bottom:7px; }
+  .anchor-quote { font-size:15px; line-height:1.75; color:var(--charcoal); font-style:italic; }
+  .anchor-cite { font-family:'Jost',sans-serif; font-size:11px; color:var(--dim); margin-top:7px; }
+
+  .footer { background:var(--warm-white); border-top:1px solid var(--border-strong); padding:18px 48px; text-align:center; font-family:'Jost',sans-serif; font-size:11px; color:var(--dim); letter-spacing:0.07em; }
+
+  /* ── HAPPINESS TOGGLE ── */
+  .hap-toggle-wrap { margin-top: 40px; margin-bottom: 20px; }
+  .hap-toggle-row {
+    display: inline-flex;
+    gap: 0;
+    border: 1px solid var(--border-strong);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 14px;
+  }
+  .hap-toggle-btn {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 9px 20px;
+    border: none;
+    background: transparent;
+    color: var(--dim);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    border-right: 1px solid var(--border-strong);
+  }
+  .hap-toggle-btn:last-child { border-right: none; }
+  .hap-toggle-btn.active { background: var(--charcoal); color: var(--cream); }
+  .hap-toggle-btn:not(.active):hover { background: var(--parchment); color: var(--mid); }
+  .hap-view { animation: fadeIn 0.25s ease; }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <div>
+      <div class="eyebrow">BOLLI AI Literacy Course · Discussion Framework</div>
+      <h1>729 Times Happier:<br>Plato, Power &amp; the AI Moguls</h1>
+      <div class="subtitle">Republic, Book IX — and the question it poses for our age</div>
+      <div class="meta">Plato · c. 375 BCE &nbsp;·&nbsp; Amodei · 2024–2026 &nbsp;·&nbsp; OpenAI · Anthropic · Google DeepMind</div>
+    </div>
+    <div class="big-729">729</div>
+  </div>
+</div>
+
+<nav class="tab-nav">
+  <div class="tab-list">
+    <button class="tab-btn active" data-tab="plato">The Dialogue</button>
+    <button class="tab-btn" data-tab="calc">The 729 Calculation</button>
+    <button class="tab-btn" data-tab="companies">The Three Companies</button>
+    <button class="tab-btn" data-tab="questions">Discussion Questions</button>
+  </div>
+</nav>
+
+<div class="main">
+
+  <!-- PANEL 1: THE DIALOGUE -->
+  <div class="panel active" id="tab-plato">
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-label">Source</div>
+        <div class="card-title">Plato's <em>Republic</em>, Book IX</div>
+        <div class="card-body">Written c. 375 BCE, the <em>Republic</em> is a dialogue led by Socrates examining justice in both the city and the soul. Book IX is its culmination: having traced the polis from aristocracy through timocracy, oligarchy, democracy, and finally tyranny, Socrates turns to a final proof — that the just person is also the happiest. The question is not merely political. It is deeply personal: <em>Who has the better life?</em></div>
+      </div>
+      <div class="card">
+        <div class="card-label">The Argument's Structure</div>
+        <div class="card-title">Three Proofs of Justice's Superiority</div>
+        <div class="card-body">Plato offers three arguments. First, the just soul is ordered and at peace; the tyrant's is enslaved to insatiable appetites. Second, rational pleasures are truer and more lasting than sensory ones. Third — most famous — he offers a numerical demonstration: the 729 calculation, translating degrees of distance from justice into a precise ratio of misery.</div>
+      </div>
+    </div>
+
+    <!-- HAPPINESS TOGGLE -->
+    <div class="hap-toggle-wrap">
+      <div class="sec-head" style="margin-bottom:0;">What happiness means</div>
+      <div class="hap-toggle-row">
+        <button class="hap-toggle-btn active" id="btn-plato">Plato · 375 BCE</button>
+        <button class="hap-toggle-btn" id="btn-21c">21st-Century Technology World</button>
+      </div>
+    </div>
+
+    <!-- Plato view -->
+    <div id="hap-plato" class="hap-view">
+      <div class="grid-3">
+        <div class="hap-cell"><div class="hap-icon">⚖️</div><div class="hap-name">Soul in order <em>(eudaimonia)</em></div><div class="hap-desc">Happiness is not pleasure but the harmonious functioning of the soul's parts — reason ruling spirit and appetite. No external success compensates for inner disorder.</div></div>
+        <div class="hap-cell"><div class="hap-icon">🔗</div><div class="hap-name">Freedom from inner slavery</div><div class="hap-desc">The tyrant appears maximally free but is enslaved — to fear, to Eros, to the crowd's approval. True freedom is rational self-governance, not the absence of external constraint.</div></div>
+        <div class="hap-cell"><div class="hap-icon">💡</div><div class="hap-name">Truest pleasures</div><div class="hap-desc">Pleasures of the rational soul — philosophy, knowledge, justice — are more real than sensory or status pleasures. They leave no residue of craving or shame when they pass.</div></div>
+        <div class="hap-cell"><div class="hap-icon">🏛️</div><div class="hap-name">The city in the soul</div><div class="hap-desc">Plato mirrors soul to city. Just as a well-ordered polis has wise rulers guiding guardians and producers, the happy person has reason guiding passion and appetite.</div></div>
+        <div class="hap-cell"><div class="hap-icon">👁️</div><div class="hap-name">The philosopher's judgment</div><div class="hap-desc">Only the philosopher who has experienced all three kinds of pleasure can judge which is truly best. The money-lover and honor-lover are not competent witnesses.</div></div>
+        <div class="hap-cell"><div class="hap-icon">🌑</div><div class="hap-name">The tyrant's torment</div><div class="hap-desc">Surrounded by flatterers, unable to trust anyone, ruled by a master passion — the tyrant is the one person most thoroughly enslaved, to his own desires.</div></div>
+      </div>
+    </div>
+
+    <!-- 21st Century view -->
+    <div id="hap-21c" class="hap-view" style="display:none;">
+      <div class="card" style="margin-bottom:18px;">
+        <div class="card-body" style="font-size:15px;line-height:1.82;">
+          Plato's framework was built for a world where the chief threats to the soul were wealth, political ambition, and bodily appetite. Our world has added something new: a vast technological infrastructure <em>designed at scale to exploit exactly the appetitive part of the soul</em> that Plato warned about. The attention economy — social media, algorithmic feeds, notification systems, engagement metrics — is, in Platonic terms, an industrial apparatus for producing and monetizing the many-headed beast.
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="hap-cell" style="border-left:3px solid var(--terracotta);">
+          <div class="hap-icon">📱</div><div class="hap-name">Engagement as flourishing</div>
+          <div class="hap-desc">The dominant tech metric for human wellbeing is <em>time on platform</em>. Happiness is operationalized as continued scrolling — a definition Plato would recognize as the appetitive soul mistaking stimulation for satisfaction.</div>
+        </div>
+        <div class="hap-cell" style="border-left:3px solid var(--terracotta);">
+          <div class="hap-icon">👍</div><div class="hap-name">Validation as identity</div>
+          <div class="hap-desc">Likes, followers, and social approval have become the currency of self-worth — Plato's <em>spirited soul</em> turbocharged by real-time feedback loops that never resolve into genuine satisfaction.</div>
+        </div>
+        <div class="hap-cell" style="border-left:3px solid var(--terracotta);">
+          <div class="hap-icon">🛒</div><div class="hap-name">Consumption as self-expression</div>
+          <div class="hap-desc">Market culture equates happiness with the freedom to acquire and consume. The appetitive soul is perfectly served — but satisfaction is always deferred to the next purchase, the next upgrade.</div>
+        </div>
+        <div class="hap-cell" style="border-left:3px solid var(--gold);">
+          <div class="hap-icon">⚡</div><div class="hap-name">Productivity as purpose</div>
+          <div class="hap-desc">The good life measured by output, optimization, and efficiency. This resonates with Plato's spirited soul — achievement-driven, competitive — but mistakes the instrument (capability) for the end (the good).</div>
+        </div>
+        <div class="hap-cell" style="border-left:3px solid var(--gold);">
+          <div class="hap-icon">🌐</div><div class="hap-name">Connection as community</div>
+          <div class="hap-desc">Technology promises unprecedented human connection — and delivers something that resembles it closely enough to be mistaken for it. Is this genuine friendship, or the simulacrum of it?</div>
+        </div>
+        <div class="hap-cell" style="border-left:3px solid var(--sage);">
+          <div class="hap-icon">🤖</div><div class="hap-name">AI-assisted flourishing</div>
+          <div class="hap-desc">Amodei's vision — AI eliminating disease, poverty, and mental illness — is a 21st-century attempt to answer Plato's question at civilizational scale. The key test: genuine <em>eudaimonia</em>, or merely the removal of obstacles to it?</div>
+        </div>
+      </div>
+      <div class="anchor-block">
+        <div class="anchor-label">The comparison Plato would make</div>
+        <div class="anchor-quote">The attention economy is the tyrant's city built at global scale — an apparatus that profits from producing insatiable appetites, and calls the resulting restlessness "engagement." Amodei's challenge is to build AI that does the opposite: that increases genuine human capacity for rational self-governance rather than undermining it.</div>
+      </div>
+    </div>
+
+    <div class="sec-head">The three parts of the soul</div>
+    <div class="soul-grid">
+      <div class="soul-card rational"><div class="soul-part-name">Rational · Logistikon</div><div class="soul-desc">Seeks truth, wisdom, and the good. When it rules, the soul and city are just. Its pleasures are the truest and most enduring. The philosopher is its exemplar.</div></div>
+      <div class="soul-card spirited"><div class="soul-part-name">Spirited · Thumoeides</div><div class="soul-desc">Seeks honour, victory, and reputation. Useful as reason's ally; dangerous when it dominates, producing the competitive oligarch or honour-obsessed general.</div></div>
+      <div class="soul-card appetitive"><div class="soul-part-name">Appetitive · Epithumētikon</div><div class="soul-desc">Seeks money, pleasure, sensation. When it runs the city it produces democracy; when one appetite enslaves all others it produces the tyrant — the "many-headed beast."</div></div>
+    </div>
+  </div>
+
+  <!-- PANEL 2: THE 729 CALCULATION -->
+  <div class="panel" id="tab-calc">
+    <div class="sec-head">How Plato arrives at the number</div>
+    <div class="card">
+      <div class="card-body" style="font-size:15.5px;line-height:1.82;">
+        Book IX of the <em>Republic</em> (580b–587e) offers the arithmetic in two steps. First, Plato identifies <strong>five soul-types</strong> along the spectrum from justice to tyranny — the aristocrat (philosopher-king), the timocrat (honour-lover), the oligarch (wealth-lover), the democrat (pleasure-lover), and the tyrant. Each is one step removed from the previous.
+        <br><br>
+        Second, he argues that the tyrant is three removes from the democratic man in terms of true pleasure — democratic pleasures are already once removed from reality, and tyrannical pleasures a further remove still. These distances are cubed, yielding a "solid" number in the Pythagorean tradition.
+      </div>
+    </div>
+    <div class="math-box">
+      <div class="math-row"><span class="math-lbl">Steps in the political spectrum (aristocrat → tyrant)</span><span class="math-val">5 types · 4 steps</span></div>
+      <div class="math-row"><span class="math-lbl">The tyrant's pleasure-distance from the democrat</span><span class="math-val">3 removes</span></div>
+      <div class="math-row"><span class="math-lbl">Plato's "solid number" reasoning</span><span class="math-val">3³ = 27</span></div>
+      <div class="math-row"><span class="math-lbl">Extended to a plane then solid: 3⁶</span><span class="math-val">3⁶ = 729</span></div>
+      <div class="math-row"><span class="math-lbl">The just king's pleasure advantage over the tyrant (Republic 587e)</span><span class="math-val highlight">729 : 1</span></div>
+    </div>
+    <div class="big-number-block">
+      <div class="big-num">729</div>
+      <div class="big-caption">The only precise number Plato gives in the entire Republic · 587e</div>
+    </div>
+    <div class="card" style="margin-top:26px;">
+      <div class="card-label">Why some sources say "727" rather than 729</div>
+      <div class="card-body">The number <strong>729</strong> appears in the Greek text (Republic 587e). Some translators and commentators cite <strong>727</strong> or <strong>728</strong> depending on whether they count the tyrant's position as one above or below the baseline, and whether they render the comparison as "729 times happier" (the king's total pleasure) or "728 units more happy" (the arithmetic difference). Leo Strauss notes that 729 = 3⁶ carries Pythagorean resonance as a "perfect solid" number. Your course materials use 727; the Greek original says 729. The pedagogical point stands either way.</div>
+    </div>
+    <div class="sec-head">The spectrum from philosopher to tyrant</div>
+    <div class="spectrum-bar">
+      <div class="spec-seg just">Philosopher-king</div>
+      <div class="spec-seg mid">Timocrat · Oligarch · Democrat</div>
+      <div class="spec-seg tyr">Tyrant</div>
+    </div>
+    <div class="spectrum-labels"><span>Most just · Most happy</span><span>Most unjust · Most wretched</span></div>
+    <div class="anchor-block">
+      <div class="anchor-label">Connection to Amodei</div>
+      <div class="anchor-quote">"The tyrant appears maximally powerful — commanding armies, shaping empires, controlling resources no ordinary person can touch. Plato insists he is also the least free person alive, enslaved to appetites he cannot satisfy." What does this mean for tech founders who control AI systems that may soon outstrip any previous human concentration of power?</div>
+    </div>
+  </div>
+
+  <!-- PANEL 3: THE THREE COMPANIES -->
+  <div class="panel" id="tab-companies">
+    <p style="font-size:15px;color:var(--mid);line-height:1.78;margin-bottom:22px;">This is an exercise in <em>philosophical analogy</em>, not a verdict. We are asking: where does each organization locate itself on Plato's spectrum between the philosopher-king (reason governs appetite) and the tyrant (a single master passion enslaves all others)? The assessments below are intended to provoke, not conclude.</p>
+    <div class="co-tab-row">
+      <button class="co-btn active" data-co="oai">OpenAI</button>
+      <button class="co-btn" data-co="ant">Anthropic</button>
+      <button class="co-btn" data-co="goo">Google DeepMind</button>
+    </div>
+
+    <div class="co-panel active" id="co-oai">
+      <div class="co-header"><div class="co-dot dot-oai">OA</div><div><div class="co-name">OpenAI</div><div class="co-lead">Sam Altman · Chief Executive Officer</div></div></div>
+      <div class="power-row"><div class="power-label-row"><span>Market power / capital concentration</span><span style="color:var(--terracotta)">Very High</span></div><div class="power-track"><div class="power-fill fill-power" style="width:92%"></div></div></div>
+      <div class="power-row"><div class="power-label-row"><span>Stated ethical commitments</span><span style="color:var(--gold)">High — contested</span></div><div class="power-track"><div class="power-fill fill-ethical" style="width:72%"></div></div></div>
+      <div class="power-row" style="margin-bottom:22px;"><div class="power-label-row"><span>Governance alignment with stated mission</span><span style="color:var(--sage)">Moderate</span></div><div class="power-track"><div class="power-fill fill-gov" style="width:42%"></div></div></div>
+      <div class="card"><div class="card-label">The Platonic tension</div><div class="card-body">Founded as a nonprofit to ensure AI benefits "all of humanity," OpenAI has progressively restructured toward a for-profit model. The 2023 board crisis — Altman briefly removed, then restored by investor and employee pressure — is precisely the Platonic drama: the spirited part (market, competition) overriding the rational part (safety-focused governance) and restoring the appetitive configuration. Plato would identify the master passion here as <em>institutional market dominance</em> — and note that collective appetites can enslave a soul as effectively as personal ones.</div></div>
+    </div>
+
+    <div class="co-panel" id="co-ant">
+      <div class="co-header"><div class="co-dot dot-ant">AN</div><div><div class="co-name">Anthropic</div><div class="co-lead">Dario Amodei · Chief Executive Officer</div></div></div>
+      <div class="power-row"><div class="power-label-row"><span>Market power / capital concentration</span><span style="color:var(--terracotta)">High — growing</span></div><div class="power-track"><div class="power-fill fill-power" style="width:65%"></div></div></div>
+      <div class="power-row"><div class="power-label-row"><span>Stated ethical commitments</span><span style="color:var(--gold)">Very High</span></div><div class="power-track"><div class="power-fill fill-ethical" style="width:91%"></div></div></div>
+      <div class="power-row" style="margin-bottom:22px;"><div class="power-label-row"><span>Governance alignment with stated mission</span><span style="color:var(--sage)">High</span></div><div class="power-track"><div class="power-fill fill-gov" style="width:78%"></div></div></div>
+      <div class="card"><div class="card-label">The Platonic alignment — and its test</div><div class="card-body">Amodei's framework most explicitly echoes Plato's philosopher-king ideal: reason — Constitutional AI, interpretability research, safety-first governance — governing the appetitive pressures of market competition. He has structured Anthropic as a Public Benefit Corporation, pledged 80% of personal wealth, and accepted political costs to maintain ethics restrictions. In "Machines of Loving Grace" (2024) he frames his goal as a world where AI eliminates disease, poverty, and suffering — exactly Plato's philosopher's motive: the Good, not the merely useful. The Platonic question: <em>can this soul-order survive at scale, as capital demands grow and competitive pressure intensifies?</em></div></div>
+    </div>
+
+    <div class="co-panel" id="co-goo">
+      <div class="co-header"><div class="co-dot dot-goo">GD</div><div><div class="co-name">Google DeepMind</div><div class="co-lead">Sundar Pichai · CEO &nbsp;·&nbsp; Demis Hassabis · DeepMind CEO</div></div></div>
+      <div class="power-row"><div class="power-label-row"><span>Market power / capital concentration</span><span style="color:var(--terracotta)">Extreme</span></div><div class="power-track"><div class="power-fill fill-power" style="width:99%"></div></div></div>
+      <div class="power-row"><div class="power-label-row"><span>Stated ethical commitments</span><span style="color:var(--gold)">High — structural</span></div><div class="power-track"><div class="power-fill fill-ethical" style="width:70%"></div></div></div>
+      <div class="power-row" style="margin-bottom:22px;"><div class="power-label-row"><span>Governance alignment with stated mission</span><span style="color:var(--sage)">Moderate</span></div><div class="power-track"><div class="power-fill fill-gov" style="width:52%"></div></div></div>
+      <div class="card"><div class="card-label">The oligarchic configuration</div><div class="card-body">In Plato's scheme, the oligarch is not evil but wealth-loving — reason has not been fully displaced, but it serves accumulation rather than truth. Google's AI ethics history (the 2018 Maven controversy; the dismissal of Timnit Gebru; the AI ethics board dissolved within days of formation) suggests a pattern where institutional appetite — advertising revenue and market dominance — ultimately determines ethical limits. DeepMind (founded by Hassabis with strong safety commitments) sits somewhat differently within the structure, suggesting a soul divided against itself: the philosopher's part within the oligarch's city.</div></div>
+    </div>
+  </div>
+
+  <!-- PANEL 4: DISCUSSION QUESTIONS -->
+  <div class="panel" id="tab-questions">
+    <div class="anchor-block">
+      <div class="anchor-label">Anchor — Amodei's ethical framework</div>
+      <div class="anchor-quote">"The company name 'Anthropic' was chosen because it means <em>relating to humans</em>. A lot of what has been important for us is wanting to make sure that humans are still at the center of that story."</div>
+      <div class="anchor-cite">— Daniela Amodei, Stripe interview, 2023 · and Dario's parallel insistence that AI serve "the long-run benefit of humanity," not shareholders</div>
+    </div>
+
+    <div class="sec-head">Six discussion questions · click any to open in Claude</div>
+
+    <ul class="q-list">
+
+      <li class="q-item" data-url="https://claude.ai/new?q=We%20are%20discussing%20Plato%27s%20Republic%20Book%20IX%20in%20an%20AI%20literacy%20course%20at%20BOLLI%20%28Brandeis%20Osher%20Lifelong%20Learning%20Institute%29.%20The%20context%3A%20Plato%20argues%20the%20just%20person%20is%20729%20times%20happier%20than%20the%20tyrant%2C%20because%20the%20tyrant%20is%20enslaved%20to%20a%20single%20master%20passion%20while%20the%20philosopher%27s%20soul%20is%20ordered%20by%20reason.%20The%20three%20companies%20under%20discussion%20are%20OpenAI%20%28Sam%20Altman%29%2C%20Anthropic%20%28Dario%20Amodei%29%2C%20and%20Google%20DeepMind.%0A%0AQuestion%201%3A%20Plato%20defines%20the%20tyrant%20as%20enslaved%20to%20a%20single%20master%20passion.%20For%20modern%20AI%20moguls%2C%20what%20might%20that%20passion%20be%20%E2%80%94%20and%20does%20it%20differ%20between%20Altman%2C%20Amodei%2C%20and%20the%20leaders%20at%20Google%3F%20Is%20market%20dominance%20an%20institutional%20appetite%20that%20can%20enslave%20even%20well-intentioned%20founders%3F%20Please%20explore%20this%20carefully%2C%20drawing%20on%20both%20Plato%27s%20Republic%20and%20what%20we%20know%20about%20these%20three%20organizations.">
+        <div class="q-num">01</div>
+        <div class="q-body">
+          <div class="q-text">Plato defines the tyrant as enslaved to a single <em>master passion</em>. For modern AI moguls, what might that passion be — and does it differ between Altman, Amodei, and the leaders at Google? Is market dominance an institutional appetite that can enslave even well-intentioned founders?</div>
+          <div class="q-tags"><span class="q-tag tag-plato">Plato · tyranny</span><span class="q-tag tag-all">All three companies</span></div>
+          <div class="q-cta">↗ Open this question in Claude</div>
+        </div>
+      </li>
+
+      <li class="q-item" data-url="https://claude.ai/new?q=We%20are%20discussing%20Plato%27s%20Republic%20Book%20IX%20in%20an%20AI%20literacy%20course%20at%20BOLLI%20%28Brandeis%20Osher%20Lifelong%20Learning%20Institute%29.%20The%20context%3A%20Plato%20argues%20the%20just%20person%20is%20729%20times%20happier%20than%20the%20tyrant.%20Plato%20insists%20that%20only%20the%20philosopher%20%E2%80%94%20who%20has%20experienced%20all%20three%20kinds%20of%20pleasure%20%28rational%2C%20spirited%2C%20appetitive%29%20%E2%80%94%20is%20a%20competent%20judge%20of%20which%20life%20is%20best.%0A%0AQuestion%202%3A%20Plato%20argues%20that%20only%20the%20philosopher%20who%20has%20experienced%20all%20kinds%20of%20pleasure%20can%20judge%20which%20is%20truly%20best.%20What%20kind%20of%20experience%20or%20knowledge%20should%20we%20require%20of%20AI%20leaders%20before%20trusting%20their%20judgment%20about%20how%20to%20deploy%20transformative%20technology%3F%20What%20would%20the%20AI%20equivalent%20of%20philosophical%20education%20look%20like%3F%20How%20do%20Amodei%27s%20background%20in%20biophysics%2C%20his%20safety%20research%2C%20and%20his%20essays%20like%20Machines%20of%20Loving%20Grace%20bear%20on%20this%20question%3F">
+        <div class="q-num">02</div>
+        <div class="q-body">
+          <div class="q-text">Plato argues that only the philosopher who has experienced all kinds of pleasure can judge which is truly best. What kind of experience or knowledge should we require of AI leaders before trusting their judgment? What would the AI equivalent of "philosophical education" look like?</div>
+          <div class="q-tags"><span class="q-tag tag-plato">Plato · knowledge</span><span class="q-tag tag-amodei">Amodei</span></div>
+          <div class="q-cta">↗ Open this question in Claude</div>
+        </div>
+      </li>
+
+      <li class="q-item" data-url="https://claude.ai/new?q=We%20are%20discussing%20Plato%27s%20Republic%20Book%20IX%20in%20an%20AI%20literacy%20course%20at%20BOLLI%20%28Brandeis%20Osher%20Lifelong%20Learning%20Institute%29.%20The%20context%3A%20Plato%20argues%20the%20just%20person%20is%20729%20times%20happier%20than%20the%20tyrant.%20He%20distinguishes%20the%20philosopher-king%20%28reason%20governs%29%20from%20the%20timocrat%20%28honor-seeker%20who%20loves%20the%20reputation%20for%20virtue%20as%20much%20as%20virtue%20itself%29.%0A%0AQuestion%203%3A%20Amodei%20structures%20Anthropic%20as%20a%20Public%20Benefit%20Corporation%2C%20pledges%2080%25%20of%20his%20wealth%2C%20and%20frames%20his%20mission%20as%20eliminating%20disease%20and%20poverty.%20Is%20this%20the%20philosopher-king%20model%20made%20real%20%E2%80%94%20or%20could%20it%20be%20a%20more%20sophisticated%20form%20of%20Plato%27s%20timocrat%3A%20the%20honor-seeker%20whose%20deepest%20pleasure%20is%20the%20reputation%20for%20caring%20about%20humanity%3F%20How%20would%20Plato%20distinguish%20between%20genuine%20philosophical%20motivation%20and%20its%20most%20sophisticated%20imitation%3F%20And%20how%20could%20we%2C%20from%20the%20outside%2C%20tell%20the%20difference%3F">
+        <div class="q-num">03</div>
+        <div class="q-body">
+          <div class="q-text">Amodei structures Anthropic as a Public Benefit Corporation, pledges 80% of his wealth, and frames his mission as eliminating disease and poverty. Is this the philosopher-king model made real — or a more sophisticated form of Plato's <em>timocrat</em>: the honor-seeker whose deepest pleasure is the reputation for caring about humanity?</div>
+          <div class="q-tags"><span class="q-tag tag-amodei">Amodei · direct</span><span class="q-tag tag-plato">Timocracy</span></div>
+          <div class="q-cta">↗ Open this question in Claude</div>
+        </div>
+      </li>
+
+      <li class="q-item" data-url="https://claude.ai/new?q=We%20are%20discussing%20Plato%27s%20Republic%20Book%20IX%20in%20an%20AI%20literacy%20course%20at%20BOLLI%20%28Brandeis%20Osher%20Lifelong%20Learning%20Institute%29.%20The%20context%3A%20Plato%20argues%20the%20just%20person%20is%20729%20times%20happier%20than%20the%20tyrant%2C%20who%20appears%20free%20but%20is%20enslaved%20to%20a%20single%20master%20passion%20%28Eros%29.%20We%20are%20applying%20this%20to%20the%20design%20of%20AI%20systems%20themselves.%0A%0AQuestion%204%3A%20Plato%20says%20the%20tyrant%20appears%20most%20free%20but%20is%20most%20enslaved%20to%20a%20single%20master%20passion.%20AI%20systems%20themselves%20often%20optimize%20for%20a%20single%20objective.%20Could%20an%20AI%20trained%20on%20human%20feedback%20become%20an%20institutional%20tyrant%20%E2%80%94%20enslaved%20to%20approval%20metrics%20the%20way%20Plato%27s%20tyrant%20is%20enslaved%20to%20Eros%3F%20What%20does%20this%20imply%20for%20AI%20design%3F%20How%20does%20Anthropic%27s%20Constitutional%20AI%20approach%20%E2%80%94%20which%20attempts%20to%20give%20Claude%20coherent%20values%20and%20character%20rather%20than%20a%20single%20optimization%20target%20%E2%80%94%20address%20or%20fail%20to%20address%20this%20Platonic%20concern%3F">
+        <div class="q-num">04</div>
+        <div class="q-body">
+          <div class="q-text">Plato says the tyrant appears most free but is most enslaved. AI systems themselves often optimize for a single objective. Could an AI trained on human feedback become an institutional tyrant — enslaved to approval metrics the way Plato's tyrant is enslaved to <em>Eros</em>? What does this imply about Constitutional AI?</div>
+          <div class="q-tags"><span class="q-tag tag-amodei">Amodei · AI design</span><span class="q-tag tag-plato">Plato · appetite</span></div>
+          <div class="q-cta">↗ Open this question in Claude</div>
+        </div>
+      </li>
+
+      <li class="q-item" data-url="https://claude.ai/new?q=We%20are%20discussing%20Plato%27s%20Republic%20Book%20IX%20in%20an%20AI%20literacy%20course%20at%20BOLLI%20%28Brandeis%20Osher%20Lifelong%20Learning%20Institute%29.%20The%20context%3A%20Plato%20argues%20the%20just%20person%20is%20729%20times%20happier%20than%20the%20tyrant.%20He%20describes%20how%20the%20democratic%20city%20collapses%20into%20tyranny%3A%20the%20spirited%20and%20appetitive%20parts%20of%20the%20soul%20overthrow%20rational%20governance.%0A%0AQuestion%205%3A%20OpenAI%27s%20safety-focused%20board%20removed%20Sam%20Altman%20in%20November%202023%3B%20investor%20and%20employee%20pressure%20restored%20him%20within%20days.%20Plato%20sees%20this%20exact%20dynamic%20%E2%80%94%20the%20spirited%20and%20appetitive%20parts%20overriding%20rational%20governance%20%E2%80%94%20as%20the%20founding%20moment%20of%20tyranny%20in%20a%20city.%20Does%20the%20OpenAI%20crisis%20confirm%20Plato%27s%20account%20of%20how%20just%20institutions%20collapse%3F%20What%20would%20Plato%20prescribe%20as%20the%20structural%20remedy%3F%20And%20what%20does%20this%20episode%20tell%20us%20about%20the%20limits%20of%20nonprofit%20governance%20structures%20in%20a%20commercial%20AI%20landscape%3F">
+        <div class="q-num">05</div>
+        <div class="q-body">
+          <div class="q-text">OpenAI's safety-focused board removed Sam Altman in November 2023; investor and employee pressure restored him within days. Plato sees this exact dynamic — the spirited and appetitive parts overriding rational governance — as the <em>founding moment of tyranny</em> in a city. Does the OpenAI crisis confirm Plato's account of institutional collapse?</div>
+          <div class="q-tags"><span class="q-tag tag-plato">Plato · political decay</span><span class="q-tag tag-all">OpenAI</span></div>
+          <div class="q-cta">↗ Open this question in Claude</div>
+        </div>
+      </li>
+
+      <li class="q-item" data-url="https://claude.ai/new?q=We%20are%20discussing%20Plato%27s%20Republic%20Book%20IX%20in%20an%20AI%20literacy%20course%20at%20BOLLI%20%28Brandeis%20Osher%20Lifelong%20Learning%20Institute%29.%20The%20context%3A%20Plato%20argues%20the%20just%20person%20is%20729%20times%20happier%20than%20the%20tyrant%20%E2%80%94%20but%20most%20people%2C%20looking%20at%20tech%20moguls%20like%20Altman%2C%20Amodei%2C%20and%20Pichai%2C%20would%20say%20they%20appear%20very%20happy%20indeed.%0A%0AQuestion%206%3A%20Plato%20claims%20the%20just%20person%20is%20729%20times%20happier%20than%20the%20tyrant%20%E2%80%94%20yet%20Altman%2C%20Amodei%2C%20and%20Pichai%20all%20appear%20very%20happy.%20What%20would%20Plato%20say%20about%20the%20difficulty%20of%20judging%20happiness%20from%20the%20outside%3F%20He%20argues%20the%20tyrant%27s%20soul%20constructs%20elaborate%20self-justifications%20and%20that%20even%20the%20tyrant%20cannot%20fully%20see%20his%20own%20enslavement.%20And%20what%20does%20Amodei%27s%20Machines%20of%20Loving%20Grace%20%282024%29%20suggest%20is%20required%20for%20AI%20to%20produce%20genuine%20human%20flourishing%20%E2%80%94%20not%20merely%20its%20appearance%3F%20How%20does%20he%20distinguish%20between%20AI%20that%20optimizes%20measurable%20metrics%20and%20AI%20that%20produces%20conditions%20for%20a%20genuinely%20good%20human%20life%3F">
+        <div class="q-num">06</div>
+        <div class="q-body">
+          <div class="q-text">Plato claims the just person is 729 times happier than the tyrant — yet Altman, Amodei, and Pichai all <em>appear</em> very happy. What would Plato say about judging happiness from the outside? And what does Amodei's "Machines of Loving Grace" suggest is required for AI to produce genuine human flourishing — not merely its appearance?</div>
+          <div class="q-tags"><span class="q-tag tag-amodei">Amodei · flourishing</span><span class="q-tag tag-plato">Plato · 729</span></div>
+          <div class="q-cta">↗ Open this question in Claude</div>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+
+</div><!-- /main -->
+
+<div class="footer">
+  BOLLI AI Literacy Course · "The AI Literacy Revolution" · jhnday.github.io/CrntEvnts · April 2026
+  &nbsp;·&nbsp; Visualization by Claude (Anthropic) &nbsp;·&nbsp; Sources: Plato, Republic 580b–587e · Amodei, "Machines of Loving Grace," 2024
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+
+    // ── TAB NAV ──
+    document.querySelectorAll('.tab-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var id = this.dataset.tab;
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('tab-' + id).classList.add('active');
+        this.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    // ── COMPANY SWITCHER ──
+    document.querySelectorAll('.co-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var id = this.dataset.co;
+        document.querySelectorAll('.co-panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.co-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('co-' + id).classList.add('active');
+        this.classList.add('active');
+      });
+    });
+
+    // ── HAPPINESS TOGGLE ──
+    document.getElementById('btn-plato').addEventListener('click', function() { switchHap('plato'); });
+    document.getElementById('btn-21c').addEventListener('click',   function() { switchHap('21c'); });
+
+    function switchHap(which) {
+      document.getElementById('hap-plato').style.display = which === 'plato' ? 'block' : 'none';
+      document.getElementById('hap-21c').style.display   = which === '21c'   ? 'block' : 'none';
+      document.getElementById('btn-plato').classList.toggle('active', which === 'plato');
+      document.getElementById('btn-21c').classList.toggle('active',   which === '21c');
+    }
+
+    // ── QUESTION LINKS ──
+    document.querySelectorAll('.q-item').forEach(function(item) {
+      item.addEventListener('click', function() {
+        var url = this.dataset.url;
+        if (url) window.open(url, '_blank');
+      });
+    });
+
+  });
+</script>
+</body>
+</html>
