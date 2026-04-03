@@ -295,6 +295,94 @@
   .hap-toggle-btn.active { background: var(--charcoal); color: var(--cream); }
   .hap-toggle-btn:not(.active):hover { background: var(--parchment); color: var(--mid); }
   .hap-view { animation: fadeIn 0.25s ease; }
+  /* ── SOUL CASCADE ── */
+  .soul-cascade { margin: 24px 0 32px; display: flex; flex-direction: column; gap: 0; }
+
+  .sc-card {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border-strong);
+    border-bottom: none;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .sc-card:first-child { border-radius: 4px 4px 0 0; }
+  .sc-card:last-child  { border-bottom: 1px solid var(--border-strong); border-radius: 0 0 4px 4px; }
+  .sc-card:hover { box-shadow: 0 2px 12px rgba(46,42,36,0.08); z-index: 1; position: relative; }
+
+  .sc-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 52px;
+    flex-shrink: 0;
+    padding: 18px 0 0;
+  }
+  .sc-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .sc-bar { flex: 1; width: 3px; border-radius: 2px; margin-bottom: 0; }
+
+  .sc-right {
+    flex: 1;
+    padding: 18px 22px 18px 4px;
+    border-left: 1px solid var(--border);
+  }
+  .sc-type {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+  .sc-ruler {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .sc-loves { font-size: 14px; line-height: 1.68; color: var(--mid); }
+
+  /* Per-card colors */
+  .sc-philosopher { background: rgba(90,122,94,0.06); }
+  .sc-philosopher .sc-left { background: rgba(90,122,94,0.12); }
+  .sc-philosopher .sc-num { color: var(--sage); }
+  .sc-philosopher .sc-bar { background: var(--sage); }
+  .sc-philosopher .sc-type { color: var(--sage); }
+  .sc-philosopher .sc-ruler { color: var(--sage); }
+
+  .sc-timocrat { background: rgba(184,135,42,0.05); }
+  .sc-timocrat .sc-left { background: rgba(184,135,42,0.10); }
+  .sc-timocrat .sc-num { color: var(--gold); }
+  .sc-timocrat .sc-bar { background: var(--gold); }
+  .sc-timocrat .sc-type { color: var(--gold); }
+  .sc-timocrat .sc-ruler { color: var(--gold); }
+
+  .sc-oligarch { background: var(--warm-white); }
+  .sc-oligarch .sc-left { background: var(--parchment); }
+  .sc-oligarch .sc-num { color: var(--mid); }
+  .sc-oligarch .sc-bar { background: var(--dim); }
+  .sc-oligarch .sc-type { color: var(--mid); }
+  .sc-oligarch .sc-ruler { color: var(--dim); }
+
+  .sc-democrat { background: rgba(192,97,74,0.04); }
+  .sc-democrat .sc-left { background: rgba(192,97,74,0.09); }
+  .sc-democrat .sc-num { color: var(--terra-light, #e8987e); }
+  .sc-democrat .sc-bar { background: #d4846a; }
+  .sc-democrat .sc-type { color: #c0715a; }
+  .sc-democrat .sc-ruler { color: #c0715a; }
+
+  .sc-tyrant { background: rgba(192,97,74,0.08); }
+  .sc-tyrant .sc-left { background: rgba(192,97,74,0.18); }
+  .sc-tyrant .sc-num { color: var(--terracotta); }
+  .sc-tyrant .sc-bar { background: var(--terracotta); }
+  .sc-tyrant .sc-type { color: var(--terracotta); }
+  .sc-tyrant .sc-ruler { color: var(--terracotta); }
+
 </style>
 </head>
 <body>
@@ -437,6 +525,72 @@
       <div class="spec-seg tyr">Tyrant</div>
     </div>
     <div class="spectrum-labels"><span>Most just · Most happy</span><span>Most unjust · Most wretched</span></div>
+
+    <!-- FIVE SOUL TYPES CASCADE -->
+    <div class="soul-cascade">
+
+      <div class="sc-card sc-philosopher">
+        <div class="sc-left">
+          <div class="sc-num">I</div>
+          <div class="sc-bar"></div>
+        </div>
+        <div class="sc-right">
+          <div class="sc-type">Philosopher-king</div>
+          <div class="sc-ruler">Ruled by <em>reason</em> · Logistikon</div>
+          <div class="sc-loves">Loves wisdom itself — truth, justice, the Good — not its reputation or its rewards. The only soul capable of genuine happiness because the only one capable of genuine self-governance.</div>
+        </div>
+      </div>
+
+      <div class="sc-card sc-timocrat">
+        <div class="sc-left">
+          <div class="sc-num">II</div>
+          <div class="sc-bar"></div>
+        </div>
+        <div class="sc-right">
+          <div class="sc-type">Timocrat</div>
+          <div class="sc-ruler">Ruled by <em>thumos</em> · Thumoeides</div>
+          <div class="sc-loves">Loves the reputation for virtue more than virtue itself. Honour-seeking, competitive, militaristic. Reason still present but demoted — it serves glory, not truth.</div>
+        </div>
+      </div>
+
+      <div class="sc-card sc-oligarch">
+        <div class="sc-left">
+          <div class="sc-num">III</div>
+          <div class="sc-bar"></div>
+        </div>
+        <div class="sc-right">
+          <div class="sc-type">Oligarch</div>
+          <div class="sc-ruler">Ruled by <em>appetite for wealth</em> · Epithumētikon</div>
+          <div class="sc-loves">Loves money above all. Reason and thumos pressed into the service of accumulation. Not evil — but the soul's highest faculty has been privatised for the lowest end.</div>
+        </div>
+      </div>
+
+      <div class="sc-card sc-democrat">
+        <div class="sc-left">
+          <div class="sc-num">IV</div>
+          <div class="sc-bar"></div>
+        </div>
+        <div class="sc-right">
+          <div class="sc-type">Democrat</div>
+          <div class="sc-ruler">Ruled by <em>whatever desire is loudest</em></div>
+          <div class="sc-loves">Loves freedom so much that no desire is privileged over another. Each appetite takes its turn. Plato sees this as a kind of psychic chaos dressed up as tolerance — the soul without a rudder.</div>
+        </div>
+      </div>
+
+      <div class="sc-card sc-tyrant">
+        <div class="sc-left">
+          <div class="sc-num">V</div>
+          <div class="sc-bar"></div>
+        </div>
+        <div class="sc-right">
+          <div class="sc-type">Tyrant</div>
+          <div class="sc-ruler">Ruled by <em>lawless, insatiable craving</em> · Eros</div>
+          <div class="sc-loves">One monstrous appetite — Eros — has enslaved all the others. Appears most free; is most enslaved. Appears most powerful; is most wretched. The soul 729 removes from happiness.</div>
+        </div>
+      </div>
+
+    </div>
+
     <div class="anchor-block">
       <div class="anchor-label">Connection to Amodei</div>
       <div class="anchor-quote">"The tyrant appears maximally powerful — commanding armies, shaping empires, controlling resources no ordinary person can touch. Plato insists he is also the least free person alive, enslaved to appetites he cannot satisfy." What does this mean for tech founders who control AI systems that may soon outstrip any previous human concentration of power?</div>
