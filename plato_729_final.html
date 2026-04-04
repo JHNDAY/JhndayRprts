@@ -295,6 +295,53 @@
   .hap-toggle-btn.active { background: var(--charcoal); color: var(--cream); }
   .hap-toggle-btn:not(.active):hover { background: var(--parchment); color: var(--mid); }
   .hap-view { animation: fadeIn 0.25s ease; }
+  /* ── PROLOGUE ── */
+  .prologue-block {
+    background: var(--warm-white);
+    border: 1px solid var(--border-strong);
+    border-left: 4px solid var(--gold);
+    border-radius: 0 4px 4px 0;
+    padding: 28px 32px;
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .prologue-dateline {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .prologue-dateline::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--gold-dim);
+    max-width: 60px;
+  }
+  .prologue-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16.5px;
+    line-height: 1.82;
+    color: var(--charcoal);
+    font-weight: 400;
+    margin-bottom: 18px;
+  }
+  .prologue-context {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-style: italic;
+    line-height: 1.72;
+    color: var(--mid);
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+  }
+
   /* ── SOUL CASCADE ── */
   .soul-cascade { margin: 24px 0 32px; display: flex; flex-direction: column; gap: 0; }
 
@@ -318,70 +365,37 @@
     flex-shrink: 0;
     padding: 18px 0 0;
   }
-  .sc-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 10px;
-  }
+  .sc-num { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 700; margin-bottom: 10px; }
   .sc-bar { flex: 1; width: 3px; border-radius: 2px; margin-bottom: 0; }
-
-  .sc-right {
-    flex: 1;
-    padding: 18px 22px 18px 4px;
-    border-left: 1px solid var(--border);
-  }
-  .sc-type {
-    font-family: 'Playfair Display', serif;
-    font-size: 17px;
-    font-weight: 700;
-    margin-bottom: 3px;
-  }
-  .sc-ruler {
-    font-family: 'Jost', sans-serif;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
+  .sc-right { flex: 1; padding: 18px 22px 18px 4px; border-left: 1px solid var(--border); }
+  .sc-type { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; margin-bottom: 3px; }
+  .sc-ruler { font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
   .sc-loves { font-size: 14px; line-height: 1.68; color: var(--mid); }
 
-  /* Per-card colors */
   .sc-philosopher { background: rgba(90,122,94,0.06); }
   .sc-philosopher .sc-left { background: rgba(90,122,94,0.12); }
-  .sc-philosopher .sc-num { color: var(--sage); }
+  .sc-philosopher .sc-num, .sc-philosopher .sc-type, .sc-philosopher .sc-ruler { color: var(--sage); }
   .sc-philosopher .sc-bar { background: var(--sage); }
-  .sc-philosopher .sc-type { color: var(--sage); }
-  .sc-philosopher .sc-ruler { color: var(--sage); }
 
   .sc-timocrat { background: rgba(184,135,42,0.05); }
   .sc-timocrat .sc-left { background: rgba(184,135,42,0.10); }
-  .sc-timocrat .sc-num { color: var(--gold); }
+  .sc-timocrat .sc-num, .sc-timocrat .sc-type, .sc-timocrat .sc-ruler { color: var(--gold); }
   .sc-timocrat .sc-bar { background: var(--gold); }
-  .sc-timocrat .sc-type { color: var(--gold); }
-  .sc-timocrat .sc-ruler { color: var(--gold); }
 
   .sc-oligarch { background: var(--warm-white); }
   .sc-oligarch .sc-left { background: var(--parchment); }
-  .sc-oligarch .sc-num { color: var(--mid); }
+  .sc-oligarch .sc-num, .sc-oligarch .sc-type, .sc-oligarch .sc-ruler { color: var(--mid); }
   .sc-oligarch .sc-bar { background: var(--dim); }
-  .sc-oligarch .sc-type { color: var(--mid); }
-  .sc-oligarch .sc-ruler { color: var(--dim); }
 
   .sc-democrat { background: rgba(192,97,74,0.04); }
   .sc-democrat .sc-left { background: rgba(192,97,74,0.09); }
-  .sc-democrat .sc-num { color: var(--terra-light, #e8987e); }
+  .sc-democrat .sc-num, .sc-democrat .sc-type, .sc-democrat .sc-ruler { color: #c0715a; }
   .sc-democrat .sc-bar { background: #d4846a; }
-  .sc-democrat .sc-type { color: #c0715a; }
-  .sc-democrat .sc-ruler { color: #c0715a; }
 
   .sc-tyrant { background: rgba(192,97,74,0.08); }
   .sc-tyrant .sc-left { background: rgba(192,97,74,0.18); }
-  .sc-tyrant .sc-num { color: var(--terracotta); }
+  .sc-tyrant .sc-num, .sc-tyrant .sc-type, .sc-tyrant .sc-ruler { color: var(--terracotta); }
   .sc-tyrant .sc-bar { background: var(--terracotta); }
-  .sc-tyrant .sc-type { color: var(--terracotta); }
-  .sc-tyrant .sc-ruler { color: var(--terracotta); }
 
 </style>
 </head>
@@ -412,6 +426,18 @@
 
   <!-- PANEL 1: THE DIALOGUE -->
   <div class="panel active" id="tab-plato">
+
+    <!-- PROLOGUE -->
+    <div class="prologue-block">
+      <div class="prologue-dateline">Athens · c. 399 BC</div>
+      <div class="prologue-text">
+        One evening around 399 BC, Socrates and his young friend Glaucon walked down to Piraeus — Athens's bustling harbor — to check out a new religious festival honoring the goddess Bendis. Heading home afterward, they got ambushed by friends: Polemarchus and Adeimantus weren't letting them leave — stick around, there's a torch-race on horseback tonight, it'll be great, we'll talk. Hard to say no to that. They ended up at Polemarchus's house, where a crowd had already gathered, including old Cephalus — the host's father, garlanded, fresh from his prayers, settled comfortably in his chair — who lit up when Socrates walked in. Thus began one of the greatest conversations in the history of Western civilization — all of it faithfully recorded by a young Athenian in the corner named Plato, who had the good sense to write everything down.
+      </div>
+      <div class="prologue-context">
+        The evening's talk — begun in this garden by the sea — ends nine books later with the proof that the philosopher, freed from appetite's "mad master," lives 729 times more truly than the tyrant who cannot escape it.
+      </div>
+    </div>
+
     <div class="grid-2">
       <div class="card">
         <div class="card-label">Source</div>
