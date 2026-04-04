@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Letters — Max Alter and His Family, 1939–1957</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cormorant+SC:wght@400;600&family=IM+Fell+English:ital@0;1&family=Inconsolata:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:         #1c1208;
+    --ink-mid:     #3a2c18;
+    --ink-soft:    #5c4a30;
+    --paper:       #f7f1e3;
+    --paper-warm:  #ede5cc;
+    --paper-deep:  #e2d9c2;
+    --rule:        #c8b99a;
+    --accent:      #7a3d1a;
+    --accent-pale: #c9956a;
+    --drawer-w:    480px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { font-size: 18px; background: var(--paper); color: var(--ink); }
+  body { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 300; line-height: 1.85; }
+
+  .masthead { max-width: 680px; margin: 0 auto; padding: 5rem 2rem 3rem; text-align: center; border-bottom: 1px solid var(--rule); }
+  .masthead-label { font-family: 'Cormorant SC', serif; font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.5rem; display: block; }
+  h1 { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 2.6rem; line-height: 1.2; color: var(--ink); margin-bottom: 1rem; }
+  .subtitle { font-style: italic; font-weight: 300; font-size: 1.05rem; color: var(--ink-soft); margin-bottom: 2rem; }
+  .masthead-rule { display: flex; align-items: center; gap: 1rem; justify-content: center; color: var(--rule); }
+  .masthead-rule::before, .masthead-rule::after { content: ''; flex: 1; max-width: 80px; height: 1px; background: var(--rule); }
+
+  .text-body { max-width: 640px; margin: 0 auto; padding: 3rem 2rem 6rem; }
+  section { margin-bottom: 4rem; }
+  section + section { border-top: 1px solid var(--paper-warm); padding-top: 3.5rem; }
+  .section-date { font-family: 'Cormorant SC', serif; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent-pale); margin-bottom: 0.75rem; display: block; }
+  h2 { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 1.35rem; color: var(--ink); margin-bottom: 1.75rem; line-height: 1.3; }
+  p { margin-bottom: 1.4rem; font-size: 1rem; color: var(--ink-mid); font-weight: 300; }
+  p:last-child { margin-bottom: 0; }
+
+  .bq-wrap { margin: 2.25rem 0; }
+  blockquote { padding: 0 0 0 1.75rem; border-left: 2px solid var(--accent); font-style: italic; font-size: 1.05rem; color: var(--ink); font-weight: 300; line-height: 1.7; }
+  blockquote cite { display: block; font-style: normal; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); margin-top: 0.6rem; font-family: 'Cormorant SC', serif; }
+
+  .view-letter-btn {
+    display: inline-flex; align-items: center; gap: 0.55rem;
+    margin-top: 0.9rem; margin-left: 1.75rem;
+    font-family: 'Inconsolata', monospace; font-size: 0.72rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--paper); background: var(--accent);
+    border: none;
+    padding: 0.45rem 1rem; cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    border-radius: 2px;
+  }
+  .view-letter-btn:hover { background: var(--ink); transform: translateX(2px); }
+  .view-letter-btn .arrow { font-size: 0.9rem; }
+
+  .annotation { font-family: 'IM Fell English', serif; font-style: italic; font-size: 0.82rem; color: var(--ink-soft); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 0.85rem 0; margin: 2rem 0; text-align: center; }
+
+  .coda { max-width: 640px; margin: 0 auto; padding: 0 2rem 6rem; }
+  .coda-inner { background: var(--paper-warm); border: 1px solid var(--rule); padding: 2.5rem; }
+  .coda-label { font-family: 'Cormorant SC', serif; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1rem; display: block; }
+  .coda p { font-size: 0.95rem; color: var(--ink-mid); }
+
+  footer { text-align: center; padding: 2rem; font-family: 'Cormorant SC', serif; font-size: 0.6rem; letter-spacing: 0.2em; color: var(--rule); border-top: 1px solid var(--paper-warm); }
+
+  /* ── DRAWER ── */
+  .drawer-overlay { position: fixed; inset: 0; background: rgba(20,12,4,0.5); z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+  .drawer-overlay.open { opacity: 1; pointer-events: all; }
+
+  .drawer {
+    position: fixed; top: 0; right: 0; bottom: 0;
+    width: var(--drawer-w); max-width: 96vw;
+    background: var(--paper); z-index: 101;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+    display: flex; flex-direction: column;
+    border-left: 1px solid var(--rule);
+    box-shadow: -4px 0 32px rgba(20,10,4,0.18);
+  }
+  .drawer.open { transform: translateX(0); }
+
+  .drawer-top-bar { background: var(--accent); padding: 0.8rem 1.25rem; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; gap: 0.75rem; }
+  .drawer-top-meta { display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap; }
+  .drawer-date { font-family: 'Inconsolata', monospace; font-size: 0.7rem; color: rgba(255,255,255,0.9); letter-spacing: 0.06em; }
+  .drawer-theme-pill { font-family: 'Inconsolata', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(255,255,255,0.2); color: #fff; padding: 0.15rem 0.5rem; border-radius: 2px; }
+  .drawer-lang { font-family: 'Inconsolata', monospace; font-size: 0.65rem; color: rgba(255,255,255,0.65); }
+  .drawer-close { background: rgba(255,255,255,0.15); border: none; cursor: pointer; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.95rem; transition: background 0.15s; flex-shrink: 0; }
+  .drawer-close:hover { background: rgba(255,255,255,0.3); }
+
+  .drawer-body { flex: 1; overflow-y: auto; padding: 1.6rem 1.5rem 1rem; }
+
+  .drawer-headline { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 1.2rem; color: var(--ink); line-height: 1.3; margin-bottom: 1.25rem; }
+
+  .drawer-route { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid var(--paper-deep); }
+  .drawer-route-side { flex: 1; min-width: 0; }
+  .route-label { font-family: 'Inconsolata', monospace; font-size: 0.57rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-soft); display: block; margin-bottom: 0.2rem; }
+  .route-person { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 0.92rem; color: var(--ink); display: block; }
+  .route-place { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.8rem; color: var(--ink-soft); display: block; }
+  .route-arrow { font-size: 1.1rem; color: var(--accent-pale); padding-top: 1rem; flex-shrink: 0; }
+
+  .drawer-section-label { font-family: 'Inconsolata', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; display: block; }
+  .drawer-summary { font-size: 0.88rem; color: var(--ink-mid); line-height: 1.75; margin-bottom: 1.4rem; font-weight: 300; }
+
+  .drawer-excerpt-box { background: var(--paper-warm); border-left: 3px solid var(--accent); padding: 0.9rem 1rem 0.9rem 1.1rem; margin-bottom: 1.4rem; font-style: italic; font-size: 0.93rem; color: var(--ink); line-height: 1.72; font-weight: 300; position: relative; }
+  .drawer-excerpt-box::before { content: '\201C'; font-size: 2.2rem; color: var(--accent-pale); line-height: 0; vertical-align: -0.55rem; margin-right: 0.05rem; font-style: normal; }
+
+  .drawer-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.5rem; }
+  .drawer-tag { font-family: 'Inconsolata', monospace; font-size: 0.6rem; letter-spacing: 0.04em; color: var(--ink-soft); border: 1px solid var(--rule); padding: 0.15rem 0.5rem; border-radius: 2px; }
+
+  .drawer-footer { flex-shrink: 0; padding: 0.8rem 1.5rem; border-top: 1px solid var(--paper-deep); background: var(--paper-warm); }
+  .drawer-source { font-family: 'Inconsolata', monospace; font-size: 0.6rem; color: var(--ink-soft); letter-spacing: 0.04em; }
+
+  @media (max-width: 600px) {
+    html { font-size: 16px; }
+    h1 { font-size: 2rem; }
+    .masthead, .text-body, .coda { padding-left: 1.25rem; padding-right: 1.25rem; }
+    :root { --drawer-w: 100vw; }
+    .drawer { border-left: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="drawer-overlay" id="drawer-overlay"></div>
+
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Letter detail">
+  <div class="drawer-top-bar" id="drawer-top-bar">
+    <div class="drawer-top-meta">
+      <span class="drawer-date" id="d-date"></span>
+      <span class="drawer-theme-pill" id="d-theme"></span>
+      <span class="drawer-lang" id="d-lang"></span>
+    </div>
+    <button class="drawer-close" id="drawer-close" aria-label="Close">✕</button>
+  </div>
+  <div class="drawer-body">
+    <div class="drawer-headline" id="d-headline"></div>
+    <div class="drawer-route">
+      <div class="drawer-route-side">
+        <span class="route-label">From</span>
+        <span class="route-person" id="d-sender"></span>
+        <span class="route-place" id="d-senderLoc"></span>
+      </div>
+      <div class="route-arrow">→</div>
+      <div class="drawer-route-side">
+        <span class="route-label">To</span>
+        <span class="route-person" id="d-recipient"></span>
+        <span class="route-place" id="d-recipientLoc"></span>
+      </div>
+    </div>
+    <span class="drawer-section-label">Summary</span>
+    <div class="drawer-summary" id="d-summary"></div>
+    <span class="drawer-section-label">Key Passage (Translated)</span>
+    <div class="drawer-excerpt-box" id="d-excerpt"></div>
+    <span class="drawer-section-label">Keywords</span>
+    <div class="drawer-tags" id="d-tags"></div>
+  </div>
+  <div class="drawer-footer">
+    <span class="drawer-source" id="d-source"></span>
+  </div>
+</aside>
+
+<div class="masthead">
+  <span class="masthead-label">A Documentary Narrative</span>
+  <h1>The Letters</h1>
+  <p class="subtitle">Max Alter and His Family · Vienna to New York · 1939–1957</p>
+  <div class="masthead-rule">✦</div>
+</div>
+
+<div class="text-body">
+
+  <section>
+    <span class="section-date">August 1939</span>
+    <h2>The Boy Who Left</h2>
+    <p>On August 26, 1939, a fourteen-year-old named Maximilian Alter boarded a train in Vienna and left for Paris, traveling alone. He carried a HAPAG transit card, an American visa, and a ticket for the SS Deutschland, sailing from Cherbourg to New York. His parents, Jakob and Anna, stayed behind. No one expected the separation to last.</p>
+    <p>Six days later, Germany invaded Poland. The SS Deutschland did not sail. Within the week, Britain and France had declared war on Germany, and Max was stranded in a city that was no longer at peace, with documents that no longer had a clear purpose.</p>
+    <p>He typed a letter in French to the Prefect of Police of Paris, requesting temporary residence. The letter is careful and grammatically correct. He explains that he has all necessary emigration papers — visa, transit card, ship ticket — but that "the departure of the Deutschland cannot take place due to current events." He asks permission to remain until he can find another passage. He signs it in full: Maximilian Alter. It is the only document in the collection written in his own voice.</p>
+    <p>He was eventually given his passage and arrived in New York sometime in early September 1939, moving in with the Weitz family at 1725 Gleason Avenue in the Bronx.</p>
+  </section>
+
+  <section>
+    <span class="section-date">Autumn 1939</span>
+    <h2>Trying to Find Each Other</h2>
+    <p>The mail between Vienna and the rest of the world had not yet stopped entirely, but it had become unreliable. On September 4, three days after the invasion of Poland, Anna Alter sat down and wrote to her son. She could not reach him directly, so she addressed the letter to a Dr. Behrens in Davos, Switzerland, asking him to forward it. She had not heard from Max since he left.</p>
+    <div class="bq-wrap">
+      <blockquote>
+        Our only wish — at least to receive one letter from you — grows greater with each passing day.
+        <cite>— Anna Alter, Vienna, September 4, 1939</cite>
+      </blockquote>
+      <button class="view-letter-btn" data-id="2"><span class="arrow">→</span> View letter</button>
+    </div>
+    <p>She wrote the forwarding instructions twice, carefully. A note added in the margin by a separate hand reads: <em>Please, please keep writing — your mother.</em> Three weeks later, she sent another letter carried by hand out of Vienna by a woman named Martha Hermann traveling west.</p>
+    <p>On October 7, Anna turned to a more official channel. She submitted a message to the International Committee of the Red Cross in Geneva, asking them to contact a family friend in Paris — Jules Pressner — to find out whether her son had arrived safely. The case was assigned number CM 3776.</p>
+    <div class="bq-wrap">
+      <blockquote>
+        Mme. A. would very much like to know if her son Maximilien Alter, who departed from Vienna on the 26th of August 1939, has arrived in Paris and whether he was able to depart for America.
+        <cite>— Anna Alter via ICRC, October 7, 1939</cite>
+      </blockquote>
+      <button class="view-letter-btn" data-id="4"><span class="arrow">→</span> View letter</button>
+    </div>
+    <p>Max, on the other side of the Atlantic, was doing the same thing in reverse. By late November 1939, he had submitted his own inquiry through the Red Cross and received a formal acknowledgment card: case number CM 22155. He was fourteen, alone in a foreign city, using the machinery of international humanitarian organizations to locate his parents.</p>
+    <div class="bq-wrap">
+      <blockquote>
+        We acknowledge receipt of your communication. We will do our best to follow it up accordingly.
+        <cite>— ICRC Geneva to Max Alter, November 21, 1939</cite>
+      </blockquote>
+      <button class="view-letter-btn" data-id="5"><span class="arrow">→</span> View letter</button>
+    </div>
+  </section>
+
+  <section>
+    <span class="section-date">1940</span>
+    <h2>The Ship Ticket Problem</h2>
+    <p>By early 1940, Max was settled in the Bronx. From Vienna, the letters had a different texture. On March 11, Jakob wrote the most personal letter in the collection, labeled in his own hand "Letter No. 3." He addressed his son as "my Only One, what I have." He told Max to study, to master English, to learn another world language. He was trying to be a practical father across a very large distance. He also explained the machinery that could save them.</p>
+    <div class="bq-wrap">
+      <blockquote>
+        The Community has sent a telegram to New York regarding ship tickets for the relatives. It works out that when the relatives pay half, the Community pays the rest. We hope, my dear child, to be with you in a short time — end of May is the plan now.
+        <cite>— Jakob Alter, Vienna, March 11, 1940</cite>
+      </blockquote>
+      <button class="view-letter-btn" data-id="8"><span class="arrow">→</span> View letter</button>
+    </div>
+    <p>The Community was the Kultusgemeinde, Vienna's Jewish community organization, working with the American Jewish Joint Distribution Committee in New York. Two tickets for two parents. The plan was end of May. Then it wasn't. The route through Lisbon — the last open emigration corridor from Europe — would close entirely in late 1941.</p>
+    <p>Through 1940 and into early 1941, the letters become a sustained, increasingly urgent negotiation around this single problem. Each carries the reasonable assumption that with enough effort, the thing can still be done.</p>
+    <div class="bq-wrap">
+      <blockquote>
+        We do not want to go near Selma. Please — all of you dear brothers and sisters, including the dear brother in Boston — chip in together for the two tickets via Lisbon, and help us to emigrate. A stone would have moved sooner.
+        <cite>— Max's parents, late 1940</cite>
+      </blockquote>
+      <button class="view-letter-btn" data-id="11"><span class="arrow">→</span> View letter</button>
+    </div>
+    <p>The tickets never came.</p>
+  </section>
+
+  <section>
+    <span class="section-date">1941</span>
+    <h2>Selma</h2>
+    <p>By February 1941, the letters from Vienna were traveling by airmail, stamped with German Reich postage and bearing the censor's mark. A word had appeared in the correspondence: <em>Selma</em>. It recurs across several letters as a destination to be feared above all else, something the writers would rather die than reach. It is almost certainly a code for deportation — a camp, a transport, a disappearance. The word is used with the familiarity of something everyone in the conversation already understands.</p>
+    <div class="bq-wrap">
+      <blockquote>
+        If — God forbid — you do not send us any cards, we will unfortunately soon be gone, near Selma, which I would rather wish death upon than face.
+        <cite>— Vienna, February 18, 1941</cite>
+      </blockquote>
+      <button class="view-letter-btn" data-id="12"><span class="arrow">→</span> View letter</button>
+    </div>
+    <p>On April 23, 1941, Jakob and Anna wrote jointly — the longest letter in the collection — referencing Joint Distribution Committee case numbers 3064 and 2533 at the top. Three hundred dollars had been deposited for one ticket. They needed three hundred more for the second.</p>
+    <div class="bq-wrap">
+      <blockquote>
+        It should be $600 laid out for two ship tickets, and then we would be saved. Unfortunately, since we have not yet received any ship tickets, they have taken Selma. I beg you most earnestly — please arrange for an additional $300.
+        <cite>— Jakob &amp; Anna Alter, April 23, 1941</cite>
+      </blockquote>
+      <button class="view-letter-btn" data-id="13"><span class="arrow">→</span> View letter</button>
+    </div>
+    <p>By mid-1941, a letter from Tante Gusti Krauthammer in Bottrop, Germany — a relay station in the network — carried news that Max's parents had been moved from Vienna to the town of Działoszyce in occupied Poland. They could not write freely from there.</p>
+    <div class="bq-wrap">
+      <blockquote>
+        We write to you from Dzialoszice.
+        <cite>— Max's parents, mid-1941</cite>
+      </blockquote>
+      <button class="view-letter-btn" data-id="15"><span class="arrow">→</span> View letter</button>
+    </div>
+    <p>On December 25, 1941 — a date noted in red ink on an envelope, almost certainly in Max's hand — Jakob and Anna Alter were deported from Vienna to Poland.</p>
+  </section>
+
+  <section>
+    <span class="section-date">1942</span>
+    <h2>Letters from the Ghetto</h2>
+    <p>Działoszyce was a market town in the Kraków district with a Jewish community of roughly ten thousand people. Anna Alter was there, in the deep of a Polish winter, writing postcards to a woman named Frau N. Rainer at Grüne Torgasse 34 in Vienna — a conduit who could receive mail and forward packages. She could not write to Max directly. In her postcards he appears only as "der Bube" — the boy — a careful anonymity that protected both of them from the censor.</p>
+    <div class="bq-wrap">
+      <blockquote>
+        From the sister-in-law in Bottrop we received a letter — that he is healthy, and is said to be one of the best students there. So: God be thanked for it. At least from afar, something good about the boy.
+        <cite>— Anna Alter, Działoszyce, January 25, 1942</cite>
+      </blockquote>
+      <button class="view-letter-btn" data-id="17"><span class="arrow">→</span> View letter</button>
+    </div>
+    <p>The postcards through 1942 document a slow deterioration. The cold is severe. Prices are "impossible to put into writing." Tante Gusti in Bottrop, who relayed packages, can no longer do so — she has apparently been deported herself. Anna asks Frau Rainer not to forget them.</p>
+    <div class="bq-wrap">
+      <blockquote>
+        Here there is a dizzying inflation — prices impossible to put into writing, unbelievable figures. As long as my sister-in-law was in Bottrop, life was still not quite so terrible — now everything is denied us. A second winter — I would not want to experience here.
+        <cite>— Anna Alter, Działoszyce, May 25, 1942</cite>
+      </blockquote>
+      <button class="view-letter-btn" data-id="20"><span class="arrow">→</span> View letter</button>
+    </div>
+    <p>Anna was taken away on September 3, 1942, during the mass deportation from the Działoszyce ghetto. A handwritten annotation on the envelope — in red ink, almost certainly Max's hand, written years later — records the date: <em>taken away.</em> The transport went to Bełżec extermination camp.</p>
+    <div class="bq-wrap">
+      <blockquote>
+        We have so much to write, but the cold does not allow it. We greet you from the heart — I kiss your hands.
+        <cite>— Anna Alter, Działoszyce, c. September 1942 (last surviving letter)</cite>
+      </blockquote>
+      <button class="view-letter-btn" data-id="24"><span class="arrow">→</span> View letter</button>
+    </div>
+    <div class="annotation">Of the approximately ten thousand Jews in Działoszyce, roughly four thousand were shot during or after the September 1942 deportation. The remainder were transported to Bełżec.</div>
+  </section>
+
+  <section>
+    <span class="section-date">1942 – 1943</span>
+    <h2>The Father</h2>
+    <p>Jakob Alter survived the September deportation. By October 1942, he was in the Prokocim labor camp near Kraków. He wrote postcards on German Reich stationery bearing Hitler's portrait — the only paper available. He addressed them to two Vienna contacts: Frau Rainer, and a man named S. Seidl at a tobacco shop on Rossauerlände. He did not know where Anna was.</p>
+    <div class="bq-wrap">
+      <blockquote>
+        Long, no news. Why? From that address — no sign of life. My health is not good.
+        <cite>— Jakob Alter, Prokocim, October 27, 1942</cite>
+      </blockquote>
+      <button class="view-letter-btn" data-id="26"><span class="arrow">→</span> View letter</button>
+    </div>
+    <p>Through 1943, Jakob moved between camps — Prokocim, then Biesanów, a sub-camp of the Kraków-Płaszów concentration camp. He could not write to Max in America. His letters ask for photographs, for small amounts of money to pay an overseer who demanded payment for bearable conditions.</p>
+    <div class="bq-wrap">
+      <blockquote>
+        My health is not good. Herr Hungeri is mainly to blame for this. Please — perhaps it is possible to send me 50 Zloty, two or three times per month, in order to stop Herr Hüngeri's mouth.
+        <cite>— Prokocim camp, October 13, 1942</cite>
+      </blockquote>
+      <button class="view-letter-btn" data-id="25"><span class="arrow">→</span> View letter</button>
+    </div>
+    <p>The last surviving letter in the entire collection is postmarked November 7, 1943, from a location written as "Pióra." It ends mid-sentence.</p>
+    <div class="bq-wrap">
+      <blockquote>
+        [November 7, 1943 — the final postmark in the wartime correspondence]
+        <cite>— Unknown sender, Pióra, November 7, 1943</cite>
+      </blockquote>
+      <button class="view-letter-btn" data-id="43"><span class="arrow">→</span> View letter</button>
+    </div>
+  </section>
+
+  <section>
+    <span class="section-date">March 1943</span>
+    <h2>What Singer Knew</h2>
+    <p>On March 20, 1943, a man named Stepan Singer, in exile in Havana, Cuba, wrote to Frau S. Weitz at 1725 Gleason Avenue in the Bronx — Max's aunt. Singer was a Yugoslav refugee who had been a business acquaintance of the Alter family in Vienna. He confirms, in quiet and careful language, that Max's parents were deported to Poland. He also discloses that Anna Alter, on the eve of her deportation, gave him two small objects to hold for Max.</p>
+    <div class="bq-wrap">
+      <blockquote>
+        On the occasion of my last stay in Vienna, Frau Alter gave me two small things to keep in safekeeping. We took them with us during our flight and have them here now. Once we come to the USA we will pass the things on to Maxi.
+        <cite>— Stepan Singer, Havana, March 20, 1943</cite>
+      </blockquote>
+      <button class="view-letter-btn" data-id="31"><span class="arrow">→</span> View letter</button>
+    </div>
+    <p>What the two objects were, and whether Singer eventually delivered them, the correspondence does not say.</p>
+  </section>
+
+  <section>
+    <span class="section-date">1944 – 1946</span>
+    <h2>The Soldier</h2>
+    <p>There are no letters from the years when Max served. He entered the United States Army and was assigned to General Patton's Third Army. He crossed the Rhine in the final weeks of the war in Europe, days before Germany's surrender in May 1945. He was nineteen. He had left Vienna at fourteen.</p>
+    <p>He came home.</p>
+  </section>
+
+  <section>
+    <span class="section-date">1946 – 1957</span>
+    <h2>The Postwar Letters</h2>
+    <p>In October 1946, a letter arrived from Vienna. It was from a woman who signed herself Tante Mimi — Mimi Urmann — part of the same community that had sustained the correspondence through the war. She congratulated Max on his recent marriage, expressed grief that his parents had not lived to see it, navigated the chaos of postwar currency controls, and then: she had kept something.</p>
+    <div class="bq-wrap">
+      <blockquote>
+        What is truly precious are the jewelry pieces of your dear mother — on those I have kept a closer watch than on my own things.
+        <cite>— Tante Mimi Urmann, Vienna, October 21, 1946</cite>
+      </blockquote>
+      <button class="view-letter-btn" data-id="44"><span class="arrow">→</span> View letter</button>
+    </div>
+    <p>Tante Mimi wrote to Max for more than a decade. Her letters report on damaged care packages, currency restrictions, the fate of mutual acquaintances scattered across London, Leeds, and New York. In 1947, a photograph arrived in Vienna: Max's baby daughter. Tante Mimi wrote back that she was "an enchanting child." She asked for more pictures.</p>
+    <p>The last letter in the collection is dated January 31, 1957. Tante Mimi has been writing to Max for more than ten years. She had kept his mother's jewelry through the war, watched Vienna be occupied and liberated, welcomed news of every milestone in the life he was building in America. She had been the keeper of what remained.</p>
+    <div class="bq-wrap">
+      <blockquote>
+        Dearest Maxi — always with love. Yours, Mimi.
+        <cite>— Tante Mimi Urmann, Vienna, January 31, 1957</cite>
+      </blockquote>
+      <button class="view-letter-btn" data-id="51"><span class="arrow">→</span> View letter</button>
+    </div>
+    <p>The correspondence ends there. Not because anything happened. Tante Mimi lived. Max lived. It simply ends, the way ordinary correspondence ends, when the letters trail off and life continues without a written record.</p>
+  </section>
+
+</div>
+
+<div class="coda">
+  <div class="coda-inner">
+    <span class="coda-label">The Collection</span>
+    <p>These fifty-one letters and postcards span eighteen years, five countries, four languages, and the full arc of the Second World War as it was experienced by one Jewish family from Vienna. They were written in formal French, in old German cursive, on ICRC stationery, on Nazi-issued postcards bearing Hitler's portrait, on airmail paper stamped by Reich censors, and on ordinary writing paper in peacetime Vienna and postwar Boston. Max Alter kept all of them.</p>
+  </div>
+</div>
+
+<footer>The Alter Family Correspondence · 1939–1957 · Translated and compiled 2026</footer>
+
+<script>
+const LETTERS = {
+  2:  { date:"September 4, 1939", theme:"Family News", lang:"German", themeColor:"#4a5c20",
+        headline:"Mother's Letter Routed via Switzerland",
+        sender:"Anna Alter (Mother)", senderLoc:"Vienna, Austria",
+        recipient:"Max Alter", recipientLoc:"Paris (via Switzerland)",
+        summary:"Written just days after Germany's invasion of Poland, this letter reveals the sudden severing of normal postal routes between Vienna and the West. Unable to reach Max directly, Anna routes the letter through Dr. Behrens in Davos, Switzerland. No word has come from Max since his departure. A margin note pleads: 'Please, please keep writing — your mother.'",
+        excerpt:"Our only wish — at least to receive one letter from you — grows greater with each passing day. Please try and write us your answer immediately.",
+        tags:["Mother","Switzerland Relay","Silence","Davos","Dr. Behrens","Separation"],
+        source:"Correspondence-02.docx" },
+  4:  { date:"October 7, 1939", theme:"Red Cross", lang:"French", themeColor:"#6b1a1a",
+        headline:"Red Cross Message — \"Has My Son Arrived?\"",
+        sender:"Asné Alter (Mother)", senderLoc:"Vienna, Austria",
+        recipient:"Jules Pressner (via ICRC)", recipientLoc:"Paris, France",
+        summary:"Just six weeks after Max left Vienna, his mother turned to the International Committee of the Red Cross as an intermediary. Case CM 3776. She asked them to contact Jules Pressner in Paris to find out whether her son Maximilien had arrived safely and departed for America. A mother's most elemental question — is my child alive? — filtered through the bureaucratic language of a wartime humanitarian organization.",
+        excerpt:"Mme. A. would very much like to know if her son Maximilien Alter, who departed from Vienna on the 26th of August 1939, has arrived in Paris and whether he was able to depart for America.",
+        tags:["Mother","ICRC","Red Cross","Case CM 3776","Jules Pressner","Geneva"],
+        source:"Correspondence-01.docx" },
+  5:  { date:"November 21, 1939", theme:"Red Cross", lang:"French", themeColor:"#6b1a1a",
+        headline:"ICRC Acknowledgment — Case CM 22155",
+        sender:"ICRC Geneva", senderLoc:"Geneva, Switzerland",
+        recipient:"Max Alter", recipientLoc:"Paris, France",
+        summary:"A formal acknowledgment card from the ICRC addressed directly to Max in Paris, confirming receipt of his inquiry (case CM 22155). This places Max in Paris in late November 1939, and suggests the young fourteen-year-old was already using official humanitarian channels to locate family members — almost certainly his parents still in Vienna.",
+        excerpt:"We acknowledge receipt of your communication. We will do our best to follow it up accordingly.",
+        tags:["ICRC","Red Cross","Max's Search","Case CM 22155","Geneva","Max in Paris"],
+        source:"Correspondence-04.docx" },
+  8:  { date:"March 11, 1940", theme:"Family News", lang:"German", themeColor:"#4a5c20",
+        headline:"Father's Letter — \"Brief Nr. 3\"",
+        sender:"Jakob Alter (Father)", senderLoc:"Vienna, Austria",
+        recipient:"Max Alter", recipientLoc:"Bronx, New York",
+        summary:"Labeled 'Letter No. 3' by the father himself, this is the most personal letter in the collection. Max's father writes with the salutation 'To my Only One, what I have.' He swings between parental tenderness and practical instruction — attend school, master English, perhaps another world language. He addresses the ship ticket crisis, explains the Joint Distribution Committee's funding mechanism, and asks after mutual acquaintances. A father fighting to believe he will one day join his son.",
+        excerpt:"To my Only One, what I have! Try, my son, to be a decent and good person. You must still attend school now, and try to master English in both speech and writing — and possibly another world language as well — and then one can speak about one's future.",
+        tags:["Father","Parental Advice","School","Ship Tickets","Joint Distribution Committee","Brief Nr. 3"],
+        source:"Correspondence-02.docx" },
+  11: { date:"Late 1940 / Early 1941", theme:"Ship Tickets", lang:"German", themeColor:"#4a2a6b",
+        headline:"\"Send the Two Tickets As Quickly As Possible\"",
+        sender:"Max's Parents", senderLoc:"Vienna, Austria",
+        recipient:"American Relatives", recipientLoc:"United States",
+        summary:"Perhaps the most desperate letter in the collection. Written on both sides of a worn, creased page, it is a prolonged plea for two ship tickets via Lisbon — the only emigration route still open to Jews. Countless letters and telegrams have gone unanswered. The emotional climax: 'We could have been with you long ago if you had wanted it. A stone would have moved sooner than our relatives have helped us.'",
+        excerpt:"We do not want to go near Selma. Please — all of you dear brothers and sisters, including the dear brother in Boston — chip in together for the two tickets via Lisbon, and help us to emigrate. A stone would have moved sooner.",
+        tags:["Parents","Ship Tickets","Lisbon","Selma Code","Desperation","Final Chance"],
+        source:"Correspondence-01.docx" },
+  12: { date:"February 18, 1941", theme:"Coded Warnings", lang:"German", themeColor:"#1e3a5f",
+        headline:"Airmail from Vienna — \"Soon We Will Be Gone\"",
+        sender:"Family Member (Anna?)", senderLoc:"Vienna, Austria",
+        recipient:"S. Weitz", recipientLoc:"Bronx, New York",
+        summary:"One of the most alarming letters in the collection. Sent by airmail with German Reich stamps and Nazi censor mark u. 1133. The writer warns that without ship tickets, they will soon be 'gone, near Selma' — coded language for deportation. She says she would rather wish for death than face that fate. A heartbroken postscript to Max asks why he only writes every quarter year.",
+        excerpt:"If — God forbid — you do not send us any cards [ship tickets], we will unfortunately soon be gone, near Selma, which I would rather wish death upon than face. Please do your absolute utmost and help us.",
+        tags:["Selma Code","Deportation Warning","Nazi Censor","Airmail","u. 1133","Ship Tickets"],
+        source:"Correspondence-01.docx" },
+  13: { date:"April 23, 1941", theme:"Ship Tickets", lang:"German", themeColor:"#4a2a6b",
+        headline:"\"$300 Is Not Enough — We Need $600 to Be Saved\"",
+        sender:"Jakob & Anna Alter (Parents)", senderLoc:"Vienna, Austria",
+        recipient:"American Siblings & Max", recipientLoc:"United States",
+        summary:"The longest letter in the collection. Reference numbers 3064 and 2533 at the top are likely emigration case numbers from the Joint Distribution Committee. $300 has been deposited toward ship tickets — only half the required amount. 'They have frozen Selma.' A private section is addressed directly to Max, with kisses from his father. Emigration would close entirely by October 1941.",
+        excerpt:"It should be $600 laid out for two ship tickets, and then we would be saved. Unfortunately, since we have not yet received any ship tickets, they have taken Selma. I beg you most earnestly — please arrange for an additional $300.",
+        tags:["Parents","Ship Tickets","$600","Joint Distribution Committee","Selma Code","Final Chance","Case 3064"],
+        source:"Correspondence-01.docx" },
+  15: { date:"Mid-1941", theme:"Ghetto Letters", lang:"German", themeColor:"#2a5a3a",
+        headline:"Letter from Parents in Dzialoszice",
+        sender:"Max's Parents", senderLoc:"Dzialoszice, occupied Poland",
+        recipient:"Max / American Family", recipientLoc:"United States",
+        summary:"By mid-1941, Max's parents have been sent to Dzialoszice in occupied Poland. This letter, sent with its envelope, is among the last from this transitional period before direct communication becomes nearly impossible and the ghetto's fate is sealed.",
+        excerpt:"We write to you from Dzialoszice.",
+        tags:["Parents","Dzialoszice","Deportation","Ghetto","Occupied Poland","1941"],
+        source:"Correspondence-02.docx" },
+  17: { date:"January 25, 1942", theme:"Ghetto Letters", lang:"German", themeColor:"#2a5a3a",
+        headline:"Anna's First Letter from Działoszyce — The Boy Is One of the Best Students",
+        sender:"Anna Alter (Mother)", senderLoc:"Działoszyce, Poland",
+        recipient:"Frau N. Rainer", recipientLoc:"Vienna",
+        summary:"Anna writes shortly after deportation from Vienna on December 25, 1941. It is brutally cold in Działoszyce. She shares news relayed through Tante Gusti in Bottrop — 'the boy' (Max, not named due to censorship) is healthy and said to be one of the best students. She cannot acknowledge him by name or reveal he emigrated to an enemy country.",
+        excerpt:"From the sister-in-law in Bottrop we received a letter — that he is healthy, and is said to be one of the best students there. So: God be thanked for it! At least from afar, something good about the boy. Things are going for us, my dear, as you can only imagine. I am terribly cold.",
+        tags:["Mother","Działoszyce","Censored","'The Boy'","Bottrop News","Cold","Post-Deportation"],
+        source:"Correspondence-03.docx" },
+  20: { date:"May 25, 1942", theme:"Ghetto Letters", lang:"German", themeColor:"#2a5a3a",
+        headline:"\"Prices Unbelievable — The Link to Bottrop Is Gone\"",
+        sender:"Anna Alter (Mother)", senderLoc:"Działoszyce, Poland",
+        recipient:"Frau N. Rainer", recipientLoc:"Vienna",
+        summary:"Anna writes in desperation about crushing inflation — 'prices impossible to put into writing, unbelievable figures.' Her sister-in-law Tante Gusti in Bottrop, who used to relay packages, can no longer do so — she has been deported. Anna begs Frau Rainer not to forget her, and dreads another winter.",
+        excerpt:"Here there is a dizzying inflation — prices impossible to put into writing, unbelievable figures. As long as my sister-in-law was in Bottrop, life was still not quite so terrible — now everything is denied us. A second winter — I would not want to experience here.",
+        tags:["Mother","Działoszyce","Inflation","Bottrop Link Lost","Tante Gusti Deported","Winter Dread"],
+        source:"Correspondence-03.docx" },
+  24: { date:"c. September 1942", theme:"Ghetto Letters", lang:"German", themeColor:"#2a5a3a",
+        headline:"Last Known Letter from Anna — September 1942",
+        sender:"Anna Alter (Mother)", senderLoc:"Działoszyce, Poland",
+        recipient:"Frau N. Rainer", recipientLoc:"Vienna",
+        summary:"An undated letter from around September 1942. On September 3, 1942, Anna was 'taken away' — deported to the Bełżec extermination camp during the mass liquidation of the Działoszyce ghetto. An English annotation by Max himself on the envelope records this date. Neither she nor the others deported that day survived.",
+        excerpt:"We have so much to write, but the cold does not allow it. We greet you from the heart — I kiss your hands.",
+        tags:["Mother","Last Letters","Deportation September 3","Bełżec","Liquidation","Max's Annotation"],
+        source:"Correspondence-03.docx" },
+  25: { date:"October 13, 1942", theme:"Labor Camp", lang:"German", themeColor:"#5a2020",
+        headline:"\"Herr Hungeri\" — Illness, Extortion, and a Plea for 50 Zloty",
+        sender:"Jewish Forced Laborer", senderLoc:"Prokocim, Poland",
+        recipient:"S. Seidl", recipientLoc:"Vienna (Tabak Trafik)",
+        summary:"A deeply distressing card from Prokocim camp. Health is deteriorating. An abusive overseer named 'Herr Hungeri' demands bribery to allow bearable conditions. The writer pleads for 50 Zloty two or three times a month through intermediary H. Dr. R. Bread costs 25 Zloty per loaf; Jewish laborers earn nothing.",
+        excerpt:"My health is not good. Herr Hungeri is mainly to blame for this. Please — perhaps it is possible through H. Dr. R. to send me 50 Zloty, two or three times per month, in order to stop Herr Hüngeri's mouth.",
+        tags:["Forced Laborer","Prokocim","Herr Hungeri","Extortion","50 Zloty","Illness","Bread 25 Zloty"],
+        source:"Correspondence-04.docx" },
+  26: { date:"October 27, 1942", theme:"Labor Camp", lang:"German", themeColor:"#5a2020",
+        headline:"Father at Prokocim — Does Not Know Where Anna Is",
+        sender:"Jakob Alter (Father)", senderLoc:"Prokocim camp, Poland",
+        recipient:"Vienna contacts", recipientLoc:"Vienna",
+        summary:"Max's father writes from Prokocim labor camp, haunted by the disappearance of his wife. Anna was 'taken away' on September 3, 1942 — deported to Bełżec. He does not yet know where she is. His letters from the camp are terse and desperate, defined by the silence where her letters used to be.",
+        excerpt:"Long, no news. Why? From that address — no sign of life. My health is not good.",
+        tags:["Father","Prokocim","Mother Missing","Anna's Fate Unknown","Labor Camp","Desperation"],
+        source:"Correspondence-03.docx" },
+  31: { date:"March 20, 1943", theme:"Postwar Reconnection", lang:"German", themeColor:"#2a4a3a",
+        headline:"Singer Confirms Deportation of Max's Parents",
+        sender:"Stepan Singer", senderLoc:"Havana, Cuba",
+        recipient:"Frau S. Weitz", recipientLoc:"Bronx, New York",
+        summary:"The most historically significant document in the collection, written in Havana by a Yugoslav refugee who knew the Alter family in Vienna. Singer confirms Max's parents were deported to Poland. He discloses that Frau Alter, on the eve of deportation, entrusted him with two small keepsakes for Max. He carried them through his own escape to Havana. He asks Max to write to Camillo Weiss in London.",
+        excerpt:"Before their departure they wrote to me. On the occasion of my last stay in Vienna, Frau Alter gave me two small things to keep in safekeeping. We took them with us during our flight and have them here now. Once we come to the USA we will pass the things on to Maxi.",
+        tags:["Stepan Singer","Havana","Deportation Confirmed","Keepsakes","Camillo Weiss","Yugoslav Refugee","Historical"],
+        source:"Correspondence-05.docx" },
+  43: { date:"November 7, 1943", theme:"Labor Camp", lang:"German", themeColor:"#5a2020",
+        headline:"The Last Surviving Letter — November 7, 1943",
+        sender:"Unknown", senderLoc:"\"Pióra,\" Poland",
+        recipient:"Vienna contacts", recipientLoc:"Vienna",
+        summary:"The last surviving letter in the wartime collection, postmarked November 7, 1943, from a location written as 'Pióra.' Neither the sender nor the recipients survived the war. The letters end here. The Kraków-Płaszów concentration camp continued until January 1945, when surviving prisoners were marched to Auschwitz.",
+        excerpt:"[November 7, 1943 — the final postmark in the wartime correspondence. The letter ends mid-sentence.]",
+        tags:["Last Letter","Pióra","End of Correspondence","November 1943","Płaszów","Auschwitz"],
+        source:"Correspondence-03.docx" },
+  44: { date:"October 21, 1946", theme:"Postwar Reconnection", lang:"German", themeColor:"#2a4a3a",
+        headline:"First Postwar Letter — Marriage, Mother's Jewelry, Postwar Vienna",
+        sender:"Tante Mimi Urmann", senderLoc:"Vienna",
+        recipient:"Max Alter & wife", recipientLoc:"Roxbury, Massachusetts",
+        summary:"The earliest direct postwar letter from Vienna to Max. Tante Mimi congratulates him warmly on his marriage and expresses grief that his parents could not witness it. She has kept his mother's jewelry 'with closer watch than on my own things.' She navigates postwar currency controls and references Kamillo Weiss in London — the same friend who connected Singer in Havana.",
+        excerpt:"May the dear Lord bring you happiness, for as long as you both shall live. We wish from the bottom of our hearts that your dear parents could have been here to see this. What is truly precious are the jewelry pieces of your dear mother — on those I have kept a closer watch than on my own things.",
+        tags:["Tante Mimi","Vienna","Marriage","Mother's Jewelry","Postwar","Currency Controls","Kamillo Weiss"],
+        source:"Correspondence-05.docx" },
+  51: { date:"January 31, 1957", theme:"Postwar Reconnection", lang:"German", themeColor:"#2a4a3a",
+        headline:"Final Letter in the Collection — January 31, 1957",
+        sender:"Tante Mimi Urmann", senderLoc:"Vienna",
+        recipient:"Max Alter", recipientLoc:"United States",
+        summary:"The final letter in the postwar sequence, written in January 1957 — nearly eighteen years after Max left Vienna as a fourteen-year-old boy. Tante Mimi has been his connection to Vienna through all those years. The correspondence that began with a mother's desperate Red Cross message ends here, with an aging woman writing to a man of thirty-two.",
+        excerpt:"Dearest Maxi — always with love. Yours, Mimi.",
+        tags:["Tante Mimi","Vienna","Final Letter","1957","18 Years","End of Archive","January"],
+        source:"Correspondence-05.docx" }
+};
+
+const overlay  = document.getElementById('drawer-overlay');
+const drawer   = document.getElementById('drawer');
+const closeBtn = document.getElementById('drawer-close');
+const topBar   = document.getElementById('drawer-top-bar');
+
+function openDrawer(id) {
+  const d = LETTERS[id];
+  if (!d) return;
+  topBar.style.background = d.themeColor || '#7a3d1a';
+  document.getElementById('d-date').textContent       = d.date;
+  document.getElementById('d-theme').textContent      = d.theme;
+  document.getElementById('d-lang').textContent       = d.lang;
+  document.getElementById('d-headline').textContent   = d.headline;
+  document.getElementById('d-sender').textContent     = d.sender;
+  document.getElementById('d-senderLoc').textContent  = d.senderLoc;
+  document.getElementById('d-recipient').textContent    = d.recipient;
+  document.getElementById('d-recipientLoc').textContent = d.recipientLoc;
+  document.getElementById('d-summary').textContent    = d.summary;
+  document.getElementById('d-excerpt').textContent    = d.excerpt;
+  document.getElementById('d-source').textContent     = 'Source: ' + d.source;
+  document.getElementById('d-tags').innerHTML =
+    d.tags.map(t => `<span class="drawer-tag">${t}</span>`).join('');
+  overlay.classList.add('open');
+  drawer.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  drawer.querySelector('.drawer-body').scrollTop = 0;
+}
+
+function closeDrawer() {
+  overlay.classList.remove('open');
+  drawer.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.querySelectorAll('.view-letter-btn').forEach(btn => {
+  btn.addEventListener('click', () => openDrawer(parseInt(btn.dataset.id)));
+});
+closeBtn.addEventListener('click', closeDrawer);
+overlay.addEventListener('click', closeDrawer);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+</script>
+</body>
+</html>
