@@ -1,0 +1,2099 @@
+<!DOCTYPE html>
+<!-- saved from url=(0055)https://jhnday.github.io/JhndayRprts/Macbeth#characters -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Tragedy of Macbeth — William Shakespeare</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inconsolata:wght@400;500&display=swap" rel="stylesheet">
+<link href="./The Tragedy of Macbeth — William Shakespeare_files/css2" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1209;
+    --parchment: #f5efe4;
+    --parchment-dark: #ede5d4;
+    --parchment-mid: #f0e8d8;
+    --blood: #7c1a1a;
+    --blood-light: #9e2a2a;
+    --gold: #8b6914;
+    --gold-light: #c49a2a;
+    --shadow: rgba(26,18,9,0.15);
+    --sidebar-w: 280px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Crimson Pro', 'Georgia', serif;
+    background: var(--parchment);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── SIDEBAR ── */
+  #sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: var(--sidebar-w);
+    height: 100vh;
+    background: var(--ink);
+    color: var(--parchment);
+    overflow-y: auto;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    border-right: 3px solid var(--blood);
+    transition: transform 0.3s ease;
+  }
+
+  #sidebar-header {
+    padding: 2rem 1.5rem 1.5rem;
+    border-bottom: 1px solid rgba(245,239,228,0.15);
+    background: linear-gradient(180deg, #0d0a05 0%, #1a1209 100%);
+  }
+
+  #sidebar-header h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 0.4rem;
+  }
+
+  #sidebar-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--parchment);
+    line-height: 1.2;
+  }
+
+  #sidebar-header .author {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: rgba(245,239,228,0.5);
+    margin-top: 0.5rem;
+  }
+
+  #nav-contents {
+    flex: 1;
+    padding: 1rem 0;
+    overflow-y: auto;
+  }
+
+  .nav-act-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    padding: 1rem 1.5rem 0.4rem;
+    border-top: 1px solid rgba(245,239,228,0.08);
+    margin-top: 0.5rem;
+  }
+
+  .nav-act-label:first-child { border-top: none; margin-top: 0; }
+
+  .nav-link {
+    display: block;
+    padding: 0.35rem 1.5rem 0.35rem 2rem;
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.85rem;
+    color: rgba(245,239,228,0.65);
+    text-decoration: none;
+    transition: color 0.2s, background 0.2s;
+    line-height: 1.3;
+  }
+
+  .nav-link:hover, .nav-link.active {
+    color: var(--parchment);
+    background: rgba(124,26,26,0.3);
+  }
+
+  .nav-link.synopsis-link {
+    color: rgba(245,239,228,0.45);
+    font-style: italic;
+    font-size: 0.8rem;
+    padding-left: 1.5rem;
+    border-bottom: 1px solid rgba(245,239,228,0.08);
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.25rem;
+  }
+
+  /* ── TOGGLE BUTTON ── */
+  #sidebar-toggle {
+    display: none;
+    position: fixed;
+    top: 1rem; left: 1rem;
+    z-index: 200;
+    background: var(--ink);
+    color: var(--parchment);
+    border: 1px solid var(--blood);
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── MAIN CONTENT ── */
+  #main {
+    margin-left: var(--sidebar-w);
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    background: var(--ink);
+    color: var(--parchment);
+    padding: 6rem 4rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(124,26,26,0.25) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(139,105,20,0.1) 0%, transparent 50%);
+  }
+
+  #hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--blood), var(--gold), var(--blood));
+  }
+
+  .hero-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  .hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    line-height: 0.95;
+    position: relative;
+    text-shadow: 0 4px 40px rgba(0,0,0,0.5);
+    margin-bottom: 1rem;
+  }
+
+  .hero-title .tragedy {
+    display: block;
+    font-size: 0.28em;
+    font-weight: 400;
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    letter-spacing: 0.1em;
+    color: rgba(245,239,228,0.7);
+    margin-bottom: 0.2em;
+  }
+
+  .hero-author {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    color: rgba(245,239,228,0.5);
+    margin-top: 1.5rem;
+    position: relative;
+  }
+
+  /* ── SYNOPSIS ── */
+  #synopsis {
+    background: var(--parchment-dark);
+    border-bottom: 2px solid var(--parchment-mid);
+  }
+
+  .synopsis-inner {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 1.8rem 3rem;
+  }
+
+  /* ── ACT/SCENE SECTIONS ── */
+  .act-section {
+    border-top: 4px solid var(--ink);
+    background: var(--parchment);
+  }
+
+  .act-header {
+    background: var(--ink);
+    color: var(--parchment);
+    padding: 1.5rem 3rem 1.2rem;
+    position: relative;
+  }
+
+  .act-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 3rem; right: 3rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--blood), transparent);
+  }
+
+  .act-number {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    color: var(--gold-light);
+    margin-bottom: 0.3rem;
+  }
+
+  .act-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  .scene-block {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 1.4rem 3rem;
+    border-bottom: 1px solid rgba(26,18,9,0.1);
+  }
+
+  .scene-block:last-child { border-bottom: none; }
+
+  .scene-header {
+    margin-bottom: 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--gold);
+  }
+
+  .scene-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    margin-bottom: 0.2rem;
+  }
+
+  .scene-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--ink);
+  }
+
+  /* ── STAGE DIRECTION ── */
+  .stage-dir {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 0.82rem;
+    color: rgba(26,18,9,0.5);
+    margin: 0.5rem 0;
+    padding-left: 0.8rem;
+    border-left: 2px solid rgba(26,18,9,0.15);
+    line-height: 1.35;
+  }
+
+  /* ── SPEECH ── */
+  .speech {
+    margin: 0.6rem 0;
+  }
+
+  .speaker {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+    color: var(--blood);
+    margin-bottom: 0.1rem;
+    display: block;
+  }
+
+  .lines {
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.98rem;
+    font-weight: 300;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+
+  .lines p {
+    margin: 0;
+    padding-left: 1.5rem;
+    text-indent: -1.5rem;
+  }
+
+  .lines p.aside {
+    font-style: italic;
+    color: rgba(26,18,9,0.65);
+  }
+
+  /* ── SECTION HEADINGS ── */
+  .section-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    color: var(--ink);
+  }
+
+  .prose {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: rgba(26,18,9,0.85);
+  }
+
+  .prose + .prose { margin-top: 0.7rem; }
+
+  /* ── ORNAMENT ── */
+  .ornament {
+    text-align: center;
+    color: var(--blood);
+    font-size: 1.2rem;
+    margin: 1.5rem 0;
+    opacity: 0.4;
+    letter-spacing: 0.5em;
+  }
+
+  /* ── CHARACTERS LIST ── */
+  #characters .scene-block {
+    column-count: 2;
+    column-gap: 3rem;
+  }
+
+  .char-group { break-inside: avoid; margin-bottom: 1.5rem; }
+
+  .char-group-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+    border-bottom: 1px solid rgba(139,105,20,0.3);
+    padding-bottom: 0.25rem;
+  }
+
+  .char-name {
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .char-desc {
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: rgba(26,18,9,0.6);
+  }
+
+  .char-line { margin: 0.2rem 0; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: rgba(245,239,228,0.4);
+    text-align: center;
+    padding: 2rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    :root { --sidebar-w: 0px; }
+
+    #sidebar {
+      transform: translateX(-100%);
+      width: 280px;
+    }
+
+    #sidebar.open { transform: translateX(0); }
+
+    #sidebar-toggle { display: block; }
+
+    #main { margin-left: 0; }
+
+    #hero { padding: 3rem 1.2rem 2rem; }
+    .scene-block { padding: 1.2rem 1.2rem; }
+    .synopsis-inner { padding: 1.5rem 1.2rem; }
+    .act-header { padding: 1.2rem 1.2rem; }
+    #characters .scene-block { column-count: 1; }
+  }
+
+  /* ── SIDEBAR FOOTER ── */
+  #sidebar-footer {
+    padding: 1.2rem 1.5rem;
+    border-top: 1px solid rgba(245,239,228,0.12);
+    background: rgba(0,0,0,0.2);
+  }
+
+  .sidebar-footer-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    color: rgba(245,239,228,0.4);
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+
+  #spacing-control {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .spacing-btn {
+    flex: 1;
+    background: transparent;
+    border: 1px solid rgba(245,239,228,0.2);
+    color: rgba(245,239,228,0.5);
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    padding: 0.4rem 0;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .spacing-btn:hover {
+    border-color: rgba(245,239,228,0.5);
+    color: var(--parchment);
+  }
+
+  .spacing-btn.active {
+    background: var(--blood);
+    border-color: var(--blood);
+    color: var(--parchment);
+  }
+
+  .sidebar-top-link {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+    color: rgba(245,239,228,0.35);
+    text-decoration: none;
+    text-align: center;
+    transition: color 0.2s;
+  }
+
+  .sidebar-top-link:hover {
+    color: var(--gold-light);
+  }
+
+  /* Double spacing state */
+  body.double-spaced .lines {
+    line-height: 2.4;
+  }
+
+  body.double-spaced .lines p {
+    margin-bottom: 0.5rem;
+  }
+
+  body.double-spaced .speech {
+    margin: 1.4rem 0;
+  }
+
+  body.double-spaced .stage-dir {
+    margin: 1.2rem 0;
+    line-height: 2.0;
+  }
+
+  body.double-spaced .prose {
+    line-height: 2.4;
+  }
+
+  /* ── READING PROGRESS ── */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: var(--sidebar-w);
+    height: 3px;
+    background: linear-gradient(90deg, var(--blood), var(--gold));
+    z-index: 99;
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  @media (max-width: 768px) {
+    #progress-bar { left: 0; }
+  }
+
+  /* Active nav highlight */
+  .nav-link.active {
+    color: var(--parchment);
+    background: rgba(124,26,26,0.4);
+    border-left: 2px solid var(--blood);
+  }
+
+  /* ── PASSAGE SELECTION ── */
+  .lines p {
+    cursor: pointer;
+    border-left: 2px solid transparent;
+    transition: background 0.12s, border-color 0.12s;
+    position: relative;
+    padding-left: 1.7rem;
+  }
+  .lines p:hover { background: rgba(124,26,26,0.05); }
+  .lines p.selected {
+    background: rgba(139,105,20,0.1);
+    border-left-color: var(--gold);
+  }
+  .lines p::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 50%; transform: translateY(-50%);
+    width: 7px; height: 7px; border-radius: 1px;
+    border: 1px solid rgba(139,105,20,0.2);
+    background: transparent; transition: all 0.12s;
+  }
+  .lines p.selected::before { background: var(--gold); border-color: var(--gold); }
+
+  .select-scene-btn {
+    font-family: 'Cinzel', serif; font-size: 0.48rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: rgba(139,105,20,0.5);
+    border: 1px solid rgba(139,105,20,0.25); border-radius: 2px;
+    padding: 2px 7px; cursor: pointer; background: transparent;
+    margin-left: 10px; vertical-align: middle; transition: all 0.15s;
+  }
+  .select-scene-btn:hover { color: var(--gold); border-color: var(--gold); }
+
+  #copy-toolbar {
+    position: fixed; bottom: 0; left: var(--sidebar-w); right: 0; z-index: 300;
+    background: var(--ink); border-top: 2px solid var(--blood);
+    padding: 10px 24px; display: flex; align-items: center; gap: 14px;
+    transform: translateY(100%); transition: transform 0.2s ease;
+  }
+  #copy-toolbar.visible { transform: translateY(0); }
+  @media (max-width: 768px) { #copy-toolbar { left: 0; } }
+  .sel-count {
+    font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.15em;
+    color: rgba(245,239,228,0.5);
+  }
+  .toolbar-btn {
+    font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.12em;
+    padding: 6px 18px; border-radius: 2px; border: 1px solid; cursor: pointer; transition: all 0.15s;
+  }
+  .btn-copy { background: var(--blood); color: var(--parchment); border-color: var(--blood); }
+  .btn-copy:hover { background: var(--blood-light); border-color: var(--blood-light); }
+  .btn-clear { background: transparent; color: rgba(245,239,228,0.4); border-color: rgba(245,239,228,0.15); }
+  .btn-clear:hover { color: var(--parchment); border-color: rgba(245,239,228,0.4); }
+  .copy-flash {
+    font-family: 'Cinzel', serif; font-size: 0.55rem; letter-spacing: 0.12em;
+    color: var(--gold-light); opacity: 0; transition: opacity 0.3s; margin-left: auto;
+  }
+  .copy-flash.show { opacity: 1; }
+
+
+  .btn-scan {
+    background: var(--gold); color: var(--ink); border-color: var(--gold);
+    font-weight: 600; letter-spacing: 0.08em;
+  }
+  .btn-scan:hover { background: var(--gold-light); border-color: var(--gold-light); }
+
+  #ms-overlay {
+    display: none; position: fixed; inset: 0; z-index: 500;
+    background: rgba(10,7,4,0.72); backdrop-filter: blur(2px);
+  }
+  #ms-overlay.open { display: block; }
+  #ms-drawer {
+    position: fixed; right: 0; top: 0; bottom: 0;
+    width: min(800px, 95vw); background: #f5f0e8;
+    border-left: 3px solid #8B6914;
+    box-shadow: -8px 0 40px rgba(0,0,0,0.35);
+    display: flex; flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(.4,0,.2,1); z-index: 501;
+  }
+  #ms-drawer.open { transform: translateX(0); }
+  #ms-drawer-topbar {
+    flex-shrink: 0; background: #ede6d6; border-bottom: 1.5px solid #8B6914;
+    padding: 9px 16px; display: flex; align-items: center; gap: 14px;
+  }
+  .ms-title { font-family: 'Cinzel', serif; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; color: #1a1410; }
+  .ms-sub   { font-size: 11px; font-style: italic; color: #8B6914; }
+  #ms-close-btn {
+    margin-left: auto; background: transparent;
+    border: 1px solid rgba(26,20,16,0.25); border-radius: 3px;
+    cursor: pointer; padding: 4px 10px;
+    font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.1em;
+    color: #7a6a52; transition: all 0.15s;
+  }
+  #ms-close-btn:hover { border-color: #7a1f2e; color: #7a1f2e; }
+  #ms-inner {
+    flex: 1; display: flex; overflow: hidden;
+    font-family: 'EB Garamond', Georgia, serif; color: #1a1410;
+  }
+  #ms-scroll {
+    flex: 1; overflow-y: auto; padding: 14px 16px 40px; background: #f5f0e8; position: relative;
+  }
+  #ms-scroll::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(0deg,transparent,transparent 27px,rgba(26,20,16,0.03) 27px,rgba(26,20,16,0.03) 28px);
+    pointer-events: none;
+  }
+  #ms-ctrl {
+    flex-shrink: 0; width: 175px; background: #ede6d6;
+    border-left: 1px solid #c4b89a; display: flex; flex-direction: column; overflow-y: auto;
+  }
+  .ms-ctrl-section { padding: 11px 12px; border-bottom: 1px solid #ddd4be; }
+  .ms-ctrl-label {
+    font-family: 'Inconsolata', monospace; font-size: 9px;
+    letter-spacing: 0.12em; text-transform: uppercase; color: #8B6914; margin-bottom: 7px;
+  }
+  .ms-btn {
+    font-family: 'Georgia', serif; font-size: 12px; padding: 7px 12px;
+    border-radius: 3px; border: 1px solid; cursor: pointer; transition: all 0.15s;
+    width: 100%; text-align: center;
+  }
+  .ms-btn+.ms-btn { margin-top: 5px; }
+  .ms-btn-primary { background: #1a1410; color: #f5f0e8; border-color: #1a1410; }
+  .ms-btn-primary:hover { background: #2e251e; }
+  .ms-btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+  .ms-btn-speak { background: #7a1f2e; color: #fff; border-color: #7a1f2e; }
+  .ms-btn-speak:hover { background: #5e1621; }
+  .ms-btn-speak:disabled { opacity: 0.4; cursor: not-allowed; }
+  .ms-btn-speak.ms-speaking { background: #5e1621; animation: ms-pulse 1.2s infinite; }
+  @keyframes ms-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(122,31,46,0.3);}50%{box-shadow:0 0 0 5px rgba(122,31,46,0);} }
+  .ms-speed-row { display: flex; align-items: center; gap: 5px; margin-top: 8px; }
+  .ms-speed-label { font-family: 'Inconsolata', monospace; font-size: 9px; letter-spacing: 0.08em; color: #8B6914; text-transform: uppercase; }
+  #ms-speed-slider { -webkit-appearance: none; flex: 1; height: 3px; background: #c4b89a; border-radius: 2px; outline: none; }
+  #ms-speed-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #8B6914; cursor: pointer; }
+  .ms-speed-val { font-family: 'Inconsolata', monospace; font-size: 10px; color: #1a1410; width: 24px; text-align: right; }
+  .ms-status { padding: 10px 12px; font-family: 'Inconsolata', monospace; font-size: 10px; color: #3B6D11; line-height: 1.5; flex: 1; word-break: break-word; }
+  .ms-status.ms-error { color: #7a1f2e; }
+  .ms-spinner { display: inline-block; width: 10px; height: 10px; border: 2px solid #8B6914; border-top-color: transparent; border-radius: 50%; animation: ms-spin 0.7s linear infinite; }
+  @keyframes ms-spin { to{transform:rotate(360deg);} }
+  .ms-input-panel { border: 1px solid #c4b89a; border-radius: 4px; background: #fff8ee; box-shadow: 0 2px 6px rgba(26,20,16,0.12); overflow: hidden; margin-bottom: 16px; }
+  .ms-panel-header { background: #ede6d6; border-bottom: 1px solid #c4b89a; padding: 6px 13px; font-family: 'Inconsolata', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: #8B6914; display: flex; align-items: center; gap: 7px; }
+  .ms-panel-dot { width: 6px; height: 6px; border-radius: 50%; background: #c9991f; opacity: 0.6; }
+  #ms-textarea { width: 100%; min-height: 80px; padding: 10px 13px; font-family: 'EB Garamond', Georgia, serif; font-size: 15px; line-height: 1.7; color: #1a1410; background: transparent; border: none; resize: vertical; outline: none; }
+  #ms-textarea::placeholder { color: #b8a888; font-style: italic; }
+  .ms-output { display: none; }
+  .ms-output.ms-visible { display: block; }
+  .ms-output-header { display: flex; align-items: baseline; gap: 11px; margin-bottom: 5px; }
+  .ms-output-title { font-family: 'Georgia', serif; font-size: 15px; font-weight: 700; }
+  .ms-output-sub { font-size: 12px; font-style: italic; color: #8B6914; }
+  .ms-output-divider { height: 1px; background: linear-gradient(to right,#8B6914,transparent); margin-bottom: 12px; }
+  .ms-stats { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 6px; margin-bottom: 14px; }
+  .ms-stat { background: #ede6d6; border: 1px solid #ddd4be; border-radius: 4px; padding: 7px 9px; }
+  .ms-stat-n { font-size: 18px; font-weight: 500; line-height: 1; }
+  .ms-stat-l { font-size: 10px; color: #7a6a52; margin-top: 3px; font-family: 'Inconsolata', monospace; letter-spacing: 0.04em; }
+  .ms-legend { display: flex; gap: 9px; flex-wrap: wrap; margin-bottom: 14px; }
+  .ms-leg-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #7a6a52; }
+  .ms-leg-dot { width: 11px; height: 11px; border-radius: 3px; flex-shrink: 0; }
+  .ms-section-label { font-family: 'Inconsolata', monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #8a7a62; margin: 0 0 6px; }
+  .ms-lines-section { display: flex; flex-direction: column; gap: 3px; }
+  .ms-speaker-row { font-family: 'Inconsolata', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: #8B6914; padding: 9px 11px 2px; opacity: 0.8; }
+  .ms-speaker-row.ms-witch { color: #3C3489; }
+  .ms-speaker-row.ms-lady  { color: #b57a9a; }
+  .ms-line-row { display: grid; grid-template-columns: 22px 1fr auto; gap: 8px; align-items: start; padding: 7px 9px; border-radius: 4px; border: 1px solid #ddd4be; background: #fff8ee; transition: background 0.2s,border-color 0.2s; }
+  .ms-line-row.ms-spell    { border-color: #7F77DD; background: #f0effe; }
+  .ms-line-row.ms-speaking { background: #fff5d6; border-color: #c9991f; box-shadow: 0 0 0 2px rgba(201,153,31,0.18); }
+  .ms-line-num { font-family: 'Inconsolata', monospace; font-size: 9px; color: #b0a088; padding-top: 14px; }
+  .ms-syl-row { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0; }
+  .ms-foot-sep { width: 1px; height: 14px; background: #c4b89a; display: inline-block; margin: 0 3px 3px; opacity: 0.35; align-self: flex-end; }
+  .ms-syl { display: inline-flex; flex-direction: column; align-items: center; cursor: default; }
+  .ms-mark { font-size: 9px; line-height: 1.2; height: 11px; display: block; text-align: center; font-family: 'Inconsolata', monospace; }
+  .ms-syl-text { font-family: 'EB Garamond', Georgia, serif; font-size: 15px; line-height: 1.5; display: block; padding: 0 2px; border-radius: 2px; transition: background 0.1s; }
+  .ms-syl.ms-stressed .ms-mark { color: #8B6914; }
+  .ms-syl.ms-stressed .ms-syl-text { color: #1a1410; font-weight: 500; }
+  .ms-syl.ms-unstressed .ms-mark { color: #b0a088; }
+  .ms-syl.ms-unstressed .ms-syl-text { color: #5a4e3c; }
+  .ms-syl.ms-wild .ms-mark { color: #993556; }
+  .ms-syl.ms-wild .ms-syl-text { color: #993556; font-weight: 500; }
+  .ms-syl.ms-active-word .ms-syl-text { background: rgba(201,153,31,0.4); border-radius: 2px; }
+  .ms-meter-bar { display: flex; gap: 2px; margin-top: 5px; flex-wrap: wrap; }
+  .ms-beat { width: 11px; height: 4px; border-radius: 2px; }
+  .ms-beat.s { background: #8B6914; }
+  .ms-beat.u { background: #c4b89a; }
+  .ms-beat.w { background: #993556; opacity: 0.6; }
+  .ms-badge { font-family: 'Inconsolata', monospace; font-size: 9px; padding: 2px 7px; border-radius: 10px; white-space: nowrap; margin-top: 12px; letter-spacing: 0.04em; }
+  .ms-badge.regular  { background: #ede6d6; color: #7a6a52; }
+  .ms-badge.trochee  { background: #faeeda; color: #8B6914; }
+  .ms-badge.feminine { background: #e6f1fb; color: #185FA5; }
+  .ms-badge.wild     { background: #fbeaf0; color: #993556; }
+  .ms-badge.spell    { background: #eeedfe; color: #3C3489; }
+  .ms-badge.long     { background: #eaf3de; color: #3B6D11; }
+  .ms-note-card { border: 1px solid #ddd4be; border-radius: 4px; padding: 11px 13px; background: #ede6d6; margin-top: 14px; font-size: 12px; color: #5a4e3c; line-height: 1.7; }
+  .ms-note-card-title { font-family: 'Georgia', serif; font-size: 11px; font-weight: 700; color: #1a1410; margin-bottom: 7px; letter-spacing: 0.03em; }
+  .ms-note-card p { margin: 0 0 7px; }
+  .ms-note-card p:last-child { margin-bottom: 0; }
+  .ms-note-card b { color: #1a1410; font-weight: 600; }
+
+</style>
+</head>
+<body>
+
+<div id="progress-bar" style="width: 3.44858%;"></div>
+
+<button id="sidebar-toggle" onclick="toggleSidebar()">☰ Menu</button>
+
+<!-- SIDEBAR NAV -->
+<nav id="sidebar" class="">
+  <div id="sidebar-header">
+    <h1>The Tragedy of</h1>
+    <h2>Macbeth</h2>
+    <div class="author">William Shakespeare</div>
+  </div>
+  <div id="nav-contents">
+    <a href="#synopsis" class="nav-link synopsis-link">Synopsis</a>
+    <a href="#characters" class="nav-link synopsis-link">Characters</a>
+
+    <div class="nav-act-label">Act I</div>
+    <a href="#act1-sc1" class="nav-link active">Scene 1 — The Witches</a>
+    <a href="#act1-sc2" class="nav-link">Scene 2 — A Bleeding Captain</a>
+    <a href="#act1-sc3" class="nav-link">Scene 3 — The Prophecy</a>
+    <a href="#act1-sc4" class="nav-link">Scene 4 — The Prince of Cumberland</a>
+    <a href="#act1-sc5" class="nav-link">Scene 5 — Lady Macbeth's Letter</a>
+    <a href="#act1-sc6" class="nav-link">Scene 6 — Duncan Arrives</a>
+    <a href="#act1-sc7" class="nav-link">Scene 7 — The Plot</a>
+
+    <div class="nav-act-label">Act II</div>
+    <a href="#act2-sc1" class="nav-link">Scene 1 — The Dagger</a>
+    <a href="#act2-sc2" class="nav-link">Scene 2 — The Murder</a>
+    <a href="#act2-sc3" class="nav-link">Scene 3 — Discovery</a>
+    <a href="#act2-sc4" class="nav-link">Scene 4 — Aftermath</a>
+
+    <div class="nav-act-label">Act III</div>
+    <a href="#act3-sc1" class="nav-link">Scene 1 — Banquo Suspected</a>
+    <a href="#act3-sc2" class="nav-link">Scene 2 — Full of Scorpions</a>
+    <a href="#act3-sc3" class="nav-link">Scene 3 — Banquo Slain</a>
+    <a href="#act3-sc4" class="nav-link">Scene 4 — Banquo's Ghost</a>
+    <a href="#act3-sc5" class="nav-link">Scene 5 — Hecate</a>
+    <a href="#act3-sc6" class="nav-link">Scene 6 — Lennox &amp; a Lord</a>
+
+    <div class="nav-act-label">Act IV</div>
+    <a href="#act4-sc1" class="nav-link">Scene 1 — The Cauldron</a>
+    <a href="#act4-sc2" class="nav-link">Scene 2 — Lady Macduff</a>
+    <a href="#act4-sc3" class="nav-link">Scene 3 — Malcolm &amp; Macduff</a>
+
+    <div class="nav-act-label">Act V</div>
+    <a href="#act5-sc1" class="nav-link">Scene 1 — Sleepwalking</a>
+    <a href="#act5-sc2" class="nav-link">Scene 2 — The Scottish Army</a>
+    <a href="#act5-sc3" class="nav-link">Scene 3 — Macbeth's Defiance</a>
+    <a href="#act5-sc4" class="nav-link">Scene 4 — Birnam Wood</a>
+    <a href="#act5-sc5" class="nav-link">Scene 5 — Tomorrow's Speech</a>
+    <a href="#act5-sc6" class="nav-link">Scene 6 — The Battle Begins</a>
+    <a href="#act5-sc7" class="nav-link">Scene 7 — The Final Fight</a>
+    <a href="#act5-sc8" class="nav-link">Scene 8 — Macduff's Triumph</a>
+  </div>
+
+  <div id="sidebar-footer">
+    <div class="sidebar-footer-label">Line Spacing</div>
+    <div id="spacing-control">
+      <button class="spacing-btn active" id="btn-single" onclick="setSpacing(&#39;single&#39;)">Single</button>
+      <button class="spacing-btn" id="btn-double" onclick="setSpacing(&#39;double&#39;)">Double</button>
+    </div>
+    <a href="#hero" class="sidebar-top-link">↑ Top of play</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div id="main">
+
+  <!-- HERO -->
+  <header id="hero">
+    <div class="hero-eyebrow">The Folger Shakespeare Library</div>
+    <h1 class="hero-title">
+      <span class="tragedy">The Tragedy of</span>
+      Macbeth
+    </h1>
+    <div class="hero-author">By William Shakespeare</div>
+  </header>
+
+  <!-- SYNOPSIS -->
+  <section id="synopsis" class="act-section">
+    <div class="act-header">
+      <div class="act-number">Preface</div>
+      <div class="act-title">Synopsis</div>
+    </div>
+    <div class="synopsis-inner">
+      <p class="prose">Macbeth, set primarily in Scotland, mixes witchcraft, prophecy, and murder. Three "Weïrd Sisters" appear to Macbeth and his comrade Banquo after a battle and prophesy that Macbeth will be king and that the descendants of Banquo will also reign. When Macbeth arrives at his castle, he and Lady Macbeth plot to assassinate King Duncan, soon to be their guest, so that Macbeth can become king.</p>
+      <p class="prose">After Macbeth murders Duncan, the king's two sons flee, and Macbeth is crowned. Fearing that Banquo's descendants will, according to the Weïrd Sisters' predictions, take over the kingdom, Macbeth has Banquo killed. At a royal banquet that evening, Macbeth sees Banquo's ghost appear covered in blood. Macbeth determines to consult the Weïrd Sisters again. They comfort him with ambiguous promises.</p>
+      <p class="prose">Another nobleman, Macduff, rides to England to join Duncan's older son, Malcolm. Macbeth has Macduff's wife and children murdered. Malcolm and Macduff lead an army against Macbeth, as Lady Macbeth goes mad and commits suicide.</p>
+      <p class="prose">Macbeth confronts Malcolm's army, trusting in the Weïrd Sisters' comforting promises. He learns that the promises are tricks, but continues to fight. Macduff kills Macbeth and Malcolm becomes Scotland's king.</p>
+    </div>
+  </section>
+
+  <!-- CHARACTERS -->
+  <section id="characters" class="act-section">
+    <div class="act-header">
+      <div class="act-number">Dramatis Personae</div>
+      <div class="act-title">Characters in the Play</div>
+    </div>
+    <div class="scene-block">
+      <div class="char-group">
+        <div class="char-group-title">The Witches</div>
+        <div class="char-line"><span class="char-name">Three Witches,</span> <span class="char-desc">the Weïrd Sisters</span></div>
+        <div class="char-line"><span class="char-name">Hecate</span></div>
+      </div>
+      <div class="char-group">
+        <div class="char-group-title">The Royal House of Scotland</div>
+        <div class="char-line"><span class="char-name">Duncan,</span> <span class="char-desc">king of Scotland</span></div>
+        <div class="char-line"><span class="char-name">Malcolm,</span> <span class="char-desc">his elder son</span></div>
+        <div class="char-line"><span class="char-name">Donalbain,</span> <span class="char-desc">Duncan's younger son</span></div>
+      </div>
+      <div class="char-group">
+        <div class="char-group-title">Macbeth &amp; His Circle</div>
+        <div class="char-line"><span class="char-name">Macbeth,</span> <span class="char-desc">thane of Glamis</span></div>
+        <div class="char-line"><span class="char-name">Lady Macbeth</span></div>
+        <div class="char-line"><span class="char-name">Seyton,</span> <span class="char-desc">attendant to Macbeth</span></div>
+        <div class="char-line"><span class="char-name">Three Murderers</span> <span class="char-desc">in Macbeth's service</span></div>
+        <div class="char-line"><span class="char-name">A Porter</span></div>
+      </div>
+      <div class="char-group">
+        <div class="char-group-title">Banquo's Line</div>
+        <div class="char-line"><span class="char-name">Banquo,</span> <span class="char-desc">commander, with Macbeth, of Duncan's army</span></div>
+        <div class="char-line"><span class="char-name">Fleance,</span> <span class="char-desc">his son</span></div>
+      </div>
+      <div class="char-group">
+        <div class="char-group-title">Macduff's Family</div>
+        <div class="char-line"><span class="char-name">Macduff,</span> <span class="char-desc">a Scottish noble</span></div>
+        <div class="char-line"><span class="char-name">Lady Macduff</span></div>
+        <div class="char-line"><span class="char-name">Their son</span></div>
+      </div>
+      <div class="char-group">
+        <div class="char-group-title">Scottish Nobles</div>
+        <div class="char-line"><span class="char-name">Lennox, Ross, Angus, Menteith, Caithness</span></div>
+      </div>
+      <div class="char-group">
+        <div class="char-group-title">English Forces</div>
+        <div class="char-line"><span class="char-name">Siward,</span> <span class="char-desc">commander of the English forces</span></div>
+        <div class="char-line"><span class="char-name">Young Siward,</span> <span class="char-desc">Siward's son</span></div>
+      </div>
+      <div class="char-group">
+        <div class="char-group-title">Others</div>
+        <div class="char-line"><span class="char-name">A Captain</span> <span class="char-desc">in Duncan's army</span></div>
+        <div class="char-line"><span class="char-name">An Old Man</span></div>
+        <div class="char-line"><span class="char-name">A Doctor</span> <span class="char-desc">&amp; A Gentlewoman,</span> <span class="char-desc">attending Lady Macbeth</span></div>
+        <div class="char-line"><span class="char-name">Apparitions:</span> <span class="char-desc">an Armed Head, a Bloody Child, a Crowned Child, and eight kings</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ ACT I ═══ -->
+  <section class="act-section">
+    <div class="act-header">
+      <div class="act-number">Act the First</div>
+      <div class="act-title">Act I</div>
+    </div>
+
+    <!-- Act 1, Scene 1 -->
+    <div class="scene-block" id="act1-sc1">
+      <div class="scene-header">
+        <div class="scene-label">Act I · Scene 1</div>
+        <div class="scene-title">An open place</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act1-sc1')">Select Scene</button>
+
+      <div class="stage-dir">Thunder and Lightning. Enter three Witches.</div>
+      <div class="speech"><span class="speaker">First Witch</span><div class="lines"><p data-scene="act1-sc1">When shall we three meet again?</p><p data-scene="act1-sc1">In thunder, lightning, or in rain?</p></div></div>
+      <div class="speech"><span class="speaker">Second Witch</span><div class="lines"><p data-scene="act1-sc1">When the hurly-burly's done,</p><p data-scene="act1-sc1">When the battle's lost and won.</p></div></div>
+      <div class="speech"><span class="speaker">Third Witch</span><div class="lines"><p data-scene="act1-sc1">That will be ere the set of sun.</p></div></div>
+      <div class="speech"><span class="speaker">First Witch</span><div class="lines"><p data-scene="act1-sc1">Where the place?</p></div></div>
+      <div class="speech"><span class="speaker">Second Witch</span><div class="lines"><p data-scene="act1-sc1">Upon the heath.</p></div></div>
+      <div class="speech"><span class="speaker">Third Witch</span><div class="lines"><p data-scene="act1-sc1">There to meet with Macbeth.</p></div></div>
+      <div class="speech"><span class="speaker">First Witch</span><div class="lines"><p data-scene="act1-sc1">I come, Graymalkin.</p></div></div>
+      <div class="speech"><span class="speaker">Second Witch</span><div class="lines"><p data-scene="act1-sc1">Paddock calls.</p></div></div>
+      <div class="speech"><span class="speaker">Third Witch</span><div class="lines"><p data-scene="act1-sc1">Anon.</p></div></div>
+      <div class="speech"><span class="speaker">All</span><div class="lines"><p data-scene="act1-sc1">Fair is foul, and foul is fair;</p><p data-scene="act1-sc1">Hover through the fog and filthy air.</p></div></div>
+      <div class="stage-dir">They exit.</div>
+    </div>
+
+    <!-- Act 1, Scene 2 -->
+    <div class="scene-block" id="act1-sc2">
+      <div class="scene-header">
+        <div class="scene-label">Act I · Scene 2</div>
+        <div class="scene-title">A camp near Forres</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act1-sc2')">Select Scene</button>
+
+      <div class="stage-dir">Alarum within. Enter King Duncan, Malcolm, Donalbain, Lennox, with Attendants, meeting a bleeding Captain.</div>
+      <div class="speech"><span class="speaker">Duncan</span><div class="lines"><p data-scene="act1-sc1">What bloody man is that? He can report,</p><p data-scene="act1-sc1">As seemeth by his plight, of the revolt</p><p data-scene="act1-sc1">The newest state.</p></div></div>
+      <div class="speech"><span class="speaker">Malcolm</span><div class="lines"><p data-scene="act1-sc1">This is the sergeant</p><p data-scene="act1-sc1">Who, like a good and hardy soldier, fought</p><p data-scene="act1-sc1">'Gainst my captivity.—Hail, brave friend!</p><p data-scene="act1-sc1">Say to the King the knowledge of the broil</p><p data-scene="act1-sc1">As thou didst leave it.</p></div></div>
+      <div class="speech"><span class="speaker">Captain</span><div class="lines"><p data-scene="act1-sc1">Doubtful it stood,</p><p data-scene="act1-sc1">As two spent swimmers that do cling together</p><p data-scene="act1-sc1">And choke their art. The merciless Macdonwald</p><p data-scene="act1-sc1">(Worthy to be a rebel, for to that</p><p data-scene="act1-sc1">The multiplying villainies of nature</p><p data-scene="act1-sc1">Do swarm upon him) from the Western Isles</p><p data-scene="act1-sc1">Of kerns and gallowglasses is supplied;</p><p data-scene="act1-sc1">And Fortune, on his damnèd quarrel smiling,</p><p data-scene="act1-sc1">Showed like a rebel's whore. But all's too weak;</p><p data-scene="act1-sc1">For brave Macbeth (well he deserves that name),</p><p data-scene="act1-sc1">Disdaining Fortune, with his brandished steel,</p><p data-scene="act1-sc1">Which smoked with bloody execution,</p><p data-scene="act1-sc1">Like Valor's minion, carved out his passage</p><p data-scene="act1-sc1">Till he faced the slave;</p><p data-scene="act1-sc1">Which ne'er shook hands, nor bade farewell to him,</p><p data-scene="act1-sc1">Till he unseamed him from the nave to th' chops,</p><p data-scene="act1-sc1">And fixed his head upon our battlements.</p></div></div>
+      <div class="speech"><span class="speaker">Duncan</span><div class="lines"><p data-scene="act1-sc1">O valiant cousin, worthy gentleman!</p></div></div>
+      <div class="speech"><span class="speaker">Captain</span><div class="lines"><p data-scene="act1-sc1">As whence the sun 'gins his reflection</p><p data-scene="act1-sc1">Shipwracking storms and direful thunders break,</p><p data-scene="act1-sc1">So from that spring whence comfort seemed to come</p><p data-scene="act1-sc1">Discomfort swells. Mark, King of Scotland, mark:</p><p data-scene="act1-sc1">No sooner justice had, with valor armed,</p><p data-scene="act1-sc1">Compelled these skipping kerns to trust their heels,</p><p data-scene="act1-sc1">But the Norweyan lord, surveying vantage,</p><p data-scene="act1-sc1">With furbished arms and new supplies of men,</p><p data-scene="act1-sc1">Began a fresh assault.</p></div></div>
+      <div class="speech"><span class="speaker">Duncan</span><div class="lines"><p data-scene="act1-sc1">Dismayed not this our captains, Macbeth and Banquo?</p></div></div>
+      <div class="speech"><span class="speaker">Captain</span><div class="lines"><p data-scene="act1-sc1">Yes, as sparrows eagles, or the hare the lion.</p><p data-scene="act1-sc1">If I say sooth, I must report they were</p><p data-scene="act1-sc1">As cannons overcharged with double cracks,</p><p data-scene="act1-sc1">So they doubly redoubled strokes upon the foe.</p><p data-scene="act1-sc1">Except they meant to bathe in reeking wounds</p><p data-scene="act1-sc1">Or memorize another Golgotha,</p><p data-scene="act1-sc1">I cannot tell—</p><p data-scene="act1-sc1">But I am faint. My gashes cry for help.</p></div></div>
+      <div class="speech"><span class="speaker">Duncan</span><div class="lines"><p data-scene="act1-sc1">So well thy words become thee as thy wounds:</p><p data-scene="act1-sc1">They smack of honor both.—Go, get him surgeons.</p></div></div>
+      <div class="stage-dir">The Captain is led off by Attendants. Enter Ross and Angus.</div>
+      <div class="speech"><span class="speaker">Malcolm</span><div class="lines"><p data-scene="act1-sc1">Who comes here?</p></div></div>
+      <div class="speech"><span class="speaker">Lennox</span><div class="lines"><p data-scene="act1-sc1">The worthy Thane of Ross.</p><p data-scene="act1-sc1">What a haste looks through his eyes!</p><p data-scene="act1-sc1">So should he look that seems to speak things strange.</p></div></div>
+      <div class="speech"><span class="speaker">Ross</span><div class="lines"><p data-scene="act1-sc1">God save the King.</p></div></div>
+      <div class="speech"><span class="speaker">Duncan</span><div class="lines"><p data-scene="act1-sc1">Whence cam'st thou, worthy thane?</p></div></div>
+      <div class="speech"><span class="speaker">Ross</span><div class="lines"><p data-scene="act1-sc1">From Fife, great king,</p><p data-scene="act1-sc1">Where the Norweyan banners flout the sky</p><p data-scene="act1-sc1">And fan our people cold. Norway himself, with terrible numbers,</p><p data-scene="act1-sc1">Assisted by that most disloyal traitor,</p><p data-scene="act1-sc1">The Thane of Cawdor, began a dismal conflict,</p><p data-scene="act1-sc1">Till that Bellona's bridegroom, lapped in proof,</p><p data-scene="act1-sc1">Confronted him with self-comparisons,</p><p data-scene="act1-sc1">Point against point, rebellious arm 'gainst arm,</p><p data-scene="act1-sc1">Curbing his lavish spirit. And to conclude,</p><p data-scene="act1-sc1">The victory fell on us.</p></div></div>
+      <div class="speech"><span class="speaker">Duncan</span><div class="lines"><p data-scene="act1-sc1">Great happiness!</p></div></div>
+      <div class="speech"><span class="speaker">Ross</span><div class="lines"><p data-scene="act1-sc1">That now Sweno,</p><p data-scene="act1-sc1">The Norways' king, craves composition.</p><p data-scene="act1-sc1">Nor would we deign him burial of his men</p><p data-scene="act1-sc1">Till he disbursèd at Saint Colme's Inch</p><p data-scene="act1-sc1">Ten thousand dollars to our general use.</p></div></div>
+      <div class="speech"><span class="speaker">Duncan</span><div class="lines"><p data-scene="act1-sc1">No more that Thane of Cawdor shall deceive</p><p data-scene="act1-sc1">Our bosom interest. Go, pronounce his present death,</p><p data-scene="act1-sc1">And with his former title greet Macbeth.</p></div></div>
+      <div class="speech"><span class="speaker">Ross</span><div class="lines"><p data-scene="act1-sc1">I'll see it done.</p></div></div>
+      <div class="speech"><span class="speaker">Duncan</span><div class="lines"><p data-scene="act1-sc1">What he hath lost, noble Macbeth hath won.</p></div></div>
+      <div class="stage-dir">They exit.</div>
+    </div>
+
+    <!-- Act 1, Scene 3 -->
+    <div class="scene-block" id="act1-sc3">
+      <div class="scene-header">
+        <div class="scene-label">Act I · Scene 3</div>
+        <div class="scene-title">A heath near Forres</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act1-sc3')">Select Scene</button>
+
+      <div class="stage-dir">Thunder. Enter the three Witches.</div>
+      <div class="speech"><span class="speaker">First Witch</span><div class="lines"><p data-scene="act1-sc1">Where hast thou been, sister?</p></div></div>
+      <div class="speech"><span class="speaker">Second Witch</span><div class="lines"><p data-scene="act1-sc1">Killing swine.</p></div></div>
+      <div class="speech"><span class="speaker">Third Witch</span><div class="lines"><p data-scene="act1-sc1">Sister, where thou?</p></div></div>
+      <div class="speech"><span class="speaker">First Witch</span><div class="lines"><p data-scene="act1-sc1">A sailor's wife had chestnuts in her lap</p><p data-scene="act1-sc1">And munched and munched and munched. "Give me," quoth I.</p><p data-scene="act1-sc1">"Aroint thee, witch," the rump-fed runnion cries.</p><p data-scene="act1-sc1">Her husband's to Aleppo gone, master o' th' Tiger;</p><p data-scene="act1-sc1">But in a sieve I'll thither sail,</p><p data-scene="act1-sc1">And, like a rat without a tail,</p><p data-scene="act1-sc1">I'll do, I'll do, and I'll do.</p></div></div>
+      <div class="speech"><span class="speaker">Second Witch</span><div class="lines"><p data-scene="act1-sc1">I'll give thee a wind.</p></div></div>
+      <div class="speech"><span class="speaker">First Witch</span><div class="lines"><p data-scene="act1-sc1">Th' art kind.</p></div></div>
+      <div class="speech"><span class="speaker">Third Witch</span><div class="lines"><p data-scene="act1-sc1">And I another.</p></div></div>
+      <div class="speech"><span class="speaker">First Witch</span><div class="lines"><p data-scene="act1-sc1">I myself have all the other,</p><p data-scene="act1-sc1">And the very ports they blow;</p><p data-scene="act1-sc1">All the quarters that they know</p><p data-scene="act1-sc1">I' th' shipman's card.</p><p data-scene="act1-sc1">I'll drain him dry as hay.</p><p data-scene="act1-sc1">Sleep shall neither night nor day</p><p data-scene="act1-sc1">Hang upon his penthouse lid.</p><p data-scene="act1-sc1">He shall live a man forbid.</p><p data-scene="act1-sc1">Weary sev'nnights, nine times nine,</p><p data-scene="act1-sc1">Shall he dwindle, peak, and pine.</p><p data-scene="act1-sc1">Though his bark cannot be lost,</p><p data-scene="act1-sc1">Yet it shall be tempest-tossed.</p><p data-scene="act1-sc1">Look what I have.</p></div></div>
+      <div class="speech"><span class="speaker">Second Witch</span><div class="lines"><p data-scene="act1-sc1">Show me, show me.</p></div></div>
+      <div class="speech"><span class="speaker">First Witch</span><div class="lines"><p data-scene="act1-sc1">Here I have a pilot's thumb,</p><p data-scene="act1-sc1">Wracked as homeward he did come.</p></div></div>
+      <div class="stage-dir">Drum within.</div>
+      <div class="speech"><span class="speaker">Third Witch</span><div class="lines"><p data-scene="act1-sc1">A drum, a drum!</p><p data-scene="act1-sc1">Macbeth doth come.</p></div></div>
+      <div class="speech"><span class="speaker">All</span><div class="lines"><p data-scene="act1-sc1"><em>Dancing in a circle:</em></p><p data-scene="act1-sc1">The Weïrd Sisters, hand in hand,</p><p data-scene="act1-sc1">Posters of the sea and land,</p><p data-scene="act1-sc1">Thus do go about, about,</p><p data-scene="act1-sc1">Thrice to thine and thrice to mine</p><p data-scene="act1-sc1">And thrice again, to make up nine.</p><p data-scene="act1-sc1">Peace, the charm's wound up.</p></div></div>
+      <div class="stage-dir">Enter Macbeth and Banquo.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1">So foul and fair a day I have not seen.</p></div></div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act1-sc1">How far is 't called to Forres?—What are these,</p><p data-scene="act1-sc1">So withered, and so wild in their attire,</p><p data-scene="act1-sc1">That look not like th' inhabitants o' th' Earth</p><p data-scene="act1-sc1">And yet are on 't?—Live you? Or are you aught</p><p data-scene="act1-sc1">That man may question? You seem to understand me</p><p data-scene="act1-sc1">By each at once her choppy finger laying</p><p data-scene="act1-sc1">Upon her skinny lips. You should be women,</p><p data-scene="act1-sc1">And yet your beards forbid me to interpret</p><p data-scene="act1-sc1">That you are so.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1">Speak if you can. What are you?</p></div></div>
+      <div class="speech"><span class="speaker">First Witch</span><div class="lines"><p data-scene="act1-sc1">All hail, Macbeth! Hail to thee, Thane of Glamis!</p></div></div>
+      <div class="speech"><span class="speaker">Second Witch</span><div class="lines"><p data-scene="act1-sc1">All hail, Macbeth! Hail to thee, Thane of Cawdor!</p></div></div>
+      <div class="speech"><span class="speaker">Third Witch</span><div class="lines"><p data-scene="act1-sc1">All hail, Macbeth, that shalt be king hereafter!</p></div></div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act1-sc1">Good sir, why do you start and seem to fear</p><p data-scene="act1-sc1">Things that do sound so fair?—I' th' name of truth,</p><p data-scene="act1-sc1">Are you fantastical, or that indeed</p><p data-scene="act1-sc1">Which outwardly you show? My noble partner</p><p data-scene="act1-sc1">You greet with present grace and great prediction</p><p data-scene="act1-sc1">Of noble having and of royal hope,</p><p data-scene="act1-sc1">That he seems rapt withal. To me you speak not.</p><p data-scene="act1-sc1">If you can look into the seeds of time</p><p data-scene="act1-sc1">And say which grain will grow and which will not,</p><p data-scene="act1-sc1">Speak, then, to me, who neither beg nor fear</p><p data-scene="act1-sc1">Your favors nor your hate.</p></div></div>
+      <div class="speech"><span class="speaker">First Witch</span><div class="lines"><p data-scene="act1-sc1">Hail!</p></div></div>
+      <div class="speech"><span class="speaker">Second Witch</span><div class="lines"><p data-scene="act1-sc1">Hail!</p></div></div>
+      <div class="speech"><span class="speaker">Third Witch</span><div class="lines"><p data-scene="act1-sc1">Hail!</p></div></div>
+      <div class="speech"><span class="speaker">First Witch</span><div class="lines"><p data-scene="act1-sc1">Lesser than Macbeth and greater.</p></div></div>
+      <div class="speech"><span class="speaker">Second Witch</span><div class="lines"><p data-scene="act1-sc1">Not so happy, yet much happier.</p></div></div>
+      <div class="speech"><span class="speaker">Third Witch</span><div class="lines"><p data-scene="act1-sc1">Thou shalt get kings, though thou be none.</p><p data-scene="act1-sc1">So all hail, Macbeth and Banquo!</p></div></div>
+      <div class="speech"><span class="speaker">First Witch</span><div class="lines"><p data-scene="act1-sc1">Banquo and Macbeth, all hail!</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1">Stay, you imperfect speakers. Tell me more.</p><p data-scene="act1-sc1">By Sinel's death I know I am Thane of Glamis.</p><p data-scene="act1-sc1">But how of Cawdor? The Thane of Cawdor lives</p><p data-scene="act1-sc1">A prosperous gentleman, and to be king</p><p data-scene="act1-sc1">Stands not within the prospect of belief,</p><p data-scene="act1-sc1">No more than to be Cawdor. Say from whence</p><p data-scene="act1-sc1">You owe this strange intelligence or why</p><p data-scene="act1-sc1">Upon this blasted heath you stop our way</p><p data-scene="act1-sc1">With such prophetic greeting. Speak, I charge you.</p></div></div>
+      <div class="stage-dir">Witches vanish.</div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act1-sc1">The earth hath bubbles, as the water has,</p><p data-scene="act1-sc1">And these are of them. Whither are they vanished?</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1">Into the air, and what seemed corporal melted,</p><p data-scene="act1-sc1">As breath into the wind. Would they had stayed!</p></div></div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act1-sc1">Were such things here as we do speak about?</p><p data-scene="act1-sc1">Or have we eaten on the insane root</p><p data-scene="act1-sc1">That takes the reason prisoner?</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1">Your children shall be kings.</p></div></div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act1-sc1">You shall be king.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1">And Thane of Cawdor too. Went it not so?</p></div></div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act1-sc1">To th' selfsame tune and words.—Who's here?</p></div></div>
+      <div class="stage-dir">Enter Ross and Angus.</div>
+      <div class="speech"><span class="speaker">Ross</span><div class="lines"><p data-scene="act1-sc1">The King hath happily received, Macbeth,</p><p data-scene="act1-sc1">The news of thy success, and, when he reads</p><p data-scene="act1-sc1">Thy personal venture in the rebels' fight,</p><p data-scene="act1-sc1">His wonders and his praises do contend</p><p data-scene="act1-sc1">Which should be thine or his. Silenced with that,</p><p data-scene="act1-sc1">In viewing o'er the rest o' th' selfsame day</p><p data-scene="act1-sc1">He finds thee in the stout Norweyan ranks,</p><p data-scene="act1-sc1">Nothing afeard of what thyself didst make,</p><p data-scene="act1-sc1">Strange images of death. As thick as tale</p><p data-scene="act1-sc1">Came post with post, and every one did bear</p><p data-scene="act1-sc1">Thy praises in his kingdom's great defense,</p><p data-scene="act1-sc1">And poured them down before him.</p></div></div>
+      <div class="speech"><span class="speaker">Angus</span><div class="lines"><p data-scene="act1-sc1">We are sent</p><p data-scene="act1-sc1">To give thee from our royal master thanks,</p><p data-scene="act1-sc1">Only to herald thee into his sight,</p><p data-scene="act1-sc1">Not pay thee.</p></div></div>
+      <div class="speech"><span class="speaker">Ross</span><div class="lines"><p data-scene="act1-sc1">And for an earnest of a greater honor,</p><p data-scene="act1-sc1">He bade me, from him, call thee Thane of Cawdor,</p><p data-scene="act1-sc1">In which addition, hail, most worthy thane,</p><p data-scene="act1-sc1">For it is thine.</p></div></div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act1-sc1">What, can the devil speak true?</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1">The Thane of Cawdor lives. Why do you dress me</p><p data-scene="act1-sc1">In borrowed robes?</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1" class="aside">Glamis and Thane of Cawdor!</p><p data-scene="act1-sc1" class="aside">The greatest is behind.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1" class="aside">Two truths are told</p><p data-scene="act1-sc1" class="aside">As happy prologues to the swelling act</p><p data-scene="act1-sc1" class="aside">Of the imperial theme.—I thank you, gentlemen.</p><p data-scene="act1-sc1" class="aside">This supernatural soliciting</p><p data-scene="act1-sc1" class="aside">Cannot be ill, cannot be good. If ill,</p><p data-scene="act1-sc1" class="aside">Why hath it given me earnest of success</p><p data-scene="act1-sc1" class="aside">Commencing in a truth? I am Thane of Cawdor.</p><p data-scene="act1-sc1" class="aside">If good, why do I yield to that suggestion</p><p data-scene="act1-sc1" class="aside">Whose horrid image doth unfix my hair</p><p data-scene="act1-sc1" class="aside">And make my seated heart knock at my ribs</p><p data-scene="act1-sc1" class="aside">Against the use of nature? Present fears</p><p data-scene="act1-sc1" class="aside">Are less than horrible imaginings.</p><p data-scene="act1-sc1" class="aside">My thought, whose murder yet is but fantastical,</p><p data-scene="act1-sc1" class="aside">Shakes so my single state of man</p><p data-scene="act1-sc1" class="aside">That function is smothered in surmise,</p><p data-scene="act1-sc1" class="aside">And nothing is but what is not.</p></div></div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act1-sc1">Look how our partner's rapt.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1" class="aside">If chance will have me king, why, chance may crown me</p><p data-scene="act1-sc1" class="aside">Without my stir.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1" class="aside">Come what come may,</p><p data-scene="act1-sc1" class="aside">Time and the hour runs through the roughest day.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1">Give me your favor. My dull brain was wrought</p><p data-scene="act1-sc1">With things forgotten. Kind gentlemen, your pains</p><p data-scene="act1-sc1">Are registered where every day I turn</p><p data-scene="act1-sc1">The leaf to read them. Let us toward the King.</p><p data-scene="act1-sc1" class="aside">Think upon what hath chanced, and at more time,</p><p data-scene="act1-sc1" class="aside">The interim having weighed it, let us speak</p><p data-scene="act1-sc1" class="aside">Our free hearts each to other.</p></div></div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act1-sc1">Very gladly.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1">Till then, enough.—Come, friends.</p></div></div>
+      <div class="stage-dir">They exit.</div>
+    </div>
+
+    <!-- Act 1, Scene 4 -->
+    <div class="scene-block" id="act1-sc4">
+      <div class="scene-header">
+        <div class="scene-label">Act I · Scene 4</div>
+        <div class="scene-title">Forres. The palace.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act1-sc4')">Select Scene</button>
+
+      <div class="stage-dir">Flourish. Enter King Duncan, Lennox, Malcolm, Donalbain, and Attendants.</div>
+      <div class="speech"><span class="speaker">Duncan</span><div class="lines"><p data-scene="act1-sc1">Is execution done on Cawdor? Are not</p><p data-scene="act1-sc1">Those in commission yet returned?</p></div></div>
+      <div class="speech"><span class="speaker">Malcolm</span><div class="lines"><p data-scene="act1-sc1">My liege,</p><p data-scene="act1-sc1">They are not yet come back. But I have spoke</p><p data-scene="act1-sc1">With one that saw him die, who did report</p><p data-scene="act1-sc1">That very frankly he confessed his treasons,</p><p data-scene="act1-sc1">Implored your Highness' pardon, and set forth</p><p data-scene="act1-sc1">A deep repentance. Nothing in his life</p><p data-scene="act1-sc1">Became him like the leaving it. He died</p><p data-scene="act1-sc1">As one that had been studied in his death</p><p data-scene="act1-sc1">To throw away the dearest thing he owed</p><p data-scene="act1-sc1">As 'twere a careless trifle.</p></div></div>
+      <div class="speech"><span class="speaker">Duncan</span><div class="lines"><p data-scene="act1-sc1">There's no art</p><p data-scene="act1-sc1">To find the mind's construction in the face.</p><p data-scene="act1-sc1">He was a gentleman on whom I built</p><p data-scene="act1-sc1">An absolute trust.</p></div></div>
+      <div class="stage-dir">Enter Macbeth, Banquo, Ross, and Angus.</div>
+      <div class="speech"><span class="speaker">Duncan</span><div class="lines"><p data-scene="act1-sc1">O worthiest cousin,</p><p data-scene="act1-sc1">The sin of my ingratitude even now</p><p data-scene="act1-sc1">Was heavy on me. Thou art so far before</p><p data-scene="act1-sc1">That swiftest wing of recompense is slow</p><p data-scene="act1-sc1">To overtake thee. Would thou hadst less deserved,</p><p data-scene="act1-sc1">That the proportion both of thanks and payment</p><p data-scene="act1-sc1">Might have been mine! Only I have left to say,</p><p data-scene="act1-sc1">More is thy due than more than all can pay.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1">The service and the loyalty I owe</p><p data-scene="act1-sc1">In doing it pays itself. Your Highness' part</p><p data-scene="act1-sc1">Is to receive our duties, and our duties</p><p data-scene="act1-sc1">Are to your throne and state children and servants,</p><p data-scene="act1-sc1">Which do but what they should by doing everything</p><p data-scene="act1-sc1">Safe toward your love and honor.</p></div></div>
+      <div class="speech"><span class="speaker">Duncan</span><div class="lines"><p data-scene="act1-sc1">Welcome hither.</p><p data-scene="act1-sc1">I have begun to plant thee and will labor</p><p data-scene="act1-sc1">To make thee full of growing.—Noble Banquo,</p><p data-scene="act1-sc1">That hast no less deserved nor must be known</p><p data-scene="act1-sc1">No less to have done so, let me enfold thee</p><p data-scene="act1-sc1">And hold thee to my heart.</p></div></div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act1-sc1">There, if I grow,</p><p data-scene="act1-sc1">The harvest is your own.</p></div></div>
+      <div class="speech"><span class="speaker">Duncan</span><div class="lines"><p data-scene="act1-sc1">My plenteous joys,</p><p data-scene="act1-sc1">Wanton in fullness, seek to hide themselves</p><p data-scene="act1-sc1">In drops of sorrow.—Sons, kinsmen, thanes,</p><p data-scene="act1-sc1">And you whose places are the nearest, know</p><p data-scene="act1-sc1">We will establish our estate upon</p><p data-scene="act1-sc1">Our eldest, Malcolm, whom we name hereafter</p><p data-scene="act1-sc1">The Prince of Cumberland; which honor must</p><p data-scene="act1-sc1">Not unaccompanied invest him only,</p><p data-scene="act1-sc1">But signs of nobleness, like stars, shall shine</p><p data-scene="act1-sc1">On all deservers.—From hence to Inverness</p><p data-scene="act1-sc1">And bind us further to you.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1">The rest is labor which is not used for you.</p><p data-scene="act1-sc1">I'll be myself the harbinger and make joyful</p><p data-scene="act1-sc1">The hearing of my wife with your approach.</p><p data-scene="act1-sc1">So humbly take my leave.</p></div></div>
+      <div class="speech"><span class="speaker">Duncan</span><div class="lines"><p data-scene="act1-sc1">My worthy Cawdor.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1" class="aside">The Prince of Cumberland! That is a step</p><p data-scene="act1-sc1" class="aside">On which I must fall down or else o'erleap,</p><p data-scene="act1-sc1" class="aside">For in my way it lies. Stars, hide your fires;</p><p data-scene="act1-sc1" class="aside">Let not light see my black and deep desires.</p><p data-scene="act1-sc1" class="aside">The eye wink at the hand, yet let that be</p><p data-scene="act1-sc1" class="aside">Which the eye fears, when it is done, to see.</p></div></div>
+      <div class="stage-dir">He exits.</div>
+      <div class="speech"><span class="speaker">Duncan</span><div class="lines"><p data-scene="act1-sc1">True, worthy Banquo. He is full so valiant,</p><p data-scene="act1-sc1">And in his commendations I am fed:</p><p data-scene="act1-sc1">It is a banquet to me.—Let's after him,</p><p data-scene="act1-sc1">Whose care is gone before to bid us welcome.</p><p data-scene="act1-sc1">It is a peerless kinsman.</p></div></div>
+      <div class="stage-dir">Flourish. They exit.</div>
+    </div>
+
+    <!-- Act 1, Scene 5 -->
+    <div class="scene-block" id="act1-sc5">
+      <div class="scene-header">
+        <div class="scene-label">Act I · Scene 5</div>
+        <div class="scene-title">Inverness. Macbeth's castle.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act1-sc5')">Select Scene</button>
+
+      <div class="stage-dir">Enter Macbeth's Wife, alone, with a letter.</div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act1-sc1"><em>Reading the letter:</em> "They met me in the day of success, and I have learned by the perfect'st report they have more in them than mortal knowledge. When I burned in desire to question them further, they made themselves air, into which they vanished. Whiles I stood rapt in the wonder of it came missives from the King, who all-hailed me 'Thane of Cawdor,' by which title, before, these Weïrd Sisters saluted me and referred me to the coming on of time with 'Hail, king that shalt be.' This have I thought good to deliver thee, my dearest partner of greatness, that thou might'st not lose the dues of rejoicing by being ignorant of what greatness is promised thee. Lay it to thy heart, and farewell."</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act1-sc1">Glamis thou art, and Cawdor, and shalt be</p><p data-scene="act1-sc1">What thou art promised. Yet do I fear thy nature;</p><p data-scene="act1-sc1">It is too full o' th' milk of human kindness</p><p data-scene="act1-sc1">To catch the nearest way. Thou wouldst be great,</p><p data-scene="act1-sc1">Art not without ambition, but without</p><p data-scene="act1-sc1">The illness should attend it. What thou wouldst highly,</p><p data-scene="act1-sc1">That wouldst thou holily; wouldst not play false</p><p data-scene="act1-sc1">And yet wouldst wrongly win. Thou 'dst have, great Glamis,</p><p data-scene="act1-sc1">That which cries "Thus thou must do," if thou have it,</p><p data-scene="act1-sc1">And that which rather thou dost fear to do,</p><p data-scene="act1-sc1">Than wishest should be undone. Hie thee hither,</p><p data-scene="act1-sc1">That I may pour my spirits in thine ear</p><p data-scene="act1-sc1">And chastise with the valor of my tongue</p><p data-scene="act1-sc1">All that impedes thee from the golden round,</p><p data-scene="act1-sc1">Which fate and metaphysical aid doth seem</p><p data-scene="act1-sc1">To have thee crowned withal.</p></div></div>
+      <div class="stage-dir">Enter Messenger.</div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act1-sc1">What is your tidings?</p></div></div>
+      <div class="speech"><span class="speaker">Messenger</span><div class="lines"><p data-scene="act1-sc1">The King comes here tonight.</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act1-sc1">Thou 'rt mad to say it.</p><p data-scene="act1-sc1">Is not thy master with him, who, were 't so,</p><p data-scene="act1-sc1">Would have informed for preparation?</p></div></div>
+      <div class="speech"><span class="speaker">Messenger</span><div class="lines"><p data-scene="act1-sc1">So please you, it is true. Our thane is coming.</p><p data-scene="act1-sc1">One of my fellows had the speed of him,</p><p data-scene="act1-sc1">Who, almost dead for breath, had scarcely more</p><p data-scene="act1-sc1">Than would make up his message.</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act1-sc1">Give him tending.</p><p data-scene="act1-sc1">He brings great news.</p></div></div>
+      <div class="stage-dir">Messenger exits.</div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act1-sc1">The raven himself is hoarse</p><p data-scene="act1-sc1">That croaks the fatal entrance of Duncan</p><p data-scene="act1-sc1">Under my battlements. Come, you spirits</p><p data-scene="act1-sc1">That tend on mortal thoughts, unsex me here,</p><p data-scene="act1-sc1">And fill me from the crown to the toe top-full</p><p data-scene="act1-sc1">Of direst cruelty. Make thick my blood.</p><p data-scene="act1-sc1">Stop up th' access and passage to remorse,</p><p data-scene="act1-sc1">That no compunctious visitings of nature</p><p data-scene="act1-sc1">Shake my fell purpose, nor keep peace between</p><p data-scene="act1-sc1">Th' effect and it. Come to my woman's breasts</p><p data-scene="act1-sc1">And take my milk for gall, you murd'ring ministers,</p><p data-scene="act1-sc1">Wherever in your sightless substances</p><p data-scene="act1-sc1">You wait on nature's mischief. Come, thick night,</p><p data-scene="act1-sc1">And pall thee in the dunnest smoke of hell,</p><p data-scene="act1-sc1">That my keen knife see not the wound it makes,</p><p data-scene="act1-sc1">Nor heaven peep through the blanket of the dark</p><p data-scene="act1-sc1">To cry "Hold, hold!"</p></div></div>
+      <div class="stage-dir">Enter Macbeth.</div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act1-sc1">Great Glamis, worthy Cawdor,</p><p data-scene="act1-sc1">Greater than both by the all-hail hereafter!</p><p data-scene="act1-sc1">Thy letters have transported me beyond</p><p data-scene="act1-sc1">This ignorant present, and I feel now</p><p data-scene="act1-sc1">The future in the instant.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1">My dearest love,</p><p data-scene="act1-sc1">Duncan comes here tonight.</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act1-sc1">And when goes hence?</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1">Tomorrow, as he purposes.</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act1-sc1">O, never</p><p data-scene="act1-sc1">Shall sun that morrow see!</p><p data-scene="act1-sc1">Your face, my thane, is as a book where men</p><p data-scene="act1-sc1">May read strange matters. To beguile the time,</p><p data-scene="act1-sc1">Look like the time. Bear welcome in your eye,</p><p data-scene="act1-sc1">Your hand, your tongue. Look like th' innocent flower,</p><p data-scene="act1-sc1">But be the serpent under 't. He that's coming</p><p data-scene="act1-sc1">Must be provided for; and you shall put</p><p data-scene="act1-sc1">This night's great business into my dispatch,</p><p data-scene="act1-sc1">Which shall to all our nights and days to come</p><p data-scene="act1-sc1">Give solely sovereign sway and masterdom.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1">We will speak further.</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act1-sc1">Only look up clear.</p><p data-scene="act1-sc1">To alter favor ever is to fear.</p><p data-scene="act1-sc1">Leave all the rest to me.</p></div></div>
+      <div class="stage-dir">They exit.</div>
+    </div>
+
+    <!-- Act 1, Scene 6 -->
+    <div class="scene-block" id="act1-sc6">
+      <div class="scene-header">
+        <div class="scene-label">Act I · Scene 6</div>
+        <div class="scene-title">Before Macbeth's castle.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act1-sc6')">Select Scene</button>
+
+      <div class="stage-dir">Hautboys and Torches. Enter King Duncan, Malcolm, Donalbain, Banquo, Lennox, Macduff, Ross, Angus, and Attendants.</div>
+      <div class="speech"><span class="speaker">Duncan</span><div class="lines"><p data-scene="act1-sc1">This castle hath a pleasant seat. The air</p><p data-scene="act1-sc1">Nimbly and sweetly recommends itself</p><p data-scene="act1-sc1">Unto our gentle senses.</p></div></div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act1-sc1">This guest of summer,</p><p data-scene="act1-sc1">The temple-haunting martlet, does approve,</p><p data-scene="act1-sc1">By his loved mansionry, that the heaven's breath</p><p data-scene="act1-sc1">Smells wooingly here. No jutty, frieze,</p><p data-scene="act1-sc1">Buttress, nor coign of vantage, but this bird</p><p data-scene="act1-sc1">Hath made his pendant bed and procreant cradle.</p><p data-scene="act1-sc1">Where they most breed and haunt, I have observed,</p><p data-scene="act1-sc1">The air is delicate.</p></div></div>
+      <div class="stage-dir">Enter Lady Macbeth.</div>
+      <div class="speech"><span class="speaker">Duncan</span><div class="lines"><p data-scene="act1-sc1">See, see our honored hostess!—</p><p data-scene="act1-sc1">The love that follows us sometime is our trouble,</p><p data-scene="act1-sc1">Which still we thank as love. Herein I teach you</p><p data-scene="act1-sc1">How you shall bid God 'ild us for your pains</p><p data-scene="act1-sc1">And thank us for your trouble.</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act1-sc1">All our service,</p><p data-scene="act1-sc1">In every point twice done and then done double,</p><p data-scene="act1-sc1">Were poor and single business to contend</p><p data-scene="act1-sc1">Against those honors deep and broad wherewith</p><p data-scene="act1-sc1">Your Majesty loads our house. For those of old,</p><p data-scene="act1-sc1">And the late dignities heaped up to them,</p><p data-scene="act1-sc1">We rest your hermits.</p></div></div>
+      <div class="speech"><span class="speaker">Duncan</span><div class="lines"><p data-scene="act1-sc1">Where's the Thane of Cawdor?</p><p data-scene="act1-sc1">We coursed him at the heels and had a purpose</p><p data-scene="act1-sc1">To be his purveyor; but he rides well,</p><p data-scene="act1-sc1">And his great love, sharp as his spur, hath helped him</p><p data-scene="act1-sc1">To his home before us. Fair and noble hostess,</p><p data-scene="act1-sc1">We are your guest tonight.</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act1-sc1">Your servants ever</p><p data-scene="act1-sc1">Have theirs, themselves, and what is theirs in compt</p><p data-scene="act1-sc1">To make their audit at your Highness' pleasure,</p><p data-scene="act1-sc1">Still to return your own.</p></div></div>
+      <div class="speech"><span class="speaker">Duncan</span><div class="lines"><p data-scene="act1-sc1">Give me your hand.</p><p data-scene="act1-sc1">Conduct me to mine host. We love him highly</p><p data-scene="act1-sc1">And shall continue our graces towards him.</p><p data-scene="act1-sc1">By your leave, hostess.</p></div></div>
+      <div class="stage-dir">They exit.</div>
+    </div>
+
+    <!-- Act 1, Scene 7 -->
+    <div class="scene-block" id="act1-sc7">
+      <div class="scene-header">
+        <div class="scene-label">Act I · Scene 7</div>
+        <div class="scene-title">Macbeth's castle. A room.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act1-sc7')">Select Scene</button>
+
+      <div class="stage-dir">Hautboys. Torches. Enter a Sewer and divers Servants with dishes and service over the stage. Then enter Macbeth.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1">If it were done when 'tis done, then 'twere well</p><p data-scene="act1-sc1">It were done quickly. If th' assassination</p><p data-scene="act1-sc1">Could trammel up the consequence and catch</p><p data-scene="act1-sc1">With his surcease success, that but this blow</p><p data-scene="act1-sc1">Might be the be-all and the end-all here,</p><p data-scene="act1-sc1">But here, upon this bank and shoal of time,</p><p data-scene="act1-sc1">We'd jump the life to come. But in these cases</p><p data-scene="act1-sc1">We still have judgment here, that we but teach</p><p data-scene="act1-sc1">Bloody instructions, which, being taught, return</p><p data-scene="act1-sc1">To plague th' inventor. This even-handed justice</p><p data-scene="act1-sc1">Commends th' ingredience of our poisoned chalice</p><p data-scene="act1-sc1">To our own lips. He's here in double trust:</p><p data-scene="act1-sc1">First, as I am his kinsman and his subject,</p><p data-scene="act1-sc1">Strong both against the deed; then, as his host,</p><p data-scene="act1-sc1">Who should against his murderer shut the door,</p><p data-scene="act1-sc1">Not bear the knife myself. Besides, this Duncan</p><p data-scene="act1-sc1">Hath borne his faculties so meek, hath been</p><p data-scene="act1-sc1">So clear in his great office, that his virtues</p><p data-scene="act1-sc1">Will plead like angels, trumpet-tongued, against</p><p data-scene="act1-sc1">The deep damnation of his taking-off;</p><p data-scene="act1-sc1">And pity, like a naked newborn babe</p><p data-scene="act1-sc1">Striding the blast, or heaven's cherubin horsed</p><p data-scene="act1-sc1">Upon the sightless couriers of the air,</p><p data-scene="act1-sc1">Shall blow the horrid deed in every eye,</p><p data-scene="act1-sc1">That tears shall drown the wind. I have no spur</p><p data-scene="act1-sc1">To prick the sides of my intent, but only</p><p data-scene="act1-sc1">Vaulting ambition, which o'erleaps itself</p><p data-scene="act1-sc1">And falls on th' other—</p></div></div>
+      <div class="stage-dir">Enter Lady Macbeth.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1">How now, what news?</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act1-sc1">He has almost supped. Why have you left the chamber?</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1">Hath he asked for me?</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act1-sc1">Know you not he has?</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1">We will proceed no further in this business.</p><p data-scene="act1-sc1">He hath honored me of late, and I have bought</p><p data-scene="act1-sc1">Golden opinions from all sorts of people,</p><p data-scene="act1-sc1">Which would be worn now in their newest gloss,</p><p data-scene="act1-sc1">Not cast aside so soon.</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act1-sc1">Was the hope drunk</p><p data-scene="act1-sc1">Wherein you dressed yourself? Hath it slept since?</p><p data-scene="act1-sc1">And wakes it now, to look so green and pale</p><p data-scene="act1-sc1">At what it did so freely? From this time</p><p data-scene="act1-sc1">Such I account thy love. Art thou afeard</p><p data-scene="act1-sc1">To be the same in thine own act and valor</p><p data-scene="act1-sc1">As thou art in desire? Wouldst thou have that</p><p data-scene="act1-sc1">Which thou esteem'st the ornament of life</p><p data-scene="act1-sc1">And live a coward in thine own esteem,</p><p data-scene="act1-sc1">Letting "I dare not" wait upon "I would,"</p><p data-scene="act1-sc1">Like the poor cat i' th' adage?</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1">Prithee, peace.</p><p data-scene="act1-sc1">I dare do all that may become a man.</p><p data-scene="act1-sc1">Who dares do more is none.</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act1-sc1">What beast was 't, then,</p><p data-scene="act1-sc1">That made you break this enterprise to me?</p><p data-scene="act1-sc1">When you durst do it, then you were a man;</p><p data-scene="act1-sc1">And to be more than what you were, you would</p><p data-scene="act1-sc1">Be so much more the man. Nor time nor place</p><p data-scene="act1-sc1">Did then adhere, and yet you would make both.</p><p data-scene="act1-sc1">They have made themselves, and that their fitness now</p><p data-scene="act1-sc1">Does unmake you. I have given suck, and know</p><p data-scene="act1-sc1">How tender 'tis to love the babe that milks me.</p><p data-scene="act1-sc1">I would, while it was smiling in my face,</p><p data-scene="act1-sc1">Have plucked my nipple from his boneless gums</p><p data-scene="act1-sc1">And dashed the brains out, had I so sworn as you</p><p data-scene="act1-sc1">Have done to this.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1">If we should fail—</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act1-sc1">We fail?</p><p data-scene="act1-sc1">But screw your courage to the sticking place</p><p data-scene="act1-sc1">And we'll not fail. When Duncan is asleep</p><p data-scene="act1-sc1">(Whereto the rather shall his day's hard journey</p><p data-scene="act1-sc1">Soundly invite him), his two chamberlains</p><p data-scene="act1-sc1">Will I with wine and wassail so convince</p><p data-scene="act1-sc1">That memory, the warder of the brain,</p><p data-scene="act1-sc1">Shall be a fume, and the receipt of reason</p><p data-scene="act1-sc1">A limbeck only. When in swinish sleep</p><p data-scene="act1-sc1">Their drenchèd natures lies as in a death,</p><p data-scene="act1-sc1">What cannot you and I perform upon</p><p data-scene="act1-sc1">Th' unguarded Duncan? What not put upon</p><p data-scene="act1-sc1">His spongy officers, who shall bear the guilt</p><p data-scene="act1-sc1">Of our great quell?</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1">Bring forth men-children only,</p><p data-scene="act1-sc1">For thy undaunted mettle should compose</p><p data-scene="act1-sc1">Nothing but males. Will it not be received,</p><p data-scene="act1-sc1">When we have marked with blood those sleepy two</p><p data-scene="act1-sc1">Of his own chamber and used their very daggers,</p><p data-scene="act1-sc1">That they have done 't?</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act1-sc1">Who dares receive it other,</p><p data-scene="act1-sc1">As we shall make our griefs and clamor roar</p><p data-scene="act1-sc1">Upon his death?</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act1-sc1">I am settled and bend up</p><p data-scene="act1-sc1">Each corporal agent to this terrible feat.</p><p data-scene="act1-sc1">Away, and mock the time with fairest show.</p><p data-scene="act1-sc1">False face must hide what the false heart doth know.</p></div></div>
+      <div class="stage-dir">They exit.</div>
+    </div>
+  </section>
+
+  <!-- ═══ ACT II ═══ -->
+  <section class="act-section">
+    <div class="act-header">
+      <div class="act-number">Act the Second</div>
+      <div class="act-title">Act II</div>
+    </div>
+
+    <div class="scene-block" id="act2-sc1">
+      <div class="scene-header">
+        <div class="scene-label">Act II · Scene 1</div>
+        <div class="scene-title">Inverness. Court of Macbeth's castle.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act2-sc1')">Select Scene</button>
+
+      <div class="stage-dir">Enter Banquo, and Fleance with a torch before him.</div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act2-sc1">How goes the night, boy?</p></div></div>
+      <div class="speech"><span class="speaker">Fleance</span><div class="lines"><p data-scene="act2-sc1">The moon is down. I have not heard the clock.</p></div></div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act2-sc1">And she goes down at twelve.</p></div></div>
+      <div class="speech"><span class="speaker">Fleance</span><div class="lines"><p data-scene="act2-sc1">I take 't 'tis later, sir.</p></div></div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act2-sc1">Hold, take my sword. There's husbandry in heaven;</p><p data-scene="act2-sc1">Their candles are all out. Take thee that too.</p><p data-scene="act2-sc1">A heavy summons lies like lead upon me,</p><p data-scene="act2-sc1">And yet I would not sleep. Merciful powers,</p><p data-scene="act2-sc1">Restrain in me the cursèd thoughts that nature</p><p data-scene="act2-sc1">Gives way to in repose.</p></div></div>
+      <div class="stage-dir">Enter Macbeth, and a Servant with a torch.</div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act2-sc1">Give me my sword.—Who's there?</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc1">A friend.</p></div></div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act2-sc1">What, sir, not yet at rest? The King's abed.</p><p data-scene="act2-sc1">He hath been in unusual pleasure, and</p><p data-scene="act2-sc1">Sent forth great largess to your offices.</p><p data-scene="act2-sc1">This diamond he greets your wife withal,</p><p data-scene="act2-sc1">By the name of most kind hostess, and shut up</p><p data-scene="act2-sc1">In measureless content.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc1">Being unprepared,</p><p data-scene="act2-sc1">Our will became the servant to defect,</p><p data-scene="act2-sc1">Which else should free have wrought.</p></div></div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act2-sc1">All's well.</p><p data-scene="act2-sc1">I dreamt last night of the three Weïrd Sisters.</p><p data-scene="act2-sc1">To you they have showed some truth.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc1">I think not of them.</p><p data-scene="act2-sc1">Yet, when we can entreat an hour to serve,</p><p data-scene="act2-sc1">We would spend it in some words upon that business,</p><p data-scene="act2-sc1">If you would grant the time.</p></div></div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act2-sc1">At your kind'st leisure.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc1">If you shall cleave to my consent, when 'tis,</p><p data-scene="act2-sc1">It shall make honor for you.</p></div></div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act2-sc1">So I lose none</p><p data-scene="act2-sc1">In seeking to augment it, but still keep</p><p data-scene="act2-sc1">My bosom franchised and allegiance clear,</p><p data-scene="act2-sc1">I shall be counseled.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc1">Good repose the while.</p></div></div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act2-sc1">Thanks, sir. The like to you.</p></div></div>
+      <div class="stage-dir">Banquo and Fleance exit.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc1">Go bid thy mistress, when my drink is ready,</p><p data-scene="act2-sc1">She strike upon the bell. Get thee to bed.</p></div></div>
+      <div class="stage-dir">Servant exits.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc1">Is this a dagger which I see before me,</p><p data-scene="act2-sc1">The handle toward my hand? Come, let me clutch thee.</p><p data-scene="act2-sc1">I have thee not, and yet I see thee still.</p><p data-scene="act2-sc1">Art thou not, fatal vision, sensible</p><p data-scene="act2-sc1">To feeling as to sight? Or art thou but</p><p data-scene="act2-sc1">A dagger of the mind, a false creation</p><p data-scene="act2-sc1">Proceeding from the heat-oppressèd brain?</p><p data-scene="act2-sc1">I see thee yet, in form as palpable</p><p data-scene="act2-sc1">As this which now I draw.</p></div></div>
+      <div class="stage-dir">He draws his dagger.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc1">Thou marshal'st me the way that I was going,</p><p data-scene="act2-sc1">And such an instrument I was to use.</p><p data-scene="act2-sc1">Mine eyes are made the fools o' th' other senses</p><p data-scene="act2-sc1">Or else worth all the rest. I see thee still,</p><p data-scene="act2-sc1">And, on thy blade and dudgeon, gouts of blood,</p><p data-scene="act2-sc1">Which was not so before. There's no such thing.</p><p data-scene="act2-sc1">It is the bloody business which informs</p><p data-scene="act2-sc1">Thus to mine eyes. Now o'er the one-half world</p><p data-scene="act2-sc1">Nature seems dead, and wicked dreams abuse</p><p data-scene="act2-sc1">The curtained sleep. Witchcraft celebrates</p><p data-scene="act2-sc1">Pale Hecate's off'rings, and withered murder,</p><p data-scene="act2-sc1">Alarumed by his sentinel, the wolf,</p><p data-scene="act2-sc1">Whose howl's his watch, thus with his stealthy pace,</p><p data-scene="act2-sc1">With Tarquin's ravishing strides, towards his design</p><p data-scene="act2-sc1">Moves like a ghost. Thou sure and firm-set earth,</p><p data-scene="act2-sc1">Hear not my steps, which way they walk, for fear</p><p data-scene="act2-sc1">Thy very stones prate of my whereabouts</p><p data-scene="act2-sc1">And take the present horror from the time,</p><p data-scene="act2-sc1">Which now suits with it. Whiles I threat, he lives.</p><p data-scene="act2-sc1">Words to the heat of deeds too cold breath gives.</p></div></div>
+      <div class="stage-dir">A bell rings.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc1">I go, and it is done. The bell invites me.</p><p data-scene="act2-sc1">Hear it not, Duncan, for it is a knell</p><p data-scene="act2-sc1">That summons thee to heaven or to hell.</p></div></div>
+      <div class="stage-dir">He exits.</div>
+    </div>
+    <div class="scene-block" id="act2-sc2">
+      <div class="scene-header">
+        <div class="scene-label">Act II · Scene 2</div>
+        <div class="scene-title">The same.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act2-sc2')">Select Scene</button>
+
+      <div class="stage-dir">Enter Lady Macbeth.</div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act2-sc2">That which hath made them drunk hath made me bold.</p><p data-scene="act2-sc2">What hath quenched them hath given me fire.</p><p data-scene="act2-sc2">Hark!—Peace.</p><p data-scene="act2-sc2">It was the owl that shrieked, the fatal bellman,</p><p data-scene="act2-sc2">Which gives the stern'st good-night. He is about it.</p><p data-scene="act2-sc2">The doors are open, and the surfeited grooms</p><p data-scene="act2-sc2">Do mock their charge with snores. I have drugged their possets,</p><p data-scene="act2-sc2">That death and nature do contend about them</p><p data-scene="act2-sc2">Whether they live or die.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc2" class="aside">Who's there? what, ho!</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act2-sc2">Alack, I am afraid they have awaked,</p><p data-scene="act2-sc2">And 'tis not done. Th' attempt and not the deed</p><p data-scene="act2-sc2">Confounds us. Hark!—I laid their daggers ready;</p><p data-scene="act2-sc2">He could not miss 'em. Had he not resembled</p><p data-scene="act2-sc2">My father as he slept, I had done 't.</p></div></div>
+      <div class="stage-dir">Enter Macbeth with bloody daggers.</div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act2-sc2">My husband?</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc2">I have done the deed. Didst thou not hear a noise?</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act2-sc2">I heard the owl scream and the crickets cry.</p><p data-scene="act2-sc2">Did not you speak?</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc2">When?</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act2-sc2">Now.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc2">As I descended?</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act2-sc2">Ay.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc2">Hark!—Who lies i' th' second chamber?</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act2-sc2">Donalbain.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc2">This is a sorry sight.</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act2-sc2">A foolish thought, to say a sorry sight.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc2">There's one did laugh in 's sleep, and one cried "Murder!"</p><p data-scene="act2-sc2">That they did wake each other. I stood and heard them.</p><p data-scene="act2-sc2">But they did say their prayers and addressed them</p><p data-scene="act2-sc2">Again to sleep.</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act2-sc2">There are two lodged together.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc2">One cried "God bless us" and "Amen" the other,</p><p data-scene="act2-sc2">As they had seen me with these hangman's hands,</p><p data-scene="act2-sc2">List'ning their fear. I could not say "Amen"</p><p data-scene="act2-sc2">When they did say "God bless us."</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act2-sc2">Consider it not so deeply.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc2">But wherefore could not I pronounce "Amen"?</p><p data-scene="act2-sc2">I had most need of blessing, and "Amen"</p><p data-scene="act2-sc2">Stuck in my throat.</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act2-sc2">These deeds must not be thought</p><p data-scene="act2-sc2">After these ways; so, it will make us mad.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc2">Methought I heard a voice cry "Sleep no more!</p><p data-scene="act2-sc2">Macbeth does murder sleep"—the innocent sleep,</p><p data-scene="act2-sc2">Sleep that knits up the raveled sleave of care,</p><p data-scene="act2-sc2">The death of each day's life, sore labor's bath,</p><p data-scene="act2-sc2">Balm of hurt minds, great nature's second course,</p><p data-scene="act2-sc2">Chief nourisher in life's feast.</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act2-sc2">What do you mean?</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc2">Still it cried "Sleep no more!" to all the house.</p><p data-scene="act2-sc2">"Glamis hath murdered sleep, and therefore Cawdor</p><p data-scene="act2-sc2">Shall sleep no more. Macbeth shall sleep no more."</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act2-sc2">Who was it that thus cried? Why, worthy thane,</p><p data-scene="act2-sc2">You do unbend your noble strength to think</p><p data-scene="act2-sc2">So brainsickly of things. Go get some water</p><p data-scene="act2-sc2">And wash this filthy witness from your hand.—</p><p data-scene="act2-sc2">Why did you bring these daggers from the place?</p><p data-scene="act2-sc2">They must lie there. Go, carry them and smear</p><p data-scene="act2-sc2">The sleepy grooms with blood.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc2">I'll go no more.</p><p data-scene="act2-sc2">I am afraid to think what I have done.</p><p data-scene="act2-sc2">Look on 't again I dare not.</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act2-sc2">Infirm of purpose!</p><p data-scene="act2-sc2">Give me the daggers. The sleeping and the dead</p><p data-scene="act2-sc2">Are but as pictures. 'Tis the eye of childhood</p><p data-scene="act2-sc2">That fears a painted devil. If he do bleed,</p><p data-scene="act2-sc2">I'll gild the faces of the grooms withal,</p><p data-scene="act2-sc2">For it must seem their guilt.</p></div></div>
+      <div class="stage-dir">She exits with the daggers. Knock within.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc2">Whence is that knocking?</p><p data-scene="act2-sc2">How is 't with me when every noise appalls me?</p><p data-scene="act2-sc2">What hands are here! Ha, they pluck out mine eyes.</p><p data-scene="act2-sc2">Will all great Neptune's ocean wash this blood</p><p data-scene="act2-sc2">Clean from my hand? No, this my hand will rather</p><p data-scene="act2-sc2">The multitudinous seas incarnadine,</p><p data-scene="act2-sc2">Making the green one red.</p></div></div>
+      <div class="stage-dir">Enter Lady Macbeth.</div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act2-sc2">My hands are of your color, but I shame</p><p data-scene="act2-sc2">To wear a heart so white.</p><p data-scene="act2-sc2">I hear a knocking</p><p data-scene="act2-sc2">At the south entry. Retire we to our chamber.</p><p data-scene="act2-sc2">A little water clears us of this deed.</p><p data-scene="act2-sc2">How easy is it, then! Your constancy</p><p data-scene="act2-sc2">Hath left you unattended.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc2">To know my deed 'twere best not know myself.</p><p data-scene="act2-sc2">Wake Duncan with thy knocking. I would thou couldst.</p></div></div>
+      <div class="stage-dir">They exit.</div>
+    </div>
+    <div class="scene-block" id="act2-sc3">
+      <div class="scene-header">
+        <div class="scene-label">Act II · Scene 3</div>
+        <div class="scene-title">The same. [The Porter's scene &amp; discovery of Duncan's murder]</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act2-sc3')">Select Scene</button>
+
+      <div class="stage-dir">Knocking within. Enter a Porter.</div>
+      <div class="speech"><span class="speaker">Porter</span><div class="lines"><p data-scene="act2-sc3">Here's a knocking indeed! If a man were porter of hell gate, he should have old turning the key. Knock, knock, knock! Who's there, i' th' name of Beelzebub? Here's a farmer that hanged himself on th' expectation of plenty. Come in time! Have napkins enough about you; here you'll sweat for 't. Knock, knock! Who's there, in th' other devil's name? Faith, here's an equivocator that could swear in both the scales against either scale, who committed treason enough for God's sake yet could not equivocate to heaven. O, come in, equivocator. Knock, knock, knock! Who's there? Faith, here's an English tailor come hither for stealing out of a French hose. Come in, tailor. Here you may roast your goose. Knock, knock! Never at quiet.—What are you?—But this place is too cold for hell. I'll devil-porter it no further. I had thought to have let in some of all professions that go the primrose way to th' everlasting bonfire. Anon, anon! I pray you, remember the porter.</p></div></div>
+      <div class="stage-dir">The Porter opens the door to Macduff and Lennox.</div>
+      <div class="speech"><span class="speaker">Macduff</span><div class="lines"><p data-scene="act2-sc3">Was it so late, friend, ere you went to bed</p><p data-scene="act2-sc3">That you do lie so late?</p></div></div>
+      <div class="speech"><span class="speaker">Porter</span><div class="lines"><p data-scene="act2-sc3">Faith, sir, we were carousing till the second cock, and drink, sir, is a great provoker of three things: nose-painting, sleep, and urine. Lechery, sir, it provokes and unprovokes. It provokes the desire, but it takes away the performance. Therefore much drink may be said to be an equivocator with lechery.</p></div></div>
+      <div class="stage-dir">Enter Macbeth.</div>
+      <div class="speech"><span class="speaker">Lennox</span><div class="lines"><p data-scene="act2-sc3">Our knocking has awaked him. Here he comes.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc3">Good morrow, both.</p></div></div>
+      <div class="speech"><span class="speaker">Macduff</span><div class="lines"><p data-scene="act2-sc3">Is the King stirring, worthy thane?</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc3">Not yet.</p></div></div>
+      <div class="speech"><span class="speaker">Macduff</span><div class="lines"><p data-scene="act2-sc3">He did command me to call timely on him.</p><p data-scene="act2-sc3">I have almost slipped the hour.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc3">I'll bring you to him.</p></div></div>
+      <div class="stage-dir">Macduff exits. Lennox speaks of the unruly night, then Macduff returns.</div>
+      <div class="speech"><span class="speaker">Macduff</span><div class="lines"><p data-scene="act2-sc3">O horror, horror, horror!</p><p data-scene="act2-sc3">Tongue nor heart cannot conceive nor name thee!</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth &amp; Lennox</span><div class="lines"><p data-scene="act2-sc3">What's the matter?</p></div></div>
+      <div class="speech"><span class="speaker">Macduff</span><div class="lines"><p data-scene="act2-sc3">Confusion now hath made his masterpiece.</p><p data-scene="act2-sc3">Most sacrilegious murder hath broke ope</p><p data-scene="act2-sc3">The Lord's anointed temple and stole thence</p><p data-scene="act2-sc3">The life o' th' building.</p></div></div>
+      <div class="stage-dir">Bell rings. Enter Lady Macbeth, then Banquo, then Malcolm and Donalbain.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc3">Had I but died an hour before this chance,</p><p data-scene="act2-sc3">I had lived a blessèd time; for from this instant</p><p data-scene="act2-sc3">There's nothing serious in mortality.</p><p data-scene="act2-sc3">All is but toys. Renown and grace is dead.</p><p data-scene="act2-sc3">The wine of life is drawn, and the mere lees</p><p data-scene="act2-sc3">Is left this vault to brag of.</p></div></div>
+      <div class="speech"><span class="speaker">Macduff</span><div class="lines"><p data-scene="act2-sc3">Those of his chamber, as it seemed, had done 't.</p><p data-scene="act2-sc3">Their hands and faces were all badged with blood.</p><p data-scene="act2-sc3">So were their daggers, which unwiped we found</p><p data-scene="act2-sc3">Upon their pillows.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc3">O, yet I do repent me of my fury,</p><p data-scene="act2-sc3">That I did kill them.</p></div></div>
+      <div class="speech"><span class="speaker">Macduff</span><div class="lines"><p data-scene="act2-sc3">Wherefore did you so?</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act2-sc3">Who can be wise, amazed, temp'rate, and furious,</p><p data-scene="act2-sc3">Loyal, and neutral, in a moment? No man.</p><p data-scene="act2-sc3">Th' expedition of my violent love</p><p data-scene="act2-sc3">Outrun the pauser, reason. Here lay Duncan,</p><p data-scene="act2-sc3">His silver skin laced with his golden blood,</p><p data-scene="act2-sc3">And his gashed stabs looked like a breach in nature</p><p data-scene="act2-sc3">For ruin's wasteful entrance; there the murderers,</p><p data-scene="act2-sc3">Steeped in the colors of their trade, their daggers</p><p data-scene="act2-sc3">Unmannerly breeched with gore. Who could refrain</p><p data-scene="act2-sc3">That had a heart to love, and in that heart</p><p data-scene="act2-sc3">Courage to make 's love known?</p></div></div>
+      <div class="speech"><span class="speaker">Malcolm</span><div class="lines"><p data-scene="act2-sc3" class="aside">Why do we hold our tongues,</p><p data-scene="act2-sc3" class="aside">That most may claim this argument for ours?</p></div></div>
+      <div class="speech"><span class="speaker">Donalbain</span><div class="lines"><p data-scene="act2-sc3" class="aside">What should be spoken here, where our fate,</p><p data-scene="act2-sc3" class="aside">Hid in an auger hole, may rush and seize us?</p><p data-scene="act2-sc3" class="aside">Let's away. Our tears are not yet brewed.</p></div></div>
+      <div class="speech"><span class="speaker">Malcolm</span><div class="lines"><p data-scene="act2-sc3">What will you do? Let's not consort with them.</p><p data-scene="act2-sc3">To show an unfelt sorrow is an office</p><p data-scene="act2-sc3">Which the false man does easy. I'll to England.</p></div></div>
+      <div class="speech"><span class="speaker">Donalbain</span><div class="lines"><p data-scene="act2-sc3">To Ireland I. Our separated fortune</p><p data-scene="act2-sc3">Shall keep us both the safer. Where we are,</p><p data-scene="act2-sc3">There's daggers in men's smiles. The near in blood,</p><p data-scene="act2-sc3">The nearer bloody.</p></div></div>
+      <div class="stage-dir">They exit.</div>
+    </div>
+    <div class="scene-block" id="act2-sc4">
+      <div class="scene-header">
+        <div class="scene-label">Act II · Scene 4</div>
+        <div class="scene-title">Outside Macbeth's castle.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act2-sc4')">Select Scene</button>
+
+      <div class="stage-dir">Enter Ross with an Old Man.</div>
+      <div class="speech"><span class="speaker">Old Man</span><div class="lines"><p data-scene="act2-sc4">Threescore and ten I can remember well,</p><p data-scene="act2-sc4">Within the volume of which time I have seen</p><p data-scene="act2-sc4">Hours dreadful and things strange, but this sore night</p><p data-scene="act2-sc4">Hath trifled former knowings.</p></div></div>
+      <div class="speech"><span class="speaker">Ross</span><div class="lines"><p data-scene="act2-sc4">Ha, good father,</p><p data-scene="act2-sc4">Thou seest the heavens, as troubled with man's act,</p><p data-scene="act2-sc4">Threatens his bloody stage. By th' clock 'tis day,</p><p data-scene="act2-sc4">And yet dark night strangles the traveling lamp.</p><p data-scene="act2-sc4">Is 't night's predominance or the day's shame</p><p data-scene="act2-sc4">That darkness does the face of earth entomb</p><p data-scene="act2-sc4">When living light should kiss it?</p></div></div>
+      <div class="stage-dir">Enter Macduff.</div>
+      <div class="speech"><span class="speaker">Ross</span><div class="lines"><p data-scene="act2-sc4">Is 't known who did this more than bloody deed?</p></div></div>
+      <div class="speech"><span class="speaker">Macduff</span><div class="lines"><p data-scene="act2-sc4">Those that Macbeth hath slain.</p></div></div>
+      <div class="speech"><span class="speaker">Ross</span><div class="lines"><p data-scene="act2-sc4">Then 'tis most like</p><p data-scene="act2-sc4">The sovereignty will fall upon Macbeth.</p></div></div>
+      <div class="speech"><span class="speaker">Macduff</span><div class="lines"><p data-scene="act2-sc4">He is already named and gone to Scone</p><p data-scene="act2-sc4">To be invested.</p></div></div>
+      <div class="speech"><span class="speaker">Macduff</span><div class="lines"><p data-scene="act2-sc4">Well, may you see things well done there. Adieu,</p><p data-scene="act2-sc4">Lest our old robes sit easier than our new.</p></div></div>
+      <div class="stage-dir">All exit.</div>
+    </div>
+  </section>
+
+  <!-- ═══ ACT III ═══ -->
+  <section class="act-section">
+    <div class="act-header">
+      <div class="act-number">Act the Third</div>
+      <div class="act-title">Act III</div>
+    </div>
+
+    <div class="scene-block" id="act3-sc1">
+      <div class="scene-header">
+        <div class="scene-label">Act III · Scene 1</div>
+        <div class="scene-title">Forres. The palace.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act3-sc1')">Select Scene</button>
+
+      <div class="stage-dir">Enter Banquo.</div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act3-sc1" class="aside">Thou hast it now—king, Cawdor, Glamis, all</p><p data-scene="act3-sc1" class="aside">As the Weïrd Women promised, and I fear</p><p data-scene="act3-sc1" class="aside">Thou played'st most foully for 't. Yet it was said</p><p data-scene="act3-sc1" class="aside">It should not stand in thy posterity,</p><p data-scene="act3-sc1" class="aside">But that myself should be the root and father</p><p data-scene="act3-sc1" class="aside">Of many kings. If there come truth from them</p><p data-scene="act3-sc1" class="aside">(As upon thee, Macbeth, their speeches shine)</p><p data-scene="act3-sc1" class="aside">Why, by the verities on thee made good,</p><p data-scene="act3-sc1" class="aside">May they not be my oracles as well,</p><p data-scene="act3-sc1" class="aside">And set me up in hope? But hush, no more.</p></div></div>
+      <div class="stage-dir">Sennet sounded. Enter Macbeth as King, Lady Macbeth, Lennox, Ross, Lords, and Attendants.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act3-sc1">Tonight we hold a solemn supper, sir,</p><p data-scene="act3-sc1">And I'll request your presence.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act3-sc1">Ride you this afternoon?</p></div></div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act3-sc1">Ay, my good lord.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act3-sc1">We hear our bloody cousins are bestowed</p><p data-scene="act3-sc1">In England and in Ireland, not confessing</p><p data-scene="act3-sc1">Their cruel parricide, filling their hearers</p><p data-scene="act3-sc1">With strange invention. But of that tomorrow.</p><p data-scene="act3-sc1">Goes Fleance with you?</p></div></div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act3-sc1">Ay, my good lord. Our time does call upon 's.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act3-sc1">I wish your horses swift and sure of foot,</p><p data-scene="act3-sc1">And so I do commend you to their backs.</p><p data-scene="act3-sc1">Farewell.</p></div></div>
+      <div class="stage-dir">Banquo exits.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act3-sc1" class="aside">To be thus is nothing,</p><p data-scene="act3-sc1" class="aside">But to be safely thus. Our fears in Banquo</p><p data-scene="act3-sc1" class="aside">Stick deep, and in his royalty of nature</p><p data-scene="act3-sc1" class="aside">Reigns that which would be feared. 'Tis much he dares,</p><p data-scene="act3-sc1" class="aside">And to that dauntless temper of his mind</p><p data-scene="act3-sc1" class="aside">He hath a wisdom that doth guide his valor</p><p data-scene="act3-sc1" class="aside">To act in safety. There is none but he</p><p data-scene="act3-sc1" class="aside">Whose being I do fear… Upon my head they placed a fruitless crown</p><p data-scene="act3-sc1" class="aside">And put a barren scepter in my grip,</p><p data-scene="act3-sc1" class="aside">Thence to be wrenched with an unlineal hand,</p><p data-scene="act3-sc1" class="aside">No son of mine succeeding. If 't be so,</p><p data-scene="act3-sc1" class="aside">For Banquo's issue have I filed my mind;</p><p data-scene="act3-sc1" class="aside">For them the gracious Duncan have I murdered,</p><p data-scene="act3-sc1" class="aside">Put rancors in the vessel of my peace</p><p data-scene="act3-sc1" class="aside">Only for them, and mine eternal jewel</p><p data-scene="act3-sc1" class="aside">Given to the common enemy of man</p><p data-scene="act3-sc1" class="aside">To make them kings, the seeds of Banquo kings.</p><p data-scene="act3-sc1" class="aside">Rather than so, come fate into the list,</p><p data-scene="act3-sc1" class="aside">And champion me to th' utterance.</p></div></div>
+      <div class="stage-dir">Enter Servant and two Murderers. Macbeth persuades them to kill Banquo and Fleance.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act3-sc1">It is concluded. Banquo, thy soul's flight,</p><p data-scene="act3-sc1">If it find heaven, must find it out tonight.</p></div></div>
+      <div class="stage-dir">He exits.</div>
+    </div>
+    <div class="scene-block" id="act3-sc2">
+      <div class="scene-header">
+        <div class="scene-label">Act III · Scene 2</div>
+        <div class="scene-title">The palace.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act3-sc2')">Select Scene</button>
+
+      <div class="stage-dir">Enter Macbeth's Lady and a Servant.</div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act3-sc2">Naught's had, all's spent,</p><p data-scene="act3-sc2">Where our desire is got without content.</p><p data-scene="act3-sc2">'Tis safer to be that which we destroy</p><p data-scene="act3-sc2">Than by destruction dwell in doubtful joy.</p></div></div>
+      <div class="stage-dir">Enter Macbeth.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act3-sc2">We have scorched the snake, not killed it.</p><p data-scene="act3-sc2">She'll close and be herself whilst our poor malice</p><p data-scene="act3-sc2">Remains in danger of her former tooth.</p><p data-scene="act3-sc2">But let the frame of things disjoint, both the worlds suffer,</p><p data-scene="act3-sc2">Ere we will eat our meal in fear, and sleep</p><p data-scene="act3-sc2">In the affliction of these terrible dreams</p><p data-scene="act3-sc2">That shake us nightly. Better be with the dead,</p><p data-scene="act3-sc2">Whom we, to gain our peace, have sent to peace,</p><p data-scene="act3-sc2">Than on the torture of the mind to lie</p><p data-scene="act3-sc2">In restless ecstasy. Duncan is in his grave.</p><p data-scene="act3-sc2">After life's fitful fever he sleeps well.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act3-sc2">O, full of scorpions is my mind, dear wife!</p><p data-scene="act3-sc2">Thou know'st that Banquo and his Fleance lives.</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act3-sc2">But in them nature's copy's not eterne.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act3-sc2">There's comfort yet; they are assailable.</p><p data-scene="act3-sc2">Come, seeling night,</p><p data-scene="act3-sc2">Scarf up the tender eye of pitiful day</p><p data-scene="act3-sc2">And with thy bloody and invisible hand</p><p data-scene="act3-sc2">Cancel and tear to pieces that great bond</p><p data-scene="act3-sc2">Which keeps me pale. Light thickens, and the crow</p><p data-scene="act3-sc2">Makes wing to th' rooky wood.</p><p data-scene="act3-sc2">Good things of day begin to droop and drowse,</p><p data-scene="act3-sc2">Whiles night's black agents to their preys do rouse.—</p><p data-scene="act3-sc2">Things bad begun make strong themselves by ill.</p><p data-scene="act3-sc2">So prithee go with me.</p></div></div>
+      <div class="stage-dir">They exit.</div>
+    </div>
+    <div class="scene-block" id="act3-sc3">
+      <div class="scene-header">
+        <div class="scene-label">Act III · Scene 3</div>
+        <div class="scene-title">A park near the palace.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act3-sc3')">Select Scene</button>
+
+      <div class="stage-dir">Enter three Murderers.</div>
+      <div class="stage-dir">Enter Banquo and Fleance, with a torch.</div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act3-sc3">It will be rain tonight.</p></div></div>
+      <div class="speech"><span class="speaker">First Murderer</span><div class="lines"><p data-scene="act3-sc3">Let it come down!</p></div></div>
+      <div class="stage-dir">The three Murderers attack.</div>
+      <div class="speech"><span class="speaker">Banquo</span><div class="lines"><p data-scene="act3-sc3">O treachery! Fly, good Fleance, fly, fly, fly!</p><p data-scene="act3-sc3">Thou mayst revenge—O slave!</p></div></div>
+      <div class="stage-dir">He dies. Fleance exits.</div>
+      <div class="speech"><span class="speaker">Third Murderer</span><div class="lines"><p data-scene="act3-sc3">There's but one down. The son is fled.</p></div></div>
+      <div class="speech"><span class="speaker">Second Murderer</span><div class="lines"><p data-scene="act3-sc3">We have lost best half of our affair.</p></div></div>
+      <div class="speech"><span class="speaker">First Murderer</span><div class="lines"><p data-scene="act3-sc3">Well, let's away and say how much is done.</p></div></div>
+      <div class="stage-dir">They exit.</div>
+    </div>
+    <div class="scene-block" id="act3-sc4">
+      <div class="scene-header">
+        <div class="scene-label">Act III · Scene 4</div>
+        <div class="scene-title">The palace. A banquet prepared.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act3-sc4')">Select Scene</button>
+
+      <div class="stage-dir">Banquet prepared. Enter Macbeth, Lady Macbeth, Ross, Lennox, Lords, and Attendants.</div>
+      <div class="stage-dir">Enter First Murderer to the door. Macbeth learns Banquo is dead but Fleance has fled.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act3-sc4" class="aside">Then comes my fit again. I had else been perfect,</p><p data-scene="act3-sc4" class="aside">Whole as the marble, founded as the rock,</p><p data-scene="act3-sc4" class="aside">As broad and general as the casing air.</p><p data-scene="act3-sc4" class="aside">But now I am cabined, cribbed, confined, bound in</p><p data-scene="act3-sc4" class="aside">To saucy doubts and fears.</p></div></div>
+      <div class="stage-dir">Enter the Ghost of Banquo, and sits in Macbeth's place.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act3-sc4">Which of you have done this?</p></div></div>
+      <div class="speech"><span class="speaker">Lords</span><div class="lines"><p data-scene="act3-sc4">What, my good lord?</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act3-sc4">Thou canst not say I did it. Never shake</p><p data-scene="act3-sc4">Thy gory locks at me.</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act3-sc4">Sit, worthy friends. My lord is often thus</p><p data-scene="act3-sc4">And hath been from his youth. Pray you, keep seat.</p><p data-scene="act3-sc4">The fit is momentary; upon a thought</p><p data-scene="act3-sc4">He will again be well.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act3-sc4">What man dare, I dare.</p><p data-scene="act3-sc4">Approach thou like the rugged Russian bear,</p><p data-scene="act3-sc4">The armed rhinoceros, or th' Hyrcan tiger;</p><p data-scene="act3-sc4">Take any shape but that, and my firm nerves</p><p data-scene="act3-sc4">Shall never tremble. Or be alive again</p><p data-scene="act3-sc4">And dare me to the desert with thy sword.</p><p data-scene="act3-sc4">If trembling I inhabit then, protest me</p><p data-scene="act3-sc4">The baby of a girl. Hence, horrible shadow!</p><p data-scene="act3-sc4">Unreal mock'ry, hence!</p></div></div>
+      <div class="stage-dir">Ghost exits.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act3-sc4">Why so, being gone,</p><p data-scene="act3-sc4">I am a man again.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act3-sc4">It will have blood, they say; blood will have blood.</p><p data-scene="act3-sc4">I am in blood</p><p data-scene="act3-sc4">Stepped in so far that, should I wade no more,</p><p data-scene="act3-sc4">Returning were as tedious as go o'er.</p><p data-scene="act3-sc4">Strange things I have in head that will to hand,</p><p data-scene="act3-sc4">Which must be acted ere they may be scanned.</p></div></div>
+      <div class="stage-dir">They exit.</div>
+    </div>
+    <div class="scene-block" id="act3-sc5">
+      <div class="scene-header">
+        <div class="scene-label">Act III · Scene 5</div>
+        <div class="scene-title">A heath.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act3-sc5')">Select Scene</button>
+
+      <div class="stage-dir">Thunder. Enter the three Witches, meeting Hecate.</div>
+      <div class="speech"><span class="speaker">Hecate</span><div class="lines"><p data-scene="act3-sc5">Have I not reason, beldams as you are?</p><p data-scene="act3-sc5">Saucy and overbold, how did you dare</p><p data-scene="act3-sc5">To trade and traffic with Macbeth</p><p data-scene="act3-sc5">In riddles and affairs of death,</p><p data-scene="act3-sc5">And I, the mistress of your charms,</p><p data-scene="act3-sc5">The close contriver of all harms,</p><p data-scene="act3-sc5">Was never called to bear my part</p><p data-scene="act3-sc5">Or show the glory of our art?</p><p data-scene="act3-sc5">And which is worse, all you have done</p><p data-scene="act3-sc5">Hath been but for a wayward son,</p><p data-scene="act3-sc5">Spiteful and wrathful, who, as others do,</p><p data-scene="act3-sc5">Loves for his own ends, not for you.</p><p data-scene="act3-sc5">But make amends now. Get you gone,</p><p data-scene="act3-sc5">And at the pit of Acheron</p><p data-scene="act3-sc5">Meet me i' th' morning. Thither he</p><p data-scene="act3-sc5">Will come to know his destiny.</p><p data-scene="act3-sc5">And you all know, security</p><p data-scene="act3-sc5">Is mortals' chiefest enemy.</p></div></div>
+      <div class="stage-dir">Music and a song. Hecate exits. The Witches follow.</div>
+    </div>
+    <div class="scene-block" id="act3-sc6">
+      <div class="scene-header">
+        <div class="scene-label">Act III · Scene 6</div>
+        <div class="scene-title">Forres. The palace.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act3-sc6')">Select Scene</button>
+
+      <div class="stage-dir">Enter Lennox and another Lord.</div>
+      <div class="speech"><span class="speaker">Lennox</span><div class="lines"><p data-scene="act3-sc6">My former speeches have but hit your thoughts,</p><p data-scene="act3-sc6">Which can interpret farther. Only I say</p><p data-scene="act3-sc6">Things have been strangely borne. The gracious Duncan</p><p data-scene="act3-sc6">Was pitied of Macbeth; marry, he was dead.</p><p data-scene="act3-sc6">And the right valiant Banquo walked too late,</p><p data-scene="act3-sc6">Whom you may say, if 't please you, Fleance killed,</p><p data-scene="act3-sc6">For Fleance fled. Men must not walk too late.</p></div></div>
+      <div class="speech"><span class="speaker">Lord</span><div class="lines"><p data-scene="act3-sc6">The son of Duncan</p><p data-scene="act3-sc6">Lives in the English court and is received</p><p data-scene="act3-sc6">Of the most pious Edward with such grace</p><p data-scene="act3-sc6">That the malevolence of fortune nothing</p><p data-scene="act3-sc6">Takes from his high respect. Thither Macduff</p><p data-scene="act3-sc6">Is gone to pray the holy king upon his aid</p><p data-scene="act3-sc6">To wake Northumberland and warlike Siward</p><p data-scene="act3-sc6">That, by the help of these, we may again</p><p data-scene="act3-sc6">Give to our tables meat, sleep to our nights,</p><p data-scene="act3-sc6">Free from our feasts and banquets bloody knives,</p><p data-scene="act3-sc6">Do faithful homage, and receive free honors,</p><p data-scene="act3-sc6">All which we pine for now.</p></div></div>
+      <div class="stage-dir">They exit.</div>
+    </div>
+  </section>
+
+  <!-- ═══ ACT IV ═══ -->
+  <section class="act-section">
+    <div class="act-header">
+      <div class="act-number">Act the Fourth</div>
+      <div class="act-title">Act IV</div>
+    </div>
+
+    <div class="scene-block" id="act4-sc1">
+      <div class="scene-header">
+        <div class="scene-label">Act IV · Scene 1</div>
+        <div class="scene-title">A cavern. In the middle, a boiling cauldron.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act4-sc1')">Select Scene</button>
+
+      <div class="stage-dir">Thunder. Enter the three Witches.</div>
+      <div class="speech"><span class="speaker">All</span><div class="lines"><p data-scene="act4-sc1">Double, double toil and trouble;</p><p data-scene="act4-sc1">Fire burn, and cauldron bubble.</p></div></div>
+      <div class="speech"><span class="speaker">Second Witch</span><div class="lines"><p data-scene="act4-sc1">Fillet of a fenny snake</p><p data-scene="act4-sc1">In the cauldron boil and bake.</p><p data-scene="act4-sc1">Eye of newt and toe of frog,</p><p data-scene="act4-sc1">Wool of bat and tongue of dog,</p><p data-scene="act4-sc1">Adder's fork and blindworm's sting,</p><p data-scene="act4-sc1">Lizard's leg and howlet's wing,</p><p data-scene="act4-sc1">For a charm of powerful trouble,</p><p data-scene="act4-sc1">Like a hell-broth boil and bubble.</p></div></div>
+      <div class="speech"><span class="speaker">All</span><div class="lines"><p data-scene="act4-sc1">Double, double toil and trouble;</p><p data-scene="act4-sc1">Fire burn, and cauldron bubble.</p></div></div>
+      <div class="stage-dir">Enter Macbeth.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act4-sc1">How now, you secret, black, and midnight hags?</p><p data-scene="act4-sc1">What is 't you do?</p></div></div>
+      <div class="speech"><span class="speaker">All</span><div class="lines"><p data-scene="act4-sc1">A deed without a name.</p></div></div>
+      <div class="speech"><span class="speaker">Second Witch</span><div class="lines"><p data-scene="act4-sc1">By the pricking of my thumbs,</p><p data-scene="act4-sc1">Something wicked this way comes.</p></div></div>
+      <div class="stage-dir">Thunder. First Apparition: an Armed Head.</div>
+      <div class="speech"><span class="speaker">First Apparition</span><div class="lines"><p data-scene="act4-sc1">Macbeth! Macbeth! Macbeth! Beware Macduff!</p><p data-scene="act4-sc1">Beware the Thane of Fife! Dismiss me. Enough.</p></div></div>
+      <div class="stage-dir">He descends. Thunder. Second Apparition: a Bloody Child.</div>
+      <div class="speech"><span class="speaker">Second Apparition</span><div class="lines"><p data-scene="act4-sc1">Be bloody, bold, and resolute. Laugh to scorn</p><p data-scene="act4-sc1">The power of man, for none of woman born</p><p data-scene="act4-sc1">Shall harm Macbeth.</p></div></div>
+      <div class="stage-dir">He descends. Thunder. Third Apparition: a Child Crowned, with a tree in his hand.</div>
+      <div class="speech"><span class="speaker">Third Apparition</span><div class="lines"><p data-scene="act4-sc1">Be lion-mettled, proud, and take no care</p><p data-scene="act4-sc1">Who chafes, who frets, or where conspirers are.</p><p data-scene="act4-sc1">Macbeth shall never vanquished be until</p><p data-scene="act4-sc1">Great Birnam Wood to high Dunsinane Hill</p><p data-scene="act4-sc1">Shall come against him.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act4-sc1">That will never be.</p><p data-scene="act4-sc1">Who can impress the forest, bid the tree</p><p data-scene="act4-sc1">Unfix his earthbound root? Sweet bodements, good!</p></div></div>
+      <div class="stage-dir">A show of eight kings, the eighth with a glass in his hand, and Banquo last.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act4-sc1">Thou art too like the spirit of Banquo. Down!</p><p data-scene="act4-sc1">What, will the line stretch out to th' crack of doom?</p><p data-scene="act4-sc1">Another yet? A seventh? I'll see no more.</p><p data-scene="act4-sc1">And yet the eighth appears who bears a glass</p><p data-scene="act4-sc1">Which shows me many more.</p><p data-scene="act4-sc1">Horrible sight! Now I see 'tis true,</p><p data-scene="act4-sc1">For the blood-boltered Banquo smiles upon me</p><p data-scene="act4-sc1">And points at them for his.</p></div></div>
+      <div class="stage-dir">The Apparitions disappear. Witches dance and vanish. Enter Lennox, who reports Macduff has fled to England.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act4-sc1" class="aside">The castle of Macduff I will surprise,</p><p data-scene="act4-sc1" class="aside">Seize upon Fife, give to th' edge o' th' sword</p><p data-scene="act4-sc1" class="aside">His wife, his babes, and all unfortunate souls</p><p data-scene="act4-sc1" class="aside">That trace him in his line. No boasting like a fool;</p><p data-scene="act4-sc1" class="aside">This deed I'll do before this purpose cool.</p></div></div>
+      <div class="stage-dir">They exit.</div>
+    </div>
+    <div class="scene-block" id="act4-sc2">
+      <div class="scene-header">
+        <div class="scene-label">Act IV · Scene 2</div>
+        <div class="scene-title">Fife. Macduff's castle.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act4-sc2')">Select Scene</button>
+
+      <div class="stage-dir">Enter Macduff's Wife, her Son, and Ross.</div>
+      <div class="speech"><span class="speaker">Lady Macduff</span><div class="lines"><p data-scene="act4-sc2">What had he done to make him fly the land?</p></div></div>
+      <div class="speech"><span class="speaker">Ross</span><div class="lines"><p data-scene="act4-sc2">You must have patience, madam.</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macduff</span><div class="lines"><p data-scene="act4-sc2">He had none.</p><p data-scene="act4-sc2">His flight was madness. When our actions do not,</p><p data-scene="act4-sc2">Our fears do make us traitors.</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macduff</span><div class="lines"><p data-scene="act4-sc2">Wisdom? To leave his wife, to leave his babes,</p><p data-scene="act4-sc2">His mansion and his titles in a place</p><p data-scene="act4-sc2">From whence himself does fly? He loves us not;</p><p data-scene="act4-sc2">He wants the natural touch; for the poor wren,</p><p data-scene="act4-sc2">The most diminutive of birds, will fight,</p><p data-scene="act4-sc2">Her young ones in her nest, against the owl.</p></div></div>
+      <div class="stage-dir">Ross exits. Lady Macduff and her son converse wittily about traitors and fathers. A Messenger warns of danger.</div>
+      <div class="stage-dir">Enter Murderers. Lady Macduff's son is stabbed. She flees, crying "Murder!"</div>
+    </div>
+    <div class="scene-block" id="act4-sc3">
+      <div class="scene-header">
+        <div class="scene-label">Act IV · Scene 3</div>
+        <div class="scene-title">England. Before the King's palace.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act4-sc3')">Select Scene</button>
+
+      <div class="stage-dir">Enter Malcolm and Macduff.</div>
+      <div class="speech"><span class="speaker">Macduff</span><div class="lines"><p data-scene="act4-sc3">Let us rather</p><p data-scene="act4-sc3">Hold fast the mortal sword and, like good men,</p><p data-scene="act4-sc3">Bestride our downfall'n birthdom. Each new morn</p><p data-scene="act4-sc3">New widows howl, new orphans cry, new sorrows</p><p data-scene="act4-sc3">Strike heaven on the face.</p></div></div>
+      <div class="speech"><span class="speaker">Malcolm</span><div class="lines"><p data-scene="act4-sc3">Macduff, this noble passion,</p><p data-scene="act4-sc3">Child of integrity, hath from my soul</p><p data-scene="act4-sc3">Wiped the black scruples, reconciled my thoughts</p><p data-scene="act4-sc3">To thy good truth and honor.</p><p data-scene="act4-sc3">I put myself to thy direction and</p><p data-scene="act4-sc3">Unspeak mine own detraction, here abjure</p><p data-scene="act4-sc3">The taints and blames I laid upon myself.</p><p data-scene="act4-sc3">What I am truly</p><p data-scene="act4-sc3">Is thine and my poor country's to command—</p><p data-scene="act4-sc3">Whither indeed, before thy here-approach,</p><p data-scene="act4-sc3">Old Siward with ten thousand warlike men,</p><p data-scene="act4-sc3">Already at a point, was setting forth.</p><p data-scene="act4-sc3">Now we'll together.</p></div></div>
+      <div class="stage-dir">Enter Ross, who brings news of the slaughter of Macduff's family.</div>
+      <div class="speech"><span class="speaker">Ross</span><div class="lines"><p data-scene="act4-sc3">Your castle is surprised, your wife and babes</p><p data-scene="act4-sc3">Savagely slaughtered.</p></div></div>
+      <div class="speech"><span class="speaker">Malcolm</span><div class="lines"><p data-scene="act4-sc3">Give sorrow words. The grief that does not speak</p><p data-scene="act4-sc3">Whispers the o'erfraught heart and bids it break.</p></div></div>
+      <div class="speech"><span class="speaker">Macduff</span><div class="lines"><p data-scene="act4-sc3">He has no children. All my pretty ones?</p><p data-scene="act4-sc3">Did you say "all"? O hell-kite! All?</p><p data-scene="act4-sc3">What, all my pretty chickens and their dam</p><p data-scene="act4-sc3">At one fell swoop?</p></div></div>
+      <div class="speech"><span class="speaker">Malcolm</span><div class="lines"><p data-scene="act4-sc3">Dispute it like a man.</p></div></div>
+      <div class="speech"><span class="speaker">Macduff</span><div class="lines"><p data-scene="act4-sc3">I shall do so,</p><p data-scene="act4-sc3">But I must also feel it as a man.</p><p data-scene="act4-sc3">I cannot but remember such things were</p><p data-scene="act4-sc3">That were most precious to me.</p><p data-scene="act4-sc3">Be this the whetstone of your sword. Let grief</p><p data-scene="act4-sc3">Convert to anger.</p></div></div>
+      <div class="speech"><span class="speaker">Malcolm</span><div class="lines"><p data-scene="act4-sc3">Come, go we to the King. Our power is ready;</p><p data-scene="act4-sc3">Our lack is nothing but our leave. Macbeth</p><p data-scene="act4-sc3">Is ripe for shaking, and the powers above</p><p data-scene="act4-sc3">Put on their instruments.</p><p data-scene="act4-sc3">The night is long that never finds the day.</p></div></div>
+      <div class="stage-dir">They exit.</div>
+    </div>
+  </section>
+
+  <!-- ═══ ACT V ═══ -->
+  <section class="act-section">
+    <div class="act-header">
+      <div class="act-number">Act the Fifth</div>
+      <div class="act-title">Act V</div>
+    </div>
+
+    <div class="scene-block" id="act5-sc1">
+      <div class="scene-header">
+        <div class="scene-label">Act V · Scene 1</div>
+        <div class="scene-title">Dunsinane. A room in the castle.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act5-sc1')">Select Scene</button>
+
+      <div class="stage-dir">Enter a Doctor of Physic and a Waiting-Gentlewoman.</div>
+      <div class="stage-dir">Enter Lady Macbeth with a taper.</div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act5-sc1">Out, damned spot, out, I say! One. Two.</p><p data-scene="act5-sc1">Why then, 'tis time to do 't. Hell is murky. Fie, my lord, fie, a soldier and afeard? What need we fear who knows it, when none can call our power to account? Yet who would have thought the old man to have had so much blood in him?</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act5-sc1">The Thane of Fife had a wife. Where is she now? What, will these hands ne'er be clean? No more o' that, my lord, no more o' that. You mar all with this starting.</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act5-sc1">Here's the smell of the blood still. All the perfumes of Arabia will not sweeten this little hand. O, O, O!</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act5-sc1">Wash your hands. Put on your nightgown.</p><p data-scene="act5-sc1">Look not so pale. I tell you yet again, Banquo's buried; he cannot come out on 's grave.</p></div></div>
+      <div class="speech"><span class="speaker">Lady Macbeth</span><div class="lines"><p data-scene="act5-sc1">To bed, to bed. There's knocking at the gate. Come, come, come, come. Give me your hand. What's done cannot be undone. To bed, to bed, to bed.</p></div></div>
+      <div class="stage-dir">Lady Macbeth exits.</div>
+      <div class="speech"><span class="speaker">Doctor</span><div class="lines"><p data-scene="act5-sc1">Foul whisp'rings are abroad. Unnatural deeds</p><p data-scene="act5-sc1">Do breed unnatural troubles. Infected minds</p><p data-scene="act5-sc1">To their deaf pillows will discharge their secrets.</p><p data-scene="act5-sc1">More needs she the divine than the physician.</p><p data-scene="act5-sc1">God, God forgive us all.</p></div></div>
+      <div class="stage-dir">They exit.</div>
+    </div>
+    <div class="scene-block" id="act5-sc2">
+      <div class="scene-header">
+        <div class="scene-label">Act V · Scene 2</div>
+        <div class="scene-title">The country near Dunsinane.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act5-sc2')">Select Scene</button>
+
+      <div class="stage-dir">Drum and Colors. Enter Menteith, Caithness, Angus, Lennox, and Soldiers.</div>
+      <div class="speech"><span class="speaker">Menteith</span><div class="lines"><p data-scene="act5-sc2">The English power is near, led on by Malcolm,</p><p data-scene="act5-sc2">His uncle Siward, and the good Macduff.</p></div></div>
+      <div class="speech"><span class="speaker">Angus</span><div class="lines"><p data-scene="act5-sc2">Now does he feel</p><p data-scene="act5-sc2">His secret murders sticking on his hands.</p><p data-scene="act5-sc2">Now minutely revolts upbraid his faith-breach.</p><p data-scene="act5-sc2">Those he commands move only in command,</p><p data-scene="act5-sc2">Nothing in love. Now does he feel his title</p><p data-scene="act5-sc2">Hang loose about him, like a giant's robe</p><p data-scene="act5-sc2">Upon a dwarfish thief.</p></div></div>
+      <div class="speech"><span class="speaker">Caithness</span><div class="lines"><p data-scene="act5-sc2">Well, march we on</p><p data-scene="act5-sc2">To give obedience where 'tis truly owed.</p><p data-scene="act5-sc2">Meet we the med'cine of the sickly weal,</p><p data-scene="act5-sc2">And with him pour we in our country's purge</p><p data-scene="act5-sc2">Each drop of us.</p></div></div>
+      <div class="stage-dir">They exit marching.</div>
+    </div>
+    <div class="scene-block" id="act5-sc3">
+      <div class="scene-header">
+        <div class="scene-label">Act V · Scene 3</div>
+        <div class="scene-title">Dunsinane. A room in the castle.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act5-sc3')">Select Scene</button>
+
+      <div class="stage-dir">Enter Macbeth, the Doctor, and Attendants.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act5-sc3">Bring me no more reports. Let them fly all.</p><p data-scene="act5-sc3">Till Birnam Wood remove to Dunsinane</p><p data-scene="act5-sc3">I cannot taint with fear. What's the boy Malcolm?</p><p data-scene="act5-sc3">Was he not born of woman? The spirits that know</p><p data-scene="act5-sc3">All mortal consequences have pronounced me thus:</p><p data-scene="act5-sc3">"Fear not, Macbeth. No man that's born of woman</p><p data-scene="act5-sc3">Shall e'er have power upon thee."</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act5-sc3">I have lived long enough. My way of life</p><p data-scene="act5-sc3">Is fall'n into the sere, the yellow leaf,</p><p data-scene="act5-sc3">And that which should accompany old age,</p><p data-scene="act5-sc3">As honor, love, obedience, troops of friends,</p><p data-scene="act5-sc3">I must not look to have, but in their stead</p><p data-scene="act5-sc3">Curses, not loud but deep, mouth-honor, breath</p><p data-scene="act5-sc3">Which the poor heart would fain deny and dare not.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act5-sc3">Canst thou not minister to a mind diseased,</p><p data-scene="act5-sc3">Pluck from the memory a rooted sorrow,</p><p data-scene="act5-sc3">Raze out the written troubles of the brain,</p><p data-scene="act5-sc3">And with some sweet oblivious antidote</p><p data-scene="act5-sc3">Cleanse the stuffed bosom of that perilous stuff</p><p data-scene="act5-sc3">Which weighs upon the heart?</p></div></div>
+      <div class="speech"><span class="speaker">Doctor</span><div class="lines"><p data-scene="act5-sc3">Therein the patient</p><p data-scene="act5-sc3">Must minister to himself.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act5-sc3">Throw physic to the dogs. I'll none of it.</p><p data-scene="act5-sc3">I will not be afraid of death and bane</p><p data-scene="act5-sc3">Till Birnam Forest come to Dunsinane.</p></div></div>
+      <div class="stage-dir">They exit.</div>
+    </div>
+    <div class="scene-block" id="act5-sc4">
+      <div class="scene-header">
+        <div class="scene-label">Act V · Scene 4</div>
+        <div class="scene-title">Country near Birnam Wood.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act5-sc4')">Select Scene</button>
+
+      <div class="stage-dir">Drum and Colors. Enter Malcolm, Siward, Macduff, Siward's son, Menteith, Caithness, Angus, and Soldiers, marching.</div>
+      <div class="speech"><span class="speaker">Malcolm</span><div class="lines"><p data-scene="act5-sc4">Let every soldier hew him down a bough</p><p data-scene="act5-sc4">And bear 't before him. Thereby shall we shadow</p><p data-scene="act5-sc4">The numbers of our host and make discovery</p><p data-scene="act5-sc4">Err in report of us.</p></div></div>
+      <div class="speech"><span class="speaker">Macduff</span><div class="lines"><p data-scene="act5-sc4">The time approaches</p><p data-scene="act5-sc4">That will with due decision make us know</p><p data-scene="act5-sc4">What we shall say we have and what we owe.</p><p data-scene="act5-sc4">Thoughts speculative their unsure hopes relate,</p><p data-scene="act5-sc4">But certain issue strokes must arbitrate;</p><p data-scene="act5-sc4">Towards which, advance the war.</p></div></div>
+      <div class="stage-dir">They exit marching.</div>
+    </div>
+    <div class="scene-block" id="act5-sc5">
+      <div class="scene-header">
+        <div class="scene-label">Act V · Scene 5</div>
+        <div class="scene-title">Dunsinane. Within the castle.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act5-sc5')">Select Scene</button>
+
+      <div class="stage-dir">Enter Macbeth, Seyton, and Soldiers, with Drum and Colors.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act5-sc5">Hang out our banners on the outward walls.</p><p data-scene="act5-sc5">The cry is still "They come!" Our castle's strength</p><p data-scene="act5-sc5">Will laugh a siege to scorn. Here let them lie</p><p data-scene="act5-sc5">Till famine and the ague eat them up.</p></div></div>
+      <div class="speech"><span class="speaker">Seyton</span><div class="lines"><p data-scene="act5-sc5">The Queen, my lord, is dead.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act5-sc5">She should have died hereafter.</p><p data-scene="act5-sc5">There would have been a time for such a word.</p><p data-scene="act5-sc5">Tomorrow and tomorrow and tomorrow</p><p data-scene="act5-sc5">Creeps in this petty pace from day to day</p><p data-scene="act5-sc5">To the last syllable of recorded time,</p><p data-scene="act5-sc5">And all our yesterdays have lighted fools</p><p data-scene="act5-sc5">The way to dusty death. Out, out, brief candle!</p><p data-scene="act5-sc5">Life's but a walking shadow, a poor player</p><p data-scene="act5-sc5">That struts and frets his hour upon the stage</p><p data-scene="act5-sc5">And then is heard no more. It is a tale</p><p data-scene="act5-sc5">Told by an idiot, full of sound and fury,</p><p data-scene="act5-sc5">Signifying nothing.</p></div></div>
+      <div class="stage-dir">Enter a Messenger, who reports Birnam Wood appears to be moving.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act5-sc5">I pull in resolution and begin</p><p data-scene="act5-sc5">To doubt th' equivocation of the fiend,</p><p data-scene="act5-sc5">That lies like truth. "Fear not till Birnam Wood</p><p data-scene="act5-sc5">Do come to Dunsinane," and now a wood</p><p data-scene="act5-sc5">Comes toward Dunsinane.—Arm, arm, and out!</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act5-sc5">Ring the alarum bell!—Blow wind, come wrack,</p><p data-scene="act5-sc5">At least we'll die with harness on our back.</p></div></div>
+      <div class="stage-dir">They exit.</div>
+    </div>
+    <div class="scene-block" id="act5-sc6">
+      <div class="scene-header">
+        <div class="scene-label">Act V · Scene 6</div>
+        <div class="scene-title">Before the castle.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act5-sc6')">Select Scene</button>
+
+      <div class="stage-dir">Drum and Colors. Enter Malcolm, Siward, Macduff, and their army, with boughs.</div>
+      <div class="speech"><span class="speaker">Malcolm</span><div class="lines"><p data-scene="act5-sc6">Now near enough. Your leafy screens throw down</p><p data-scene="act5-sc6">And show like those you are.</p><p data-scene="act5-sc6">Worthy Macduff and we</p><p data-scene="act5-sc6">Shall take upon 's what else remains to do,</p><p data-scene="act5-sc6">According to our order.</p></div></div>
+      <div class="speech"><span class="speaker">Macduff</span><div class="lines"><p data-scene="act5-sc6">Make all our trumpets speak; give them all breath,</p><p data-scene="act5-sc6">Those clamorous harbingers of blood and death.</p></div></div>
+      <div class="stage-dir">They exit.</div>
+    </div>
+    <div class="scene-block" id="act5-sc7">
+      <div class="scene-header">
+        <div class="scene-label">Act V · Scene 7</div>
+        <div class="scene-title">Another part of the field.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act5-sc7')">Select Scene</button>
+
+      <div class="stage-dir">Enter Macbeth.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act5-sc7">They have tied me to a stake. I cannot fly,</p><p data-scene="act5-sc7">But, bear-like, I must fight the course. What's he</p><p data-scene="act5-sc7">That was not born of woman? Such a one</p><p data-scene="act5-sc7">Am I to fear, or none.</p></div></div>
+      <div class="stage-dir">Enter young Siward. They fight, and young Siward is slain.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act5-sc7">Thou wast born of woman.</p><p data-scene="act5-sc7">But swords I smile at, weapons laugh to scorn,</p><p data-scene="act5-sc7">Brandished by man that's of a woman born.</p></div></div>
+      <div class="stage-dir">Alarums. Enter Macduff.</div>
+      <div class="speech"><span class="speaker">Macduff</span><div class="lines"><p data-scene="act5-sc7">That way the noise is. Tyrant, show thy face!</p><p data-scene="act5-sc7">Either thou, Macbeth,</p><p data-scene="act5-sc7">Or else my sword with an unbattered edge</p><p data-scene="act5-sc7">I sheathe again undeeded.</p></div></div>
+      <div class="stage-dir">He exits. Alarums.</div>
+    </div>
+    <div class="scene-block" id="act5-sc8">
+      <div class="scene-header">
+        <div class="scene-label">Act V · Scene 8</div>
+        <div class="scene-title">Another part of the field. The final encounter.</div>
+      </div>
+        <button class="select-scene-btn" onclick="selectScene('act5-sc8')">Select Scene</button>
+
+      <div class="stage-dir">Enter Macbeth.</div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act5-sc8">Why should I play the Roman fool and die</p><p data-scene="act5-sc8">On mine own sword? Whiles I see lives, the gashes</p><p data-scene="act5-sc8">Do better upon them.</p></div></div>
+      <div class="stage-dir">Enter Macduff.</div>
+      <div class="speech"><span class="speaker">Macduff</span><div class="lines"><p data-scene="act5-sc8">Turn, hellhound, turn!</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act5-sc8">Of all men else I have avoided thee.</p><p data-scene="act5-sc8">But get thee back. My soul is too much charged</p><p data-scene="act5-sc8">With blood of thine already.</p></div></div>
+      <div class="speech"><span class="speaker">Macduff</span><div class="lines"><p data-scene="act5-sc8">I have no words;</p><p data-scene="act5-sc8">My voice is in my sword, thou bloodier villain</p><p data-scene="act5-sc8">Than terms can give thee out.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act5-sc8">I bear a charmèd life, which must not yield</p><p data-scene="act5-sc8">To one of woman born.</p></div></div>
+      <div class="speech"><span class="speaker">Macduff</span><div class="lines"><p data-scene="act5-sc8">Despair thy charm,</p><p data-scene="act5-sc8">And let the angel whom thou still hast served</p><p data-scene="act5-sc8">Tell thee Macduff was from his mother's womb</p><p data-scene="act5-sc8">Untimely ripped.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act5-sc8">Accursèd be that tongue that tells me so,</p><p data-scene="act5-sc8">For it hath cowed my better part of man!</p><p data-scene="act5-sc8">And be these juggling fiends no more believed</p><p data-scene="act5-sc8">That palter with us in a double sense,</p><p data-scene="act5-sc8">That keep the word of promise to our ear</p><p data-scene="act5-sc8">And break it to our hope. I'll not fight with thee.</p></div></div>
+      <div class="speech"><span class="speaker">Macduff</span><div class="lines"><p data-scene="act5-sc8">Then yield thee, coward,</p><p data-scene="act5-sc8">And live to be the show and gaze o' th' time.</p></div></div>
+      <div class="speech"><span class="speaker">Macbeth</span><div class="lines"><p data-scene="act5-sc8">I will not yield</p><p data-scene="act5-sc8">To kiss the ground before young Malcolm's feet</p><p data-scene="act5-sc8">And to be baited with the rabble's curse.</p><p data-scene="act5-sc8">Though Birnam Wood be come to Dunsinane</p><p data-scene="act5-sc8">And thou opposed, being of no woman born,</p><p data-scene="act5-sc8">Yet I will try the last. Before my body</p><p data-scene="act5-sc8">I throw my warlike shield. Lay on, Macduff,</p><p data-scene="act5-sc8">And damned be him that first cries "Hold! Enough!"</p></div></div>
+      <div class="stage-dir">They enter fighting, and Macbeth is slain. Macduff exits carrying off Macbeth's body. Retreat and flourish. Enter, with Drum and Colors, Malcolm, Siward, Ross, Thanes, and Soldiers.</div>
+      <div class="speech"><span class="speaker">Macduff</span><div class="lines"><p data-scene="act5-sc8">Hail, King! for so thou art. Behold where stands</p><p data-scene="act5-sc8">Th' usurper's cursèd head. The time is free.</p><p data-scene="act5-sc8">I see thee compassed with thy kingdom's pearl,</p><p data-scene="act5-sc8">That speak my salutation in their minds,</p><p data-scene="act5-sc8">Whose voices I desire aloud with mine.</p><p data-scene="act5-sc8">Hail, King of Scotland!</p></div></div>
+      <div class="speech"><span class="speaker">All</span><div class="lines"><p data-scene="act5-sc8">Hail, King of Scotland!</p></div></div>
+      <div class="speech"><span class="speaker">Malcolm</span><div class="lines"><p data-scene="act5-sc8">We shall not spend a large expense of time</p><p data-scene="act5-sc8">Before we reckon with your several loves</p><p data-scene="act5-sc8">And make us even with you. My thanes and kinsmen,</p><p data-scene="act5-sc8">Henceforth be earls, the first that ever Scotland</p><p data-scene="act5-sc8">In such an honor named. What's more to do,</p><p data-scene="act5-sc8">Which would be planted newly with the time,</p><p data-scene="act5-sc8">As calling home our exiled friends abroad</p><p data-scene="act5-sc8">That fled the snares of watchful tyranny,</p><p data-scene="act5-sc8">Producing forth the cruel ministers</p><p data-scene="act5-sc8">Of this dead butcher and his fiend-like queen</p><p data-scene="act5-sc8">(Who, as 'tis thought, by self and violent hands,</p><p data-scene="act5-sc8">Took off her life)—this, and what needful else</p><p data-scene="act5-sc8">That calls upon us, by the grace of grace,</p><p data-scene="act5-sc8">We will perform in measure, time, and place.</p><p data-scene="act5-sc8">So thanks to all at once and to each one,</p><p data-scene="act5-sc8">Whom we invite to see us crowned at Scone.</p></div></div>
+      <div class="stage-dir">Flourish. All exit.</div>
+    </div>
+  </section>
+
+  <footer>
+    <p>The Tragedy of Macbeth · William Shakespeare · Folger Shakespeare Library</p>
+  </footer>
+</div>
+
+
+<div id="copy-toolbar" style="transform:translateY(100%);transition:transform 0.2s ease">
+  <span class="sel-count" id="sel-count">0 lines selected</span>
+  <button class="toolbar-btn btn-copy" onclick="copySelected()">Copy Plain Text</button>
+  <button class="toolbar-btn btn-scan" onclick="openMetricalStudio()">⧁ Scan Metre</button>
+  <button class="toolbar-btn btn-clear" onclick="clearSelection()">Clear</button>
+  <span class="copy-flash" id="copy-flash" style="opacity:0;transition:opacity 0.3s;margin-left:auto">Copied ✓</span>
+</div>
+
+<script>
+
+  // ── PASSAGE SELECTION & COPY ──
+  var selectedLines = new Set();
+
+  var lastClickedIdx = -1;
+
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.select-scene-btn')) return;
+    var p = e.target.closest('.lines p');
+    if (!p) return;
+    var allP = Array.from(document.querySelectorAll('.lines p'));
+    var idx = allP.indexOf(p);
+
+    if (e.shiftKey && lastClickedIdx !== -1) {
+      // Range select: fill from lastClickedIdx to idx inclusive
+      var lo = Math.min(lastClickedIdx, idx);
+      var hi = Math.max(lastClickedIdx, idx);
+      for (var i = lo; i <= hi; i++) {
+        selectedLines.add(i);
+        allP[i].classList.add('selected');
+      }
+    } else {
+      // Normal toggle
+      if (selectedLines.has(idx)) {
+        selectedLines.delete(idx);
+        p.classList.remove('selected');
+      } else {
+        selectedLines.add(idx);
+        p.classList.add('selected');
+      }
+      lastClickedIdx = idx;
+    }
+    updateToolbar();
+  });
+
+  function selectScene(sceneId) {
+    var allP = Array.from(document.querySelectorAll('.lines p'));
+    document.querySelectorAll('.lines p[data-scene="' + sceneId + '"]').forEach(function(p) {
+      selectedLines.add(allP.indexOf(p));
+      p.classList.add('selected');
+    });
+    updateToolbar();
+  }
+
+  function clearSelection() {
+    selectedLines.clear();
+    document.querySelectorAll('.lines p.selected').forEach(function(p) {
+      p.classList.remove('selected');
+    });
+    updateToolbar();
+  }
+
+  function updateToolbar() {
+    var n = selectedLines.size;
+    var toolbar = document.getElementById('copy-toolbar');
+    document.getElementById('sel-count').textContent = n + (n === 1 ? ' line selected' : ' lines selected');
+    toolbar.style.transform = (n > 0) ? 'translateY(0)' : 'translateY(100%)';
+  }
+
+  function copySelected() {
+    var allP = Array.from(document.querySelectorAll('.lines p'));
+    var selectedP = allP.filter(function(p, i) { return selectedLines.has(i); });
+
+    // Group by parent speech block, prepending speaker name once per group
+    var lines = [];
+    var lastSpeakerName = '__none__';
+    selectedP.forEach(function(p) {
+      var speech = p.closest('.speech');
+      var speakerName = null;
+      if (speech) {
+        var speakerEl = speech.querySelector('.speaker');
+        if (speakerEl) speakerName = speakerEl.textContent.trim();
+      }
+      if (speakerName && speakerName !== lastSpeakerName) {
+        if (lines.length > 0) lines.push('');
+        lines.push('[' + speakerName + ']');
+        lastSpeakerName = speakerName;
+      }
+      lines.push(p.textContent.trim());
+    });
+
+    var text = lines.join('\n');
+    try {
+      navigator.clipboard.writeText(text).then(flashCopied).catch(function() { fallbackCopy(text); });
+    } catch(e) { fallbackCopy(text); }
+  }
+
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;pointer-events:none';
+    document.body.appendChild(ta);
+    ta.focus(); ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+    flashCopied();
+  }
+
+  function flashCopied() {
+    var el = document.getElementById('copy-flash');
+    el.style.opacity = '1';
+    setTimeout(function() { el.style.opacity = '0'; }, 2200);
+  }
+
+    // Spacing toggle
+  function setSpacing(mode) {
+    const isDouble = mode === 'double';
+    document.body.classList.toggle('double-spaced', isDouble);
+    document.getElementById('btn-single').classList.toggle('active', !isDouble);
+    document.getElementById('btn-double').classList.toggle('active', isDouble);
+    localStorage.setItem('macbeth-spacing', mode);
+  }
+
+  // Restore spacing preference
+  if (localStorage.getItem('macbeth-spacing') === 'double') {
+    setSpacing('double');
+  }
+
+  // Sidebar toggle for mobile
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+  }
+
+  // Close sidebar on link click (mobile)
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('sidebar').classList.remove('open');
+    });
+  });
+
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+    document.getElementById('progress-bar').style.width = progress + '%';
+  });
+
+  // Active nav highlighting
+  const sections = document.querySelectorAll('[id^="act"]');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => link.classList.remove('active'));
+        const active = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+
+<!-- Google Fonts extras for Metrical Studio -->
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inconsolata:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Metrical Studio Drawer -->
+<div id="ms-overlay" onclick="msMaybeClose(event)">
+  <div id="ms-drawer">
+    <div id="ms-drawer-topbar">
+      <div class="ms-title">Metrical Studio</div>
+      <div class="ms-sub">Scansion &middot; Analysis &middot; Performance</div>
+      <button id="ms-close-btn" onclick="msClose()">&#x2715; Close</button>
+    </div>
+    <div id="ms-inner">
+      <div id="ms-scroll">
+        <div class="ms-input-panel">
+          <div class="ms-panel-header"><div class="ms-panel-dot"></div>Selected passage</div>
+          <textarea id="ms-textarea" placeholder="Select lines in the play, then click Scan Metre&hellip;"></textarea>
+        </div>
+        <div class="ms-output" id="ms-output">
+          <div class="ms-output-header">
+            <div class="ms-output-title" id="ms-out-title">Metrical Analysis</div>
+            <div class="ms-output-sub" id="ms-out-sub"></div>
+          </div>
+          <div class="ms-output-divider"></div>
+          <div class="ms-stats" id="ms-stats-row"></div>
+          <div class="ms-legend">
+            <div class="ms-leg-item"><div class="ms-leg-dot" style="background:#8B6914"></div>Stressed &#x2032;</div>
+            <div class="ms-leg-item"><div class="ms-leg-dot" style="background:#c4b89a"></div>Unstressed u</div>
+            <div class="ms-leg-item"><div class="ms-leg-dot" style="background:#993556"></div>Wild ?</div>
+            <div class="ms-leg-item"><div class="ms-leg-dot" style="background:#7F77DD"></div>Spell</div>
+          </div>
+          <div class="ms-section-label">Line by line</div>
+          <div class="ms-lines-section" id="ms-lines-container"></div>
+          <div class="ms-note-card" id="ms-notes-container" style="display:none"></div>
+        </div>
+      </div>
+      <div id="ms-ctrl">
+        <div class="ms-ctrl-section">
+          <div class="ms-ctrl-label">Analyse</div>
+          <button class="ms-btn ms-btn-primary" id="ms-analyze-btn">Analyse</button>
+        </div>
+        <div class="ms-ctrl-section">
+          <div class="ms-ctrl-label">Speak</div>
+          <button class="ms-btn ms-btn-speak" id="ms-speak-btn" disabled>&#9654; Speak</button>
+          <div class="ms-speed-row">
+            <span class="ms-speed-label">Speed</span>
+            <input type="range" id="ms-speed-slider" min="0.5" max="2" step="0.1" value="0.9">
+            <span class="ms-speed-val" id="ms-speed-val">0.9x</span>
+          </div>
+        </div>
+        <div class="ms-status" id="ms-status">Ready.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Drawer ──
+function openMetricalStudio() {
+  var passage = getMacbethSelectedText();
+  document.getElementById('ms-textarea').value = passage;
+  document.getElementById('ms-overlay').classList.add('open');
+  document.getElementById('ms-drawer').classList.add('open');
+  if (passage.trim()) {
+    setTimeout(function() { document.getElementById('ms-analyze-btn').click(); }, 150);
+  }
+}
+function msClose() {
+  document.getElementById('ms-overlay').classList.remove('open');
+  document.getElementById('ms-drawer').classList.remove('open');
+  msStopSpeech();
+}
+function msMaybeClose(e) {
+  if (e.target === document.getElementById('ms-overlay')) msClose();
+}
+function getMacbethSelectedText() {
+  var allP = Array.from(document.querySelectorAll('.lines p'));
+  var sel  = allP.filter(function(p, i) { return selectedLines.has(i); });
+  var lines = [], last = '__none__';
+  sel.forEach(function(p) {
+    var speech = p.closest('.speech');
+    var spName = null;
+    if (speech) { var el = speech.querySelector('.speaker'); if (el) spName = el.textContent.trim(); }
+    if (spName && spName !== last) { if (lines.length) lines.push(''); lines.push('[' + spName + ']'); last = spName; }
+    lines.push(p.textContent.trim());
+  });
+  return lines.join('\n');
+}
+
+// ── Engine ──
+var msData = null, msSS = window.speechSynthesis, msCU = null, msSpk = false;
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('ms-speed-slider').addEventListener('input', function() {
+    document.getElementById('ms-speed-val').textContent = parseFloat(this.value).toFixed(1) + 'x';
+    if (msCU) msCU.rate = parseFloat(this.value);
+  });
+  document.getElementById('ms-analyze-btn').addEventListener('click', async function() {
+    var text = document.getElementById('ms-textarea').value.trim();
+    if (!text) { msStatus('Please paste a passage first.', true); return; }
+    msStopSpeech();
+    msStatus('<span class="ms-spinner"></span> Analysing&hellip;');
+    this.disabled = true;
+    document.getElementById('ms-speak-btn').disabled = true;
+    document.getElementById('ms-output').classList.remove('ms-visible');
+    try {
+      msData = await msCallClaude(text);
+      msRender(msData);
+      msStatus('Done. Click Speak.');
+      document.getElementById('ms-speak-btn').disabled = false;
+      document.getElementById('ms-output').classList.add('ms-visible');
+    } catch(e) { msStatus('Error: ' + e.message, true); }
+    this.disabled = false;
+  });
+  document.getElementById('ms-speak-btn').addEventListener('click', function() {
+    if (msSpk) { msStopSpeech(); } else { msStartSpeech(); }
+  });
+});
+
+async function msCallClaude(passage) {
+  var apiKey = localStorage.getItem('ms-api-key') || '';
+  if (!apiKey) throw new Error('API key not set. Open DevTools console and run: localStorage.setItem(\'ms-api-key\', \'sk-ant-…\')');
+  var sys = [
+    'You are an expert in English prosody. Analyse the passage and return your analysis in the EXACT format below.',
+    'Use this format precisely — it will be parsed by machine. Do not add extra lines or change the keywords.',
+    '',
+    'FORMAT:',
+    'TITLE: <short poetic title>',
+    'SUBTITLE: <metre type and key features>',
+    'STATS: lines=<n> | beats=<n> | unscannable=<n> | metre=<dominant metre>',
+    '',
+    'For each verse line, output exactly three lines in this order:',
+    'LINE:<n> | spell=<true/false> | badge=<badgeClass> | badgeText=<short label> | speaker=<speaker name or blank>',
+    'FEET: <feet encoding>',
+    'NOTE: <commentary — ONE LINE ONLY, never wrap>',
+    '',
+    'Then at the end:',
+    'OVERALL: <3-5 sentences — ONE LINE ONLY>',
+    '',
+    'FEET ENCODING: Separate feet with " | " (space-pipe-space).',
+    'Each syllable: [text|flags] — flags: s=stressed, u=unstressed, w=wild',
+    'Examples:',
+    '  [When|s][shall|u] | [we|s][three|u] | [meet|s][a-|u] | [-gain?|s]',
+    '  [Dou-|u][-ble|s] | [dou-|u][-ble|s] | [toil|u][and|s] | [trou-|u][-ble|s]',
+    '',
+    'BADGE CLASSES (use exactly one): regular, trochee, feminine, wild, spell, long',
+    'CRITICAL: Every NOTE and LINE: row must be ONE LINE. No JSON, no markdown.'
+  ].join('\n');
+  var r = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST', headers: {'Content-Type':'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access':'true'},
+    body: JSON.stringify({model:'claude-sonnet-4-20250514', max_tokens:8000,
+      system: sys, messages:[{role:'user', content:'Analyse this passage:\n\n' + passage}]})
+  });
+  if (!r.ok) throw new Error('API ' + r.status + ': ' + (await r.text()).slice(0,200));
+  var d = await r.json();
+  return msParse((d.content||[]).map(function(b){return b.text||'';}).join(''));
+}
+
+function msParse(raw) {
+  var kw = ['TITLE:','SUBTITLE:','STATS:','LINE:','FEET:','NOTE:','OVERALL:'];
+  var jn = [];
+  raw.split('\n').forEach(function(ln) {
+    var t = ln.trim();
+    if (!t) { jn.push(''); return; }
+    if (kw.some(function(k){return t.startsWith(k);})||!jn.length) { jn.push(t); }
+    else { var i=jn.length-1; while(i>0&&!jn[i].trim())i--; jn[i]+=' '+t; }
+  });
+  var res={title:'',subtitle:'',stats:{},lines:[],overallNote:''}, cur=null;
+  jn.forEach(function(ln) {
+    if (!ln) return;
+    if (ln.startsWith('TITLE:'))        res.title=ln.slice(6).trim();
+    else if (ln.startsWith('SUBTITLE:'))res.subtitle=ln.slice(9).trim();
+    else if (ln.startsWith('STATS:')) {
+      ln.slice(6).trim().split('|').forEach(function(p){
+        var kv=p.trim().split('='); if(kv.length<2)return;
+        var k=kv[0].trim(),v=kv.slice(1).join('=').trim();
+        if(k==='lines')res.stats.lineCount=parseInt(v)||v;
+        if(k==='beats')res.stats.baseBeats=parseInt(v)||v;
+        if(k==='unscannable')res.stats.unscannableLines=parseInt(v)||0;
+        if(k==='metre')res.stats.dominantMetre=v;
+      });
+    } else if (ln.startsWith('LINE:')) {
+      if(cur)res.lines.push(cur);
+      cur={n:0,spell:false,badgeClass:'regular',badgeText:'',speaker:'',feet:[],note:''};
+      ln.split('|').forEach(function(p){
+        p=p.trim();
+        if(p.startsWith('LINE:'))cur.n=parseInt(p.slice(5))||0;
+        else if(p.startsWith('spell='))cur.spell=p.slice(6)==='true';
+        else if(p.startsWith('badgeText='))cur.badgeText=p.slice(10).trim();
+        else if(p.startsWith('badge='))cur.badgeClass=p.slice(6).trim();
+        else if(p.startsWith('speaker='))cur.speaker=p.slice(8).trim();
+      });
+    } else if(ln.startsWith('FEET:')&&cur) {
+      cur.feet=msParseFeet(ln.slice(5).trim());
+    } else if(ln.startsWith('NOTE:')&&cur) {
+      cur.note=ln.slice(5).trim();
+    } else if(ln.startsWith('OVERALL:')) {
+      res.overallNote=ln.slice(8).trim();
+    }
+  });
+  if(cur)res.lines.push(cur);
+  if(!res.lines.length)throw new Error('No lines parsed.');
+  return res;
+}
+
+function msParseFeet(str) {
+  var feet=[];
+  str.split(' | ').forEach(function(fs){
+    var foot=[],re=/\[([^|]+)\|([^\]]*)\]/g,m;
+    while((m=re.exec(fs))!==null){var f=m[2].toLowerCase();foot.push({t:m[1],s:f.indexOf('s')!==-1,w:f.indexOf('w')!==-1});}
+    if(foot.length)feet.push(foot);
+  });
+  return feet;
+}
+
+function msRender(d) {
+  document.getElementById('ms-out-title').textContent=d.title||'Metrical Analysis';
+  document.getElementById('ms-out-sub').textContent=d.subtitle||'';
+  var s=d.stats||{};
+  document.getElementById('ms-stats-row').innerHTML=[
+    {n:s.lineCount||(d.lines&&d.lines.length)||'?',l:'lines'},
+    {n:s.baseBeats||'?',l:'base beats'},
+    {n:s.unscannableLines!=null?s.unscannableLines:'?',l:'unscannable'},
+    {n:s.dominantMetre||'mixed',l:'metre',sm:true}
+  ].map(function(st){
+    return '<div class="ms-stat"><div class="ms-stat-n" style="'+(st.sm?'font-size:11px;margin-top:3px':'')+'">'
+      +st.n+'</div><div class="ms-stat-l">'+st.l+'</div></div>';
+  }).join('');
+  var lc=document.getElementById('ms-lines-container');
+  lc.innerHTML='';
+  var lastSp='';
+  (d.lines||[]).forEach(function(line){
+    if(line.speaker&&line.speaker!==lastSp){
+      var el=document.createElement('div');
+      var sp=line.speaker.toLowerCase();
+      el.className='ms-speaker-row'+(sp.indexOf('witch')!==-1?' ms-witch':sp.indexOf('lady')!==-1?' ms-lady':'');
+      el.textContent=line.speaker; lc.appendChild(el); lastSp=line.speaker;
+    }
+    lc.appendChild(msBuildLine(line));
+  });
+  var nc=document.getElementById('ms-notes-container');
+  var hasN=d.overallNote||(d.lines||[]).some(function(l){return l.note;});
+  if(hasN){
+    nc.style.display='';
+    nc.innerHTML='<div class="ms-note-card-title">Commentary</div>'
+      +(d.lines||[]).filter(function(l){return l.note;}).map(function(l){
+        return '<p><b>Line '+l.n+':</b> '+msEsc(l.note)+'</p>';
+      }).join('')+(d.overallNote?'<p><b>Overall:</b> '+msEsc(d.overallNote)+'</p>':'');
+  } else { nc.style.display='none'; }
+}
+function msEsc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function msBuildLine(d) {
+  var row=document.createElement('div');
+  row.className='ms-line-row'+(d.spell?' ms-spell':'');
+  var num=document.createElement('div'); num.className='ms-line-num'; num.textContent=d.n;
+  var content=document.createElement('div');
+  var sylRow=document.createElement('div'); sylRow.className='ms-syl-row';
+  var beats=[];
+  (d.feet||[]).forEach(function(foot,fi){
+    foot.forEach(function(syl){
+      var w=!!syl.w;
+      var se=document.createElement('span');
+      se.className=w?'ms-syl ms-wild':(syl.s?'ms-syl ms-stressed':'ms-syl ms-unstressed');
+      var mk=document.createElement('span'); mk.className='ms-mark'; mk.textContent=w?'?':(syl.s?"'":"u");
+      var tx=document.createElement('span'); tx.className='ms-syl-text'; tx.textContent=syl.t;
+      se.appendChild(mk); se.appendChild(tx); sylRow.appendChild(se);
+      beats.push(w?'w':(syl.s?'s':'u'));
+    });
+    if(fi<(d.feet||[]).length-1){var sp=document.createElement('span');sp.className='ms-foot-sep';sylRow.appendChild(sp);}
+  });
+  var bar=document.createElement('div'); bar.className='ms-meter-bar';
+  beats.forEach(function(b){var bt=document.createElement('div');bt.className='ms-beat '+b;bar.appendChild(bt);});
+  content.appendChild(sylRow); content.appendChild(bar);
+  var badge=document.createElement('div');
+  badge.className='ms-badge '+(d.badgeClass||'regular');
+  badge.textContent=d.badgeText||'';
+  row.appendChild(num); row.appendChild(content); row.appendChild(badge);
+  return row;
+}
+
+function msStartSpeech() {
+  if(!msData)return; msStopSpeech();
+  var rows=Array.from(document.querySelectorAll('.ms-line-row'));
+  var lines=msData.lines||[], idx=0, wt=[];
+  msSpk=true;
+  document.getElementById('ms-speak-btn').innerHTML='&#9646;&#9646; Stop';
+  document.getElementById('ms-speak-btn').classList.add('ms-speaking');
+  function next(){
+    if(!msSpk||idx>=lines.length){done();return;}
+    var line=lines[idx], row=rows[idx]||null;
+    var sylEls=row?Array.from(row.querySelectorAll('.ms-syl')):[];
+    var words=[],cw={els:[],text:''},si=0;
+    (line.feet||[]).forEach(function(foot){foot.forEach(function(syl){
+      var el=sylEls[si++]||null, clean=(syl.t||'').replace(/-/g,'');
+      if(syl.t.startsWith('-')&&cw.els.length){cw.els.push(el);cw.text+=clean;}
+      else{if(cw.els.length)words.push(cw);cw={els:el?[el]:[],text:clean};}
+    });});
+    if(cw.els.length)words.push(cw);
+    var tts=words.map(function(w){return w.text;}).join(' ');
+    msClearH(); wt.forEach(clearTimeout); wt=[];
+    if(row){
+      row.classList.add('ms-speaking');
+      var pane=document.getElementById('ms-scroll');
+      pane.scrollTo({top:row.offsetTop-pane.clientHeight/2+row.offsetHeight/2,behavior:'smooth'});
+    }
+    msCU=new SpeechSynthesisUtterance(tts);
+    var rate=parseFloat(document.getElementById('ms-speed-slider').value);
+    msCU.rate=rate; msCU.pitch=0.95; msCU.lang='en-GB';
+    var mps=Math.round(200/rate), el2=100;
+    words.forEach(function(w){
+      var sc=w.els.length||1, delay=el2;
+      (function(ww,d){wt.push(setTimeout(function(){
+        if(!msSpk)return;
+        sylEls.forEach(function(s){s.classList.remove('ms-active-word');});
+        ww.els.forEach(function(e){if(e)e.classList.add('ms-active-word');});
+      },d));})(w,delay);
+      el2+=sc*mps;
+    });
+    var wi=0;
+    msCU.onboundary=function(e){
+      if(e.name!=='word')return;
+      wt.forEach(clearTimeout);wt=[];
+      sylEls.forEach(function(s){s.classList.remove('ms-active-word');});
+      if(wi<words.length){words[wi].els.forEach(function(e){if(e)e.classList.add('ms-active-word');});wi++;}
+    };
+    var fin=function(){wt.forEach(clearTimeout);wt=[];if(row)row.classList.remove('ms-speaking');idx++;next();};
+    msCU.onend=fin; msCU.onerror=fin; msSS.speak(msCU);
+  }
+  function done(){
+    msClearH(); document.querySelectorAll('.ms-line-row.ms-speaking').forEach(function(r){r.classList.remove('ms-speaking');});
+    msSpk=false; msCU=null;
+    document.getElementById('ms-speak-btn').innerHTML='&#9654; Speak';
+    document.getElementById('ms-speak-btn').classList.remove('ms-speaking');
+  }
+  next();
+}
+function msStopSpeech(){
+  msSS.cancel(); msClearH();
+  document.querySelectorAll('.ms-line-row.ms-speaking').forEach(function(r){r.classList.remove('ms-speaking');});
+  msSpk=false; msCU=null;
+  var b=document.getElementById('ms-speak-btn');
+  if(b){b.innerHTML='&#9654; Speak';b.classList.remove('ms-speaking');}
+}
+function msClearH(){document.querySelectorAll('.ms-syl.ms-active-word').forEach(function(s){s.classList.remove('ms-active-word');});}
+function msStatus(msg,err){
+  var el=document.getElementById('ms-status');
+  el.innerHTML=msg; el.className='ms-status'+(err?' ms-error':'');
+}
+</script>
+
+</body></html>
