@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metrical Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inconsolata:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410; --parchment: #f5f0e8; --parchment-mid: #ede6d6;
+    --accent-gold: #8B6914; --accent-gold-light: #c9991f;
+    --accent-crimson: #7a1f2e; --accent-violet: #3C3489;
+    --accent-violet-light: #7F77DD; --accent-sage: #3B6D11;
+    --stressed-bg: #faeeda; --wild-bg: #fbeaf0; --wild-color: #993556;
+    --spell-border: #7F77DD; --border: #c4b89a; --border-light: #ddd4be;
+    --shadow: rgba(26,20,16,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--parchment); color: var(--ink); font-family: 'EB Garamond', Georgia, serif; min-height: 100vh; }
+  body::before { content: ''; position: fixed; inset: 0;
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(26,20,16,0.03) 27px, rgba(26,20,16,0.03) 28px);
+    pointer-events: none; z-index: 0; }
+  .app { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; padding: 32px 24px 60px; }
+  .masthead { display: flex; align-items: baseline; gap: 16px; margin-bottom: 8px; border-bottom: 1.5px solid var(--accent-gold); padding-bottom: 12px; }
+  .masthead-title { font-family: 'Libre Baskerville', serif; font-size: 22px; font-weight: 700; letter-spacing: 0.04em; }
+  .masthead-sub { font-size: 14px; font-style: italic; color: var(--accent-gold); }
+  .powered-tag { margin-left: auto; font-family: 'Inconsolata', monospace; font-size: 11px; color: var(--accent-gold); opacity: 0.7; letter-spacing: 0.1em; }
+  .input-panel { margin-top: 20px; border: 1px solid var(--border); border-radius: 4px; background: #fff8ee; box-shadow: 0 2px 8px var(--shadow); overflow: hidden; }
+  .panel-header { background: var(--parchment-mid); border-bottom: 1px solid var(--border); padding: 8px 14px; font-family: 'Inconsolata', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-gold); display: flex; align-items: center; gap: 8px; }
+  .panel-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-gold-light); opacity: 0.6; }
+  textarea { width: 100%; min-height: 120px; padding: 14px 16px; font-family: 'EB Garamond', serif; font-size: 17px; line-height: 1.7; color: var(--ink); background: transparent; border: none; resize: vertical; outline: none; }
+  textarea::placeholder { color: #b8a888; font-style: italic; }
+  .controls { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: var(--parchment-mid); border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .btn { font-family: 'Libre Baskerville', serif; font-size: 13px; padding: 7px 18px; border-radius: 3px; border: 1px solid; cursor: pointer; transition: all 0.15s; letter-spacing: 0.02em; }
+  .btn-primary { background: var(--ink); color: var(--parchment); border-color: var(--ink); }
+  .btn-primary:hover { background: #2e251e; }
+  .btn-speak { background: var(--accent-crimson); color: #fff; border-color: var(--accent-crimson); }
+  .btn-speak:hover { background: #5e1621; }
+  .btn-speak:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn-speak.speaking { background: #5e1621; animation: pulse-speak 1.2s infinite; }
+  @keyframes pulse-speak { 0%,100% { box-shadow: 0 0 0 0 rgba(122,31,46,0.3); } 50% { box-shadow: 0 0 0 6px rgba(122,31,46,0); } }
+  .speed-group { display: flex; align-items: center; gap: 7px; margin-left: auto; }
+  .speed-label { font-family: 'Inconsolata', monospace; font-size: 11px; letter-spacing: 0.08em; color: var(--accent-gold); text-transform: uppercase; }
+  input[type=range] { -webkit-appearance: none; width: 90px; height: 4px; background: var(--border); border-radius: 2px; outline: none; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--accent-gold); cursor: pointer; }
+  .speed-val { font-family: 'Inconsolata', monospace; font-size: 12px; color: var(--ink); width: 28px; }
+  .status-bar { margin-top: 10px; font-family: 'Inconsolata', monospace; font-size: 12px; color: var(--accent-sage); min-height: 18px; padding: 0 2px; display: flex; align-items: center; gap: 8px; }
+  .status-bar.error { color: var(--accent-crimson); }
+  .spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid var(--accent-gold); border-top-color: transparent; border-radius: 50%; animation: spin 0.7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .output { margin-top: 28px; display: none; }
+  .output.visible { display: block; }
+  .output-header { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; }
+  .output-title { font-family: 'Libre Baskerville', serif; font-size: 17px; font-weight: 700; }
+  .output-sub { font-size: 13px; font-style: italic; color: var(--accent-gold); }
+  .output-divider { height: 1px; background: linear-gradient(to right, var(--accent-gold), transparent); margin-bottom: 16px; }
+  .stats { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; margin-bottom: 20px; }
+  .stat { background: var(--parchment-mid); border: 1px solid var(--border-light); border-radius: 4px; padding: 10px 12px; }
+  .stat-n { font-size: 22px; font-weight: 500; line-height: 1; }
+  .stat-l { font-size: 12px; color: #7a6a52; margin-top: 3px; font-family: 'Inconsolata', monospace; letter-spacing: 0.05em; }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; }
+  .leg-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #7a6a52; }
+  .leg-dot { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+  .section-label { font-family: 'Inconsolata', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #8a7a62; margin: 0 0 8px; }
+  .lines-section { display: flex; flex-direction: column; gap: 5px; }
+  .line-row { display: grid; grid-template-columns: 24px 1fr auto; gap: 10px; align-items: start; padding: 10px 12px; border-radius: 4px; border: 1px solid var(--border-light); background: #fff8ee; transition: background 0.2s, border-color 0.2s; }
+  .line-row.spell { border-color: var(--spell-border); background: #f0effe; }
+  .line-row.speaking { background: #fff5d6; border-color: var(--accent-gold-light); box-shadow: 0 0 0 2px rgba(201,153,31,0.18); }
+  .line-num { font-family: 'Inconsolata', monospace; font-size: 11px; color: #b0a088; padding-top: 18px; }
+  .syl-row { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0; }
+  .foot-sep { width: 1px; height: 18px; background: var(--border); display: inline-block; margin: 0 4px 4px; opacity: 0.35; align-self: flex-end; }
+  .syl { display: inline-flex; flex-direction: column; align-items: center; cursor: default; }
+  .mark { font-size: 10px; line-height: 1.2; height: 13px; display: block; text-align: center; font-family: 'Inconsolata', monospace; }
+  .syl-text { font-family: 'EB Garamond', serif; font-size: 16px; line-height: 1.5; display: block; padding: 0 2px; border-radius: 2px; transition: background 0.15s; }
+  .stressed .mark { color: var(--accent-gold); }
+  .stressed .syl-text { color: var(--ink); font-weight: 500; }
+  .unstressed .mark { color: #b0a088; }
+  .unstressed .syl-text { color: #5a4e3c; }
+  .wild .mark { color: var(--wild-color); }
+  .wild .syl-text { color: var(--wild-color); font-weight: 500; }
+  .syl.active-word .syl-text { background: rgba(201,153,31,0.35); border-radius: 2px; }
+  .meter-bar { display: flex; gap: 2px; margin-top: 6px; flex-wrap: wrap; }
+  .beat { width: 14px; height: 5px; border-radius: 2px; }
+  .beat.s { background: var(--accent-gold); }
+  .beat.u { background: var(--border); }
+  .beat.w { background: var(--wild-color); opacity: 0.6; }
+  .badge { font-family: 'Inconsolata', monospace; font-size: 11px; padding: 3px 9px; border-radius: 10px; white-space: nowrap; margin-top: 16px; letter-spacing: 0.05em; }
+  .badge.regular { background: var(--parchment-mid); color: #7a6a52; }
+  .badge.trochee { background: var(--stressed-bg); color: var(--accent-gold); }
+  .badge.feminine { background: #e6f1fb; color: #185FA5; }
+  .badge.wild { background: var(--wild-bg); color: var(--wild-color); }
+  .badge.spell { background: #eeedfe; color: var(--accent-violet); }
+  .badge.long { background: #eaf3de; color: var(--accent-sage); }
+  .note-card { border: 1px solid var(--border-light); border-radius: 4px; padding: 14px 16px; background: var(--parchment-mid); margin-top: 20px; font-size: 14px; color: #5a4e3c; line-height: 1.7; }
+  .note-card-title { font-family: 'Libre Baskerville', serif; font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 10px; letter-spacing: 0.03em; }
+  .note-card p { margin: 0 0 10px; }
+  .note-card p:last-child { margin-bottom: 0; }
+  .note-card b { color: var(--ink); font-weight: 600; }
+  @media (max-width: 500px) { .stats { grid-template-columns: repeat(2,1fr); } .speed-group { margin-left: 0; width: 100%; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="masthead">
+    <div class="masthead-title">Metrical Studio</div>
+    <div class="masthead-sub">Scansion &middot; Analysis &middot; Performance</div>
+    <div class="powered-tag">AI &middot; TTS</div>
+  </div>
+  <div class="input-panel">
+    <div class="panel-header"><div class="panel-dot"></div>Paste your passage</div>
+    <textarea id="passage-input" placeholder="Paste any verse or prose passage here &mdash; Shakespeare, Milton, Keats, or your own lines&hellip;"></textarea>
+    <div class="controls">
+      <button class="btn btn-primary" id="analyze-btn">Analyse</button>
+      <button class="btn btn-speak" id="speak-btn" disabled>&#9654; Speak</button>
+      <div class="speed-group">
+        <span class="speed-label">Speed</span>
+        <input type="range" id="speed-slider" min="0.5" max="2" step="0.1" value="0.9">
+        <span class="speed-val" id="speed-val">0.9x</span>
+      </div>
+    </div>
+  </div>
+  <div class="status-bar" id="status"></div>
+  <div class="output" id="output">
+    <div class="output-header">
+      <div class="output-title" id="out-title">Metrical Analysis</div>
+      <div class="output-sub" id="out-sub"></div>
+    </div>
+    <div class="output-divider"></div>
+    <div class="stats" id="stats-row"></div>
+    <div class="legend">
+      <div class="leg-item"><div class="leg-dot" style="background:var(--accent-gold)"></div>Stressed</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--border)"></div>Unstressed u</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--wild-color)"></div>Rhythmically wild ?</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--accent-violet-light)"></div>Incantation / spell</div>
+    </div>
+    <div class="section-label">Line by line</div>
+    <div class="lines-section" id="lines-container"></div>
+    <div class="note-card" id="notes-container" style="display:none"></div>
+  </div>
+</div>
+
+<script>
+// =====================================================================
+// PROTOCOL: Claude returns a plain-text block format, NOT raw JSON.
+// We parse it deterministically here. No JSON escaping issues possible.
+// =====================================================================
+//
+// Format Claude returns:
+//
+// TITLE: some title
+// SUBTITLE: some subtitle
+// STATS: lines=7 | beats=4 | unscannable=1 | metre=iambic tetrameter
+//
+// LINE:1 | spell=false | badge=regular | badgeText=Regular tetrameter
+// FEET: [A|u][sail-|s][or's|u][wife|s] | [had|u][chest-|s] | [-nuts|u][in|s][her|u][lap|s]
+// NOTE: Commentary text goes here freely, no escaping needed.
+//
+// LINE:2 | spell=false | badge=wild | badgeText=Metrically wild
+// FEET: [And|u][munched|s] | [and|wu][munched|ws] | [and|wu][munched.|ws] | [Give|u][me,|s] | [quoth|u][I.|s]
+// NOTE: This line breaks every rule...
+//
+// OVERALL: Overall commentary here.
+//
+// Syllable encoding in FEET: [text|flags]
+//   flags: s=stressed, u=unstressed, w=wild, ws=wild+stressed, wu=wild+unstressed
+// =====================================================================
+
+let analysisData = null;
+const speechSynth = window.speechSynthesis;
+let currentUtterance = null;
+let isSpeaking = false;
+let allWordEls = [];
+
+const analyzeBtn  = document.getElementById('analyze-btn');
+const speakBtn    = document.getElementById('speak-btn');
+const speedSlider = document.getElementById('speed-slider');
+const speedValEl  = document.getElementById('speed-val');
+const statusEl    = document.getElementById('status');
+const outputEl    = document.getElementById('output');
+const linesContainer = document.getElementById('lines-container');
+const notesContainer = document.getElementById('notes-container');
+const statsRow    = document.getElementById('stats-row');
+const outTitle    = document.getElementById('out-title');
+const outSub      = document.getElementById('out-sub');
+
+speedSlider.addEventListener('input', function() {
+  speedValEl.textContent = parseFloat(speedSlider.value).toFixed(1) + 'x';
+  if (currentUtterance) currentUtterance.rate = parseFloat(speedSlider.value);
+});
+
+analyzeBtn.addEventListener('click', async function() {
+  var text = document.getElementById('passage-input').value.trim();
+  if (!text) { showStatus('Please paste a passage first.', true); return; }
+  stopSpeech();
+  showStatus('<span class="spinner"></span> Analysing passage&hellip;');
+  analyzeBtn.disabled = true;
+  speakBtn.disabled = true;
+  outputEl.classList.remove('visible');
+
+  try {
+    var result = await callClaude(text);
+    analysisData = result;
+    console.log('Parsed result:', JSON.stringify(result).slice(0, 500));
+    try {
+      renderAnalysis(result);
+      showStatus('Analysis complete. Click Speak to hear the passage.');
+      speakBtn.disabled = false;
+      outputEl.classList.add('visible');
+    } catch(renderErr) {
+      console.error('renderAnalysis failed:', renderErr);
+      showStatus('Render error: ' + renderErr.message, true);
+    }
+  } catch(e) {
+    showStatus('Parse error: ' + e.message, true);
+    console.error('Full error:', e);
+  }
+  analyzeBtn.disabled = false;
+});
+
+// ── Claude call: asks for plain-text protocol ──
+async function callClaude(passage) {
+  var systemPrompt = [
+    'You are an expert in English prosody. Analyse the passage and return your analysis in the EXACT format below.',
+    'Use this format precisely -- it will be parsed by machine. Do not add extra lines or change the keywords.',
+    '',
+    'FORMAT:',
+    'TITLE: <short poetic title for the passage>',
+    'SUBTITLE: <metre type and key features>',
+    'STATS: lines=<n> | beats=<n> | unscannable=<n> | metre=<dominant metre name>',
+    '',
+    'For each line, output three lines in this exact order:',
+    'LINE:<n> | spell=<true/false> | badge=<badgeClass> | badgeText=<short label>',
+    'FEET: <feet encoding -- see below>',
+    'NOTE: <2-4 sentences of prosodic commentary>',
+    '',
+    'Then at the end:',
+    'OVERALL: <3-5 sentences of overall commentary>',
+    '',
+    'FEET ENCODING:',
+    'Separate feet with " | " (space-pipe-space).',
+    'Each syllable is encoded as [text|flags] where flags are:',
+    '  s  = stressed',
+    '  u  = unstressed',
+    '  w  = rhythmically wild (use ws or wu to combine with stress)',
+    'Examples:',
+    '  [To-|u][mor-|s] | [-row|u][and|s] | [to-|u][mor-|s] | [-row|u][and|s]',
+    '  [Dou-|u][-ble|s] | [dou-|u][-ble|s] | [toil|u][and|s] | [trou-|u][-ble|s]',
+    '  [Fire|wu][burn|ws] | [and|u][caul-|s][-dron|u][bub-|s][-ble.|wu]',
+    '',
+    'BADGE CLASSES (use exactly one per line):',
+    '  regular, trochee, feminine, wild, spell, long',
+    '',
+    'RULES:',
+    '- Hyphenate polysyllabic words: first part ends with -, continuation starts with -',
+    '- Single-syllable words need no hyphen',
+    '- CRITICAL: The NOTE must be on ONE LINE only. Never wrap to the next line. Keep it under 300 characters if needed.',
+    '- Do not output anything before TITLE: or after OVERALL:',
+    '- Do not use JSON, markdown, or code fences'
+  ].join('\n');
+
+  var response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 8000,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: 'Analyse this passage:\n\n' + passage }]
+    })
+  });
+
+  if (!response.ok) {
+    var errBody = await response.text();
+    throw new Error('API ' + response.status + ': ' + errBody.slice(0, 200));
+  }
+
+  var data = await response.json();
+  console.log('stop_reason:', data.stop_reason, '| output_tokens:', data.usage && data.usage.output_tokens);
+
+  var raw = (data.content || []).map(function(b) { return b.text || ''; }).join('');
+  console.log('=== RAW (first 600) ===\n', raw.slice(0, 600));
+  console.log('=== RAW (last 400) ===\n', raw.slice(-400));
+
+  return parseProtocol(raw);
+}
+
+// ── Parse the plain-text protocol ──
+function parseProtocol(raw) {
+  // Pre-process: join any wrapped lines back onto their parent line
+  // A line belongs to the previous line if it doesn't start with a keyword
+  var keywords = ['TITLE:', 'SUBTITLE:', 'STATS:', 'LINE:', 'FEET:', 'NOTE:', 'OVERALL:'];
+  var rawLines = raw.split('\n');
+  var joined = [];
+  rawLines.forEach(function(ln) {
+    var trimmed = ln.trim();
+    if (trimmed === '') { joined.push(''); return; }
+    var isKeyword = keywords.some(function(k) { return trimmed.startsWith(k); });
+    if (isKeyword || joined.length === 0) {
+      joined.push(trimmed);
+    } else {
+      // Continuation — append to previous non-empty line
+      var last = joined.length - 1;
+      while (last > 0 && joined[last].trim() === '') last--;
+      joined[last] = joined[last] + ' ' + trimmed;
+    }
+  });
+
+  var lines = joined;
+  console.log('=== JOINED LINES ===', lines.filter(function(l){return l.trim();}).slice(0,10));
+  var result = { title: '', subtitle: '', stats: {}, lines: [], overallNote: '' };
+  var currentLine = null;
+
+  for (var i = 0; i < lines.length; i++) {
+    var ln = lines[i];
+    if (!ln || typeof ln !== 'string') continue;
+
+    if (ln.startsWith('TITLE:')) {
+      result.title = ln.slice(6).trim();
+
+    } else if (ln.startsWith('SUBTITLE:')) {
+      result.subtitle = ln.slice(9).trim();
+
+    } else if (ln.startsWith('STATS:')) {
+      var statStr = ln.slice(6).trim();
+      var statParts = statStr.split('|');
+      statParts.forEach(function(p) {
+        var kv = p.trim().split('=');
+        if (kv.length === 2) {
+          var k = kv[0].trim(), v = kv[1].trim();
+          if (k === 'lines')       result.stats.lineCount = parseInt(v) || v;
+          if (k === 'beats')       result.stats.baseBeats = parseInt(v) || v;
+          if (k === 'unscannable') result.stats.unscannableLines = parseInt(v) || 0;
+          if (k === 'metre')       result.stats.dominantMetre = v;
+        }
+      });
+
+    } else if (ln.startsWith('LINE:')) {
+      // Save previous line if any
+      if (currentLine) result.lines.push(currentLine);
+      // Parse: LINE:1 | spell=false | badge=regular | badgeText=Regular tetrameter
+      var parts = ln.split('|');
+      currentLine = { n: 0, spell: false, badgeClass: 'regular', badgeText: '', feet: [], note: '' };
+      parts.forEach(function(p) {
+        p = p.trim();
+        if (p.startsWith('LINE:')) currentLine.n = parseInt(p.slice(5)) || 0;
+        else if (p.startsWith('spell=')) currentLine.spell = p.slice(6).trim() === 'true';
+        else if (p.startsWith('badge=')) currentLine.badgeClass = p.slice(6).trim();
+        else if (p.startsWith('badgeText=')) currentLine.badgeText = p.slice(10).trim();
+      });
+
+    } else if (ln.startsWith('FEET:') && currentLine) {
+      var feetStr = ln.slice(5).trim();
+      currentLine.feet = parseFeet(feetStr);
+
+    } else if (ln.startsWith('NOTE:') && currentLine) {
+      currentLine.note = ln.slice(5).trim();
+
+    } else if (ln.startsWith('OVERALL:')) {
+      result.overallNote = ln.slice(8).trim();
+
+    }
+  }
+
+  // Push last line
+  if (currentLine) result.lines.push(currentLine);
+
+  if (result.lines.length === 0) {
+    throw new Error('No lines parsed. The model may not have followed the protocol. Check console for raw output.');
+  }
+
+  return result;
+}
+
+// Parse FEET string: "[To-|u][mor-|s] | [-row|u][and|s]" -> array of feet
+function parseFeet(str) {
+  var feet = [];
+  var footStrs = str.split(' | ');
+  footStrs.forEach(function(footStr) {
+    var foot = [];
+    // Match all [text|flags] tokens
+    var re = /\[([^\|]+)\|([^\]]*)\]/g;
+    var m;
+    while ((m = re.exec(footStr)) !== null) {
+      var text  = m[1];
+      var flags = m[2].toLowerCase();
+      foot.push({
+        t: text,
+        s: flags.indexOf('s') !== -1,
+        w: flags.indexOf('w') !== -1
+      });
+    }
+    if (foot.length > 0) feet.push(foot);
+  });
+  return feet;
+}
+
+// ── Render ──
+function renderAnalysis(d) {
+  outTitle.textContent = d.title || 'Metrical Analysis';
+  outSub.textContent   = d.subtitle || '';
+
+  var s = d.stats || {};
+  var statDefs = [
+    { n: s.lineCount || (d.lines && d.lines.length) || '?', l: 'lines' },
+    { n: s.baseBeats || '?', l: 'base beats' },
+    { n: (s.unscannableLines !== undefined ? s.unscannableLines : '?'), l: 'unscannable' },
+    { n: s.dominantMetre || 'mixed', l: 'metre', small: true }
+  ];
+  statsRow.innerHTML = statDefs.map(function(st) {
+    return '<div class="stat"><div class="stat-n" style="' + (st.small ? 'font-size:13px;margin-top:4px' : '') + '">' + st.n + '</div><div class="stat-l">' + st.l + '</div></div>';
+  }).join('');
+
+  linesContainer.innerHTML = '';
+  allWordEls = [];
+  (d.lines || []).forEach(function(line) {
+    linesContainer.appendChild(buildLineEl(line));
+  });
+
+  var hasNotes = d.overallNote || (d.lines || []).some(function(l) { return l.note; });
+  if (hasNotes) {
+    notesContainer.style.display = '';
+    notesContainer.innerHTML = '<div class="note-card-title">Commentary</div>' +
+      (d.lines || []).filter(function(l) { return l.note; }).map(function(l) {
+        return '<p><b>Line ' + l.n + ':</b> ' + escHtml(l.note) + '</p>';
+      }).join('') +
+      (d.overallNote ? '<p><b>Overall:</b> ' + escHtml(d.overallNote) + '</p>' : '');
+  } else {
+    notesContainer.style.display = 'none';
+  }
+}
+
+function escHtml(s) {
+  return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function buildLineEl(d) {
+  var rowEl = document.createElement('div');
+  rowEl.className = 'line-row' + (d.spell ? ' spell' : '');
+
+  var numEl = document.createElement('div');
+  numEl.className = 'line-num';
+  numEl.textContent = d.n;
+
+  var contentEl = document.createElement('div');
+  var sylRow = document.createElement('div');
+  sylRow.className = 'syl-row';
+  var beats = [];
+
+  (d.feet || []).forEach(function(foot, fi) {
+    foot.forEach(function(syl) {
+      var isWild = !!syl.w;
+      var sylEl = document.createElement('span');
+      sylEl.className = isWild ? 'syl wild' : (syl.s ? 'syl stressed' : 'syl unstressed');
+
+      var markEl = document.createElement('span');
+      markEl.className = 'mark';
+      markEl.textContent = isWild ? '?' : (syl.s ? "'" : 'u');
+
+      var textEl = document.createElement('span');
+      textEl.className = 'syl-text';
+      textEl.textContent = syl.t;
+
+      sylEl.appendChild(markEl);
+      sylEl.appendChild(textEl);
+      sylRow.appendChild(sylEl);
+      allWordEls.push({ el: sylEl });
+      beats.push(isWild ? 'w' : (syl.s ? 's' : 'u'));
+    });
+
+    if (fi < (d.feet || []).length - 1) {
+      var sep = document.createElement('span');
+      sep.className = 'foot-sep';
+      sylRow.appendChild(sep);
+    }
+  });
+
+  var barEl = document.createElement('div');
+  barEl.className = 'meter-bar';
+  beats.forEach(function(b) {
+    var beat = document.createElement('div');
+    beat.className = 'beat ' + b;
+    barEl.appendChild(beat);
+  });
+
+  contentEl.appendChild(sylRow);
+  contentEl.appendChild(barEl);
+
+  var badgeEl = document.createElement('div');
+  badgeEl.className = 'badge ' + (d.badgeClass || 'regular');
+  badgeEl.textContent = d.badgeText || '';
+
+  rowEl.appendChild(numEl);
+  rowEl.appendChild(contentEl);
+  rowEl.appendChild(badgeEl);
+  return rowEl;
+}
+
+// ── Speech ──
+speakBtn.addEventListener('click', function() {
+  if (isSpeaking) { stopSpeech(); return; }
+  startSpeech();
+});
+
+function startSpeech() {
+  if (!analysisData) return;
+  stopSpeech();
+
+  var lines = analysisData.lines || [];
+  var lineRowEls = Array.from(document.querySelectorAll('.line-row'));
+
+  // Build one utterance per line so onend fires reliably per line
+  // Speak lines sequentially using a queue
+  var lineQueue = lines.map(function(line, i) {
+    var text = (line.feet || []).map(function(foot) {
+      return foot.map(function(s) { return (s.t || '').replace(/-/g, ''); }).join('');
+    }).join(' ');
+    return { text: text, rowEl: lineRowEls[i] || null };
+  });
+
+  isSpeaking = true;
+  speakBtn.innerHTML = '&#9646;&#9646; Stop';
+  speakBtn.classList.add('speaking');
+
+  var currentLineIdx = 0;
+
+  function speakNextLine() {
+    if (!isSpeaking || currentLineIdx >= lineQueue.length) {
+      finishSpeech();
+      return;
+    }
+
+    var item = lineQueue[currentLineIdx];
+
+    // Highlight the current line row and scroll it into view
+    clearHighlights();
+    if (item.rowEl) {
+      item.rowEl.classList.add('speaking');
+      item.rowEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // Also highlight syllables in this line
+    var sylEls = item.rowEl ? Array.from(item.rowEl.querySelectorAll('.syl')) : [];
+
+    currentUtterance = new SpeechSynthesisUtterance(item.text);
+    currentUtterance.rate  = parseFloat(speedSlider.value);
+    currentUtterance.pitch = 0.95;
+    currentUtterance.lang  = 'en-GB';
+
+    // Use word boundaries to walk syllable elements where supported
+    var sylIndex = 0;
+    currentUtterance.onboundary = function(e) {
+      if (e.name !== 'word') return;
+      // Clear previous syl highlight within this line
+      sylEls.forEach(function(s) { s.classList.remove('active-word'); });
+      if (sylIndex < sylEls.length) {
+        sylEls[sylIndex].classList.add('active-word');
+        sylIndex++;
+      }
+    };
+
+    currentUtterance.onend = function() {
+      if (item.rowEl) item.rowEl.classList.remove('speaking');
+      currentLineIdx++;
+      speakNextLine();
+    };
+
+    currentUtterance.onerror = function() {
+      if (item.rowEl) item.rowEl.classList.remove('speaking');
+      currentLineIdx++;
+      speakNextLine();
+    };
+
+    speechSynth.speak(currentUtterance);
+  }
+
+  function finishSpeech() {
+    clearHighlights();
+    lineRowEls.forEach(function(r) { r.classList.remove('speaking'); });
+    isSpeaking = false;
+    speakBtn.innerHTML = '&#9654; Speak';
+    speakBtn.classList.remove('speaking');
+    currentUtterance = null;
+  }
+
+  speakNextLine();
+}
+
+function stopSpeech() {
+  speechSynth.cancel();
+  clearHighlights();
+  document.querySelectorAll('.line-row.speaking').forEach(function(r) { r.classList.remove('speaking'); });
+  isSpeaking = false;
+  speakBtn.innerHTML = '&#9654; Speak';
+  speakBtn.classList.remove('speaking');
+  currentUtterance = null;
+}
+
+function clearHighlights() {
+  allWordEls.forEach(function(item) { item.el.classList.remove('active-word'); });
+}
+
+function showStatus(msg, isError) {
+  statusEl.innerHTML = msg;
+  statusEl.className = 'status-bar' + (isError ? ' error' : '');
+}
+</script>
+</body>
+</html>
