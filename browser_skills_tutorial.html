@@ -1,0 +1,1767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Skills Tutorial for BOLLI Members</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px;
+            line-height: 1.7;
+            background: #f5f5f7;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        h1 { margin: 0 0 10px 0; font-size: 2.2em; }
+        .subtitle { font-size: 1.2em; opacity: 0.95; }
+
+        /* SELECTOR PANEL */
+        .selector-panel { margin-top: 25px; }
+        .selector-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+        .selector-label { font-size: 1em; opacity: 0.9; font-weight: 600; }
+        .platform-badge {
+            display: inline-block;
+            padding: 10px 22px;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+        .platform-badge:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.25); }
+        .mac-badge { background: #e8f4fd; color: #1e88e5; }
+        .mac-badge.active { background: #1e88e5; color: white; border-color: #1565c0; box-shadow: 0 4px 12px rgba(30,136,229,0.4); }
+        .windows-badge { background: #fff3e0; color: #f57c00; }
+        .windows-badge.active { background: #f57c00; color: white; border-color: #e65100; box-shadow: 0 4px 12px rgba(245,124,0,0.4); }
+
+        .browser-row {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+            animation: fadeIn 0.3s ease;
+        }
+        .browser-row.visible { display: flex; }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+
+        .browser-select-label { font-size: 0.95em; opacity: 0.85; }
+        .browser-badge {
+            display: inline-block;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            border: 2px solid rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.15);
+            color: white;
+            transition: all 0.25s ease;
+            user-select: none;
+        }
+        .browser-badge:hover { background: rgba(255,255,255,0.3); transform: translateY(-1px); }
+        .browser-badge.active { background: white; color: #333; border-color: white; box-shadow: 0 3px 10px rgba(0,0,0,0.2); }
+
+        .selection-status { margin-top: 12px; font-size: 0.95em; opacity: 0.85; font-style: italic; }
+
+        /* FILTER LOGIC */
+        .safari-content, .chrome-content, .firefox-content, .edge-content { display: none; }
+        body.sel-safari .safari-content { display: block; }
+        body.sel-chrome .chrome-content { display: block; }
+        body.sel-firefox .firefox-content { display: block; }
+        body.sel-edge .edge-content { display: block; }
+        body.sel-windows .mac-only { display: none !important; }
+        body.sel-mac .windows-only { display: none !important; }
+
+        /* Shortcut boxes */
+        .shortcut-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0; }
+        .shortcut-box { padding: 15px; border-radius: 8px; border: 2px solid #dee2e6; }
+        .shortcut-box.mac { background: #e3f2fd; border-color: #1e88e5; }
+        .shortcut-box.windows { background: #fff3e0; border-color: #f57c00; }
+        .shortcut-box.safari-box { background: #e8f5e9; border-color: #43a047; }
+        .shortcut-box.firefox-box { background: #fce4ec; border-color: #e53935; }
+        .shortcut-box.edge-box { background: #e0f7fa; border-color: #0097a7; }
+        .shortcut-box h4 { margin: 0 0 10px 0; font-size: 1em; }
+
+        /* PROGRESS */
+        .progress-bar { background: white; padding: 20px; border-radius: 10px; margin-bottom: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .progress-container { background: #e9ecef; height: 30px; border-radius: 15px; overflow: hidden; position: relative; }
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%; width: 0%; transition: width 0.5s ease;
+            display: flex; align-items: center; justify-content: flex-end;
+            padding-right: 10px; color: white; font-weight: bold;
+        }
+        .progress-dashboard { background: white; padding: 25px; border-radius: 10px; margin-bottom: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .progress-dashboard.collapsed .progress-content { display: none; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0; }
+        .stat-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; text-align: center; }
+        .stat-number { font-size: 2.5em; font-weight: bold; }
+        .stat-label { font-size: 0.85em; opacity: 0.9; }
+        .lesson-progress-item { margin-bottom: 12px; }
+        .lesson-progress-item.completed .lesson-progress-title { color: #28a745; }
+        .lesson-progress-title { font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        .lesson-progress-bar { background: #dee2e6; height: 8px; border-radius: 4px; overflow: hidden; }
+        .lesson-progress-bar-fill { height: 100%; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); transition: width 0.3s; }
+
+        /* LESSONS */
+        .lesson { background: white; padding: 30px; margin-bottom: 25px; border-radius: 12px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); border-left: 6px solid #667eea; }
+        .lesson.collapsible .lesson-header { cursor: pointer; user-select: none; padding: 10px; margin: -10px -10px 20px -10px; border-radius: 6px; transition: background-color 0.2s; }
+        .lesson.collapsible .lesson-header:hover { background-color: #e8f4fd; }
+        .lesson.collapsible .lesson-header::after { content: "▼"; font-size: 1.5em; margin-left: 20px; color: #667eea; transition: transform 0.3s; font-weight: bold; }
+        .lesson.collapsible.collapsed .lesson-header::after { transform: rotate(-90deg); }
+        .lesson.collapsed-how-to .how-to-content { display: none; }
+        .lesson.collapsed-how-to .how-to-arrow { transform: rotate(-90deg); }
+        .lesson.collapsible .lesson-content { display: block; }
+        .lesson.collapsible.collapsed .lesson-content { display: none; }
+        .lesson-header { display: flex; align-items: center; gap: 20px; }
+        .lesson-number { background: #11998e; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5em; font-weight: bold; flex-shrink: 0; }
+        .lesson-title { margin: 0; font-size: 1.6em; color: #333; }
+        .lesson-description { margin-top: 8px; color: #666; font-size: 0.95em; }
+        .difficulty { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75em; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; margin-left: 10px; }
+        .easy { background: #d4edda; color: #155724; }
+        .medium { background: #fff3cd; color: #856404; }
+        .comprehensive { background: #d1ecf1; color: #0c5460; }
+
+        /* COMMON ELEMENTS */
+        h2 { color: #333; margin-top: 0; }
+        h3 { color: #495057; margin-top: 25px; }
+        .keys { display: inline-block; background: #f8f9fa; border: 2px solid #dee2e6; border-radius: 5px; padding: 3px 8px; font-family: Monaco, "Courier New", monospace; font-size: 0.9em; font-weight: bold; color: #495057; box-shadow: 0 2px 0 #dee2e6; }
+        .plus-sign { color: #667eea; font-weight: bold; font-size: 1.2em; }
+        .step { background: #f8f9fa; padding: 15px; margin: 15px 0; border-radius: 8px; border-left: 4px solid #667eea; }
+        .step-number { display: inline-block; background: #667eea; color: white; width: 30px; height: 30px; border-radius: 50%; text-align: center; line-height: 30px; font-weight: bold; margin-right: 10px; }
+        .tip-box { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin: 20px 0; border-radius: 4px; }
+        .success-box { background: #d4edda; border-left: 4px solid #155724; padding: 15px; margin: 20px 0; border-radius: 4px; }
+        .warning-box { background: #fff3cd; border-left: 4px solid #856404; padding: 15px; margin: 20px 0; border-radius: 4px; }
+        .checkpoint { background: #fff3cd; border: 2px solid #ffc107; padding: 20px; margin: 20px 0; border-radius: 10px; }
+        .checkpoint-title { font-weight: bold; color: #856404; font-size: 1.15em; margin-bottom: 10px; }
+        .checkpoint-title::before { content: "✓"; margin-right: 10px; font-size: 1.4em; color: #28a745; }
+        .checklist { list-style: none; padding: 0; margin: 10px 0; }
+        .checklist li { padding: 8px 12px 8px 40px; margin: 5px 0; border-radius: 5px; background: white; position: relative; cursor: pointer; transition: background 0.2s; }
+        .checklist li::before { content: "○"; position: absolute; left: 12px; color: #adb5bd; font-size: 1.1em; }
+        .checklist li.checked { background: #d4edda; text-decoration: line-through; color: #6c757d; }
+        .checklist li.checked::before { content: "✓"; color: #28a745; }
+        .checklist li:hover { background: #f0f0f0; }
+        .checklist li.checked:hover { background: #c3e6cb; }
+        .my-issues-btn { background: #ffc107; color: #333; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.95em; margin-top: 15px; transition: background 0.2s, transform 0.2s; }
+        .my-issues-btn:hover { background: #e0a800; transform: translateY(-1px); }
+        .collapse-section-btn { background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 20px; width: 100%; transition: background 0.2s; }
+        .collapse-section-btn:hover { background: #5a6268; }
+        .practice { background: #f0f4ff; border: 2px solid #667eea; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .practice-title { font-weight: bold; color: #667eea; font-size: 1.05em; margin-bottom: 12px; }
+        .key-visual { display: inline-flex; align-items: center; gap: 4px; margin: 0 4px; }
+
+        /* ON DEMAND */
+        .on-demand-section { background: white; padding: 30px; margin-bottom: 30px; border-radius: 12px; box-shadow: 0 3px 15px rgba(0,0,0,0.15); border-left: 6px solid #11998e; }
+        .on-demand-header { text-align: center; margin-bottom: 25px; }
+        .on-demand-header h2 { color: #11998e; margin: 0 0 10px 0; font-size: 1.8em; }
+        .on-demand-header p { color: #666; font-size: 1.1em; margin: 0; }
+        .prompt-container { margin-bottom: 25px; }
+        .prompt-input { width: 100%; padding: 18px; font-size: 1.1em; border: 3px solid #dee2e6; border-radius: 10px; font-family: inherit; transition: all 0.3s; box-sizing: border-box; }
+        .prompt-input:focus { outline: none; border-color: #11998e; box-shadow: 0 0 0 3px rgba(17,153,142,0.1); }
+        .prompt-buttons { display: flex; gap: 15px; margin-top: 15px; }
+        .search-btn, .clear-btn { flex: 1; padding: 15px 30px; font-size: 1.05em; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
+        .search-btn { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; }
+        .search-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(17,153,142,0.4); }
+        .clear-btn { background: #f8f9fa; color: #495057; border: 2px solid #dee2e6; }
+        .clear-btn:hover { background: #e9ecef; border-color: #adb5bd; }
+        .example-queries { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; }
+        .example-queries h4 { margin: 0 0 12px 0; color: #495057; font-size: 1em; }
+        .example-tag { display: inline-block; padding: 8px 16px; margin: 5px 5px 5px 0; background: white; border: 2px solid #dee2e6; border-radius: 20px; font-size: 0.9em; cursor: pointer; transition: all 0.2s; }
+        .example-tag:hover { background: #11998e; color: white; border-color: #11998e; transform: translateY(-2px); }
+        .results-container { display: none; margin-top: 30px; padding-top: 30px; border-top: 3px solid #11998e; }
+        .results-container.visible { display: block; }
+        .results-header { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .results-header h3 { margin: 0 0 5px 0; }
+        .results-header p { margin: 0; opacity: 0.9; font-size: 0.95em; }
+        .result-item { background: #f8f9fa; padding: 20px; margin-bottom: 15px; border-radius: 8px; border-left: 4px solid #11998e; }
+        .result-item h4 { margin: 0 0 15px 0; color: #11998e; font-size: 1.2em; }
+        .result-steps { background: white; padding: 15px; border-radius: 6px; margin-top: 10px; }
+        .result-steps ol { margin: 0; padding-left: 25px; }
+        .result-steps li { margin-bottom: 10px; line-height: 1.6; }
+        .no-results { text-align: center; padding: 40px; background: #fff3cd; border-radius: 8px; border: 2px solid #ffc107; }
+        .no-results h3 { color: #856404; margin: 0 0 10px 0; }
+
+        table { width: 100%; margin: 20px 0; border-collapse: collapse; }
+        th { padding: 12px; text-align: left; border: 1px solid #dee2e6; background: #f8f9fa; }
+        td { padding: 12px; border: 1px solid #dee2e6; }
+
+        @media print { .my-issues-btn { display: none; } }
+
+        /* ASK AI BUTTON */
+        .ask-ai-btn {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 8px rgba(17,153,142,0.35);
+        }
+        .ask-ai-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(17,153,142,0.45); }
+
+        .prompt-footnote {
+            margin: 12px 0 0 0;
+            font-size: 0.88em;
+            color: #555;
+            line-height: 1.6;
+            text-align: center;
+            max-width: 580px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* AI PROMPT MODAL */
+        #aiPromptOverlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 9000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        #aiPromptOverlay.open { display: flex; }
+        #aiPromptModal {
+            background: white;
+            border-radius: 14px;
+            padding: 30px;
+            max-width: 680px;
+            width: 100%;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+            position: relative;
+            animation: modalIn 0.25s ease;
+        }
+        @keyframes modalIn { from { opacity:0; transform:translateY(-18px) scale(0.97); } to { opacity:1; transform:none; } }
+        #aiPromptModal h3 {
+            margin: 0 0 6px 0;
+            color: #11998e;
+            font-size: 1.35em;
+        }
+        #aiPromptModal .modal-subtitle {
+            color: #666;
+            font-size: 0.95em;
+            margin: 0 0 18px 0;
+        }
+        #aiPromptText {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 18px 20px;
+            border: 2px solid #d0e8e6;
+            border-radius: 10px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            font-size: 1em;
+            line-height: 2;
+            color: #1a1a1a;
+            background: #f4fbfa;
+            resize: vertical;
+            min-height: 300px;
+            outline: none;
+            transition: border-color 0.2s;
+            white-space: pre-wrap;
+        }
+        #aiPromptText:focus { border-color: #11998e; }
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+        .modal-copy-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 11px 24px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            flex: 1;
+            transition: all 0.2s;
+        }
+        .modal-copy-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .modal-copy-btn.copied { background: #28a745; }
+        .modal-close-btn {
+            background: #f1f3f5;
+            color: #555;
+            border: 2px solid #dee2e6;
+            padding: 11px 22px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .modal-close-btn:hover { background: #e2e6ea; }
+        .modal-context-tag {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+            border-radius: 20px;
+            padding: 3px 12px;
+            font-size: 0.82em;
+            font-weight: 600;
+            margin-bottom: 14px;
+            margin-right: 6px;
+        }
+        .modal-x {
+            position: absolute;
+            top: 14px; right: 18px;
+            font-size: 1.4em;
+            color: #aaa;
+            cursor: pointer;
+            line-height: 1;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+        .modal-x:hover { color: #555; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🌐 Browser Skills Tutorial</h1>
+    <p class="subtitle">Essential browser techniques for BOLLI members — Mac &amp; PC</p>
+
+    <div class="selector-panel">
+        <div class="selector-row">
+            <span class="selector-label">My computer is a:</span>
+            <span class="platform-badge mac-badge" onclick="setPlatform('mac')">🍎 Mac</span>
+            <span class="platform-badge windows-badge" onclick="setPlatform('windows')">🪟 Windows PC</span>
+        </div>
+        <div class="browser-row" id="browserRow">
+            <span class="browser-select-label">My browser is:</span>
+            <span class="browser-badge" id="bb-safari" onclick="setBrowser('safari')">🧭 Safari</span>
+            <span class="browser-badge" id="bb-chrome" onclick="setBrowser('chrome')">🔵 Chrome</span>
+            <span class="browser-badge" id="bb-firefox" onclick="setBrowser('firefox')">🦊 Firefox</span>
+            <span class="browser-badge" id="bb-edge" onclick="setBrowser('edge')">💠 Edge</span>
+        </div>
+        <div class="selection-status" id="selectionStatus">← Start here: choose your computer type</div>
+    </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar">
+    <h3 style="margin-top: 0;">Your Learning Progress</h3>
+    <div class="progress-container">
+        <div class="progress-fill" id="progress">0%</div>
+    </div>
+    <p style="margin: 10px 0 0 0; font-size: 0.9em; color: #666;">Complete each lesson and check off your progress!</p>
+</div>
+
+<div class="progress-dashboard collapsed" id="progressDashboard">
+    <h3 onclick="this.parentElement.classList.toggle('collapsed')" style="user-select: none; cursor: pointer;">
+        📊 Detailed Progress Dashboard
+        <span style="font-size: 0.7em; font-weight: normal; opacity: 0.7; margin-left: 10px;">(Click to collapse/expand)</span>
+    </h3>
+    <div class="progress-content">
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-number" id="totalChecked">0</div><div class="stat-label">Skills Mastered</div></div>
+            <div class="stat-card"><div class="stat-number" id="lessonsCompleted">0</div><div class="stat-label">Lessons Completed</div></div>
+            <div class="stat-card"><div class="stat-number" id="overallPercent">0%</div><div class="stat-label">Overall Progress</div></div>
+        </div>
+        <h4 style="color: #667eea; margin-top: 25px;">Lesson-by-Lesson Progress:</h4>
+        <div class="lesson-progress-list" id="lessonProgressList"></div>
+        <button class="collapse-section-btn" onclick="document.getElementById('progressDashboard').classList.add('collapsed')">▲ Collapse This Section</button>
+    </div>
+</div>
+
+<!-- HOW TO USE -->
+<div class="lesson collapsed-how-to">
+    <div class="lesson-header" style="cursor:pointer;user-select:none;padding:10px;margin:-10px -10px 20px -10px;border-radius:6px;transition:background-color 0.2s;"
+         onmouseover="this.style.backgroundColor='#e8f4fd'" onmouseout="this.style.backgroundColor='transparent'"
+         onclick="this.parentElement.classList.toggle('collapsed-how-to')">
+        <h2 style="color:#667eea;margin:0;display:flex;align-items:center;justify-content:space-between;width:100%;">
+            <span>📖 How to Use This Tutorial</span>
+            <span class="how-to-arrow" style="font-size:1.5em;color:#667eea;font-weight:bold;transition:transform 0.3s;">▼</span>
+        </h2>
+    </div>
+    <div class="how-to-content">
+        <p style="font-size:1.1em;">Welcome! This tutorial teaches essential browser skills for Mac and Windows users — covering Safari, Chrome, Firefox, and Edge.</p>
+        <div class="warning-box"><strong>🖥️ Start by selecting your platform and browser above!</strong> The tutorial will then show you instructions tailored exactly to your setup.</div>
+        <div class="step"><span class="step-number">1</span> <strong>Choose your computer type (Mac or Windows PC)</strong> in the header above</div>
+        <div class="step"><span class="step-number">2</span> <strong>Choose your browser</strong> from the options that appear</div>
+        <div class="step"><span class="step-number">3</span> <strong>Expand lessons below</strong> — click any lesson title to open it</div>
+        <div class="step"><span class="step-number">4</span> <strong>Check off your progress</strong> — click the checkboxes as you master each skill</div>
+        <div class="step"><span class="step-number">5</span> <strong>Report issues when stuck</strong> — use the "🐛 My Issues" button in each lesson</div>
+        <div class="tip-box"><strong>💡 Pro Tip:</strong> Keep this tutorial open in one tab while you practice in another. Switch between tabs using <span class="keys">⌘ + Number</span> (Mac) or <span class="keys">Ctrl + Number</span> (Windows).</div>
+        <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed-how-to')">▲ Collapse This Section</button>
+    </div>
+</div>
+
+<!-- ON DEMAND -->
+<div class="on-demand-section">
+    <div class="on-demand-header" onclick="toggleOnDemand()" style="cursor:pointer;user-select:none;">
+        <h2 style="display:flex;align-items:center;justify-content:center;gap:15px;">
+            🎯 On Demand: Find What You Need
+            <span id="onDemandArrow" style="font-size:0.7em;color:#11998e;transition:transform 0.3s;transform:rotate(-90deg);">▼</span>
+        </h2>
+        <p>Tell me what you want to accomplish, and I'll show you exactly how!</p>
+    </div>
+    <div id="onDemandBody" style="display:none;">
+        <div class="prompt-container">
+            <textarea id="userPrompt" class="prompt-input" placeholder="Example: I want to save a webpage as PDF so I can read it later..." rows="6"></textarea>
+            <div class="prompt-buttons">
+                <button class="search-btn" onclick="searchTutorial()">🔍 Find My Steps</button>
+                <button class="ask-ai-btn" onclick="buildAIPrompt()">⚡ Build AI Prompt</button>
+                <button class="clear-btn" onclick="clearSearch()">✕ Clear</button>
+            </div>
+        </div>
+        <div class="example-queries">
+            <h4>💡 Try these examples:</h4>
+            <span class="example-tag" onclick="fillExample('Copy text from one document to another with both documents visible')">Copy between two documents</span>
+            <span class="example-tag" onclick="fillExample('Save a webpage as PDF')">Save as PDF</span>
+            <span class="example-tag" onclick="fillExample('Make text bigger on a webpage')">Make text bigger</span>
+            <span class="example-tag" onclick="fillExample('Find a specific word on a long webpage')">Find specific text</span>
+            <span class="example-tag" onclick="fillExample('Take a screenshot of my screen')">Take a screenshot</span>
+            <span class="example-tag" onclick="fillExample('View two windows side by side on my screen')">Split Screen</span>
+        </div>
+        <div id="resultsContainer" class="results-container"></div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     LESSON 1: Finding Your Keys
+════════════════════════════════════════ -->
+<div class="lesson">
+    <div class="lesson-header">
+        <div class="lesson-number">1</div>
+        <div>
+            <h2 class="lesson-title">Finding Your Keys</h2>
+            <span class="difficulty easy">EASY</span>
+            <div class="lesson-description">Learn to identify and locate the special keyboard modifier keys</div>
+        </div>
+    </div>
+
+    <div class="mac-only">
+        <h3>Understanding Mac Key Symbols</h3>
+        <p>Before using keyboard shortcuts, you need to know where these four special keys live on your Mac keyboard.</p>
+        <table>
+            <tr><th>Symbol</th><th>Key Name</th><th>Where to Find It</th></tr>
+            <tr><td style="font-size:1.3em;">⌘</td><td><strong>Command</strong></td><td>Bottom row, immediately left and right of the spacebar</td></tr>
+            <tr style="background:#f8f9fa;"><td style="font-size:1.3em;">⌥</td><td><strong>Option</strong></td><td>Next to the Command keys; says "option" or "alt"</td></tr>
+            <tr><td style="font-size:1.3em;">⇧</td><td><strong>Shift</strong></td><td>Left and right sides, above Command — has an upward arrow</td></tr>
+            <tr style="background:#f8f9fa;"><td style="font-size:1.3em;">⌃</td><td><strong>Control</strong></td><td>Bottom left corner; says "control" or shows "^"</td></tr>
+        </table>
+        <div class="tip-box"><strong>💡 Memory Tip:</strong> Most shortcuts use Command (⌘) as the main key. Think of it as the "Mac action key" — it's your new best friend!</div>
+        <div class="practice">
+            <div class="practice-title">Practice: Key Location Drill</div>
+            <ol>
+                <li>Place your left index finger on the <strong>Command</strong> key (⌘)</li>
+                <li>Move it to the <strong>Option</strong> key (⌥)</li>
+                <li>Find the <strong>Shift</strong> key (⇧) with your left pinky</li>
+                <li>Locate the <strong>Control</strong> key (⌃)</li>
+                <li>Repeat 5 times until you can find each key without looking</li>
+            </ol>
+        </div>
+        <div class="checkpoint">
+            <div class="checkpoint-title">Checkpoint: Can you do this?</div>
+            <ul class="checklist">
+                <li>I can find the Command key (⌘) without looking</li>
+                <li>I can find the Option key (⌥) quickly</li>
+                <li>I know where both Shift keys (⇧) are</li>
+                <li>I can locate the Control key (⌃)</li>
+            </ul>
+            <button class="my-issues-btn" onclick="openMyIssues('Lesson 1: Finding Your Keys')">🐛 My Issues</button>
+        </div>
+    </div>
+
+    <div class="windows-only">
+        <h3>Understanding Windows Keyboard Modifier Keys</h3>
+        <p>Before using shortcuts, you need to know where the special modifier keys are on your Windows keyboard.</p>
+        <div class="shortcut-box windows" style="margin:15px 0;">
+            <h4>🪟 Windows Keyboard Keys</h4>
+            <ul>
+                <li><strong>Ctrl (Control)</strong> — Bottom left and right corners</li>
+                <li><strong>Alt</strong> — Next to the spacebar (both sides)</li>
+                <li><strong>Shift</strong> — Large keys at far left and right</li>
+                <li><strong>⊞ Windows key</strong> — Between Ctrl and Alt (left side)</li>
+            </ul>
+        </div>
+        <div class="tip-box"><strong>💡 Key Translation from Mac:</strong> ⌘ Command (Mac) = <strong>Ctrl</strong> (Windows) &nbsp;|&nbsp; ⌥ Option (Mac) = <strong>Alt</strong> (Windows) &nbsp;|&nbsp; Shift is the same on both!</div>
+        <div class="checkpoint">
+            <div class="checkpoint-title">Checkpoint: Can you do this?</div>
+            <ul class="checklist">
+                <li>I can find both Ctrl keys without looking</li>
+                <li>I can find the Alt key quickly</li>
+                <li>I know where both Shift keys are</li>
+                <li>I can locate the Windows (⊞) key</li>
+            </ul>
+            <button class="my-issues-btn" onclick="openMyIssues('Lesson 1: Finding Your Keys')">🐛 My Issues</button>
+        </div>
+    </div>
+
+    <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed')">▲ Collapse This Section</button>
+</div>
+
+<!-- ═══════════════════════════════════════
+     LESSON 2: Tabs
+════════════════════════════════════════ -->
+<div class="lesson">
+    <div class="lesson-header">
+        <div class="lesson-number">2</div>
+        <div>
+            <h2 class="lesson-title">Opening &amp; Managing Tabs</h2>
+            <span class="difficulty easy">EASY</span>
+            <div class="lesson-description">Master tab creation, switching, and closing with keyboard shortcuts</div>
+        </div>
+    </div>
+
+    <p>Tabs are the foundation of modern web browsing. During BOLLI Zoom sessions, you'll often need multiple websites open at once!</p>
+
+    <!-- Safari (Mac only) -->
+    <div class="safari-content">
+        <div class="shortcut-box safari-box">
+            <h4>🧭 Safari Tab Shortcuts</h4>
+            <ul>
+                <li><span class="keys">⌘</span>+<span class="keys">T</span> — Open new tab</li>
+                <li><span class="keys">⌘</span>+<span class="keys">W</span> — Close current tab</li>
+                <li><span class="keys">⌘</span>+<span class="keys">1–9</span> — Jump to tab by number</li>
+                <li><span class="keys">⌘</span>+<span class="keys">Z</span> — Reopen last closed tab</li>
+            </ul>
+        </div>
+        <div class="practice">
+            <div class="practice-title">Practice Exercise: Opening Multiple Tabs</div>
+            <ol>
+                <li>Press <span class="keys">⌘</span>+<span class="keys">T</span> to open a new tab — practice this 4 times</li>
+                <li>Navigate to different sites: Tab 1 = Brandeis, Tab 2 = NY Times, Tab 3 = Guardian, Tab 4 = Google</li>
+                <li>Practice jumping: Press <span class="keys">⌘</span>+<span class="keys">1</span> (Brandeis), <span class="keys">⌘</span>+<span class="keys">3</span> (Guardian), <span class="keys">⌘</span>+<span class="keys">2</span> (NY Times)</li>
+                <li>Close a tab with <span class="keys">⌘</span>+<span class="keys">W</span>, then reopen it with <span class="keys">⌘</span>+<span class="keys">Z</span></li>
+            </ol>
+        </div>
+        <div class="warning-box"><strong>⚠️ Common Mistake:</strong> Hold Command BEFORE you press the letter or number. Don't try to press them at exactly the same time!</div>
+    </div>
+
+    <!-- Chrome -->
+    <div class="chrome-content">
+        <div class="shortcut-comparison">
+            <div class="shortcut-box mac">
+                <h4>🍎 Mac Chrome</h4>
+                <ul>
+                    <li><span class="keys">⌘</span>+<span class="keys">T</span> — New tab</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">W</span> — Close tab</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">1–9</span> — Jump to tab</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">⇧</span>+<span class="keys">T</span> — Reopen closed tab</li>
+                </ul>
+            </div>
+            <div class="shortcut-box windows">
+                <h4>🪟 Windows Chrome</h4>
+                <ul>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">T</span> — New tab</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">W</span> — Close tab</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">1–9</span> — Jump to tab</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">Shift</span>+<span class="keys">T</span> — Reopen closed tab</li>
+                </ul>
+            </div>
+        </div>
+        <div class="tip-box"><strong>💡 Chrome Split View (Windows):</strong> Right-click any tab and choose <strong>"Add tab to new split view"</strong> — Chrome splits the browser window in two instantly!</div>
+    </div>
+
+    <!-- Firefox -->
+    <div class="firefox-content">
+        <div class="shortcut-comparison">
+            <div class="shortcut-box mac">
+                <h4>🍎 Mac Firefox</h4>
+                <ul>
+                    <li><span class="keys">⌘</span>+<span class="keys">T</span> — New tab</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">W</span> — Close tab</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">1–9</span> — Jump to tab</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">⇧</span>+<span class="keys">T</span> — Reopen closed tab</li>
+                </ul>
+            </div>
+            <div class="shortcut-box windows">
+                <h4>🪟 Windows Firefox</h4>
+                <ul>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">T</span> — New tab</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">W</span> — Close tab</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">1–9</span> — Jump to tab</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">Shift</span>+<span class="keys">T</span> — Reopen closed tab</li>
+                </ul>
+            </div>
+        </div>
+        <div class="tip-box"><strong>💡 Firefox Tab Groups:</strong> Right-click any tab and select "Add Tab to Group" to organize tabs into color-coded groups — very handy when juggling multiple BOLLI courses!</div>
+    </div>
+
+    <!-- Edge -->
+    <div class="edge-content">
+        <div class="shortcut-comparison">
+            <div class="shortcut-box mac">
+                <h4>🍎 Mac Edge</h4>
+                <ul>
+                    <li><span class="keys">⌘</span>+<span class="keys">T</span> — New tab</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">W</span> — Close tab</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">1–9</span> — Jump to tab</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">⇧</span>+<span class="keys">T</span> — Reopen closed tab</li>
+                </ul>
+            </div>
+            <div class="shortcut-box windows">
+                <h4>🪟 Windows Edge</h4>
+                <ul>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">T</span> — New tab</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">W</span> — Close tab</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">1–9</span> — Jump to tab</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">Shift</span>+<span class="keys">T</span> — Reopen closed tab</li>
+                </ul>
+            </div>
+        </div>
+        <div class="tip-box"><strong>💡 Edge Vertical Tabs:</strong> Edge offers a unique vertical tab bar on the left side — great for managing many tabs! Click the tab icon at the top-left of the browser to enable it.</div>
+    </div>
+
+    <div class="success-box"><strong>🎯 Real-World Application:</strong> During a BOLLI Zoom session, keep: Tab 1 = Zoom meeting | Tab 2 = Course materials | Tab 3 = Discussion document | Tab 4 = Research notes. Switch instantly with number shortcuts!</div>
+    <div class="checkpoint">
+        <div class="checkpoint-title">Checkpoint: Tab Management Skills</div>
+        <ul class="checklist">
+            <li>I can open a new tab without thinking about it</li>
+            <li>I can close the current tab quickly</li>
+            <li>I can jump to any tab using the number keys</li>
+            <li>I can reopen accidentally closed tabs</li>
+            <li>I feel comfortable managing multiple tabs</li>
+        </ul>
+        <button class="my-issues-btn" onclick="openMyIssues('Lesson 2: Managing Tabs')">🐛 My Issues</button>
+    </div>
+    <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed')">▲ Collapse This Section</button>
+</div>
+
+<!-- ═══════════════════════════════════════
+     LESSON 3: Bookmarks
+════════════════════════════════════════ -->
+<div class="lesson">
+    <div class="lesson-header">
+        <div class="lesson-number">3</div>
+        <div>
+            <h2 class="lesson-title">Creating &amp; Managing Bookmarks</h2>
+            <span class="difficulty easy">EASY</span>
+            <div class="lesson-description">Save important websites and organize them for quick access to course materials</div>
+        </div>
+    </div>
+
+    <p>Bookmarks give you quick access to your Zoom links, course materials, and BOLLI homepage — no more retyping URLs!</p>
+
+    <!-- Safari -->
+    <div class="safari-content">
+        <div class="shortcut-box safari-box">
+            <h4>🧭 Safari Bookmark Shortcuts</h4>
+            <ul>
+                <li><span class="keys">⌘</span>+<span class="keys">D</span> — Bookmark current page</li>
+                <li><span class="keys">⌘</span>+<span class="keys">⌥</span>+<span class="keys">B</span> — Open/hide Bookmarks sidebar</li>
+            </ul>
+        </div>
+        <div class="practice">
+            <div class="practice-title">Practice: Bookmark and Organize</div>
+            <ol>
+                <li>Go to <strong>www.brandeis.edu</strong>, then press <span class="keys">⌘</span>+<span class="keys">D</span></li>
+                <li>Edit the name to "BOLLI Home" and click Add</li>
+                <li>Press <span class="keys">⌘</span>+<span class="keys">⌥</span>+<span class="keys">B</span> to open the Bookmarks sidebar</li>
+                <li>Right-click in the sidebar and choose "New Folder" — name it "BOLLI Courses"</li>
+                <li>Bookmark zoom.us and theguardian.com/us, saving each into your "BOLLI Courses" folder</li>
+            </ol>
+        </div>
+        <div class="tip-box"><strong>💡 Naming Tip:</strong> Give bookmarks short, clear names — "BOLLI Home" is much better than "Brandeis University Official Website Homepage"!</div>
+    </div>
+
+    <!-- Chrome -->
+    <div class="chrome-content">
+        <div class="shortcut-comparison">
+            <div class="shortcut-box mac">
+                <h4>🍎 Mac Chrome</h4>
+                <ul>
+                    <li><span class="keys">⌘</span>+<span class="keys">D</span> — Bookmark page</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">⇧</span>+<span class="keys">O</span> — Open Bookmark Manager</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">⇧</span>+<span class="keys">B</span> — Show/hide Bookmarks Bar</li>
+                </ul>
+            </div>
+            <div class="shortcut-box windows">
+                <h4>🪟 Windows Chrome</h4>
+                <ul>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">D</span> — Bookmark page</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">Shift</span>+<span class="keys">O</span> — Open Bookmark Manager</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">Shift</span>+<span class="keys">B</span> — Show/hide Bookmarks Bar</li>
+                </ul>
+            </div>
+        </div>
+        <div class="practice">
+            <div class="practice-title">Practice: Bookmark and Organize</div>
+            <ol>
+                <li>Go to www.brandeis.edu and press <span class="mac-only"><span class="keys">⌘</span>+<span class="keys">D</span></span><span class="windows-only"><span class="keys">Ctrl</span>+<span class="keys">D</span></span></li>
+                <li>Rename it "BOLLI Home" and click Done</li>
+                <li>Open the Bookmark Manager and create a "BOLLI Courses" folder</li>
+                <li>Toggle the Bookmarks Bar on for quick access</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Firefox -->
+    <div class="firefox-content">
+        <div class="shortcut-comparison">
+            <div class="shortcut-box mac">
+                <h4>🍎 Mac Firefox</h4>
+                <ul>
+                    <li><span class="keys">⌘</span>+<span class="keys">D</span> — Bookmark page</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">⇧</span>+<span class="keys">O</span> — Open Library (bookmarks)</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">⇧</span>+<span class="keys">B</span> — Show/hide Bookmarks Toolbar</li>
+                </ul>
+            </div>
+            <div class="shortcut-box windows">
+                <h4>🪟 Windows Firefox</h4>
+                <ul>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">D</span> — Bookmark page</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">Shift</span>+<span class="keys">O</span> — Open Library</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">Shift</span>+<span class="keys">B</span> — Show/hide Bookmarks Toolbar</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edge -->
+    <div class="edge-content">
+        <div class="shortcut-comparison">
+            <div class="shortcut-box mac">
+                <h4>🍎 Mac Edge</h4>
+                <ul>
+                    <li><span class="keys">⌘</span>+<span class="keys">D</span> — Add to Favorites</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">⇧</span>+<span class="keys">O</span> — Open Favorites Manager</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">⇧</span>+<span class="keys">B</span> — Show/hide Favorites Bar</li>
+                </ul>
+            </div>
+            <div class="shortcut-box windows">
+                <h4>🪟 Windows Edge</h4>
+                <ul>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">D</span> — Add to Favorites</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">Shift</span>+<span class="keys">O</span> — Open Favorites Manager</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">Shift</span>+<span class="keys">B</span> — Show/hide Favorites Bar</li>
+                </ul>
+            </div>
+        </div>
+        <div class="tip-box"><strong>💡 Edge Collections:</strong> Edge has a unique "Collections" feature (click the ✚ icon in the toolbar) — great for gathering research from multiple websites into named groups!</div>
+    </div>
+
+    <div class="success-box"><strong>🎯 Organizing Tips:</strong> Create folders for BOLLI Courses, Current Events, Research Tools, and Zoom Links. Rename bookmarks to short clear names. Use the Bookmarks Bar for your most-visited sites!</div>
+    <div class="checkpoint">
+        <div class="checkpoint-title">Checkpoint: Bookmark Mastery</div>
+        <ul class="checklist">
+            <li>I can bookmark a page in 2 seconds</li>
+            <li>I created a "BOLLI Courses" folder</li>
+            <li>I can organize bookmarks into folders</li>
+            <li>I know how to show/hide the Bookmarks Bar</li>
+        </ul>
+        <button class="my-issues-btn" onclick="openMyIssues('Lesson 3: Bookmarks')">🐛 My Issues</button>
+    </div>
+    <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed')">▲ Collapse This Section</button>
+</div>
+
+<!-- ═══════════════════════════════════════
+     LESSON 4: Screenshots
+════════════════════════════════════════ -->
+<div class="lesson">
+    <div class="lesson-header">
+        <div class="lesson-number">4</div>
+        <div>
+            <h2 class="lesson-title">Taking Screenshots</h2>
+            <span class="difficulty medium">MEDIUM</span>
+            <div class="lesson-description">Capture images of your screen to save important information from class</div>
+        </div>
+    </div>
+
+    <p>Screenshots let you capture what's on your screen — perfect for saving course materials, error messages, or sharing info with others.</p>
+
+    <div class="mac-only">
+        <div class="warning-box"><strong>ℹ️ Note:</strong> Screenshot shortcuts are an <em>operating system</em> feature — they work the same regardless of which browser you use on your Mac!</div>
+        <h3>🍎 Mac Screenshot Shortcuts</h3>
+        <div class="step"><span class="step-number">1</span> <strong>Entire Screen:</strong> <span class="keys">⇧</span>+<span class="keys">⌘</span>+<span class="keys">3</span> → Captures everything instantly; saves to Desktop</div>
+        <div class="step"><span class="step-number">2</span> <strong>Selected Area:</strong> <span class="keys">⇧</span>+<span class="keys">⌘</span>+<span class="keys">4</span> → Cursor becomes a crosshair — click and drag to select the area you want</div>
+        <div class="step"><span class="step-number">3</span> <strong>Specific Window:</strong> <span class="keys">⇧</span>+<span class="keys">⌘</span>+<span class="keys">4</span> then <span class="keys">Spacebar</span> → Cursor becomes a camera — click any window to capture it</div>
+        <div class="step"><span class="step-number">4</span> <strong>Screenshot Toolbar:</strong> <span class="keys">⇧</span>+<span class="keys">⌘</span>+<span class="keys">5</span> → All screenshot options plus screen recording!</div>
+        <div class="tip-box"><strong>💡 Where do screenshots go?</strong> By default, they save to your Desktop as PNG files with timestamps. You can change this in the screenshot toolbar (⇧⌘5) options.</div>
+    </div>
+
+    <div class="windows-only">
+        <div class="warning-box"><strong>ℹ️ Note:</strong> Screenshot shortcuts are a Windows operating system feature — they work the same regardless of which browser you use!</div>
+        <h3>🪟 Windows Screenshot Methods</h3>
+        <div class="step"><span class="step-number">1</span> <strong>Snipping Tool (Best method):</strong> <span class="keys">⊞ Win</span>+<span class="keys">Shift</span>+<span class="keys">S</span> → Screen dims; choose rectangular, freeform, window, or full screen capture. Goes to clipboard — paste it anywhere!</div>
+        <div class="step"><span class="step-number">2</span> <strong>Save Directly to File:</strong> <span class="keys">⊞ Win</span>+<span class="keys">PrtScn</span> → Screen flashes; screenshot saves automatically to Pictures &gt; Screenshots folder</div>
+        <div class="step"><span class="step-number">3</span> <strong>Active Window Only:</strong> <span class="keys">Alt</span>+<span class="keys">PrtScn</span> → Captures only the currently active window to clipboard</div>
+        <div class="tip-box"><strong>💡 Best Method:</strong> Use <span class="keys">⊞ Win + Shift + S</span> — it's the most flexible and user-friendly option in Windows!</div>
+    </div>
+
+    <div class="practice">
+        <div class="practice-title">Practice Exercise: Take a Test Screenshot</div>
+        <ol>
+            <li>Open a website — try www.brandeis.edu/osher</li>
+            <li>Take a screenshot using your platform's method above</li>
+            <li>Find your screenshot: <span class="mac-only">check your Desktop</span><span class="windows-only">if you used Win+Shift+S, paste it into a document; if Win+PrtScn, check Pictures &gt; Screenshots</span></li>
+        </ol>
+    </div>
+    <div class="success-box"><strong>🎯 BOLLI Use Cases:</strong> Save a slide from a presentation • Capture discussion questions from Zoom chat • Save an error message to share with tech support • Capture course schedule information</div>
+    <div class="checkpoint">
+        <div class="checkpoint-title">Checkpoint: Screenshot Skills</div>
+        <ul class="checklist">
+            <li>I can capture my entire screen quickly</li>
+            <li>I can capture just a selected area of my screen</li>
+            <li>I know where my screenshots are saved</li>
+            <li>I've successfully taken and found a test screenshot</li>
+        </ul>
+        <button class="my-issues-btn" onclick="openMyIssues('Lesson 4: Taking Screenshots')">🐛 My Issues</button>
+    </div>
+    <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed')">▲ Collapse This Section</button>
+</div>
+
+<!-- ═══════════════════════════════════════
+     LESSON 5: Split Screen
+════════════════════════════════════════ -->
+<div class="lesson">
+    <div class="lesson-header">
+        <div class="lesson-number">5</div>
+        <div>
+            <h2 class="lesson-title">Split Screen &amp; Window Management</h2>
+            <span class="difficulty medium">MEDIUM</span>
+            <div class="lesson-description">View multiple windows side-by-side for Zoom classes and efficient multitasking</div>
+        </div>
+    </div>
+
+    <p>During BOLLI Zoom sessions, you often need to see multiple things at once: the Zoom window, course materials, and your notes. Split screen makes this easy!</p>
+
+    <div class="mac-only">
+        <div class="warning-box"><strong>ℹ️ Note:</strong> On Mac, split screen is an operating system feature — it works the same in Safari, Chrome, Firefox, and Edge!</div>
+        <h3>🍎 Mac Split Screen</h3>
+        <div class="step"><span class="step-number">1</span> <strong>Find the green button</strong> — top-left corner of any window (the red/yellow/green dots)</div>
+        <div class="step"><span class="step-number">2</span> <strong>Click and HOLD the green button</strong> — hold for a moment until options appear (don't just click!)</div>
+        <div class="step"><span class="step-number">3</span> <strong>Choose a side</strong> — select "Tile Window to Left of Screen" or "to Right of Screen"</div>
+        <div class="step"><span class="step-number">4</span> <strong>Select the second window</strong> — click another open window to fill the other side</div>
+        <div class="step"><span class="step-number">5</span> <strong>Adjust the divider</strong> — drag the center line to resize each side to your preference</div>
+        <div class="step"><span class="step-number">6</span> <strong>Exit split screen</strong> — press <span class="keys">Esc</span>, or click the green button again, or press <span class="keys">⌃</span>+<span class="keys">⌘</span>+<span class="keys">F</span></div>
+        <div class="tip-box"><strong>💡 Quick Method:</strong> Hold <span class="keys">⌥ Option</span> and click the green button to instantly tile the window to one side!</div>
+        <div class="warning-box">
+            <strong>⚠️ Troubleshooting:</strong>
+            <ul style="margin-top: 10px;">
+                <li><strong>Green button does nothing:</strong> Try clicking and holding longer (1–2 seconds)</li>
+                <li><strong>Windows won't tile:</strong> Make sure you're not in full screen mode first (press Esc)</li>
+                <li><strong>Split looks wrong:</strong> Adjust the divider by dragging the center line</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="windows-only">
+        <h3>🪟 Windows Snap (All Browsers)</h3>
+        <div class="step"><span class="step-number">1</span> <strong>Keyboard Method (Fastest):</strong> Make a window active, then press <span class="keys">⊞ Win</span>+<span class="keys">←</span> to snap it left, or <span class="keys">⊞ Win</span>+<span class="keys">→</span> to snap it right</div>
+        <div class="step"><span class="step-number">2</span> <strong>Mouse Method:</strong> Click and drag a window's title bar to the left or right edge of the screen; release when the outline appears</div>
+        <div class="step"><span class="step-number">3</span> <strong>Select the second window</strong> — Windows will show your other open windows; click one to fill the other half</div>
+        <div class="step"><span class="step-number">4</span> <strong>Adjust the divider</strong> — drag the center line to resize</div>
+        <div class="tip-box"><strong>💡 Quarter Screen Snap:</strong> Win+Up = top half | Win+Down = bottom half | Win+Left then Up = top-left quarter</div>
+        <div class="chrome-content tip-box">
+            <strong>💡 Chrome Built-in Split View:</strong> Right-click any Chrome tab and choose "Add tab to new split view" — Chrome splits the browser window in two with no resizing needed!
+        </div>
+        <div class="edge-content tip-box">
+            <strong>💡 Edge Split Screen:</strong> Edge has a built-in split screen button in the toolbar (look for the two-rectangle icon). Click it to split your browser into two browsing panels side by side!
+        </div>
+    </div>
+
+    <div class="success-box">
+        <strong>🎯 Recommended BOLLI Setup:</strong><br>
+        <strong>Discussion Class:</strong> Left = Zoom (see classmates) | Right = Course readings or research browser<br>
+        <strong>Lecture Class:</strong> Left = Zoom (see presenter) | Right = Notes app or Google Doc<br>
+        <strong>Current Events:</strong> Left = Zoom | Right = Browser with multiple news tabs
+    </div>
+    <div class="checkpoint">
+        <div class="checkpoint-title">Checkpoint: Split Screen Mastery</div>
+        <ul class="checklist">
+            <li>I know how to activate split screen on my platform</li>
+            <li>I can create a split screen in under 10 seconds</li>
+            <li>I can adjust the split to my preferred layout</li>
+            <li>I know how to exit split screen</li>
+            <li>I can set up Zoom on one side and my browser on the other</li>
+        </ul>
+        <button class="my-issues-btn" onclick="openMyIssues('Lesson 5: Split Screen')">🐛 My Issues</button>
+    </div>
+    <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed')">▲ Collapse This Section</button>
+</div>
+
+<!-- ═══════════════════════════════════════
+     LESSON 6: Navigation Shortcuts
+════════════════════════════════════════ -->
+<div class="lesson">
+    <div class="lesson-header">
+        <div class="lesson-number">6</div>
+        <div>
+            <h2 class="lesson-title">Essential Navigation Shortcuts</h2>
+            <span class="difficulty easy">EASY</span>
+            <div class="lesson-description">Navigate websites quickly: address bar, back/forward, refresh, find text, zoom</div>
+        </div>
+    </div>
+
+    <!-- Safari -->
+    <div class="safari-content">
+        <div class="shortcut-box safari-box">
+            <h4>🧭 Safari Navigation Shortcuts</h4>
+            <ul>
+                <li><span class="keys">⌘</span>+<span class="keys">L</span> — Jump to address bar</li>
+                <li><span class="keys">⌘</span>+<span class="keys">[</span> — Go back &nbsp;|&nbsp; <span class="keys">⌘</span>+<span class="keys">]</span> — Go forward</li>
+                <li><span class="keys">⌘</span>+<span class="keys">R</span> — Refresh page</li>
+                <li><span class="keys">⌘</span>+<span class="keys">F</span> — Find text on page</li>
+                <li><span class="keys">⌘</span>+<span class="keys">+</span> / <span class="keys">-</span> — Zoom in/out &nbsp;|&nbsp; <span class="keys">⌘</span>+<span class="keys">0</span> — Reset zoom</li>
+            </ul>
+        </div>
+        <div class="practice">
+            <div class="practice-title">Practice: Quick URL Access and Find</div>
+            <ol>
+                <li>Press <span class="keys">⌘</span>+<span class="keys">L</span> — address bar highlights. Type: nytimes.com and press Return</li>
+                <li>Visit 4 more sites, then press <span class="keys">⌘</span>+<span class="keys">[</span> to go back through them</li>
+                <li>Press <span class="keys">⌘</span>+<span class="keys">F</span>, type "climate" — Safari highlights all matches</li>
+                <li>Press <span class="keys">⌘</span>+<span class="keys">+</span> three times to zoom in, then <span class="keys">⌘</span>+<span class="keys">0</span> to reset</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Chrome -->
+    <div class="chrome-content">
+        <div class="shortcut-comparison">
+            <div class="shortcut-box mac">
+                <h4>🍎 Mac Chrome</h4>
+                <ul>
+                    <li><span class="keys">⌘</span>+<span class="keys">L</span> — Address bar</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">[</span> / <span class="keys">]</span> — Back / Forward</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">R</span> — Refresh</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">F</span> — Find on page</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">+</span> / <span class="keys">-</span> / <span class="keys">0</span> — Zoom</li>
+                </ul>
+            </div>
+            <div class="shortcut-box windows">
+                <h4>🪟 Windows Chrome</h4>
+                <ul>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">L</span> — Address bar</li>
+                    <li><span class="keys">Alt</span>+<span class="keys">←</span> / <span class="keys">→</span> — Back / Forward</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">R</span> or <span class="keys">F5</span> — Refresh</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">F</span> — Find on page</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">+</span> / <span class="keys">-</span> / <span class="keys">0</span> — Zoom</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firefox -->
+    <div class="firefox-content">
+        <div class="shortcut-comparison">
+            <div class="shortcut-box mac">
+                <h4>🍎 Mac Firefox</h4>
+                <ul>
+                    <li><span class="keys">⌘</span>+<span class="keys">L</span> — Address bar</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">[</span> / <span class="keys">]</span> — Back / Forward</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">R</span> — Refresh</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">F</span> — Find (bar at bottom)</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">+</span> / <span class="keys">-</span> / <span class="keys">0</span> — Zoom</li>
+                </ul>
+            </div>
+            <div class="shortcut-box windows">
+                <h4>🪟 Windows Firefox</h4>
+                <ul>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">L</span> — Address bar</li>
+                    <li><span class="keys">Alt</span>+<span class="keys">←</span> / <span class="keys">→</span> — Back / Forward</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">R</span> — Refresh</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">F</span> — Find</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">+</span> / <span class="keys">-</span> / <span class="keys">0</span> — Zoom</li>
+                </ul>
+            </div>
+        </div>
+        <div class="tip-box"><strong>💡 Firefox Reader View:</strong> Press <span class="keys">F9</span> on any article to strip away ads and clutter — great for reading course materials!</div>
+    </div>
+
+    <!-- Edge -->
+    <div class="edge-content">
+        <div class="shortcut-comparison">
+            <div class="shortcut-box mac">
+                <h4>🍎 Mac Edge</h4>
+                <ul>
+                    <li><span class="keys">⌘</span>+<span class="keys">L</span> — Address bar</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">[</span> / <span class="keys">]</span> — Back / Forward</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">R</span> — Refresh</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">F</span> — Find on page</li>
+                    <li><span class="keys">⌘</span>+<span class="keys">+</span> / <span class="keys">-</span> / <span class="keys">0</span> — Zoom</li>
+                </ul>
+            </div>
+            <div class="shortcut-box windows">
+                <h4>🪟 Windows Edge</h4>
+                <ul>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">L</span> — Address bar</li>
+                    <li><span class="keys">Alt</span>+<span class="keys">←</span> / <span class="keys">→</span> — Back / Forward</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">R</span> — Refresh</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">F</span> — Find on page</li>
+                    <li><span class="keys">Ctrl</span>+<span class="keys">+</span> / <span class="keys">-</span> / <span class="keys">0</span> — Zoom</li>
+                </ul>
+            </div>
+        </div>
+        <div class="tip-box"><strong>💡 Edge Immersive Reader:</strong> Press <span class="keys">F9</span> on any article to activate Edge's Immersive Reader — removes distractions and can even read the page aloud!</div>
+    </div>
+
+    <div class="tip-box"><strong>💡 BOLLI Research Tip:</strong> When reading a long article for class, use Find to quickly locate specific terms your instructor mentioned — saves huge amounts of scrolling time!</div>
+    <div class="checkpoint">
+        <div class="checkpoint-title">Checkpoint: Navigation Skills</div>
+        <ul class="checklist">
+            <li>I can jump to the address bar instantly</li>
+            <li>I can navigate back and forward through my browsing history</li>
+            <li>I can refresh pages when needed</li>
+            <li>I can find specific text on long pages</li>
+            <li>I can adjust text size for comfortable reading</li>
+        </ul>
+        <button class="my-issues-btn" onclick="openMyIssues('Lesson 6: Navigation Shortcuts')">🐛 My Issues</button>
+    </div>
+    <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed')">▲ Collapse This Section</button>
+</div>
+
+<!-- ═══════════════════════════════════════
+     LESSON 7: Copy, Paste, Text
+════════════════════════════════════════ -->
+<div class="lesson">
+    <div class="lesson-header">
+        <div class="lesson-number">7</div>
+        <div>
+            <h2 class="lesson-title">Copy, Paste, and Text Management</h2>
+            <span class="difficulty easy">EASY</span>
+            <div class="lesson-description">Master essential text editing shortcuts that work in every application</div>
+        </div>
+    </div>
+
+    <p>These shortcuts work in your browser, Word, email, and almost every application — they are fundamental computer skills!</p>
+
+    <div class="mac-only">
+        <div class="shortcut-box mac">
+            <h4>🍎 Mac Text Shortcuts (All Browsers)</h4>
+            <ul>
+                <li><span class="keys">⌘</span>+<span class="keys">C</span> — Copy selected text or content</li>
+                <li><span class="keys">⌘</span>+<span class="keys">V</span> — Paste</li>
+                <li><span class="keys">⌘</span>+<span class="keys">X</span> — Cut (copy and delete)</li>
+                <li><span class="keys">⌘</span>+<span class="keys">Z</span> — Undo &nbsp;|&nbsp; <span class="keys">⌘</span>+<span class="keys">⇧</span>+<span class="keys">Z</span> — Redo</li>
+                <li><span class="keys">⌘</span>+<span class="keys">A</span> — Select all</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="windows-only">
+        <div class="shortcut-box windows">
+            <h4>🪟 Windows Text Shortcuts (All Browsers)</h4>
+            <ul>
+                <li><span class="keys">Ctrl</span>+<span class="keys">C</span> — Copy selected text or content</li>
+                <li><span class="keys">Ctrl</span>+<span class="keys">V</span> — Paste</li>
+                <li><span class="keys">Ctrl</span>+<span class="keys">X</span> — Cut (copy and delete)</li>
+                <li><span class="keys">Ctrl</span>+<span class="keys">Z</span> — Undo &nbsp;|&nbsp; <span class="keys">Ctrl</span>+<span class="keys">Y</span> — Redo</li>
+                <li><span class="keys">Ctrl</span>+<span class="keys">A</span> — Select all</li>
+            </ul>
+        </div>
+    </div>
+
+    <h3>Text Selection Techniques</h3>
+    <ul>
+        <li><strong>Double-click</strong> any word to select it</li>
+        <li><strong>Triple-click</strong> anywhere in a paragraph to select the whole paragraph</li>
+        <li><strong>Click and drag</strong> across text to select a custom range</li>
+        <li><strong><span class="mac-only">⌘</span><span class="windows-only">Ctrl</span>+A</strong> to select everything on the page</li>
+    </ul>
+
+    <div class="practice">
+        <div class="practice-title">Practice Exercise: BOLLI Note-Taking Workflow</div>
+        <ol>
+            <li>Open your browser and go to any article on wikipedia.org</li>
+            <li>Double-click a word to select it, then copy it: <span class="mac-only"><span class="keys">⌘</span>+<span class="keys">C</span></span><span class="windows-only"><span class="keys">Ctrl</span>+<span class="keys">C</span></span></li>
+            <li>Open the Notes app or a Google Doc</li>
+            <li>Paste with <span class="mac-only"><span class="keys">⌘</span>+<span class="keys">V</span></span><span class="windows-only"><span class="keys">Ctrl</span>+<span class="keys">V</span></span> — the text appears!</li>
+            <li>Repeat with a full paragraph: click and drag to select, copy, paste to your notes</li>
+        </ol>
+    </div>
+    <div class="success-box"><strong>🎯 BOLLI Note-Taking Workflow:</strong> During a Zoom class, find a relevant article in your browser → select the key quote → copy it → switch to your notes → paste it. All without typing it by hand!</div>
+    <div class="checkpoint">
+        <div class="checkpoint-title">Checkpoint: Text Management</div>
+        <ul class="checklist">
+            <li>I can select text by double-clicking, triple-clicking, and dragging</li>
+            <li>I can copy and paste text between windows</li>
+            <li>I can undo mistakes quickly</li>
+            <li>I've copied text from a webpage into a notes document</li>
+        </ul>
+        <button class="my-issues-btn" onclick="openMyIssues('Lesson 7: Copy, Paste, Text Management')">🐛 My Issues</button>
+    </div>
+    <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed')">▲ Collapse This Section</button>
+</div>
+
+<!-- ═══════════════════════════════════════
+     LESSON 8: Putting It All Together
+════════════════════════════════════════ -->
+<div class="lesson">
+    <div class="lesson-header">
+        <div class="lesson-number">8</div>
+        <div>
+            <h2 class="lesson-title">Putting It All Together</h2>
+            <span class="difficulty comprehensive">COMPREHENSIVE</span>
+            <div class="lesson-description">Combine all your skills for a complete BOLLI Zoom meeting workflow</div>
+        </div>
+    </div>
+
+    <p>Now let's combine everything you've learned into the complete setup you'll use for every BOLLI class!</p>
+
+    <div class="step"><span class="step-number">1</span> <strong>Before class:</strong> Bookmark your Zoom link and course materials in your "BOLLI Courses" folder</div>
+    <div class="step"><span class="step-number">2</span> <strong>Join the session:</strong> Open your Zoom link from bookmarks; open course materials in another tab</div>
+    <div class="step"><span class="step-number">3</span> <strong>Set up split screen:</strong> Zoom on the left, your browser or notes on the right</div>
+    <div class="step"><span class="step-number">4</span> <strong>During class:</strong> Use Find to locate specific topics; Copy-paste key quotes to your notes document</div>
+    <div class="step"><span class="step-number">5</span> <strong>Capture important moments:</strong> Screenshot slides or key discussion points to review later</div>
+
+    <div class="tip-box">
+        <strong>💡 Power User Tips:</strong>
+        <ul style="margin-top: 10px;">
+            <li>Keep most-used tabs in positions 1–4 for quick switching with number shortcuts</li>
+            <li>Use bookmarks for course materials you reference frequently</li>
+            <li>Zoom in for comfortable reading during long sessions</li>
+            <li>Keep a running Google Doc for each course</li>
+            <li>Screenshot important slides so you have them for review</li>
+        </ul>
+    </div>
+    <div class="success-box"><strong>🎯 You're Now a Power User!</strong> You've learned to: manage multiple tabs and windows efficiently • work with split screen for multitasking • navigate and organize information quickly • capture and save important content • participate effectively in online classes</div>
+    <div class="checkpoint">
+        <div class="checkpoint-title">Final Mastery Checklist</div>
+        <ul class="checklist">
+            <li>I can set up my complete Zoom meeting workspace in under 2 minutes</li>
+            <li>I can manage tabs, bookmarks, and windows without thinking</li>
+            <li>I can capture information efficiently during live discussions</li>
+            <li>I can navigate between resources seamlessly</li>
+            <li>I feel confident using keyboard shortcuts in real BOLLI classes</li>
+        </ul>
+        <button class="my-issues-btn" onclick="openMyIssues('Lesson 8: Putting It All Together')">🐛 My Issues</button>
+    </div>
+    <button class="collapse-section-btn" onclick="this.closest('.lesson').classList.add('collapsed')">▲ Collapse This Section</button>
+</div>
+
+<!-- NEXT STEPS -->
+<div class="lesson">
+    <h2 style="color: #667eea; margin-top: 0;">📚 Next Steps for Continued Learning</h2>
+    <div class="success-box"><strong>🎉 Congratulations!</strong> You've completed the Browser Skills Tutorial. Here's how to keep improving:</div>
+    <div class="step"><span class="step-number">1</span> <strong>Practice daily</strong> — Use these shortcuts in your regular browsing. Muscle memory takes 2–3 weeks!</div>
+    <div class="step"><span class="step-number">2</span> <strong>Start with your favorites</strong> — Pick 3–4 shortcuts you'll use most and master those first</div>
+    <div class="step"><span class="step-number">3</span> <strong>Teach someone else</strong> — Explaining shortcuts to others reinforces your own learning</div>
+    <div class="step"><span class="step-number">4</span> <strong>Help others</strong> — Share this tutorial with BOLLI classmates; form a "Tech Tips" study group</div>
+    <div class="tip-box"><strong>💡 Remember:</strong> The goal isn't to memorize every shortcut — it's to work more efficiently and enjoy your BOLLI classes more fully!</div>
+    <div style="text-align: center; margin-top: 20px;">
+        <h3 style="color: #667eea;">Questions or Need Help?</h3>
+        <p>Contact the BOLLI Technology Committee &bull; Attend BOLLI tech help sessions &bull; Form a study group with fellow learners!</p>
+        <p style="color: #666;"><em>Every expert was once a beginner. You've taken the first steps to tech confidence!</em></p>
+    </div>
+</div>
+
+<div style="text-align: center; padding: 20px; color: #666; font-size: 0.9em;">
+    <p>Created for BOLLI Members | Brandeis University</p>
+    <p>💡 Keep learning, keep growing, keep connecting!</p>
+</div>
+
+<script>
+// ════════════════════════════════
+//  PLATFORM & BROWSER SELECTION
+// ════════════════════════════════
+var currentPlatform = null;
+var currentBrowser = null;
+
+function setPlatform(platform) {
+    currentPlatform = platform;
+    currentBrowser = null;
+
+    document.body.classList.remove('sel-mac','sel-windows','sel-safari','sel-chrome','sel-firefox','sel-edge');
+    document.body.classList.add('sel-' + platform);
+
+    document.querySelectorAll('.platform-badge').forEach(function(b){ b.classList.remove('active'); });
+    document.querySelector('.' + platform + '-badge').classList.add('active');
+
+    // Safari only on Mac
+    var safariBtn = document.getElementById('bb-safari');
+    safariBtn.style.display = (platform === 'mac') ? '' : 'none';
+
+    document.querySelectorAll('.browser-badge').forEach(function(b){ b.classList.remove('active'); });
+    document.getElementById('browserRow').classList.add('visible');
+
+    updateStatus();
+    saveSetting();
+}
+
+function setBrowser(browser) {
+    currentBrowser = browser;
+    document.body.classList.remove('sel-safari','sel-chrome','sel-firefox','sel-edge');
+    document.body.classList.add('sel-' + browser);
+
+    document.querySelectorAll('.browser-badge').forEach(function(b){ b.classList.remove('active'); });
+    document.getElementById('bb-' + browser).classList.add('active');
+
+    updateStatus();
+    saveSetting();
+    document.querySelector('.progress-bar').scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+function updateStatus() {
+    var el = document.getElementById('selectionStatus');
+    var pNames = { mac:'Mac', windows:'Windows PC' };
+    var bNames = { safari:'Safari', chrome:'Chrome', firefox:'Firefox', edge:'Edge' };
+    var bIcons = { safari:'🧭', chrome:'🔵', firefox:'🦊', edge:'💠' };
+    if (!currentPlatform) {
+        el.textContent = '← Start here: choose your computer type';
+    } else if (!currentBrowser) {
+        el.textContent = '✓ ' + pNames[currentPlatform] + ' selected — now choose your browser above →';
+    } else {
+        el.textContent = '✓ Showing instructions for ' + pNames[currentPlatform] + ' • ' + bIcons[currentBrowser] + ' ' + bNames[currentBrowser];
+    }
+}
+
+function saveSetting() {
+    if (currentPlatform) localStorage.setItem('tutPlatform', currentPlatform);
+    if (currentBrowser) localStorage.setItem('tutBrowser', currentBrowser);
+}
+
+function loadSetting() {
+    var p = localStorage.getItem('tutPlatform');
+    var b = localStorage.getItem('tutBrowser');
+    if (p) setPlatform(p);
+    if (b) setBrowser(b);
+}
+
+// ════════════════════════════════
+//  PROGRESS TRACKING
+// ════════════════════════════════
+document.addEventListener('DOMContentLoaded', function() {
+    var checklistItems = document.querySelectorAll('.checklist li');
+    var lessons = [
+        { number:1, title:'Finding Your Keys', checkboxes:[] },
+        { number:2, title:'Managing Tabs', checkboxes:[] },
+        { number:3, title:'Bookmarks', checkboxes:[] },
+        { number:4, title:'Taking Screenshots', checkboxes:[] },
+        { number:5, title:'Split Screen', checkboxes:[] },
+        { number:6, title:'Navigation Shortcuts', checkboxes:[] },
+        { number:7, title:'Copy, Paste, Text', checkboxes:[] },
+        { number:8, title:'Putting It All Together', checkboxes:[] }
+    ];
+
+    // Make lessons collapsible
+    document.querySelectorAll('.lesson').forEach(function(lesson, index) {
+        if (index === 0) return;
+        var header = lesson.querySelector('.lesson-header');
+        if (header) {
+            var content = Array.from(lesson.children).filter(function(c){ return c !== header; });
+            var div = document.createElement('div');
+            div.className = 'lesson-content';
+            content.forEach(function(el){ div.appendChild(el); });
+            lesson.appendChild(div);
+            lesson.classList.add('collapsible','collapsed');
+            header.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') return;
+                lesson.classList.toggle('collapsed');
+            });
+        }
+    });
+
+    setTimeout(function() {
+        document.querySelectorAll('.lesson').forEach(function(lessonEl, i) {
+            var cbs = lessonEl.querySelectorAll('.checklist li');
+            if (i > 0 && i-1 < lessons.length && cbs.length > 0) {
+                lessons[i-1].checkboxes = Array.from(cbs);
+            }
+        });
+    }, 100);
+
+    loadProgress();
+
+    checklistItems.forEach(function(item) {
+        item.addEventListener('click', function() {
+            this.classList.toggle('checked');
+            updateProgress();
+            updateDashboard();
+            saveProgress();
+        });
+    });
+
+    function updateProgress() {
+        var total = checklistItems.length;
+        var checked = document.querySelectorAll('.checklist li.checked').length;
+        var pct = Math.round((checked/total)*100);
+        var fill = document.getElementById('progress');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+
+    function updateDashboard() {
+        var total = checklistItems.length;
+        var checked = document.querySelectorAll('.checklist li.checked').length;
+        var pct = Math.round((checked/total)*100);
+        document.getElementById('totalChecked').textContent = checked;
+        document.getElementById('overallPercent').textContent = pct + '%';
+        document.getElementById('lessonsCompleted').textContent = lessons.filter(function(l){
+            return l.checkboxes.length > 0 && l.checkboxes.every(function(cb){ return cb.classList.contains('checked'); });
+        }).length;
+        var list = document.getElementById('lessonProgressList');
+        list.innerHTML = '';
+        lessons.forEach(function(lesson) {
+            if (lesson.checkboxes.length === 0) return;
+            var lc = lesson.checkboxes.filter(function(cb){ return cb.classList.contains('checked'); }).length;
+            var lt = lesson.checkboxes.length;
+            var lp = Math.round((lc/lt)*100);
+            var done = lp === 100;
+            var item = document.createElement('div');
+            item.className = 'lesson-progress-item' + (done ? ' completed' : '');
+            item.innerHTML = '<div class="lesson-progress-title"><span>' + (done ? '✓' : '○') + ' Lesson ' + lesson.number + ': ' + lesson.title + '</span><span>' + lc + '/' + lt + '</span></div><div class="lesson-progress-bar"><div class="lesson-progress-bar-fill" style="width:' + lp + '%"></div></div>';
+            list.appendChild(item);
+        });
+    }
+
+    function saveProgress() {
+        var progress = Array.from(checklistItems).map(function(item){ return item.classList.contains('checked'); });
+        localStorage.setItem('bolliCombinedTutorialProgress', JSON.stringify(progress));
+    }
+
+    function loadProgress() {
+        var saved = localStorage.getItem('bolliCombinedTutorialProgress');
+        if (saved) {
+            var progress = JSON.parse(saved);
+            checklistItems.forEach(function(item, i){ if (progress[i]) item.classList.add('checked'); });
+            updateProgress();
+            updateDashboard();
+        }
+    }
+
+    // Reset button
+    var progressBar = document.querySelector('.progress-bar');
+    var resetBtn = document.createElement('button');
+    resetBtn.textContent = 'Reset Progress';
+    resetBtn.style.cssText = 'margin-top:10px;padding:8px 16px;background:#dc3545;color:white;border:none;border-radius:6px;cursor:pointer;font-size:0.9em;margin-right:10px;';
+    resetBtn.addEventListener('click', function() {
+        if (confirm('Are you sure you want to reset all your progress?')) {
+            checklistItems.forEach(function(item){ item.classList.remove('checked'); });
+            updateProgress(); updateDashboard();
+            localStorage.removeItem('bolliCombinedTutorialProgress');
+        }
+    });
+    progressBar.appendChild(resetBtn);
+
+    // Issues button
+    var issuesBtn = document.createElement('button');
+    issuesBtn.textContent = '🐛 View My Issues';
+    issuesBtn.style.cssText = 'margin-top:10px;padding:8px 16px;background:#ffc107;color:#333;border:none;border-radius:6px;cursor:pointer;font-size:0.9em;font-weight:600;';
+    issuesBtn.addEventListener('click', function(){ openMyIssues(''); });
+    progressBar.appendChild(issuesBtn);
+
+    updateProgress(); updateDashboard();
+    // Always start fresh — students choose their platform and browser each session
+
+    var promptEl = document.getElementById('userPrompt');
+    if (promptEl) {
+        promptEl.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); searchTutorial(); }
+        });
+    }
+});
+
+// ════════════════════════════════
+//  ON DEMAND SEARCH
+// ════════════════════════════════
+function toggleOnDemand() {
+    var body = document.getElementById('onDemandBody');
+    var arrow = document.getElementById('onDemandArrow');
+    var isHidden = body.style.display === 'none';
+    body.style.display = isHidden ? 'block' : 'none';
+    arrow.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(-90deg)';
+}
+
+function fillExample(text) {
+    document.getElementById('userPrompt').value = text;
+    var body = document.getElementById('onDemandBody');
+    if (body.style.display === 'none') toggleOnDemand();
+    searchTutorial();
+}
+
+function clearSearch() {
+    document.getElementById('userPrompt').value = '';
+    var rc = document.getElementById('resultsContainer');
+    rc.innerHTML = ''; rc.classList.remove('visible');
+}
+
+var tutorialKnowledge = {
+    tabs: {
+        keywords: ['tab','window','browser','switch','open','close','new'],
+        tasks: [
+            { goal:'open new tab', keywords:['new tab','open tab','create tab'], title:'Opening a New Tab',
+              steps:['Mac: Press Command (⌘) + T','Windows: Press Ctrl + T','A new empty tab appears at the top of the browser'] },
+            { goal:'close tab', keywords:['close','close tab','remove tab'], title:'Closing a Tab',
+              steps:['Mac: Press Command (⌘) + W','Windows: Press Ctrl + W'] },
+            { goal:'switch between tabs', keywords:['switch','jump','navigate tab','go to tab'], title:'Switching Between Tabs',
+              steps:['Mac: Press ⌘ + 1 for first tab, ⌘ + 2 for second, etc.','Windows: Press Ctrl + 1, Ctrl + 2, etc.','Works in all browsers!'] },
+            { goal:'reopen closed tab', keywords:['reopen','restore','undo close'], title:'Reopening a Closed Tab',
+              steps:['Chrome/Firefox/Edge Mac: ⌘ + Shift + T','Chrome/Firefox/Edge Windows: Ctrl + Shift + T','Safari Mac: ⌘ + Z'] },
+            { goal:'view multiple tabs', keywords:['multiple','side by side','split','compare','together'], title:'Viewing Multiple Tabs Side by Side',
+              steps:['Chrome: Right-click any tab → "Add tab to new split view"','Mac: Hold and click the green button → Tile window left or right','Windows: Press Win + Left/Right arrow to snap windows to sides','Edge Windows: Click the split screen button in the toolbar'] }
+        ]
+    },
+    bookmarks: {
+        keywords: ['bookmark','save','favorite','organize','folder','bar'],
+        tasks: [
+            { goal:'create bookmark', keywords:['create','bookmark','add','save page','save site'], title:'Creating a Bookmark',
+              steps:['Mac (all browsers): Press ⌘ + D','Windows (all browsers): Press Ctrl + D','Edit the name if desired, then click Done or Add'] },
+            { goal:'organize bookmarks', keywords:['organize','manage','folders','rearrange','delete'], title:'Organizing Bookmarks',
+              steps:['Chrome/Edge Mac: ⌘ + Shift + O to open Bookmark Manager','Chrome/Edge Windows: Ctrl + Shift + O','Firefox Mac: ⌘ + Shift + O','Safari Mac: ⌘ + Option + B to open sidebar','Create folders and drag bookmarks to organize them'] },
+            { goal:'show bookmarks bar', keywords:['show','bar','toolbar','visible'], title:'Showing the Bookmarks Bar',
+              steps:['Mac (Chrome/Firefox/Edge): ⌘ + Shift + B','Windows: Ctrl + Shift + B','Safari: View menu → Show Favorites Bar'] }
+        ]
+    },
+    zoom: {
+        keywords: ['zoom','bigger','smaller','larger','size','text','magnify','enlarge'],
+        tasks: [
+            { goal:'make text bigger', keywords:['bigger','larger','zoom in','magnify','enlarge'], title:'Making Text Bigger (Zoom In)',
+              steps:['Mac: Press ⌘ + Plus (+)','Windows: Press Ctrl + Plus (+)','Each website remembers its zoom level'] },
+            { goal:'make text smaller', keywords:['smaller','zoom out','shrink','reduce'], title:'Making Text Smaller (Zoom Out)',
+              steps:['Mac: Press ⌘ + Minus (-)','Windows: Press Ctrl + Minus (-)'] },
+            { goal:'reset zoom', keywords:['reset','normal','default','original'], title:'Resetting Zoom to Normal',
+              steps:['Mac: Press ⌘ + 0 (zero)','Windows: Press Ctrl + 0 (zero)'] }
+        ]
+    },
+    find: {
+        keywords: ['find','search','locate','word','text','phrase','look for'],
+        tasks: [
+            { goal:'find text on page', keywords:['find','search','locate','word','phrase','specific'], title:'Finding Text on a Webpage',
+              steps:['Mac: Press ⌘ + F','Windows: Press Ctrl + F','Type the word or phrase you want to find','Browser highlights all matches on the page','Use up/down arrows to jump between matches','Press Esc to close the search box'] }
+        ]
+    },
+    screenshot: {
+        keywords: ['screenshot','capture','picture','screen','photo','grab','snap'],
+        tasks: [
+            { goal:'take screenshot', keywords:['screenshot','capture','picture','screen','grab'], title:'Taking a Screenshot',
+              steps:['Mac - Full screen: Shift + ⌘ + 3','Mac - Selected area: Shift + ⌘ + 4, then drag','Mac - Screenshot toolbar: Shift + ⌘ + 5','Windows - Snipping Tool: Win + Shift + S (recommended)','Windows - Full screen to file: Win + PrtScn'] }
+        ]
+    },
+    splitscreen: {
+        keywords: ['split','side by side','two windows','half','tile','zoom meeting'],
+        tasks: [
+            { goal:'split screen', keywords:['split','side by side','two windows','half','tile','zoom'], title:'Setting Up Split Screen',
+              steps:['Mac: Click and hold the green button on any window → choose Tile Left or Right','Windows: Press Win + Left (or Right) arrow key','Windows: Or drag a window to the left/right edge of the screen','Chrome: Right-click a tab → "Add tab to new split view"','Edge Windows: Click the split screen button in the toolbar'] }
+        ]
+    },
+    copy: {
+        keywords: ['copy','paste','text','cut','undo','select'],
+        tasks: [
+            { goal:'copy and paste', keywords:['copy','paste','duplicate','transfer'], title:'Copy and Paste',
+              steps:['Select text by clicking and dragging (or double-click a word)','Mac: ⌘ + C to copy, then ⌘ + V to paste','Windows: Ctrl + C to copy, then Ctrl + V to paste','Works in all browsers and applications!'] },
+            { goal:'undo mistake', keywords:['undo','mistake','error','revert'], title:'Undoing a Mistake',
+              steps:['Mac: Press ⌘ + Z to undo','Windows: Press Ctrl + Z to undo','Press multiple times to undo multiple steps'] }
+        ]
+    },
+    print: {
+        keywords: ['print','pdf','save','paper','document','offline'],
+        tasks: [
+            { goal:'print webpage', keywords:['print','printer','paper'], title:'Printing a Webpage',
+              steps:['Mac: Press ⌘ + P','Windows: Press Ctrl + P','Select your printer and click Print'] },
+            { goal:'save as pdf', keywords:['pdf','save','download','offline','reading'], title:'Saving a Webpage as PDF',
+              steps:['Mac: Press ⌘ + P','Windows: Press Ctrl + P','Change Destination to "Save as PDF"','Click Save and choose where to save the file'] }
+        ]
+    }
+};
+
+function searchTutorial() {
+    var query = document.getElementById('userPrompt').value.toLowerCase().trim();
+    if (!query) { alert('Please describe what you want to accomplish!'); return; }
+    var queryWords = query.split(/\s+/);
+    var results = [];
+    for (var key in tutorialKnowledge) {
+        var data = tutorialKnowledge[key];
+        for (var t = 0; t < data.tasks.length; t++) {
+            var task = data.tasks[t];
+            var score = 0;
+            for (var k = 0; k < task.keywords.length; k++) { if (query.indexOf(task.keywords[k]) !== -1) score += 3; }
+            for (var k = 0; k < data.keywords.length; k++) { if (query.indexOf(data.keywords[k]) !== -1) score += 2; }
+            for (var w = 0; w < queryWords.length; w++) {
+                var word = queryWords[w];
+                if (word.length > 3) {
+                    for (var k = 0; k < task.keywords.length; k++) {
+                        if (task.keywords[k].length > 3 && (task.keywords[k].indexOf(word) !== -1 || word.indexOf(task.keywords[k]) !== -1)) { score += 1; break; }
+                    }
+                }
+            }
+            if (score > 0) results.push({ title:task.title, steps:task.steps, score:score });
+        }
+    }
+    results.sort(function(a,b){ return b.score - a.score; });
+    displayResults(results, query);
+}
+
+function filterSteps(steps) {
+    var isMac = currentPlatform === 'mac';
+    var isWin = currentPlatform === 'windows';
+    var browser = currentBrowser; // 'safari','chrome','firefox','edge' or null
+
+    // Browser names used as prefixes in step strings
+    var browserNames = { safari:'safari', chrome:'chrome', firefox:'firefox', edge:'edge' };
+
+    return steps.filter(function(s) {
+        var sl = s.toLowerCase();
+
+        // ── PLATFORM FILTER ──────────────────────────────────
+        if (isMac && (sl.indexOf('windows:') === 0 || sl.indexOf('win +') !== -1)) return false;
+        if (isWin && (sl.indexOf('mac:') === 0 || s.indexOf('⌘') !== -1)) return false;
+
+        // ── BROWSER FILTER ───────────────────────────────────
+        // Only filter when a browser is selected AND the step starts with a browser prefix
+        if (!browser) return true;  // no browser chosen → show everything
+
+        // Detect whether this step is browser-scoped at all.
+        // A step is browser-scoped if it begins with one or more browser names
+        // separated by slashes or "or", e.g. "Chrome:", "Chrome/Edge Mac:", "Safari Mac:"
+        // We strip any trailing platform word before the colon: "Chrome/Edge Mac:" → "chrome/edge"
+        var colonIdx = sl.indexOf(':');
+        if (colonIdx === -1) return true;  // no colon prefix → universal step, always show
+
+        var prefix = sl.slice(0, colonIdx)
+                       .replace(/\b(mac|windows|win)\b/g, '')  // strip platform words
+                       .replace(/\s+/g, '');                    // strip whitespace
+
+        // Check if prefix contains any browser name at all
+        var knownBrowsers = ['safari','chrome','firefox','edge'];
+        var hasBrowserPrefix = knownBrowsers.some(function(b){ return prefix.indexOf(b) !== -1; });
+        if (!hasBrowserPrefix) return true;  // prefix is platform-only ("Mac:", "Windows:") → already handled above
+
+        // Step is browser-scoped: keep it only if it mentions the selected browser
+        return prefix.indexOf(browserNames[browser]) !== -1;
+    }).map(function(s) {
+        // Strip the now-redundant browser prefix from the displayed text for cleanliness
+        // e.g. "Chrome Mac: ⌘ + T" → "⌘ + T"  |  "Chrome/Edge Mac: ⌘ + T" → "⌘ + T"
+        if (!browser) return s;
+        return s.replace(/^[A-Za-z\s\/]+:\s*/, function(match) {
+            var ml = match.toLowerCase();
+            var knownBrowsers = ['safari','chrome','firefox','edge'];
+            var hasBrowserPfx = knownBrowsers.some(function(b){ return ml.indexOf(b) !== -1; });
+            return hasBrowserPfx ? '' : match;  // only strip if it was a browser prefix
+        });
+    });
+}
+
+function displayResults(results, query) {
+    var rc = document.getElementById('resultsContainer');
+    var browserLabels = { safari:'Safari', chrome:'Chrome', firefox:'Firefox', edge:'Edge' };
+    var platformLabels = { mac:'Mac', windows:'Windows' };
+    var contextNote = '';
+    if (currentPlatform || currentBrowser) {
+        var parts = [];
+        if (currentPlatform) parts.push(platformLabels[currentPlatform]);
+        if (currentBrowser)  parts.push(browserLabels[currentBrowser]);
+        contextNote = ' <span style="font-size:0.82em;opacity:0.75;font-weight:normal;">— filtered for ' + parts.join(' · ') + '</span>';
+    }
+
+    if (results.length === 0) {
+        rc.innerHTML = '<div class="no-results"><h3>🔍 No exact match found</h3><p>Try rephrasing, or browse the lessons below.</p></div>';
+    } else {
+        var top = results.slice(0, 3);
+        var html = '<div class="results-header"><h3>✨ Here\'s how to: "' + query + '"' + contextNote + '</h3><p>Found ' + top.length + ' relevant ' + (top.length===1?'solution':'solutions') + '</p></div>';
+        top.forEach(function(result, idx) {
+            var steps = filterSteps(result.steps.slice());
+            html += '<div class="result-item"><h4>' + (idx+1) + '. ' + result.title + '</h4><div class="result-steps"><ol>' + steps.map(function(s){ return '<li>' + s + '</li>'; }).join('') + '</ol></div></div>';
+        });
+        rc.innerHTML = html;
+    }
+    rc.classList.add('visible');
+    rc.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+// ════════════════════════════════
+//  PROMPT BUILDER
+//  Assembles a structured, context-aware prompt the student
+//  can paste directly into Claude or any AI assistant.
+//  Bridge between Find My Steps (local) and live AI dialogue.
+// ════════════════════════════════
+function buildAIPrompt() {
+    var userGoal = document.getElementById('userPrompt').value.trim();
+    if (!userGoal) { alert('Please describe what you want to accomplish first!'); return; }
+
+    var pNames = { mac: 'Mac (macOS)', windows: 'Windows PC' };
+    var bNames = { safari: 'Safari', chrome: 'Google Chrome', firefox: 'Mozilla Firefox', edge: 'Microsoft Edge' };
+    var pLabel = currentPlatform ? pNames[currentPlatform] : null;
+    var bLabel = currentBrowser  ? bNames[currentBrowser]  : null;
+
+    var mySetup = [];
+    if (pLabel) mySetup.push(pLabel);
+    if (bLabel) mySetup.push(bLabel + ' browser');
+    var setupLine = mySetup.length ? mySetup.join(', ') : 'computer setup not specified';
+
+    var prompt =
+        'MY GOAL\n' +
+        userGoal + '\n\n' +
+        'MY SETUP\n' +
+        'I am using a ' + setupLine + '.\n\n' +
+        'ABOUT ME\n' +
+        'I am an older adult building keyboard skills.\n' +
+        'I prefer keyboard shortcuts over clicking through menus.\n\n' +
+        'PLEASE\n' +
+        '  1. Give me numbered steps, one action per step\n' +
+        '  2. Spell out shortcuts in plain words, for example:\n' +
+        '        "Hold the Command key, then press T"\n' +
+        '     rather than shorthand like Command-T\n' +
+        '  3. Use menus only when no keyboard shortcut exists\n' +
+        '  4. If there is more than one way, start with the simplest';
+
+    // Build context tags for display
+    var tags = '';
+    if (pLabel) tags += '<span class="modal-context-tag">🖥 ' + pLabel + '</span>';
+    if (bLabel) tags += '<span class="modal-context-tag">🌐 ' + bLabel + '</span>';
+    if (!tags)  tags  = '<span class="modal-context-tag" style="background:#fff3cd;border-color:#ffc107;color:#856404;">⚠ No platform/browser selected — prompt is generic</span>';
+
+    document.getElementById('aiPromptContextTags').innerHTML = tags;
+    document.getElementById('aiPromptText').value = prompt;
+    document.getElementById('aiPromptOverlay').classList.add('open');
+    document.getElementById('aiPromptText').focus();
+}
+
+function closeAIPrompt() {
+    document.getElementById('aiPromptOverlay').classList.remove('open');
+    var btn = document.getElementById('aiCopyBtn');
+    btn.textContent = '📋 Copy to Clipboard';
+    btn.classList.remove('copied');
+}
+
+function copyAIPrompt() {
+    var ta = document.getElementById('aiPromptText');
+    var btn = document.getElementById('aiCopyBtn');
+    var text = ta.value;
+
+    function markCopied() {
+        btn.textContent = '✓ Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.textContent = '📋 Copy to Clipboard';
+            btn.classList.remove('copied');
+        }, 2500);
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(markCopied).catch(function() {
+            fallbackCopy(ta, markCopied);
+        });
+    } else {
+        fallbackCopy(ta, markCopied);
+    }
+}
+
+function fallbackCopy(ta, callback) {
+    ta.focus();
+    ta.select();
+    ta.setSelectionRange(0, 99999);
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch(e) {}
+    if (ok) { callback(); }
+    else { alert('Copy failed — please select all text in the box and copy manually (Ctrl+A then Ctrl+C, or ⌘A then ⌘C).'); }
+}
+
+// Close modal on overlay click
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('aiPromptOverlay').addEventListener('click', function(e) {
+        if (e.target === this) closeAIPrompt();
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeAIPrompt();
+    });
+});
+
+// ════════════════════════════════
+//  MY ISSUES
+// ════════════════════════════════
+function openMyIssues(lesson) {
+    var scriptUrl = 'https://script.google.com/macros/s/AKfycbwef-YlHcefeegoeEChkBB_x346oQfY9ihfxOIZrqfvuXTC1nSEkX5o-HGGybB3YfxT/exec';
+    var pLabel = currentPlatform === 'mac' ? 'Mac' : (currentPlatform === 'windows' ? 'Windows' : 'Unknown');
+    var bLabel = currentBrowser ? (currentBrowser.charAt(0).toUpperCase() + currentBrowser.slice(1)) : 'Unknown';
+
+    var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>My Issues</title>' +
+        '<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;max-width:800px;margin:0 auto;padding:20px;background:#f5f5f7;}' +
+        '.header{background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:25px;border-radius:10px;margin-bottom:20px;text-align:center;}' +
+        'h1{margin:0;font-size:1.6em;}.form-section{background:white;padding:25px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin-bottom:20px;}' +
+        'label{display:block;font-weight:600;margin-bottom:5px;color:#333;}' +
+        'input,textarea,select{width:100%;padding:12px;border:2px solid #dee2e6;border-radius:8px;font-family:inherit;font-size:1em;box-sizing:border-box;margin-bottom:15px;}' +
+        'textarea{height:100px;resize:vertical;}' +
+        '.submit-btn{background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;padding:12px 25px;border-radius:8px;cursor:pointer;font-weight:600;font-size:1em;width:100%;}' +
+        '.issue-list{background:white;padding:25px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.1);}' +
+        '.issue-item{background:#f8f9fa;padding:15px;margin-bottom:10px;border-radius:8px;border-left:4px solid #667eea;}' +
+        '.delete-btn{background:#dc3545;color:white;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;font-size:0.85em;margin-top:8px;}' +
+        '.sheets-btn{background:#28a745;color:white;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-weight:600;font-size:0.95em;width:100%;margin-top:10px;}' +
+        '</style></head><body>' +
+        '<div class="header"><h1>🐛 My Tutorial Issues</h1>' +
+        '<p style="margin:5px 0 0;opacity:0.9;">Platform: <strong>' + pLabel + '</strong> &nbsp;|&nbsp; Browser: <strong>' + bLabel + '</strong></p></div>' +
+        '<div class="form-section">' +
+        '<label>Your Name (optional)</label><input type="text" id="issueName" placeholder="e.g. Jane Smith">' +
+        '<label>Your Email (optional)</label><input type="email" id="issueEmail" placeholder="e.g. jane@example.com">' +
+        '<label>Lesson</label>' +
+        '<select id="issueLesson"><option value="">' + (lesson || 'Select a lesson...') + '</option>' +
+        '<option>Lesson 1: Finding Your Keys</option><option>Lesson 2: Managing Tabs</option>' +
+        '<option>Lesson 3: Bookmarks</option><option>Lesson 4: Taking Screenshots</option>' +
+        '<option>Lesson 5: Split Screen</option><option>Lesson 6: Navigation Shortcuts</option>' +
+        '<option>Lesson 7: Copy, Paste, Text</option><option>Lesson 8: Putting It All Together</option>' +
+        '<option>General Issue</option></select>' +
+        '<label>Describe your issue</label>' +
+        '<textarea id="issueText" placeholder="What happened? What were you trying to do?"></textarea>' +
+        '<button class="submit-btn" onclick="addIssue()">➕ Add Issue</button></div>' +
+        '<div class="issue-list"><h2 style="margin-top:0;">Your Issues (<span id="issueCount">0</span>)</h2>' +
+        '<div id="issueContainer"></div>' +
+        '<button class="sheets-btn" id="submitSheetsBtn" onclick="submitIssues()">📊 Submit to Tutorial Support</button>' +
+        '</div>' +
+        '<script>' +
+        'var PLATFORM="' + pLabel + '",BROWSER="' + bLabel + '",SCRIPT_URL="' + scriptUrl + '";' +
+        'var issues=JSON.parse(localStorage.getItem("tutorialIssues")||"[]");' +
+        'renderIssues();' +
+        'function addIssue(){var t=document.getElementById("issueText").value.trim();if(!t){alert("Please describe the issue!");return;}' +
+        'issues.push({name:document.getElementById("issueName").value.trim(),email:document.getElementById("issueEmail").value.trim(),' +
+        'lesson:document.getElementById("issueLesson").value,text:t,date:new Date().toLocaleDateString()});' +
+        'localStorage.setItem("tutorialIssues",JSON.stringify(issues));document.getElementById("issueText").value="";renderIssues();}' +
+        'function deleteIssue(i){issues.splice(i,1);localStorage.setItem("tutorialIssues",JSON.stringify(issues));renderIssues();}' +
+        'function renderIssues(){document.getElementById("issueCount").textContent=issues.length;' +
+        'document.getElementById("issueContainer").innerHTML=issues.map(function(iss,i){' +
+        'return "<div class=\\"issue-item\\">"+(iss.lesson?"<div style=\\"font-weight:600;margin-bottom:5px;\\">"+iss.lesson+"</div>":"")+"<div>"+iss.text+"</div>"+(iss.name?"<div style=\\"color:#666;font-size:0.9em;margin-top:5px;\\">— "+iss.name+"</div>":"")+"<div style=\\"color:#999;font-size:0.85em;\\">"+iss.date+"</div><button class=\\"delete-btn\\" onclick=\\"deleteIssue("+i+")\\">Delete</button></div>";' +
+        '}).join("");}' +
+        'function submitIssues(){if(!issues.length){alert("No issues to submit!");return;}' +
+        'var btn=document.getElementById("submitSheetsBtn");btn.disabled=true;btn.textContent="Submitting...";' +
+        'var formatted=issues.map(function(iss){return{device:PLATFORM,browser:BROWSER,name:iss.name||"",email:iss.email||"",postDate:iss.date,issue:iss.text,lesson:iss.lesson||""};});' +
+        'fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify({issues:formatted})})' +
+        '.then(function(){btn.textContent="Submitted!";btn.style.background="#28a745";setTimeout(function(){btn.disabled=false;btn.textContent="Submit to Tutorial Support";btn.style.background="";},2000);},' +
+        'function(){btn.textContent="Submitted!";setTimeout(function(){btn.disabled=false;btn.textContent="Submit to Tutorial Support";},2000);});}' +
+        '<\/script></body></html>';
+
+    var win = window.open('', '_blank', 'width=900,height=750,left=100,top=100,resizable=yes,scrollbars=yes');
+    if (win) { win.document.write(html); win.document.close(); win.focus(); }
+    else alert('Please allow popups for this site to open My Issues.\n\nOr try the My Issues button again.');
+}
+</script>
+
+<!-- ═══════════════════════════════════════
+     ASK AI PROMPT MODAL
+════════════════════════════════════════ -->
+<div id="aiPromptOverlay">
+    <div id="aiPromptModal">
+        <button class="modal-x" onclick="closeAIPrompt()" title="Close">✕</button>
+        <h3>⚡ Your Ready-to-Paste Prompt</h3>
+        <p class="modal-subtitle">This prompt is built from your goal and your setup. Copy it and paste it into Claude or any AI assistant to get step-by-step help tailored to your computer.</p>
+        <div id="aiPromptContextTags"></div>
+        <textarea id="aiPromptText" spellcheck="false"></textarea>
+        <div class="modal-actions">
+            <button id="aiCopyBtn" class="modal-copy-btn" onclick="copyAIPrompt()">📋 Copy to Clipboard</button>
+            <button class="modal-close-btn" onclick="closeAIPrompt()">Close</button>
+        </div>
+        <p class="prompt-footnote">💡 <em>This prompt was shaped by AI — the structure, the keyboard-first instruction, the context it gathers — all emerged from building this tutorial with Claude. When you paste it into an AI assistant, you are completing a conversation that started here.</em></p>
+    </div>
+</div>
+
+</body>
+</html>
