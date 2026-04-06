@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google Docs for Non-Gmail Users — BOLLI AI Literacy</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #003478;
+    --gold: #C5963A;
+    --gold-light: #f5e9d0;
+    --white: #ffffff;
+    --off-white: #faf8f4;
+    --text: #1a1a2e;
+    --muted: #555566;
+    --border: #d8cfc0;
+    --step-bg: #f0f4fa;
+    --success: #2e7d52;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background: var(--off-white);
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--navy);
+    color: var(--white);
+    padding: 2rem 2.5rem 1.6rem;
+    border-bottom: 4px solid var(--gold);
+  }
+
+  .header-kicker {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.85rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 0.4rem;
+  }
+
+  header p.subtitle {
+    font-size: 0.95rem;
+    color: #c8d4e8;
+    font-style: italic;
+  }
+
+  /* ── Intro box ── */
+  .intro-box {
+    background: var(--gold-light);
+    border-left: 5px solid var(--gold);
+    margin: 2rem auto;
+    max-width: 820px;
+    padding: 1.1rem 1.4rem;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.95rem;
+    color: #3a2e10;
+  }
+  .intro-box strong { color: var(--navy); }
+
+  /* ── Main container ── */
+  main {
+    max-width: 820px;
+    margin: 0 auto 3rem;
+    padding: 0 1.5rem;
+  }
+
+  /* ── Section label ── */
+  .section-label {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 2.2rem 0 0.8rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── Step cards ── */
+  .step {
+    display: flex;
+    gap: 1.1rem;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.1rem 1.3rem;
+    margin-bottom: 0.85rem;
+    align-items: flex-start;
+    transition: box-shadow 0.18s;
+  }
+  .step:hover { box-shadow: 0 3px 12px rgba(0,52,120,0.10); }
+
+  .step-num {
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    background: var(--navy);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-top: 0.1rem;
+  }
+
+  .step-body h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 0.25rem;
+  }
+
+  .step-body p {
+    font-size: 0.93rem;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+  }
+
+  .step-body .url-badge {
+    display: inline-block;
+    background: var(--step-bg);
+    border: 1px solid #b0bcd8;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.82rem;
+    padding: 0.15rem 0.5rem;
+    color: var(--navy);
+    margin-top: 0.2rem;
+  }
+
+  .step-body .tip {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--muted);
+    padding-left: 0.6rem;
+    border-left: 3px solid var(--gold);
+  }
+
+  /* ── Collapsible detail ── */
+  details {
+    margin-top: 0.5rem;
+  }
+  summary {
+    font-size: 0.83rem;
+    font-weight: 600;
+    color: var(--navy);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  summary::before {
+    content: '▶';
+    font-size: 0.6rem;
+    color: var(--gold);
+    transition: transform 0.2s;
+  }
+  details[open] summary::before { transform: rotate(90deg); }
+
+  details .detail-content {
+    margin-top: 0.5rem;
+    padding-left: 1rem;
+    font-size: 0.87rem;
+    color: var(--muted);
+    border-left: 2px solid var(--border);
+  }
+  details .detail-content ul {
+    padding-left: 1.2rem;
+  }
+  details .detail-content li {
+    margin-bottom: 0.25rem;
+  }
+
+  /* ── Note box ── */
+  .note-box {
+    background: #eaf1fb;
+    border: 1px solid #b3caea;
+    border-radius: 6px;
+    padding: 0.9rem 1.2rem;
+    margin: 1.5rem 0;
+    font-size: 0.88rem;
+    color: #1a3160;
+  }
+  .note-box strong { display: block; margin-bottom: 0.3rem; font-size: 0.9rem; }
+
+  /* ── Footer ── */
+  footer {
+    background: var(--navy);
+    color: #a0b4cc;
+    text-align: center;
+    padding: 1.1rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    border-top: 3px solid var(--gold);
+  }
+  footer span { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-kicker">BOLLI AI Literacy Course — Student Resource</div>
+  <h1>Google Docs Without a Gmail Account</h1>
+  <p class="subtitle">A step-by-step guide to creating, storing, and sharing documents using your existing email address</p>
+</header>
+
+<main>
+
+  <div class="intro-box">
+    <strong>Who this is for:</strong> You do not need a Gmail address to use Google Docs. Google lets you create a free account linked to <em>any</em> email address you already have — Hotmail, Yahoo, Comcast, or any other provider. This tutorial walks you through the entire process.
+  </div>
+
+  <!-- PART 1 -->
+  <div class="section-label">Part 1 — Create a Google Account with Your Existing Email</div>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <h3>Go to Google's account creation page</h3>
+      <p>Open your web browser and navigate to:</p>
+      <span class="url-badge">accounts.google.com/signup</span>
+      <p class="tip">Tip: You can also search "create Google account" in your browser's address bar.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <h3>Choose "Use your existing email" instead of Gmail</h3>
+      <p>On the sign-up form, fill in your first and last name. When you reach the email field, look for the link that says <strong>"Use your existing email address"</strong> and click it.</p>
+      <details>
+        <summary>Where exactly is that link?</summary>
+        <div class="detail-content">
+          <p>Below the email field, Google offers two options:</p>
+          <ul>
+            <li><em>Get a new Gmail address</em> — skip this one</li>
+            <li><em>Use your existing email</em> — click this one</li>
+          </ul>
+          <p>The link may appear as small text. Look carefully just below the email input box.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <h3>Enter your current email address</h3>
+      <p>Type the email address you already use (e.g., yourname@comcast.net, yourname@yahoo.com). This becomes your Google account login.</p>
+      <p class="tip">Tip: Double-check for typos — Google will send a verification code to this address.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-body">
+      <h3>Create a password</h3>
+      <p>Choose a password that is at least 8 characters and includes a mix of letters and numbers. Enter it twice to confirm.</p>
+      <details>
+        <summary>Tips for a strong, memorable password</summary>
+        <div class="detail-content">
+          <ul>
+            <li>Use a short phrase you'll remember, like <em>BlueSky42!</em></li>
+            <li>Avoid using your name or birthdate alone</li>
+            <li>Write it down somewhere safe until you've memorized it</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">5</div>
+    <div class="step-body">
+      <h3>Verify your email address</h3>
+      <p>Google will send a 6-digit verification code to your email. Open your regular email inbox, find the message from Google, and type the code into the verification box on screen.</p>
+      <p class="tip">Tip: Check your spam or junk folder if the email doesn't arrive within a minute or two.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">6</div>
+    <div class="step-body">
+      <h3>Complete the remaining fields and accept terms</h3>
+      <p>Fill in your birthday and gender (required by Google), then scroll to the bottom and click <strong>"I agree"</strong> to accept Google's terms of service. Your account is now created.</p>
+    </div>
+  </div>
+
+  <!-- PART 2 -->
+  <div class="section-label">Part 2 — Access Google Docs and Create Your First Document</div>
+
+  <div class="step">
+    <div class="step-num">7</div>
+    <div class="step-body">
+      <h3>Go to Google Docs</h3>
+      <p>In your browser's address bar, type:</p>
+      <span class="url-badge">docs.google.com</span>
+      <p style="margin-top:0.5rem">If prompted, sign in with the email and password you just created.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">8</div>
+    <div class="step-body">
+      <h3>Create a new document</h3>
+      <p>Click the large <strong>+ (Blank)</strong> button in the upper left area of the page. A new, empty document opens — just like a blank page in Microsoft Word.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">9</div>
+    <div class="step-body">
+      <h3>Give your document a name</h3>
+      <p>Click on the words <strong>"Untitled document"</strong> at the top left of the page and type a meaningful name, such as <em>My First Google Doc</em>. Press Enter to confirm.</p>
+      <p class="tip">Tip: Google saves your document automatically as you type — there is no Save button to click.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">10</div>
+    <div class="step-body">
+      <h3>Start writing — your document saves automatically</h3>
+      <p>Click anywhere in the white document area and begin typing. Watch the top of the screen: it will say <strong>"Saving…"</strong> and then <strong>"All changes saved"</strong> — Google is storing your work in the cloud continuously.</p>
+    </div>
+  </div>
+
+  <!-- PART 3 -->
+  <div class="section-label">Part 3 — Find Your Documents Again Later</div>
+
+  <div class="step">
+    <div class="step-num">11</div>
+    <div class="step-body">
+      <h3>Return to your document list at any time</h3>
+      <p>Go to <span class="url-badge">docs.google.com</span> from any browser, on any computer. All your documents appear on the home screen. Click any document title to open it.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">12</div>
+    <div class="step-body">
+      <h3>Download a copy to your computer (optional)</h3>
+      <p>To save a local copy as a Word file: in your open document, click <strong>File → Download → Microsoft Word (.docx)</strong>. The file will be saved to your Downloads folder.</p>
+      <details>
+        <summary>Other download formats available</summary>
+        <div class="detail-content">
+          <ul>
+            <li><strong>PDF</strong> — good for sharing with others who shouldn't edit it</li>
+            <li><strong>Plain Text</strong> — no formatting, just the words</li>
+            <li><strong>OpenDocument (.odt)</strong> — for LibreOffice users</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="note-box">
+    <strong>📌 Key Things to Remember</strong>
+    Your Google account is free. Your documents are stored securely in Google's cloud — you can access them from any computer, tablet, or phone by signing in at <strong>docs.google.com</strong>. You never need to worry about losing a document to a computer crash, because Google saves every keystroke automatically.
+  </div>
+
+</main>
+
+<footer>
+  <span>BOLLI AI Literacy Course</span> &nbsp;·&nbsp; Brandeis University &nbsp;·&nbsp; jhnday.github.io
+</footer>
+
+</body>
+</html>
