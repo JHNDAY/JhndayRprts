@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11 Days in Tuscany</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --terracotta: #C4622D;
+    --ochre: #D4A45A;
+    --sage: #7A8C6E;
+    --cream: #F5EFE0;
+    --parchment: #EDE3CC;
+    --ink: #2C2416;
+    --rust: #9B3A1A;
+    --stone: #8B7D6B;
+    --shadow: rgba(44,36,22,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--cream);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 17px;
+    line-height: 1.7;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--ink);
+    color: var(--cream);
+    text-align: center;
+    padding: 60px 40px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(196,98,45,0.06) 40px,
+      rgba(196,98,45,0.06) 41px
+    );
+  }
+  .header-ornament {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 6px;
+    color: var(--ochre);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    opacity: 0.85;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 7vw, 76px);
+    font-weight: 700;
+    line-height: 1.0;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+  }
+  header h1 em {
+    font-style: italic;
+    color: var(--ochre);
+  }
+  header p.subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--parchment);
+    opacity: 0.75;
+    margin-top: 10px;
+  }
+  .header-rule {
+    width: 80px;
+    height: 1px;
+    background: var(--terracotta);
+    margin: 22px auto;
+    opacity: 0.7;
+  }
+
+  /* ── INTRO ── */
+  .intro {
+    max-width: 720px;
+    margin: 50px auto;
+    padding: 0 30px;
+    text-align: center;
+  }
+  .intro p {
+    font-size: 19px;
+    font-style: italic;
+    color: var(--stone);
+    line-height: 1.85;
+  }
+
+  /* ── DAY STRIP ── */
+  .day-strip {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    padding: 0 30px 20px;
+    max-width: 1100px;
+    margin: 0 auto 50px;
+    scrollbar-width: none;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .day-pill {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 7px 16px;
+    border: 1px solid var(--ochre);
+    color: var(--stone);
+    cursor: pointer;
+    transition: all 0.25s;
+    white-space: nowrap;
+    background: transparent;
+  }
+  .day-pill:hover, .day-pill.active {
+    background: var(--terracotta);
+    border-color: var(--terracotta);
+    color: var(--cream);
+  }
+
+  /* ── LOCATION CARDS ── */
+  .locations {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 30px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .location-card {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    border-top: 1px solid rgba(139,125,107,0.3);
+    padding: 48px 0;
+    gap: 50px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.6s forwards;
+  }
+  .location-card:nth-child(1) { animation-delay: 0.05s; }
+  .location-card:nth-child(2) { animation-delay: 0.10s; }
+  .location-card:nth-child(3) { animation-delay: 0.15s; }
+  .location-card:nth-child(4) { animation-delay: 0.20s; }
+  .location-card:nth-child(5) { animation-delay: 0.25s; }
+  .location-card:nth-child(6) { animation-delay: 0.30s; }
+  .location-card:nth-child(7) { animation-delay: 0.35s; }
+  .location-card:nth-child(8) { animation-delay: 0.40s; }
+  .location-card:nth-child(9) { animation-delay: 0.45s; }
+  .location-card:nth-child(10) { animation-delay: 0.50s; }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-day {
+    text-align: right;
+    padding-top: 4px;
+  }
+  .day-label {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--ochre);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .day-numbers {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--terracotta);
+    line-height: 1;
+    display: block;
+  }
+
+  .card-body {}
+
+  .card-header {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .card-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+  .region-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--cream);
+    background: var(--sage);
+    padding: 3px 10px;
+    border-radius: 2px;
+  }
+
+  .card-tagline {
+    font-style: italic;
+    color: var(--rust);
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+
+  .card-body p {
+    color: var(--stone);
+    font-size: 16.5px;
+    line-height: 1.8;
+    margin-bottom: 14px;
+  }
+  .card-body p:last-child { margin-bottom: 0; }
+
+  .highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 18px;
+  }
+  .highlight-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 1px solid var(--ochre);
+    color: var(--ochre);
+    padding: 4px 12px;
+    opacity: 0.8;
+  }
+
+  .tour-activities {
+    margin-top: 20px;
+    padding: 18px 22px;
+    background: rgba(212,164,90,0.08);
+    border-left: 3px solid var(--ochre);
+  }
+  .tour-activities h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 10px;
+  }
+  .tour-activities ul {
+    list-style: none;
+    padding: 0;
+  }
+  .tour-activities li {
+    font-size: 15px;
+    color: var(--stone);
+    padding: 3px 0;
+    padding-left: 18px;
+    position: relative;
+  }
+  .tour-activities li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--terracotta);
+    font-size: 18px;
+    line-height: 1.2;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: var(--stone);
+    text-align: center;
+    padding: 40px;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  footer span { color: var(--ochre); }
+
+  /* ── DIVIDER ── */
+  .ornamental-divider {
+    text-align: center;
+    color: var(--ochre);
+    font-size: 20px;
+    margin: 0;
+    opacity: 0.5;
+    letter-spacing: 8px;
+  }
+
+  @media (max-width: 600px) {
+    .location-card {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .card-day { text-align: left; }
+  }
+
+  .header-map {
+    margin: 28px auto 0;
+    max-width: 320px;
+    border: 2px solid rgba(212,164,90,0.35);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(44,36,22,0.35);
+    position: relative;
+    z-index: 1;
+  }
+  .header-map img {
+    width: 100%;
+    display: block;
+    opacity: 0.92;
+    mix-blend-mode: multiply;
+    filter: sepia(10%) contrast(1.05);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-ornament">A Journey Through the Heart of Italy</div>
+  <h1>Eleven Days in<br><em>Tuscany</em></h1>
+  <div class="header-rule"></div>
+  <p class="subtitle">Florence · Chianti · Siena · Val d'Orcia · Maremma · Lucca</p>
+
+  <div class="header-map">
+    <img src="data:image/png;base64,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" alt="Tuscany Tour Route Map">
+  </div>
+</header>
+
+<div class="intro">
+  <p>From Renaissance masterpieces and medieval hill towns to Etruscan mysteries and cowboy traditions — a grand loop through one of the world's most storied landscapes.</p>
+</div>
+
+<section class="locations">
+
+  <!-- FLORENCE -->
+  <article class="location-card" id="florence">
+    <div class="card-day">
+      <span class="day-label">Days</span>
+      <span class="day-numbers">1–3</span>
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <h2>Florence</h2>
+        <span class="region-tag">Tuscany · Capital</span>
+      </div>
+      <p class="card-tagline">The cradle of the Renaissance</p>
+      <p>Florence — <em>Firenze</em> in Italian — sits in a valley carved by the Arno River and backed by rolling Tuscan hills. Founded as a Roman colony in 59 BC, it rose to its greatest glory under the Medici banking dynasty in the 14th–16th centuries, when it became the intellectual and artistic capital of Europe and birthplace of the Renaissance.</p>
+      <p>The city gifted the world Brunelleschi's revolutionary dome on the Duomo — engineered without scaffolding, still the largest brick dome ever built — as well as Michelangelo's <em>David</em>, Botticelli's <em>Birth of Venus</em>, Dante's <em>Divine Comedy</em>, Machiavelli's <em>The Prince</em>, and Galileo's telescopes. Walking Florence is walking through the history of Western civilization.</p>
+      <p>Today, nearly three million people live in the greater Florence area, yet the historic center — a UNESCO World Heritage Site — retains an intimate, walkable character. Leather artisans, gelato makers, and neighborhood markets coexist with world-class museums at every turn.</p>
+      <div class="highlights">
+        <span class="highlight-tag">UNESCO World Heritage</span>
+        <span class="highlight-tag">Renaissance Art</span>
+        <span class="highlight-tag">Medici Legacy</span>
+        <span class="highlight-tag">Arno River</span>
+      </div>
+      <div class="tour-activities">
+        <h4>On the Itinerary</h4>
+        <ul>
+          <li>Orientation walk past the Duomo and storytelling Baptistery doors</li>
+          <li>Accademia Gallery — Michelangelo's <em>David</em> with a local scholar</li>
+          <li>Neighborhood walk through daily Florentine life and food markets</li>
+          <li>Bargello Museum — Donatello, Michelangelo, and della Robbia</li>
+          <li>Renaissance mosaic workshop with working artisans</li>
+          <li>Florence American Cemetery — WWII memorial and reflection</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <!-- CHIANTI -->
+  <article class="location-card" id="chianti">
+    <div class="card-day">
+      <span class="day-label">Days</span>
+      <span class="day-numbers">3–4</span>
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <h2>Chianti Countryside</h2>
+        <span class="region-tag">Central Tuscany</span>
+      </div>
+      <p class="card-tagline">Rolling hills, cypress lanes, and the world's most famous wine country</p>
+      <p>The Chianti region stretches between Florence and Siena across a landscape so perfectly picturesque it seems almost invented — steep vine-terraced slopes, silver-leafed olive groves, honey-stone farmhouses (<em>case coloniche</em>), and the iconic silhouettes of cypress trees lining every road. This is the heart of Tuscany as the world imagines it.</p>
+      <p>Chianti Classico wine, made predominantly from Sangiovese grapes, has been produced here since at least the 13th century. The "Black Rooster" (<em>gallo nero</em>) became the symbol of the historic wine-producing league in 1282, and remains on the neck of every certified Chianti Classico bottle today. Family estates — many owned for generations — offer tours through ancient cellars and vine-draped terraces.</p>
+      <p>The landscape itself is a living agricultural museum: medieval castles, Romanesque parish churches (<em>pievi</em>), and fortified villages (<em>borghi</em>) anchor a countryside that has been continuously farmed for over 2,500 years.</p>
+      <div class="highlights">
+        <span class="highlight-tag">Chianti Classico Wine</span>
+        <span class="highlight-tag">Sangiovese Grapes</span>
+        <span class="highlight-tag">Agriturismo</span>
+        <span class="highlight-tag">Medieval Borghi</span>
+      </div>
+      <div class="tour-activities">
+        <h4>On the Itinerary</h4>
+        <ul>
+          <li>Scenic drive over the Chianti hills from Florence</li>
+          <li>Welcome aperitivo and traditional Tuscan dinner at family-owned countryside hotel</li>
+          <li>Evening Chianti Classico wine tasting</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <!-- SIENA -->
+  <article class="location-card" id="siena">
+    <div class="card-day">
+      <span class="day-label">Day</span>
+      <span class="day-numbers">4</span>
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <h2>Siena</h2>
+        <span class="region-tag">Southern Tuscany</span>
+      </div>
+      <p class="card-tagline">A medieval city frozen in time — and fiercely proud of it</p>
+      <p>Siena is one of the best-preserved medieval cities in Europe, its soaring Gothic skyline essentially unchanged since the 14th century when plague brought its golden age to a sudden halt. Founded, according to legend, by Senius — son of Remus — the city was Florence's great rival throughout the Middle Ages, producing its own brilliant school of art (<em>Sienese Gothic</em>) and a banking system that helped finance the papacy.</p>
+      <p>The city's extraordinary Duomo — striped in green and white marble, its facade encrusted with sculpture — was begun in 1215 and expanded ambitiously through the 1300s. The unfinished "New Cathedral" nave, abandoned after the Black Death, still looms above the city as a monument to interrupted ambition.</p>
+      <p>Siena is famously divided into 17 competing <em>contrade</em> (neighborhoods), each with its own flag, patron saint, museum, and fierce civic identity. Twice each summer — on July 2nd and August 16th — ten of these neighborhoods race bareback horses around the sloping Campo in the <em>Palio</em>, a tradition dating to 1644. Residents live and die by their contrada's honor; the rivalry is absolutely real.</p>
+      <div class="highlights">
+        <span class="highlight-tag">UNESCO World Heritage</span>
+        <span class="highlight-tag">Il Palio Horse Race</span>
+        <span class="highlight-tag">Gothic Architecture</span>
+        <span class="highlight-tag">Piazza del Campo</span>
+      </div>
+      <div class="tour-activities">
+        <h4>On the Itinerary</h4>
+        <ul>
+          <li>Guided tour of the treasure-filled Duomo</li>
+          <li>History of Siena's medieval rivalry with Florence</li>
+          <li>Deep dive into the Palio horse race tradition</li>
+          <li>Free time to wander the Campo and surrounding streets</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <!-- PIENZA -->
+  <article class="location-card" id="pienza">
+    <div class="card-day">
+      <span class="day-label">Day</span>
+      <span class="day-numbers">5</span>
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <h2>Pienza</h2>
+        <span class="region-tag">Val d'Orcia</span>
+      </div>
+      <p class="card-tagline">The world's first planned "ideal city" — and cheese capital of Tuscany</p>
+      <p>Pienza is a Renaissance thought experiment made real. In 1459, Pope Pius II hired the Florentine architect Bernardo Rossellino to transform his humble birthplace — a village called Corsignano — into a model city embodying Humanist ideals of proportion, light, and civic harmony. The resulting piazza, cathedral, and papal palace were completed in just three years, creating a miniature urban ensemble so complete and coherent that UNESCO now protects it as a masterpiece of urban planning.</p>
+      <p>Beneath the refined Renaissance surface lies something far older: Pienza sits atop an area extensively inhabited by the Etruscans, who carved tombs, chambers, and tunnels into the soft tufa rock. The surrounding Val d'Orcia — a UNESCO Cultural Landscape — is perhaps Tuscany's most iconic panorama: rolling golden hills dotted with isolated farmhouses, lone cypress trees, and winding white roads (<em>strade bianche</em>) disappearing into the distance.</p>
+      <p>Pienza is also famous for <em>pecorino di Pienza</em>, a sheep's milk cheese made in the surrounding hills and aged in cellars throughout the town — you'll find wheels of it in every shop window.</p>
+      <div class="highlights">
+        <span class="highlight-tag">UNESCO Heritage</span>
+        <span class="highlight-tag">Renaissance Urbanism</span>
+        <span class="highlight-tag">Etruscan History</span>
+        <span class="highlight-tag">Val d'Orcia Views</span>
+        <span class="highlight-tag">Pecorino Cheese</span>
+      </div>
+      <div class="tour-activities">
+        <h4>On the Itinerary</h4>
+        <ul>
+          <li>Underground Etruscan history tour with local guide</li>
+          <li>Scenic walk along the town walls with Val d'Orcia panoramas</li>
+          <li>Free time to explore and taste local pecorino</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <!-- SOVANA -->
+  <article class="location-card" id="sovana">
+    <div class="card-day">
+      <span class="day-label">Days</span>
+      <span class="day-numbers">5–6</span>
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <h2>Sovana</h2>
+        <span class="region-tag">Maremma · Tufa Country</span>
+      </div>
+      <p class="card-tagline">An Etruscan ghost town on a cliff of stone</p>
+      <p>Sovana is one of Tuscany's great hidden treasures — a tiny medieval village perched on a narrow ridge of tufa rock in the wild Maremma countryside. Once a significant Etruscan city and later birthplace of Pope Gregory VII (1015–1085), Sovana shrank to near-abandonment after a medieval malaria epidemic emptied the region. Today, only about 100 people live here, but the Romanesque cathedral and Etruscan necropolis surrounding it are extraordinary.</p>
+      <p>The <em>Città del Tufo</em> — the "City of Tufa" — is the name given to the broader archaeological landscape surrounding Sovana, Pitigliano, and Sorano. Tufa is the soft volcanic rock that defines this entire region: easy to carve, yet durable enough to last millennia. The Etruscans exploited it brilliantly, cutting temples, tombs, roads, and entire cliff-faces into it between the 7th and 3rd centuries BC.</p>
+      <p>The <em>Vie Cave</em> ("sunken roads") are the region's most haunting feature: deep, narrow corridors sliced through the tufa bedrock, some stretching for miles, their walls rising 15–20 meters above the traveler's head. Their exact purpose remains debated — sacred processional routes? livestock paths? defensive channels? — which makes walking them all the more mysterious.</p>
+      <div class="highlights">
+        <span class="highlight-tag">Etruscan Necropolis</span>
+        <span class="highlight-tag">Le Vie Cave</span>
+        <span class="highlight-tag">Tufa Rock</span>
+        <span class="highlight-tag">Medieval Village</span>
+        <span class="highlight-tag">Pope Gregory VII</span>
+      </div>
+      <div class="tour-activities">
+        <h4>On the Itinerary</h4>
+        <ul>
+          <li>Brunello winery visit — vineyard walk, prosciutto, pasta & wine lunch</li>
+          <li>Città del Tufo Archeological Park and Necropolis of Sovana</li>
+          <li>Walk on the ancient Le Vie Cave sunken roads</li>
+          <li>Local olive oil tasting</li>
+          <li>Evening pasta-making cooking demonstration and dinner</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <!-- PITIGLIANO -->
+  <article class="location-card" id="pitigliano">
+    <div class="card-day">
+      <span class="day-label">Day</span>
+      <span class="day-numbers">7</span>
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <h2>Pitigliano</h2>
+        <span class="region-tag">Maremma · Grosseto</span>
+      </div>
+      <p class="card-tagline">"Little Jerusalem" — a city that rises from the rock itself</p>
+      <p>Pitigliano is one of the most visually dramatic towns in all of Italy: a cluster of medieval buildings rising directly from a sheer cliff of tufa, seemingly growing from the rock itself, encircled by deep ravines on three sides. Seen from the approach road, it appears to float above the landscape like a vision from a fairy tale.</p>
+      <p>Its nickname — <em>La Piccola Gerusalemme</em>, "Little Jerusalem" — dates from the 16th century, when Spanish Jews expelled from the Iberian Peninsula found refuge here under the tolerant Orsini lords. The community established a ghetto (not a place of persecution but of self-organized community), a synagogue, a kosher butchery, a ritual bath, and a small bread oven for <em>azzime</em> (unleavened Passover bread). This community thrived for centuries, leaving behind a remarkably intact underground Jewish quarter that still draws visitors today.</p>
+      <p>Like Sovana and Sorano nearby, Pitigliano also sits atop an extensive Etruscan and Roman underground — cellars, passages, and cisterns carved through the tufa beneath the streets and accessible through ordinary doorways in people's homes.</p>
+      <div class="highlights">
+        <span class="highlight-tag">Jewish Heritage</span>
+        <span class="highlight-tag">Tufa Cliff City</span>
+        <span class="highlight-tag">Medieval Architecture</span>
+        <span class="highlight-tag">Etruscan Underground</span>
+        <span class="highlight-tag">Orsini Fortress</span>
+      </div>
+      <div class="tour-activities">
+        <h4>On the Itinerary</h4>
+        <ul>
+          <li>Local guide reveals the history behind the "Little Jerusalem" nickname</li>
+          <li>Exploration of the Jewish quarter and its extraordinary heritage</li>
+          <li>Free time for lunch in the village</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <!-- MAREMMA -->
+  <article class="location-card" id="maremma">
+    <div class="card-day">
+      <span class="day-label">Days</span>
+      <span class="day-numbers">7–8</span>
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <h2>Maremma</h2>
+        <span class="region-tag">Coastal Tuscany</span>
+      </div>
+      <p class="card-tagline">Tuscany's wild west — cowboys, marshes, and a fiercely independent spirit</p>
+      <p>The Maremma is Tuscany's least-known face: a vast coastal plain stretching south of Grosseto, once malarial and nearly abandoned, now one of Italy's most prized natural landscapes. Where the Chianti region evokes refinement and art, the Maremma speaks of wildness — long beaches of white sand, scrubby macchia, Etruscan ruins half-swallowed by undergrowth, and the Parco Regionale della Maremma protecting miles of pristine coastline.</p>
+      <p>Most surprising of all: the Maremma has genuine cowboys. The <em>butteri</em> — Tuscan cattlemen who work the large estates called <em>fattorie</em> — have herded the long-horned <em>Maremmana</em> cattle and worked the distinctive white <em>Maremmano</em> horses here for centuries. Their traditions predate the American cowboy by hundreds of years. In 1890, Buffalo Bill reportedly challenged the butteri to a riding contest in Rome — and lost.</p>
+      <p>The Maremma was one of Italy's last great malarial regions, drained and reclaimed by Mussolini's land reform projects in the 1930s. That relative isolation is precisely what preserved its extraordinary wildlife, Etruscan sites, and traditional agricultural practices. The region now produces excellent Morellino di Scansano wine, olive oil, and some of the finest beef in Italy.</p>
+      <div class="highlights">
+        <span class="highlight-tag">Butteri Cowboys</span>
+        <span class="highlight-tag">Maremmana Cattle</span>
+        <span class="highlight-tag">Natural Park</span>
+        <span class="highlight-tag">Morellino Wine</span>
+        <span class="highlight-tag">Etruscan Sites</span>
+      </div>
+      <div class="tour-activities">
+        <h4>On the Itinerary</h4>
+        <ul>
+          <li>Working cattle ranch stay — see modern-day butteri in action</li>
+          <li>Traditional Tuscan barbecue dinner on the ranch</li>
+          <li>Locals-only exploration of hidden Maremma with your guide</li>
+          <li>Leisurely dinner and live local music</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <!-- VOLTERRA -->
+  <article class="location-card" id="volterra">
+    <div class="card-day">
+      <span class="day-label">Day</span>
+      <span class="day-numbers">9</span>
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <h2>Volterra</h2>
+        <span class="region-tag">Province of Pisa</span>
+      </div>
+      <p class="card-tagline">An Etruscan stronghold above the clouds</p>
+      <p>Volterra occupies one of the most commanding positions in Tuscany: a plateau nearly 550 meters above sea level, ringed by eroding clay cliffs called <em>balze</em> that have been slowly swallowing the town's edges for centuries — an ancient Etruscan necropolis on the western cliff has already partially collapsed into the abyss. The views from the town walls sweep across an enormous swath of Tuscany in every direction.</p>
+      <p>The city was one of the most powerful of the 12 Etruscan city-states (<em>dodecapoli</em>) between the 8th and 1st centuries BC. Its Etruscan museum holds one of the finest collections of <em>cinerary urns</em> in Italy — intricately carved alabaster containers that held the ashes of the deceased, often depicting scenes from mythology or the journey to the afterlife. The Romans later called the city <em>Volaterrae</em> and left behind a theater that was only excavated in the 1950s.</p>
+      <p>Today, Volterra is celebrated above all for its alabaster workshops. The soft, semi-translucent stone — quarried in the hills since Etruscan times — is carved by local artisans into lamps, sculptures, vases, and jewelry. Workshops line the main streets, and watching a craftsman transform a rough block into a glowing translucent form is quietly mesmerizing.</p>
+      <div class="highlights">
+        <span class="highlight-tag">Etruscan Civilization</span>
+        <span class="highlight-tag">Alabaster Workshops</span>
+        <span class="highlight-tag">Roman Theater</span>
+        <span class="highlight-tag">Le Balze Cliffs</span>
+        <span class="highlight-tag">Museo Etrusco</span>
+      </div>
+      <div class="tour-activities">
+        <h4>On the Itinerary</h4>
+        <ul>
+          <li>Walking tour of this hilltop Etruscan city with local guide</li>
+          <li>Visit to an alabaster workshop — watch artisans at work</li>
+          <li>Free time for lunch in the village</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <!-- BORGO A MOZZANO -->
+  <article class="location-card" id="borgo">
+    <div class="card-day">
+      <span class="day-label">Day</span>
+      <span class="day-numbers">10</span>
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <h2>Borgo a Mozzano</h2>
+        <span class="region-tag">Lucchesia · Serchio Valley</span>
+      </div>
+      <p class="card-tagline">Where the WWII Gothic Line cut through the mountains — and a bridge of legend</p>
+      <p>Borgo a Mozzano is a small town in the Serchio valley north of Lucca, best known for two things: a hauntingly beautiful medieval bridge and its place in one of the most brutal chapters of the Italian campaign in World War II.</p>
+      <p>The <em>Ponte della Maddalena</em> — also called the "Devil's Bridge" — is a medieval arched crossing over the Serchio River, its asymmetrical arches of different heights rising to a peak in the middle. Local legend holds it was built with the devil's help: a craftsman, unable to finish in time, promised Satan the first soul to cross. He cleverly sent a dog across instead. Built around the 11th century, it remains one of the most photographed bridges in Italy.</p>
+      <p>In 1944, the German Army's <em>Gotenstellung</em> — the Gothic Line — stretched across the Apennine mountains from coast to coast, a heavily fortified defensive line designed to hold the Allied advance through northern Italy. The Serchio valley saw fierce fighting; Borgo a Mozzano's local museum documents the wartime experience of the community caught in the middle of the campaign, preserving stories that are still vivid in local memory.</p>
+      <div class="highlights">
+        <span class="highlight-tag">WWII Gothic Line</span>
+        <span class="highlight-tag">Devil's Bridge</span>
+        <span class="highlight-tag">Serchio Valley</span>
+        <span class="highlight-tag">Medieval Architecture</span>
+      </div>
+      <div class="tour-activities">
+        <h4>On the Itinerary</h4>
+        <ul>
+          <li>Visit to the Gothic Line local museum</li>
+          <li>Learn the wartime history of the Serchio valley</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <!-- LUCCA -->
+  <article class="location-card" id="lucca">
+    <div class="card-day">
+      <span class="day-label">Days</span>
+      <span class="day-numbers">9–11</span>
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <h2>Lucca</h2>
+        <span class="region-tag">Northwest Tuscany</span>
+      </div>
+      <p class="card-tagline">A perfectly preserved Renaissance walled city — hometown of Puccini</p>
+      <p>Lucca is perhaps the most livable city in Tuscany: elegant, intimate, unhurried, and enclosed within one of the finest intact sets of Renaissance walls in Europe. The city's 16th-century bastions — four kilometers of grass-topped promenades wide enough for a road — were never breached militarily and were instead converted into a beloved public park that Lucchesi have been strolling, cycling, and picnicking atop for 400 years.</p>
+      <p>Inside the walls, Lucca is a feast of Romanesque churches, aristocratic palaces, and Roman street-plans still legible in the city's oval <em>Piazza dell'Anfiteatro</em> — a perfect ellipse of medieval buildings enclosing the footprint of a 2nd-century Roman amphitheater. The city was an independent republic for nearly 500 years (1160–1799), longer than Venice, which left it with a fiercely self-sufficient civic character it retains to this day.</p>
+      <p>Lucca was the birthplace of Giacomo Puccini (1858–1924), composer of <em>La Bohème</em>, <em>Tosca</em>, <em>Madama Butterfly</em>, and <em>Turandot</em> — arguably the most beloved operatic repertoire in the world. His childhood home is now a museum; the city hosts an international opera festival in his honor every summer. Nearby Pisa — with its famous Leaning Tower and remarkable Piazza dei Miracoli — is just 20 minutes by train.</p>
+      <div class="highlights">
+        <span class="highlight-tag">Renaissance Walls</span>
+        <span class="highlight-tag">Puccini's Birthplace</span>
+        <span class="highlight-tag">Roman Amphitheater</span>
+        <span class="highlight-tag">Independent Republic</span>
+        <span class="highlight-tag">Romanesque Churches</span>
+      </div>
+      <div class="tour-activities">
+        <h4>On the Itinerary</h4>
+        <ul>
+          <li>Orientation walk through the walled city</li>
+          <li>History of Puccini and Lucca's musical legacy</li>
+          <li>Afternoon free — walk the walls or day trip to Pisa</li>
+          <li>Opera demonstration performance</li>
+          <li>Final farewell dinner with the group</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+</section>
+
+<footer>
+  <span>11 Days · 10 Locations · One Unforgettable Region</span><br><br>
+  Tuscany, Italy
+</footer>
+
+</body>
+</html>
