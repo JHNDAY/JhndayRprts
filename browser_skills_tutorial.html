@@ -1405,7 +1405,7 @@ function clearSearch() {
 
 var tutorialKnowledge = {
     tabs: {
-        keywords: ['tab','window','browser','switch','open','close','new'],
+        keywords: ['tab','browser tab','switch tab','open tab','close tab','new tab'],
         tasks: [
             { goal:'open new tab', keywords:['new tab','open tab','create tab'], title:'Opening a New Tab',
               steps:['Mac: Press Command (⌘) + T','Windows: Press Ctrl + T','A new empty tab appears at the top of the browser'] },
@@ -1420,13 +1420,13 @@ var tutorialKnowledge = {
         ]
     },
     bookmarks: {
-        keywords: ['bookmark','save','favorite','organize','folder','bar'],
+        keywords: ['bookmark','favorite','organize','folder','bookmarks bar'],
         tasks: [
-            { goal:'create bookmark', keywords:['create','bookmark','add','save page','save site'], title:'Creating a Bookmark',
+            { goal:'create bookmark', keywords:['bookmark','add bookmark','favorite'], title:'Creating a Bookmark',
               steps:['Mac (all browsers): Press ⌘ + D','Windows (all browsers): Press Ctrl + D','Edit the name if desired, then click Done or Add'] },
             { goal:'organize bookmarks', keywords:['organize','manage','folders','rearrange','delete'], title:'Organizing Bookmarks',
               steps:['Chrome/Edge Mac: ⌘ + Shift + O to open Bookmark Manager','Chrome/Edge Windows: Ctrl + Shift + O','Firefox Mac: ⌘ + Shift + O','Safari Mac: ⌘ + Option + B to open sidebar','Create folders and drag bookmarks to organize them'] },
-            { goal:'show bookmarks bar', keywords:['show','bar','toolbar','visible'], title:'Showing the Bookmarks Bar',
+            { goal:'show bookmarks bar', keywords:['bookmarks bar','favorites bar','bookmark bar','show bar','toolbar'], title:'Showing the Bookmarks Bar',
               steps:['Mac (Chrome/Firefox/Edge): ⌘ + Shift + B','Windows: Ctrl + Shift + B','Safari: View menu → Show Favorites Bar'] }
         ]
     },
@@ -1449,9 +1449,9 @@ var tutorialKnowledge = {
         ]
     },
     screenshot: {
-        keywords: ['screenshot','capture','picture','screen','photo','grab','snap'],
+        keywords: ['screenshot','capture','picture','photo','grab','snap'],
         tasks: [
-            { goal:'take screenshot', keywords:['screenshot','capture','picture','screen','grab'], title:'Taking a Screenshot',
+            { goal:'take screenshot', keywords:['screenshot','capture','picture','grab','snap','snip'], title:'Taking a Screenshot',
               steps:['Mac - Full screen: Shift + ⌘ + 3','Mac - Selected area: Shift + ⌘ + 4, then drag','Mac - Screenshot toolbar: Shift + ⌘ + 5','Windows - Snipping Tool: Win + Shift + S (recommended)','Windows - Full screen to file: Win + PrtScn'] }
         ]
     },
@@ -1498,11 +1498,11 @@ function searchTutorial() {
                 var word = queryWords[w];
                 if (word.length > 3) {
                     for (var k = 0; k < task.keywords.length; k++) {
-                        if (task.keywords[k].length > 3 && (task.keywords[k].indexOf(word) !== -1 || word.indexOf(task.keywords[k]) !== -1)) { score += 1; break; }
+                        if (task.keywords[k].length > 3 && task.keywords[k].indexOf(word) !== -1) { score += 1; break; }
                     }
                 }
             }
-            if (score > 0) results.push({ title:task.title, steps:task.steps, score:score });
+            if (score >= 2) results.push({ title:task.title, steps:task.steps, score:score });
         }
     }
     results.sort(function(a,b){ return b.score - a.score; });
