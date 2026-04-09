@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Working with Virtual Desktops</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f5f5f3; color: #1a1a1a; padding: 2rem 1rem; line-height: 1.6; }
+  .wrap { max-width: 740px; margin: 0 auto; }
+
+  .page-title { font-size: 26px; font-weight: 500; color: #1a1a1a; margin-bottom: 0.25rem; }
+  .page-intro { font-size: 16px; color: #666; margin-bottom: 1.5rem; line-height: 1.65; }
+
+  .why-box { background: #f0f0ee; border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.75rem; }
+  .why-title { font-size: 12px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.75rem; }
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+  .why-item { font-size: 14px; color: #1a1a1a; line-height: 1.55; display: flex; gap: 8px; align-items: flex-start; }
+  .why-dot { width: 7px; height: 7px; border-radius: 50%; background: #1d9e75; margin-top: 6px; flex-shrink: 0; }
+
+  .section-card { background: #fff; border: 1px solid #e0e0dc; border-radius: 12px; padding: 1.5rem 1.75rem; margin-bottom: 1.5rem; }
+  .section-title { font-size: 20px; font-weight: 500; color: #1a1a1a; margin-bottom: 0.2rem; }
+  .section-sub { font-size: 14px; color: #888; margin-bottom: 1.25rem; }
+
+  .platform-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .platform-block { background: #f8f8f6; border-radius: 8px; padding: 1rem; }
+  .platform-label { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.75rem; }
+
+  .step { display: flex; gap: 10px; margin-bottom: 0.65rem; align-items: flex-start; }
+  .step-num { min-width: 22px; height: 22px; border-radius: 50%; background: #dbeafe; color: #185fa5; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; margin-top: 2px; flex-shrink: 0; }
+  .step-text { font-size: 14px; color: #1a1a1a; line-height: 1.55; }
+
+  .key { display: inline-block; background: #fff; border: 1px solid #ccc; border-bottom: 2px solid #bbb; border-radius: 4px; padding: 1px 7px; font-size: 13px; font-family: "Courier New", monospace; color: #333; }
+
+  .screenshot { border: 1px solid #ddd; border-radius: 8px; background: #f0f0ee; margin: 0.85rem 0; overflow: hidden; }
+  .screenshot-label { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.06em; padding: 5px 10px; border-bottom: 1px solid #e0e0dc; background: #e8e8e4; }
+  .screenshot-body { padding: 0.75rem 1rem; font-size: 13px; color: #555; line-height: 1.65; }
+  .screenshot-body b { color: #1a1a1a; font-weight: 600; }
+
+  .desktop-mock { display: flex; gap: 6px; margin: 8px 0 2px; }
+  .desk { border-radius: 6px; padding: 7px 10px; font-size: 12px; text-align: center; border: 1px solid #ddd; color: #888; background: #fff; flex: 1; }
+  .desk.active { background: #dbeafe; color: #1e40af; border-color: #93c5fd; font-weight: 600; }
+  .desk.zoom { background: #dbeafe; color: #1e40af; border-color: #93c5fd; font-weight: 600; }
+  .desk.work { background: #dcfce7; color: #166534; border-color: #86efac; font-weight: 600; }
+  .desk-sub { font-size: 10px; margin-top: 2px; opacity: 0.75; }
+
+  .wallpaper-row { display: flex; gap: 8px; margin: 8px 0 2px; }
+  .wp { border-radius: 6px; flex: 1; padding: 10px 8px; text-align: center; font-size: 13px; font-weight: 600; }
+  .wp-blue { background: #bfdbfe; color: #1e40af; }
+  .wp-green { background: #bbf7d0; color: #166534; }
+
+  .switcher-anim { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 8px 0 2px; padding: 10px; background: #fff; border-radius: 6px; }
+  .desk-tile { border-radius: 6px; padding: 8px 18px; font-size: 12px; text-align: center; border: 1px solid #ddd; color: #aaa; }
+  .desk-tile.from { opacity: 0.35; }
+  .desk-tile.to-win { background: #dcfce7; color: #166534; border-color: #86efac; font-weight: 600; }
+  .desk-tile.to-mac-zoom { background: #bfdbfe; color: #1e40af; border-color: #93c5fd; font-weight: 600; }
+  .desk-tile.to-mac-work { background: #bbf7d0; color: #166534; border-color: #86efac; font-weight: 600; }
+  .arrow { font-size: 18px; color: #bbb; }
+
+  .tip-box { border-left: 3px solid #1d9e75; background: #e8f7f1; border-radius: 0 8px 8px 0; padding: 0.8rem 1rem; margin-top: 1.1rem; font-size: 14px; color: #085041; line-height: 1.65; }
+  .divider { border: none; border-top: 1px solid #ebebeb; margin: 1.1rem 0; }
+
+  .drill-box { background: #f8f8f6; border: 1px solid #d8d8d4; border-radius: 8px; padding: 0.9rem 1.1rem; font-size: 14px; color: #333; line-height: 1.65; margin-top: 0.5rem; }
+  .rule-label { font-weight: 600; color: #1a1a1a; }
+
+  .footer { text-align: center; font-size: 12px; color: #bbb; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid #e8e8e4; }
+
+  @media (max-width: 540px) {
+    .platform-cols { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; }
+    .page-title { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1 class="page-title">Working with virtual desktops</h1>
+  <p class="page-intro">Virtual desktops let you maintain two complete, independent work environments and switch between them instantly with a single keystroke — keeping your Zoom session and your work neatly separated at all times.</p>
+
+  <div class="why-box">
+    <p class="why-title">Why this approach works well</p>
+    <div class="why-grid">
+      <div class="why-item"><div class="why-dot"></div>Each desktop holds its full window arrangement — nothing moves or collapses</div>
+      <div class="why-item"><div class="why-dot"></div>Switching is one keystroke — no hunting, no clicking</div>
+      <div class="why-item"><div class="why-dot"></div>Zoom stays on its own desktop and can never get buried under other windows</div>
+      <div class="why-item"><div class="why-dot"></div>Your work desktop can have as many browser windows open as you need</div>
+    </div>
+  </div>
+
+  <!-- STEP 1: CREATE -->
+  <div class="section-card">
+    <h2 class="section-title">Step 1 — Create two desktops</h2>
+    <p class="section-sub">Do this once at the start of your first session</p>
+
+    <div class="platform-cols">
+
+      <div class="platform-block">
+        <p class="platform-label">Windows — Task View</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Press <span class="key">Win</span> + <span class="key">Tab</span></div></div>
+        <div class="screenshot">
+          <div class="screenshot-label">What you see</div>
+          <div class="screenshot-body">The screen zooms out showing <b>Task View</b> — thumbnails of all open windows fill the screen, and a row of desktops appears along the <b>top edge</b>. You will see <b>Desktop 1</b> and a <b>"+ New desktop"</b> button beside it.</div>
+          <div class="desktop-mock">
+            <div class="desk active">Desktop 1<div class="desk-sub">current</div></div>
+            <div class="desk">+ New desktop</div>
+          </div>
+        </div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Click <b>+ New desktop</b></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Desktop 2 appears in the strip — press <span class="key">Esc</span> to exit Task View</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text">To rename: press <span class="key">Win</span>+<span class="key">Tab</span>, right-click a desktop thumbnail, choose <b>Rename</b></div></div>
+        <div class="screenshot">
+          <div class="screenshot-label">After setup</div>
+          <div class="screenshot-body">You now have two named desktops. Open <b>Zoom on Desktop 1</b> and your <b>browser windows on Desktop 2</b>.</div>
+          <div class="desktop-mock">
+            <div class="desk zoom">Zoom<div class="desk-sub">Desktop 1</div></div>
+            <div class="desk work">Work<div class="desk-sub">Desktop 2</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="platform-block">
+        <p class="platform-label">Mac — Mission Control</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Press <span class="key">F3</span> or swipe up with three fingers on the trackpad</div></div>
+        <div class="screenshot">
+          <div class="screenshot-label">What you see</div>
+          <div class="screenshot-body"><b>Mission Control</b> opens — your windows spread out across the screen. Move your mouse to the <b>very top-right corner</b> and a <b>+</b> button fades into view.</div>
+          <div class="desktop-mock">
+            <div class="desk active">Desktop 1<div class="desk-sub">current</div></div>
+            <div class="desk">+</div>
+          </div>
+        </div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Click <b>+</b> — Space 2 appears in the strip along the top</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Press <span class="key">Esc</span> to exit Mission Control</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text">Open <b>Zoom on Space 1</b> and your <b>browser windows on Space 2</b></div></div>
+        <div class="screenshot">
+          <div class="screenshot-label">Note — Mac cannot rename Spaces</div>
+          <div class="screenshot-body">Unlike Windows, macOS does not support renaming desktops. The best workaround: set a <b>different wallpaper color on each Space</b> so you always know at a glance which environment you are in.</div>
+          <div class="wallpaper-row">
+            <div class="wp wp-blue">Space 1<br>Blue = Zoom</div>
+            <div class="wp wp-green">Space 2<br>Green = Work</div>
+          </div>
+        </div>
+        <div class="tip-box">To set a wallpaper per Space: switch to that Space, right-click the desktop, choose <b>Change Wallpaper</b>, and pick a solid color. Each Space remembers its own. The color change as you switch is an instant visual confirmation that you have arrived in the right environment.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STEP 2: SWITCH -->
+  <div class="section-card">
+    <h2 class="section-title">Step 2 — Switch between desktops</h2>
+    <p class="section-sub">This is all you need during class — one keystroke in either direction</p>
+
+    <div class="platform-cols">
+
+      <div class="platform-block">
+        <p class="platform-label">Windows</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Press <span class="key">Win</span> + <span class="key">Ctrl</span> + <span class="key">→</span> to move to the next desktop</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Press <span class="key">Win</span> + <span class="key">Ctrl</span> + <span class="key">←</span> to move back</div></div>
+        <div class="screenshot">
+          <div class="screenshot-label">What you see while switching</div>
+          <div class="screenshot-body">The entire screen <b>slides sideways</b> like turning a page. Your Zoom environment slides off one side, your work environment slides in from the other. Everything is exactly where you left it.</div>
+          <div class="switcher-anim">
+            <div class="desk-tile from">Zoom</div>
+            <div class="arrow">&#8594;</div>
+            <div class="desk-tile to-win">Work</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="platform-block">
+        <p class="platform-label">Mac</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Press <span class="key">Ctrl</span> + <span class="key">→</span> to move to the next Space</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Press <span class="key">Ctrl</span> + <span class="key">←</span> to move back</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Or swipe <b>left/right with three fingers</b> on the trackpad — often the most natural method</div></div>
+        <div class="screenshot">
+          <div class="screenshot-label">What you see while switching</div>
+          <div class="screenshot-body">The screen <b>slides smoothly sideways</b>. The wallpaper color change confirms instantly which environment you have landed in — blue means Zoom, green means Work.</div>
+          <div class="switcher-anim">
+            <div class="desk-tile to-mac-zoom" style="opacity:0.35;">Zoom</div>
+            <div class="arrow">&#8594;</div>
+            <div class="desk-tile to-mac-work">Work</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="tip-box">Switching desktops does not disconnect you from Zoom. Your audio stays live and the shared screen keeps running — you have simply moved to a different desk. Switch back any time and Zoom is exactly as you left it.</div>
+  </div>
+
+  <!-- STEP 3: MANAGE -->
+  <div class="section-card">
+    <h2 class="section-title">Step 3 — Managing your work desktop</h2>
+    <p class="section-sub">Arrange your browser windows on Desktop 2 however you like — they stay put when you switch away</p>
+
+    <div class="platform-cols">
+
+      <div class="platform-block">
+        <p class="platform-label">Windows</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Switch to Desktop 2 with <span class="key">Win</span>+<span class="key">Ctrl</span>+<span class="key">→</span></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Open as many browser windows as you need and arrange them freely</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">To move a window between desktops: open Task View (<span class="key">Win</span>+<span class="key">Tab</span>), right-click the window thumbnail, choose <b>Move to &rarr;</b></div></div>
+      </div>
+
+      <div class="platform-block">
+        <p class="platform-label">Mac</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Switch to Space 2 with <span class="key">Ctrl</span>+<span class="key">→</span></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Open as many browser windows as you need and arrange them freely</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">To move a window to another Space: enter Mission Control (<span class="key">F3</span>), then <b>drag the window thumbnail</b> up to the destination Space in the strip at the top</div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DRILL -->
+  <div class="drill-box">
+    <span class="rule-label">Practice drill — do this at the start of every session:</span> Once your two desktops are set up, spend 60 seconds switching back and forth three times. Say out loud which desktop you are on each time. Doing it before the first exercise means you will never fumble mid-class.
+  </div>
+
+  <div class="footer">BOLLI AI Literacy &mdash; Virtual Desktops Guide</div>
+
+</div>
+</body>
+</html>
