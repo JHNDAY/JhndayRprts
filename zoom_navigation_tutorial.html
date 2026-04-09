@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navigating between Zoom and your work</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f5f5f3; color: #1a1a1a; padding: 2rem 1rem; line-height: 1.6; }
+  .page-wrap { max-width: 740px; margin: 0 auto; }
+  .page-title { font-size: 26px; font-weight: 500; color: #1a1a1a; margin-bottom: 0.25rem; }
+  .page-intro { font-size: 16px; color: #666; margin-bottom: 2rem; line-height: 1.6; }
+  .method-card { background: #fff; border: 1px solid #e0e0dc; border-radius: 12px; padding: 1.5rem 1.75rem; margin-bottom: 2rem; }
+  .method-title { font-size: 20px; font-weight: 500; color: #1a1a1a; margin-bottom: 0.2rem; }
+  .method-subtitle { font-size: 14px; color: #888; margin-bottom: 1.25rem; }
+  .benefit-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .badge { font-size: 12px; padding: 3px 11px; border-radius: 8px; font-weight: 500; }
+  .badge-teal { background: #e1f5ee; color: #0f6e56; }
+  .badge-blue { background: #e6f1fb; color: #185fa5; }
+  .badge-amber { background: #faeeda; color: #854f0b; }
+  .platform-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .platform-block { background: #f8f8f6; border-radius: 8px; padding: 1rem; }
+  .platform-label { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.75rem; }
+  .step { display: flex; gap: 10px; margin-bottom: 0.65rem; align-items: flex-start; }
+  .step-num { min-width: 22px; height: 22px; border-radius: 50%; background: #dbeafe; color: #185fa5; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; margin-top: 2px; flex-shrink: 0; }
+  .step-text { font-size: 14px; color: #1a1a1a; line-height: 1.55; }
+  .key { display: inline-block; background: #fff; border: 1px solid #ccc; border-bottom: 2px solid #bbb; border-radius: 4px; padding: 1px 7px; font-size: 13px; font-family: "Courier New", monospace; color: #333; }
+  .tip-box { border-left: 3px solid #1d9e75; background: #e8f7f1; border-radius: 0 8px 8px 0; padding: 0.8rem 1rem; margin-top: 1.25rem; font-size: 14px; color: #085041; line-height: 1.65; }
+  .divider { border: none; border-top: 1px solid #ebebeb; margin: 1.25rem 0; }
+  .rule-box { border: 1px solid #d8d8d4; border-radius: 8px; padding: 0.8rem 1rem; margin-bottom: 0.85rem; font-size: 14px; color: #333; line-height: 1.6; }
+  .rule-label { font-weight: 600; margin-right: 5px; color: #1a1a1a; }
+  .screenshot { border: 1px solid #ddd; border-radius: 8px; background: #f8f8f6; margin: 0.85rem 0; overflow: hidden; }
+  .screenshot-label { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.06em; padding: 6px 10px; border-bottom: 1px solid #e4e4e0; background: #f0f0ee; }
+  .screenshot-body { padding: 0.75rem 1rem; font-size: 13px; color: #555; line-height: 1.65; }
+  .screenshot-body b { color: #1a1a1a; font-weight: 600; }
+  .switcher-mock { background: rgba(20,20,40,0.88); border-radius: 8px; padding: 10px 16px; margin: 8px 0 2px; display: flex; gap: 12px; align-items: center; justify-content: center; }
+  .sw-icon { border-radius: 6px; padding: 6px 16px; font-size: 12px; color: #8090b0; background: #2a2a45; text-align: center; font-family: -apple-system, sans-serif; }
+  .sw-icon.selected { background: #3a5a8a; color: #c8dff8; border: 1.5px solid #6090d0; }
+  .taskbar-mock { background: #1e1e2e; border-radius: 6px; padding: 6px 10px; margin: 8px 0 2px; display: flex; gap: 8px; align-items: center; }
+  .tb-icon { background: #2d2d50; border-radius: 4px; padding: 4px 12px; font-size: 11px; color: #8090b0; font-family: -apple-system, sans-serif; }
+  .tb-icon.active { background: #3a5a8a; color: #b8d4f0; border: 1px solid #5a80ba; }
+  .desktop-mock { display: flex; gap: 8px; margin: 8px 0 2px; }
+  .desk { border-radius: 6px; padding: 7px 12px; font-size: 12px; text-align: center; border: 1px solid #ddd; color: #888; background: #f0f0ee; flex: 1; }
+  .desk.active { background: #dbeafe; color: #185fa5; border-color: #93c5fd; font-weight: 600; }
+  .desk-sublabel { font-size: 10px; color: #aaa; margin-top: 2px; }
+  .drill-box { background: #f8f8f6; border: 1px solid #d8d8d4; border-radius: 8px; padding: 0.85rem 1rem; font-size: 14px; color: #333; line-height: 1.6; margin-top: 0.5rem; }
+  .section-divider-label { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.75rem; }
+  .footer { text-align: center; font-size: 12px; color: #bbb; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid #e8e8e4; }
+  @media (max-width: 540px) {
+    .platform-cols { grid-template-columns: 1fr; }
+    .page-title { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <h1 class="page-title">Navigating between Zoom and your work</h1>
+  <p class="page-intro">Two approaches for moving smoothly between the instructor's shared screen and your own browser — choose the one that suits you best.</p>
+
+  <!-- APPROACH 1 -->
+  <div class="method-card">
+    <h2 class="method-title">Approach 1 — Alt/Cmd + Tab</h2>
+    <p class="method-subtitle">Best when you have just Zoom and one browser window open</p>
+    <div class="benefit-row">
+      <span class="badge badge-teal">No setup needed</span>
+      <span class="badge badge-blue">Works on all laptops</span>
+      <span class="badge badge-teal">One keystroke</span>
+    </div>
+
+    <div class="rule-box"><span class="rule-label">Golden rule:</span> Keep only two things open — Zoom and your browser. One tab in the browser is ideal. Do not open a second browser window.</div>
+
+    <hr class="divider">
+
+    <div class="platform-cols">
+
+      <div class="platform-block">
+        <p class="platform-label">Windows PC</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Hold <span class="key">Alt</span> and tap <span class="key">Tab</span> once</div></div>
+        <div class="screenshot">
+          <div class="screenshot-label">What you see</div>
+          <div class="screenshot-body">A dark overlay appears in the <b>center of the screen</b> showing a row of application icons — one for Zoom, one for your browser. The currently selected icon has a <b>blue highlight box</b> around it.</div>
+          <div class="switcher-mock"><div class="sw-icon selected">Zoom</div><div class="sw-icon">Browser</div></div>
+        </div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Release both keys to jump to the highlighted app</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Repeat the same keys to flip back</div></div>
+        <div class="screenshot">
+          <div class="screenshot-label">The taskbar — your visual anchor</div>
+          <div class="screenshot-body">Along the <b>bottom of the screen</b> the taskbar always shows which apps are open. The active window appears with a <b>lighter background</b>. You can also click any icon here directly instead of using the keyboard.</div>
+          <div class="taskbar-mock"><div class="tb-icon active">Zoom</div><div class="tb-icon">Chrome</div></div>
+        </div>
+      </div>
+
+      <div class="platform-block">
+        <p class="platform-label">Mac</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Hold <span class="key">Cmd</span> and tap <span class="key">Tab</span> once</div></div>
+        <div class="screenshot">
+          <div class="screenshot-label">What you see</div>
+          <div class="screenshot-body">A dark rounded strip appears in the <b>center of the screen</b> showing application icons. The selected icon has a <b>light rectangle</b> around it. Release <span class="key">Cmd</span> to go there.</div>
+          <div class="switcher-mock"><div class="sw-icon selected">Zoom</div><div class="sw-icon">Safari</div></div>
+        </div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Release both keys to jump to the highlighted app</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Repeat the same keys to flip back</div></div>
+        <div class="screenshot">
+          <div class="screenshot-label">The Dock — your visual anchor</div>
+          <div class="screenshot-body">The <b>Dock at the bottom</b> shows all open apps. A <b>small dot beneath an icon</b> means that app is running. Click any Dock icon directly as an alternative to the keyboard shortcut.</div>
+          <div class="taskbar-mock"><div class="tb-icon active">Zoom &bull;</div><div class="tb-icon">Safari &bull;</div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="tip-box">Minimizing Zoom does not disconnect you from the meeting. Your audio stays live and the shared screen is waiting — you are simply moving Zoom out of your way temporarily.</div>
+  </div>
+
+  <!-- APPROACH 2 -->
+  <div class="method-card">
+    <h2 class="method-title">Approach 2 — Virtual desktops</h2>
+    <p class="method-subtitle">Best when you want multiple browser windows open alongside Zoom</p>
+    <div class="benefit-row">
+      <span class="badge badge-blue">Two complete environments</span>
+      <span class="badge badge-teal">One keystroke to switch</span>
+      <span class="badge badge-amber">Small setup required</span>
+    </div>
+
+    <div class="rule-box"><span class="rule-label">The idea:</span> Think of two desks. Desktop 1 has Zoom on it. Desktop 2 has your browser work arranged however you like. One keystroke moves you from desk to desk.</div>
+
+    <hr class="divider">
+    <p class="section-divider-label">Setup — do this once at the start of class</p>
+
+    <div class="platform-cols">
+
+      <div class="platform-block">
+        <p class="platform-label">Windows</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Press <span class="key">Win</span> + <span class="key">Tab</span></div></div>
+        <div class="screenshot">
+          <div class="screenshot-label">What you see</div>
+          <div class="screenshot-body">The screen zooms out to show <b>Task View</b> — thumbnails of all open windows and a row of desktops along the top. You will see <b>"Desktop 1"</b> and a <b>"+ New desktop"</b> button beside it.</div>
+          <div class="desktop-mock">
+            <div class="desk active">Desktop 1<div class="desk-sublabel">current</div></div>
+            <div class="desk">+ New desktop</div>
+          </div>
+        </div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Click <b>+ New desktop</b> — Desktop 2 appears</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Click Desktop 1 and open Zoom here</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text">Press <span class="key">Win</span>+<span class="key">Tab</span> again, click Desktop 2 — open your browser windows here</div></div>
+      </div>
+
+      <div class="platform-block">
+        <p class="platform-label">Mac</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Press <span class="key">F3</span> or swipe up with three fingers</div></div>
+        <div class="screenshot">
+          <div class="screenshot-label">What you see</div>
+          <div class="screenshot-body"><b>Mission Control</b> opens — your open windows spread across the screen, and a thin strip appears at the <b>very top</b> showing your Spaces. A <b>+ button</b> appears at the top-right when you move your mouse there.</div>
+          <div class="desktop-mock">
+            <div class="desk active">Space 1<div class="desk-sublabel">current</div></div>
+            <div class="desk">+</div>
+          </div>
+        </div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Click <b>+</b> — Space 2 appears in the strip</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Click Space 1 and open Zoom here</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text">Press <span class="key">F3</span> again, click Space 2 — open your browser windows here</div></div>
+      </div>
+
+    </div>
+
+    <hr class="divider">
+    <p class="section-divider-label">Switching — once set up, this is all you need</p>
+
+    <div class="platform-cols">
+
+      <div class="platform-block">
+        <p class="platform-label">Windows</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Press <span class="key">Win</span> + <span class="key">Ctrl</span> + <span class="key">→</span> to go to Desktop 2</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Press <span class="key">Win</span> + <span class="key">Ctrl</span> + <span class="key">←</span> to return to Desktop 1</div></div>
+        <div class="screenshot">
+          <div class="screenshot-label">What you see while switching</div>
+          <div class="screenshot-body">The entire screen <b>slides sideways</b> like turning a page — your Zoom environment slides off to the left and your browser environment slides in from the right, or vice versa.</div>
+        </div>
+      </div>
+
+      <div class="platform-block">
+        <p class="platform-label">Mac</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Press <span class="key">Ctrl</span> + <span class="key">→</span> to go to Space 2</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Press <span class="key">Ctrl</span> + <span class="key">←</span> to return to Space 1</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Or swipe left/right with <b>three fingers</b> on the trackpad</div></div>
+        <div class="screenshot">
+          <div class="screenshot-label">What you see while switching</div>
+          <div class="screenshot-body">The screen <b>slides smoothly sideways</b> — your Zoom environment slides away and your browser workspace slides into view. The trackpad swipe makes this feel especially natural on a Mac.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="tip-box">This approach takes about two minutes to set up at the start of a session. Once in place it is the most powerful option — your Zoom environment and work environment are completely independent, and switching between them is always one keystroke or swipe away.</div>
+  </div>
+
+  <!-- DRILL -->
+  <div class="drill-box">
+    <span class="rule-label">Practice drill:</span> At the start of class, spend 60 seconds switching back and forth three times using whichever method you chose. Doing it once before you need it means you will never fumble during an exercise.
+  </div>
+
+  <div class="footer">BOLLI AI Literacy &mdash; Zoom Navigation Guide</div>
+
+</div>
+</body>
+</html>
