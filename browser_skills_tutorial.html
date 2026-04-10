@@ -453,6 +453,17 @@
 </div>
 
 <!-- ═══════════════════════════════════════
+     LESSONS GATE
+════════════════════════════════════════ -->
+<div id="lessonsGate" style="text-align:center;padding:40px 20px;background:white;border-radius:12px;margin-bottom:25px;box-shadow:0 3px 10px rgba(0,0,0,0.1);border-left:6px solid #667eea;">
+    <div style="font-size:2.5em;margin-bottom:12px;">🖥️ 🌐</div>
+    <h3 style="color:#667eea;margin:0 0 10px 0;">Choose your platform and browser above to unlock the lessons</h3>
+    <p style="color:#666;margin:0;">The tutorial will then show instructions tailored exactly to your setup.</p>
+</div>
+
+<div id="lessonsWrapper" style="display:none;">
+
+<!-- ═══════════════════════════════════════
      LESSON 1: Finding Your Keys
 ════════════════════════════════════════ -->
 <div class="lesson">
@@ -678,6 +689,16 @@
                 <li><span class="keys">⌘</span>+<span class="keys">⌥</span>+<span class="keys">B</span> — Open/hide Bookmarks sidebar</li>
             </ul>
         </div>
+        <div class="shortcut-box" style="background:#f0f4ff;border-color:#667eea;margin-top:12px;">
+            <h4>📁 Creating a Folder in Safari</h4>
+            <ol style="margin:8px 0 0 0;padding-left:20px;">
+                <li>Press <span class="keys">⌘</span>+<span class="keys">⌥</span>+<span class="keys">B</span> to open the Bookmarks sidebar</li>
+                <li>Right-click anywhere in the sidebar</li>
+                <li>Choose <strong>New Folder</strong></li>
+                <li>Type a name (e.g. "BOLLI Courses") and press Return</li>
+                <li>Drag bookmarks into the folder to organize them</li>
+            </ol>
+        </div>
         <div class="practice">
             <div class="practice-title">Practice: Bookmark and Organize</div>
             <ol>
@@ -720,6 +741,18 @@
                 <li>Toggle the Bookmarks Bar on for quick access</li>
             </ol>
         </div>
+        <div class="shortcut-box" style="background:#f0f4ff;border-color:#667eea;margin-top:12px;">
+            <h4>📁 Creating a Folder in Chrome</h4>
+            <ol style="margin:8px 0 0 0;padding-left:20px;">
+                <li class="mac-only">Press <span class="keys">⌘</span>+<span class="keys">⇧</span>+<span class="keys">O</span> to open Bookmark Manager</li>
+                <li class="windows-only">Press <span class="keys">Ctrl</span>+<span class="keys">Shift</span>+<span class="keys">O</span> to open Bookmark Manager</li>
+                <li>Right-click on any existing folder in the left panel</li>
+                <li>Choose <strong>Add new folder</strong> from the menu that appears</li>
+                <li>Type a name (e.g. "BOLLI Courses") and press <span class="keys">Enter</span></li>
+                <li>Drag bookmarks into the new folder to organize them</li>
+            </ol>
+            <div class="tip-box" style="margin-top:10px;"><strong>💡 Shortcut:</strong> You can also right-click directly on the Bookmarks Bar (the strip under the address bar) and choose <strong>Add folder</strong> — no need to open the Manager at all!</div>
+        </div>
     </div>
 
     <!-- Firefox -->
@@ -742,6 +775,17 @@
                 </ul>
             </div>
         </div>
+        <div class="shortcut-box" style="background:#f0f4ff;border-color:#667eea;margin-top:12px;">
+            <h4>📁 Creating a Folder in Firefox</h4>
+            <ol style="margin:8px 0 0 0;padding-left:20px;">
+                <li class="mac-only">Press <span class="keys">⌘</span>+<span class="keys">⇧</span>+<span class="keys">O</span> to open the Library</li>
+                <li class="windows-only">Press <span class="keys">Ctrl</span>+<span class="keys">Shift</span>+<span class="keys">O</span> to open the Library</li>
+                <li>Right-click on <strong>Bookmarks Menu</strong> in the left panel</li>
+                <li>Choose <strong>New Folder</strong></li>
+                <li>Type a name and click Add</li>
+                <li>Drag bookmarks into the folder to organize them</li>
+            </ol>
+        </div>
     </div>
 
     <!-- Edge -->
@@ -763,6 +807,16 @@
                     <li><span class="keys">Ctrl</span>+<span class="keys">Shift</span>+<span class="keys">B</span> — Show/hide Favorites Bar</li>
                 </ul>
             </div>
+        </div>
+        <div class="shortcut-box" style="background:#f0f4ff;border-color:#667eea;margin-top:12px;">
+            <h4>📁 Creating a Folder in Edge</h4>
+            <ol style="margin:8px 0 0 0;padding-left:20px;">
+                <li class="mac-only">Press <span class="keys">⌘</span>+<span class="keys">⇧</span>+<span class="keys">O</span> to open Favorites Manager</li>
+                <li class="windows-only">Press <span class="keys">Ctrl</span>+<span class="keys">Shift</span>+<span class="keys">O</span> to open Favorites Manager</li>
+                <li>Click <strong>Add folder</strong> in the top right</li>
+                <li>Type a name and press Return</li>
+                <li>Drag favorites into the folder to organize them</li>
+            </ol>
         </div>
         <div class="tip-box"><strong>💡 Edge Collections:</strong> Edge has a unique "Collections" feature (click the ✚ icon in the toolbar) — great for gathering research from multiple websites into named groups!</div>
     </div>
@@ -1178,6 +1232,8 @@
     <p>💡 Keep learning, keep growing, keep connecting!</p>
 </div>
 
+</div><!-- end lessonsWrapper -->
+
 <script>
 // ════════════════════════════════
 //  PLATFORM & BROWSER SELECTION
@@ -1202,6 +1258,10 @@ function setPlatform(platform) {
     document.querySelectorAll('.browser-badge').forEach(function(b){ b.classList.remove('active'); });
     document.getElementById('browserRow').classList.add('visible');
 
+    // Re-hide lessons until browser is chosen
+    document.getElementById('lessonsGate').style.display = 'block';
+    document.getElementById('lessonsWrapper').style.display = 'none';
+
     updateStatus();
     saveSetting();
 }
@@ -1213,6 +1273,10 @@ function setBrowser(browser) {
 
     document.querySelectorAll('.browser-badge').forEach(function(b){ b.classList.remove('active'); });
     document.getElementById('bb-' + browser).classList.add('active');
+
+    // Unlock lessons
+    document.getElementById('lessonsGate').style.display = 'none';
+    document.getElementById('lessonsWrapper').style.display = 'block';
 
     updateStatus();
     saveSetting();
@@ -1426,6 +1490,8 @@ var tutorialKnowledge = {
               steps:['Mac (all browsers): Press ⌘ + D','Windows (all browsers): Press Ctrl + D','Edit the name if desired, then click Done or Add'] },
             { goal:'organize bookmarks', keywords:['organize','manage','folders','rearrange','delete'], title:'Organizing Bookmarks',
               steps:['Chrome/Edge Mac: ⌘ + Shift + O to open Bookmark Manager','Chrome/Edge Windows: Ctrl + Shift + O','Firefox Mac: ⌘ + Shift + O','Safari Mac: ⌘ + Option + B to open sidebar','Create folders and drag bookmarks to organize them'] },
+            { goal:'create bookmark folder', keywords:['folder','new folder','create folder','bookmark folder','organize folder'], title:'Creating a Bookmark Folder',
+              steps:['Safari Mac: ⌘ + Option + B → right-click in sidebar → New Folder','Chrome Mac: ⌘ + Shift + O → three-dot menu → Add new folder','Chrome Windows: Ctrl + Shift + O → three-dot menu → Add new folder','Firefox Mac: ⌘ + Shift + O → right-click Bookmarks Menu → New Folder','Firefox Windows: Ctrl + Shift + O → right-click Bookmarks Menu → New Folder','Edge Mac: ⌘ + Shift + O → click Add folder','Edge Windows: Ctrl + Shift + O → click Add folder','Then drag bookmarks into the folder to organize them'] },
             { goal:'show bookmarks bar', keywords:['bookmarks bar','favorites bar','bookmark bar','show bar','toolbar'], title:'Showing the Bookmarks Bar',
               steps:['Mac (Chrome/Firefox/Edge): ⌘ + Shift + B','Windows: Ctrl + Shift + B','Safari: View menu → Show Favorites Bar'] }
         ]
