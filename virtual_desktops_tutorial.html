@@ -12,6 +12,46 @@
   .page-title { font-size: 26px; font-weight: 500; color: #1a1a1a; margin-bottom: 0.25rem; }
   .page-intro { font-size: 16px; color: #666; margin-bottom: 1.5rem; line-height: 1.65; }
 
+  /* ── Platform pill toggle ── */
+  .pill-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.75rem;
+  }
+  .pill-label {
+    font-size: 13px;
+    color: #888;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  .pill-toggle {
+    display: inline-flex;
+    background: #e4e4e0;
+    border-radius: 999px;
+    padding: 3px;
+    gap: 2px;
+  }
+  .pill-btn {
+    border: none;
+    border-radius: 999px;
+    padding: 5px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+    background: transparent;
+    color: #888;
+    letter-spacing: 0.01em;
+  }
+  .pill-btn.active {
+    background: #fff;
+    color: #1a1a1a;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.13);
+  }
+  .pill-btn[data-platform="mac"].active { color: #185fa5; }
+  .pill-btn[data-platform="pc"].active  { color: #166534; }
+
   .why-box { background: #f0f0ee; border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.75rem; }
   .why-title { font-size: 12px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.75rem; }
   .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
@@ -22,12 +62,30 @@
   .section-title { font-size: 20px; font-weight: 500; color: #1a1a1a; margin-bottom: 0.2rem; }
   .section-sub { font-size: 14px; color: #888; margin-bottom: 1.25rem; }
 
-  .platform-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  /* ── Platform panes ── */
+  .platform-pane { display: none; }
+  .platform-pane.visible { display: block; }
+
+  /* shared inner chrome */
   .platform-block { background: #f8f8f6; border-radius: 8px; padding: 1rem; }
-  .platform-label { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.75rem; }
+  .platform-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-radius: 999px;
+    padding: 3px 10px;
+    margin-bottom: 0.9rem;
+  }
+  .platform-badge.mac { background: #dbeafe; color: #185fa5; }
+  .platform-badge.pc  { background: #dcfce7; color: #166534; }
 
   .step { display: flex; gap: 10px; margin-bottom: 0.65rem; align-items: flex-start; }
   .step-num { min-width: 22px; height: 22px; border-radius: 50%; background: #dbeafe; color: #185fa5; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; margin-top: 2px; flex-shrink: 0; }
+  .pc .step-num { background: #dcfce7; color: #166534; }
   .step-text { font-size: 14px; color: #1a1a1a; line-height: 1.55; }
 
   .key { display: inline-block; background: #fff; border: 1px solid #ccc; border-bottom: 2px solid #bbb; border-radius: 4px; padding: 1px 7px; font-size: 13px; font-family: "Courier New", monospace; color: #333; }
@@ -66,7 +124,6 @@
   .footer { text-align: center; font-size: 12px; color: #bbb; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid #e8e8e4; }
 
   @media (max-width: 540px) {
-    .platform-cols { grid-template-columns: 1fr; }
     .why-grid { grid-template-columns: 1fr; }
     .page-title { font-size: 22px; }
   }
@@ -77,6 +134,15 @@
 
   <h1 class="page-title">Working with virtual desktops</h1>
   <p class="page-intro">Virtual desktops let you maintain two complete, independent work environments and switch between them instantly with a single keystroke — keeping your Zoom session and your work neatly separated at all times.</p>
+
+  <!-- Platform toggle -->
+  <div class="pill-bar">
+    <span class="pill-label">Show steps for:</span>
+    <div class="pill-toggle" role="group" aria-label="Platform selector">
+      <button class="pill-btn active" data-platform="mac">Mac</button>
+      <button class="pill-btn" data-platform="pc">PC</button>
+    </div>
+  </div>
 
   <div class="why-box">
     <p class="why-title">Why this approach works well</p>
@@ -93,34 +159,10 @@
     <h2 class="section-title">Step 1 — Create two desktops</h2>
     <p class="section-sub">Do this once at the start of your first session</p>
 
-    <div class="platform-cols">
-
+    <!-- MAC -->
+    <div class="platform-pane visible" data-for="mac">
       <div class="platform-block">
-        <p class="platform-label">Windows — Task View</p>
-        <div class="step"><div class="step-num">1</div><div class="step-text">Press <span class="key">Win</span> + <span class="key">Tab</span></div></div>
-        <div class="screenshot">
-          <div class="screenshot-label">What you see</div>
-          <div class="screenshot-body">The screen zooms out showing <b>Task View</b> — thumbnails of all open windows fill the screen, and a row of desktops appears along the <b>top edge</b>. You will see <b>Desktop 1</b> and a <b>"+ New desktop"</b> button beside it.</div>
-          <div class="desktop-mock">
-            <div class="desk active">Desktop 1<div class="desk-sub">current</div></div>
-            <div class="desk">+ New desktop</div>
-          </div>
-        </div>
-        <div class="step"><div class="step-num">2</div><div class="step-text">Click <b>+ New desktop</b></div></div>
-        <div class="step"><div class="step-num">3</div><div class="step-text">Desktop 2 appears in the strip — press <span class="key">Esc</span> to exit Task View</div></div>
-        <div class="step"><div class="step-num">4</div><div class="step-text">To rename: press <span class="key">Win</span>+<span class="key">Tab</span>, right-click a desktop thumbnail, choose <b>Rename</b></div></div>
-        <div class="screenshot">
-          <div class="screenshot-label">After setup</div>
-          <div class="screenshot-body">You now have two named desktops. Open <b>Zoom on Desktop 1</b> and your <b>browser windows on Desktop 2</b>.</div>
-          <div class="desktop-mock">
-            <div class="desk zoom">Zoom<div class="desk-sub">Desktop 1</div></div>
-            <div class="desk work">Work<div class="desk-sub">Desktop 2</div></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="platform-block">
-        <p class="platform-label">Mac — Mission Control</p>
+        <span class="platform-badge mac">&#63743; Mac — Mission Control</span>
         <div class="step"><div class="step-num">1</div><div class="step-text">Press <span class="key">F3</span> or swipe up with three fingers on the trackpad</div></div>
         <div class="screenshot">
           <div class="screenshot-label">What you see</div>
@@ -143,8 +185,35 @@
         </div>
         <div class="tip-box">To set a wallpaper per Space: switch to that Space, right-click the desktop, choose <b>Change Wallpaper</b>, and pick a solid color. Each Space remembers its own. The color change as you switch is an instant visual confirmation that you have arrived in the right environment.</div>
       </div>
-
     </div>
+
+    <!-- PC -->
+    <div class="platform-pane" data-for="pc">
+      <div class="platform-block pc">
+        <span class="platform-badge pc">&#⊞; PC — Task View</span>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Press <span class="key">Win</span> + <span class="key">Tab</span></div></div>
+        <div class="screenshot">
+          <div class="screenshot-label">What you see</div>
+          <div class="screenshot-body">The screen zooms out showing <b>Task View</b> — thumbnails of all open windows fill the screen, and a row of desktops appears along the <b>top edge</b>. You will see <b>Desktop 1</b> and a <b>"+ New desktop"</b> button beside it.</div>
+          <div class="desktop-mock">
+            <div class="desk active">Desktop 1<div class="desk-sub">current</div></div>
+            <div class="desk">+ New desktop</div>
+          </div>
+        </div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Click <b>+ New desktop</b></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Desktop 2 appears in the strip — press <span class="key">Esc</span> to exit Task View</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text">To rename: press <span class="key">Win</span>+<span class="key">Tab</span>, right-click a desktop thumbnail, choose <b>Rename</b></div></div>
+        <div class="screenshot">
+          <div class="screenshot-label">After setup</div>
+          <div class="screenshot-body">You now have two named desktops. Open <b>Zoom on Desktop 1</b> and your <b>browser windows on Desktop 2</b>.</div>
+          <div class="desktop-mock">
+            <div class="desk zoom">Zoom<div class="desk-sub">Desktop 1</div></div>
+            <div class="desk work">Work<div class="desk-sub">Desktop 2</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- STEP 2: SWITCH -->
@@ -152,25 +221,10 @@
     <h2 class="section-title">Step 2 — Switch between desktops</h2>
     <p class="section-sub">This is all you need during class — one keystroke in either direction</p>
 
-    <div class="platform-cols">
-
+    <!-- MAC -->
+    <div class="platform-pane visible" data-for="mac">
       <div class="platform-block">
-        <p class="platform-label">Windows</p>
-        <div class="step"><div class="step-num">1</div><div class="step-text">Press <span class="key">Win</span> + <span class="key">Ctrl</span> + <span class="key">→</span> to move to the next desktop</div></div>
-        <div class="step"><div class="step-num">2</div><div class="step-text">Press <span class="key">Win</span> + <span class="key">Ctrl</span> + <span class="key">←</span> to move back</div></div>
-        <div class="screenshot">
-          <div class="screenshot-label">What you see while switching</div>
-          <div class="screenshot-body">The entire screen <b>slides sideways</b> like turning a page. Your Zoom environment slides off one side, your work environment slides in from the other. Everything is exactly where you left it.</div>
-          <div class="switcher-anim">
-            <div class="desk-tile from">Zoom</div>
-            <div class="arrow">&#8594;</div>
-            <div class="desk-tile to-win">Work</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="platform-block">
-        <p class="platform-label">Mac</p>
+        <span class="platform-badge mac">&#63743; Mac</span>
         <div class="step"><div class="step-num">1</div><div class="step-text">Press <span class="key">Ctrl</span> + <span class="key">→</span> to move to the next Space</div></div>
         <div class="step"><div class="step-num">2</div><div class="step-text">Press <span class="key">Ctrl</span> + <span class="key">←</span> to move back</div></div>
         <div class="step"><div class="step-num">3</div><div class="step-text">Or swipe <b>left/right with three fingers</b> on the trackpad — often the most natural method</div></div>
@@ -184,7 +238,24 @@
           </div>
         </div>
       </div>
+    </div>
 
+    <!-- PC -->
+    <div class="platform-pane" data-for="pc">
+      <div class="platform-block pc">
+        <span class="platform-badge pc">PC — Windows</span>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Press <span class="key">Win</span> + <span class="key">Ctrl</span> + <span class="key">→</span> to move to the next desktop</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Press <span class="key">Win</span> + <span class="key">Ctrl</span> + <span class="key">←</span> to move back</div></div>
+        <div class="screenshot">
+          <div class="screenshot-label">What you see while switching</div>
+          <div class="screenshot-body">The entire screen <b>slides sideways</b> like turning a page. Your Zoom environment slides off one side, your work environment slides in from the other. Everything is exactly where you left it.</div>
+          <div class="switcher-anim">
+            <div class="desk-tile from">Zoom</div>
+            <div class="arrow">&#8594;</div>
+            <div class="desk-tile to-win">Work</div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="tip-box">Switching desktops does not disconnect you from Zoom. Your audio stays live and the shared screen keeps running — you have simply moved to a different desk. Switch back any time and Zoom is exactly as you left it.</div>
@@ -195,23 +266,26 @@
     <h2 class="section-title">Step 3 — Managing your work desktop</h2>
     <p class="section-sub">Arrange your browser windows on Desktop 2 however you like — they stay put when you switch away</p>
 
-    <div class="platform-cols">
-
+    <!-- MAC -->
+    <div class="platform-pane visible" data-for="mac">
       <div class="platform-block">
-        <p class="platform-label">Windows</p>
-        <div class="step"><div class="step-num">1</div><div class="step-text">Switch to Desktop 2 with <span class="key">Win</span>+<span class="key">Ctrl</span>+<span class="key">→</span></div></div>
-        <div class="step"><div class="step-num">2</div><div class="step-text">Open as many browser windows as you need and arrange them freely</div></div>
-        <div class="step"><div class="step-num">3</div><div class="step-text">To move a window between desktops: open Task View (<span class="key">Win</span>+<span class="key">Tab</span>), right-click the window thumbnail, choose <b>Move to &rarr;</b></div></div>
-      </div>
-
-      <div class="platform-block">
-        <p class="platform-label">Mac</p>
+        <span class="platform-badge mac">&#63743; Mac</span>
         <div class="step"><div class="step-num">1</div><div class="step-text">Switch to Space 2 with <span class="key">Ctrl</span>+<span class="key">→</span></div></div>
         <div class="step"><div class="step-num">2</div><div class="step-text">Open as many browser windows as you need and arrange them freely</div></div>
         <div class="step"><div class="step-num">3</div><div class="step-text">To move a window to another Space: enter Mission Control (<span class="key">F3</span>), then <b>drag the window thumbnail</b> up to the destination Space in the strip at the top</div></div>
       </div>
-
     </div>
+
+    <!-- PC -->
+    <div class="platform-pane" data-for="pc">
+      <div class="platform-block pc">
+        <span class="platform-badge pc">PC — Windows</span>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Switch to Desktop 2 with <span class="key">Win</span>+<span class="key">Ctrl</span>+<span class="key">→</span></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Open as many browser windows as you need and arrange them freely</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">To move a window between desktops: open Task View (<span class="key">Win</span>+<span class="key">Tab</span>), right-click the window thumbnail, choose <b>Move to &rarr;</b></div></div>
+      </div>
+    </div>
+
   </div>
 
   <!-- DRILL -->
@@ -222,5 +296,20 @@
   <div class="footer">BOLLI AI Literacy &mdash; Virtual Desktops Guide</div>
 
 </div>
+
+<script>
+  const buttons = document.querySelectorAll('.pill-btn');
+  const panes   = document.querySelectorAll('.platform-pane');
+
+  function activate(platform) {
+    buttons.forEach(b => b.classList.toggle('active', b.dataset.platform === platform));
+    panes.forEach(p => p.classList.toggle('visible', p.dataset.for === platform));
+  }
+
+  buttons.forEach(btn => btn.addEventListener('click', () => activate(btn.dataset.platform)));
+
+  // Default to Mac
+  activate('mac');
+</script>
 </body>
 </html>
