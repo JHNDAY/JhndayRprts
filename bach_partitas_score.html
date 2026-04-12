@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Bach · Violin Partitas with Score</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0d0b;
+    --surface: #191714;
+    --border: #2e2b24;
+    --gold: #c8a84b;
+    --gold-dim: #8a6f2f;
+    --cream: #e8e0d0;
+    --muted: #7a7060;
+    --accent-red: #8c2020;
+    --partita1: #1a1410;
+    --partita2: #0e1018;
+    --partita3: #0e180e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 3rem;
+  }
+
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 1.25rem 1.5rem;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .composer {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 0.85rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 1.6rem;
+    color: var(--cream);
+    line-height: 1.2;
+    margin-bottom: 0.25rem;
+  }
+
+  .header-sub {
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    font-style: italic;
+  }
+
+  .intro {
+    padding: 1.25rem 1.25rem 0.5rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+    font-style: italic;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.5rem;
+  }
+
+  .intro strong {
+    color: var(--gold-dim);
+    font-style: normal;
+  }
+
+  /* ── partita card ── */
+  .partita {
+    margin: 1rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .partita-header {
+    padding: 1rem 1.1rem 0.85rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .partita-1 .partita-header { background: var(--partita1); }
+  .partita-2 .partita-header { background: var(--partita2); }
+  .partita-3 .partita-header { background: var(--partita3); }
+
+  .partita-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 0.2rem;
+  }
+
+  .partita-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--cream);
+    line-height: 1.2;
+  }
+
+  .bwv {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 0.15rem;
+    letter-spacing: 0.06em;
+  }
+
+  .movements {
+    padding: 0.75rem 1.1rem;
+    background: var(--surface);
+    font-size: 0.82rem;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    line-height: 1.7;
+  }
+
+  .movements span {
+    display: inline-block;
+    margin-right: 0.5rem;
+  }
+
+  .mv-label {
+    color: var(--cream);
+    font-style: italic;
+  }
+
+  .mv-special {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  /* ── video link buttons ── */
+  .links {
+    background: var(--bg);
+    padding: 0.7rem 1.1rem 0.9rem;
+  }
+
+  .link-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-bottom: 0.55rem;
+  }
+
+  .yt-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+    color: var(--cream);
+    transition: border-color 0.15s, background 0.15s;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+  }
+
+  .yt-btn:active {
+    background: #221f19;
+    border-color: var(--gold-dim);
+  }
+
+  .yt-icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    background: #cc0000;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .yt-icon svg {
+    width: 16px;
+    height: 16px;
+    fill: white;
+  }
+
+  .yt-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .yt-title {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--cream);
+    line-height: 1.3;
+  }
+
+  .yt-meta {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 0.1rem;
+    font-style: italic;
+  }
+
+  .yt-special .yt-icon {
+    background: var(--gold-dim);
+  }
+
+  .yt-special .yt-title {
+    color: var(--gold);
+  }
+
+  /* ── chaconne highlight ── */
+  .chaconne-note {
+    margin: 0.5rem 0 0.2rem;
+    padding: 0.65rem 0.9rem;
+    background: #1a1208;
+    border-left: 2px solid var(--gold-dim);
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  .chaconne-note strong {
+    color: var(--gold);
+    font-style: normal;
+  }
+
+  footer {
+    margin: 2rem 1.25rem 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-align: center;
+    font-style: italic;
+    line-height: 1.7;
+  }
+
+  footer a {
+    color: var(--gold-dim);
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0.5rem 0;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="composer">Johann Sebastian Bach</div>
+  <h1>Violin Partitas<br>with Scrolling Score</h1>
+  <div class="header-sub">BWV 1002 · 1004 · 1006 · YouTube Premium</div>
+</header>
+
+<p class="intro">
+  All score videos from the <strong>Scrolling Bach Project</strong> (gerubach) —
+  synchronized score follows the performance in real time.
+  Tap any button to open directly in the YouTube app.
+</p>
+
+<!-- ════════════════ PARTITA No. 1 ════════════════ -->
+<div class="partita partita-1">
+  <div class="partita-header">
+    <div class="partita-number">Partita No. 1</div>
+    <div class="partita-title">B minor</div>
+    <div class="bwv">BWV 1002 · c. 1720</div>
+  </div>
+
+  <div class="movements">
+    <span><span class="mv-label">I.</span> Allemande &amp; Double</span>
+    <span><span class="mv-label">II.</span> Courante &amp; Double</span>
+    <span><span class="mv-label">III.</span> Sarabande &amp; Double</span>
+    <span><span class="mv-label">IV.</span> Tempo di Borea &amp; Double</span>
+    <br><span style="color:#555;font-size:0.76rem">Each dance paired with a variation (Double) · ~30 min</span>
+  </div>
+
+  <div class="links">
+    <div class="link-label">Score Video</div>
+    <a class="yt-btn" href="https://www.youtube.com/watch?v=-ikXfRbYAsU">
+      <div class="yt-icon">
+        <svg viewBox="0 0 24 24"><path d="M10 15.5l6-3.5-6-3.5v7zm12-3.5A10 10 0 1 1 2 12 10 10 0 0 1 22 12z"/></svg>
+      </div>
+      <div class="yt-text">
+        <div class="yt-title">Partita No. 1 in B minor — Complete</div>
+        <div class="yt-meta">Scrolling Bach Project · scrolling score</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- ════════════════ PARTITA No. 2 ════════════════ -->
+<div class="partita partita-2">
+  <div class="partita-header">
+    <div class="partita-number">Partita No. 2</div>
+    <div class="partita-title">D minor</div>
+    <div class="bwv">BWV 1004 · c. 1720</div>
+  </div>
+
+  <div class="movements">
+    <span><span class="mv-label">I.</span> Allemande</span>
+    <span><span class="mv-label">II.</span> Courante</span>
+    <span><span class="mv-label">III.</span> Sarabande</span>
+    <span><span class="mv-label">IV.</span> Gigue</span>
+    <span><span class="mv-special">V. Chaconne ★</span></span>
+    <br><span style="color:#555;font-size:0.76rem">Chaconne alone equals all other movements in length · ~28 min</span>
+  </div>
+
+  <div class="links">
+    <div class="link-label">Score Videos</div>
+    <a class="yt-btn" href="https://www.youtube.com/watch?v=Oa1dcTVk2PU">
+      <div class="yt-icon">
+        <svg viewBox="0 0 24 24"><path d="M10 15.5l6-3.5-6-3.5v7zm12-3.5A10 10 0 1 1 2 12 10 10 0 0 1 22 12z"/></svg>
+      </div>
+      <div class="yt-text">
+        <div class="yt-title">Partita No. 2 in D minor — Complete</div>
+        <div class="yt-meta">Scrolling Bach Project · scrolling score</div>
+      </div>
+    </a>
+
+    <a class="yt-btn yt-special" href="https://www.youtube.com/watch?v=U2UyC2VcOj0">
+      <div class="yt-icon">
+        <svg viewBox="0 0 24 24"><path d="M10 15.5l6-3.5-6-3.5v7zm12-3.5A10 10 0 1 1 2 12 10 10 0 0 1 22 12z"/></svg>
+      </div>
+      <div class="yt-text">
+        <div class="yt-title">Chaconne only — Scrolling Score</div>
+        <div class="yt-meta">Scrolling Bach Project · ~14 min</div>
+      </div>
+    </a>
+
+    <div class="chaconne-note">
+      <strong>Chaconne (Ciaccona):</strong> 256 bars of continuous variation on a repeating bass. 
+      Brahms called it "a whole world of the deepest thoughts... on one stave, for a small instrument." 
+      Three-part form: D minor — D major — D minor.
+    </div>
+
+    <a class="yt-btn" href="https://www.youtube.com/watch?v=QqA3qQMKueA">
+      <div class="yt-icon">
+        <svg viewBox="0 0 24 24"><path d="M10 15.5l6-3.5-6-3.5v7zm12-3.5A10 10 0 1 1 2 12 10 10 0 0 1 22 12z"/></svg>
+      </div>
+      <div class="yt-text">
+        <div class="yt-title">Chaconne — Hilary Hahn (1997)</div>
+        <div class="yt-meta">Modern benchmark recording · audio</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- ════════════════ PARTITA No. 3 ════════════════ -->
+<div class="partita partita-3">
+  <div class="partita-header">
+    <div class="partita-number">Partita No. 3</div>
+    <div class="partita-title">E major</div>
+    <div class="bwv">BWV 1006 · c. 1720</div>
+  </div>
+
+  <div class="movements">
+    <span><span class="mv-label">I.</span> Preludio</span>
+    <span><span class="mv-label">II.</span> Loure</span>
+    <span><span class="mv-label">III.</span> Gavotte en Rondeau</span>
+    <span><span class="mv-label">IV.</span> Menuets I &amp; II</span>
+    <span><span class="mv-label">V.</span> Bourrée</span>
+    <span><span class="mv-label">VI.</span> Gigue</span>
+    <br><span style="color:#555;font-size:0.76rem">Brilliant, radiant tone · Preludio the most famous movement · ~18 min</span>
+  </div>
+
+  <div class="links">
+    <div class="link-label">Score Video</div>
+    <a class="yt-btn" href="https://www.youtube.com/watch?v=7ERqr_1Knfk">
+      <div class="yt-icon">
+        <svg viewBox="0 0 24 24"><path d="M10 15.5l6-3.5-6-3.5v7zm12-3.5A10 10 0 1 1 2 12 10 10 0 0 1 22 12z"/></svg>
+      </div>
+      <div class="yt-text">
+        <div class="yt-title">Partita No. 3 in E major — Complete</div>
+        <div class="yt-meta">Scrolling Bach Project · scrolling score</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  Score videos: <a href="https://www.youtube.com/@gerubach">Scrolling Bach Project (gerubach)</a>
+  on YouTube.<br>
+  Three Partitas · BWV 1002, 1004, 1006 · composed c. 1717–1720
+  <br><br>
+  <em>"The Himalayas of violinists."</em><br>— George Enescu
+</footer>
+
+</body>
+</html>
