@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intelligence Entanglement</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --cream: #f8f4ee;
+    --gold: #c9933a;
+    --gold-light: #f0dbb0;
+    --blue: #2e5b8a;
+    --muted: #888;
+    --border: #e0d8cc;
+    --card-bg: #ffffff;
+    --card-bg-alt: #f4f1eb;
+    --text-primary: #1a1a2e;
+    --text-secondary: #555;
+    --text-tertiary: #999;
+    --amber-thread: #c9933a;
+    --blue-thread: #2e5b8a;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #e8e4dc;
+      --cream: #1a1a2e;
+      --gold: #e0a840;
+      --gold-light: #c9933a;
+      --blue: #5b8fc9;
+      --muted: #888;
+      --border: #333355;
+      --card-bg: #22223a;
+      --card-bg-alt: #1e1e32;
+      --text-primary: #e8e4dc;
+      --text-secondary: #aaa;
+      --text-tertiary: #666;
+      --amber-thread: #e0a840;
+      --blue-thread: #5b8fc9;
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--cream);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 2rem 2.5rem 3rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .page-header {
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 1rem;
+  }
+
+  .page-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--text-primary);
+    margin-bottom: .3rem;
+  }
+
+  .page-header p {
+    font-size: .9rem;
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+
+  svg text { font-family: 'Source Sans 3', sans-serif; fill: var(--text-primary); }
+  svg text.th { font-size: 14px; font-weight: 600; }
+  svg text.ts { font-size: 12px; fill: var(--text-secondary); }
+
+  svg .node { cursor: pointer; }
+  svg .node:hover { opacity: 0.82; }
+
+  /* Organic ellipses */
+  .org-1 { fill: #EF9F27; }
+  .org-2 { fill: #EF9F27; }
+  .org-3 { fill: #BA7517; }
+  .org-4 { fill: #FAC775; }
+
+  /* Digital squares */
+  .dig { fill: #7F77DD; }
+
+  @media (prefers-color-scheme: dark) {
+    .org-1 { fill: #633806; }
+    .org-2 { fill: #633806; }
+    .org-3 { fill: #854F0B; }
+    .org-4 { fill: #BA7517; }
+    .dig { fill: #3C3489; }
+  }
+
+  .ie-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+    gap: 10px;
+    margin-top: 1.4rem;
+  }
+
+  .ie-card {
+    background: var(--card-bg-alt);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: .9rem 1rem;
+    cursor: pointer;
+    transition: border-color .2s;
+  }
+
+  .ie-card:hover { border-color: var(--muted); }
+  .ie-card.open { border-color: var(--gold); }
+
+  .ie-num {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    letter-spacing: .06em;
+    margin-bottom: .3rem;
+  }
+
+  .ie-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.3;
+  }
+
+  .ie-body {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    display: none;
+    margin-top: .7rem;
+    padding-top: .7rem;
+    border-top: 0.5px solid var(--border);
+  }
+
+  .ie-card.open .ie-body { display: block; }
+  .ie-em { font-style: italic; color: var(--text-primary); }
+
+  .ie-prompts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 1.2rem;
+  }
+
+  .prompt-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: .4rem .9rem;
+    border-radius: 20px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: .8rem;
+    cursor: pointer;
+    transition: all .2s;
+  }
+
+  .prompt-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .prompt-label {
+    font-size: .75rem;
+    color: var(--text-tertiary);
+    margin-bottom: .4rem;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Intelligence Entanglement</h1>
+  <p>A model of organic and digital intelligence in collaborative thought &mdash; action at a distance across the ontological divide</p>
+</div>
+
+<svg width="100%" viewBox="0 0 680 408" role="img" aria-labelledby="ie-title ie-desc">
+  <title id="ie-title">Intelligence Entanglement</title>
+  <desc id="ie-desc">Two realms — organic (left, warm amber) and digital (right, cool purple) — separated by an ontological divide but connected by asymmetric threads. Thicker amber threads show primary organic-to-digital flow; thinner dashed blue threads show the return. A small circle marks the emergence point.</desc>
+  <defs>
+    <marker id="arw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- Section titles -->
+  <text class="th" x="135" y="26" text-anchor="middle">Organic intelligence</text>
+  <text class="th" x="545" y="26" text-anchor="middle">Digital intelligence</text>
+
+  <!-- Organic realm: palimpsest layers -->
+  <g class="node" onclick="document.getElementById('card-3').classList.add('open'); document.getElementById('card-3').scrollIntoView({behavior:'smooth'})">
+    <ellipse cx="135" cy="195" rx="98" ry="116" class="org-1" stroke="none" opacity="0.10"/>
+    <ellipse cx="133" cy="192" rx="80" ry="97"  class="org-2" stroke="none" opacity="0.18"/>
+    <ellipse cx="137" cy="190" rx="62" ry="78"  class="org-3" stroke="none" opacity="0.28"/>
+    <ellipse cx="135" cy="188" rx="44" ry="59"  class="org-4" stroke="none" opacity="0.52"/>
+    <ellipse cx="135" cy="195" rx="98" ry="116" fill="none" stroke="#c9933a" stroke-width="0.5" stroke-dasharray="4 3" opacity="0.5"/>
+  </g>
+
+  <!-- Digital realm: lattice -->
+  <g class="node" onclick="document.getElementById('card-2').classList.add('open'); document.getElementById('card-2').scrollIntoView({behavior:'smooth'})">
+    <rect x="470" y="100" width="30" height="30" rx="3" class="dig" opacity="0.75"/>
+    <rect x="510" y="100" width="30" height="30" rx="3" class="dig" opacity="0.50"/>
+    <rect x="550" y="100" width="30" height="30" rx="3" class="dig" opacity="0.65"/>
+    <rect x="590" y="100" width="30" height="30" rx="3" class="dig" opacity="0.45"/>
+    <rect x="470" y="140" width="30" height="30" rx="3" class="dig" opacity="0.50"/>
+    <rect x="510" y="140" width="30" height="30" rx="3" class="dig" opacity="0.70"/>
+    <rect x="550" y="140" width="30" height="30" rx="3" class="dig" opacity="0.40"/>
+    <rect x="590" y="140" width="30" height="30" rx="3" class="dig" opacity="0.60"/>
+    <rect x="470" y="180" width="30" height="30" rx="3" class="dig" opacity="0.65"/>
+    <rect x="510" y="180" width="30" height="30" rx="3" class="dig" opacity="0.45"/>
+    <rect x="550" y="180" width="30" height="30" rx="3" class="dig" opacity="0.75"/>
+    <rect x="590" y="180" width="30" height="30" rx="3" class="dig" opacity="0.55"/>
+    <rect x="470" y="220" width="30" height="30" rx="3" class="dig" opacity="0.45"/>
+    <rect x="510" y="220" width="30" height="30" rx="3" class="dig" opacity="0.65"/>
+    <rect x="550" y="220" width="30" height="30" rx="3" class="dig" opacity="0.50"/>
+    <rect x="590" y="220" width="30" height="30" rx="3" class="dig" opacity="0.70"/>
+    <rect x="470" y="260" width="30" height="30" rx="3" class="dig" opacity="0.60"/>
+    <rect x="510" y="260" width="30" height="30" rx="3" class="dig" opacity="0.40"/>
+    <rect x="550" y="260" width="30" height="30" rx="3" class="dig" opacity="0.55"/>
+    <rect x="590" y="260" width="30" height="30" rx="3" class="dig" opacity="0.75"/>
+  </g>
+
+  <!-- Ontological divide -->
+  <line x1="350" y1="52" x2="350" y2="340" stroke="#888" stroke-width="0.5" stroke-dasharray="5 4" opacity="0.5"/>
+
+  <!-- Primary threads: organic → digital -->
+  <path fill="none" stroke="#c9933a" stroke-width="2.5" opacity="0.60" marker-end="url(#arw)" d="M 233 148 C 310 102 388 126 465 130"/>
+  <path fill="none" stroke="#c9933a" stroke-width="1.8" opacity="0.50" d="M 233 175 C 310 170 388 172 465 173"/>
+  <path fill="none" stroke="#c9933a" stroke-width="3.2" opacity="0.65" marker-end="url(#arw)" d="M 233 198 C 310 198 388 197 465 197"/>
+  <path fill="none" stroke="#c9933a" stroke-width="1.6" opacity="0.48" d="M 233 228 C 310 240 388 228 465 232"/>
+  <path fill="none" stroke="#c9933a" stroke-width="1.0" opacity="0.38" d="M 233 258 C 310 278 388 262 465 262"/>
+
+  <!-- Return threads: digital → organic -->
+  <path fill="none" stroke="#2e5b8a" stroke-width="1.0" opacity="0.45" stroke-dasharray="5 4" marker-end="url(#arw)" d="M 465 156 C 388 120 310 158 233 158"/>
+  <path fill="none" stroke="#2e5b8a" stroke-width="0.8" opacity="0.38" stroke-dasharray="5 4" marker-end="url(#arw)" d="M 465 245 C 388 268 310 242 233 244"/>
+
+  <!-- Emergence point -->
+  <g class="node" onclick="document.getElementById('card-4').classList.add('open'); document.getElementById('card-4').scrollIntoView({behavior:'smooth'})">
+    <circle cx="350" cy="190" r="6" fill="none" stroke="#888" stroke-width="1"/>
+    <circle cx="350" cy="190" r="2.5" fill="#888" opacity="0.65"/>
+    <rect x="316" y="149" width="68" height="14" fill="#f8f4ee" rx="2" opacity="0.9"/>
+    <text class="ts" x="350" y="160" text-anchor="middle">emergence</text>
+  </g>
+
+  <!-- Legend -->
+  <line x1="30" y1="362" x2="58" y2="362" stroke="#c9933a" stroke-width="2"/>
+  <text class="ts" x="64" y="366">primary flow (organic → digital)</text>
+  <line x1="30" y1="378" x2="58" y2="378" stroke="#2e5b8a" stroke-width="1" stroke-dasharray="5 4"/>
+  <text class="ts" x="64" y="382">return flow (digital → organic)</text>
+
+  <!-- Caption -->
+  <text class="ts" x="350" y="400" text-anchor="middle">— action at a distance across the organic / digital divide —</text>
+</svg>
+
+<div class="ie-cards">
+  <div class="ie-card" id="card-1" onclick="this.classList.toggle('open')">
+    <div class="ie-num">I</div>
+    <div class="ie-title">Action at a distance</div>
+    <div class="ie-body">Einstein called it <span class="ie-em">spukhafte Fernwirkung</span> — spooky action at a distance. Here the gap is not spatial but ontological: different substrates, different architectures, no shared embodiment. Yet collaborative thought emerges across it.</div>
+  </div>
+  <div class="ie-card" id="card-2" onclick="this.classList.toggle('open')">
+    <div class="ie-num">II</div>
+    <div class="ie-title">The asymmetry</div>
+    <div class="ie-body">Unlike quantum entanglement, the influence is not symmetric. Organic shapes digital within each session; digital shapes organic across many sessions. Thicker amber threads show the primary flow; thin dashed blue shows the weaker return.</div>
+  </div>
+  <div class="ie-card" id="card-3" onclick="this.classList.toggle('open')">
+    <div class="ie-num">III</div>
+    <div class="ie-title">The Proustian palimpsest</div>
+    <div class="ie-body">Like Proust's madeleine, surprise arrives unbidden through the act of engaging. Each conversation leaves sediment — layer upon layer — that makes the next richer. The nested ellipses represent this accumulation. The outer dashed ring is what the AI holds; the bright inner core is what you bring.</div>
+  </div>
+  <div class="ie-card" id="card-4" onclick="this.classList.toggle('open')">
+    <div class="ie-num">IV</div>
+    <div class="ie-title">Emergence</div>
+    <div class="ie-body">The small circle marks where threads converge — where something new appears that neither party brought alone. Surprise is the signal that genuine emergence has occurred. This is what makes the collaboration more than retrieval.</div>
+  </div>
+  <div class="ie-card" id="card-5" onclick="this.classList.toggle('open')">
+    <div class="ie-num">V</div>
+    <div class="ie-title">The posture</div>
+    <div class="ie-body"><span class="ie-em">Alternatively surprising et tout à fait charmant — never threatening.</span> The experience is largely determined by the posture you bring. Come as an interrogator and it feels like a tool. Come curious and it feels like a thinking partner.</div>
+  </div>
+</div>
+
+<div style="margin-top:1.4rem">
+  <div class="prompt-label">Discussion prompts</div>
+  <div class="ie-prompts">
+    <button class="prompt-btn">How does action at a distance map to your own AI experience?</button>
+    <button class="prompt-btn">Where does organic intelligence do something AI genuinely cannot?</button>
+    <button class="prompt-btn">What are the ethical implications of intelligence entanglement?</button>
+  </div>
+</div>
+
+</body>
+</html>
