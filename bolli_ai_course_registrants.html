@@ -1,0 +1,150 @@
+
+<h2 class="sr-only">BOLLI AI Literacy Course — registrant profile dashboard showing topic interests, device and browser breakdown, and attendance preferences for 17 students.</h2>
+
+<style>
+  .dash { padding: 1rem 0; font-family: var(--font-sans); }
+  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+  .metric { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: .85rem 1rem; }
+  .metric-label { font-size: 12px; color: var(--color-text-secondary); margin: 0 0 4px; }
+  .metric-value { font-size: 22px; font-weight: 500; color: var(--color-text-primary); margin: 0; }
+  .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .chart-block { }
+  .chart-title { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin: 0 0 10px; text-transform: uppercase; letter-spacing: .04em; }
+  .legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; font-size: 12px; color: var(--color-text-secondary); }
+  .legend span { display: flex; align-items: center; gap: 5px; }
+  .swatch { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+  .full { grid-column: 1 / -1; }
+</style>
+
+<div class="dash">
+  <div class="metrics">
+    <div class="metric"><p class="metric-label">Total registrants</p><p class="metric-value">17</p></div>
+    <div class="metric"><p class="metric-label">Mac users</p><p class="metric-value">12</p></div>
+    <div class="metric"><p class="metric-label">Top topic</p><p class="metric-value" style="font-size:16px;">Current Events</p></div>
+    <div class="metric"><p class="metric-label">Prefer "Either"</p><p class="metric-value">8</p></div>
+  </div>
+
+  <div class="charts">
+    <div class="chart-block full">
+      <p class="chart-title">Topic interests (students)</p>
+      <div style="position:relative;width:100%;height:220px;">
+        <canvas id="topicsChart" role="img" aria-label="Bar chart of topic interests among 17 registrants. Current Events leads with 15, followed by Political Discourse 12, Literature 10, History 10, Science/Technology 7, Other topics fewer than 3.">Current Events 15, Political Discourse 12, Literature 10, History 10, Science/Technology 7.</canvas>
+      </div>
+    </div>
+
+    <div class="chart-block">
+      <p class="chart-title">Device</p>
+      <div style="position:relative;width:100%;height:160px;">
+        <canvas id="deviceChart" role="img" aria-label="Donut chart: Mac 12, PC 5.">Mac 12, PC 5.</canvas>
+      </div>
+      <div class="legend">
+        <span><span class="swatch" style="background:#185FA5"></span>Mac — 12</span>
+        <span><span class="swatch" style="background:#73726c"></span>PC — 5</span>
+      </div>
+    </div>
+
+    <div class="chart-block">
+      <p class="chart-title">Browser</p>
+      <div style="position:relative;width:100%;height:160px;">
+        <canvas id="browserChart" role="img" aria-label="Donut chart: Safari 7, Chrome 6, Firefox 3, Edge 1.">Safari 7, Chrome 6, Firefox 3, Edge 1.</canvas>
+      </div>
+      <div class="legend">
+        <span><span class="swatch" style="background:#1D9E75"></span>Safari — 7</span>
+        <span><span class="swatch" style="background:#D85A30"></span>Chrome — 6</span>
+        <span><span class="swatch" style="background:#7F77DD"></span>Firefox — 3</span>
+        <span><span class="swatch" style="background:#888780"></span>Edge — 1</span>
+      </div>
+    </div>
+
+    <div class="chart-block full">
+      <p class="chart-title">Attendance preference</p>
+      <div style="position:relative;width:100%;height:100px;">
+        <canvas id="attendChart" role="img" aria-label="Bar chart: Either 8, In Person 5, Remote 4.">Either 8, In Person 5, Remote 4.</canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const isDark = matchMedia('(prefers-color-scheme: dark)').matches;
+const textColor = isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.55)';
+const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)';
+
+Chart.defaults.font.family = 'var(--font-sans)';
+Chart.defaults.color = textColor;
+
+new Chart(document.getElementById('topicsChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Current Events','Political Discourse','Literature','History','Science/Tech','Other'],
+    datasets: [{
+      data: [15, 12, 10, 10, 7, 3],
+      backgroundColor: ['#185FA5','#378ADD','#85B7EB','#B5D4F4','#D3D1C7','#888780'],
+      borderRadius: 4,
+      borderSkipped: false
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.x} students` } } },
+    scales: {
+      x: { grid: { color: gridColor }, ticks: { stepSize: 2 }, max: 17 },
+      y: { grid: { display: false }, ticks: { font: { size: 12 } } }
+    }
+  }
+});
+
+new Chart(document.getElementById('deviceChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Mac','PC'],
+    datasets: [{ data: [12, 5], backgroundColor: ['#185FA5','#73726c'], borderWidth: 0, hoverOffset: 4 }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '68%',
+    plugins: { legend: { display: false } }
+  }
+});
+
+new Chart(document.getElementById('browserChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Safari','Chrome','Firefox','Edge'],
+    datasets: [{ data: [7, 6, 3, 1], backgroundColor: ['#1D9E75','#D85A30','#7F77DD','#888780'], borderWidth: 0, hoverOffset: 4 }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '68%',
+    plugins: { legend: { display: false } }
+  }
+});
+
+new Chart(document.getElementById('attendChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Either','In Person','Remote'],
+    datasets: [{
+      data: [8, 5, 4],
+      backgroundColor: ['#5DCAA5','#1D9E75','#9FE1CB'],
+      borderRadius: 4,
+      borderSkipped: false
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: gridColor }, max: 10 },
+      y: { grid: { display: false } }
+    }
+  }
+});
+</script>
