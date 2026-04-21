@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Second Inaugural Address — Abraham Lincoln</title>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1008;
+    --ink-faded: #2e1f0a;
+    --parchment: #e8d9b0;
+    --parchment-dark: #d4be8a;
+    --parchment-shadow: #b89e6a;
+    --rule: #6b4c1e;
+    --ornament: #5a3e10;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #3a2e1a;
+    background-image:
+      radial-gradient(ellipse at center, #4a3a20 0%, #1e1508 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+    font-family: 'IM Fell English', serif;
+  }
+
+  .page {
+    width: 760px;
+    max-width: 100%;
+    background: var(--parchment);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E"),
+      linear-gradient(160deg, #edddb8 0%, #e2cb98 40%, #d8bf88 70%, #e4d0a2 100%);
+    box-shadow:
+      0 0 0 1px var(--parchment-shadow),
+      0 4px 8px rgba(0,0,0,0.4),
+      0 16px 40px rgba(0,0,0,0.5),
+      inset 0 0 60px rgba(120,80,20,0.15);
+    padding: 60px 70px;
+    position: relative;
+    color: var(--ink);
+    animation: pageReveal 1.2s ease-out;
+  }
+
+  @keyframes pageReveal {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Aged corners */
+  .page::before, .page::after {
+    content: '';
+    position: absolute;
+    width: 60px; height: 60px;
+    background: radial-gradient(ellipse at corner, rgba(90,60,10,0.3), transparent 70%);
+  }
+  .page::before { top: 0; left: 0; border-radius: 0 0 100% 0; }
+  .page::after  { bottom: 0; right: 0; border-radius: 100% 0 0 0; }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    text-align: center;
+    margin-bottom: 18px;
+  }
+
+  .blackletter {
+    font-family: 'UnifrakturMaguntia', cursive;
+    font-size: 2.8rem;
+    color: var(--ink);
+    letter-spacing: 2px;
+    line-height: 1.1;
+    text-shadow: 1px 1px 0 rgba(90,60,10,0.3);
+  }
+
+  .edition-line {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    color: var(--ink-faded);
+    margin-top: 4px;
+  }
+
+  /* ── RULES ── */
+  .rule-thick {
+    border: none;
+    border-top: 3px double var(--rule);
+    margin: 10px 0;
+  }
+  .rule-thin {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 6px 0;
+  }
+  .rule-ornamental {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--ornament);
+    margin: 8px 0;
+    letter-spacing: 0.5em;
+    opacity: 0.75;
+  }
+
+  /* ── COLUMN HEADLINE ── */
+  .headline-block {
+    text-align: center;
+    margin: 16px 0 12px;
+  }
+
+  .kicker {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--ink-faded);
+    text-transform: uppercase;
+  }
+
+  h1.speech-title {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 1.55rem;
+    font-weight: normal;
+    line-height: 1.25;
+    color: var(--ink);
+    margin: 6px 0 4px;
+    letter-spacing: 0.05em;
+  }
+
+  h2.speech-subtitle {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 1rem;
+    font-weight: normal;
+    color: var(--ink-faded);
+    margin: 2px 0;
+  }
+
+  .dateline {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--ink-faded);
+    margin-top: 6px;
+  }
+
+  /* ── BODY TEXT ── */
+  .speech-body {
+    column-count: 2;
+    column-gap: 32px;
+    column-rule: 1px solid var(--parchment-shadow);
+    margin-top: 16px;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  .speech-body p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    margin-bottom: 0.9em;
+    color: var(--ink);
+  }
+
+  .speech-body p:first-child::first-letter {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 3.6rem;
+    float: left;
+    line-height: 0.82;
+    margin-right: 5px;
+    margin-top: 6px;
+    color: var(--ink);
+  }
+
+  /* Decorative drop cap paragraph */
+  .scripture {
+    font-style: italic;
+    border-left: 2px solid var(--parchment-shadow);
+    padding-left: 10px;
+    margin: 0.5em 0 0.9em;
+    color: var(--ink-faded);
+  }
+
+  /* ── FOOTER ── */
+  .footer-block {
+    margin-top: 28px;
+    text-align: center;
+  }
+
+  .colophon {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--ink-faded);
+    margin-top: 10px;
+  }
+
+  .ornament-footer {
+    font-size: 1.4rem;
+    color: var(--ornament);
+    opacity: 0.6;
+    letter-spacing: 0.8em;
+    margin-top: 6px;
+  }
+
+  /* Stain / age mark accents */
+  .stain {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(120,80,20,0.12), transparent 70%);
+    pointer-events: none;
+  }
+  .stain-1 { width:120px; height:80px; top:80px; right:40px; transform: rotate(-20deg); }
+  .stain-2 { width:90px;  height:60px; bottom:140px; left:30px; transform: rotate(15deg); }
+</style>
+</head>
+<body>
+<article class="page">
+
+  <!-- Age stains -->
+  <div class="stain stain-1"></div>
+  <div class="stain stain-2"></div>
+
+  <!-- Masthead -->
+  <div class="masthead">
+    <div class="blackletter">The Washington Chronicle</div>
+    <div class="edition-line">Washington City, D.C. &nbsp;·&nbsp; Saturday, March 4, 1865 &nbsp;·&nbsp; Vol. IV &nbsp;·&nbsp; No. 63</div>
+  </div>
+
+  <hr class="rule-thick">
+  <hr class="rule-thin">
+
+  <!-- Headline -->
+  <div class="headline-block">
+    <div class="kicker">Delivered at the East Portico of the Capitol</div>
+    <h1 class="speech-title">Second Inaugural Address<br>of the President</h1>
+    <h2 class="speech-subtitle">Abraham Lincoln, President of the United States</h2>
+    <div class="dateline">Washington City &mdash; Saturday, the Fourth of March, Anno Domini 1865</div>
+  </div>
+
+  <hr class="rule-thin">
+  <div class="rule-ornamental">❧ &nbsp; ✦ &nbsp; ❧</div>
+  <hr class="rule-thin">
+
+  <!-- Speech body -->
+  <div class="speech-body">
+    <p>
+      One eighth of the whole population were colored slaves, not distributed generally over the
+      Union, but localized in the Southern part of it. These slaves constituted a peculiar and powerful
+      interest. All knew that this interest was, somehow, the cause of the war. To strengthen, perpetuate,
+      and extend this interest was the object for which the insurgents would rend the Union, even by war;
+      while the Government claimed no right to do more than to restrict the territorial enlargement of it.
+    </p>
+
+    <p>
+      Neither party expected for the war the magnitude or the duration which it has already attained.
+      Neither anticipated that the cause of the conflict might cease with, or even before, the conflict
+      itself should cease. Each looked for an easier triumph, and a result less fundamental and astounding.
+      Both read the same Bible, and pray to the same God; and each invokes His aid against the other.
+    </p>
+
+    <p>
+      It may seem strange that any men should dare to ask a just God's assistance in wringing their bread
+      from the sweat of other men's faces; but let us judge not, that we be not judged. The prayers of both
+      could not be answered — that of neither has been answered fully. The Almighty has His own purposes.
+    </p>
+
+    <p class="scripture">
+      "Woe unto the world because of offenses! for it must needs be that offenses come; but woe to that man
+      by whom the offense cometh!"
+    </p>
+
+    <p>
+      If we shall suppose that American Slavery is one of those offenses which, in the providence of God,
+      must needs come, but which, having continued through His appointed time, He now wills to remove, and
+      that He gives to both North and South, this terrible war, as the woe due to those by whom the offense
+      came, shall we discern therein any departure from those divine attributes which the believers in a
+      Living God always ascribe to Him?
+    </p>
+
+    <p>
+      Fondly do we hope — fervently do we pray — that this mighty scourge of war may speedily pass away.
+      Yet, if God wills that it continue, until all the wealth piled by the bond-man's two hundred and fifty
+      years of unrequited toil shall be sunk, and until every drop of blood drawn with the lash, shall be
+      paid by another drawn with the sword, as was said three thousand years ago, so still it must be said
+    </p>
+
+    <p class="scripture">
+      "The judgments of the Lord, are true and righteous altogether."
+    </p>
+
+    <p>
+      With malice toward none; with charity for all; with firmness in the right, as God gives us to see
+      the right, let us strive on to finish the work we are in; to bind up the nation's wounds; to care for
+      him who shall have borne the battle, and for his widow, and his orphan — to do all which may achieve
+      and cherish a just, and a lasting peace, among ourselves, and with all nations.
+    </p>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer-block">
+    <hr class="rule-thin">
+    <div class="rule-ornamental">— ✦ —</div>
+    <hr class="rule-thin">
+    <div class="colophon">
+      Printed by the Chronicle Publishing Company &nbsp;·&nbsp; Chronicle Building, Pennsylvania Avenue
+      &nbsp;·&nbsp; Subscription: Ten Cents per Week
+    </div>
+    <div class="ornament-footer">❦</div>
+  </div>
+
+</article>
+</body>
+</html>
