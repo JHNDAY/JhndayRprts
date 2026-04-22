@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOLLI AI Literacy — Session 2 Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #faf6ef;
+    --warm-white: #fff9f2;
+    --navy: #1a2744;
+    --slate: #2d3f5e;
+    --gold: #c9933a;
+    --gold-light: #f5e4c4;
+    --teal: #2a7a6e;
+    --teal-light: #d0ede9;
+    --rose: #b84a3b;
+    --rose-light: #fbe8e5;
+    --amber: #d97f2a;
+    --amber-light: #fdebd0;
+    --sage: #4a7c59;
+    --sage-light: #daeee2;
+    --ink: #1c1c1c;
+    --muted: #7a7a7a;
+    --border: #e2d9cc;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--navy);
+    padding: 48px 40px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    border: 60px solid rgba(201,147,58,0.15);
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 20%;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    border: 40px solid rgba(42,122,110,0.15);
+  }
+  .header-inner { max-width: 960px; margin: 0 auto; position: relative; z-index: 1; }
+  .session-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 4vw, 40px);
+    color: #fff;
+    line-height: 1.2;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .header-meta {
+    font-size: 14px;
+    color: rgba(255,255,255,0.55);
+    display: flex; gap: 24px; flex-wrap: wrap;
+  }
+  .header-meta span { display: flex; align-items: center; gap: 6px; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); display: inline-block; }
+
+  /* ── MAIN CONTAINER ── */
+  main { max-width: 960px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  /* ── SECTION HEADERS ── */
+  .section-header {
+    display: flex; align-items: baseline; gap: 16px;
+    margin-bottom: 28px; margin-top: 56px;
+  }
+  .section-header:first-of-type { margin-top: 0; }
+  .section-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 1px;
+  }
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy);
+    flex: 1;
+  }
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── TOPIC CARDS ── */
+  .topic-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .topic-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 24px;
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    gap: 20px;
+    align-items: start;
+    transition: box-shadow 0.2s;
+  }
+  .topic-card:hover { box-shadow: 0 4px 20px rgba(26,39,68,0.08); }
+  .topic-time {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    padding-top: 3px;
+    font-family: 'DM Sans', sans-serif;
+    border-right: 2px solid var(--border);
+    padding-right: 16px;
+  }
+  .topic-time .mins { display: block; font-size: 18px; font-weight: 700; color: var(--slate); font-family: 'Playfair Display', serif; line-height: 1.1; }
+  .topic-body {}
+  .topic-title {
+    font-family: 'Lora', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 6px;
+    line-height: 1.35;
+  }
+  .topic-desc {
+    font-size: 13.5px;
+    color: #4a4a4a;
+    line-height: 1.6;
+  }
+  .topic-tag {
+    display: inline-block;
+    background: var(--gold-light);
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-top: 8px;
+  }
+  .topic-tag.tech { background: var(--teal-light); color: var(--teal); }
+  .topic-tag.skill { background: #e8e4f8; color: #5a4f9e; }
+  .topic-tag.demo { background: #fce8f7; color: #8a3a7a; }
+
+  /* ── INTEREST BARS ── */
+  .interest-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .interest-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 80px;
+    align-items: center;
+    gap: 20px;
+  }
+  .interest-label {
+    font-family: 'Lora', serif;
+    font-size: 14px;
+    color: var(--slate);
+    font-weight: 500;
+    text-align: right;
+    line-height: 1.3;
+  }
+  .interest-bar-track {
+    height: 10px;
+    background: #ede7dc;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+  }
+  .interest-bar-fill {
+    height: 100%;
+    border-radius: 20px;
+    position: relative;
+    animation: growBar 1s ease forwards;
+    transform-origin: left;
+  }
+  @keyframes growBar {
+    from { width: 0 !important; }
+  }
+  .bar-high { background: linear-gradient(90deg, var(--teal), #3aada0); }
+  .bar-vhigh { background: linear-gradient(90deg, var(--navy), var(--teal)); }
+  .bar-med { background: linear-gradient(90deg, var(--gold), #e0aa5a); }
+  .bar-low { background: linear-gradient(90deg, var(--muted), #aaa); }
+  .interest-score {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .interest-note {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+    font-style: italic;
+  }
+
+  /* ── EVIDENCE CHIPS ── */
+  .evidence {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;
+  }
+  .chip {
+    font-size: 11px;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2px 10px;
+    color: var(--slate);
+  }
+
+  /* ── BARRIERS / BREAKTHROUGHS TWO-COL ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+
+  .barrier-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--rose);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+  .barrier-card.overcome {
+    border-left-color: var(--sage);
+  }
+  .barrier-icon {
+    font-size: 18px;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .barrier-title {
+    font-family: 'Lora', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 6px;
+    line-height: 1.35;
+  }
+  .barrier-desc {
+    font-size: 12.5px;
+    color: #5a5a5a;
+    line-height: 1.6;
+  }
+  .barrier-who {
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* ── QUOTE PULL ── */
+  .pull-quote {
+    background: var(--navy);
+    border-radius: 16px;
+    padding: 32px 40px;
+    margin: 48px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .pull-quote::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 200px;
+    color: rgba(201,147,58,0.12);
+    position: absolute;
+    top: -40px; left: 16px;
+    line-height: 1;
+    pointer-events: none;
+  }
+  .pull-quote blockquote {
+    font-family: 'Lora', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.65;
+    max-width: 700px;
+    position: relative; z-index: 1;
+  }
+  .pull-quote cite {
+    display: block;
+    margin-top: 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    color: var(--gold);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ── SUMMARY ROW ── */
+  .summary-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  @media (max-width: 600px) { .summary-row { grid-template-columns: repeat(2, 1fr); } }
+  .summary-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+  .summary-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .summary-num span { color: var(--gold); }
+  .summary-label {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <p class="session-label">BOLLI AI Literacy Course &nbsp;·&nbsp; Session 2</p>
+    <h1>AI Behind the Scenes:<br>Session Dashboard</h1>
+    <div class="header-meta">
+      <span><span class="dot"></span> ~94 minutes</span>
+      <span><span class="dot"></span> 15–20 participants (in-room + Zoom)</span>
+      <span><span class="dot"></span> Instructor: John Day</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- SUMMARY STATS -->
+  <div class="summary-row" style="margin-top:40px;">
+    <div class="summary-card">
+      <div class="summary-num">6</div>
+      <div class="summary-label">Topics Covered</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-num">9</div>
+      <div class="summary-label">Barriers Encountered</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-num">8</div>
+      <div class="summary-label">Barriers Overcome</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-num" style="color:var(--teal);">★★★★</div>
+      <div class="summary-label">Overall Engagement</div>
+    </div>
+  </div>
+
+  <!-- TOPICS COVERED -->
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2>Topics Covered</h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="topic-grid">
+
+    <div class="topic-card">
+      <div class="topic-time"><span class="mins">0–10</span>min</div>
+      <div class="topic-body">
+        <div class="topic-title">Session Setup &amp; Technical Troubleshooting</div>
+        <div class="topic-desc">Pre-class connectivity issues including a student's firewall blocking the Brandeis connection, browser compatibility between Safari and Chrome, and getting remote participants properly set up alongside in-room attendees.</div>
+        <span class="topic-tag tech">Technical</span>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="topic-time"><span class="mins">16–21</span>min</div>
+      <div class="topic-body">
+        <div class="topic-title">Generative AI Fundamentals: How LLMs Work</div>
+        <div class="topic-desc">Interactive demonstration of token-by-token word prediction using a live browser-based tool. The statistical nature of AI, trillion-scale matrix computations, and why early models were prone to hallucinations. Framed as the foundation of "digital intelligence" vs. human organic intelligence.</div>
+        <span class="topic-tag">Core Concept</span>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="topic-time"><span class="mins">21–33</span>min</div>
+      <div class="topic-body">
+        <div class="topic-title">RAG — Retrieval Augmented Generation</div>
+        <div class="topic-desc">Distinction between generative AI (creative/analytical tasks) and RAG (fact retrieval). Analogy to term-paper research using a card catalog. Discussion of source reliability, misinformation risks, and when each approach is most appropriate — previewing current events (RAG-heavy) vs. political discourse (generative).</div>
+        <span class="topic-tag">Core Concept</span>
+        <div class="evidence">
+          <span class="chip">Haitians eating pets example</span>
+          <span class="chip">Source bias question</span>
+          <span class="chip">Plato's Republic preview</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="topic-time"><span class="mins">33–55</span>min</div>
+      <div class="topic-body">
+        <div class="topic-title">Browser Skills Tutorial: Split Screen &amp; Bookmarks</div>
+        <div class="topic-desc">Hands-on practice configuring a side-by-side workspace — placing the course tutorial on one side and a live browser on the other. Covered Mission Control / virtual desktops (F3 on Mac), tab management, drag-to-separate windows, and the keyboard-as-muscle-memory philosophy using the Carnegie Hall analogy.</div>
+        <span class="topic-tag skill">Skill Practice</span>
+        <div class="evidence">
+          <span class="chip">F3 / Mission Control</span>
+          <span class="chip">Command-T new tab</span>
+          <span class="chip">Drag tab to separate window</span>
+          <span class="chip">Bookmarks &amp; favorites</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="topic-time"><span class="mins">55–82</span>min</div>
+      <div class="topic-body">
+        <div class="topic-title">Immersive Reading with AI</div>
+        <div class="topic-desc">The central pedagogical innovation of the session: a split-screen environment pairing a primary text (Lincoln's Second Inaugural Address; Poe's Tell-Tale Heart) with an AI agent that has the full document loaded. Students learned to copy excerpts into Claude or ChatGPT to explore meaning, structure, and literary technique in real-time conversation. Voice mode was also attempted.</div>
+        <span class="topic-tag">Core Skill</span>
+        <div class="evidence">
+          <span class="chip">Lincoln's 2nd Inaugural</span>
+          <span class="chip">Tell-Tale Heart</span>
+          <span class="chip">Upload vs. copy-paste</span>
+          <span class="chip">Biblical references query</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="topic-time"><span class="mins">82–94</span>min</div>
+      <div class="topic-body">
+        <div class="topic-title">Ed Murrow AI Avatar — Live Demo</div>
+        <div class="topic-desc">Closing demonstration of an AI avatar configured to adopt the persona and values of Edward R. Murrow for use as a discussion facilitator. The avatar responded to questions about political discourse and the Broadway play about Murrow's life. John outlined the concept of combining 1,500+ years of collective human experience in the room with an AI synthesizer — a "digital librarian" model for conversation.</div>
+        <span class="topic-tag demo">Live Demo</span>
+        <div class="evidence">
+          <span class="chip">Trigger phrase: "Ed, let's talk"</span>
+          <span class="chip">Morality of bearing witness</span>
+          <span class="chip">AI solicitousness noted</span>
+          <span class="chip">Next week: Plato Republic Bk 9</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- INTEREST LEVELS -->
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2>Student Interest &amp; Engagement by Topic</h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="interest-grid">
+
+    <div class="interest-row">
+      <div class="interest-label">Session Setup &amp;<br>Troubleshooting</div>
+      <div>
+        <div class="interest-bar-track"><div class="interest-bar-fill bar-low" style="width:25%"></div></div>
+        <div class="interest-note">Necessary friction — tolerance, not curiosity</div>
+      </div>
+      <div>
+        <div class="interest-score" style="color:var(--muted)">1/5</div>
+      </div>
+    </div>
+
+    <div class="interest-row">
+      <div class="interest-label">How LLMs Work<br>(Token Prediction)</div>
+      <div>
+        <div class="interest-bar-track"><div class="interest-bar-fill bar-vhigh" style="width:92%"></div></div>
+        <div class="interest-note">Fred Kaplan: "How does it generate those numbers? It's overwhelming." Multiple follow-up questions.</div>
+      </div>
+      <div>
+        <div class="interest-score">5/5</div>
+      </div>
+    </div>
+
+    <div class="interest-row">
+      <div class="interest-label">RAG vs. Generative AI</div>
+      <div>
+        <div class="interest-bar-track"><div class="interest-bar-fill bar-high" style="width:80%"></div></div>
+        <div class="interest-note">Jon Jaffe, Carolyn, Bob Mahoney, Paul all raised substantive questions on bias, sources, and misinformation.</div>
+      </div>
+      <div>
+        <div class="interest-score">4/5</div>
+      </div>
+    </div>
+
+    <div class="interest-row">
+      <div class="interest-label">Browser Skills Tutorial<br>&amp; Split Screen</div>
+      <div>
+        <div class="interest-bar-track"><div class="interest-bar-fill bar-med" style="width:55%"></div></div>
+        <div class="interest-note">Mixed. In-room participants more engaged; remote learners struggled and needed repeated walkthroughs.</div>
+      </div>
+      <div>
+        <div class="interest-score" style="color:var(--gold)">3/5</div>
+      </div>
+    </div>
+
+    <div class="interest-row">
+      <div class="interest-label">Immersive Reading<br>with AI</div>
+      <div>
+        <div class="interest-bar-track"><div class="interest-bar-fill bar-high" style="width:82%"></div></div>
+        <div class="interest-note">Marie Danziger engaged deeply, sharing her own workflow. Lincoln analysis generated genuine intellectual curiosity.</div>
+      </div>
+      <div>
+        <div class="interest-score">4/5</div>
+      </div>
+    </div>
+
+    <div class="interest-row">
+      <div class="interest-label">Ed Murrow Avatar<br>Live Demo</div>
+      <div>
+        <div class="interest-bar-track"><div class="interest-bar-fill bar-vhigh" style="width:90%"></div></div>
+        <div class="interest-note">"He wants to talk!" / "I thought his response about morality was pretty good." High entertainment + intellectual value despite glitches.</div>
+      </div>
+      <div>
+        <div class="interest-score">5/5</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PULL QUOTE -->
+  <div class="pull-quote">
+    <blockquote>
+      We have multiple organic intelligences out there — fifteen to twenty of us, average age over seventy. That constitutes roughly 1,500 years of experience. Somebody says something, it triggers a thought in somebody else… and then you bring in the avatar to synthesize that and open up a different avenue. This is a different way of having a conversation.
+    </blockquote>
+    <cite>— John Day, Session 2 (91:16)</cite>
+  </div>
+
+  <!-- BARRIERS ENCOUNTERED -->
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2>Barriers Encountered by Students</h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="two-col">
+
+    <div class="barrier-card">
+      <span class="barrier-icon">🔥</span>
+      <div class="barrier-title">Firewall Blocking Brandeis Connection</div>
+      <div class="barrier-desc">A student's son had configured a personal firewall that rejected inbound Brandeis connections. This prevented her from accessing the course materials at the start of class.</div>
+      <div class="barrier-who">Affected: 1 in-room student</div>
+    </div>
+
+    <div class="barrier-card">
+      <span class="barrier-icon">🖥️</span>
+      <div class="barrier-title">Remote Students Could Not Interact with Instructor's Screen</div>
+      <div class="barrier-desc">Fred Kaplan and others on Zoom could only watch the shared screen — they could not click, scroll, or interact with it. This created a fundamental asymmetry between in-room and remote participants during hands-on exercises.</div>
+      <div class="barrier-who">Affected: All remote participants</div>
+    </div>
+
+    <div class="barrier-card">
+      <span class="barrier-icon">🌐</span>
+      <div class="barrier-title">Safari/Chrome Incompatibility</div>
+      <div class="barrier-desc">The token-prediction visualization did not run reliably in Safari, the dominant browser among BOLLI students. The instructor had to switch to Chrome and a separate virtual desktop to demonstrate it, adding complexity to the workflow.</div>
+      <div class="barrier-who">Affected: Safari users (~50% of class)</div>
+    </div>
+
+    <div class="barrier-card">
+      <span class="barrier-icon">📋</span>
+      <div class="barrier-title">Copy-Paste Failures on Mac</div>
+      <div class="barrier-desc">At least one student was able to copy text from Lincoln's address but could not paste it into Claude. The context (browser security settings or focus issues) was unclear; in-room assistance was needed.</div>
+      <div class="barrier-who">Affected: 1+ in-room students</div>
+    </div>
+
+    <div class="barrier-card">
+      <span class="barrier-icon">🎙️</span>
+      <div class="barrier-title">Voice Mode Failure (Audio Hardware)</div>
+      <div class="barrier-desc">When John demonstrated Claude's voice conversation mode with the Lincoln text, the audio did not play correctly — likely due to a hardware or sound routing issue. Students could read Claude's text response but did not hear the spoken version.</div>
+      <div class="barrier-who">Affected: Whole class (demo failure)</div>
+    </div>
+
+    <div class="barrier-card">
+      <span class="barrier-icon">📶</span>
+      <div class="barrier-title">Ed Murrow Avatar — Choppy Network</div>
+      <div class="barrier-desc">The BOLLI/Brandeis network bandwidth caused repeated audio dropouts during the Ed Murrow avatar demonstration, leaving the avatar saying only "I'm listening…" multiple times. The conversation potential was visible but not fully realized.</div>
+      <div class="barrier-who">Affected: Whole class (demo degraded)</div>
+    </div>
+
+    <div class="barrier-card">
+      <span class="barrier-icon">⌨️</span>
+      <div class="barrier-title">PC Users Confused by Mac Keyboard Shortcuts</div>
+      <div class="barrier-desc">One student couldn't replicate the split-screen workflow on a PC — Mac-centric instructions (F3, Command-T, green circle) didn't map directly. Some participants had old keyboards with different key layouts.</div>
+      <div class="barrier-who">Affected: PC users in class</div>
+    </div>
+
+    <div class="barrier-card">
+      <span class="barrier-icon">🔄</span>
+      <div class="barrier-title">Conceptual Confusion: Split Screen Purpose</div>
+      <div class="barrier-desc">Marie Danziger asked the clarifying question that revealed many students didn't understand why they were setting up a split screen. The goal (tutorial on left, live browser on right for practice) wasn't self-evident from the demonstration.</div>
+      <div class="barrier-who">Affected: Multiple remote students</div>
+    </div>
+
+    <div class="barrier-card">
+      <span class="barrier-icon">🔒</span>
+      <div class="barrier-title">Privacy Concern — Uploading Personal Documents</div>
+      <div class="barrier-desc">One student asked directly: "If I upload a personal document to Claude, can I trust it to keep my security?" This reflects a real and common anxiety about AI privacy that required an honest non-guarantee response.</div>
+      <div class="barrier-who">Affected: Multiple students (unspoken concern)</div>
+    </div>
+
+  </div>
+
+  <!-- BARRIERS OVERCOME -->
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2>Barriers Overcome</h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="two-col">
+
+    <div class="barrier-card overcome">
+      <span class="barrier-icon">✅</span>
+      <div class="barrier-title">Firewall: Restart &amp; Room PC Backup</div>
+      <div class="barrier-desc">The instructor (Ollie Curme) restarted the student's computer to clear the firewall conflict. The in-room PC was also identified as a fallback option, keeping the student in class.</div>
+    </div>
+
+    <div class="barrier-card overcome">
+      <span class="barrier-icon">✅</span>
+      <div class="barrier-title">Safari Demo: Switched to Chrome + New Desktop</div>
+      <div class="barrier-desc">John used Mac's Mission Control to spin up a clean second desktop running Chrome, demonstrating the token-prediction tool successfully while leaving the main Safari session intact.</div>
+    </div>
+
+    <div class="barrier-card overcome">
+      <span class="barrier-icon">✅</span>
+      <div class="barrier-title">Split Screen: Clarified Purpose, Repeated Walkthrough</div>
+      <div class="barrier-desc">After Marie Danziger's clarifying question, the instructor gave a clean conceptual summary: tutorial on left, empty browser on right, switch between them to learn-by-doing. The class voted to restart the exercise from scratch rather than press on.</div>
+    </div>
+
+    <div class="barrier-card overcome">
+      <span class="barrier-icon">✅</span>
+      <div class="barrier-title">Post-Class One-on-One Offered</div>
+      <div class="barrier-desc">"There's no class after this one. I'll stay and we'll do this slowly at your desk." This helped students who couldn't keep up in real-time maintain dignity and get the practice they needed.</div>
+    </div>
+
+    <div class="barrier-card overcome">
+      <span class="barrier-icon">✅</span>
+      <div class="barrier-title">Marie Danziger's Email-to-AI Workaround</div>
+      <div class="barrier-desc">A student shared that she emails text directly to Claude or ChatGPT rather than downloading and re-uploading files — a peer-contributed workflow discovery that the instructor validated on the spot.</div>
+    </div>
+
+    <div class="barrier-card overcome">
+      <span class="barrier-icon">✅</span>
+      <div class="barrier-title">"Move Tab to New Window" — Right-Click Shortcut</div>
+      <div class="barrier-desc">When students struggled to drag tabs to create split windows, John introduced the right-click "Move Tab to New Window" option as a reliable fallback that doesn't require precise mouse dragging.</div>
+    </div>
+
+    <div class="barrier-card overcome">
+      <span class="barrier-icon">✅</span>
+      <div class="barrier-title">Remote Limitation Acknowledged &amp; Reframed</div>
+      <div class="barrier-desc">"This is a limitation of trying to do this remotely. In-room participants have the advantage they can look up and be in their own environment." Naming the asymmetry reduced frustration and set realistic expectations.</div>
+    </div>
+
+    <div class="barrier-card overcome">
+      <span class="barrier-icon">✅</span>
+      <div class="barrier-title">Ed Murrow: Demonstrated the Potential Despite Glitches</div>
+      <div class="barrier-desc">Despite bandwidth issues, a clean exchange about the Murrow Broadway play came through. Student reaction — "I thought his response about morality was pretty good. You can see what the potential is." — validated the concept even in degraded form.</div>
+    </div>
+
+  </div>
+
+</main>
+
+<footer>
+  BOLLI AI Literacy Course · Session 2 Transcript Analysis · Generated from AILit02.TXT
+</footer>
+
+</body>
+</html>
