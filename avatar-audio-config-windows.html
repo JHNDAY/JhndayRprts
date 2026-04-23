@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avatar Computer — Windows 11 Audio Configuration</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap');
+
+  :root {
+    --bg: #0e0f11;
+    --surface: #16181c;
+    --border: #2a2d35;
+    --accent: #00d4aa;
+    --accent2: #4f9eff;
+    --warn: #f5a623;
+    --text: #d6d9e0;
+    --muted: #6b7280;
+    --label: #9ba3b0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 40px 24px;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 20px;
+    margin-bottom: 32px;
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--accent2);
+    color: #000;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    padding: 3px 8px;
+    border-radius: 2px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #fff;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .section-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* INSTALL STEPS */
+  .install-section {
+    margin-bottom: 36px;
+  }
+
+  .install-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .install-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .install-header {
+    background: #1e2128;
+    padding: 10px 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--label);
+    border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .free-badge {
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 2px;
+    background: rgba(0,212,170,0.15);
+    color: var(--accent);
+    border: 1px solid rgba(0,212,170,0.3);
+  }
+
+  .paid-badge {
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 2px;
+    background: rgba(245,166,35,0.15);
+    color: var(--warn);
+    border: 1px solid rgba(245,166,35,0.3);
+  }
+
+  .install-body {
+    padding: 14px;
+  }
+
+  .install-step {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 12.5px;
+    color: var(--label);
+    line-height: 1.55;
+  }
+
+  .install-step:last-child { margin-bottom: 0; }
+
+  .step-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--accent2);
+    background: rgba(79,158,255,0.1);
+    border: 1px solid rgba(79,158,255,0.25);
+    border-radius: 2px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .install-step strong { color: var(--text); font-weight: 600; }
+  .install-step code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    background: #0e0f11;
+    border: 1px solid var(--border);
+    padding: 1px 5px;
+    border-radius: 2px;
+    color: var(--accent);
+  }
+
+  /* SIGNAL FLOW */
+  .flow-section { margin-bottom: 36px; }
+
+  .flow-chain {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .flow-node {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 12px;
+    align-items: start;
+  }
+
+  .flow-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 6px;
+  }
+
+  .flow-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    outline: 1px solid var(--accent);
+    flex-shrink: 0;
+  }
+
+  .flow-dot.blue { background: var(--accent2); outline-color: var(--accent2); }
+
+  .flow-line {
+    width: 1px;
+    flex: 1;
+    min-height: 28px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2));
+    opacity: 0.4;
+    margin: 3px 0;
+  }
+
+  .flow-body { padding: 6px 0 20px; }
+
+  .flow-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .flow-desc {
+    font-size: 12px;
+    color: var(--label);
+    margin-top: 2px;
+  }
+
+  .flow-tag {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 2px;
+    margin-top: 4px;
+    background: rgba(0, 212, 170, 0.1);
+    color: var(--accent);
+    border: 1px solid rgba(0, 212, 170, 0.25);
+  }
+
+  .flow-tag.blue {
+    background: rgba(79, 158, 255, 0.1);
+    color: var(--accent2);
+    border-color: rgba(79, 158, 255, 0.25);
+  }
+
+  /* SETTINGS PANELS */
+  .panels-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 36px;
+  }
+
+  .panel-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .panel-header {
+    background: #1e2128;
+    padding: 10px 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--label);
+    border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+  }
+
+  .panel-body { padding: 14px; }
+
+  .setting-row { margin-bottom: 12px; }
+  .setting-row:last-child { margin-bottom: 0; }
+
+  .setting-key {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .setting-val {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .setting-val.green { color: var(--accent); }
+  .setting-val.blue { color: var(--accent2); }
+  .setting-val.muted { color: var(--muted); font-weight: 400; font-style: italic; }
+
+  .setting-path {
+    font-size: 10.5px;
+    color: var(--muted);
+    margin-top: 3px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* NOTES */
+  .notes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .note-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--warn);
+    border-radius: 0 6px 6px 0;
+    padding: 14px 16px;
+  }
+
+  .note-card.info { border-left-color: var(--accent2); }
+
+  .note-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--warn);
+    margin-bottom: 8px;
+  }
+
+  .note-card.info .note-title { color: var(--accent2); }
+
+  .note-body {
+    font-size: 12.5px;
+    color: var(--label);
+    line-height: 1.65;
+  }
+
+  .note-body strong { color: var(--text); font-weight: 600; }
+
+  /* MAC COMPARISON */
+  .compare-bar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 18px;
+    margin-bottom: 36px;
+    display: grid;
+    grid-template-columns: 1fr 40px 1fr;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .compare-col-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .compare-col-title.mac { color: var(--accent); }
+  .compare-col-title.win { color: var(--accent2); }
+
+  .compare-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .compare-row:last-child { border-bottom: none; }
+
+  .compare-key { color: var(--muted); }
+  .compare-val { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text); }
+
+  .compare-arrow {
+    text-align: center;
+    font-size: 18px;
+    color: var(--border);
+  }
+
+  footer {
+    margin-top: 36px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">Windows 11 — Avatar Machine</div>
+  <h1>Audio Routing Configuration</h1>
+  <div class="subtitle">VB-Cable · VB-Cable A+B · Zoom · Chrome/Claude</div>
+</header>
+
+<!-- SOFTWARE INSTALLATION -->
+<div class="install-section">
+  <div class="section-title">Required Software — Install First</div>
+  <div class="install-grid">
+
+    <div class="install-card">
+      <div class="install-header">
+        VB-Cable (Inbound Channel)
+        <span class="free-badge">FREE</span>
+      </div>
+      <div class="install-body">
+        <div class="install-step">
+          <div class="step-num">1</div>
+          <div>Go to <strong>vb-audio.com/Cable</strong> and download VB-Cable</div>
+        </div>
+        <div class="install-step">
+          <div class="step-num">2</div>
+          <div>Right-click <code>VBCABLE_Setup_x64.exe</code> → <strong>Run as Administrator</strong></div>
+        </div>
+        <div class="install-step">
+          <div class="step-num">3</div>
+          <div>Click Install Driver — <strong>restart when prompted</strong></div>
+        </div>
+        <div class="install-step">
+          <div class="step-num">4</div>
+          <div>Verify: <strong>CABLE Input</strong> and <strong>CABLE Output</strong> appear in Windows Sound Settings</div>
+        </div>
+        <div class="install-step">
+          <div class="step-num">5</div>
+          <div>This device carries <strong>Zoom meeting audio → Chrome mic</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="install-card">
+      <div class="install-header">
+        VB-Cable A+B (Outbound Channel)
+        <span class="paid-badge">~$8 DONATION</span>
+      </div>
+      <div class="install-body">
+        <div class="install-step">
+          <div class="step-num">1</div>
+          <div>Go to <strong>vb-audio.com/Cable</strong> — scroll to <strong>VB-Cable A+B</strong> pack</div>
+        </div>
+        <div class="install-step">
+          <div class="step-num">2</div>
+          <div>Download and right-click <code>VBCABLE_AB_Setup_x64.exe</code> → <strong>Run as Administrator</strong></div>
+        </div>
+        <div class="install-step">
+          <div class="step-num">3</div>
+          <div>Click Install Driver — <strong>restart when prompted</strong></div>
+        </div>
+        <div class="install-step">
+          <div class="step-num">4</div>
+          <div>Verify: <strong>CABLE-A Input/Output</strong> appear in Windows Sound Settings</div>
+        </div>
+        <div class="install-step">
+          <div class="step-num">5</div>
+          <div>This device carries <strong>Claude TTS audio → Zoom mic</strong></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SIGNAL FLOW -->
+<div class="flow-section">
+  <div class="section-title">Signal Flow</div>
+  <div class="flow-chain">
+
+    <div class="flow-node">
+      <div class="flow-connector"><div class="flow-dot"></div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-label">Zoom Participants Speak</div>
+        <div class="flow-desc">Meeting audio arrives in Zoom on this machine</div>
+      </div>
+    </div>
+
+    <div class="flow-node">
+      <div class="flow-connector"><div class="flow-dot"></div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-label">Zoom Speaker → CABLE Input (VB-Cable)</div>
+        <div class="flow-desc">Zoom outputs meeting audio into VB-Cable virtual device</div>
+        <div class="flow-tag">Zoom Audio Setting</div>
+      </div>
+    </div>
+
+    <div class="flow-node">
+      <div class="flow-connector"><div class="flow-dot"></div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-label">Chrome Mic ← CABLE Output (VB-Cable)</div>
+        <div class="flow-desc">Chrome listens to VB-Cable Output as its microphone input</div>
+        <div class="flow-tag">chrome://settings/content/microphone</div>
+      </div>
+    </div>
+
+    <div class="flow-node">
+      <div class="flow-connector"><div class="flow-dot"></div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-label">Claude in Chrome Processes &amp; Responds</div>
+        <div class="flow-desc">Claude hears participants, generates reply, speaks via browser TTS</div>
+      </div>
+    </div>
+
+    <div class="flow-node">
+      <div class="flow-connector"><div class="flow-dot blue"></div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-label">Chrome TTS Audio → CABLE-A Input (VB-Cable A+B)</div>
+        <div class="flow-desc">Windows system output set to CABLE-A Input; Chrome follows system output automatically</div>
+        <div class="flow-tag blue">Windows Sound Output Setting</div>
+      </div>
+    </div>
+
+    <div class="flow-node">
+      <div class="flow-connector"><div class="flow-dot blue"></div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-label">Zoom Microphone ← CABLE-A Output (VB-Cable A+B)</div>
+        <div class="flow-desc">Zoom picks up CABLE-A Output as its mic input — Claude's voice enters the meeting</div>
+        <div class="flow-tag blue">Zoom Audio Setting</div>
+      </div>
+    </div>
+
+    <div class="flow-node">
+      <div class="flow-connector"><div class="flow-dot blue"></div></div>
+      <div class="flow-body">
+        <div class="flow-label">Zoom Participants Hear Claude</div>
+        <div class="flow-desc">Loop complete — separate cables prevent echo/feedback</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SETTINGS PANELS -->
+<div class="section-title">Required Settings</div>
+<div class="panels-grid">
+
+  <div class="panel-card">
+    <div class="panel-header">Zoom — Audio</div>
+    <div class="panel-body">
+      <div class="setting-row">
+        <div class="setting-key">Microphone</div>
+        <div class="setting-val blue">CABLE-A Output</div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-key">Speaker</div>
+        <div class="setting-val green">CABLE Input</div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-key">Suppress Background</div>
+        <div class="setting-val">Disable</div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-key">Suppress Noise</div>
+        <div class="setting-val">Disable</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-card">
+    <div class="panel-header">Windows Sound</div>
+    <div class="panel-body">
+      <div class="setting-row">
+        <div class="setting-key">Output Device</div>
+        <div class="setting-val blue">CABLE-A Input</div>
+        <div class="setting-path">Settings → System → Sound → Output</div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-key">Input Device</div>
+        <div class="setting-val muted">Not critical</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-card">
+    <div class="panel-header">Chrome — Mic</div>
+    <div class="panel-body">
+      <div class="setting-row">
+        <div class="setting-key">Location</div>
+        <div class="setting-val" style="font-family:'IBM Plex Mono',monospace; font-size:10px; color: var(--label)">chrome://settings/<br>content/microphone</div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-key">Microphone</div>
+        <div class="setting-val green">CABLE Output</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- MAC COMPARISON -->
+<div class="section-title">Mac vs Windows — Equivalents</div>
+<div class="compare-bar">
+  <div>
+    <div class="compare-col-title mac">macOS (BlackHole)</div>
+    <div class="compare-row"><span class="compare-key">Inbound</span><span class="compare-val">BlackHole 2ch</span></div>
+    <div class="compare-row"><span class="compare-key">Outbound</span><span class="compare-val">BlackHole 16ch</span></div>
+    <div class="compare-row"><span class="compare-key">Zoom Speaker</span><span class="compare-val">BlackHole 2ch</span></div>
+    <div class="compare-row"><span class="compare-key">Zoom Mic</span><span class="compare-val">BlackHole 16ch</span></div>
+    <div class="compare-row"><span class="compare-key">System Output</span><span class="compare-val">BlackHole 16ch</span></div>
+    <div class="compare-row"><span class="compare-key">Chrome Mic</span><span class="compare-val">BlackHole 2ch</span></div>
+    <div class="compare-row"><span class="compare-key">Cost</span><span class="compare-val">Free</span></div>
+  </div>
+  <div class="compare-arrow">⇄</div>
+  <div>
+    <div class="compare-col-title win">Windows 11 (VB-Cable)</div>
+    <div class="compare-row"><span class="compare-key">Inbound</span><span class="compare-val">VB-Cable</span></div>
+    <div class="compare-row"><span class="compare-key">Outbound</span><span class="compare-val">VB-Cable A+B</span></div>
+    <div class="compare-row"><span class="compare-key">Zoom Speaker</span><span class="compare-val">CABLE Input</span></div>
+    <div class="compare-row"><span class="compare-key">Zoom Mic</span><span class="compare-val">CABLE-A Output</span></div>
+    <div class="compare-row"><span class="compare-key">System Output</span><span class="compare-val">CABLE-A Input</span></div>
+    <div class="compare-row"><span class="compare-key">Chrome Mic</span><span class="compare-val">CABLE Output</span></div>
+    <div class="compare-row"><span class="compare-key">Cost</span><span class="compare-val">~$8 donation</span></div>
+  </div>
+</div>
+
+<!-- REFERENCE NOTES -->
+<div class="section-title">Reference Notes</div>
+<div class="notes-grid">
+
+  <div class="note-card">
+    <div class="note-title">⚠ Run Installer as Administrator</div>
+    <div class="note-body">
+      Both VB-Cable installers <strong>must be run as Administrator</strong> or the driver will not install. Right-click the .exe → Run as Administrator. A restart is required after each install before the devices appear in Sound Settings.
+    </div>
+  </div>
+
+  <div class="note-card">
+    <div class="note-title">⚠ No Local Monitoring</div>
+    <div class="note-body">
+      With Zoom's speaker set to CABLE Input, <strong>no audio plays through the PC's speakers</strong>. This machine is a pure pass-through. Monitor the meeting from the host machine or another device.
+    </div>
+  </div>
+
+  <div class="note-card info">
+    <div class="note-title">ℹ Disable Zoom Audio Processing</div>
+    <div class="note-body">
+      In Zoom → Settings → Audio, disable <strong>Suppress background noise</strong> and <strong>Suppress persistent noise</strong>. Zoom's processing will otherwise filter or suppress Claude's TTS voice before it reaches participants.
+    </div>
+  </div>
+
+  <div class="note-card info">
+    <div class="note-title">ℹ VB-Cable Naming Logic</div>
+    <div class="note-body">
+      VB-Cable naming is counterintuitive: <strong>CABLE Input</strong> is where apps send audio <em>into</em> the cable; <strong>CABLE Output</strong> is where apps receive audio <em>from</em> the cable. Think of Input/Output from the cable's perspective, not the app's.
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span>Avatar Computer — Windows 11</span>
+  <span>VB-Cable (inbound) · VB-Cable A+B (outbound)</span>
+</footer>
+
+</body>
+</html>

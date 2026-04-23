@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avatar Computer — Audio Configuration</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap');
+
+  :root {
+    --bg: #0e0f11;
+    --surface: #16181c;
+    --border: #2a2d35;
+    --accent: #00d4aa;
+    --accent2: #4f9eff;
+    --warn: #f5a623;
+    --text: #d6d9e0;
+    --muted: #6b7280;
+    --label: #9ba3b0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 40px 24px;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 20px;
+    margin-bottom: 32px;
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #000;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    padding: 3px 8px;
+    border-radius: 2px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #fff;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* SIGNAL FLOW */
+  .flow-section {
+    margin-bottom: 36px;
+  }
+
+  .section-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* FLOW DIAGRAM */
+  .flow-chain {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .flow-node {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 12px;
+    align-items: start;
+  }
+
+  .flow-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 6px;
+  }
+
+  .flow-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    outline: 1px solid var(--accent);
+    flex-shrink: 0;
+  }
+
+  .flow-dot.blue { background: var(--accent2); outline-color: var(--accent2); }
+
+  .flow-line {
+    width: 1px;
+    flex: 1;
+    min-height: 28px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2));
+    opacity: 0.4;
+    margin: 3px 0;
+  }
+
+  .flow-body {
+    padding: 6px 0 20px;
+  }
+
+  .flow-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .flow-desc {
+    font-size: 12px;
+    color: var(--label);
+    margin-top: 2px;
+  }
+
+  .flow-tag {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 2px;
+    margin-top: 4px;
+    background: rgba(0, 212, 170, 0.1);
+    color: var(--accent);
+    border: 1px solid rgba(0, 212, 170, 0.25);
+  }
+
+  .flow-tag.blue {
+    background: rgba(79, 158, 255, 0.1);
+    color: var(--accent2);
+    border-color: rgba(79, 158, 255, 0.25);
+  }
+
+  /* SETTINGS PANELS */
+  .panels-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 36px;
+  }
+
+  .panel-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .panel-header {
+    background: #1e2128;
+    padding: 10px 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--label);
+    border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+  }
+
+  .panel-body {
+    padding: 14px;
+  }
+
+  .setting-row {
+    margin-bottom: 12px;
+  }
+
+  .setting-row:last-child { margin-bottom: 0; }
+
+  .setting-key {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .setting-val {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .setting-val.green { color: var(--accent); }
+  .setting-val.blue { color: var(--accent2); }
+  .setting-val.muted { color: var(--muted); font-weight: 400; font-style: italic; }
+
+  /* NOTES */
+  .notes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .note-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--warn);
+    border-radius: 0 6px 6px 0;
+    padding: 14px 16px;
+  }
+
+  .note-card.info { border-left-color: var(--accent2); }
+
+  .note-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--warn);
+    margin-bottom: 8px;
+  }
+
+  .note-card.info .note-title { color: var(--accent2); }
+
+  .note-body {
+    font-size: 12.5px;
+    color: var(--label);
+    line-height: 1.65;
+  }
+
+  .note-body strong { color: var(--text); font-weight: 600; }
+
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+
+  footer {
+    margin-top: 36px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">MacBook Air — Avatar Machine</div>
+  <h1>Audio Routing Configuration</h1>
+  <div class="subtitle">BlackHole 2ch · BlackHole 16ch · Zoom · Chrome/Claude</div>
+</header>
+
+<!-- SIGNAL FLOW -->
+<div class="flow-section">
+  <div class="section-title">Signal Flow</div>
+  <div class="flow-chain">
+
+    <div class="flow-node">
+      <div class="flow-connector"><div class="flow-dot"></div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-label">Zoom Participants Speak</div>
+        <div class="flow-desc">Meeting audio arrives in Zoom on this machine</div>
+      </div>
+    </div>
+
+    <div class="flow-node">
+      <div class="flow-connector"><div class="flow-dot"></div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-label">Zoom Speaker → BlackHole 2ch</div>
+        <div class="flow-desc">Zoom outputs meeting audio to BlackHole 2ch virtual device</div>
+        <div class="flow-tag">Zoom Audio Setting</div>
+      </div>
+    </div>
+
+    <div class="flow-node">
+      <div class="flow-connector"><div class="flow-dot"></div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-label">Chrome Mic ← BlackHole 2ch</div>
+        <div class="flow-desc">Chrome listens to BlackHole 2ch as its microphone input</div>
+        <div class="flow-tag">chrome://settings/content/microphone</div>
+      </div>
+    </div>
+
+    <div class="flow-node">
+      <div class="flow-connector"><div class="flow-dot"></div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-label">Claude in Chrome Processes &amp; Responds</div>
+        <div class="flow-desc">Claude hears participants, generates reply, speaks via browser TTS</div>
+      </div>
+    </div>
+
+    <div class="flow-node">
+      <div class="flow-connector"><div class="flow-dot blue"></div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-label">Chrome TTS Audio → BlackHole 16ch</div>
+        <div class="flow-desc">Mac system output set to BlackHole 16ch; Chrome follows system output automatically</div>
+        <div class="flow-tag blue">System Sound Output Setting</div>
+      </div>
+    </div>
+
+    <div class="flow-node">
+      <div class="flow-connector"><div class="flow-dot blue"></div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-label">Zoom Microphone ← BlackHole 16ch</div>
+        <div class="flow-desc">Zoom picks up BlackHole 16ch as its mic input — Claude's voice enters the meeting</div>
+        <div class="flow-tag blue">Zoom Audio Setting</div>
+      </div>
+    </div>
+
+    <div class="flow-node">
+      <div class="flow-connector"><div class="flow-dot blue"></div></div>
+      <div class="flow-body">
+        <div class="flow-label">Zoom Participants Hear Claude</div>
+        <div class="flow-desc">Loop complete — no feedback, separate channels prevent echo</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SETTINGS PANELS -->
+<div class="section-title">Required Settings</div>
+<div class="panels-grid">
+
+  <div class="panel-card">
+    <div class="panel-header">Zoom — Audio</div>
+    <div class="panel-body">
+      <div class="setting-row">
+        <div class="setting-key">Microphone</div>
+        <div class="setting-val blue">BlackHole 16ch</div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-key">Speaker</div>
+        <div class="setting-val green">BlackHole 2ch</div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-key">Microphone Mode</div>
+        <div class="setting-val">Original Sound</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-card">
+    <div class="panel-header">Mac System Sound</div>
+    <div class="panel-body">
+      <div class="setting-row">
+        <div class="setting-key">Output</div>
+        <div class="setting-val blue">BlackHole 16ch</div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-key">Input</div>
+        <div class="setting-val muted">Not critical</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-card">
+    <div class="panel-header">Chrome — Mic</div>
+    <div class="panel-body">
+      <div class="setting-row">
+        <div class="setting-key">Location</div>
+        <div class="setting-val mono" style="font-size:10px; color: var(--label)">chrome://settings/<br>content/microphone</div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-key">Microphone</div>
+        <div class="setting-val green">BlackHole 2ch</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- REFERENCE NOTES -->
+<div class="section-title">Reference Notes</div>
+<div class="notes-grid">
+
+  <div class="note-card">
+    <div class="note-title">⚠ Why Two Separate Channels</div>
+    <div class="note-body">
+      Using <strong>BlackHole 2ch</strong> for one direction and <strong>BlackHole 16ch</strong> for the other prevents feedback loops. If both Zoom input and output used the same BlackHole device, audio would loop back on itself endlessly.
+    </div>
+  </div>
+
+  <div class="note-card">
+    <div class="note-title">⚠ No Local Monitoring</div>
+    <div class="note-body">
+      With Zoom's speaker set to BlackHole 2ch, <strong>no audio plays through the Mac's speakers</strong>. This machine is a pure pass-through. Monitor the meeting from the host PC or another device.
+    </div>
+  </div>
+
+  <div class="note-card info">
+    <div class="note-title">ℹ Original Sound for Musicians</div>
+    <div class="note-body">
+      Set Zoom's Microphone Mode to <strong>Original Sound for Musicians</strong> to disable Zoom's noise suppression and audio processing. This prevents Zoom from filtering out or compressing Claude's TTS voice before it reaches participants.
+    </div>
+  </div>
+
+  <div class="note-card info">
+    <div class="note-title">ℹ Chrome Follows System Output</div>
+    <div class="note-body">
+      Chrome does not have a separate audio output selector — it uses the <strong>Mac system output device</strong> automatically. Setting system output to BlackHole 16ch is sufficient to route Claude's browser TTS into Zoom.
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span>Avatar Computer — MacBook Air</span>
+  <span>BlackHole 2ch (inbound) · BlackHole 16ch (outbound)</span>
+</footer>
+
+</body>
+</html>
