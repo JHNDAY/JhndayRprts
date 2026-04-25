@@ -2079,6 +2079,9 @@
     const prompt = document.getElementById('week-prompt');
     if (prompt) prompt.style.display = 'none';
     document.querySelector(`.week-panel[data-week="${n}"]`).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Sync the dropdown
+    const jump = document.getElementById('week-jump');
+    if (jump) jump.value = n;
   }
 
   document.addEventListener('DOMContentLoaded', function() {
@@ -2106,7 +2109,26 @@
   <div class="resource-group">
     <a class="resource-link writing" href="https://mail.google.com/mail/?view=cm&to=jhnday@gmail.com&su=What%27s%20on%20My%20Mind%20about%20AI%20Literacy%20:" target="_blank">✉️ Contact Me</a>
   </div>
+  <div class="resource-divider"></div>
+  <div class="resource-group">
+    <select id="week-jump" onchange="jumpToWeek(this.value)" style="background:#1a2744;color:#c9952a;border:1px solid rgba(201,149,42,0.4);border-radius:6px;padding:4px 8px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;outline:none;">
+      <option value="" style="color:#c9952a;">Week ▾</option>
+      <option value="1" style="color:#fff;">Week 1</option>
+      <option value="2" style="color:#fff;">Week 2</option>
+      <option value="3" style="color:#fff;">Week 3</option>
+      <option value="4" style="color:#fff;">Week 4</option>
+      <option value="5" style="color:#fff;">Week 5</option>
+    </select>
+  </div>
 </div>
+
+<script>
+function jumpToWeek(week) {
+  if (!week) return;
+  showWeek(parseInt(week));
+  document.getElementById('weekly-sessions').scrollIntoView({behavior:'smooth', block:'start'});
+}
+</script>
 
 </body>
 </html>
