@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI & Climate: The Energy Reckoning</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #21262d;
+    --accent: #e8a838;
+    --accent2: #4fa3a8;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --danger: #e05252;
+    --good: #56c068;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* animated grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(232,168,56,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,168,56,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.1s;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 0.6rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.25s;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .byline {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+    font-family: 'DM Mono', monospace;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.4s;
+  }
+
+  .byline span { color: var(--accent2); }
+
+  /* LEAD STAT ROW */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.55s;
+  }
+
+  .stat {
+    background: var(--surface);
+    padding: 1.4rem 1.2rem;
+    text-align: center;
+    transition: background 0.2s;
+  }
+  .stat:hover { background: #1c2330; }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.35rem;
+  }
+
+  .stat-num.warn { color: var(--danger); }
+  .stat-num.caution { color: var(--accent); }
+  .stat-num.neutral { color: var(--accent2); }
+
+  .stat-label {
+    font-size: 0.72rem;
+    color: var(--muted);
+    line-height: 1.4;
+    letter-spacing: 0.03em;
+  }
+
+  /* SECTION CARDS */
+  .section {
+    border-left: 2px solid var(--border);
+    padding-left: 1.5rem;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  .section:nth-child(1) { animation-delay: 0.65s; }
+  .section:nth-child(2) { animation-delay: 0.75s; }
+  .section:nth-child(3) { animation-delay: 0.85s; }
+  .section:nth-child(4) { animation-delay: 0.95s; }
+  .section:nth-child(5) { animation-delay: 1.05s; }
+
+  .section:hover { border-left-color: var(--accent); }
+
+  .section-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.7rem;
+    line-height: 1.2;
+  }
+
+  .section p {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: #c9d1d9;
+  }
+
+  /* PULL QUOTE */
+  .pullquote {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    padding: 1.4rem 1.6rem;
+    margin: 2.5rem 0;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards 1.1s;
+  }
+
+  .pullquote p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  .pullquote cite {
+    display: block;
+    margin-top: 0.6rem;
+    font-size: 0.72rem;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    font-style: normal;
+    letter-spacing: 0.05em;
+  }
+
+  /* SOLUTIONS GRID */
+  .solutions {
+    margin: 2.5rem 0;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards 1.15s;
+  }
+
+  .solutions h3 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 1rem;
+  }
+
+  .sol-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .sol-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1.1rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .sol-card:hover { border-color: var(--accent2); transform: translateY(-2px); }
+
+  .sol-icon {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .sol-title {
+    font-weight: 500;
+    font-size: 0.88rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .sol-desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* REBOUND WARNING */
+  .warning-box {
+    background: rgba(224, 82, 82, 0.07);
+    border: 1px solid rgba(224,82,82,0.3);
+    padding: 1.2rem 1.5rem;
+    margin: 2rem 0;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards 1.2s;
+  }
+
+  .warning-box .w-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--danger);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .warning-box p {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #c9d1d9;
+  }
+
+  /* FOOTER */
+  .source-line {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards 1.3s;
+  }
+
+  .source-line a { color: var(--accent2); text-decoration: none; }
+  .source-line a:hover { text-decoration: underline; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* POSTSCRIPT */
+  .postscript {
+    margin-top: 3rem;
+    border: 1px solid #2a3a2a;
+    background: #111a11;
+    padding: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards 1.4s;
+  }
+
+  .ps-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.4rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #2a3a2a;
+  }
+
+  .ps-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: rgba(86,192,104,0.12);
+    color: var(--good);
+    border: 1px solid rgba(86,192,104,0.3);
+    padding: 0.25rem 0.6rem;
+    white-space: nowrap;
+  }
+
+  .ps-disclaimer {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  .postscript h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    color: var(--good);
+    line-height: 1.2;
+  }
+
+  .postscript p {
+    font-size: 0.92rem;
+    line-height: 1.75;
+    color: #c9d1d9;
+    margin-bottom: 1rem;
+  }
+
+  .postscript p:last-child { margin-bottom: 0; }
+
+  .ps-items {
+    list-style: none;
+    margin: 1rem 0 1.2rem 0;
+    padding: 0;
+  }
+
+  .ps-items li {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #c9d1d9;
+    padding: 0.5rem 0 0.5rem 1.2rem;
+    border-bottom: 1px solid #1c2a1c;
+    position: relative;
+  }
+
+  .ps-items li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--good);
+    font-size: 0.8rem;
+  }
+
+  .ps-items li strong { color: var(--text); font-weight: 500; }
+
+  .ps-note {
+    background: rgba(86,192,104,0.06);
+    border-left: 3px solid var(--good);
+    padding: 0.9rem 1.1rem;
+    margin-top: 1.2rem;
+    font-size: 0.84rem;
+    line-height: 1.6;
+    color: #c9d1d9;
+    font-style: italic;
+  }
+
+  @media (max-width: 600px) {
+    .stat-row { grid-template-columns: 1fr; }
+    .sol-grid  { grid-template-columns: 1fr; }
+    h1 { font-size: 2rem; }
+    .ps-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="kicker">Ask MIT Climate · February 2025</div>
+  <h1>Is AI's Energy Use a <em>Big Problem</em> for Climate Change?</h1>
+  <div class="byline">
+    Guest expert: <span>Vijay Gadepally</span>, Senior Scientist · MIT Lincoln Laboratory Supercomputing Center
+  </div>
+
+  <!-- KEY STATS -->
+  <div class="stat-row">
+    <div class="stat">
+      <div class="stat-num warn">3×</div>
+      <div class="stat-label">U.S. data center energy use may triple by 2028 (Dept. of Energy)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num caution">4–5%</div>
+      <div class="stat-label">Share of U.S. electricity consumed by data centers today (up from 1–2%)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num neutral">15–20%</div>
+      <div class="stat-label">Energy savings achievable via processor "power capping" with minimal slowdown</div>
+    </div>
+  </div>
+
+  <!-- SECTIONS -->
+  <div class="section">
+    <div class="section-tag">The Problem</div>
+    <h2>A Sudden Surge After 20 Years of Flat Demand</h2>
+    <p>U.S. energy consumption had been essentially flat since the early 2000s, allowing a gradual, manageable transition to cleaner sources. The generative AI boom has shattered that plateau. Data centers now draw 4–5% of U.S. electricity—more than double their 2020 share—and demand is projected to at least double again by 2028, with similar growth in China and Europe.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-tag">Why AI Is So Hungry</div>
+    <h2>Hundreds of Billions of Parameters, Billions of Times a Day</h2>
+    <p>Unlike a classic supercomputer program run rarely on large datasets, generative AI models run hundreds of billions of mathematical operations on every short user query. Training a large model is enormously expensive in energy; but "inference"—the ongoing answering of queries—adds up just as fast. A billion daily ChatGPT interactions is roughly equivalent, in compute terms, to retraining the model from scratch many times over.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-tag">The Clean-Energy Mismatch</div>
+    <h2>Wind &amp; Solar Can't Scale as Fast as Data Centers</h2>
+    <p>A modern data center is built in 12–18 months. Utility-scale wind and solar projects take longer, and neither provides the 24/7 "firm" power that data centers require. The result: new facilities in Texas, Virginia, and elsewhere are being powered largely by natural gas. Google (geothermal) and Microsoft (nuclear) are exploring cleaner firm-power alternatives, but both companies' emissions still rose in 2024.</p>
+  </div>
+
+  <div class="pullquote">
+    <p>"Every time you talk to a generative AI model, you're passing in some data that is flowing through hundreds of billions of parameters. Think about how many millions of people are talking to ChatGPT or Anthropic or DeepSeek on any given day."</p>
+    <cite>— Vijay Gadepally, MIT Lincoln Laboratory</cite>
+  </div>
+
+  <!-- SOLUTIONS -->
+  <div class="solutions">
+    <h3>Three Pathways to Lower AI's Carbon Footprint</h3>
+    <div class="sol-grid">
+
+      <div class="sol-card">
+        <div class="sol-icon">🧠</div>
+        <div class="sol-title">More Efficient Models</div>
+        <div class="sol-desc">DeepSeek's "mixture-of-experts" architecture activates only the parameters relevant to each query, cutting compute without sacrificing quality. MIT research prunes low-value parameters during training to shrink model size.</div>
+      </div>
+
+      <div class="sol-card">
+        <div class="sol-icon">⚡</div>
+        <div class="sol-title">Power Capping</div>
+        <div class="sol-desc">Limiting maximum processor draw has cut energy use 15–20% per workload with only a ~2% speed penalty—and is now being adopted industry-wide. Small multiplied by billions = large climate impact.</div>
+      </div>
+
+      <div class="sol-card">
+        <div class="sol-icon">💧</div>
+        <div class="sol-title">Advanced Cooling</div>
+        <div class="sol-desc">Direct-to-chip cold water loops are replacing energy-intensive air conditioning. Next: immersion cooling (processors submerged in mineral oil) for even greater efficiency gains across all workloads, not just AI.</div>
+      </div>
+
+      <div class="sol-card">
+        <div class="sol-icon">☢️</div>
+        <div class="sol-title">New Clean Firm Power</div>
+        <div class="sol-desc">Geothermal (Google) and nuclear (Microsoft) can provide 24/7 carbon-free electricity that wind and solar cannot—but scaling these technologies fast enough remains the key open question.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- REBOUND EFFECT WARNING -->
+  <div class="warning-box">
+    <div class="w-label">⚠ The Rebound Effect</div>
+    <p>More efficient AI lowers costs—which may attract entirely new users and use cases, potentially <strong>canceling out or exceeding</strong> the efficiency gains. DeepSeek is the most recent example: cheaper inference may simply expand total consumption. Efficiency alone is not a climate solution unless overall demand growth is also managed.</p>
+  </div>
+
+  <div class="source-line">
+    Source: <a href="https://climate.mit.edu/ask-mit-climate/ai-energy-use-big-problem-climate-change" target="_blank">Ask MIT Climate</a> · Aaron Krol · February 18, 2025 · 
+    Key data: IEA, Lawrence Berkeley National Lab 2024 Data Center Energy Report, U.S. Dept. of Energy
+  </div>
+
+  <!-- POSTSCRIPT -->
+  <div class="postscript">
+    <div class="ps-header">
+      <div class="ps-badge">✦ Postscript</div>
+      <div class="ps-disclaimer">The following analysis is not part of the original MIT Climate article.<br>It identifies a significant gap in the article's framing.</div>
+    </div>
+
+    <h2>The Missing Variable: AI as Grid Optimizer</h2>
+
+    <p>The article treats AI exclusively as an energy <em>consumer</em> — a load placed on the grid. It never considers AI as a potential energy <em>optimizer</em>, which is a significant omission given how active that space already is.</p>
+
+    <p>AI systems are already being deployed across the energy management stack:</p>
+
+    <ul class="ps-items">
+      <li><strong>Grid load forecasting</strong> — predicting demand spikes hours or days ahead with enough accuracy to reduce reliance on "peaker" plants: gas turbines that sit idle most of the year but exist solely as dirty surge capacity.</li>
+      <li><strong>Renewable intermittency management</strong> — predicting wind and solar output in real time and pre-positioning storage or dispatchable generation to compensate, enabling higher penetration of variable clean energy.</li>
+      <li><strong>Real-time demand response</strong> — automatically shifting flexible loads (EV charging, industrial processes, building HVAC) to off-peak or high-renewable windows without human intervention.</li>
+      <li><strong>Transmission loss optimization</strong> — dynamically rerouting power flows to minimize resistive losses. U.S. transmission and distribution losses run at an estimated 5–8% of all electricity generated.</li>
+    </ul>
+
+    <p>The potential leverage is substantial. Peaker plants, transmission losses, and poorly timed renewable curtailment together represent far more wasted energy than the gains available from GPU power capping alone. Google's DeepMind reported a <strong>40% reduction in data center cooling energy</strong> through AI optimization — one of the few clean internal measurements available. Grid-scale counterfactuals are harder to isolate but directionally large.</p>
+
+    <p>The honest accounting problem is that no one has cleanly netted AI's optimization benefits against its consumption costs at system scale. The question of whether AI's <em>net</em> effect on emissions is positive or negative cannot be answered by looking at data center electricity draw alone. It requires modeling the grid with and without AI-assisted dispatch, across multiple timescales and geographies.</p>
+
+    <div class="ps-note">
+      The article's framing — AI as pure energy liability — may itself be a cognitive bottleneck. The more productive question is whether AI can be deployed fast enough as a grid intelligence layer to offset, or exceed, the emissions cost of building the infrastructure to run it. That analysis remains to be done — and would require, perhaps fittingly, a very large model to run.
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
