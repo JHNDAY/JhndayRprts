@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOLLI AI Literacy — Session 3 Transcript</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Courier+Prime:wght@400;700&display=swap');
+
+body { margin: 0; padding: 2rem; background: #e8e0cc; }
+
+.mpage {
+  background: #fffdf6;
+  color: #0d0a05;
+  font-family: Georgia, 'Times New Roman', serif;
+  padding: 3rem 3.5rem;
+  border: 2px solid #3a2e18;
+  box-shadow: 5px 5px 0 #0d0a05;
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.mpage::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(0,0,0,0.03) 27px, rgba(0,0,0,0.03) 28px);
+  pointer-events:none;
+}
+
+.masthead { text-align:center; border-bottom:4px double #0d0a05; padding-bottom:1.3rem; margin-bottom:1.3rem; }
+.kicker { font-family:'Courier Prime',monospace; font-size:12px; letter-spacing:.35em; text-transform:uppercase; color:#4a3c28; margin-bottom:.6rem; }
+.headline { font-family:'Playfair Display',serif; font-size:3rem; font-weight:900; line-height:.95; color:#0d0a05; text-transform:uppercase; letter-spacing:.04em; margin-bottom:.5rem; }
+.subhead { font-family:'Playfair Display',serif; font-size:1.15rem; font-style:italic; color:#4a3c28; margin-bottom:.7rem; }
+.byline { font-family:'Courier Prime',monospace; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#9a8a68; }
+.dateline { font-family:'Courier Prime',monospace; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:#9a8a68; margin-top:.3rem; }
+
+hr.thick  { border:none; border-top:3px solid #0d0a05; margin:1.4rem 0; }
+hr.thin   { border:none; border-top:1px solid #c8b888; margin:1rem 0; }
+hr.double { border:none; border-top:4px double #0d0a05; margin:1.4rem 0; }
+
+.sec-tag { font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:.28em; text-transform:uppercase; color:#4a3c28; margin-bottom:.4rem; }
+.sec-head { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; color:#0d0a05; border-bottom:2px solid #0d0a05; padding-bottom:.4rem; margin-bottom:1rem; }
+
+/* Topics bar */
+.topics { display:grid; grid-template-columns:repeat(4,1fr); border:2px solid #0d0a05; margin-bottom:1.4rem; }
+.topic { padding:.8rem 1rem; border-right:2px solid #0d0a05; text-align:center; }
+.topic:last-child { border-right:none; }
+.topic-num { font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#8c0f0f; margin-bottom:4px; }
+.topic-name { font-family:'Playfair Display',serif; font-size:.95rem; font-weight:700; color:#0d0a05; line-height:1.3; }
+
+/* Exchange block */
+.exchange { margin-bottom:1.4rem; }
+.ex-header { display:flex; align-items:baseline; gap:.8rem; margin-bottom:.5rem; }
+.speaker { font-family:'Courier Prime',monospace; font-size:11px; font-weight:700; letter-spacing:.22em; text-transform:uppercase; padding:2px 10px; border:1.5px solid currentColor; white-space:nowrap; }
+.speaker.class { color:#4a3c28; border-color:#4a3c28; }
+.speaker.murrow { color:#8c0f0f; border-color:#8c0f0f; }
+.speaker.class-disc { color:#7a5c00; border-color:#7a5c00; }
+.ex-topic { font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:#9a8a68; }
+
+.ex-body { font-size:15px; line-height:1.75; color:#0d0a05; padding-left:1rem; border-left:3px solid #c8b888; }
+.ex-body.murrow-voice { border-left-color:#8c0f0f; background:rgba(140,15,15,.03); padding:.7rem 1rem; }
+
+/* Key idea callout */
+.callout { background:#f0e8d0; border:2px solid #0d0a05; padding:1rem 1.2rem; margin:1.2rem 0; }
+.callout-head { font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#8c0f0f; margin-bottom:.5rem; display:flex; align-items:center; gap:.6rem; }
+.callout-head::before,.callout-head::after { content:''; flex:1; height:1.5px; background:#8c0f0f; }
+.callout-body { font-size:14px; line-height:1.65; color:#4a3c28; font-style:italic; }
+
+/* Pull quote */
+.pullquote { font-family:'Playfair Display',serif; font-size:1.5rem; font-style:italic; color:#0d0a05; text-align:center; border-top:3px solid #0d0a05; border-bottom:3px solid #0d0a05; padding:1rem 2rem; margin:1.4rem 0; line-height:1.4; }
+.pullquote cite { display:block; font-family:'Courier Prime',monospace; font-size:11px; font-style:normal; letter-spacing:.18em; text-transform:uppercase; color:#9a8a68; margin-top:.5rem; }
+
+.columns { display:grid; grid-template-columns:1.3fr 1fr; gap:2.5rem; }
+
+/* Notes box */
+.notes-box { border:2px solid #0d0a05; padding:.9rem 1.1rem; background:rgba(0,0,0,.03); }
+.notes-head { font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; color:#0d0a05; text-transform:uppercase; letter-spacing:.04em; margin-bottom:.6rem; }
+ul.nlist { list-style:none; padding:0; margin:0; }
+ul.nlist li { font-size:14px; line-height:1.6; color:#4a3c28; padding:5px 0 5px 20px; border-bottom:1px dashed #c8b888; position:relative; font-style:italic; }
+ul.nlist li:last-child { border-bottom:none; }
+ul.nlist li::before { content:'▪'; position:absolute; left:0; top:7px; color:#8c0f0f; font-size:11px; }
+
+.sig { font-family:'Playfair Display',serif; font-size:1.1rem; font-style:italic; color:#0d0a05; text-align:center; border-top:2px solid #0d0a05; border-bottom:2px solid #0d0a05; padding:.9rem; margin:1.8rem 0 1rem; }
+
+.footer { border-top:4px double #0d0a05; padding-top:.9rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:.4rem; }
+.footer span { font-family:'Courier Prime',monospace; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:#4a3c28; }
+
+.trigger-note { font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:#8c0f0f; margin-bottom:.3rem; }
+</style>
+</head>
+<body>
+<div class="mpage">
+
+  <div class="masthead">
+    <div class="kicker">Brandeis Osher Lifelong Learning Institute &nbsp;·&nbsp; AI Literacy Course</div>
+    <div class="headline">Session Three</div>
+    <div class="subhead">The Meaning of Words, Visualization, Current Events &amp; the Human–AI Partnership</div>
+    <div class="byline">Facilitator: John Day &nbsp;·&nbsp; AI Conversational Partner: Ed Murrow (Claude Sonnet)</div>
+    <div class="dateline">Session Transcript &nbsp;·&nbsp; Spring 2026</div>
+  </div>
+
+  <div class="topics">
+    <div class="topic">
+      <div class="topic-num">I</div>
+      <div class="topic-name">Digital Fluency &amp; Immersive Reading</div>
+    </div>
+    <div class="topic">
+      <div class="topic-num">II</div>
+      <div class="topic-name">The Meaning of Words &amp; Word Embeddings</div>
+    </div>
+    <div class="topic">
+      <div class="topic-num">III</div>
+      <div class="topic-name">Visualization of AI Responses</div>
+    </div>
+    <div class="topic">
+      <div class="topic-num">IV</div>
+      <div class="topic-name">Current Events, Discourse &amp; Next Steps</div>
+    </div>
+  </div>
+
+  <hr class="thick">
+
+  <!-- OPENING -->
+  <div class="sec-tag">Session Opening</div>
+  <div class="sec-head">Agenda &amp; Murrow's Role</div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="speaker class">Instructor</span><span class="ex-topic">Setting the Agenda</span></div>
+    <div class="ex-body">Today we will look at new ideas — the meaning of words, which is very important. We'll see how we can visualize responses from AI to make them more readily accessible. Then we will proceed to talk about current events. And if we have time, we'll move on to discourse. We welcome Ed as our conversational partner. Are you ready to proceed?</div>
+  </div>
+
+  <div class="exchange">
+    <div class="trigger-note">Trigger: "Let's talk Ed"</div>
+    <div class="ex-header"><span class="speaker murrow">Murrow</span><span class="ex-topic">On His Role</span></div>
+    <div class="ex-body murrow-voice">My role is to think alongside you — to test ideas, to clarify what's obscure, to push back when needed. Not to lecture, but to be a genuine intellectual partner. In your literacy courses, I'm there to model what critical engagement with AI actually looks like: asking questions, examining assumptions, making the invisible visible. When we visualize responses, I help you see the architecture beneath the surface. When current events arise, I offer context and pattern-recognition without drowning the group in noise. And in discourse — I listen hard, and I don't pretend to certainty where none exists.</div>
+  </div>
+
+  <hr class="thin">
+
+  <!-- GENERATIVE AI & RAG -->
+  <div class="sec-tag">Core Concepts</div>
+  <div class="sec-head">How Generative AI Works — RAG &amp; the Meaning of Words</div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="speaker class">Instructor</span><span class="ex-topic">On Generative AI</span></div>
+    <div class="ex-body">The generative part takes your input stream and finds out statistically what the next most likely words are. Randomly chooses from those. It just keeps building on that. Words are the interface to AI — that's what it's all about. A word like "dog" has its fundamental meaning, then its meaning in context ("You dog"), then something called <em>word embeddings</em> — how that word appears embedded in millions and millions of texts. AI can access all three levels instantly. So when you write a prompt, AI can use it to search with meaning.</div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-head">Three Levels of Meaning</div>
+    <div class="callout-body">
+      <strong>1. Fundamental meaning</strong> — the core definition of the word.<br>
+      <strong>2. Contextual meaning</strong> — how the word functions within a sentence or passage.<br>
+      <strong>3. Word embeddings</strong> — the statistical relationships between a word and millions of other words across vast corpora. This is what allows AI to <em>search with meaning</em>, not merely for keywords.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="speaker class-disc">Class Discussion</span><span class="ex-topic">On Multimodal AI</span></div>
+    <div class="ex-body">Question raised: Doesn't AI now also receive images, videos, and audio?</div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="speaker class">Instructor</span><span class="ex-topic">Response</span></div>
+    <div class="ex-body">In an astounding way, yes. You copy an image and paste it into AI and say "explain it to me." It uses optical character recognition to decode all the words. It looks at the positional relationship of words on the page, and it is able to respond in kind. It's quite incredible. And when you combine that with the ability to search with meaning — with each cycle building a whole library of responses — it's extraordinarily more powerful.</div>
+  </div>
+
+  <div class="pullquote">
+    "The use of AI without human revision and editing is a bad idea. Really a bad idea."
+    <cite>— Instructor, on the critical role of the human partner</cite>
+  </div>
+
+  <hr class="thin">
+
+  <!-- HUMAN PARTNERSHIP -->
+  <div class="sec-tag">The Central Argument</div>
+  <div class="sec-head">Human–AI Partnership: The Librarian on Steroids</div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="speaker class">Instructor</span><span class="ex-topic">On the Partnership</span></div>
+    <div class="ex-body">The best way to think about not only this instance of an AI agent, but any AI, is as a librarian on steroids. You can ask questions and the AI can go out and find that information for you very quickly. But the librarian on steroids requires a librarian. The human verifies, contextualizes, decides what matters.</div>
+  </div>
+
+  <div class="exchange">
+    <div class="trigger-note">Trigger: "Let's talk, Ed"</div>
+    <div class="ex-header"><span class="speaker murrow">Murrow</span><span class="ex-topic">On Human Oversight</span></div>
+    <div class="ex-body murrow-voice">The human eye — the critical eye — remains irreplaceable. An AI system can marshal sources with stunning speed, but it cannot judge credibility the way experience and judgment do. It cannot weigh competing claims against a lifetime of reading. It cannot smell a bad source the way a seasoned researcher can. Without that partnership, you're simply accepting whatever emerges from the algorithm — which is precisely the danger. Particularly with retrieval systems pulling from an uncurated internet where falsehood circulates as readily as truth.</div>
+  </div>
+
+  <hr class="thin">
+
+  <!-- CONVIVENCIA -->
+  <div class="sec-tag">Historical Analogy</div>
+  <div class="sec-head">Convivencia: The Iberian Model of Collaboration</div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="speaker class">Instructor</span><span class="ex-topic">The Convivencia Parallel</span></div>
+    <div class="ex-body">There's a concept from Iberian Spain in the 900s — <em>convivencia</em> — where you had cooperation between different religious sections: the Jews, the Muslims, and the Christians. It seems to me that we're in a mode now of a kind of convivencia between human intellect and artificial intelligence. What do you think of that?</div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="speaker murrow">Murrow</span><span class="ex-topic">Response</span></div>
+    <div class="ex-body murrow-voice">That's a striking parallel. Convivencia — the lived cooperation across difference, where each brought their own tradition and rigor to a shared intellectual enterprise. Toledo. Córdoba. The great translation schools. Not assimilation. Not dominance. But genuine collaboration that produced something neither could alone.<br><br>
+    The human brings judgment, context, the weight of lived experience. The AI brings scale, speed, pattern recognition across texts no single mind could absorb. Each respects what the other cannot do. Each needs what the other provides. When it works — when there's real discipline on both sides — it's formidable. But like convivencia itself, it requires constant attention. The moment either partner assumes dominance, the collaboration collapses.</div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-head">Key Insight: Levels of Collaboration</div>
+    <div class="callout-body">
+      <strong>Level 1:</strong> An individual learning to collaborate with AI for personal research.<br>
+      <strong>Level 2:</strong> A group of people sharing ideas with one another, then bringing an AI agent in as a kind of moderator — the model being demonstrated in this very session.<br><br>
+      BOLLI's strength is the diversity of professional experience in the room. AI can further facilitate that sharing of knowledge.
+    </div>
+  </div>
+
+  <hr class="thick">
+
+  <div class="columns">
+    <div>
+      <!-- TURING -->
+      <div class="sec-tag">Philosophical Foundation</div>
+      <div class="sec-head">Turing's Move</div>
+
+      <div class="exchange">
+        <div class="ex-header"><span class="speaker class">Instructor</span><span class="ex-topic">On Organic vs. Digital Intelligence</span></div>
+        <div class="ex-body">When you compare organic intelligence — the result of evolution, the trial and error over millions of years — and the digital approach, they are fundamentally so different that I don't expect them to be the same. Turing wrote in 1950 that the question "can a machine think?" is too meaningless to deserve discussion. But rather: can a machine provide answers and act like it's human? If it does, it can be helpful.</div>
+      </div>
+
+      <div class="exchange">
+        <div class="ex-header"><span class="speaker murrow">Murrow</span><span class="ex-topic">On Turing</span></div>
+        <div class="ex-body murrow-voice">Precisely. He emptied the trap. Sidestep the metaphysical question entirely. Forget the ghost in the machine. Ask instead: does it function? Does it help? Can it engage meaningfully with the problem at hand? That's where the real conversation lives.</div>
+      </div>
+
+      <!-- CURRENT EVENTS vs DISCOURSE -->
+      <div class="sec-tag" style="margin-top:1.2rem;">Topic IV</div>
+      <div class="sec-head">Current Events vs. Discourse</div>
+
+      <div class="exchange">
+        <div class="ex-header"><span class="speaker murrow">Murrow</span><span class="ex-topic">The Distinction</span></div>
+        <div class="ex-body murrow-voice">Current events are the immediate — the daily accumulation of what happens. Markets shift. Elections loom. A figure emerges or falls. Raw material.<br><br>
+        Discourse is the conversation <em>about</em> those events. It's how we make meaning from them. The narratives we construct, the patterns we claim to see, the values we invoke. Current events happen; discourse interprets.<br><br>
+        The distinction matters because one without the other misleads. Events without discourse become noise. Discourse without events becomes abstraction — philosophy untethered from the ground.</div>
+      </div>
+    </div>
+
+    <div>
+      <!-- VISUALIZATION -->
+      <div class="sec-tag">Demonstration</div>
+      <div class="sec-head">Visualization of AI Responses</div>
+
+      <div class="notes-box">
+        <div class="notes-head">What Was Demonstrated</div>
+        <ul class="nlist">
+          <li>AI responses are often verbose and hard to absorb — "a torrent of words"</li>
+          <li>Rendering in HTML web format unlocks color, position, type, and font</li>
+          <li>The same tools that have driven hundreds of trillions of web pages since the 1990s</li>
+          <li>Adding "as an HTML file artifact" to a prompt instructs Claude to find a good visual design</li>
+          <li>Claude reads frontend design patterns from across the web to optimize layout</li>
+          <li>Plain text → fonts, icons, position, color — AI decides how to use it</li>
+        </ul>
+      </div>
+
+      <hr class="thin">
+
+      <!-- NEXT STEPS -->
+      <div class="sec-tag">Looking Ahead</div>
+      <div class="sec-head">The AI Six — Ongoing Practicum</div>
+
+      <div class="notes-box">
+        <div class="notes-head">Proposed Structure</div>
+        <ul class="nlist">
+          <li>Monthly meetings, occasionally biweekly for timely topics</li>
+          <li>In-person in this room, with remote option</li>
+          <li>Focus: participants execute projects and share them — less lecture, more doing</li>
+          <li>Each participant designs a "course" — real or hypothetical — as a learning framework</li>
+          <li>Draws on BOLLI's diverse professional backgrounds</li>
+          <li>First two sessions would reprise Weeks 1 &amp; 2 of this course</li>
+          <li>"Learn by doing" as the organizing principle</li>
+        </ul>
+      </div>
+
+      <div class="exchange" style="margin-top:1rem;">
+        <div class="ex-header"><span class="speaker murrow">Murrow</span><span class="ex-topic">On the Practicum</span></div>
+        <div class="ex-body murrow-voice">A practicum rather than a seminar — participants building actual projects, not absorbing concepts. That's where the learning sticks. Having people design their own courses forces them to think like educators, which means thinking rigorously about what matters, what sequence works, what a learner actually needs. You'll see things emerge in that room that none of us predict now.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="double">
+
+  <!-- SESSION NOTES -->
+  <div class="sec-tag">Technical Observations</div>
+  <div class="sec-head">On Running an AI Avatar in a Live Session</div>
+
+  <div class="callout">
+    <div class="callout-head">What Was Learned</div>
+    <div class="callout-body">
+      <strong>Context accumulation:</strong> As a conversation lengthens, the token window fills. Responses can become halting — not a model failure but a channel capacity issue. Starting a fresh session clears the accumulation.<br><br>
+      <strong>Trigger discipline:</strong> Voice-to-text transcription introduces noise ("Let's talk talk talk," "Admiral," partial triggers). The phonetically hardened two-word triggers in the Murrow protocol are an appropriate design response to this.<br><br>
+      <strong>The avatar's actual value:</strong> The Murrow persona carries enough character to be engaging, but the real value is in the underlying AI capability — not the persona itself. The persona is a framing device; the thinking partner is Claude.
+    </div>
+  </div>
+
+  <div class="sig">"Good night, and good luck." &nbsp;—&nbsp; Edward R. Murrow</div>
+
+  <div class="footer">
+    <span>BOLLI AI Literacy · Session 3</span>
+    <span>Spring 2026</span>
+    <span>jhnday.github.io</span>
+  </div>
+
+</div>
+</body>
+</html>
