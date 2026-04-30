@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beyond the Wall of Text</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:     #faf8f4;
+    --warm-white:#f5f2ec;
+    --sand:      #e8e0d0;
+    --sage:      #8aab96;
+    --sage-light:#c5daca;
+    --terracotta:#c8816a;
+    --terra-light:#f0d5cc;
+    --sky:       #7aa3c0;
+    --sky-light: #cde0ef;
+    --gold:      #b8973a;
+    --gold-light:#f0e4b8;
+    --ink:       #2a2520;
+    --mid:       #6b6258;
+    --light:     #a09688;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    background: var(--ink);
+    padding: 80px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    animation: fadeInLeft 1s ease both;
+  }
+
+  .hero-left::after {
+    content: '';
+    position: absolute;
+    right: -40px;
+    top: 0; bottom: 0;
+    width: 80px;
+    background: var(--ink);
+    clip-path: polygon(0 0, 0 100%, 100% 100%);
+    z-index: 2;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 28px;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(42px, 5vw, 72px);
+    font-weight: 300;
+    line-height: 1.08;
+    color: var(--cream);
+    margin-bottom: 24px;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--sage-light);
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    color: var(--light);
+    max-width: 340px;
+    line-height: 1.8;
+  }
+
+  .hero-right {
+    background: var(--warm-white);
+    padding: 80px 70px 80px 110px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation: fadeInRight 1s ease 0.2s both;
+  }
+
+  .wall-of-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    line-height: 1.6;
+    color: var(--mid);
+    opacity: 0.55;
+    margin-bottom: 32px;
+    max-height: 260px;
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+
+  .vs-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .vs-badge .line { height: 1px; width: 40px; background: var(--sand); }
+  .vs-badge span {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--terracotta);
+    text-transform: uppercase;
+  }
+
+  .hero-html-preview {
+    background: white;
+    border-radius: 10px;
+    padding: 20px 24px;
+    box-shadow: 0 4px 24px rgba(42,37,32,0.08);
+    border: 1px solid var(--sand);
+  }
+
+  .mini-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+    align-items: center;
+  }
+  .dot { width: 9px; height: 9px; border-radius: 50%; }
+  .dot.r { background: #f08080; }
+  .dot.y { background: #f0c080; }
+  .dot.g { background: var(--sage); }
+
+  .mini-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+
+  .mini-card {
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .mini-card.a { background: var(--terra-light); }
+  .mini-card.b { background: var(--sky-light); }
+  .mini-card.c { background: var(--gold-light); }
+
+  .mini-card .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 4px;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 96px 80px;
+    position: relative;
+  }
+
+  .section-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--light);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(30px, 3.5vw, 48px);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 40px;
+    max-width: 720px;
+  }
+
+  .section-title em { font-style: italic; color: var(--terracotta); }
+
+  /* ── PROBLEM SECTION ── */
+  .problem-section {
+    background: var(--warm-white);
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .problem-body p {
+    font-size: 15.5px;
+    color: var(--mid);
+    line-height: 1.85;
+    margin-bottom: 20px;
+  }
+
+  .serial-diagram {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .serial-line {
+    height: 10px;
+    border-radius: 5px;
+    background: var(--sand);
+    animation: shimmer 3s infinite alternate;
+  }
+  .serial-line:nth-child(1) { width: 100%; animation-delay: 0s; }
+  .serial-line:nth-child(2) { width: 88%; animation-delay: 0.2s; }
+  .serial-line:nth-child(3) { width: 94%; animation-delay: 0.4s; }
+  .serial-line:nth-child(4) { width: 72%; animation-delay: 0.6s; }
+  .serial-line:nth-child(5) { width: 85%; animation-delay: 0.8s; }
+  .serial-line:nth-child(6) { width: 60%; animation-delay: 1s; }
+
+  .serial-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--light);
+    text-transform: uppercase;
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .problem-visual {
+    background: white;
+    border-radius: 14px;
+    padding: 32px;
+    border: 1px solid var(--sand);
+  }
+
+  .problem-title-sm {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--light);
+    margin-bottom: 20px;
+  }
+
+  /* ── THREE TOOLS SECTION ── */
+  .tools-section {
+    background: var(--cream);
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 28px;
+    margin-top: 0;
+  }
+
+  .tool-card {
+    border-radius: 16px;
+    padding: 40px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .tool-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(42,37,32,0.1);
+  }
+
+  .tool-card.color-card  { background: var(--terra-light); }
+  .tool-card.position-card { background: var(--sky-light); }
+  .tool-card.type-card   { background: var(--gold-light); }
+
+  .tool-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 80px;
+    font-weight: 300;
+    line-height: 1;
+    opacity: 0.15;
+    position: absolute;
+    right: 20px;
+    top: 16px;
+    color: var(--ink);
+  }
+
+  .tool-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+  }
+
+  .tool-card.color-card .tool-icon    { background: var(--terracotta); }
+  .tool-card.position-card .tool-icon { background: var(--sky); }
+  .tool-card.type-card .tool-icon     { background: var(--gold); }
+
+  .tool-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+
+  .tool-desc {
+    font-size: 14px;
+    color: var(--mid);
+    line-height: 1.75;
+  }
+
+  .tool-demo {
+    margin-top: 20px;
+    border-radius: 8px;
+    padding: 12px;
+    background: rgba(255,255,255,0.5);
+  }
+
+  /* Color demo */
+  .color-swatches {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .swatch { height: 18px; border-radius: 4px; }
+
+  /* Position demo */
+  .pos-demo {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 6px;
+  }
+  .pos-block { height: 14px; border-radius: 3px; background: var(--sky); opacity: 0.4; }
+  .pos-block.tall { height: 36px; opacity: 0.7; }
+
+  /* Type demo */
+  .type-demo { display: flex; flex-direction: column; gap: 5px; }
+  .type-line { height: 8px; border-radius: 3px; background: var(--gold); }
+  .type-line.h { height: 14px; opacity: 0.9; width: 70%; }
+  .type-line.b { opacity: 0.4; }
+  .type-line.b2 { opacity: 0.3; width: 80%; }
+
+  /* ── PICTURE WORTH SECTION ── */
+  .picture-section {
+    background: var(--ink);
+    color: var(--cream);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .picture-left {
+    padding: 96px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .picture-left .section-tag { color: var(--sage); }
+  .picture-left .section-title { color: var(--cream); max-width: 100%; }
+  .picture-left .section-title em { color: var(--sage-light); }
+
+  .picture-left p {
+    font-size: 15px;
+    color: #a09688;
+    line-height: 1.85;
+    margin-bottom: 18px;
+  }
+
+  .cortex-stat {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 32px;
+    padding: 24px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .cortex-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 64px;
+    font-weight: 300;
+    color: var(--sage-light);
+    line-height: 1;
+  }
+
+  .cortex-label {
+    font-size: 13px;
+    color: var(--light);
+    line-height: 1.6;
+  }
+
+  .picture-right {
+    background: #1e1c18;
+    padding: 96px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .compare-block {
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .compare-block.text-block { background: rgba(255,255,255,0.03); }
+  .compare-block.visual-block { background: rgba(138,171,150,0.12); }
+
+  .compare-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .compare-block.text-block .compare-label { color: var(--terracotta); }
+  .compare-block.visual-block .compare-label { color: var(--sage); }
+
+  .prose-sim {
+    font-size: 11px;
+    color: #6b6258;
+    line-height: 1.7;
+  }
+
+  .visual-sim {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+
+  .vis-col {
+    border-radius: 6px;
+    padding: 10px 8px;
+    text-align: center;
+  }
+  .vis-col.a { background: rgba(200,129,106,0.2); }
+  .vis-col.b { background: rgba(122,163,192,0.2); }
+  .vis-col.c { background: rgba(184,151,58,0.2); }
+
+  .vis-col-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 6px;
+    color: var(--cream);
+  }
+
+  .vis-bar-wrap { display: flex; flex-direction: column; gap: 4px; }
+  .vis-bar { height: 5px; border-radius: 2px; background: currentColor; opacity: 0.4; }
+
+  .vis-col.a { color: var(--terracotta); }
+  .vis-col.b { color: var(--sky); }
+  .vis-col.c { color: var(--gold); }
+
+  .time-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--light);
+    margin-top: 10px;
+  }
+
+  /* ── PAYOFF SECTION ── */
+  .payoff-section {
+    background: var(--warm-white);
+    padding-bottom: 120px;
+  }
+
+  .examples-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 16px;
+  }
+
+  .example-card {
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--sand);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .example-card:hover { box-shadow: 0 8px 32px rgba(42,37,32,0.09); }
+
+  .example-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--sand);
+  }
+
+  .example-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+
+  .tag-policy  { background: var(--terra-light); color: var(--terracotta); }
+  .tag-history { background: var(--sky-light);   color: var(--sky); }
+  .tag-tech    { background: var(--gold-light);  color: var(--gold); }
+  .tag-science { background: var(--sage-light);  color: #4a7a5a; }
+
+  .example-body { padding: 20px; }
+
+  /* Policy example - 3-column grid */
+  .policy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+
+  .policy-col {
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 11px;
+    line-height: 1.6;
+  }
+
+  .policy-col .p-header {
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+
+  .policy-col.left   { background: var(--terra-light); }
+  .policy-col.center { background: var(--gold-light); }
+  .policy-col.right  { background: var(--sky-light); }
+
+  .policy-col .p-item {
+    font-size: 11px;
+    color: var(--mid);
+    margin-bottom: 3px;
+  }
+
+  /* History timeline */
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .t-item {
+    display: flex;
+    align-items: stretch;
+    gap: 14px;
+  }
+  .t-line-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 24px;
+    flex-shrink: 0;
+  }
+  .t-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+  .t-connector { width: 1px; flex-grow: 1; background: var(--sand); margin: 2px 0; }
+  .t-content { padding-bottom: 14px; }
+  .t-year { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--light); letter-spacing: 1px; }
+  .t-event { font-size: 12px; color: var(--mid); line-height: 1.4; }
+
+  /* Tech matrix */
+  .matrix { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .matrix th {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--light);
+    padding: 6px 8px;
+    text-align: left;
+    border-bottom: 1px solid var(--sand);
+  }
+  .matrix td {
+    padding: 7px 8px;
+    color: var(--mid);
+    border-bottom: 1px solid var(--warm-white);
+  }
+  .matrix tr:last-child td { border-bottom: none; }
+  .dot-yes { color: var(--sage); font-size: 14px; }
+  .dot-no  { color: var(--sand); font-size: 14px; }
+
+  /* Science brain */
+  .brain-visual {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .brain-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: conic-gradient(var(--terracotta) 0% 30%, var(--sky) 30% 50%, var(--sage) 50% 65%, var(--gold) 65% 100%);
+    flex-shrink: 0;
+    position: relative;
+  }
+  .brain-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 10px;
+    color: var(--mid);
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── IRONY SECTION ── */
+  .irony-section {
+    background: var(--cream);
+    text-align: center;
+    padding: 96px 80px 120px;
+  }
+
+  .irony-section .section-title {
+    margin: 0 auto 20px;
+    text-align: center;
+  }
+
+  .irony-section p {
+    font-size: 15.5px;
+    color: var(--mid);
+    max-width: 640px;
+    margin: 0 auto 48px;
+    line-height: 1.85;
+  }
+
+  .irony-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+
+  .flow-box {
+    background: white;
+    border: 1px solid var(--sand);
+    border-radius: 12px;
+    padding: 20px 24px;
+    min-width: 160px;
+    text-align: center;
+  }
+
+  .flow-icon { font-size: 28px; margin-bottom: 8px; }
+  .flow-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--light);
+    margin-bottom: 4px;
+  }
+  .flow-desc { font-size: 12px; color: var(--mid); }
+
+  .flow-arrow {
+    font-size: 20px;
+    color: var(--sand);
+    padding: 0 8px;
+  }
+
+  .flow-box.highlight {
+    background: var(--sage-light);
+    border-color: var(--sage);
+  }
+
+  /* ── FOOTER ── */
+  .site-footer {
+    background: var(--ink);
+    color: var(--light);
+    padding: 40px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .footer-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--cream);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes shimmer {
+    from { opacity: 0.3; }
+    to   { opacity: 0.7; }
+  }
+
+  /* Scroll reveals */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">AI Output × Visual Design</div>
+    <h1 class="hero-title">Beyond the<br><em>Wall of Text</em></h1>
+    <p class="hero-sub">Language models produce language. But human understanding is not primarily linguistic — it is visual, spatial, and instantaneous. HTML bridges the gap.</p>
+  </div>
+
+  <div class="hero-right">
+    <div class="wall-of-text">
+When a language model responds to a question, it works the way language itself works, which is to say sequentially, one word after another, one sentence after another, one paragraph after another. That is fine for a novel or a letter but it is a poor fit for information that has structure, hierarchy, relationships, or comparative dimensions. The reader has to hold earlier sentences in working memory while processing later ones, mentally assembling a picture that the text never actually draws. The cognitive load is real, and it accumulates fast. The web solved exactly this problem for human-generated content starting in the early 1990s. HTML combined with CSS gave authors three tools that prose simply does not have. Color can signal category membership instantly, before a word is read. Position can show hierarchy, sequence, or opposition through spatial arrangement rather than through connective tissue like "on the other hand" or "in contrast." Typography, meaning choices of weight, size, face, and spacing, can create a visual grammar that tells the eye where to look first, second, and third.
+    </div>
+
+    <div class="vs-badge">
+      <div class="line"></div>
+      <span>vs. structured HTML</span>
+      <div class="line"></div>
+    </div>
+
+    <div class="hero-html-preview">
+      <div class="mini-bar">
+        <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+        <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--light);margin-left:6px;letter-spacing:1px;">structured output</span>
+      </div>
+      <div class="mini-cards">
+        <div class="mini-card a">
+          <div class="label">Color</div>
+          Signals category instantly
+        </div>
+        <div class="mini-card b">
+          <div class="label">Position</div>
+          Shows hierarchy spatially
+        </div>
+        <div class="mini-card c">
+          <div class="label">Type</div>
+          Directs the eye's path
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PROBLEM ── -->
+<section class="problem-section reveal">
+  <div>
+    <div class="section-tag">The Problem</div>
+    <h2 class="section-title">Language is <em>serial.</em><br>Understanding is not.</h2>
+    <div class="problem-body">
+      <p>Prose requires the reader to hold earlier sentences in working memory while processing later ones, mentally assembling a picture that the text never actually draws.</p>
+      <p>The cognitive load is real — and it accumulates fast. Information with structure, hierarchy, or comparative dimensions suffers most.</p>
+    </div>
+  </div>
+  <div class="problem-visual">
+    <div class="problem-title-sm">Sequential text processing</div>
+    <div class="serial-diagram">
+      <div class="serial-line"></div>
+      <div class="serial-line"></div>
+      <div class="serial-line"></div>
+      <div class="serial-line"></div>
+      <div class="serial-line"></div>
+      <div class="serial-line"></div>
+    </div>
+    <div class="serial-label">one word · after another · after another</div>
+  </div>
+</section>
+
+<!-- ── THREE TOOLS ── -->
+<section class="tools-section reveal">
+  <div class="section-tag">The Web's Solution</div>
+  <h2 class="section-title">Three tools prose<br>simply does not have</h2>
+  <div class="tools-grid">
+
+    <div class="tool-card color-card">
+      <div class="tool-number">1</div>
+      <div class="tool-icon">🎨</div>
+      <div class="tool-name">Color</div>
+      <div class="tool-desc">Signals category membership instantly — before a single word is read. The eye sorts by hue faster than the brain reads a label.</div>
+      <div class="tool-demo">
+        <div class="color-swatches">
+          <div class="swatch" style="width:60px;background:var(--terra-light);"></div>
+          <div class="swatch" style="width:45px;background:var(--sky-light);"></div>
+          <div class="swatch" style="width:50px;background:var(--gold-light);"></div>
+          <div class="swatch" style="width:40px;background:var(--sage-light);"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card position-card">
+      <div class="tool-number">2</div>
+      <div class="tool-icon">⊞</div>
+      <div class="tool-name">Position</div>
+      <div class="tool-desc">Shows hierarchy, sequence, or opposition through spatial arrangement — no connective tissue like "on the other hand" required.</div>
+      <div class="tool-demo">
+        <div class="pos-demo">
+          <div class="pos-block tall"></div>
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <div class="pos-block"></div>
+            <div class="pos-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card type-card">
+      <div class="tool-number">3</div>
+      <div class="tool-icon">Aa</div>
+      <div class="tool-name">Typography</div>
+      <div class="tool-desc">Weight, size, face, and spacing create a visual grammar that tells the eye where to look first, second, and third — without a word of instruction.</div>
+      <div class="tool-demo">
+        <div class="type-demo">
+          <div class="type-line h"></div>
+          <div class="type-line b"></div>
+          <div class="type-line b2"></div>
+          <div class="type-line b" style="width:90%"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── PICTURE WORTH ── -->
+<div class="picture-section reveal">
+  <div class="picture-left">
+    <div class="section-tag">Why the Saw Holds</div>
+    <h2 class="section-title">A picture is worth<br><em>a thousand words</em></h2>
+    <p>The visual cortex is the largest sensory processing system in the brain. It evolved to extract meaning from scenes instantly — not from sentences laboriously.</p>
+    <p>When information is encoded spatially and chromatically, the brain can pattern-match across the whole field at once. A table comparing six options across five criteria is absorbed in seconds. The equivalent prose can run to several hundred words and still leave the reader uncertain about the overall shape of the comparison.</p>
+    <div class="cortex-stat">
+      <div class="cortex-number">30%</div>
+      <div class="cortex-label">of cortical surface devoted to visual processing — more than any other sense. We are, at our core, visual pattern-matchers.</div>
+    </div>
+  </div>
+
+  <div class="picture-right">
+    <div class="compare-block text-block">
+      <div class="compare-label">🔤 Prose comparison</div>
+      <div class="prose-sim">"While option A offers this advantage, option B, by contrast, provides that feature, though it lacks the capability found in option C, which on the other hand does not include the strength that A possesses, making the choice between them depend on whether one prioritizes…"</div>
+      <div class="time-label" style="margin-top:10px;">⏱ 45 seconds · high error rate</div>
+    </div>
+
+    <div class="compare-block visual-block">
+      <div class="compare-label">⬛ Visual comparison</div>
+      <div class="visual-sim">
+        <div class="vis-col a">
+          <div class="vis-col-label">Option A</div>
+          <div class="vis-bar-wrap">
+            <div class="vis-bar" style="width:90%"></div>
+            <div class="vis-bar" style="width:40%"></div>
+            <div class="vis-bar" style="width:75%"></div>
+          </div>
+        </div>
+        <div class="vis-col b">
+          <div class="vis-col-label">Option B</div>
+          <div class="vis-bar-wrap">
+            <div class="vis-bar" style="width:50%"></div>
+            <div class="vis-bar" style="width:85%"></div>
+            <div class="vis-bar" style="width:60%"></div>
+          </div>
+        </div>
+        <div class="vis-col c">
+          <div class="vis-col-label">Option C</div>
+          <div class="vis-bar-wrap">
+            <div class="vis-bar" style="width:70%"></div>
+            <div class="vis-bar" style="width:60%"></div>
+            <div class="vis-bar" style="width:95%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="time-label" style="margin-top:10px;color:var(--sage);">⏱ 3 seconds · immediate clarity</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PAYOFF ── -->
+<section class="payoff-section reveal">
+  <div class="section-tag">HTML in Practice</div>
+  <h2 class="section-title">What structured rendering<br>actually looks like</h2>
+  <div class="examples-grid">
+
+    <!-- Policy -->
+    <div class="example-card">
+      <div class="example-header">
+        <span class="example-tag tag-policy">Policy Debate</span>
+        <span style="font-size:11px;color:var(--light);">three-column layout</span>
+      </div>
+      <div class="example-body">
+        <div class="policy-grid">
+          <div class="policy-col left">
+            <div class="p-header" style="color:var(--terracotta);">Left</div>
+            <div class="p-item">Expand coverage</div>
+            <div class="p-item">Public option</div>
+            <div class="p-item">Price controls</div>
+          </div>
+          <div class="policy-col center">
+            <div class="p-header" style="color:#a08030;">Center</div>
+            <div class="p-item">Market reform</div>
+            <div class="p-item">Hybrid model</div>
+            <div class="p-item">Transparency</div>
+          </div>
+          <div class="policy-col right">
+            <div class="p-header" style="color:var(--sky);">Right</div>
+            <div class="p-item">Competition</div>
+            <div class="p-item">Deregulate</div>
+            <div class="p-item">HSA expansion</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="example-card">
+      <div class="example-header">
+        <span class="example-tag tag-history">History</span>
+        <span style="font-size:11px;color:var(--light);">visual timeline</span>
+      </div>
+      <div class="example-body">
+        <div class="timeline">
+          <div class="t-item">
+            <div class="t-line-wrap">
+              <div class="t-dot" style="background:var(--terracotta)"></div>
+              <div class="t-connector"></div>
+            </div>
+            <div class="t-content">
+              <div class="t-year">476 CE</div>
+              <div class="t-event">Fall of Western Rome</div>
+            </div>
+          </div>
+          <div class="t-item">
+            <div class="t-line-wrap">
+              <div class="t-dot" style="background:var(--sky)"></div>
+              <div class="t-connector"></div>
+            </div>
+            <div class="t-content">
+              <div class="t-year">800 CE</div>
+              <div class="t-event">Charlemagne crowned Emperor</div>
+            </div>
+          </div>
+          <div class="t-item">
+            <div class="t-line-wrap">
+              <div class="t-dot" style="background:var(--gold)"></div>
+            </div>
+            <div class="t-content">
+              <div class="t-year">1066 CE</div>
+              <div class="t-event">Norman Conquest of England</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tech matrix -->
+    <div class="example-card">
+      <div class="example-header">
+        <span class="example-tag tag-tech">Technology</span>
+        <span style="font-size:11px;color:var(--light);">comparison matrix</span>
+      </div>
+      <div class="example-body">
+        <table class="matrix">
+          <tr>
+            <th>Feature</th><th>Option A</th><th>Option B</th><th>Option C</th>
+          </tr>
+          <tr>
+            <td>Speed</td>
+            <td><span class="dot-yes">●</span></td>
+            <td><span class="dot-yes">●</span></td>
+            <td><span class="dot-no">○</span></td>
+          </tr>
+          <tr>
+            <td>Cost</td>
+            <td><span class="dot-no">○</span></td>
+            <td><span class="dot-yes">●</span></td>
+            <td><span class="dot-yes">●</span></td>
+          </tr>
+          <tr>
+            <td>Scale</td>
+            <td><span class="dot-yes">●</span></td>
+            <td><span class="dot-no">○</span></td>
+            <td><span class="dot-yes">●</span></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Brain visual -->
+    <div class="example-card">
+      <div class="example-header">
+        <span class="example-tag tag-science">Neuroscience</span>
+        <span style="font-size:11px;color:var(--light);">proportional diagram</span>
+      </div>
+      <div class="example-body">
+        <div class="brain-visual">
+          <div class="brain-circle"></div>
+          <div class="brain-legend">
+            <div class="legend-item"><div class="legend-dot" style="background:var(--terracotta)"></div>Visual cortex — 30%</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--sky)"></div>Motor — 20%</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--sage)"></div>Language — 15%</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div>Other — 35%</div>
+          </div>
+        </div>
+        <p style="font-size:11px;color:var(--light);margin-top:14px;line-height:1.6;">We are, at our core, visual pattern-matchers. Text asks us to work against our nature.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── IRONY ── -->
+<section class="irony-section reveal">
+  <div class="section-tag" style="text-align:center;">The Productive Irony</div>
+  <h2 class="section-title">AI is trained on text.<br>Humans understand in <em>images.</em></h2>
+  <p>The model's path of least resistance is a paragraph. The reader's path of least resistance is a picture. HTML rendering closes that gap — not as a cosmetic improvement, but as a substantive one.</p>
+
+  <div class="irony-flow">
+    <div class="flow-box">
+      <div class="flow-icon">🤖</div>
+      <div class="flow-label">AI Model</div>
+      <div class="flow-desc">Trained on trillions of words</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box">
+      <div class="flow-icon">📝</div>
+      <div class="flow-label">Default Output</div>
+      <div class="flow-desc">Sequential prose</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box highlight">
+      <div class="flow-icon">🌐</div>
+      <div class="flow-label">HTML Rendering</div>
+      <div class="flow-desc">Visual structure</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box">
+      <div class="flow-icon">🧠</div>
+      <div class="flow-label">Human Brain</div>
+      <div class="flow-desc">Pattern-matching at glance speed</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── META SECTION ── -->
+<section class="meta-section reveal">
+  <div class="meta-inner">
+    <div class="meta-mirror">
+      <div class="mirror-frame outer">
+        <div class="mirror-frame middle">
+          <div class="mirror-frame inner">
+            <div class="mirror-core">
+              <span>this<br>page</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-text">
+      <div class="section-tag">The Recursive Insight</div>
+      <h2 class="section-title" style="max-width:100%;">Using the process<br>to <em>understand</em> the process</h2>
+      <p class="meta-body">You did not read an argument about HTML rendering. You <em>experienced</em> one. Every color choice on this page, every column, every typographic weight was simultaneously the subject of the claim and the proof of it.</p>
+      <p class="meta-body">This is what makes the insight recursive: the medium had to demonstrate itself. A prose essay about the limits of prose would be self-defeating. An HTML page about the power of HTML is self-confirming. The process was the understanding.</p>
+      <div class="meta-equation">
+        <div class="eq-part">
+          <div class="eq-label">The Prompt</div>
+          <div class="eq-value">Plain text argument</div>
+        </div>
+        <div class="eq-op">→</div>
+        <div class="eq-part highlight-part">
+          <div class="eq-label">The Visualization</div>
+          <div class="eq-value">Argument made visible</div>
+        </div>
+        <div class="eq-op">→</div>
+        <div class="eq-part">
+          <div class="eq-label">The Insight</div>
+          <div class="eq-value">Medium = Message</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .meta-section {
+    background: var(--warm-white);
+    padding: 96px 80px;
+    border-top: 1px solid var(--sand);
+  }
+
+  .meta-inner {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  /* Nested mirror frames */
+  .meta-mirror {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mirror-frame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border-style: solid;
+    border-color: var(--sand);
+  }
+
+  .mirror-frame.outer  { width: 260px; height: 260px; border-width: 1px; background: white; }
+  .mirror-frame.middle { width: 190px; height: 190px; border-width: 1px; background: var(--warm-white); border-color: var(--sage-light); }
+  .mirror-frame.inner  { width: 130px; height: 130px; border-width: 2px; background: white; border-color: var(--sage); }
+
+  .mirror-core {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--sage);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: white;
+    text-align: center;
+    line-height: 1.4;
+    animation: pulse-ring 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse-ring {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(138,171,150,0.4); }
+    50%       { box-shadow: 0 0 0 20px rgba(138,171,150,0); }
+  }
+
+  .meta-body {
+    font-size: 15.5px;
+    color: var(--mid);
+    line-height: 1.85;
+    margin-bottom: 18px;
+    max-width: 560px;
+  }
+
+  .meta-body em {
+    font-style: italic;
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+  }
+
+  .meta-equation {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 36px;
+    flex-wrap: wrap;
+  }
+
+  .eq-part {
+    background: white;
+    border: 1px solid var(--sand);
+    border-radius: 10px;
+    padding: 14px 18px;
+    min-width: 130px;
+  }
+
+  .eq-part.highlight-part {
+    background: var(--sage-light);
+    border-color: var(--sage);
+  }
+
+  .eq-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--light);
+    margin-bottom: 4px;
+  }
+
+  .highlight-part .eq-label { color: #4a7a5a; }
+
+  .eq-value {
+    font-size: 13px;
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  .eq-op {
+    font-size: 20px;
+    color: var(--sand);
+    font-weight: 300;
+  }
+</style>
+
+<!-- ── PROMPTS SECTION ── -->
+<section class="prompts-section reveal">
+  <div class="section-tag" style="text-align:center;">Genesis</div>
+  <h2 class="section-title" style="text-align:center;margin:0 auto 48px;">Words That Created<br><em>This Understanding</em></h2>
+
+  <div class="prompts-grid">
+
+    <div class="prompt-card">
+      <div class="prompt-step">
+        <span class="prompt-num">01</span>
+        <span class="prompt-verb">Prompt</span>
+      </div>
+      <div class="prompt-bullets">
+        <div class="p-bullet">
+          <span class="bullet-dot"></span>
+          AI responses often produce results that are verbose and hard to absorb
+        </div>
+        <div class="p-bullet">
+          <span class="bullet-dot"></span>
+          Rendering that response in an HTML web format can unlock color, position, and type font — the same tools that have made hundreds of trillions of web pages since the 1990s
+        </div>
+        <div class="p-bullet">
+          <span class="bullet-dot"></span>
+          Include a discussion of why "a picture is worth a thousand words" is an apt saw for this prompt
+        </div>
+        <div class="p-bullet">
+          <span class="bullet-dot"></span>
+          Respond to this prompt with plain and undifferentiated text
+        </div>
+      </div>
+    </div>
+
+    <div class="prompt-card prompt-card-b">
+      <div class="prompt-step">
+        <span class="prompt-num">02</span>
+        <span class="prompt-verb" style="color:var(--sky);">Visualize</span>
+      </div>
+      <div class="prompt-bullets">
+        <div class="p-bullet">
+          <span class="bullet-dot" style="background:var(--sky);"></span>
+          Now visualize the response to the prompt in a stylish and easy-to-read HTML format
+        </div>
+        <div class="p-bullet">
+          <span class="bullet-dot" style="background:var(--sky);"></span>
+          Make the output graphic and use color, position, and typography to make the output impactful — I prefer lighter colors
+        </div>
+        <div class="p-bullet">
+          <span class="bullet-dot" style="background:var(--sky);"></span>
+          Create this as an HTML file artifact
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .prompts-section {
+    background: var(--cream);
+    padding: 96px 80px 80px;
+    border-top: 1px solid var(--sand);
+  }
+
+  .prompts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .prompt-card {
+    background: white;
+    border: 1px solid var(--sand);
+    border-radius: 16px;
+    padding: 36px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .prompt-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--terracotta), var(--gold));
+  }
+
+  .prompt-card-b::before {
+    background: linear-gradient(90deg, var(--sky), var(--sage));
+  }
+
+  .prompt-step {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .prompt-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--sand);
+  }
+
+  .prompt-verb {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--terracotta);
+  }
+
+  .p-bullet {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 13.5px;
+    color: var(--mid);
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+
+  .bullet-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--terracotta);
+    flex-shrink: 0;
+    margin-top: 7px;
+  }
+</style>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <div class="footer-mark">Beyond the Wall of Text</div>
+  <div>AI Output · Visual Intelligence · HTML Design</div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
