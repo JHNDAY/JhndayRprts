@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Safari Split Screen on MacBook Air</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f0f2f5;
+    --card: #ffffff;
+    --accent: #0a84ff;
+    --accent2: #30d158;
+    --accent3: #ff9f0a;
+    --text: #1c1c1e;
+    --muted: #6e6e73;
+    --border: #e0e0e5;
+    --red: #ff453a;
+    --yellow: #ffcc00;
+    --green: #28cd41;
+    --badge-bg: #e8f0fe;
+    --badge-text: #0a84ff;
+    --shadow: 0 2px 20px rgba(0,0,0,0.08);
+    --shadow-hover: 0 8px 40px rgba(0,0,0,0.13);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 48px 24px;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 52px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .header .eyebrow {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--badge-bg);
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+
+  .header h1 {
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .header p {
+    color: var(--muted);
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  /* Method Cards */
+  .methods {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 32px 36px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+
+  .card:nth-child(1) { animation-delay: 0.1s; }
+  .card:nth-child(2) { animation-delay: 0.2s; }
+  .card:nth-child(3) { animation-delay: 0.3s; }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .method-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .card:nth-child(1) .method-num { background: #e8f4ff; color: var(--accent); }
+  .card:nth-child(2) .method-num { background: #e8fdf0; color: var(--accent2); }
+  .card:nth-child(3) .method-num { background: #fff5e0; color: var(--accent3); }
+
+  .card-title {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .card-title span {
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--muted);
+    letter-spacing: 0;
+    margin-top: 2px;
+  }
+
+  /* macOS window mockup */
+  .window-mock {
+    background: #1e1e2e;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .window-bar {
+    background: #2a2a3e;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .dot { width: 12px; height: 12px; border-radius: 50%; position: relative; cursor: default; }
+  .dot.red   { background: var(--red); }
+  .dot.yellow{ background: var(--yellow); }
+  .dot.green { background: var(--green); }
+
+  .dot.green::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 2px solid rgba(40,205,65,0.4);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0; transform: scale(1.5); }
+  }
+
+  .hover-label {
+    margin-left: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent2);
+    opacity: 0.8;
+  }
+
+  .split-preview {
+    display: flex;
+    height: 80px;
+    gap: 2px;
+    padding: 2px;
+  }
+
+  .split-pane {
+    flex: 1;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.05em;
+  }
+
+  .split-pane.safari { background: linear-gradient(135deg, #1b4f8a 0%, #1a6fbb 100%); }
+  .split-pane.other  { background: linear-gradient(135deg, #2d2d3f 0%, #3a3a50 100%); }
+
+  /* Steps */
+  .steps {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 14.5px;
+    color: var(--text);
+    line-height: 1.55;
+  }
+
+  .step-n {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  kbd {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-bottom-width: 2px;
+    border-radius: 5px;
+    padding: 1px 6px;
+    color: var(--text);
+    white-space: nowrap;
+  }
+
+  .note-block {
+    margin-top: 20px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.5;
+  }
+
+  .note-block.blue { background: #e8f4ff; color: #0057b8; }
+  .note-block.green { background: #e8fdf0; color: #1a7a3c; }
+  .note-block.amber { background: #fff5e0; color: #8a5a00; }
+
+  .note-icon { font-size: 16px; flex-shrink: 0; }
+
+  /* Divider badge */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 4px 0;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Tips card */
+  .tips-card {
+    background: linear-gradient(135deg, #0a1628 0%, #0f2040 100%);
+    border-radius: 20px;
+    padding: 32px 36px;
+    margin-top: 24px;
+    animation: fadeUp 0.6s 0.4s ease both;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .tips-card h3 {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+
+  .tip {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 13.5px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.5;
+  }
+
+  .tip strong {
+    display: block;
+    color: #fff;
+    margin-bottom: 4px;
+    font-size: 13px;
+  }
+
+  /* Origin card */
+  .origin-card {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 32px 36px;
+    margin-top: 24px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    animation: fadeUp 0.6s 0.45s ease both;
+  }
+
+  .origin-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+
+  .origin-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #0a84ff, #30d158);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  .origin-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+
+  .prompt-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 12px;
+  }
+
+  .prompt-row:last-child { margin-bottom: 0; }
+
+  .prompt-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    background: var(--badge-bg);
+    padding: 3px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    margin-top: 2px;
+    min-width: 72px;
+    text-align: center;
+  }
+
+  .prompt-bubble {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 16px;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="eyebrow">macOS Guide</div>
+    <h1>Safari Split Screen<br>on MacBook Air</h1>
+    <p>Three ways to view two pages side by side</p>
+  </div>
+
+  <div class="methods">
+
+    <!-- Method 1 -->
+    <div class="card">
+      <div class="card-header">
+        <div class="method-num">01</div>
+        <div class="card-title">
+          macOS Split View
+          <span>Full-screen split — best for focused work</span>
+        </div>
+      </div>
+
+      <div class="window-mock">
+        <div class="window-bar">
+          <div class="dot red"></div>
+          <div class="dot yellow"></div>
+          <div class="dot green"></div>
+          <span class="hover-label">← hover here</span>
+        </div>
+        <div class="split-preview">
+          <div class="split-pane safari">Safari</div>
+          <div class="split-pane other">Other App</div>
+        </div>
+      </div>
+
+      <ol class="steps">
+        <li class="step"><span class="step-n">1</span><span>Open a Safari window</span></li>
+        <li class="step"><span class="step-n">2</span><span><strong>Hover</strong> over the green ⬤ button (top-left) — don't click, just hover</span></li>
+        <li class="step"><span class="step-n">3</span><span>Choose <strong>"Tile Window to Left of Screen"</strong> or right from the popup menu</span></li>
+        <li class="step"><span class="step-n">4</span><span>Click a second window on the opposite side to fill it</span></li>
+        <li class="step"><span class="step-n">5</span><span>Drag the center divider to resize each panel</span></li>
+      </ol>
+
+      <div class="note-block blue">
+        <span class="note-icon">💡</span>
+        <span>To exit: hover the green button again → <strong>"Make Window Full Screen"</strong>, or press <kbd>Esc</kbd></span>
+      </div>
+    </div>
+
+    <div class="divider">or</div>
+
+    <!-- Method 2 -->
+    <div class="card">
+      <div class="card-header">
+        <div class="method-num">02</div>
+        <div class="card-title">
+          Two Windows, Side by Side
+          <span>Freeform desktop layout — stays out of full-screen mode</span>
+        </div>
+      </div>
+
+      <ol class="steps">
+        <li class="step"><span class="step-n">1</span><span>Open Safari</span></li>
+        <li class="step"><span class="step-n">2</span><span>Go to <strong>File → New Window</strong> or press <kbd>⌘</kbd><kbd>N</kbd></span></li>
+        <li class="step"><span class="step-n">3</span><span>Manually drag and resize each window to fill half the screen</span></li>
+      </ol>
+
+      <div class="note-block green">
+        <span class="note-icon">✅</span>
+        <span>Works on <strong>all macOS versions</strong>. Simple and always available — no special menu needed.</span>
+      </div>
+    </div>
+
+    <div class="divider">or</div>
+
+    <!-- Method 3 -->
+    <div class="card">
+      <div class="card-header">
+        <div class="method-num">03</div>
+        <div class="card-title">
+          Safari Tab Split View
+          <span>Native split inside one Safari window — macOS Sonoma (14)+ only</span>
+        </div>
+      </div>
+
+      <ol class="steps">
+        <li class="step"><span class="step-n">1</span><span>In Safari, <strong>right-click</strong> any tab in the tab bar</span></li>
+        <li class="step"><span class="step-n">2</span><span>Select <strong>"Move to Split View"</strong> from the context menu</span></li>
+        <li class="step"><span class="step-n">3</span><span>A second pane opens alongside your current tab — all within one Safari window</span></li>
+      </ol>
+
+      <div class="note-block amber">
+        <span class="note-icon">⚠️</span>
+        <span>Requires <strong>macOS Sonoma (14) or later</strong>. Check your version: Apple Menu → About This Mac.</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Origin Section -->
+  <div class="origin-card">
+    <div class="origin-header">
+      <div class="origin-icon">✦</div>
+      <h3>The Words That Created This</h3>
+    </div>
+    <div class="prompt-row">
+      <div class="prompt-label">Prompt</div>
+      <div class="prompt-bubble">describe how to create a split screen view in Safari on a Mac book air</div>
+    </div>
+    <div class="prompt-row">
+      <div class="prompt-label">Visualize</div>
+      <div class="prompt-bubble">visualize the response to this prompt as an html file artifact</div>
+    </div>
+  </div>
+
+  <!-- Tips -->
+  <div class="tips-card">
+    <h3>⌨️ Handy Tips</h3>
+    <div class="tips-grid">
+      <div class="tip">
+        <strong>Mission Control</strong>
+        Press <kbd style="background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.15);color:#fff">^ ↑</kbd> to see all open windows before arranging a split.
+      </div>
+      <div class="tip">
+        <strong>Resize the Divider</strong>
+        In any split view, drag the center bar left or right to adjust how much space each side gets.
+      </div>
+      <div class="tip">
+        <strong>Swap Sides</strong>
+        Click and drag the title bar of either panel in macOS Split View to swap left and right.
+      </div>
+      <div class="tip">
+        <strong>Check Your macOS</strong>
+        Apple Menu → About This Mac to confirm your version and unlock Method 3 if available.
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
