@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vanguard vs. Fidelity</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b2a;
+    --deep: #1a2d42;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --vanguard: #c0392b;
+    --fidelity: #1a6b3c;
+    --cream: #f5f0e8;
+    --muted: #8a9ab0;
+    --text: #e8edf5;
+    --card: #162334;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--navy);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    padding: 80px 60px 60px;
+    border-bottom: 1px solid rgba(201,168,76,0.25);
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -120px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.1s forwards;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 7vw, 88px);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -2px;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.2s forwards;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-vs {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy);
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 2px 10px;
+    letter-spacing: 2px;
+    margin: 0 8px;
+    transform: skewX(-4deg);
+  }
+  .hero-sub {
+    font-size: 17px;
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.65;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.35s forwards;
+  }
+  .hero-date {
+    margin-top: 32px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.5s forwards;
+  }
+
+  /* ── SPLIT DUEL ── */
+  .duel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.6s forwards;
+  }
+  .duel-side {
+    padding: 48px 60px;
+    position: relative;
+  }
+  .duel-side.vanguard {
+    border-right: 1px solid rgba(255,255,255,0.07);
+    background: linear-gradient(135deg, rgba(192,57,43,0.06) 0%, transparent 60%);
+  }
+  .duel-side.fidelity {
+    background: linear-gradient(135deg, rgba(26,107,60,0.06) 0%, transparent 60%);
+  }
+  .brand-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .vanguard .brand-name { color: #e05c4b; }
+  .fidelity .brand-name { color: #2ecc71; }
+  .brand-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .vanguard .brand-tag { color: rgba(224,92,75,0.6); }
+  .fidelity .brand-tag { color: rgba(46,204,113,0.6); }
+  .brand-founded {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+  .brand-desc {
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba(232,237,245,0.8);
+  }
+  .brand-stat {
+    margin-top: 28px;
+    padding: 20px;
+    background: rgba(255,255,255,0.04);
+    border-left: 3px solid;
+    border-radius: 0 6px 6px 0;
+  }
+  .vanguard .brand-stat { border-color: #e05c4b; }
+  .fidelity .brand-stat { border-color: #2ecc71; }
+  .brand-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .vanguard .brand-stat-num { color: #e05c4b; }
+  .fidelity .brand-stat-num { color: #2ecc71; }
+  .brand-stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 1px;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    padding: 64px 60px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 36px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+
+  /* ── COST COMPARISON ── */
+  .cost-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .cost-card {
+    background: var(--card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .cost-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  }
+  .cost-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .cost-card.v::after { background: linear-gradient(90deg, #e05c4b, transparent); }
+  .cost-card.f::after { background: linear-gradient(90deg, #2ecc71, transparent); }
+  .cost-ticker {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .cost-card.v .cost-ticker { background: rgba(224,92,75,0.15); color: #e05c4b; }
+  .cost-card.f .cost-ticker { background: rgba(46,204,113,0.15); color: #2ecc71; }
+  .cost-fund-name {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .cost-fund-desc {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  .cost-ratio {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .cost-card.v .cost-ratio { color: #e05c4b; }
+  .cost-card.f .cost-ratio { color: #2ecc71; }
+  .cost-label {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .cost-bar-wrap {
+    margin-top: 20px;
+    height: 6px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .cost-bar {
+    height: 100%;
+    border-radius: 3px;
+    animation: growBar 1.2s ease 0.8s both;
+  }
+  .cost-card.v .cost-bar { background: #e05c4b; width: 60%; }
+  .cost-card.f .cost-bar { background: #2ecc71; width: 30%; }
+
+  /* ── MANAGEMENT TABLE ── */
+  .mgmt-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .mgmt-card {
+    background: var(--card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 28px 24px;
+    transition: transform 0.2s ease;
+  }
+  .mgmt-card:hover { transform: translateY(-3px); }
+  .mgmt-icon {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+  .mgmt-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .mgmt-h {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .mgmt-row {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .mgmt-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .mgmt-brand {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+  }
+  .mgmt-row.vr .mgmt-brand { color: #e05c4b; }
+  .mgmt-row.fr .mgmt-brand { color: #2ecc71; }
+  .mgmt-fund-name {
+    font-size: 13px;
+    color: rgba(232,237,245,0.75);
+  }
+  .mgmt-fee {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 4px;
+  }
+  .mgmt-row.vr .mgmt-fee { color: #e05c4b; }
+  .mgmt-row.fr .mgmt-fee { color: #2ecc71; }
+
+  /* ── VERDICT ── */
+  .verdict {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 0;
+  }
+  .verdict-card {
+    border-radius: 16px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .verdict-card.v-card {
+    background: linear-gradient(135deg, rgba(192,57,43,0.2), rgba(192,57,43,0.05));
+    border: 1px solid rgba(224,92,75,0.25);
+  }
+  .verdict-card.f-card {
+    background: linear-gradient(135deg, rgba(26,107,60,0.2), rgba(26,107,60,0.05));
+    border: 1px solid rgba(46,204,113,0.25);
+  }
+  .verdict-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .v-card .verdict-label { color: #e05c4b; }
+  .f-card .verdict-label { color: #2ecc71; }
+  .verdict-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    margin-bottom: 20px;
+  }
+  .verdict-best {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gold);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'DM Mono', monospace;
+  }
+  .verdict-desc {
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba(232,237,245,0.8);
+    margin-bottom: 24px;
+  }
+  .verdict-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .verdict-tag {
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-family: 'DM Mono', monospace;
+  }
+  .v-card .verdict-tag { background: rgba(224,92,75,0.12); color: #e05c4b; border: 1px solid rgba(224,92,75,0.2); }
+  .f-card .verdict-tag { background: rgba(46,204,113,0.12); color: #2ecc71; border: 1px solid rgba(46,204,113,0.2); }
+
+  /* ── FEATURES COMPARE ── */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .compare-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 14px 20px;
+    text-align: left;
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold);
+  }
+  .compare-table th:nth-child(2) { color: #e05c4b; }
+  .compare-table th:nth-child(3) { color: #2ecc71; }
+  .compare-table td {
+    padding: 16px 20px;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .compare-table td:first-child {
+    font-weight: 500;
+    color: var(--muted);
+    font-size: 13px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  .check { color: #2ecc71; }
+  .partial { color: var(--gold); }
+  .cross { color: #e05c4b; }
+
+  /* ── ROBO SECTION ── */
+  .robo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .robo-card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 28px;
+    border: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .robo-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+  .robo-card.v .robo-dot { background: rgba(224,92,75,0.15); }
+  .robo-card.f .robo-dot { background: rgba(46,204,113,0.15); }
+  .robo-name {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .robo-card.v .robo-name { color: #e05c4b; }
+  .robo-card.f .robo-name { color: #2ecc71; }
+  .robo-detail { font-size: 14px; color: rgba(232,237,245,0.7); line-height: 1.6; }
+  .robo-fee {
+    margin-top: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--gold);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    padding: 32px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.2);
+  }
+  .footer-note {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+  .footer-src {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes growBar {
+    from { transform: scaleX(0); transform-origin: left; }
+    to   { transform: scaleX(1); transform-origin: left; }
+  }
+
+  .animate {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .animate.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    .hero { padding: 48px 24px 40px; }
+    .duel { grid-template-columns: 1fr; }
+    .duel-side { padding: 36px 24px; }
+    .section { padding: 48px 24px; }
+    .cost-grid, .verdict, .robo-grid { grid-template-columns: 1fr; }
+    .mgmt-grid { grid-template-columns: 1fr; }
+    .footer { flex-direction: column; gap: 10px; padding: 24px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-label">Investment Brokerage Comparison · March 2026</p>
+  <h1 class="hero-title">
+    Vanguard<br>
+    <span class="hero-vs">VS</span><br>
+    <em>Fidelity</em>
+  </h1>
+  <p class="hero-sub">Two of America's most trusted brokerages — both offering low-cost funds, zero-commission trades, and a path to long-term wealth. But which is right for <em>you</em>?</p>
+  <p class="hero-date">Source: U.S. News &amp; World Report · Marc Guberti · March 24, 2026</p>
+</section>
+
+<!-- DUEL -->
+<div class="duel animate">
+  <div class="duel-side vanguard">
+    <div class="brand-name">Vanguard</div>
+    <div class="brand-tag">The Index Pioneer</div>
+    <p class="brand-founded">Founded 1975 · John Bogle</p>
+    <p class="brand-desc">Introduced the first public index mutual fund. Still champions long-term investing in low-cost, diversified portfolios. Built for the patient, buy-and-hold investor.</p>
+    <div class="brand-stat">
+      <div class="brand-stat-num">50M+</div>
+      <div class="brand-stat-label">Customers Served</div>
+    </div>
+  </div>
+  <div class="duel-side fidelity">
+    <div class="brand-name">Fidelity</div>
+    <div class="brand-tag">The Active Innovator</div>
+    <p class="brand-founded">Founded 1946 · Edward C. Johnson II</p>
+    <p class="brand-desc">Early adopter of growth stock investing. Now offers advanced trading tools, crypto access, and in-depth market research. Suited for both long-term and active traders.</p>
+    <div class="brand-stat">
+      <div class="brand-stat-num">50M+</div>
+      <div class="brand-stat-label">Customers Served</div>
+    </div>
+  </div>
+</div>
+
+<!-- COST COMPARISON -->
+<section class="section animate">
+  <p class="section-num">01 · PERFORMANCE &amp; COST</p>
+  <h2 class="section-title">Expense Ratios: Head to Head</h2>
+  <div class="cost-grid">
+    <div class="cost-card v">
+      <div class="cost-ticker">VOO</div>
+      <div class="cost-fund-name">Vanguard S&amp;P 500 ETF</div>
+      <div class="cost-fund-desc">Tracks the S&amp;P 500 index · Passively managed</div>
+      <div class="cost-ratio">0.03%</div>
+      <div class="cost-label">Annual Expense Ratio</div>
+      <div class="cost-bar-wrap"><div class="cost-bar"></div></div>
+    </div>
+    <div class="cost-card f">
+      <div class="cost-ticker">FXAIX</div>
+      <div class="cost-fund-name">Fidelity 500 Index Fund</div>
+      <div class="cost-fund-desc">Tracks the S&amp;P 500 index · Passively managed</div>
+      <div class="cost-ratio">0.015%</div>
+      <div class="cost-label">Annual Expense Ratio</div>
+      <div class="cost-bar-wrap"><div class="cost-bar"></div></div>
+    </div>
+  </div>
+  <p style="margin-top:20px; font-size:14px; color:var(--muted); font-style:italic; padding-left:4px;">Both funds track the same index with nearly identical portfolios and returns. Fidelity's FXAIX costs half as much, but either is an excellent choice.</p>
+</section>
+
+<!-- FEATURE COMPARE TABLE -->
+<section class="section animate">
+  <p class="section-num">02 · ACCOUNT &amp; INVESTMENT OPTIONS</p>
+  <h2 class="section-title">Feature Comparison</h2>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>Vanguard</th>
+        <th>Fidelity</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Commission-free Stock Trades</td>
+        <td><span class="check">✔ Yes</span></td>
+        <td><span class="check">✔ Yes</span></td>
+      </tr>
+      <tr>
+        <td>Minimum Investment</td>
+        <td>$0 (stocks &amp; ETFs)</td>
+        <td>$0 (stocks &amp; ETFs)</td>
+      </tr>
+      <tr>
+        <td>Options Trading</td>
+        <td><span class="partial">~$0.65/contract</span></td>
+        <td><span class="partial">~$0.65/contract</span></td>
+      </tr>
+      <tr>
+        <td>Cryptocurrency</td>
+        <td><span class="partial">✦ 3rd-party funds only</span></td>
+        <td><span class="check">✔ Fidelity Crypto (direct)</span></td>
+      </tr>
+      <tr>
+        <td>Retirement Accounts (IRA, 401k, SEP)</td>
+        <td><span class="check">✔ Full range</span></td>
+        <td><span class="check">✔ Full range</span></td>
+      </tr>
+      <tr>
+        <td>Bonds, CDs, Money Market</td>
+        <td><span class="check">✔ Yes</span></td>
+        <td><span class="check">✔ Yes</span></td>
+      </tr>
+      <tr>
+        <td>Advanced Charting &amp; Real-time Data</td>
+        <td><span class="cross">✗ Basic tools</span></td>
+        <td><span class="check">✔ Robust platform</span></td>
+      </tr>
+      <tr>
+        <td>In-depth Market Research</td>
+        <td><span class="partial">✦ Moderate</span></td>
+        <td><span class="check">✔ Sector &amp; market analysis</span></td>
+      </tr>
+      <tr>
+        <td>Employee Benefit Programs</td>
+        <td><span class="cross">✗ Not offered</span></td>
+        <td><span class="check">✔ 30,000+ businesses</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- MANAGEMENT -->
+<section class="section animate">
+  <p class="section-num">03 · MANAGEMENT OPTIONS</p>
+  <h2 class="section-title">Active · Passive · Robo</h2>
+  <div class="mgmt-grid">
+    <div class="mgmt-card">
+      <div class="mgmt-icon">📈</div>
+      <div class="mgmt-type">Active Management</div>
+      <div class="mgmt-h">Hands-On Funds</div>
+      <div class="mgmt-row vr">
+        <div class="mgmt-brand">Vanguard</div>
+        <div class="mgmt-fund-name">Vanguard Wellington (VWELX)</div>
+      </div>
+      <div class="mgmt-row vr">
+        <div class="mgmt-brand">Vanguard</div>
+        <div class="mgmt-fund-name">Vanguard Wellesley Income (VWINX)</div>
+      </div>
+      <div class="mgmt-row fr">
+        <div class="mgmt-brand">Fidelity</div>
+        <div class="mgmt-fund-name">Fidelity Magellan (FMAGX)</div>
+      </div>
+      <div class="mgmt-row fr">
+        <div class="mgmt-brand">Fidelity</div>
+        <div class="mgmt-fund-name">Fidelity Blue Chip Growth (FBGRX)</div>
+      </div>
+    </div>
+    <div class="mgmt-card">
+      <div class="mgmt-icon">🔁</div>
+      <div class="mgmt-type">Passive Management</div>
+      <div class="mgmt-h">Index Tracking</div>
+      <div class="mgmt-row vr">
+        <div class="mgmt-brand">Vanguard</div>
+        <div class="mgmt-fund-name">S&amp;P 500 ETF (VOO) · 0.03%</div>
+      </div>
+      <div class="mgmt-row fr">
+        <div class="mgmt-brand">Fidelity</div>
+        <div class="mgmt-fund-name">500 Index Fund (FXAIX) · 0.015%</div>
+      </div>
+      <p style="margin-top:16px; font-size:13px; color:var(--muted); line-height:1.6;">Historically, index funds like S&amp;P 500 trackers outperform most actively managed funds over the long term.</p>
+    </div>
+    <div class="mgmt-card">
+      <div class="mgmt-icon">🤖</div>
+      <div class="mgmt-type">Robo Advisors</div>
+      <div class="mgmt-h">Automated Portfolios</div>
+      <div class="robo-grid" style="display:block;">
+        <div style="margin-bottom:16px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.06);">
+          <div style="color:#e05c4b; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:1px; margin-bottom:4px;">VANGUARD DIGITAL ADVISOR</div>
+          <div style="font-size:13px; color:rgba(232,237,245,0.75); line-height:1.5;">$100 min · Free 90 days · ~0.15% net fee after</div>
+        </div>
+        <div>
+          <div style="color:#2ecc71; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:1px; margin-bottom:4px;">FIDELITY GO</div>
+          <div style="font-size:13px; color:rgba(232,237,245,0.75); line-height:1.5;">$0 min · Free under $25K · 0.35% above + unlimited coaching</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VERDICT -->
+<section class="section animate">
+  <p class="section-num">04 · OVERALL VERDICT</p>
+  <h2 class="section-title">Which Is Right for You?</h2>
+  <div class="verdict">
+    <div class="verdict-card v-card">
+      <div class="verdict-label">Best for</div>
+      <div class="verdict-name">Vanguard</div>
+      <div class="verdict-best">📌 Long-term, buy-and-hold investors</div>
+      <p class="verdict-desc">Vanguard's philosophy is discipline over dynamism. If you want to set a course and stay on it — retirement-focused, diversification-first — Vanguard's toolset is purpose-built for you. Less exciting, more enduring.</p>
+      <div class="verdict-tags">
+        <span class="verdict-tag">Retirement Savers</span>
+        <span class="verdict-tag">Index Investors</span>
+        <span class="verdict-tag">Low-frequency Traders</span>
+        <span class="verdict-tag">Simplicity Seekers</span>
+      </div>
+    </div>
+    <div class="verdict-card f-card">
+      <div class="verdict-label">Best for</div>
+      <div class="verdict-name">Fidelity</div>
+      <div class="verdict-best">📌 Flexible, active-minded investors</div>
+      <p class="verdict-desc">Fidelity gives you the best of both worlds — solid long-term index funds plus a dynamic trading platform, crypto access, and deep research tools. A stronger fit if you want options (literally and figuratively).</p>
+      <div class="verdict-tags">
+        <span class="verdict-tag">Active Traders</span>
+        <span class="verdict-tag">Options Investors</span>
+        <span class="verdict-tag">Crypto Curious</span>
+        <span class="verdict-tag">Research-driven</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADDENDUM -->
+<section class="section animate" style="border-top: 2px solid rgba(201,168,76,0.4);">
+  <p class="section-num">05 · ADDENDUM</p>
+  <h2 class="section-title" style="display:flex; align-items:center; gap:16px;">
+    Case Study: Retired Couple, Age ~75, $2M Portfolio
+    <span style="font-family:'DM Mono',monospace; font-size:13px; font-weight:400; color:var(--gold); background:rgba(201,168,76,0.1); padding:4px 12px; border-radius:20px; border:1px solid rgba(201,168,76,0.25); letter-spacing:1px;">NOT FINANCIAL ADVICE</span>
+  </h2>
+
+  <!-- Profile strip -->
+  <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:40px;">
+    <div style="background:var(--card); border-radius:10px; padding:20px; border:1px solid rgba(255,255,255,0.06); text-align:center;">
+      <div style="font-size:28px; margin-bottom:8px;">👥</div>
+      <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--muted); margin-bottom:4px;">AGE</div>
+      <div style="font-family:'Playfair Display',serif; font-size:24px; font-weight:700; color:var(--gold);">~75</div>
+      <div style="font-size:12px; color:var(--muted); margin-top:4px;">Married couple</div>
+    </div>
+    <div style="background:var(--card); border-radius:10px; padding:20px; border:1px solid rgba(255,255,255,0.06); text-align:center;">
+      <div style="font-size:28px; margin-bottom:8px;">💼</div>
+      <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--muted); margin-bottom:4px;">PORTFOLIO</div>
+      <div style="font-family:'Playfair Display',serif; font-size:24px; font-weight:700; color:var(--gold);">$2M</div>
+      <div style="font-size:12px; color:var(--muted); margin-top:4px;">Discretionary investments</div>
+    </div>
+    <div style="background:var(--card); border-radius:10px; padding:20px; border:1px solid rgba(255,255,255,0.06); text-align:center;">
+      <div style="font-size:28px; margin-bottom:8px;">🏦</div>
+      <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--muted); margin-bottom:4px;">DEBT</div>
+      <div style="font-family:'Playfair Display',serif; font-size:24px; font-weight:700; color:#2ecc71;">None</div>
+      <div style="font-size:12px; color:var(--muted); margin-top:4px;">No outstanding obligations</div>
+    </div>
+    <div style="background:var(--card); border-radius:10px; padding:20px; border:1px solid rgba(255,255,255,0.06); text-align:center;">
+      <div style="font-size:28px; margin-bottom:8px;">📋</div>
+      <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--muted); margin-bottom:4px;">RMD STATUS</div>
+      <div style="font-family:'Playfair Display',serif; font-size:24px; font-weight:700; color:#e05c4b;">Active</div>
+      <div style="font-size:12px; color:var(--muted); margin-top:4px;">Required since age 73</div>
+    </div>
+  </div>
+
+  <!-- Priority shift callout -->
+  <div style="background:rgba(201,168,76,0.07); border:1px solid rgba(201,168,76,0.25); border-radius:12px; padding:28px 32px; margin-bottom:36px;">
+    <div style="font-family:'DM Mono',monospace; font-size:11px; letter-spacing:2px; color:var(--gold); margin-bottom:10px;">KEY FRAMING</div>
+    <p style="font-family:'Playfair Display',serif; font-size:20px; font-weight:400; line-height:1.6; color:var(--text);">At 75 with $2M and no debt, the investment mandate has shifted fundamentally — away from <em>accumulation</em> and toward <strong>capital preservation</strong>, <strong>reliable income generation</strong>, and <strong>estate &amp; legacy planning</strong>. Active trading, crypto, and high-growth tools are largely irrelevant here. That reframing changes the comparison considerably.</p>
+  </div>
+
+  <!-- Side by side assessment -->
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:36px;">
+    <!-- Vanguard -->
+    <div style="background:linear-gradient(135deg, rgba(192,57,43,0.12), rgba(192,57,43,0.03)); border:1px solid rgba(224,92,75,0.25); border-radius:14px; padding:32px;">
+      <div style="font-family:'DM Mono',monospace; font-size:11px; letter-spacing:2px; color:#e05c4b; margin-bottom:10px;">VANGUARD · ASSESSMENT</div>
+      <div style="font-family:'Playfair Display',serif; font-size:26px; font-weight:700; margin-bottom:6px;">Stronger Philosophical Fit</div>
+      <div style="font-size:13px; color:var(--muted); margin-bottom:20px;">The ethos matches the moment</div>
+
+      <div style="margin-bottom:16px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.06);">
+        <div style="font-size:13px; font-weight:500; color:#e05c4b; margin-bottom:6px;">✔ Ideal funds for this profile</div>
+        <div style="font-size:14px; color:rgba(232,237,245,0.8); line-height:1.6;"><strong>VWINX (Wellesley Income)</strong> and <strong>VWELX (Wellington)</strong> were essentially designed for conservative, income-focused retirees. Balanced, disciplined, and time-tested.</div>
+      </div>
+      <div style="margin-bottom:16px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.06);">
+        <div style="font-size:13px; font-weight:500; color:#e05c4b; margin-bottom:6px;">✔ Lowest costs in absolute dollars</div>
+        <div style="font-size:14px; color:rgba(232,237,245,0.8); line-height:1.6;">At $2M, even tiny expense ratio differences matter. Vanguard's minimalist fee structure is purpose-built for large, long-held portfolios.</div>
+      </div>
+      <div style="margin-bottom:16px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.06);">
+        <div style="font-size:13px; font-weight:500; color:#e05c4b; margin-bottom:6px;">✔ Personal Advisor Services ($1M+)</div>
+        <div style="font-size:14px; color:rgba(232,237,245,0.8); line-height:1.6;">Hybrid human + robo advisory at ~0.3% — reasonable for assets of this scale.</div>
+      </div>
+      <div>
+        <div style="font-size:13px; font-weight:500; color:var(--muted); margin-bottom:6px;">⚠ Weakness</div>
+        <div style="font-size:14px; color:rgba(232,237,245,0.7); line-height:1.6;">Tools and customer service historically more basic. Less robust for complex estate planning support.</div>
+      </div>
+    </div>
+
+    <!-- Fidelity -->
+    <div style="background:linear-gradient(135deg, rgba(26,107,60,0.12), rgba(26,107,60,0.03)); border:1px solid rgba(46,204,113,0.25); border-radius:14px; padding:32px;">
+      <div style="font-family:'DM Mono',monospace; font-size:11px; letter-spacing:2px; color:#2ecc71; margin-bottom:10px;">FIDELITY · ASSESSMENT</div>
+      <div style="font-family:'Playfair Display',serif; font-size:26px; font-weight:700; margin-bottom:6px;">Stronger on Service</div>
+      <div style="font-size:13px; color:var(--muted); margin-bottom:20px;">Richer wealth management infrastructure</div>
+
+      <div style="margin-bottom:16px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.06);">
+        <div style="font-size:13px; font-weight:500; color:#2ecc71; margin-bottom:6px;">✔ Fidelity Wealth Services ($250K+)</div>
+        <div style="font-size:14px; color:rgba(232,237,245,0.8); line-height:1.6;">Dedicated advisor access, estate planning support, and a superior client service experience at this asset level.</div>
+      </div>
+      <div style="margin-bottom:16px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.06);">
+        <div style="font-size:13px; font-weight:500; color:#2ecc71; margin-bottom:6px;">✔ Better RMD tools</div>
+        <div style="font-size:14px; color:rgba(232,237,245,0.8); line-height:1.6;">Both spouses are past RMD age (73 under current law). Fidelity's RMD calculators and tax management tools are meaningfully more robust.</div>
+      </div>
+      <div style="margin-bottom:16px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.06);">
+        <div style="font-size:13px; font-weight:500; color:#2ecc71; margin-bottom:6px;">✔ Full-service wealth platform</div>
+        <div style="font-size:14px; color:rgba(232,237,245,0.8); line-height:1.6;">Better infrastructure for managing complex needs: estate coordination, beneficiary planning, and tax-efficient withdrawal strategies.</div>
+      </div>
+      <div>
+        <div style="font-size:13px; font-weight:500; color:var(--muted); margin-bottom:6px;">⚠ Note</div>
+        <div style="font-size:14px; color:rgba(232,237,245,0.7); line-height:1.6;">Trading platform bells and whistles (crypto, options) are irrelevant here — don't let Fidelity's active-trader branding obscure its strong wealth management tier.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Expense ratio reality check -->
+  <div style="background:var(--card); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:24px 28px; margin-bottom:36px; display:flex; align-items:center; gap:28px;">
+    <div style="text-align:center; flex-shrink:0;">
+      <div style="font-family:'Playfair Display',serif; font-size:36px; font-weight:700; color:var(--gold);">~$300</div>
+      <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--muted); margin-top:4px;">Per $1M · Per Year</div>
+    </div>
+    <div style="width:1px; height:60px; background:rgba(255,255,255,0.08); flex-shrink:0;"></div>
+    <p style="font-size:14px; color:rgba(232,237,245,0.75); line-height:1.7;"><strong style="color:var(--text);">The expense ratio difference is noise at this scale.</strong> The gap between 0.015% (Fidelity FXAIX) and 0.03% (Vanguard VOO) amounts to roughly $300/year per $1M invested — a rounding error compared to the impact of asset allocation decisions, tax strategy, and withdrawal sequencing.</p>
+  </div>
+
+  <!-- Decision guide -->
+  <div style="background:var(--card); border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,0.06); margin-bottom:36px;">
+    <div style="padding:20px 28px; background:rgba(201,168,76,0.08); border-bottom:1px solid rgba(201,168,76,0.15);">
+      <div style="font-family:'DM Mono',monospace; font-size:11px; letter-spacing:2px; color:var(--gold);">DECISION GUIDE</div>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr;">
+      <div style="padding:28px; border-right:1px solid rgba(255,255,255,0.06);">
+        <div style="font-size:13px; color:#e05c4b; font-family:'DM Mono',monospace; letter-spacing:1px; margin-bottom:14px;">CHOOSE VANGUARD IF…</div>
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:10px;">
+          <li style="font-size:14px; color:rgba(232,237,245,0.8); padding-left:16px; position:relative; line-height:1.5;"><span style="position:absolute;left:0;color:#e05c4b;">→</span> Priority is simplicity and lowest possible costs</li>
+          <li style="font-size:14px; color:rgba(232,237,245,0.8); padding-left:16px; position:relative; line-height:1.5;"><span style="position:absolute;left:0;color:#e05c4b;">→</span> A set-it-and-don't-touch-it philosophy resonates</li>
+          <li style="font-size:14px; color:rgba(232,237,245,0.8); padding-left:16px; position:relative; line-height:1.5;"><span style="position:absolute;left:0;color:#e05c4b;">→</span> Income-focused funds like Wellesley (VWINX) are the target vehicle</li>
+          <li style="font-size:14px; color:rgba(232,237,245,0.8); padding-left:16px; position:relative; line-height:1.5;"><span style="position:absolute;left:0;color:#e05c4b;">→</span> Estate plan is already handled externally by an attorney</li>
+        </ul>
+      </div>
+      <div style="padding:28px;">
+        <div style="font-size:13px; color:#2ecc71; font-family:'DM Mono',monospace; letter-spacing:1px; margin-bottom:14px;">CHOOSE FIDELITY IF…</div>
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:10px;">
+          <li style="font-size:14px; color:rgba(232,237,245,0.8); padding-left:16px; position:relative; line-height:1.5;"><span style="position:absolute;left:0;color:#2ecc71;">→</span> Richer advisor access and estate planning support is needed</li>
+          <li style="font-size:14px; color:rgba(232,237,245,0.8); padding-left:16px; position:relative; line-height:1.5;"><span style="position:absolute;left:0;color:#2ecc71;">→</span> Better RMD management and tax-efficiency tools are a priority</li>
+          <li style="font-size:14px; color:rgba(232,237,245,0.8); padding-left:16px; position:relative; line-height:1.5;"><span style="position:absolute;left:0;color:#2ecc71;">→</span> Full-service wealth management experience is preferred</li>
+          <li style="font-size:14px; color:rgba(232,237,245,0.8); padding-left:16px; position:relative; line-height:1.5;"><span style="position:absolute;left:0;color:#2ecc71;">→</span> Consolidated account management with dedicated advisor contact matters</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Strong recommendation box -->
+  <div style="background:linear-gradient(135deg, rgba(201,168,76,0.1), rgba(201,168,76,0.04)); border:1px solid rgba(201,168,76,0.35); border-radius:14px; padding:32px;">
+    <div style="font-family:'DM Mono',monospace; font-size:11px; letter-spacing:3px; color:var(--gold); margin-bottom:14px;">⚑ STRONGEST RECOMMENDATION</div>
+    <p style="font-family:'Playfair Display',serif; font-size:20px; line-height:1.65; color:var(--text); margin-bottom:16px;">At $2M and age 75, <em>neither platform's self-directed or robo tools are the right primary solution.</em> This is a situation where a <strong>fee-only fiduciary financial planner</strong> — independent of both firms — should lead on asset allocation, RMD sequencing, Social Security optimization, and estate planning.</p>
+    <p style="font-size:14px; color:rgba(232,237,245,0.7); line-height:1.7;">Vanguard or Fidelity then serves as the <em>custodian</em> of whatever strategy that advisor recommends — not the advisor itself. The choice of platform matters far less than the quality of the plan it holds.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span class="footer-note">Visual by Claude · Data from U.S. News &amp; World Report</span>
+  <span class="footer-src">Not financial advice · March 2026</span>
+</footer>
+
+<script>
+  // Intersection observer for scroll animations
+  const els = document.querySelectorAll('.animate');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  els.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
