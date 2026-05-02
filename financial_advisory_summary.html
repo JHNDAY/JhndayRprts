@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Financial Advisory Research — Retirement Planning Summary</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --ink-mid: #3d3d5c;
+    --ink-light: #7a7a9a;
+    --paper: #fafaf7;
+    --paper-warm: #f4f2ec;
+    --paper-mid: #ede9df;
+    --rule: #d8d4c8;
+    --accent: #2c5f8a;
+    --accent-light: #e8f0f8;
+    --gold: #b8860b;
+    --gold-light: #fdf6e3;
+    --green: #2d6a4f;
+    --green-light: #e8f5ee;
+    --amber: #8b4513;
+    --amber-light: #fdf0e6;
+    --red: #8b1a1a;
+    --red-light: #fdf0f0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 300;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.75;
+    font-size: 15px;
+  }
+
+  /* ── HEADER ── */
+  .masthead {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 3.5rem 4rem 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .masthead::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(135deg, transparent 0%, rgba(44,95,138,0.15) 100%);
+  }
+  .masthead-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+  .masthead h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    max-width: 680px;
+  }
+  .masthead-sub {
+    font-size: 14px;
+    color: rgba(250,250,247,0.65);
+    max-width: 580px;
+    line-height: 1.6;
+  }
+  .masthead-meta {
+    margin-top: 2rem;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .meta-label { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: rgba(250,250,247,0.4); }
+  .meta-value { font-size: 13px; font-weight: 500; color: rgba(250,250,247,0.9); }
+
+  /* ── NAV ── */
+  .toc-bar {
+    background: var(--paper-warm);
+    border-bottom: 1px solid var(--rule);
+    padding: 0 4rem;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .toc-bar a {
+    display: block;
+    padding: .85rem 1.25rem;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .04em;
+    color: var(--ink-mid);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color .2s, border-color .2s;
+  }
+  .toc-bar a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 960px; margin: 0 auto; padding: 3rem 4rem; }
+  .container + .container { padding-top: 0; }
+
+  /* ── SECTION HEADERS ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+    padding-bottom: .75rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-num {
+    width: 32px;
+    height: 32px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .section-header .section-sub {
+    font-size: 12px;
+    color: var(--ink-light);
+    margin-left: auto;
+    font-style: italic;
+  }
+
+  section { margin-bottom: 3.5rem; }
+
+  p { margin-bottom: 1rem; color: var(--ink-mid); }
+  p:last-child { margin-bottom: 0; }
+
+  /* ── CALLOUT BOXES ── */
+  .callout {
+    border-left: 3px solid;
+    padding: .9rem 1.25rem;
+    margin: 1.25rem 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .callout-title { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; margin-bottom: .35rem; }
+  .callout p { font-size: 13px; line-height: 1.6; margin: 0; }
+  .callout.info { border-color: var(--accent); background: var(--accent-light); }
+  .callout.info .callout-title { color: var(--accent); }
+  .callout.info p { color: #1a3a5c; }
+  .callout.warn { border-color: var(--gold); background: var(--gold-light); }
+  .callout.warn .callout-title { color: var(--gold); }
+  .callout.warn p { color: #5a4010; }
+  .callout.danger { border-color: var(--red); background: var(--red-light); }
+  .callout.danger .callout-title { color: var(--red); }
+  .callout.danger p { color: #5a1a1a; }
+  .callout.success { border-color: var(--green); background: var(--green-light); }
+  .callout.success .callout-title { color: var(--green); }
+  .callout.success p { color: #1a4a30; }
+
+  /* ── FIRM CARDS ── */
+  .firm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+  .firm-card {
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 1.25rem;
+  }
+  .firm-card.highlight { border-color: var(--accent); border-width: 2px; }
+  .firm-card.na { opacity: .5; }
+  .firm-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 500; margin-bottom: .25rem; }
+  .firm-tag { font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 2px 8px; border-radius: 20px; display: inline-block; margin-bottom: .75rem; }
+  .tag-warn { background: #fef3c7; color: #92400e; }
+  .tag-info { background: #dbeafe; color: #1e40af; }
+  .tag-green { background: #d1fae5; color: #065f46; }
+  .tag-gray { background: #f3f4f6; color: #4b5563; }
+  .tag-red { background: #fee2e2; color: #991b1b; }
+  .firm-stats { display: flex; flex-direction: column; gap: 4px; margin-bottom: .75rem; }
+  .stat-row { display: flex; justify-content: space-between; font-size: 12px; padding: 3px 0; border-bottom: 1px solid var(--paper-mid); }
+  .stat-label { color: var(--ink-light); }
+  .stat-val { font-weight: 500; color: var(--ink); }
+  .stat-val.lo { color: var(--green); }
+  .stat-val.hi { color: var(--red); }
+  .stat-val.mid { color: var(--amber); }
+  .firm-notes { font-size: 12px; color: var(--ink-light); line-height: 1.5; }
+
+  /* ── COMPARISON TABLE ── */
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 1.25rem 0; }
+  .compare-table th {
+    text-align: left;
+    padding: .6rem 1rem;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    background: var(--paper-warm);
+    border-bottom: 2px solid var(--rule);
+  }
+  .compare-table td { padding: .65rem 1rem; border-bottom: 1px solid var(--paper-mid); color: var(--ink-mid); vertical-align: top; }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:hover td { background: var(--paper-warm); }
+  .compare-table .row-label { font-weight: 500; color: var(--ink); }
+  .check { color: var(--green); font-weight: 600; }
+  .cross { color: var(--red); font-weight: 600; }
+  .tilde { color: var(--amber); font-weight: 600; }
+
+  /* ── RANKED LIST ── */
+  .rank-list { display: flex; flex-direction: column; gap: .75rem; margin: 1.25rem 0; }
+  .rank-item { display: grid; grid-template-columns: 36px 1fr auto; gap: 1rem; align-items: start; padding: 1rem; background: white; border: 1px solid var(--rule); border-radius: 8px; }
+  .rank-item.r1 { border-left: 3px solid var(--green); }
+  .rank-item.r2 { border-left: 3px solid var(--accent); }
+  .rank-item.r3 { border-left: 3px solid var(--amber); }
+  .rank-item.rna { opacity: .5; border-left: 3px solid var(--rule); }
+  .rank-num { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--ink-light); line-height: 1; padding-top: 2px; }
+  .rank-name { font-weight: 500; font-size: 14px; margin-bottom: .25rem; }
+  .rank-desc { font-size: 12px; color: var(--ink-light); line-height: 1.5; }
+  .rank-cost { text-align: right; white-space: nowrap; }
+  .cost-main { font-size: 14px; font-weight: 600; }
+  .cost-sub { font-size: 11px; color: var(--ink-light); }
+  .c-lo { color: var(--green); }
+  .c-mid { color: var(--amber); }
+  .c-hi { color: var(--red); }
+
+  /* ── PROCESS STEPS ── */
+  .steps { display: flex; flex-direction: column; gap: .6rem; margin: 1rem 0; }
+  .step { display: flex; gap: .9rem; align-items: flex-start; font-size: 13px; color: var(--ink-mid); line-height: 1.5; }
+  .step-dot { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--rule); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: var(--ink-light); flex-shrink: 0; margin-top: 2px; }
+
+  /* ── CHECK LIST ── */
+  .checklist { list-style: none; display: flex; flex-direction: column; gap: .5rem; margin: 1rem 0; }
+  .checklist li { font-size: 13px; color: var(--ink-mid); display: flex; gap: .75rem; align-items: flex-start; line-height: 1.5; }
+  .checklist li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .checklist.warn li::before { content: '!'; color: var(--gold); }
+  .checklist.danger li::before { content: '✗'; color: var(--red); }
+  .checklist.num { counter-reset: item; }
+  .checklist.num li { counter-increment: item; }
+  .checklist.num li::before { content: counter(item); background: var(--accent); color: white; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; }
+
+  /* ── TWO COL ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin: 1.25rem 0; }
+  .col-card { background: white; border: 1px solid var(--rule); border-radius: 8px; padding: 1.25rem; }
+  .col-title { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-light); margin-bottom: .75rem; }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight-box { background: var(--ink); color: var(--paper); border-radius: 8px; padding: 1.5rem 1.75rem; margin: 1.5rem 0; }
+  .highlight-box h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 400; margin-bottom: .75rem; color: var(--paper); }
+  .highlight-box p { color: rgba(250,250,247,0.8); font-size: 13px; line-height: 1.65; margin-bottom: .5rem; }
+  .highlight-box p:last-child { margin-bottom: 0; }
+
+  /* ── STATE CARDS ── */
+  .state-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.25rem 0; }
+  .state-card { border-radius: 8px; padding: 1.1rem 1.25rem; }
+  .state-ma { background: var(--amber-light); border: 1px solid #e8c87a; }
+  .state-fl { background: var(--green-light); border: 1px solid #a7d7b8; }
+  .state-title { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; margin-bottom: .5rem; }
+  .state-ma .state-title { color: var(--amber); }
+  .state-fl .state-title { color: var(--green); }
+  .state-body { font-size: 12px; line-height: 1.55; }
+  .state-ma .state-body { color: #5a4010; }
+  .state-fl .state-body { color: #1a4a30; }
+
+  /* ── ACTION ITEMS ── */
+  .action-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin: 1.25rem 0; }
+  .action-card { background: white; border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem; }
+  .action-card.urgent { border-top: 3px solid var(--red); }
+  .action-card.important { border-top: 3px solid var(--amber); }
+  .action-card.routine { border-top: 3px solid var(--accent); }
+  .action-priority { font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; margin-bottom: .4rem; }
+  .urgent .action-priority { color: var(--red); }
+  .important .action-priority { color: var(--amber); }
+  .routine .action-priority { color: var(--accent); }
+  .action-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: .4rem; }
+  .action-body { font-size: 12px; color: var(--ink-light); line-height: 1.5; }
+
+  /* ── FOOTER ── */
+  .page-footer { background: var(--paper-warm); border-top: 1px solid var(--rule); padding: 2rem 4rem; font-size: 12px; color: var(--ink-light); line-height: 1.6; }
+  .page-footer strong { color: var(--ink-mid); font-weight: 600; }
+
+  /* ── DIVIDER ── */
+  hr.section-rule { border: none; border-top: 1px solid var(--rule); margin: 0; }
+
+  /* ── PRINT ── */
+  @media print {
+    .toc-bar { display: none; }
+    .masthead { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+
+  @media (max-width: 700px) {
+    .masthead { padding: 2rem 1.5rem; }
+    .masthead h1 { font-size: 1.8rem; }
+    .container { padding: 2rem 1.5rem; }
+    .toc-bar { padding: 0 1rem; }
+    .firm-grid, .two-col, .state-grid, .action-grid { grid-template-columns: 1fr; }
+    .rank-item { grid-template-columns: 28px 1fr; }
+    .rank-cost { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="masthead-label">Retirement Financial Planning</div>
+  <h1>Advisory Services Research &amp; Estate Planning Summary</h1>
+  <p class="masthead-sub">A comprehensive review of financial advisory firms, service tiers, estate administration, and Massachusetts-specific planning considerations for a retired couple with $2M in discretionary assets.</p>
+  <div class="masthead-meta">
+    <div class="meta-item"><span class="meta-label">Scenario</span><span class="meta-value">Retired Couple, ~Age 75</span></div>
+    <div class="meta-item"><span class="meta-label">Discretionary Assets</span><span class="meta-value">$2,000,000</span></div>
+    <div class="meta-item"><span class="meta-label">Residence</span><span class="meta-value">Massachusetts (primary) · Florida condo</span></div>
+    <div class="meta-item"><span class="meta-label">Other Accounts</span><span class="meta-value">Alight 401(k) · Living Trust</span></div>
+    <div class="meta-item"><span class="meta-label">Debts</span><span class="meta-value">None</span></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="toc-bar">
+  <a href="#firms">Four Firms</a>
+  <a href="#scenario">Scenario</a>
+  <a href="#vanguard">Vanguard Select</a>
+  <a href="#northern">Northern Trust</a>
+  <a href="#estate">Estate Admin</a>
+  <a href="#trust">Living Trust</a>
+  <a href="#massachusetts">Massachusetts</a>
+  <a href="#transfer">Transfers</a>
+  <a href="#actions">Action Items</a>
+  <a href="#rmds">RMDs</a>
+</nav>
+
+<!-- ══ SECTION 1: FOUR FIRMS ══ -->
+<div class="container">
+<section id="firms">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <h2>Four-Firm Comparison</h2>
+    <span class="section-sub">Edelman · Alight · Vanguard · Fidelity</span>
+  </div>
+
+  <p>Four firms were evaluated across fees, services, AUM, and suitability for this scenario. The comparison spans the full spectrum from employer-plan-only advisory to full private wealth management.</p>
+
+  <div class="firm-grid">
+    <div class="firm-card">
+      <div class="firm-name">Edelman Financial Engines</div>
+      <span class="firm-tag tag-warn">Full-Service RIA</span>
+      <div class="firm-stats">
+        <div class="stat-row"><span class="stat-label">Annual fee</span><span class="stat-val hi">1.75% → 1.00%+ (blended ~$16,500 on $2M)</span></div>
+        <div class="stat-row"><span class="stat-label">Minimum</span><span class="stat-val">None set</span></div>
+        <div class="stat-row"><span class="stat-label">Total AUM</span><span class="stat-val">$270B+ · 1.3M clients</span></div>
+        <div class="stat-row"><span class="stat-label">Fiduciary / Fee-only</span><span class="stat-val lo">Yes / Yes</span></div>
+        <div class="stat-row"><span class="stat-label">Dedicated advisor</span><span class="stat-val lo">Yes</span></div>
+        <div class="stat-row"><span class="stat-label">In-person offices</span><span class="stat-val lo">143+</span></div>
+        <div class="stat-row"><span class="stat-label">Custody</span><span class="stat-val">Schwab or Fidelity only</span></div>
+      </div>
+      <div class="firm-notes">Barron's #2 RIA in 2025. Specializes in retirement income and estate complexity. Highest starting fee — justified only for genuinely complex situations (multiple trusts, business interests, blended families).</div>
+    </div>
+
+    <div class="firm-card na">
+      <div class="firm-name">Alight Financial Advisors</div>
+      <span class="firm-tag tag-info">Workplace-Only</span>
+      <div class="firm-stats">
+        <div class="stat-row"><span class="stat-label">Annual fee</span><span class="stat-val mid">0.30%–0.60% (employer plan)</span></div>
+        <div class="stat-row"><span class="stat-label">Access</span><span class="stat-val hi">Employer plan participants only</span></div>
+        <div class="stat-row"><span class="stat-label">Total AUM</span><span class="stat-val">$30.9B · 197K clients</span></div>
+        <div class="stat-row"><span class="stat-label">Investment methodology</span><span class="stat-val">Uses Edelman Financial Engines</span></div>
+      </div>
+      <div class="firm-notes">Not open to the general public. Serves active employees in workplace retirement plans. Relevant only for managing the existing 401(k) account — not for the $2M discretionary portfolio. Employer may cover fees.</div>
+    </div>
+
+    <div class="firm-card highlight">
+      <div class="firm-name">Vanguard Personal Advisor Select</div>
+      <span class="firm-tag tag-green">Best Value for This Scenario</span>
+      <div class="firm-stats">
+        <div class="stat-row"><span class="stat-label">Annual fee</span><span class="stat-val lo">0.30% (~$6,000 on $2M)</span></div>
+        <div class="stat-row"><span class="stat-label">Minimum to qualify</span><span class="stat-val lo">$500K (met at $2M)</span></div>
+        <div class="stat-row"><span class="stat-label">Total firm AUM</span><span class="stat-val">~$12 trillion · 50M+ investors</span></div>
+        <div class="stat-row"><span class="stat-label">Fiduciary / Fee-only</span><span class="stat-val lo">Yes / Yes (salaried)</span></div>
+        <div class="stat-row"><span class="stat-label">Dedicated advisor</span><span class="stat-val lo">Yes — dedicated CFP at $500K+</span></div>
+        <div class="stat-row"><span class="stat-label">In-person offices</span><span class="stat-val hi">None</span></div>
+        <div class="stat-row"><span class="stat-label">Fund universe</span><span class="stat-val mid">Vanguard funds only</span></div>
+      </div>
+      <div class="firm-notes">$6,000/yr vs. Edelman's ~$16,500/yr — a $10,500 annual gap that compounds to ~$105,000 over 10 years. At $2M, qualifies for Select tier with a dedicated CFP. Strong for RMD planning, retirement income, and tax-efficient drawdown. Estate guidance is advisory-level, not execution.</div>
+    </div>
+
+    <div class="firm-card">
+      <div class="firm-name">Fidelity Wealth Services</div>
+      <span class="firm-tag tag-gray">Most Versatile / Best Middle Ground</span>
+      <div class="firm-stats">
+        <div class="stat-row"><span class="stat-label">Annual fee</span><span class="stat-val mid">0.50–1.50% (negotiable at $2M, ~$10–15K)</span></div>
+        <div class="stat-row"><span class="stat-label">Minimum for advisor</span><span class="stat-val">$500K (met)</span></div>
+        <div class="stat-row"><span class="stat-label">Total firm AUM</span><span class="stat-val">$7.1T · Retail advisory $1T+</span></div>
+        <div class="stat-row"><span class="stat-label">Fiduciary / Fee-only</span><span class="stat-val lo">Yes / Yes</span></div>
+        <div class="stat-row"><span class="stat-label">Dedicated advisor</span><span class="stat-val lo">Yes — at $500K+</span></div>
+        <div class="stat-row"><span class="stat-label">In-person offices</span><span class="stat-val lo">200+</span></div>
+        <div class="stat-row"><span class="stat-label">Fund universe</span><span class="stat-val lo">Broad — all funds, 0% ER options</span></div>
+      </div>
+      <div class="firm-notes">Strongest middle option. Broader fund options than Vanguard, solid estate and tax planning depth, in-person offices. Fee is negotiable at $2M. Strong case for consolidating the Alight 401(k) rollover here after retirement.</div>
+    </div>
+  </div>
+
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>Edelman</th>
+        <th>Alight</th>
+        <th>Vanguard Select</th>
+        <th>Fidelity</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="row-label">Annual fee on $2M</td><td class="c-hi">~$16,500</td><td>N/A</td><td class="c-lo">~$6,000</td><td class="c-mid">~$10–15K</td></tr>
+      <tr><td class="row-label">Open to public</td><td><span class="check">✓</span></td><td><span class="cross">✗ Employer only</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td class="row-label">Fiduciary</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td class="row-label">Dedicated CFP</td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="check">✓</span></td><td><span class="check">✓ ($500K+)</span></td></tr>
+      <tr><td class="row-label">In-person offices</td><td><span class="check">143+</span></td><td><span class="cross">None</span></td><td><span class="cross">None</span></td><td><span class="check">200+</span></td></tr>
+      <tr><td class="row-label">Estate planning depth</td><td>Deep</td><td>None</td><td>Advisory only</td><td>Solid</td></tr>
+      <tr><td class="row-label">RMD / retirement income</td><td>Specialist</td><td>Limited</td><td>Strong</td><td>Strong</td></tr>
+      <tr><td class="row-label">Fund flexibility</td><td>Schwab/Fidelity</td><td>Plan funds</td><td>Vanguard only</td><td>All funds</td></tr>
+      <tr><td class="row-label">VNTC trust services</td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td><td><span class="tilde">~ Add-on fee</span></td><td><span class="cross">✗</span></td></tr>
+    </tbody>
+  </table>
+</section>
+</div>
+
+<hr class="section-rule">
+
+<!-- ══ SECTION 2: SCENARIO ASSESSMENT ══ -->
+<div class="container">
+<section id="scenario">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <h2>Scenario Assessment</h2>
+    <span class="section-sub">Retired couple · Age 75 · $2M · No debts</span>
+  </div>
+
+  <p>At age 75 with no outstanding debts and $2M in discretionary funds, the advisory priorities are specific to the preservation and distribution phase — not accumulation. The key planning needs are:</p>
+
+  <div class="two-col">
+    <div>
+      <ul class="checklist">
+        <li>Required Minimum Distributions (RMDs) — mandatory by law</li>
+        <li>Sustainable withdrawal strategy (30+ year joint horizon)</li>
+        <li>Tax-efficient drawdown sequencing across accounts</li>
+        <li>Estate documents: trusts, beneficiary designations</li>
+      </ul>
+    </div>
+    <div>
+      <ul class="checklist">
+        <li>Healthcare and long-term care cost planning</li>
+        <li>Gifting and charitable giving strategies</li>
+        <li>Capital preservation with inflation protection</li>
+        <li>Legacy / inheritance planning for heirs</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rank-list">
+    <div class="rank-item r1">
+      <div class="rank-num">1</div>
+      <div>
+        <div class="rank-name">Vanguard Personal Advisor Select — Best value fit</div>
+        <div class="rank-desc">$2M unlocks a dedicated CFP. Handles RMDs, drawdown sequencing, and retirement income well. Fee savings of ~$10,500/yr vs. Edelman. Suitable for a clean financial situation with no unusual complexity. Estate guidance is advisory-level — couple still needs a Massachusetts estate attorney.</div>
+      </div>
+      <div class="rank-cost"><div class="cost-main c-lo">$6,000/yr</div><div class="cost-sub">0.30% on $2M</div></div>
+    </div>
+    <div class="rank-item r2">
+      <div class="rank-num">2</div>
+      <div>
+        <div class="rank-name">Fidelity Wealth Services — Strong middle ground</div>
+        <div class="rank-desc">Broader fund options, 200+ in-person offices (closer to Massachusetts), solid estate and tax support. Fee negotiable at $2M. Best option if in-person access or fund flexibility is a priority, or if consolidating the Alight 401(k) rollover.</div>
+      </div>
+      <div class="rank-cost"><div class="cost-main c-mid">~$10–15K/yr</div><div class="cost-sub">negotiable at $2M</div></div>
+    </div>
+    <div class="rank-item r3">
+      <div class="rank-num">3</div>
+      <div>
+        <div class="rank-name">Edelman Financial Engines — Only if situation is complex</div>
+        <div class="rank-desc">Justified if estate involves multiple trusts, contested inheritance, business interests, or other genuine complexity. For a clean $2M retirement with no debts, the ~$10,500 annual premium over Vanguard is difficult to justify. Fee premium compounds to ~$105K over 10 years.</div>
+      </div>
+      <div class="rank-cost"><div class="cost-main c-hi">~$16,500/yr</div><div class="cost-sub">blended on $2M</div></div>
+    </div>
+    <div class="rank-item rna">
+      <div class="rank-num">—</div>
+      <div>
+        <div class="rank-name">Alight Financial Advisors — Not applicable</div>
+        <div class="rank-desc">Employer plan participants only. Not open to the general public. Irrelevant for the $2M discretionary portfolio. Separately manages the existing 401(k) account while employed plan is active.</div>
+      </div>
+      <div class="rank-cost"><div class="cost-main" style="color:var(--ink-light)">N/A</div></div>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <div class="callout-title">10-Year Fee Gap</div>
+    <p>Vanguard: ~$60,000 · Fidelity: ~$125,000 · Edelman: ~$165,000. The Edelman vs. Vanguard gap over 10 years is approximately $105,000 — before accounting for the compounded returns on that difference if invested.</p>
+  </div>
+</section>
+</div>
+
+<hr class="section-rule">
+
+<!-- ══ SECTION 3: VANGUARD SELECT ══ -->
+<div class="container">
+<section id="vanguard">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <h2>Vanguard Personal Advisor Select</h2>
+    <span class="section-sub">$500K–$5M tier · 0.30% · Dedicated CFP</span>
+  </div>
+
+  <p><strong>Annual cost: 0.30%</strong> — approximately $30 per $10,000 invested. On $2M this equals <strong>~$6,000 per year</strong>, charged quarterly at $1,500. The net advisory fee can vary slightly based on fund holdings (Vanguard offsets the gross fee by revenue from fund expense ratios). All-in cost including fund expense ratios (avg. 0.07%) is under $7,500/yr — exceptional for a dedicated CFP relationship.</p>
+
+  <div class="two-col">
+    <div class="col-card">
+      <div class="col-title">What the Select tier provides</div>
+      <ul class="checklist">
+        <li>Dedicated CFP who knows the full financial situation</li>
+        <li>Personalized financial plan and ongoing updates</li>
+        <li>RMD planning and Social Security optimization</li>
+        <li>Tax-efficient retirement withdrawal sequencing</li>
+        <li>Portfolio monitoring and automatic rebalancing</li>
+        <li>Goals-based planning tools and scenario modeling</li>
+        <li>Unlimited advisor access (phone/video, M–F 8am–8pm)</li>
+        <li>Tax-efficient retirement income strategy (coordinates SS timing, withdrawal order, IRA conversions)</li>
+      </ul>
+    </div>
+    <div class="col-card">
+      <div class="col-title">Limitations to know</div>
+      <ul class="checklist warn">
+        <li>Vanguard funds only — no outside funds or ETFs</li>
+        <li>No in-person offices</li>
+        <li>Estate planning is advisory-only — guidance not execution</li>
+        <li>Trust execution, real estate admin, non-financial assets require outside parties</li>
+        <li>VNTC trustee services available but at additional fee, with pre-acceptance review required</li>
+        <li>Full estate machinery (Vanilla platform, family legacy specialists) is the $5M+ Wealth Management tier — not Select</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <div class="callout-title">VNTC — Vanguard National Trust Company</div>
+    <p>Vanguard's trust subsidiary can serve as successor trustee for financial assets. However: (1) it requires a pre-acceptance review of the trust and is not guaranteed to accept; (2) it cannot administer real estate, business interests, or insurance products; (3) administrative situs is Pennsylvania regardless of client's state. Must be named in trust documents drafted by an independent attorney.</p>
+  </div>
+
+  <h3 style="font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:500; margin:1.5rem 0 .75rem;">Beneficiary Designation System</h3>
+
+  <div class="two-col">
+    <div class="col-card">
+      <div class="col-title">IRA Accounts — direct designation</div>
+      <ul class="checklist">
+        <li>Name spouse as primary (by name or by relationship — "person I'm married to at time of death")</li>
+        <li>Name individuals, trust, charity, or estate as contingent</li>
+        <li>Can split among multiple beneficiaries in any percentage</li>
+        <li>Relationship designation auto-includes future family members</li>
+        <li>IRA designation overrides the will — always</li>
+        <li>Updatable online anytime via Account Maintenance</li>
+      </ul>
+    </div>
+    <div class="col-card">
+      <div class="col-title">Non-Retirement Accounts — TOD Plan</div>
+      <ul class="checklist">
+        <li>Transfer on Death (TOD) plan for taxable accounts</li>
+        <li>Passes assets directly to named beneficiaries without probate</li>
+        <li>Applies to individual and JTWROS accounts</li>
+        <li>Can name individuals, an existing trust, or charities</li>
+        <li>On joint accounts, TOD kicks in after last surviving owner</li>
+        <li>IRA and non-retirement designations are completely separate</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout danger">
+    <div class="callout-title">Critical Rule</div>
+    <p>Beneficiary designations override wills — on every account. If the will names the spouse as IRA beneficiary but the IRA form names the children, the children inherit. This applies equally to the Alight 401(k). Each account's own form controls distribution regardless of any other document.</p>
+  </div>
+</section>
+</div>
+
+<hr class="section-rule">
+
+<!-- ══ SECTION 4: NORTHERN TRUST ══ -->
+<div class="container">
+<section id="northern">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <h2>Northern Trust — Why It Doesn't Fit</h2>
+    <span class="section-sub">Private bank · UHNW · Founded 1889 · Sarasota office confirmed</span>
+  </div>
+
+  <p>Northern Trust has an office at 1515 Ringling Boulevard in Sarasota, Florida — a full-service location that has served Sarasota County for over 48 years, recognized as the World's Best Private Bank for Family Office Services in the Southeast Region.</p>
+
+  <div class="callout danger">
+    <div class="callout-title">Asset Threshold Mismatch</div>
+    <p>Northern Trust's Wealth Management division targets clients with assets typically exceeding <strong>$75 million</strong>, with its Global Family &amp; Private Investment Offices division starting at <strong>$200 million</strong>. At $2M, this couple is approximately 37× below the target client threshold. Access is not guaranteed and service quality for sub-threshold accounts is typically significantly reduced.</p>
+  </div>
+
+  <div class="two-col">
+    <div class="col-card">
+      <div class="col-title">What Northern Trust offers (for qualifying clients)</div>
+      <ul class="checklist">
+        <li>Dedicated team: banking + trust &amp; estates + investing (40+ specialty areas)</li>
+        <li>Full trust execution — serves as actual trustee/executor</li>
+        <li>Delaware and Nevada trust structures</li>
+        <li>Real estate, mineral rights, business interests administration</li>
+        <li>Family legacy programs and generational education</li>
+        <li>Private banking with integrated lending</li>
+        <li>Philanthropy strategies including DAFs</li>
+        <li>Named Best Private Bank by Financial Times 14 of last 17 years</li>
+      </ul>
+    </div>
+    <div class="col-card">
+      <div class="col-title">When Northern Trust becomes relevant</div>
+      <p style="font-size:13px;color:var(--ink-mid);">Northern Trust's estate and trust capabilities are genuinely superior to Vanguard's — but they're built for families 10–50× wealthier. Northern Trust becomes the right conversation if the couple has assets outside the $2M that push total wealth significantly higher:</p>
+      <ul class="checklist warn" style="margin-top:.75rem;">
+        <li>Real estate with substantial equity (multiple properties or commercial)</li>
+        <li>Business interests or ownership stakes</li>
+        <li>Inherited trust structures of significant scale</li>
+        <li>Total combined estate approaching $10M+</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</div>
+
+<hr class="section-rule">
+
+<!-- ══ SECTION 5: ESTATE ADMINISTRATION ══ -->
+<div class="container">
+<section id="estate">
+  <div class="section-header">
+    <div class="section-num">5</div>
+    <h2>Estate Administration After Death</h2>
+    <span class="section-sub">Three separate streams · No single orchestrator</span>
+  </div>
+
+  <p>With a Vanguard account, a separate Alight 401(k), and real estate, the estate involves three entirely separate processes that no single institution coordinates. After the second spouse dies, heirs must manage all three simultaneously.</p>
+
+  <div class="two-col" style="grid-template-columns: 1fr 1fr 1fr; margin-bottom:1.25rem;">
+    <div class="col-card">
+      <div class="col-title" style="color:var(--accent);">Stream 1 — Vanguard</div>
+      <ul class="checklist" style="font-size:12px;">
+        <li>Death certificate to Vanguard portal</li>
+        <li>TOD / beneficiary designations trigger direct transfer</li>
+        <li>Account frozen during processing</li>
+        <li>SECURE Act 10-year rule for non-spouse heirs</li>
+        <li>VNTC activates as trustee if pre-named</li>
+      </ul>
+      <p style="font-size:11px;color:var(--green);margin-top:.75rem;font-weight:500;">Timeline: 5–10 business days (with beneficiaries named)</p>
+    </div>
+    <div class="col-card">
+      <div class="col-title" style="color:var(--green);">Stream 2 — Alight 401(k)</div>
+      <ul class="checklist" style="font-size:12px;">
+        <li>Contact Alight directly — Vanguard has zero involvement</li>
+        <li>Beneficiary form controls distribution (overrides will)</li>
+        <li>Surviving spouse can roll over to own IRA (best option)</li>
+        <li>Non-spouse heirs: 10-year distribution rule applies</li>
+        <li>No beneficiary named → estate → probate</li>
+      </ul>
+      <p style="font-size:11px;color:var(--accent);margin-top:.75rem;font-weight:500;">Timeline: Weeks (with beneficiaries named)</p>
+    </div>
+    <div class="col-card">
+      <div class="col-title" style="color:var(--amber);">Stream 3 — Real Estate</div>
+      <ul class="checklist warn" style="font-size:12px;">
+        <li>No financial institution handles this</li>
+        <li>If in trust: trustee controls transfer — no probate</li>
+        <li>If JTWROS: passes to surviving spouse automatically</li>
+        <li>If sole ownership / no trust: full probate required</li>
+        <li>Florida condo: Florida ancillary probate (separate process)</li>
+      </ul>
+      <p style="font-size:11px;color:var(--amber);margin-top:.75rem;font-weight:500;">Timeline: Weeks (trust/deed) to 6–18 months (probate)</p>
+    </div>
+  </div>
+
+  <div class="callout danger">
+    <div class="callout-title">The Coordination Gap</div>
+    <p>After the second spouse dies, heirs must simultaneously manage three entirely separate processes at three institutions operating independently. Vanguard cannot see the Alight account. Alight cannot see Vanguard. Neither knows about the real estate. There is no default orchestrator. Inconsistent or outdated beneficiary forms can override carefully drafted trust documents.</p>
+  </div>
+
+  <h3 style="font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:500; margin:1.5rem 0 .75rem;">Vanguard's Post-Death Process</h3>
+  <div class="steps">
+    <div class="step"><div class="step-dot">1</div>Beneficiary or executor notifies Vanguard Transition Services (877-662-7447 or online "Change of Ownership" portal)</div>
+    <div class="step"><div class="step-dot">2</div>Account frozen to prevent unauthorized activity</div>
+    <div class="step"><div class="step-dot">3</div>Death certificate uploaded via secure portal (digital scan accepted)</div>
+    <div class="step"><div class="step-dot">4</div>Assets transferred to beneficiary accounts; Vanguard guides heirs through SECURE Act distribution options</div>
+    <div class="step"><div class="step-dot">5</div>If no beneficiaries: probate court appoints executor; Letters Testamentary required before Vanguard will act</div>
+  </div>
+
+  <div class="callout warn">
+    <div class="callout-title">Alight 401(k) — Critical October 31 Deadline</div>
+    <p>If the trust is named as beneficiary on the Alight 401(k), a copy of the trust document must be delivered to Alight (the plan administrator) by October 31 of the year following death. Missing this deadline can cost heirs the favorable 10-year distribution schedule, potentially triggering a 5-year forced payout instead — a much larger annual tax bill. Heirs must be informed of this deadline in writing before the death occurs.</p>
+  </div>
+</section>
+</div>
+
+<hr class="section-rule">
+
+<!-- ══ SECTION 6: LIVING TRUST ══ -->
+<div class="container">
+<section id="trust">
+  <div class="section-header">
+    <div class="section-num">6</div>
+    <h2>Living Trust — Implementation Gaps</h2>
+    <span class="section-sub">The trust document alone is not sufficient</span>
+  </div>
+
+  <p>Having a living trust is the right foundation. But a trust only controls what is actually connected to it. Three implementation gaps are common and consequential:</p>
+
+  <div class="action-grid">
+    <div class="action-card urgent">
+      <div class="action-priority">Requires Attorney Review</div>
+      <div class="action-title">Alight 401(k) — See-Through Trust</div>
+      <div class="action-body">The 401(k) cannot be titled in the trust during lifetime. Naming the trust as beneficiary is legal, but the trust must qualify as a "see-through trust" under IRS rules (effective Jan 1, 2025) or heirs face a 5-year forced payout. If the trust is over 3–5 years old, review is essential. A copy of the trust must also be filed with Alight before death. Employer plans still require this documentation — the 2025 IRS rule change did not eliminate this requirement for 401(k)s.</div>
+    </div>
+    <div class="action-card urgent">
+      <div class="action-priority">Must Be Executed</div>
+      <div class="action-title">Real Estate — Deed Transfer Required</div>
+      <div class="action-body">Describing or listing property in the trust document does NOT transfer ownership to the trust. A new deed must be recorded for each property. The Massachusetts primary residence deed and the Florida condo deed must each be separately transferred. For the Florida condo, a Florida-licensed attorney must prepare the deed (Florida law governs Florida real property). Until the deeds are transferred, the properties are not in the trust regardless of what the trust says about them.</div>
+    </div>
+    <div class="action-card important">
+      <div class="action-priority">Recommended</div>
+      <div class="action-title">Vanguard Account — Re-Title into Trust</div>
+      <div class="action-body">The taxable Vanguard account can be re-titled directly into the trust's name (e.g., "John and Jane Smith Revocable Living Trust, dated [date]"). This is not a taxable event. Once re-titled, the trust owns the account and the trust terms govern distribution — no beneficiary designation form is needed. This is the cleanest approach. Alternatively, name the trust as TOD beneficiary — this also works but is slightly less clean during lifetime.</div>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:500; margin:1.5rem 0 .75rem;">See-Through Trust Requirements (IRS — 4 criteria)</h3>
+  <ul class="checklist">
+    <li>Valid under state law — an existing Massachusetts trust likely meets this</li>
+    <li>Irrevocable at death — a revocable living trust automatically becomes irrevocable when the grantor dies; this requirement is satisfied</li>
+    <li>All beneficiaries must be identifiable individuals — charitable remainder language or non-individual remainders may disqualify the trust</li>
+    <li>Copy of trust document delivered to Alight (plan administrator) by October 31 of the year after death — this is a hard deadline</li>
+  </ul>
+
+  <div class="callout info">
+    <div class="callout-title">If the Trust Was Drafted Before 2023</div>
+    <p>Older trust documents often contain formula clauses tied to prior federal exemption amounts or pre-SECURE Act distribution rules. Massachusetts raised its estate tax exemption from $1M to $2M in January 2023. A trust drafted with a $1M credit shelter formula will produce unintended results under current law. IRS final RMD regulations effective January 1, 2025 also changed some see-through trust rules. Any trust more than 3–5 years old should be reviewed.</p>
+  </div>
+</section>
+</div>
+
+<hr class="section-rule">
+
+<!-- ══ SECTION 7: MASSACHUSETTS ══ -->
+<div class="container">
+<section id="massachusetts">
+  <div class="section-header">
+    <div class="section-num">7</div>
+    <h2>Massachusetts Residency — Key Issues</h2>
+    <span class="section-sub">Estate tax · Non-portable exemption · Florida ancillary probate</span>
+  </div>
+
+  <div class="state-grid">
+    <div class="state-card state-ma">
+      <div class="state-title">Massachusetts — Primary Residence</div>
+      <div class="state-body">
+        <strong>Estate tax: Yes.</strong> $2M exemption per person (raised from $1M in January 2023). Rates 7.2%–16% on amounts above $2M.<br><br>
+        <strong>Portability: None.</strong> The surviving spouse cannot inherit the deceased spouse's unused exemption. Each person gets one $2M exemption — the first spouse's exemption is wasted if everything passes to the surviving spouse outright.<br><br>
+        <strong>Out-of-state real estate:</strong> Florida condo value is excluded from Massachusetts estate tax calculation. Massachusetts taxes only Massachusetts-situs property.
+      </div>
+    </div>
+    <div class="state-card state-fl">
+      <div class="state-title">Florida — Condo (Non-Residents)</div>
+      <div class="state-body">
+        <strong>Estate tax: None.</strong> Florida has no state estate tax and no inheritance tax.<br><br>
+        <strong>Ancillary probate: Risk.</strong> As non-residents owning Florida real property, the estate must go through Florida ancillary probate for the condo unless it is titled in the living trust. This is a separate Florida court process — 6–12+ months, requires a Florida attorney — running in parallel with the Massachusetts estate process.<br><br>
+        <strong>Solution:</strong> Deed the condo into the trust. One deed transfer eliminates ancillary probate entirely.
+      </div>
+    </div>
+  </div>
+
+  <div class="callout danger">
+    <div class="callout-title">Massachusetts Exemption — Not Portable</div>
+    <p>With $2M in investments + Alight 401(k) balance + Massachusetts home value, the surviving spouse's estate almost certainly exceeds $2M at the second death. Without a credit shelter trust provision, Massachusetts estate tax applies to the entire excess. On a $3.5M surviving estate, the tax is approximately $100,000. On a $4M estate, approximately $180,000. This is avoidable with proper planning.</p>
+  </div>
+
+  <h3 style="font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:500; margin:1.5rem 0 .75rem;">The Credit Shelter Trust Solution</h3>
+  <p>A Credit Shelter Trust (also called AB Trust or Bypass Trust), built into the living trust document, captures the first spouse's $2M exemption at death rather than letting it expire. At the first spouse's death, up to $2M is directed into an irrevocable credit shelter trust for the surviving spouse's benefit — not counted in the surviving spouse's estate. The surviving spouse benefits from the assets but they are excluded from the taxable estate at the second death. This alone can save $39,000–$180,000+ in Massachusetts estate tax.</p>
+
+  <div class="two-col">
+    <div class="col-card">
+      <div class="col-title">Massachusetts Estate Tax — Reference</div>
+      <table class="compare-table" style="font-size:11px;">
+        <thead><tr><th>Surviving estate value</th><th>Estimated MA tax</th></tr></thead>
+        <tbody>
+          <tr><td>$2.0M (at threshold)</td><td><span class="c-lo">$0</span></td></tr>
+          <tr><td>$2.5M ($500K above)</td><td><span class="c-mid">~$39,200</span></td></tr>
+          <tr><td>$3.5M ($1.5M above)</td><td><span class="c-mid">~$100,000</span></td></tr>
+          <tr><td>$4.0M ($2M above)</td><td><span class="c-hi">~$180,000</span></td></tr>
+          <tr><td>$5.0M ($3M above)</td><td><span class="c-hi">~$292,000</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-card">
+      <div class="col-title">What requires a Massachusetts attorney</div>
+      <ul class="checklist num">
+        <li>Review / amend trust to include credit shelter provision</li>
+        <li>Transfer Massachusetts primary residence deed into trust</li>
+        <li>Re-file homestead declaration after deed transfer</li>
+        <li>Coordinate with Florida attorney on condo deed</li>
+        <li>Confirm Alight 401(k) trust qualifies as see-through under 2025 IRS rules</li>
+        <li>Review trust for outdated exemption formula clauses</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</div>
+
+<hr class="section-rule">
+
+<!-- ══ SECTION 8: TRANSFERS ══ -->
+<div class="container">
+<section id="transfer">
+  <div class="section-header">
+    <div class="section-num">8</div>
+    <h2>Transferring Between Vanguard and Fidelity</h2>
+    <span class="section-sub">ACATS · 5–7 business days · No taxes triggered</span>
+  </div>
+
+  <p>No public data exists on transfer frequency between these specific firms. Transfers between Vanguard and Fidelity are routine — both participate in the ACATS (Automated Customer Account Transfer Service) system, making the mechanics straightforward.</p>
+
+  <div class="two-col">
+    <div class="col-card">
+      <div class="col-title">How the transfer works</div>
+      <ul class="checklist">
+        <li>Initiated at the receiving firm (not the sending firm)</li>
+        <li>Positions move in-kind — no selling required, no taxes triggered</li>
+        <li>Cost basis transfers intact — original purchase dates preserved</li>
+        <li>Typically completes in 5–7 business days for electronic transfers</li>
+        <li>Vanguard charges a $100 fee for accounts under $5M transferring out — Fidelity typically reimburses this for accounts at this size</li>
+      </ul>
+    </div>
+    <div class="col-card">
+      <div class="col-title">Key friction points</div>
+      <ul class="checklist warn">
+        <li>Vanguard mutual funds (VTSAX, VBTLX, etc.) cannot transfer in-kind to Fidelity — must be converted to ETF equivalents (VTI, BND) first, or sold</li>
+        <li>Selling Vanguard mutual funds in a taxable account triggers capital gains — this is the main cost consideration before switching</li>
+        <li>Fidelity ZERO funds cannot transfer to Vanguard (proprietary)</li>
+        <li>Fractional shares are sold during transfer (minor tax event)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <div class="callout-title">Practical Guidance for This Couple</div>
+    <p>If the $2M Vanguard account holds appreciated Vanguard mutual fund positions (not ETFs), converting to ETF equivalents (e.g., VTSAX → VTI) before initiating a transfer is the standard approach — it avoids a taxable sale. The conversion itself is not taxable. This is a one-time step. The operational mechanics of switching are genuinely not a major obstacle at this account size — the capital gains question on appreciated positions is the only material consideration.</p>
+  </div>
+</section>
+</div>
+
+<hr class="section-rule">
+
+<!-- ══ SECTION 9: ACTION ITEMS ══ -->
+<div class="container">
+<section id="actions">
+  <div class="section-header">
+    <div class="section-num">9</div>
+    <h2>Priority Action Items</h2>
+    <span class="section-sub">Sequenced by urgency</span>
+  </div>
+
+  <div class="action-grid">
+    <div class="action-card urgent">
+      <div class="action-priority">Urgent — Do Now</div>
+      <div class="action-title">Verify Alight 401(k) beneficiary designation</div>
+      <div class="action-body">Log into Alight and confirm beneficiary designations are current, accurate, and name the right parties. This single form controls the entire 401(k) distribution and overrides everything else. If the trust is named, confirm it qualifies as a see-through trust with a Massachusetts estate attorney.</div>
+    </div>
+    <div class="action-card urgent">
+      <div class="action-priority">Urgent — Attorney Required</div>
+      <div class="action-title">Engage Massachusetts estate attorney</div>
+      <div class="action-body">Review the living trust for: (1) credit shelter / AB trust provision for Massachusetts portability gap, (2) outdated exemption formula clauses, (3) see-through trust qualification for 401(k), (4) all four deed transfers (MA residence + FL condo). This is not a full rewrite — likely targeted amendments plus deed work.</div>
+    </div>
+    <div class="action-card urgent">
+      <div class="action-priority">Urgent — Prevents Ancillary Probate</div>
+      <div class="action-title">Deed Florida condo into the trust</div>
+      <div class="action-body">A Florida-licensed attorney must prepare and record a new deed transferring the condo from personal ownership to the trust's name. Until this is done, the condo goes through Florida ancillary probate at death — a separate 6–12 month court process. Florida has no estate tax, so this is purely a probate avoidance step.</div>
+    </div>
+    <div class="action-card important">
+      <div class="action-priority">Important</div>
+      <div class="action-title">Deed Massachusetts home into the trust</div>
+      <div class="action-body">Same principle as the Florida condo — the primary residence must be re-deeded to the trust to be controlled by it. Massachusetts homestead declaration should be re-filed after the transfer. The Massachusetts estate attorney handles this as part of the same engagement.</div>
+    </div>
+    <div class="action-card important">
+      <div class="action-priority">Important</div>
+      <div class="action-title">Re-title Vanguard account into trust</div>
+      <div class="action-body">Request Vanguard re-title the account in the trust's name. This is a routine, non-taxable ownership change — not a transfer or sale. Once done, the trust directly controls the account. Do this after selecting the advisory firm (Vanguard Select vs. Fidelity) to avoid unnecessary steps.</div>
+    </div>
+    <div class="action-card routine">
+      <div class="action-priority">Routine — After Advisor Selection</div>
+      <div class="action-title">Select advisory firm and open account</div>
+      <div class="action-body">Based on the analysis: Vanguard Personal Advisor Select ($6,000/yr, dedicated CFP, clean situation) or Fidelity Wealth Services (~$10–15K/yr, broader funds, in-person access, consolidation option for Alight rollover). Both are strong choices. The fee difference over 10 years is real but not decisive if in-person access and broader fund flexibility matter.</div>
+    </div>
+    <div class="action-card routine">
+      <div class="action-priority">Routine</div>
+      <div class="action-title">Leave heirs written instructions</div>
+      <div class="action-body">Prepare a document (or letter of instruction) for heirs that lists: each financial institution and account number, contact information for each, the October 31 Alight 401(k) trust documentation deadline, location of trust documents and deed records, and the name of the Massachusetts estate attorney. This document is separate from the trust and should be easily findable.</div>
+    </div>
+    <div class="action-card routine">
+      <div class="action-priority">Annual Routine</div>
+      <div class="action-title">Review all beneficiary designations</div>
+      <div class="action-body">Once per year — or immediately after any death, marriage, divorce, or birth in the family — review beneficiary designations on both the Vanguard account and the Alight 401(k). A 10-minute review can prevent months of legal delay for heirs. IRA and non-retirement designations are completely separate and must each be reviewed independently.</div>
+    </div>
+  </div>
+</section>
+</div>
+
+<hr class="section-rule">
+
+<!-- ══ SECTION 10: RMDs ══ -->
+<div class="container">
+<section id="rmds">
+  <div class="section-header">
+    <div class="section-num">10</div>
+    <h2>Required Minimum Distributions (RMDs)</h2>
+    <span class="section-sub">Tax-deferred accounts only — not all funds</span>
+  </div>
+
+  <p>RMDs apply only to <strong>tax-deferred retirement accounts</strong> — not to all funds held at a financial institution. This is a critical distinction: the $2M Vanguard account is a taxable (non-retirement) account and carries <strong>no RMD obligation whatsoever.</strong></p>
+
+  <div class="two-col">
+    <div class="col-card">
+      <div class="col-title" style="color:var(--red);">Accounts Subject to RMDs</div>
+      <ul class="checklist danger">
+        <li>401(k), 403(b), 457(b) plans — including the Alight account</li>
+        <li>Traditional IRAs</li>
+        <li>SEP IRAs and SIMPLE IRAs</li>
+        <li>Rollover IRAs</li>
+        <li>Inherited IRAs (different distribution rules apply)</li>
+      </ul>
+    </div>
+    <div class="col-card">
+      <div class="col-title" style="color:var(--green);">Accounts NOT Subject to RMDs</div>
+      <ul class="checklist">
+        <li>Roth IRAs — no RMDs during the owner's lifetime (a major Roth advantage)</li>
+        <li>Regular taxable brokerage accounts — the $2M Vanguard account falls here</li>
+        <li>Savings accounts, CDs, money market accounts</li>
+        <li>Any taxable investment account at any institution</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout success">
+    <div class="callout-title">Implication for This Couple</div>
+    <p>The $2M Vanguard discretionary account has no RMD obligation. Withdrawals can be taken on any schedule, in any amount, at any time. The only RMD exposure in this picture is the <strong>Alight 401(k)</strong>.</p>
+  </div>
+
+  <div class="callout danger">
+    <div class="callout-title">Age 75 — RMDs Are Already Mandatory</div>
+    <p>Under the SECURE 2.0 Act, RMDs begin at age <strong>73</strong> (changed from age 70½ under prior law). At age 75, the couple is already past the mandatory start age by two years. If the Alight 401(k) has not been distributing RMDs annually, this must be corrected immediately. Missing or under-taking RMDs carries a <strong>25% excise tax penalty</strong> on the shortfall. The IRS offers a correction procedure, but the sooner it is addressed the better.</p>
+  </div>
+
+  <h3 style="font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:500; margin:1.5rem 0 .75rem;">RMD Calculation Reference</h3>
+  <p>RMD amounts are calculated from the prior December 31 account balance divided by an IRS Uniform Lifetime Table factor. At age 75 the factor is <strong>24.6</strong>. Example: a $300,000 Alight balance requires a ~$12,200 RMD for the current year. A $500,000 balance requires ~$20,325. The Alight plan administrator is required to calculate and notify you of the annual amount — but you are responsible for ensuring it is actually taken.</p>
+
+  <div class="action-grid" style="grid-template-columns:1fr 1fr 1fr;">
+    <div class="action-card urgent">
+      <div class="action-priority">Confirm Immediately</div>
+      <div class="action-title">Verify Alight RMDs are being taken</div>
+      <div class="action-body">Log into the Alight account and confirm that annual RMDs have been correctly calculated and distributed each year since age 73. Missing distributions must be corrected promptly to avoid the 25% excise tax penalty.</div>
+    </div>
+    <div class="action-card important">
+      <div class="action-priority">Tax Planning Opportunity</div>
+      <div class="action-title">Model Roth conversion scenarios</div>
+      <div class="action-body">If the Alight 401(k) balance is substantial, converting a portion to a Roth IRA may reduce future RMD obligations. Roth IRAs have no RMDs during the owner's lifetime. The conversion triggers income tax on the converted amount — but eliminates future RMDs on that balance. An advisor should model this against projected bracket exposure.</div>
+    </div>
+    <div class="action-card routine">
+      <div class="action-priority">Coordinate with Advisor</div>
+      <div class="action-title">RMD + withdrawal sequencing strategy</div>
+      <div class="action-body">The CFP at Vanguard or Fidelity should model annual income from all sources: Alight RMDs, Social Security, and any discretionary Vanguard withdrawals. The goal is staying within target tax brackets and avoiding IRMAA surcharges on Medicare premiums triggered above specific income thresholds.</div>
+    </div>
+  </div>
+
+</section>
+</div>
+
+<!-- FOOTER -->
+<div class="page-footer">
+  <p><strong>Disclaimer:</strong> This document is a summary of research and analysis for informational purposes only. It does not constitute legal, tax, or financial advice. Estate planning, tax strategy, and investment decisions involve complex, individual circumstances that require consultation with licensed professionals. All fee estimates are approximate and subject to change. Consult a Massachusetts-licensed estate attorney, a qualified financial advisor, and a tax professional before making any decisions described in this document.</p>
+  <p style="margin-top:.75rem;"><strong>Sources:</strong> Information compiled from Vanguard, Fidelity, Northern Trust, Alight, SmartAsset, NerdWallet, IRS.gov, Mass.gov, and professional legal resources. Current as of research date; verify all details directly with each institution before acting.</p>
+</div>
+
+</body>
+</html>
