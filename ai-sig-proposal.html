@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI SIG — BOLLI Proposal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #1B2A44;
+    --navy-mid: #253656;
+    --gold: #C8922A;
+    --gold-light: #E8B84B;
+    --gold-pale: #F5E6C8;
+    --cream: #F8F3EB;
+    --cream-deep: #EFE8D8;
+    --ink: #1C1C1C;
+    --muted: #5A5346;
+    --border: rgba(200, 146, 42, 0.25);
+  }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0;
+    position: relative;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--navy);
+    padding: 52px 60px 44px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    border: 40px solid rgba(200,146,42,0.12);
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: 30px;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    border: 28px solid rgba(200,146,42,0.07);
+  }
+
+  .sig-label {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 14px;
+  }
+
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 46px;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1.12;
+    margin-bottom: 6px;
+  }
+
+  .header h1 em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .motto {
+    margin-bottom: 28px;
+  }
+
+  .motto-latin {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--gold-light);
+    letter-spacing: 0.03em;
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .motto-gloss {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.42);
+  }
+
+  .header-rule {
+    width: 56px;
+    height: 2px;
+    background: var(--gold);
+    margin-bottom: 22px;
+  }
+
+  .header-lower {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 36px;
+    align-items: center;
+  }
+
+  .header-mission {
+    font-family: 'Lora', serif;
+    font-size: 15px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.7;
+  }
+
+  .collab-block {
+    border-left: 2px solid var(--gold);
+    padding-left: 22px;
+    flex-shrink: 0;
+  }
+
+  .collab-word {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 30px;
+    font-weight: 400;
+    color: var(--gold-light);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  .collab-line {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(200,146,42,0.18);
+  }
+
+  .collab-line:last-child {
+    border-bottom: none;
+  }
+
+  /* ── DOMAINS ── */
+  .section {
+    padding: 44px 60px;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .domains-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .domain {
+    padding: 18px 12px 16px;
+    text-align: center;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+
+  .domain:last-child { border-right: none; }
+
+  .domain-icon {
+    font-size: 22px;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .domain-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.3;
+  }
+
+  /* ── BAND ── */
+  .band {
+    background: var(--cream-deep);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 36px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+  }
+
+  .band-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .band-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .band-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .band-body {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.55;
+    padding-left: 15px;
+  }
+
+  /* ── CORE THEMES ── */
+  .themes {
+    padding: 44px 60px;
+  }
+
+  .themes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .theme-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--gold);
+    padding: 22px 20px 20px;
+    border-radius: 2px;
+  }
+
+  .theme-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+
+  .theme-card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── DOING & SHARING ── */
+  .doing {
+    background: var(--navy-mid);
+    padding: 36px 60px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .doing-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--gold-light);
+    line-height: 1.3;
+  }
+
+  .doing-items {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 24px;
+  }
+
+  .doing-item {
+    font-size: 13px;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.5;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .doing-item::before {
+    content: '';
+    width: 14px; height: 14px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── FOOTER INVITATION ── */
+  .footer {
+    background: var(--cream-deep);
+    border-top: 1px solid var(--border);
+    padding: 36px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+  }
+
+  .footer-quote {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--navy);
+    line-height: 1.55;
+    max-width: 480px;
+  }
+
+  .footer-quote strong {
+    font-style: normal;
+    color: var(--gold);
+  }
+
+  .footer-meta {
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .footer-bolli {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+
+  .footer-freq {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .freq-badge {
+    display: inline-block;
+    margin-top: 8px;
+    background: var(--navy);
+    color: var(--gold-light);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 2px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="sig-label">BOLLI Special Interest Group &nbsp;·&nbsp; Proposal 2026</div>
+    <h1>Exploring the World<br>with <em>Artificial Intelligence</em></h1>
+    <div class="motto">
+      <span class="motto-latin">Quaerimus Sensum Verborum</span>
+      <span class="motto-gloss">We seek the meaning of words</span>
+    </div>
+    <div class="header-rule"></div>
+    <div class="header-lower">
+      <div class="header-mission">
+        An invitation to BOLLI members who are curious about using AI to deepen their engagement with
+        literature, history, science, current events, and the ideas that matter most —
+        through hands-on exploration, shared discovery, and creative output.
+      </div>
+      <div class="collab-block">
+        <div class="collab-word">Together</div>
+        <div class="collab-lines">
+          <div class="collab-line">Explore &amp; Question</div>
+          <div class="collab-line">Share What You Find</div>
+          <div class="collab-line">Learn from Each Other</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOMAINS -->
+  <div class="section">
+    <div class="section-label">Six Areas of Exploration</div>
+    <div class="domains-grid">
+      <div class="domain">
+        <span class="domain-icon">📖</span>
+        <div class="domain-name">Literature &amp; the Arts</div>
+      </div>
+      <div class="domain">
+        <span class="domain-icon">🏛</span>
+        <div class="domain-name">History &amp; Civilization</div>
+      </div>
+      <div class="domain">
+        <span class="domain-icon">🔬</span>
+        <div class="domain-name">Science &amp; Technology</div>
+      </div>
+      <div class="domain">
+        <span class="domain-icon">🌐</span>
+        <div class="domain-name">Sociology &amp; Society</div>
+      </div>
+      <div class="domain">
+        <span class="domain-icon">📰</span>
+        <div class="domain-name">Current Events</div>
+      </div>
+      <div class="domain">
+        <span class="domain-icon">🗳</span>
+        <div class="domain-name">Political Discourse</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BAND: FORMAT, SPIRIT, RHYTHM -->
+  <div class="band">
+    <div class="band-item">
+      <div class="band-title"><span class="band-dot"></span>Hybrid Format</div>
+      <div class="band-body">Every session available in-person and via Zoom — designed for full participation from either setting.</div>
+    </div>
+    <div class="band-item">
+      <div class="band-title"><span class="band-dot"></span>Collaborative at the Core</div>
+      <div class="band-body">Sessions are about what <em>participants</em> bring — questions, findings, experiments — not lectures. Sharing is the curriculum.</div>
+    </div>
+    <div class="band-item">
+      <div class="band-title"><span class="band-dot"></span>Monthly Rhythm</div>
+      <div class="band-body">Meets once a month, occasionally biweekly — each session sparks independent exploration that continues between gatherings.</div>
+    </div>
+  </div>
+
+  <!-- CORE THEMES -->
+  <div class="themes">
+    <div class="section-label">What You Will Develop</div>
+    <div class="themes-grid">
+      <div class="theme-card">
+        <h3>AI Fundamentals</h3>
+        <p>Key concepts for understanding how AI works — enough to use it confidently, question it wisely, and recognize its limits.</p>
+      </div>
+      <div class="theme-card">
+        <h3>Digital Fluency</h3>
+        <p>The practical literacy of prompting, refining, and directing AI — becoming a skilled navigator rather than a passive user.</p>
+      </div>
+      <div class="theme-card">
+        <h3>Meaningful Output</h3>
+        <p>Moving from query to creation — essays, visualizations, research summaries, course outlines — work that expresses your thinking.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOING & SHARING BAND -->
+  <div class="doing">
+    <div class="doing-label">Doing<br>&amp; Sharing<br>in Every<br>Session</div>
+    <div class="doing-items">
+      <div class="doing-item">Bring a topic you're already curious about</div>
+      <div class="doing-item">Use AI as a research companion, not an oracle</div>
+      <div class="doing-item">Develop course-building as a learning framework</div>
+      <div class="doing-item">Share findings with the group each session</div>
+      <div class="doing-item">Learn by watching others explore out loud</div>
+      <div class="doing-item">Take your work further between sessions</div>
+    </div>
+  </div>
+
+  <!-- FOOTER INVITATION -->
+  <div class="footer">
+    <div class="footer-quote">
+      This SIG is for anyone who finds the world endlessly interesting
+      and wants to learn how AI can make that curiosity <strong>more powerful</strong> —
+      not replace it.
+    </div>
+    <div class="footer-meta">
+      <div class="footer-bolli">BOLLI · Brandeis University</div>
+      <div class="footer-freq">
+        Monthly sessions<br>
+        with occasional biweekly meetings<br>
+        In-person &amp; Zoom
+      </div>
+      <div class="freq-badge">Join the Conversation</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
