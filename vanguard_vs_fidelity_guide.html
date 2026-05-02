@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vanguard vs. Fidelity — The Investor's Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b2a;
+    --navy-mid: #1a2f45;
+    --navy-light: #2a4562;
+    --gold: #c8a96e;
+    --gold-light: #e8d5a8;
+    --gold-pale: #f7f1e6;
+    --cream: #faf8f4;
+    --white: #ffffff;
+    --text-dark: #1a1a2e;
+    --text-mid: #3d4860;
+    --text-muted: #7a8299;
+    --vanguard: #cc0000;
+    --vanguard-light: #fff0f0;
+    --fidelity: #186a3b;
+    --fidelity-light: #edf7f1;
+    --border: #e2d9c8;
+    --section-gap: 72px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    line-height: 1.75;
+    font-size: 17px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--navy);
+    color: var(--white);
+    padding: 80px 60px 70px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 59px,
+      rgba(200,169,110,0.06) 60px
+    );
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 54px;
+    font-weight: 700;
+    line-height: 1.12;
+    max-width: 680px;
+    margin-bottom: 24px;
+    color: var(--white);
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero-sub {
+    font-size: 18px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.72);
+    max-width: 560px;
+    margin-bottom: 36px;
+    line-height: 1.65;
+  }
+  .hero-tags {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    background: rgba(200,169,110,0.15);
+    border: 1px solid rgba(200,169,110,0.35);
+    color: var(--gold-light);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    padding: 6px 14px;
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ── LAYOUT ── */
+  .content-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* ── INTRO BOX ── */
+  .intro-panel {
+    background: var(--white);
+    border-left: 4px solid var(--gold);
+    padding: 36px 40px;
+    margin: 56px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .intro-panel h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 14px;
+  }
+  .intro-panel p { color: var(--text-mid); font-size: 16px; margin-bottom: 10px; }
+  .intro-panel p:last-child { margin-bottom: 0; }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    margin: var(--section-gap) 0 36px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 18px;
+  }
+  .section-header .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.15;
+  }
+
+  /* ── BRAND BANNER ── */
+  .brand-banner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  .brand-card {
+    padding: 24px 28px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--white);
+  }
+  .brand-card.vanguard { border-top: 4px solid var(--vanguard); }
+  .brand-card.fidelity { border-top: 4px solid var(--fidelity); }
+  .brand-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .brand-card.vanguard .brand-name { color: var(--vanguard); }
+  .brand-card.fidelity .brand-name { color: var(--fidelity); }
+  .brand-tagline { font-size: 13px; color: var(--text-muted); font-style: italic; margin-bottom: 14px; }
+  .brand-fact { font-size: 14px; color: var(--text-mid); line-height: 1.6; }
+
+  /* ── FUND CARDS ── */
+  .fund-section { margin-bottom: 52px; }
+  .fund-section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    padding: 14px 20px;
+    border-radius: 4px;
+    color: var(--white);
+  }
+  .fund-section-title.vanguard { background: var(--vanguard); }
+  .fund-section-title.fidelity { background: var(--fidelity); }
+  .fund-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 18px; }
+  .fund-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px 22px;
+  }
+  .fund-card h4 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+  .fund-ticker {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    background: var(--gold-pale);
+    color: var(--navy-mid);
+    padding: 2px 7px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-bottom: 10px;
+    letter-spacing: 0.08em;
+  }
+  .fund-desc { font-size: 13.5px; color: var(--text-mid); line-height: 1.6; margin-bottom: 12px; }
+  .fund-stats { display: flex; gap: 16px; }
+  .fund-stat { text-align: center; }
+  .fund-stat .num {
+    font-family: 'DM Mono', monospace;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--navy);
+    display: block;
+  }
+  .fund-stat .lbl { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .fund-note { font-size: 12.5px; color: var(--text-muted); font-style: italic; margin-top: 8px; }
+
+  /* ── SERVICES TABLE ── */
+  .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-bottom: 40px; }
+  .services-col h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    font-weight: 700;
+    padding: 12px 18px;
+    border-radius: 4px 4px 0 0;
+    color: var(--white);
+    margin-bottom: 0;
+  }
+  .services-col h3.vanguard { background: var(--vanguard); }
+  .services-col h3.fidelity { background: var(--fidelity); }
+  .service-list { background: var(--white); border: 1px solid var(--border); border-top: none; border-radius: 0 0 6px 6px; }
+  .service-item { padding: 14px 18px; border-bottom: 1px solid var(--border); }
+  .service-item:last-child { border-bottom: none; }
+  .service-item .s-name { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 3px; }
+  .service-item .s-cost {
+    font-family: 'DM Mono', monospace;
+    font-size: 12.5px;
+    color: var(--gold);
+    font-weight: 500;
+  }
+  .service-item .s-desc { font-size: 13px; color: var(--text-muted); margin-top: 4px; line-height: 1.5; }
+
+  /* ── COST TABLE ── */
+  .cost-section { margin-bottom: 36px; }
+  .cost-table { width: 100%; border-collapse: collapse; background: var(--white); border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+  .cost-table thead tr { background: var(--navy); }
+  .cost-table thead th { padding: 14px 18px; text-align: left; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-light); font-weight: 500; }
+  .cost-table tbody tr { border-bottom: 1px solid var(--border); }
+  .cost-table tbody tr:last-child { border-bottom: none; }
+  .cost-table tbody tr:nth-child(even) { background: #fafaf8; }
+  .cost-table td { padding: 13px 18px; font-size: 14px; color: var(--text-mid); }
+  .cost-table td:first-child { font-weight: 600; color: var(--navy); font-size: 14px; }
+  .cost-table .mono { font-family: 'DM Mono', monospace; font-size: 13px; }
+  .badge-free { background: #e8f5e9; color: #1b5e20; font-family: 'DM Mono', monospace; font-size: 11px; padding: 2px 8px; border-radius: 3px; }
+  .badge-fee { background: #fff3e0; color: #bf360c; font-family: 'DM Mono', monospace; font-size: 11px; padding: 2px 8px; border-radius: 3px; }
+
+  /* ── CALLOUT BOXES ── */
+  .callout { border-radius: 6px; padding: 22px 26px; margin: 28px 0; font-size: 15px; line-height: 1.65; }
+  .callout.tip { background: #fffbf0; border: 1px solid #f0d080; border-left: 4px solid #c8a030; color: var(--text-dark); }
+  .callout.info { background: #f0f4ff; border: 1px solid #b0c4f8; border-left: 4px solid #3a6fd8; color: var(--text-dark); }
+  .callout-title { font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; font-weight: 500; margin-bottom: 8px; }
+  .callout.tip .callout-title { color: #b07820; }
+  .callout.info .callout-title { color: #2a5ab8; }
+
+  /* ── COMPARISON TABLE ── */
+  .comparison-wrap { overflow-x: auto; margin: 20px 0 60px; }
+  .comparison-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .comparison-table thead tr { background: var(--navy); }
+  .comparison-table thead th { padding: 16px 20px; text-align: left; color: var(--white); font-family: 'Source Serif 4', serif; font-weight: 600; font-size: 15px; }
+  .comparison-table thead th.attr { color: var(--gold-light); font-size: 12px; font-family: 'DM Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; }
+  .comparison-table thead th.v-col { color: #ffcdd2; }
+  .comparison-table thead th.f-col { color: #c8e6c9; }
+  .comparison-table .cat-row td {
+    background: var(--gold-pale);
+    color: var(--navy);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 9px 20px;
+    font-weight: 500;
+    border-bottom: 1px solid var(--border);
+  }
+  .comparison-table tbody tr { border-bottom: 1px solid var(--border); }
+  .comparison-table tbody tr:hover { background: #f9f7f4; }
+  .comparison-table tbody td { padding: 13px 20px; color: var(--text-mid); vertical-align: top; }
+  .comparison-table tbody td:first-child { font-weight: 600; color: var(--navy); font-size: 14px; width: 28%; }
+  .comparison-table .win { color: #1b5e20; font-weight: 600; }
+  .comparison-table .tie { color: var(--text-muted); }
+  .comparison-table .mono { font-family: 'DM Mono', monospace; font-size: 13px; }
+  .comparison-table .pill {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 3px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .pill.v { background: var(--vanguard-light); color: var(--vanguard); }
+  .pill.f { background: var(--fidelity-light); color: var(--fidelity); }
+  .pill.both { background: #f0f4ff; color: #2a5ab8; }
+
+  /* ── VERDICT ── */
+  .verdict-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 40px 0; }
+  .verdict-card { border-radius: 8px; padding: 28px 30px; }
+  .verdict-card.vanguard { background: var(--vanguard-light); border: 1px solid #f5c6c6; }
+  .verdict-card.fidelity { background: var(--fidelity-light); border: 1px solid #a5d6b8; }
+  .verdict-card .v-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  .verdict-card.vanguard .v-label { color: var(--vanguard); }
+  .verdict-card.fidelity .v-label { color: var(--fidelity); }
+  .verdict-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .verdict-card.vanguard h3 { color: var(--vanguard); }
+  .verdict-card.fidelity h3 { color: var(--fidelity); }
+  .verdict-card ul { list-style: none; padding: 0; }
+  .verdict-card ul li { font-size: 14px; color: var(--text-mid); padding: 5px 0; padding-left: 18px; position: relative; line-height: 1.55; }
+  .verdict-card ul li::before { content: '›'; position: absolute; left: 0; font-weight: 700; color: var(--gold); }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 32px 40px;
+    font-size: 12px;
+    line-height: 1.7;
+    margin-top: 64px;
+  }
+  .footer strong { color: rgba(255,255,255,0.75); }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: white; font-size: 13px; }
+    .hero { background: #0d1b2a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .brand-card, .fund-card, .service-list, .cost-table, .comparison-table { page-break-inside: avoid; }
+  }
+
+  @media (max-width: 680px) {
+    .hero { padding: 48px 28px; }
+    .hero h1 { font-size: 36px; }
+    .content-wrap { padding: 0 20px; }
+    .brand-banner, .fund-grid, .services-grid, .verdict-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<header class="hero">
+  <p class="hero-eyebrow">The Novice Investor's Guide · 2025 Edition</p>
+  <h1>Vanguard <span>&amp;</span> Fidelity<br>Side by Side</h1>
+  <p class="hero-sub">A plain-English guide for first-time investors with $1–2 million to put to work — covering funds, services, costs, and how to choose.</p>
+  <div class="hero-tags">
+    <span class="tag">Beginner Friendly</span>
+    <span class="tag">$1M–$2M Portfolio</span>
+    <span class="tag">Fund Comparison</span>
+    <span class="tag">Fee Analysis</span>
+  </div>
+</header>
+
+<main class="content-wrap">
+
+  <!-- INTRO -->
+  <div class="intro-panel">
+    <h2>Before we begin: what are these companies?</h2>
+    <p>Both Vanguard and Fidelity are among the largest and most trusted investment firms in the world. They help everyday people grow their money by offering access to financial markets without needing a stockbroker. Think of them as the "bank" for your investments — except instead of savings accounts, they hold stocks, bonds, and funds on your behalf.</p>
+    <p>With $1–2 million to invest, you are in an excellent position. Both firms offer premium services at this level, and your costs will be very low. This guide walks through what each offers, what it costs, and which might suit you better.</p>
+  </div>
+
+  <!-- ═══════════════════════════════ SECTION 1: FUNDS ═══════════════════════════════ -->
+  <div class="section-header">
+    <span class="label">Section 01</span>
+    <h2>The Funds They Offer</h2>
+  </div>
+
+  <p style="color:var(--text-mid); margin-bottom:28px; font-size:16px;">A "fund" pools money from thousands of investors to buy a basket of stocks or bonds. Instead of picking individual companies (risky and time-consuming), a fund spreads your money across hundreds or thousands of them automatically. Below are the most important fund categories each firm offers.</p>
+
+  <div class="brand-banner">
+    <div class="brand-card vanguard">
+      <div class="brand-name">Vanguard</div>
+      <div class="brand-tagline">"Owned by its investors"</div>
+      <div class="brand-fact">Founded 1975 by John Bogle — the inventor of the index fund. Vanguard is uniquely structured: fund investors own the company itself, which means profits go back to you as lower fees. Over $9 trillion in global assets under management.</div>
+    </div>
+    <div class="brand-card fidelity">
+      <div class="brand-name">Fidelity</div>
+      <div class="brand-tagline">"For the long term"</div>
+      <div class="brand-fact">Founded 1946, privately owned by the Johnson family. Fidelity competes on technology and breadth of services. Famous for offering several index funds with zero expense ratios. Over $14 trillion in assets under management.</div>
+    </div>
+  </div>
+
+  <!-- VANGUARD FUNDS -->
+  <div class="fund-section">
+    <div class="fund-section-title vanguard">Vanguard — Key Fund Types</div>
+    <div class="fund-grid">
+
+      <div class="fund-card">
+        <h4>Total Stock Market Index Fund</h4>
+        <span class="fund-ticker">VTSAX / VTI</span>
+        <p class="fund-desc">Owns a slice of virtually every publicly traded US company — over 3,800 stocks. A single fund that mirrors the entire US economy. Widely considered an ideal core holding.</p>
+        <div class="fund-stats">
+          <div class="fund-stat"><span class="num">0.03%</span><span class="lbl">Expense Ratio</span></div>
+          <div class="fund-stat"><span class="num">$3,000</span><span class="lbl">Min (VTSAX)</span></div>
+        </div>
+        <p class="fund-note">ETF version (VTI) has no minimum investment.</p>
+      </div>
+
+      <div class="fund-card">
+        <h4>S&amp;P 500 Index Fund</h4>
+        <span class="fund-ticker">VFIAX / VOO</span>
+        <p class="fund-desc">Tracks the 500 largest US companies — Apple, Microsoft, Amazon, etc. A classic benchmark that has averaged roughly 10% annual returns over many decades.</p>
+        <div class="fund-stats">
+          <div class="fund-stat"><span class="num">0.03%</span><span class="lbl">Expense Ratio</span></div>
+          <div class="fund-stat"><span class="num">$3,000</span><span class="lbl">Min (VFIAX)</span></div>
+        </div>
+      </div>
+
+      <div class="fund-card">
+        <h4>Total International Stock Index</h4>
+        <span class="fund-ticker">VTIAX / VXUS</span>
+        <p class="fund-desc">Diversifies beyond the US into Europe, Asia, emerging markets — over 7,000 foreign stocks. Pairs well with a US fund to cover the global economy.</p>
+        <div class="fund-stats">
+          <div class="fund-stat"><span class="num">0.11%</span><span class="lbl">Expense Ratio</span></div>
+          <div class="fund-stat"><span class="num">$3,000</span><span class="lbl">Minimum</span></div>
+        </div>
+      </div>
+
+      <div class="fund-card">
+        <h4>Total Bond Market Index Fund</h4>
+        <span class="fund-ticker">VBTLX / BND</span>
+        <p class="fund-desc">Provides stability by investing in thousands of US government and corporate bonds. Lower returns than stocks, but protects your portfolio during market downturns.</p>
+        <div class="fund-stats">
+          <div class="fund-stat"><span class="num">0.05%</span><span class="lbl">Expense Ratio</span></div>
+          <div class="fund-stat"><span class="num">$3,000</span><span class="lbl">Minimum</span></div>
+        </div>
+      </div>
+
+      <div class="fund-card">
+        <h4>Target Retirement Funds</h4>
+        <span class="fund-ticker">e.g. VTIVX (2045)</span>
+        <p class="fund-desc">All-in-one funds that automatically shift from growth-focused to conservative as you near retirement. Simply pick the fund closest to your expected retirement year.</p>
+        <div class="fund-stats">
+          <div class="fund-stat"><span class="num">0.08%</span><span class="lbl">Expense Ratio</span></div>
+          <div class="fund-stat"><span class="num">$1,000</span><span class="lbl">Minimum</span></div>
+        </div>
+      </div>
+
+      <div class="fund-card">
+        <h4>Balanced Index Fund</h4>
+        <span class="fund-ticker">VBIAX</span>
+        <p class="fund-desc">A 60% stock / 40% bond blend in one fund. A classic "balanced" portfolio for moderate risk tolerance — grows over time but cushions drops.</p>
+        <div class="fund-stats">
+          <div class="fund-stat"><span class="num">0.07%</span><span class="lbl">Expense Ratio</span></div>
+          <div class="fund-stat"><span class="num">$3,000</span><span class="lbl">Minimum</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FIDELITY FUNDS -->
+  <div class="fund-section">
+    <div class="fund-section-title fidelity">Fidelity — Key Fund Types</div>
+    <div class="fund-grid">
+
+      <div class="fund-card">
+        <h4>Fidelity ZERO Total Market Index</h4>
+        <span class="fund-ticker">FZROX</span>
+        <p class="fund-desc">Covers the entire US stock market with a 0% expense ratio — completely free to own. One of the lowest-cost funds on earth. Only available at Fidelity.</p>
+        <div class="fund-stats">
+          <div class="fund-stat"><span class="num">0.00%</span><span class="lbl">Expense Ratio</span></div>
+          <div class="fund-stat"><span class="num">$0</span><span class="lbl">Minimum</span></div>
+        </div>
+        <p class="fund-note">No minimum investment, no fees — ideal for beginners.</p>
+      </div>
+
+      <div class="fund-card">
+        <h4>Fidelity ZERO International Index</h4>
+        <span class="fund-ticker">FZILX</span>
+        <p class="fund-desc">Covers international stocks — also completely free. Pairs with FZROX for a global portfolio at zero ongoing cost, which is remarkable.</p>
+        <div class="fund-stats">
+          <div class="fund-stat"><span class="num">0.00%</span><span class="lbl">Expense Ratio</span></div>
+          <div class="fund-stat"><span class="num">$0</span><span class="lbl">Minimum</span></div>
+        </div>
+      </div>
+
+      <div class="fund-card">
+        <h4>Fidelity 500 Index Fund</h4>
+        <span class="fund-ticker">FXAIX</span>
+        <p class="fund-desc">Tracks the S&amp;P 500 at a rock-bottom cost, slightly cheaper than Vanguard's equivalent. One of the largest mutual funds in the world.</p>
+        <div class="fund-stats">
+          <div class="fund-stat"><span class="num">0.015%</span><span class="lbl">Expense Ratio</span></div>
+          <div class="fund-stat"><span class="num">$0</span><span class="lbl">Minimum</span></div>
+        </div>
+      </div>
+
+      <div class="fund-card">
+        <h4>Fidelity Total Bond Fund</h4>
+        <span class="fund-ticker">FTBFX</span>
+        <p class="fund-desc">Actively managed bond fund (unlike Vanguard's passive approach) aiming to beat the bond index. Slightly higher cost, but professionally managed.</p>
+        <div class="fund-stats">
+          <div class="fund-stat"><span class="num">0.45%</span><span class="lbl">Expense Ratio</span></div>
+          <div class="fund-stat"><span class="num">$0</span><span class="lbl">Minimum</span></div>
+        </div>
+      </div>
+
+      <div class="fund-card">
+        <h4>Fidelity Freedom Index Funds</h4>
+        <span class="fund-ticker">e.g. FDEWX (2045)</span>
+        <p class="fund-desc">Target-date funds that automatically manage your portfolio from growth to conservative as you approach retirement — similar to Vanguard's, at very low cost.</p>
+        <div class="fund-stats">
+          <div class="fund-stat"><span class="num">0.12%</span><span class="lbl">Expense Ratio</span></div>
+          <div class="fund-stat"><span class="num">$0</span><span class="lbl">Minimum</span></div>
+        </div>
+      </div>
+
+      <div class="fund-card">
+        <h4>Fidelity Contrafund</h4>
+        <span class="fund-ticker">FCNTX</span>
+        <p class="fund-desc">A famous actively managed fund that picks individual stocks based on research. Higher cost but decades of strong performance. A distinctly Fidelity offering.</p>
+        <div class="fund-stats">
+          <div class="fund-stat"><span class="num">0.39%</span><span class="lbl">Expense Ratio</span></div>
+          <div class="fund-stat"><span class="num">$0</span><span class="lbl">Minimum</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <div class="callout-title">What does "expense ratio" mean for your money?</div>
+    On a $1,500,000 portfolio, a 0.03% expense ratio costs you <strong>$450/year</strong>. A 0.50% expense ratio costs <strong>$7,500/year</strong>. Both firms offer many funds well below 0.10% — making your annual fund costs under $1,500 on a $1.5M portfolio. This is extraordinarily low compared to traditional financial advisors who typically charge 1% ($15,000/year).
+  </div>
+
+
+  <!-- ═══════════════════════════════ SECTION 2: SERVICES ═══════════════════════════════ -->
+  <div class="section-header">
+    <span class="label">Section 02</span>
+    <h2>Services &amp; What They Cost</h2>
+  </div>
+
+  <p style="color:var(--text-mid); margin-bottom:32px; font-size:16px;">Beyond holding your funds, both firms offer banking features, advisory services, and planning tools. At the $1–2M level, you unlock premium tiers at both firms. Here's what's available and what it costs.</p>
+
+  <div class="services-grid">
+    <div class="services-col">
+      <h3 class="vanguard">Vanguard Services</h3>
+      <div class="service-list">
+        <div class="service-item">
+          <div class="s-name">Self-Directed Investing</div>
+          <div class="s-cost">Free</div>
+          <div class="s-desc">Buy and sell Vanguard funds and ETFs on your own. Stock trades are also free. Perfect if you're comfortable managing your own portfolio.</div>
+        </div>
+        <div class="service-item">
+          <div class="s-name">Vanguard Digital Advisor</div>
+          <div class="s-cost">~0.20%/year (approx. $3,000 on $1.5M)</div>
+          <div class="s-desc">A robo-advisor that builds and manages a diversified portfolio for you automatically. You answer some questions; it handles the rest. Minimum: $3,000.</div>
+        </div>
+        <div class="service-item">
+          <div class="s-name">Vanguard Personal Advisor Services</div>
+          <div class="s-cost">0.30%/year (approx. $4,500 on $1.5M)</div>
+          <div class="s-desc">Combines technology with access to a human CFP® advisor for financial planning. Highly regarded. Minimum: $50,000. At $1M+ you get a dedicated advisor.</div>
+        </div>
+        <div class="service-item">
+          <div class="s-name">Vanguard Personal Advisor Wealth Mgmt</div>
+          <div class="s-cost">0.10%–0.30%/year</div>
+          <div class="s-desc">Premium tier for $5M+ investors with a dedicated advisor team. Includes tax optimization, estate planning guidance. (You're approaching this tier.)</div>
+        </div>
+        <div class="service-item">
+          <div class="s-name">Brokerage &amp; Retirement Accounts</div>
+          <div class="s-cost">Free</div>
+          <div class="s-desc">Taxable brokerage, Traditional IRA, Roth IRA, SEP-IRA, 401(k) rollovers — all available at no account fee.</div>
+        </div>
+        <div class="service-item">
+          <div class="s-name">Cash Management / Checking</div>
+          <div class="s-cost">Free (via partner banks)</div>
+          <div class="s-desc">Vanguard Cash Plus Account offers competitive yields on idle cash, FDIC-insured up to $1.25M through partner banks.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="services-col">
+      <h3 class="fidelity">Fidelity Services</h3>
+      <div class="service-list">
+        <div class="service-item">
+          <div class="s-name">Self-Directed Investing</div>
+          <div class="s-cost">Free</div>
+          <div class="s-desc">Buy and sell stocks, ETFs, and mutual funds. $0 commissions on all US stocks and ETFs. Excellent trading platform and mobile app, widely considered best-in-class.</div>
+        </div>
+        <div class="service-item">
+          <div class="s-name">Fidelity Go (Robo-Advisor)</div>
+          <div class="s-cost">Free under $25K; 0.35%/year above</div>
+          <div class="s-desc">Fidelity's automated investing service uses its own zero-fee funds. On $1.5M, this would cost roughly $5,250/year — more expensive than Vanguard's Digital Advisor.</div>
+        </div>
+        <div class="service-item">
+          <div class="s-name">Fidelity Wealth Services</div>
+          <div class="s-cost">0.20%–0.50%/year</div>
+          <div class="s-desc">Dedicated financial advisor access for portfolios over $250,000. At $1M+, you receive more personalized service. Includes financial planning and portfolio management.</div>
+        </div>
+        <div class="service-item">
+          <div class="s-name">Private Wealth Management</div>
+          <div class="s-cost">Custom pricing (typically 0.20%–0.50%)</div>
+          <div class="s-desc">For investors with $2M+. Dedicated advisor team, tax strategies, trust and estate planning, and alternative investments. A strong offering at this level.</div>
+        </div>
+        <div class="service-item">
+          <div class="s-name">Brokerage &amp; Retirement Accounts</div>
+          <div class="s-cost">Free</div>
+          <div class="s-desc">Full range: individual/joint brokerage, Traditional/Roth/SEP IRA, SIMPLE IRA, 403(b), 529 college savings. No account fees or minimums.</div>
+        </div>
+        <div class="service-item">
+          <div class="s-name">Fidelity Cash Management Account</div>
+          <div class="s-cost">Free · ATM fee reimbursements</div>
+          <div class="s-desc">A checking account with competitive rates, unlimited ATM fee reimbursements worldwide, no minimum balance, and FDIC insurance up to $5M through partner banks.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <div class="callout-title">The $1M+ Advantage</div>
+    With $1–2 million, you're a high-value client at both firms. Vanguard's Personal Advisor Services gives you access to a dedicated CFP® advisor at 0.30%/year. Fidelity's Wealth Services also provides an advisor at a similar rate. Both offer far more personalized care than the average investor receives — and at a fraction of what traditional wealth managers charge.
+  </div>
+
+
+  <!-- ═══════════════════════════════ SECTION 3: COSTS ═══════════════════════════════ -->
+  <div class="section-header">
+    <span class="label">Section 03</span>
+    <h2>Maintenance &amp; Ongoing Costs</h2>
+  </div>
+
+  <p style="color:var(--text-mid); margin-bottom:28px; font-size:16px;">Understanding what you pay is critical. The good news: both firms have dramatically reduced fees in recent years. Here is a full breakdown of costs you may encounter.</p>
+
+  <div class="cost-section">
+    <table class="cost-table">
+      <thead>
+        <tr>
+          <th>Cost Type</th>
+          <th>Vanguard</th>
+          <th>Fidelity</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Account maintenance fee</td>
+          <td><span class="badge-free">Free</span></td>
+          <td><span class="badge-free">Free</span></td>
+          <td>Neither charges just to have an account open</td>
+        </tr>
+        <tr>
+          <td>US stock &amp; ETF trades</td>
+          <td><span class="badge-free">$0</span></td>
+          <td><span class="badge-free">$0</span></td>
+          <td>Commission-free at both firms</td>
+        </tr>
+        <tr>
+          <td>Vanguard mutual fund trades</td>
+          <td><span class="badge-free">$0</span></td>
+          <td class="mono">$0–$49.95</td>
+          <td>Fidelity may charge for some Vanguard funds</td>
+        </tr>
+        <tr>
+          <td>Fidelity mutual fund trades</td>
+          <td class="mono">$0–$20</td>
+          <td><span class="badge-free">$0</span></td>
+          <td>Vanguard may charge for some Fidelity funds</td>
+        </tr>
+        <tr>
+          <td>Lowest fund expense ratio</td>
+          <td class="mono">0.03%/year</td>
+          <td class="mono">0.00%/year</td>
+          <td>Fidelity ZERO funds are truly free</td>
+        </tr>
+        <tr>
+          <td>Average index fund expense ratio</td>
+          <td class="mono">~0.05%/year</td>
+          <td class="mono">~0.02%/year</td>
+          <td>Fidelity has a slight edge overall</td>
+        </tr>
+        <tr>
+          <td>Options trading</td>
+          <td class="mono">$0 + $1/contract</td>
+          <td class="mono">$0 + $0.65/contract</td>
+          <td>For advanced investors only; rarely needed</td>
+        </tr>
+        <tr>
+          <td>Wire transfer (outgoing)</td>
+          <td><span class="badge-fee">$10/wire</span></td>
+          <td><span class="badge-free">Free</span></td>
+          <td>Fidelity has an edge for frequent wire transfers</td>
+        </tr>
+        <tr>
+          <td>Paper statements</td>
+          <td class="mono">$0–$25/year</td>
+          <td><span class="badge-free">Free</span></td>
+          <td>Vanguard may charge for paper; go paperless to avoid</td>
+        </tr>
+        <tr>
+          <td>IRA closeout/transfer fee</td>
+          <td><span class="badge-free">$0</span></td>
+          <td><span class="badge-free">$0</span></td>
+          <td>Neither charges to transfer an IRA out</td>
+        </tr>
+        <tr>
+          <td>Robo-advisor (Digital)</td>
+          <td class="mono">~0.20%/year</td>
+          <td class="mono">0.35%/year (over $25K)</td>
+          <td>Vanguard is cheaper for automated management</td>
+        </tr>
+        <tr>
+          <td>Human advisor access</td>
+          <td class="mono">0.30%/year</td>
+          <td class="mono">0.20–0.50%/year</td>
+          <td>Comparable; Vanguard rate is fixed and simple</td>
+        </tr>
+        <tr>
+          <td>Cost on $1.5M (index funds only)</td>
+          <td class="mono">~$450–$750/yr</td>
+          <td class="mono">~$0–$300/yr</td>
+          <td>Fidelity ZERO funds = literally $0 in fund fees</td>
+        </tr>
+        <tr>
+          <td>Cost on $1.5M (with human advisor)</td>
+          <td class="mono">~$4,500–$5,250/yr</td>
+          <td class="mono">~$3,000–$7,500/yr</td>
+          <td>Varies by service tier chosen</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout tip">
+    <div class="callout-title">Put the savings in perspective</div>
+    Even at $1.5 million, managing a simple three-fund index portfolio at Fidelity using ZERO funds costs you <strong>$0</strong> in annual fund fees. At Vanguard with their lowest-cost funds, you'd pay roughly <strong>$450–$750/year</strong>. Both are extraordinarily cheap compared to the industry average of 1%+. The difference between the two firms matters far less than choosing either over an expensive traditional advisor.
+  </div>
+
+
+  <!-- ═══════════════════════════════ SECTION 4: COMPARISON ═══════════════════════════════ -->
+  <div class="section-header">
+    <span class="label">Section 04</span>
+    <h2>Head-to-Head Comparison</h2>
+  </div>
+
+  <p style="color:var(--text-mid); margin-bottom:28px; font-size:16px;">Here's the complete side-by-side breakdown across every dimension that matters to a $1–2M investor. "Win" marks indicate a meaningful advantage in that category.</p>
+
+  <div class="comparison-wrap">
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th class="attr">Attribute</th>
+          <th class="v-col">Vanguard</th>
+          <th class="f-col">Fidelity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- COSTS -->
+        <tr class="cat-row"><td colspan="3">Costs &amp; Fees</td></tr>
+        <tr>
+          <td>Lowest expense ratio available</td>
+          <td class="mono">0.03%</td>
+          <td class="mono win">0.00% <span class="pill f">Fidelity wins</span></td>
+        </tr>
+        <tr>
+          <td>Average index fund expense ratio</td>
+          <td class="mono">~0.05%</td>
+          <td class="mono win">~0.02% <span class="pill f">Fidelity wins</span></td>
+        </tr>
+        <tr>
+          <td>Account maintenance fees</td>
+          <td>None</td>
+          <td>None <span class="pill both">Tie</span></td>
+        </tr>
+        <tr>
+          <td>Outgoing wire fees</td>
+          <td>$10/wire</td>
+          <td class="win">Free <span class="pill f">Fidelity wins</span></td>
+        </tr>
+        <tr>
+          <td>Stock &amp; ETF trading commissions</td>
+          <td>$0</td>
+          <td>$0 <span class="pill both">Tie</span></td>
+        </tr>
+
+        <!-- FUNDS -->
+        <tr class="cat-row"><td colspan="3">Fund Selection</td></tr>
+        <tr>
+          <td>Number of mutual funds available</td>
+          <td>~190 own funds</td>
+          <td class="win">10,000+ (all brands) <span class="pill f">Fidelity wins</span></td>
+        </tr>
+        <tr>
+          <td>Zero-cost index fund lineup</td>
+          <td>Not offered</td>
+          <td class="win">Yes (ZERO funds) <span class="pill f">Fidelity wins</span></td>
+        </tr>
+        <tr>
+          <td>Actively managed fund quality</td>
+          <td>Limited, focused on index</td>
+          <td class="win">Strong (Contrafund, etc.) <span class="pill f">Fidelity wins</span></td>
+        </tr>
+        <tr>
+          <td>ETF selection</td>
+          <td>80+ Vanguard ETFs</td>
+          <td>Wide third-party access <span class="pill both">Comparable</span></td>
+        </tr>
+        <tr>
+          <td>International fund options</td>
+          <td class="win">Broad &amp; well-structured <span class="pill v">Slight edge</span></td>
+          <td>Also strong</td>
+        </tr>
+
+        <!-- ADVISORY -->
+        <tr class="cat-row"><td colspan="3">Advisory Services ($1M–$2M level)</td></tr>
+        <tr>
+          <td>Access to human CFP® advisor</td>
+          <td class="win">Yes, at $50K+ (0.30%/yr) <span class="pill v">Vanguard wins</span></td>
+          <td>Yes, at $250K+ (0.20–0.50%)</td>
+        </tr>
+        <tr>
+          <td>Dedicated advisor at $1M+</td>
+          <td class="win">Yes — designated advisor <span class="pill v">Vanguard wins</span></td>
+          <td>Yes — wealth team access</td>
+        </tr>
+        <tr>
+          <td>Robo-advisor cost</td>
+          <td class="win">~0.20%/year <span class="pill v">Vanguard wins</span></td>
+          <td>0.35%/year (above $25K)</td>
+        </tr>
+        <tr>
+          <td>Tax-loss harvesting (automated)</td>
+          <td>Limited availability</td>
+          <td class="win">Available in Wealth Services <span class="pill f">Fidelity wins</span></td>
+        </tr>
+        <tr>
+          <td>Financial planning tools (online)</td>
+          <td>Basic</td>
+          <td class="win">Robust &amp; comprehensive <span class="pill f">Fidelity wins</span></td>
+        </tr>
+
+        <!-- EXPERIENCE -->
+        <tr class="cat-row"><td colspan="3">Technology &amp; User Experience</td></tr>
+        <tr>
+          <td>Mobile app quality</td>
+          <td>Functional, basic</td>
+          <td class="win">Best-in-class, highly rated <span class="pill f">Fidelity wins</span></td>
+        </tr>
+        <tr>
+          <td>Website &amp; dashboard</td>
+          <td>Older interface, being updated</td>
+          <td class="win">Modern, feature-rich <span class="pill f">Fidelity wins</span></td>
+        </tr>
+        <tr>
+          <td>Research &amp; data tools</td>
+          <td>Adequate for index investors</td>
+          <td class="win">Extensive screening, research <span class="pill f">Fidelity wins</span></td>
+        </tr>
+        <tr>
+          <td>Customer service hours</td>
+          <td>Mon–Fri, extended hours</td>
+          <td class="win">24/7 phone &amp; chat <span class="pill f">Fidelity wins</span></td>
+        </tr>
+        <tr>
+          <td>Physical branch locations</td>
+          <td>Very limited</td>
+          <td class="win">200+ Investor Centers <span class="pill f">Fidelity wins</span></td>
+        </tr>
+
+        <!-- ACCOUNTS -->
+        <tr class="cat-row"><td colspan="3">Account Types &amp; Banking</td></tr>
+        <tr>
+          <td>Account variety (IRA, 401k, etc.)</td>
+          <td>Comprehensive</td>
+          <td>Comprehensive <span class="pill both">Tie</span></td>
+        </tr>
+        <tr>
+          <td>Cash management / checking</td>
+          <td>Cash Plus (competitive yield)</td>
+          <td class="win">CMA — ATM reimbursements worldwide <span class="pill f">Fidelity wins</span></td>
+        </tr>
+        <tr>
+          <td>FDIC insurance on cash</td>
+          <td>Up to $1.25M</td>
+          <td class="win">Up to $5M <span class="pill f">Fidelity wins</span></td>
+        </tr>
+        <tr>
+          <td>529 college savings plan</td>
+          <td>Limited</td>
+          <td class="win">Strong 529 offerings <span class="pill f">Fidelity wins</span></td>
+        </tr>
+
+        <!-- TRUST & REPUTATION -->
+        <tr class="cat-row"><td colspan="3">Trust, Philosophy &amp; Reputation</td></tr>
+        <tr>
+          <td>Ownership structure</td>
+          <td class="win">Owned by fund investors <span class="pill v">Unique advantage</span></td>
+          <td>Privately held (Johnson family)</td>
+        </tr>
+        <tr>
+          <td>Index investing philosophy</td>
+          <td class="win">Pioneered it — deeply committed <span class="pill v">Vanguard wins</span></td>
+          <td>Strong but also offers active funds</td>
+        </tr>
+        <tr>
+          <td>Track record &amp; longevity</td>
+          <td>50 years, highly trusted</td>
+          <td>79 years, highly trusted <span class="pill both">Both excellent</span></td>
+        </tr>
+        <tr>
+          <td>SIPC protection</td>
+          <td>$500K/$250K cash</td>
+          <td>$500K/$250K cash <span class="pill both">Tie</span></td>
+        </tr>
+        <tr>
+          <td>Best suited for</td>
+          <td><span class="pill v">Long-term buy-and-hold investors</span></td>
+          <td><span class="pill f">Investors wanting full-service features</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- ═══════════════════════════════ SECTION 5: VERDICT ═══════════════════════════════ -->
+  <div class="section-header">
+    <span class="label">Section 05</span>
+    <h2>Which Is Right for You?</h2>
+  </div>
+
+  <p style="color:var(--text-mid); margin-bottom:32px; font-size:16px;">Neither firm is universally "better" — they serve slightly different investor profiles. Here's a plain-English summary of who should go where.</p>
+
+  <div class="verdict-grid">
+    <div class="verdict-card vanguard">
+      <div class="v-label">Choose Vanguard if…</div>
+      <h3>You want simplicity &amp; a pure investing philosophy</h3>
+      <ul>
+        <li>You want a "set it and forget it" portfolio using low-cost index funds</li>
+        <li>You value having a human CFP® advisor at 0.30%/year with a dedicated person at $1M+</li>
+        <li>You care that the company's structure aligns its interests with yours</li>
+        <li>You don't need banking features or frequent trading</li>
+        <li>You're attracted to Vanguard's legendary commitment to low-cost investing</li>
+        <li>You're comfortable with an older, simpler website interface</li>
+      </ul>
+    </div>
+    <div class="verdict-card fidelity">
+      <div class="v-label">Choose Fidelity if…</div>
+      <h3>You want features, flexibility &amp; the lowest possible costs</h3>
+      <ul>
+        <li>You want the absolute lowest fund costs (ZERO funds cost literally $0)</li>
+        <li>You want a great mobile app, modern website, and 24/7 support</li>
+        <li>You'd use in-person branches or want to walk in for help</li>
+        <li>You want strong cash management with worldwide ATM reimbursements</li>
+        <li>You'd benefit from tax-loss harvesting, research tools, or 529 plans</li>
+        <li>You want access to actively managed funds alongside index funds</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <div class="callout-title">The honest truth</div>
+    At $1–2 million invested in low-cost index funds, the difference in annual fees between Vanguard and Fidelity is likely <strong>less than $1,000/year</strong> — and could be $0 difference. The more important choice is your <em>asset allocation</em> (how you split between stocks and bonds), your advisor relationship, and staying disciplined during market downturns. Either firm will serve you exceptionally well. Many investors maintain accounts at both.
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <strong>Disclosure</strong><br>
+  This guide is for educational purposes only and does not constitute financial advice. Expense ratios, fee structures, and service offerings are subject to change. Always verify current details directly with Vanguard (vanguard.com) and Fidelity (fidelity.com) before making investment decisions. Consider consulting a licensed financial advisor or CPA for your specific situation. Past performance does not guarantee future results.<br><br>
+  Prepared for novice investors · $1M–$2M portfolio range · 2025
+</footer>
+
+</body>
+</html>
