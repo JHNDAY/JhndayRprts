@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EatSharp — Session Transcript</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Karla:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f9f6f1;
+    --card: #ffffff;
+    --border: #e5e0d8;
+    --text: #1c1a17;
+    --text-muted: #7a7469;
+    --accent: #3a7d44;
+    --accent-light: #eaf3ec;
+    --gopal: #2c5282;
+    --gopal-light: #ebf2fb;
+    --leslie: #744210;
+    --leslie-light: #fef9f0;
+    --john: #1a5c4a;
+    --john-light: #f0faf6;
+    --shadow: 0 1px 4px rgba(0,0,0,0.08), 0 4px 24px rgba(0,0,0,0.04);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Karla', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--text);
+    padding: 52px 40px 44px;
+  }
+  .header-inner {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+  .header-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 14px;
+  }
+  h1 {
+    font-family: 'Lora', serif;
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.25;
+    margin-bottom: 10px;
+  }
+  h1 span { color: #7ed98a; }
+  .header-sub {
+    font-size: 0.9rem;
+    color: #9a9790;
+    font-weight: 300;
+    margin-bottom: 32px;
+  }
+  .header-meta {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    border-top: 1px solid #333;
+    padding-top: 20px;
+  }
+  .meta-pill {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #ccc;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .meta-pill .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── MAIN ── */
+  main {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+
+  /* ── NOTE STRIP ── */
+  .note-strip {
+    background: #fffbe8;
+    border: 1px solid #e8d97a;
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-size: 0.8rem;
+    color: #6b5c1a;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .note-strip .icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+
+  /* ── SPEAKER CARDS ── */
+  .speaker-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 36px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    animation: riseIn 0.5s ease both;
+  }
+  @keyframes riseIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .speaker-card:nth-child(2) { animation-delay: 0.1s; }
+  .speaker-card:nth-child(3) { animation-delay: 0.2s; }
+  .speaker-card:nth-child(4) { animation-delay: 0.3s; }
+
+  /* colored top bar */
+  .speaker-card::before {
+    content: '';
+    display: block;
+    height: 4px;
+    width: 100%;
+  }
+  .card-gopal::before { background: linear-gradient(90deg, var(--gopal), #5e8fc4); }
+  .card-leslie::before { background: linear-gradient(90deg, var(--leslie), #c9823a); }
+  .card-john::before   { background: linear-gradient(90deg, var(--john), #3aaa82); }
+
+  .speaker-header {
+    padding: 22px 28px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .avatar {
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Lora', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #fff;
+    flex-shrink: 0;
+    letter-spacing: -0.5px;
+  }
+  .avatar-gopal  { background: var(--gopal); }
+  .avatar-leslie { background: var(--leslie); }
+  .avatar-john   { background: var(--john); }
+
+  .speaker-info { flex: 1; }
+  .speaker-name {
+    font-family: 'Lora', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .speaker-role {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+  .word-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+  }
+
+  .speaker-body {
+    padding: 26px 28px 28px;
+    line-height: 1.82;
+    font-size: 0.93rem;
+    color: #2e2c28;
+    font-weight: 400;
+  }
+  .speaker-body p { margin-bottom: 1em; }
+  .speaker-body p:last-child { margin-bottom: 0; }
+
+  /* Gopal — paragraph breaks every ~60 words for readability */
+  .card-gopal .speaker-body { font-size: 0.91rem; line-height: 1.85; }
+  .card-leslie .speaker-body { font-style: italic; color: #5c4a2a; }
+  .card-john .speaker-body { color: #1e3a30; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--text);
+    text-align: center;
+    padding: 24px;
+    font-size: 0.73rem;
+    color: #666;
+  }
+  footer strong { color: #888; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-eyebrow">Session Transcript</div>
+    <h1>Eat<span>Sharp</span> Nutrition Class</h1>
+    <div class="header-sub">Kapur Foundation, Inc. · Recorded Session · Full Speaker Transcripts</div>
+    <div class="header-meta">
+      <div class="meta-pill">
+        <div class="dot" style="background:#5e8fc4"></div>
+        Gopal Kapur — Instructor
+      </div>
+      <div class="meta-pill">
+        <div class="dot" style="background:#c9823a"></div>
+        Leslie Blachman — Participant
+      </div>
+      <div class="meta-pill">
+        <div class="dot" style="background:#3aaa82"></div>
+        John Day — Participant
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <div class="note-strip">
+    <div class="icon">ℹ️</div>
+    <div>Each speaker's remarks are combined into a single continuous stream. Timestamps and segment breaks have been removed for readability. Speech fragments and transcription artifacts are preserved as spoken.</div>
+  </div>
+
+  <!-- ══ GOPAL KAPUR ══ -->
+  <div class="speaker-card card-gopal">
+    <div class="speaker-header">
+      <div class="avatar avatar-gopal">GK</div>
+      <div class="speaker-info">
+        <div class="speaker-name">Gopal Kapur</div>
+        <div class="speaker-role">Instructor · Kapur Foundation, Inc.</div>
+      </div>
+      <div class="word-count">~7,800 words</div>
+    </div>
+    <div class="speaker-body">
+
+<p>I believe you would benefit from that. So let me stop for a moment. Those people who have used the quiz… Would that in any way, you think, would help you? And we very don't have to say things… Just because I'm asking, just give me your thought. Would a monthly use of the grid? It's only 4 minutes. Would be any benefit, or… or… what do you think? Anybody? Leslie is unmute and show is Marilyn unmute? Anybody else want to say something, please?</p>
+
+<p>Okay. And because… the food that you're eating doesn't change. Yeah, so what we have to… what we have to think about is look at the yellow first. Yellow is really easy to change, because that's inclusion of more things. Not excluding. Excluding is more difficult than is inclusion. A level. So try to improve… if you try to improve your yellow points, your green will go up. And then look at one or two of your endpoints, and you say, okay, I do this. Four times a week? Can I just do it only two times a week? So that way will be proven. So that might help. Anybody else? Any thoughts? Well, that… okay.</p>
+
+<p>Well, no, these are some questions that class participants have asked in the… past, so I just listed all of those, and I'll just go through those. We may have, uh, kind of covered those before. And I see every prebiotics I've listed twice. I need to change… All right, so just… we'll just go through those antioxidants. So let's look at those. Antioxidants are… compounds that protect our body from cell damage. Our body is built for trillions of cells. And they are being generated all the time, and, uh, so we need to have… the cell walls and cells inside, in good conditions, and the ingredients, the trace items in all of these things, help strengthen our… body cells. So that's what we ask ourselves. Am I having some… some, uh, herbs. Am I having some, you know, spices? Because these things… am I eating few walnuts or almonds? Uh, every week or so. So all of these things are… trace elements that help us.</p>
+
+<p>So… so, you know, you could take a list like that and put it on the refrigerator, and say, well, I haven't had garlic for weeks. And so there's garlic you can take. Now, there are ways to eat garlic, for example. Raw garlic is not very tasty, and so forth, you have to cook it. One of the best ways to eat garlic is take the garlic bulb, slice off the top, less than one-third, just to open the cloves, and put some olive oil on those, take 2–3 of these, just wrap them in aluminum foil, put it in the oven at 350, and depending on your oven, it takes about half an hour, 45 minutes or so. And now it will roast. And, uh, you don't want it to get too roasted, then it'll get chewy. Take it out, let it cool, squeeze out all the cloves, put it in olive oil, it will last in the refrigerator for 2–3 weeks. Just use a clean utensil each time, and now you can start adding it to your soups and anything, you know, toast and all.</p>
+
+<p>Now, garlic… capsules and garlic tablets are not good, because they don't have the ingredients and the trace elements that we need. It is there in volume, but it's not there in quality. So that's something, uh, in… Any question on any of the antioxidants? All right. So, please know what you consume routinely. Ask yourself, and herbs. Just grow some herbs in your pots, 3–4 of them, and then to have rosemary, and it's very easy to grow. Mint will take over your neighborhood. So don't put it in the ground. Mint should always be in a container. And those are nice things to have. All right.</p>
+
+<p>B12. Very important. What's their role? Nerve function? So the red blood production, all of those things are B12, and many people can be deficient in B12 because they don't eat. So, first of all, it comes from meat, fish, eggs, and dairy. Well, if you're a vegetarian, and vegan, especially if you're a vegan, then you have to mind your B12. Cereals are fortified with it. Plant milks are fortified with it, and then, if you want to take the supplement form, I would actually talk to a… dietitian, and say which supplement, how much, and so forth. It's very important. The supplement market in the US is full of just useless stuff. And it's billions of dollars worth. And you'll have to be very, very careful that you don't follow the commercials. You should follow a dietitian.</p>
+
+<p>And so forth. The problem with B12 deficiency… It is a latent deficiency. It does not show up right away. It will show up at 6, 7, 8, 12, 13 months, 2 years later, then it is difficult to recover. It takes a long time to recover. So you don't want to be B12 deficient at any time, so keep that in mind if you are a vegan and vegetarian. Now, if you are an omnivore, then the meat, fish, eggs you eat is giving you those, so that's something… a very important thing to keep in mind.</p>
+
+<p>Uh, carbohydrates. Over there about 30 years ago or so, a bad word came on carbohydrates. Don't eat them, and all that. Our body needs sugar from carbohydrates. And the better the carbohydrates, the better the quality of sugar, so we need those. For sure. And now, how much we need depends on our body. But the first question you should have is, I'm going to have very high-quality carbohydrates. So, ultra-processed and processed food, I'm not going to eat, because those are low-quality carbohydrates. So it's a very important thing to have, and is a very important thing to be mindful of. And going on a keto diet, it should be not under… the direction of some influencer on TV. That should be under the direction of a dietitian.</p>
+
+<p>If you need to do this, if you have to do this because you want to control your carbs extensively, understand how all that works. So there is, you know, an important part of life. The simple… are, uh, excuse me. Simple, complex, and, you know, healthy carbohydrates. So, what we are looking for in carbohydrates is the amount of dietary fiber. Higher the fiber, better the carbohydrates. So, the ultra-processed and processed — they have removed the healthy part, so now it is not very good in eating those. So, for example, chickpeas and edamame, lentils, multigrain, quinoa, whole grain. In whole grain, if it says made with whole grain, that means they may only have a partial amount of whole grain. It should say 100%. Then you're having better carbohydrates. So, carbohydrates have been put in a bad corner, but we need to separate them — ultra-processed bad corner, unprocessed good and fine. So that's something to keep in mind.</p>
+
+<p>People ask about vitamin B9, which is blood cell production, brain function, healthy development. So B12 and B9 are very important. Where does it come from? Beef liver — we don't eat beef liver anymore. I haven't had beef liver in 45 years. Uh, eggs, breakfast cereals have it, oranges, mangoes, avocados. And mangoes have really high sugar, so if you have diabetes concerns, you want to have mostly avocado. And papaya occasionally, mango is fine too. But avocado, if available, should be a regular part of your diet, because it's a very high fiber, it has a very high quality fat, and so that's something to think about.</p>
+
+<p>Turnip greens are one of the healthiest greens of all greens. So you have to buy the turnip, and with the green also on the top, wash it, chop it, saute it, season it, and those are very good. They're a bit stronger in taste. Asparagus is very good in season. Broccoli, of course. So we need to look at the dark greens. Black beans, winter beans, garbanzo, peanuts. Now, you know, just get some roasted peanuts that are unsalted, and shell them, if you're watching TV or so, shell them and eat them. You're getting good manual dexterity if you're shelling them. And so forth. So, we just have to make a habit of that type of behavior. So, variety becomes very important.</p>
+
+<p>So you just have to have full pantry variety, uh, in our… now, I'm… I haven't been to the Boston area for many, many years, so I don't know supermarkets and all. If you have any markets where they have open bins that you can buy from, those places happen to have a big variety of seeds and nuts and dates and figs and everything, and you can buy them in small quantities. If you have any market just like that, try to find it, try to go there often. And I also found, in California, those markets have a very high turnover. And that means everything there is much more fresh. So just take a look at that.</p>
+
+<p>A typical Western diet is very processed, very cooked, very sugared and all, so we need to go with less cooked, less sugar, less processed, more in our mind. And oils — extra virgin olive oil, avocado oil, and expeller canola oil. So those are… you should be using olive oil all the time in salads and things, and for low-heat frying, sauteing type of thing. Avocado oil is a good next one. And then, people don't like the olive oil taste in baked goods. If that's the case, that's fine. You can use canola oil. So depending on those things, you have to look at quality.</p>
+
+<p>So this is something to keep in mind in our anti-inflammatory diets. Compliance — people ask for that. Our board member, Dr. Chopra, is on our Kapur Foundation, which is a non-profit with a mission to provide nutrition education. His line is, if you take supplements, all you have is expensive urine. And there's no market for it. That's his deal. Because most of the supplements you take are not absorbed. And also, they are not well formulated. They can have harmful ingredients combined with the supplements you're looking for. So if you're going to take a supplement, I would talk to a dietitian. Do I need it? Shall I take it? Fine. Then look for those that are certified by a lab. So, there are thousands of those products, there are people on… you know, online, pushing those things, and people follow those people.</p>
+
+<p>So, supplements can be… sometimes there are lawsuits, and the courts find these people, but the fine amount is chump change compared to the benefits they make. So it doesn't matter to them at all. If they're fined 50 million, because they've made $500 million from this already. So that's something to keep in mind. The other thing would be, to find which supplement you want, look up any lawsuits against the supplement — that will tell you something. GNC, very popular supplement place — annual revenue is $2.5 billion. They were fined $2.25 million. That's nothing to them. Herbalife, 200 million settlement for improperly marketing — well, 4% of annual revenue one year. Big deal. Weatherman Shop, 4.5 million settlement, 0.36%. So all of this stuff means nothing to them, so you have to be very careful.</p>
+
+<p>And if the last line is… remember, if claims sound dramatic, urgent, or too good to be true — they are that way. So, supplements are needed in some cases. For example, I take vitamin D. I have skin that doesn't tolerate sun very much. And on sunny days, I will sit outside and expose my lower legs, but if it gets on my face… I get very red and itchy. So I don't get enough vitamin D, so I take vitamin D in the right amount. A growing number of physicians are profiting from supplements. There are 5–6 physicians who used to be heart surgeons, with very well-regarded backgrounds. Now they are in the supplement business. "No, this'll kill you, don't eat this. Berries will make a hole in your stomach." All of that kind of stuff. At the end, they're selling supplements from the Himalayas or Timbuktu, only they can find them, and here it is for $69.99 a bottle — all crap. My board member doctor friend said, why are they doing that? He said — easy money. It's easier than surgery, the liability is lower, and the stress is lower.</p>
+
+<p>If you have sons and grandsons and nephews, they are very highly exposed to the influence of people of this type on TikTok and others. Social media health information is going to be more and more prevalent with AI, and the doctors are saying there are going to be more health problems in young people because of the poor information they are getting. So, if you want nutrients, first level look at food. Second level look at supplements and pills and capsules. Just ask yourself — if you need potassium, maybe you should buy a whole bunch of apricots and take the apricots and bananas, and some spinach and milk and yogurt, just grind them all together, put a little bit of honey. You've got a great potassium drink. It's easy to make.</p>
+
+<p>Greek yogurt, plain Greek yogurt — now you can put into it any fruit, or nuts and seeds you want. A couple of teaspoons every other day is a good thing for your stomach. I had yogurt with every meal growing up. Sometimes it would gel fully because the temperature would be off, or she didn't put enough in — well, that became a drink. But if it gels fully, put it in a blender, put a couple of other things, twirl it. And here is a nice drink to have.</p>
+
+<p>One of the best cheeses to have is goat cheese. It's medium hard, so it is good for you, and it's not that much fat. And the nutrient profile is good. I like a brand called Drunken Goat Cheese. Every time I have some fruit and crackers, I have a teaspoon or 2 teaspoons of goat cheese with it. And now, my carbohydrate absorption is much better, because if you combine carbohydrates with some fat — seeds, or cheese, or yogurt, or mineral penol — the absorption is much better.</p>
+
+<p>Questions, thoughts, points? Any of these items? Okay. So, supplements from food. The things that have a good amount of things — 4 or 5 of these things, you should be eating every day. 4 or 5, whichever. That's a good thing to have. And that's not a difficult thing to do. Chickpeas, you know, you can get a can of chickpeas, drain it, and then put some herbs in it, some spices in it, some tomato sauce with it. There's a dish. Anytime you have cold cereal, most of the time in your routine, you should chop up some walnuts and put them in there. Walnuts — I like to eat them raw, but they can be astringent and they also go rancid because they have a very high oil content. So keep them in the refrigerator.</p>
+
+<p>I found some red walnuts at a Windmill Farm in Danville, an outdoor type of a food place. I asked the guy, I know him — I said, can I crack one? I cracked one, it was a red walnut. I've been eating walnuts all my life. They said the variety was developed at UC Davis by somebody who wanted new types of walnuts — a cross between American walnut and Chinese walnut. Beautiful red walnut, and less astringent. Very cheap there, but online, very expensive. Now I use those in my cereal. Or a few walnuts, and a few raisins, or a date or two — dates have iron and sugar, but they have good fiber in them. So it's a good snack if you like it.</p>
+
+<p>Questions, thoughts, points, please? Anyone? Anything? Any thoughts? So, the first quiz you guys took, then 69, then 70, 71 — because the number is small, very few people, they say a total of 24 from the start. Because we are only a few people, and everybody has now taken the quiz each week, but the numbers didn't change much. The yellow went down, and the risk is the same. So people haven't made that many changes, but they're including more — and it will take a little time. If you want to change, then you have to do it every week. If you want a slow change, then once a month is okay. But if you say, I need to improve my diet, I need to improve my health, then do it every week, and consciously work on reducing first the yellow, then the red.</p>
+
+<p>Questions, thoughts? Once… as I say sometimes, I have occasionally taught a yoga class. And in yoga, we tell everybody, please, for the next 5 to 10 minutes, don't say a word. And then somebody within 2 minutes has a question to ask. But please be open to any questions and comments. All right? Anybody else have thoughts?</p>
+
+<p>As we talked very early, there are 10 things we need to do to eat healthy. I would like to go through each one of those. The first one is minimize ultra-processed. Be conscious of what they are. They are the ones with lots of ingredients you cannot pronounce and don't know what they are. Those are chemicals. Those are ultra-processed. And they all have low fiber. If the fiber is less than 4–5 grams per serving — the ideal is 7 grams per serving — that is a good fiber signal. The second and third thing to look at is added sugar. If added sugar is more than fiber in that thing, that is not a good thing.</p>
+
+<p>Have you seen the commercial William Shatner is doing on cereals? "Fiber to the world." It's been shown all over the place and Raisin Bran is being sold by him. It has 7 grams of fiber — that's a decent fiber, not excellent, decent — and it has 17 grams of sugar. So the sugar cancels all the fiber benefits. Look, it completely does that. So that's being sold by Shatner. I mean, you know, old people like him, young people like him, middle-aged people like him. I looked up what he's worth — about $100 million. He could not use that money if he burned it every day. So what is the purpose? Market pistachios, market kale, or broccoli. But that's what he's selling.</p>
+
+<p>Healthy carbohydrates. The amount depends on your body and your needs, and your exercise and so forth. Healthy means they are as close to nature as they came out. If you take whole wheat, then grind it to whole wheat flour, then take the enriched flour, then take the white flour — the glycemic index of that rises from 50, 60, to 70, 80 or more. Same weight, different processing. The moment you say enriched, that means it is not a healthy carbohydrate.</p>
+
+<p>Healthy proteins. Most people, when they think of proteins, they think about meat, fish, and eggs. But healthy proteins are also unfried, unsalted seeds and nuts, which are very high quality protein. So every time you have cereal, put some nuts in it. And you know, grind up some… soak some almonds, grind them up, and then any milk you like — oat milk, almond milk — and any fruit you like, put them together, grind them up, and it makes a very good drink as well.</p>
+
+<p>Healthy fats — extra virgin olive oil is very healthy fat. Avocado is very healthy fat. Healthy dietary fiber — next thing they're gonna see marketed are two things: fiber and protein. Because of all the recent research from the FDA and everybody else, they are now pushing protein and fiber. I have seen fast food restaurants with protein bowls of 90 grams of protein, 80 grams of protein. And most of that fiber is not natural fiber. Inulin — that is a chemical fiber. That's not good for you. So get to know your fiber sources, the ones that would come from more raw materials, not chemical materials.</p>
+
+<p>The spices and herbs have phytochemicals that are good for the gut bacteria balance. That's what they do. If you've got a machine which is cracking all over and rubbing, a little bit of WD-40 helps things go smooth. So spices and herbs are the WD-40 of our food. They have phytochemicals that help us very much. Red bell pepper is one of the very rich sources of vitamin C. Fresh or dry? If fresh are 100% benefit, dried is about 80%. So you have to use them a little more. But if you grow two or three of those, you'll do very well.</p>
+
+<p>We are a dehydrated nation. The whole country is dehydrated. So we need more hydration. Milk is good. Coffee without sugar is fine. One of the best ones is green tea and black tea, very light, but don't put any sugar in. A tablespoon, half tablespoon of cream, half and half is fine. But those bottled things with all chemicals and bad oils — stay away from those. Probiotics — sour things and fermented things — are good. Because we have high ultra-processed food, we are also in a high-salt problem. Elevated blood pressure is a very common thing in US adults. And a primary reason is salt and poor food.</p>
+
+<p>So the thing is, by the end of the day, you shouldn't have more than 1,500 milligrams of sodium. The general recommendation is about 2,200 for young adults in their 40s and 50s, but the seniors' recommendation is 1,500. So for every 100 calories you eat, there should be less than 9 milligrams of salt. You should do this — pick a week, and that week, read the sodium content of every food you consume. It's on the label. Every food you can control, except vegetables and fruits — they don't have that much sodium to worry about.</p>
+
+<p>And reducing sugar is going to be a difficult thing to do, because sugar is in everything, and our brain is programmed for sugar. It wants sugar because it works. The only fuel the brain eats and uses is sugar — from your carbohydrates. So it needs it, it wants it, so it wants you to have something sugary. Good carbohydrates is your choice. The maximum added sugar is 6 teaspoons a day for healthy adults — all doctors I know recommend less than 4 added sugar teaspoons a day. Technically they allow 6 for females and 9 for men. But Americans have 17 or more teaspoons a day. Children about 17 to 18. So we are a sugar-driven, sugar-addicted country, and we have to make conscious differences on that.</p>
+
+<p>So if you go to somebody else and they make a cake, you just have to tell them with your finger — small portion, please. And if you want to pack the rest for me to take home, I'll do that. So when you go out to dinner, people want to have dessert — okay, can I have one dessert and four plates? And we have to share a little, but everybody gets a bite or two and it's fine. So it's not zero, it is reduce. So consciously doing that is very, very important. If you bake at home, always use much less sugar than they say on the package, because the packages have tons of sugar in them. Just experiment. I like hard chocolate chip cookies. My wife makes them. No more than five, six times a year, and no more than 10 or 12 of those, because you have to watch that. Minimal, and then higher quality is the thing to do.</p>
+
+<p>Thoughts. This is our — you know, Buddhism has 8 golden paths, each one has 10 golden paths, these are the golden paths of cooking and eating. Thoughts… points, please. Questions? Can't be this quiet! So let me ask you this. That helps me carry on my work and change my work and make improvements. You had certain expectations when you registered — of knowledge, of behavior change. Did this session meet your expectations? Or should I be doing things slightly different? That would be most helpful to me. Yes, John has a hand up.</p>
+
+<p>But when you look at the report, it tells you… Okay, it doesn't give you the points breakdown. Because that's the only part in our design that is proprietary — how we distribute the 100 points to the 27 questions. And that's what we work with the doctors and dietitians on. And we've, up to now, decided not to release that. Because since our SHARP got that congressional recognition, and totally for free, I find… And we got some inquiries. People are trying to develop similar simple questionnaires. So that's one of the reasons we haven't released that. But you know, yes and no on things, but you don't know the degree. That's true. At this point, I don't have a solution for that. The only solution is when they ask you — have you had almonds, or this, or this, or this? In the last week. And if you haven't, have some. We even say, I've been able to answer the… two to four cups of vegetables would be good.</p>
+
+<p>However, to improve, you just know you got 14 yellows. And you know which ones — when you read the report, it tells you what all you're missing. And if any of those you change, it will change the numbers. If you would be very good on a sustained basis — 85 means you are more positive. And things can't attack you as much as they could. The green number score just tells you how much the pathogens gonna get to you when the pathogens get in there. The higher the green, the lesser the negative impact of those pathogens. There are two things happening — you're not getting pathogens in, and also you're getting positive things that are fighting those pathogens. 85 means your body is actively working against those things, so you are in a better stage.</p>
+
+<p>As a person who wants to improve, I'm going to say, occasionally, I should hit 90. So I'm gonna pick one week and on that week I'm gonna have no yellow. That's the number one goal. The moment you do that, your numbers will go up high. And then say, if my reds are more than 6 or 10, I'm gonna lose red by 2 points. So I'm gonna have red meat instead of 3 times, I'm gonna have it twice. If you're having it twice, you're gonna have once. If you're having it once, now we are gonna have no red meat. Just that week. So that's what you will do.</p>
+
+<p>You asked me the question of how long do you have to follow this? Till the end. You just have to follow this. How long do you have to give good gasoline to your car? Forever! Now, if you were stuck in a desert and you didn't have good gas, you'll take any gas they give you to come out and get on the main road. But then you want to go to the right gasoline station to get the right gas. So you have to follow this for the rest of your life. So much! You follow, you just make… you know, you say, I haven't been drinking enough water — for the next two weeks I'm gonna write down every time I hydrate. And so this way I can have my watermelon and a full orange, and I drink water four or five times a day. Do that for a week. And then you'll not worry about it, because you have practiced that.</p>
+
+<p>So, and then once a week would be — you're gonna go into your pantry, look at the label of everything, and even on a couple of those things, you're gonna throw them away, because they are ultra-processed. Just — if I throw fully, half of that you're gonna throw away, because you are making a commitment to show that it matters to you, and you don't want that company in your neighborhood. So you're going to improve the company. I say, it's safe to go to my pantry now, because half of those things, it wasn't safe before. So you have to — very good point — yes, thank you for that — for the rest of your life, but not make it a point where it interrupts your joyful living. So don't make this a task. The only tasks that are tough are reds. The yellow else is not tough to do.</p>
+
+<p>So we say, leave the red alone till your greens are done and your yellows are done. It should be a subconscious filter in your mind when you go shopping. You go to a business meeting and they provide pasta in a salad, and you know that's not good pasta because nobody uses whole grain, so you're going to very specifically either not have that salad, or eat less of it. Then I look — are there any red sauces here? If there are no red sauces, I'm gonna eat less of these things today. If they have a turkey sandwich, I'm not gonna eat the whole thing — I'm gonna take the top of the bread, throw it away, because that bread isn't that great. I may even take both sides out and eat only the inside part of it. I gotta be conscious in meeting my needs without making any point. I'm not gonna tell my neighbor to do this. If they ask me, I'll make that point. So that's just making a quiet conscious choice.</p>
+
+<p>In fact, I belong to Rotary Club. We meet up once a week, and the food there on a scale of 1 to 10 is about 7, 7.5 — it really should be a 9. And there are a couple of doctors in the group, they all took the quiz, and the numbers weren't that great. And then after that I said, we should have our food analyzed by an analysis company and talk to our caterers. Because most business luncheons are really poor. I go to meetings in hospitals, and there's always a plate of donuts. So I take the one I like the most, I eat one-fourth of it, and that's about it — I put away the rest with my napkin. So I had the donut, but I haven't had the whole thing. That's our eyes dealing with it.</p>
+
+<p>Friends I go to their homes — carrot cake is one of my tastiest cakes. I don't like the icing on it. That's tough. And they have now learned this. They just scrape it off in the kitchen; they also always give me a smaller piece, because I like a smaller piece of the cake. I enjoy it and it's fine. If I go to a friend's home I don't know well, I will just, if I can, get a smaller piece. If I have a bigger piece, I'll just say, would you mind giving me some plastic wrap to take the rest home? So I just eat a little. So then I may not eat all of it. Just little conscious effort. At other times, just eat it. Just don't eat the sugar part. So we make it a conscious behavior that I'm not going to let the world feed me bad nutrition. Unless I'm dying. I'll eat anything they give me — half of that time, if that's what I need. All right? Other questions? Anybody else? Leslie, or John, or Meryl?</p>
+
+<p>Okay, so what's the plan? The plan is — I have this sheet. On your refrigerator, just ask yourself: Are my fats healthy? Well, in my kitchen they are. Great! Next thing is, are the fats healthy when you go out? So now you're gonna ask a couple of questions and select the thing from that point of view. Should I grow some herbs, maybe? The rosemary or mint? And that way let me use that. So I have about 4 of them growing outside. I always have rosemary, because it just grows year-round. Then I put some seasonal things. I just like the flavor more than the nutrition of herbs. Because they are very flavor-oriented, and that gets me to eat something that day with that herb, that fashion. Okay, so can you make a plan? Will you make a plan?</p>
+
+<p>And it doesn't have to be written down. If I don't know if any of you is vegan, or any of your friends are vegan — make sure they or you mind your B12. Because if you're a vegan, you are not getting enough B12 unless you plan for it. And if you're vegan, they are selling you a lot of junk food as healthy food. You have to be twice as careful, because there is more marketing directed at you to meet your needs. And now fiber is being — they're gonna sell you stones full of fiber. Because that's what's in the vocabulary now — protein and fiber are the two things they're selling. Every fast food store now. High protein, and now they're getting to fiber. And most of that fiber is not natural fiber.</p>
+
+<p>Okay, so — the green. Keep the green. Whether you add the good, yellow it. And look at your yellow numbers. The report tells you what's missing. There's a heading for what's missing. Then it will list every missing item. And you make a plan: next week, I'm gonna not miss this. Next week, I'm gonna buy this, and I'm gonna buy this. So now it's a yes so that my yellow numbers will go down and my green will go up. Then you're gonna have to do the cutting — cutting things is more difficult. Our bodies are used to it, our eyes are used to it, our habits are used to it. So I would say, once you've done enough reduction, look at the list of risk items, 4, 5, 6 — it lists those. So then you say, which of these four is easiest for me to give up? It may take you 3 weeks to do it. Fine, you know, so you have to have a plan for that.</p>
+
+<p>So, small, consistent steps matter more than perfection. I will not get into a perfection mode at the cost of my happiness. Don't do it to the point where you would say, for the cost of my intelligence, I'm not gonna eat it — that's good. But out of guilt? No. If you like diet soda, don't give it up. Reduce it. Okay? That's what you do. And then, you know, introduce better things to the point possible, and then live with it. Then improve your greens. And do more on the green. There's a lot of studies. Let's say, for example, the arsenic in rice, which has become a problem if you're eating a lot of it — if you're oriental or Asian, that could be a problem. The study said, and they sent me material, that if you up your consumption of better things, it negates the negativity of that arsenic that might be in the rice. So you just have to improve this side more, because you cannot change that slide anymore. I will not get guilt into the deal. I will get intelligence into the deal, and mind your reds.</p>
+
+<p>The one person I know… this person likes french fries, and they couldn't come home without getting french fries. They talked to me — they're in one of the classes. I said, okay, what type of french fries? They're like this one place and the large. Okay, first thing you want to do is go from large to regular, and eat them slowly. You're gonna take the same amount of time to eat it, but you gotta eat them slowly and chew them more. So first of all, you're going to do that for the next 3–4 weeks until you're used to that. Okay? Then you want to eat half of those fries, and let the half go soggy and throw them out. Each time, have only about half or so. Okay, that took quite a few weeks. And then this person is having fries maybe two, three times a week — it used to be every day. And now it's coming down to one or two times a week, about half of those. And then it's fine. But at the same time, I told them, eat a little more fruit, some vegetables, and put some dry herbs on their fries. And it'll be better for you. That's my "fry guy."</p>
+
+<p>So this is — okay, have you made any changes? And do you plan to make changes, and what is yours? Sharp and missed and risk. So reflect on those. And I wouldn't encourage you to put it in a refrigerator. I would — the best would be you print it, cut it, put it in your wallet. When you go shopping, as you enter the store, just look at it — okay? What are my greens? Do I need to increase some greens? What can I buy here today that will increase my greens? Which of the reds can I not buy today? Or, hide it from myself — buy it, but hide it from myself. That is at least a trial of improvement.</p>
+
+<p>So it has come to the end of my stump talk. I've, uh, and I hope it was useful. And stay that way. And you are most welcome, if you have a question on any of the things we've covered, in a class in the future, please send me a note. And in the subject line, just say BOLLI, or the class name, so I know it's from this group. Because I teach about 5 different classes. So when somebody writes to me, I can't connect back without that. So put the byline, because if I don't recognize the name I'm reluctant to open an email, but if I recognize the byline, then I said, oh okay, that student. That's fine. And you're most welcome to communicate to me. You can even send me your chart score. You know, I hit 83 this week. And I said, great.</p>
+
+    </div>
+  </div>
+
+  <!-- ══ LESLIE BLACHMAN ══ -->
+  <div class="speaker-card card-leslie">
+    <div class="speaker-header">
+      <div class="avatar avatar-leslie">LB</div>
+      <div class="speaker-info">
+        <div class="speaker-name">Leslie Blachman</div>
+        <div class="speaker-role">Class Participant</div>
+      </div>
+      <div class="word-count">~50 words</div>
+    </div>
+    <div class="speaker-body">
+<p>I feel like it doesn't change very much. I right. I follow the basic things and what the things I don't do are things I can't change, because I go out or whatever. You know, various reasons. So…</p>
+    </div>
+  </div>
+
+  <!-- ══ JOHN DAY ══ -->
+  <div class="speaker-card card-john">
+    <div class="speaker-header">
+      <div class="avatar avatar-john">JD</div>
+      <div class="speaker-info">
+        <div class="speaker-name">John Day</div>
+        <div class="speaker-role">Class Participant</div>
+      </div>
+      <div class="word-count">~230 words</div>
+    </div>
+    <div class="speaker-body">
+<p>Yes. You can hear me. Good. Every detail that you put on the slides in front of us makes imminent sense, and we can follow the details. I think it is… the challenge for us is that it's somewhat complicated, or extensive, I should say. And so putting all these individual suggestions or observations of healthy eating that we should have into practice is the challenge for us.</p>
+
+<p>And I know that your primary approach that you suggest to us is to continue to take the test, and that makes, you know, that's perfectly rational. So I've taken the… the first time I took the test, I was about a 77. And the question is… How long does that process go on? I mean, there's always room for opportunity. You can keep taking the test and making changes and looking for things to improve.</p>
+
+<p>And again, I think I made a comment early that the report that gets generated would be more helpful to us if the individual scoring were tied to the question and made visible on the report — then we would know what to look at. Uh, fair enough, but again, we're having to digest mentally a lot of details to make that understanding. So what score would you say a person is reaching the limit of diminishing returns? In other words, if you get to an 85, are you… So in the end, it sounds like you are advocating continuous reinforcement of positive actions that we should be taking.</p>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <strong>EatSharp Nutrition Assessment</strong> · Kapur Foundation, Inc. 501c3 Non-Profit · gkapur@kapurfoundation.net<br>
+  Transcript formatted with per-speaker collapsed text. Speech fragments and transcription artifacts preserved as spoken.
+</footer>
+
+</body>
+</html>
