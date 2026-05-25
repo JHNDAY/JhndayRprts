@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Sound and the Fury — Characters</title>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1208;
+    --sepia: #4a3520;
+    --aged: #c8a96e;
+    --parchment: #f5edd8;
+    --parchment-dark: #ede0c4;
+    --rust: #8b3a2a;
+    --muted: #7a6248;
+    --shadow: rgba(30,15,5,0.25);
+    --faint: rgba(74,53,32,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: #2a1f12;
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(90,55,20,0.4) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 100%, rgba(60,30,10,0.5) 0%, transparent 60%);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 3rem 1.5rem 5rem;
+  }
+
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--parchment);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+      linear-gradient(170deg, #f8f0dc 0%, #f2e8c8 40%, #eeddbb 100%);
+    border: 1px solid var(--aged);
+    box-shadow: 0 0 60px rgba(0,0,0,0.6), inset 0 0 80px rgba(180,140,80,0.08);
+    padding: 4rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* aged paper edge effect */
+  .page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(100,60,10,0.12) 0%, transparent 4%, transparent 96%, rgba(100,60,10,0.10) 100%);
+    pointer-events: none;
+  }
+
+  /* decorative left margin line */
+  .page::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 4.5rem;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(180,100,80,0.3) 10%, rgba(180,100,80,0.3) 90%, transparent);
+    pointer-events: none;
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--aged);
+    margin-bottom: 3rem;
+    position: relative;
+  }
+
+  .epigraph {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 2.6rem;
+    font-weight: 600;
+    color: var(--sepia);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin-bottom: 0.4rem;
+  }
+
+  h1 .and {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 1.4rem;
+    display: block;
+    letter-spacing: 0.3em;
+    color: var(--muted);
+    margin: 0.2rem 0;
+  }
+
+  .author {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-top: 0.8rem;
+  }
+
+  .subtitle {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--rust);
+    margin-top: 1.2rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* decorative rule */
+  .ornament {
+    color: var(--aged);
+    font-size: 1.4rem;
+    letter-spacing: 0.5em;
+    display: block;
+    text-align: center;
+    margin: 1rem 0 0;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section-heading {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--rust);
+    border-bottom: 1px solid var(--aged);
+    padding-bottom: 0.5rem;
+    margin: 3rem 0 1.8rem;
+  }
+
+  /* ── CHARACTER CARDS ── */
+  .character {
+    display: grid;
+    grid-template-columns: 6rem 1fr;
+    gap: 0 1.8rem;
+    margin-bottom: 2.2rem;
+    padding-bottom: 2.2rem;
+    border-bottom: 1px dashed rgba(160,120,60,0.3);
+    animation: fadeIn 0.5s ease both;
+    position: relative;
+  }
+
+  .character:last-child {
+    border-bottom: none;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* stagger animation delays */
+  .character:nth-child(1)  { animation-delay: 0.05s; }
+  .character:nth-child(2)  { animation-delay: 0.10s; }
+  .character:nth-child(3)  { animation-delay: 0.15s; }
+  .character:nth-child(4)  { animation-delay: 0.20s; }
+  .character:nth-child(5)  { animation-delay: 0.25s; }
+  .character:nth-child(6)  { animation-delay: 0.30s; }
+  .character:nth-child(7)  { animation-delay: 0.35s; }
+  .character:nth-child(8)  { animation-delay: 0.40s; }
+
+  .char-initial {
+    width: 5.5rem;
+    height: 5.5rem;
+    border-radius: 50%;
+    border: 1.5px solid var(--aged);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 2rem;
+    color: var(--parchment);
+    font-weight: 600;
+    flex-shrink: 0;
+    box-shadow: 0 2px 12px var(--shadow), inset 0 1px 3px rgba(255,240,200,0.15);
+    position: relative;
+    overflow: hidden;
+    margin-top: 0.2rem;
+  }
+
+  /* narrator badge on circle */
+  .char-initial .narrator-badge {
+    position: absolute;
+    bottom: 0;
+    left: 0; right: 0;
+    background: rgba(0,0,0,0.45);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--aged);
+    text-align: center;
+    padding: 2px 0 3px;
+  }
+
+  .char-body {}
+
+  .char-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--sepia);
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+  }
+
+  .char-role {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 0.88rem;
+    color: var(--rust);
+    margin: 0.2rem 0 0.7rem;
+    letter-spacing: 0.02em;
+  }
+
+  .char-desc {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--sepia);
+    font-weight: 300;
+  }
+
+  .char-desc em {
+    font-style: italic;
+    color: var(--muted);
+  }
+
+  .tag {
+    display: inline-block;
+    background: var(--faint);
+    border: 1px solid rgba(160,120,60,0.25);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.15rem 0.55rem;
+    border-radius: 2px;
+    margin: 0.7rem 0.3rem 0 0;
+    display: inline-block;
+  }
+
+  .tags { margin-top: 0.5rem; }
+
+  /* Color palette for initials circles by family */
+  .compson   { background: linear-gradient(135deg, #4a2e1a, #6b3f24); }
+  .servants  { background: linear-gradient(135deg, #1e3a2a, #2e5540); }
+  .minor     { background: linear-gradient(135deg, #2a2240, #3d3060); }
+
+  /* ── FOOTER ── */
+  footer {
+    margin-top: 3.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--aged);
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.8;
+    font-style: italic;
+  }
+
+  footer strong {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--sepia);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── GLANCE SECTION ── */
+  .glance-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .glance-group {
+    background: linear-gradient(135deg, rgba(160,120,60,0.06), rgba(120,80,30,0.04));
+    border: 1px solid rgba(160,120,60,0.2);
+    border-radius: 3px;
+    padding: 1.2rem 1.5rem 0.8rem;
+  }
+
+  .glance-group-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 0.9rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed rgba(160,120,60,0.3);
+  }
+
+  .glance-item {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    gap: 0 1rem;
+    padding: 0.4rem 0;
+    border-bottom: 1px dotted rgba(160,120,60,0.15);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .glance-item:last-child { border-bottom: none; }
+
+  .glance-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--sepia);
+    letter-spacing: 0.04em;
+    padding-top: 0.05rem;
+    white-space: nowrap;
+  }
+
+  .glance-blurb {
+    color: var(--muted);
+    font-weight: 300;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .page { padding: 2.5rem 1.8rem; }
+    h1 { font-size: 1.8rem; }
+    .character { grid-template-columns: 1fr; }
+    .char-initial { width: 4rem; height: 4rem; font-size: 1.5rem; margin-bottom: 0.8rem; }
+    .page::after { display: none; }
+    .glance-item { grid-template-columns: 1fr; gap: 0.1rem; }
+    .glance-name { white-space: normal; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header>
+    <p class="epigraph">
+      "…it is a tale<br>
+      Told by an idiot, full of sound and fury,<br>
+      Signifying nothing."<br>
+      — <em>Macbeth</em>, Act V, sc. v
+    </p>
+    <h1>
+      The Sound
+      <span class="and">&amp;</span>
+      The Fury
+    </h1>
+    <p class="author">William Faulkner · 1929</p>
+    <p class="subtitle">A Dramatis Personæ</p>
+    <span class="ornament">✦ ✦ ✦</span>
+  </header>
+
+
+  <!-- QUICK REFERENCE -->
+  <h2 class="section-heading">At a Glance</h2>
+  <div class="glance-grid">
+
+    <div class="glance-group">
+      <div class="glance-group-label">The Compson Family</div>
+      <div class="glance-item"><span class="glance-name">Benjy</span><span class="glance-blurb">Severely disabled youngest son who cannot speak or grasp time; narrates Part One through raw sensation and memory, moaning for his absent sister Caddy.</span></div>
+      <div class="glance-item"><span class="glance-name">Quentin</span><span class="glance-blurb">Eldest son and Harvard student who drowns himself on June 2, 1910, destroyed by obsessions over time, honor, and Caddy's lost virtue; narrates Part Two.</span></div>
+      <div class="glance-item"><span class="glance-name">Jason IV</span><span class="glance-blurb">Bitter, cynical third son who heads the household, embezzles Miss Quentin's support money, and nurses endless grievances; narrates Part Three.</span></div>
+      <div class="glance-item"><span class="glance-name">Caddy</span><span class="glance-blurb">The beloved, ruined sister who never narrates yet drives everything — seduced, pregnant, married, divorced, and exiled, she is the novel's aching absence.</span></div>
+      <div class="glance-item"><span class="glance-name">Miss Quentin</span><span class="glance-blurb">Caddy's illegitimate daughter, raised joylessly by the Compsons; she steals Jason's cash (her rightful money) and vanishes with a carnival man.</span></div>
+      <div class="glance-item"><span class="glance-name">Mr. Compson</span><span class="glance-blurb">The alcoholic, philosophically despairing father whose nihilistic speeches echo through Quentin's mind; dead within a year of his son's suicide.</span></div>
+      <div class="glance-item"><span class="glance-name">Mrs. Compson</span><span class="glance-blurb">Hypochondriac, self-pitying matriarch who favors Jason and abandons parenting to Dilsey, obsessing over family name while her household collapses.</span></div>
+      <div class="glance-item"><span class="glance-name">Uncle Maury</span><span class="glance-blurb">Mrs. Compson's feckless brother — chronically broke, conducting a neighbor's wife affair, and using young Benjy as an unwitting courier for love letters.</span></div>
+    </div>
+
+    <div class="glance-group">
+      <div class="glance-group-label">The Gibson Household</div>
+      <div class="glance-item"><span class="glance-name">Dilsey</span><span class="glance-blurb">The Black cook and moral center of the novel — she has raised the Compson children, endured their decline, and weeps at Easter knowing she has seen it all.</span></div>
+      <div class="glance-item"><span class="glance-name">Luster</span><span class="glance-blurb">Dilsey's teenage grandson who cares for Benjy on April 7, distracted by his lost quarter and the carnival show he can't afford to attend.</span></div>
+      <div class="glance-item"><span class="glance-name">Roskus</span><span class="glance-blurb">Dilsey's superstitious husband and the Compson coachman, who predicted the family's doom and died before seeing it completed.</span></div>
+      <div class="glance-item"><span class="glance-name">T.P.</span><span class="glance-blurb">Dilsey's son who cared for Benjy in earlier years; memorably gets drunk with Benjy on champagne during Caddy's wedding.</span></div>
+      <div class="glance-item"><span class="glance-name">Versh</span><span class="glance-blurb">Dilsey's eldest son, present in Benjy's earliest childhood memories as a caretaker for the young Compson children.</span></div>
+      <div class="glance-item"><span class="glance-name">Frony</span><span class="glance-blurb">Dilsey's daughter and Luster's mother; accompanies Dilsey to the Easter sermon where Dilsey says she has "seed de first en de last."</span></div>
+    </div>
+
+    <div class="glance-group">
+      <div class="glance-group-label">Minor &amp; Peripheral</div>
+      <div class="glance-item"><span class="glance-name">Dalton Ames</span><span class="glance-blurb">The man who seduced Caddy and fathered Miss Quentin; humiliates Quentin in their confrontation with effortless physical superiority.</span></div>
+      <div class="glance-item"><span class="glance-name">Herbert Head</span><span class="glance-blurb">Caddy's Indiana banker husband who promised Jason a job, then divorced Caddy when he learned Miss Quentin wasn't his, destroying Jason's future.</span></div>
+      <div class="glance-item"><span class="glance-name">Shreve</span><span class="glance-blurb">Quentin's good-natured Canadian Harvard roommate who appears on the morning of Quentin's suicide, unaware of what the day will bring.</span></div>
+      <div class="glance-item"><span class="glance-name">Gerald Bland</span><span class="glance-blurb">Confident Harvard student whom Quentin attacks in a misdirected rage, projecting his fury at Dalton Ames; beats Quentin badly.</span></div>
+      <div class="glance-item"><span class="glance-name">Mrs. Bland</span><span class="glance-blurb">Gerald's doting, overbearing mother who follows him to Cambridge, organizing picnics and presiding over his social life.</span></div>
+      <div class="glance-item"><span class="glance-name">Spoade</span><span class="glance-blurb">A Harvard acquaintance of Quentin's — laconic, easygoing, a bystander to the Bland altercation on Quentin's last afternoon.</span></div>
+      <div class="glance-item"><span class="glance-name">The Little Italian Girl</span><span class="glance-blurb">A lost child Quentin finds and calls "sister," unconsciously projecting Caddy onto her; her brother attacks Quentin for his presumed intentions.</span></div>
+      <div class="glance-item"><span class="glance-name">Deacon</span><span class="glance-blurb">A Black Cambridge fixture who helps Southern Harvard students; Quentin visits him on his last day to leave a letter for Shreve.</span></div>
+      <div class="glance-item"><span class="glance-name">Rev. Shegog</span><span class="glance-blurb">Visiting preacher whose Easter sermon moves Dilsey to tears — the novel's sole moment of transcendence, dissolving time into grace.</span></div>
+    </div>
+
+  </div>
+
+  <!-- SECTION I -->
+  <h2 class="section-heading">I. The Compson Family</h2>
+
+  <!-- BENJY -->
+  <div class="character">
+    <div class="char-initial compson">B<span class="narrator-badge">Narrator I</span></div>
+    <div class="char-body">
+      <div class="char-name">Benjamin "Benjy" Compson</div>
+      <div class="char-role">Thirty-three years old, severely intellectually disabled; narrator of Part One</div>
+      <p class="char-desc">
+        Born Maury and renamed after his disability became apparent, Benjy is the youngest of the Compson siblings and the novel's first—and most radical—narrator. He has no language, no linear sense of time, and no way to distinguish past from present: memories from childhood bleed without warning into the present day of April 7, 1928, his thirty-third birthday. He cannot speak, only moan and bellow—sounds that express emotions he cannot name. His world is governed by sensation and pattern: the smell of trees, the cold, the feel of satin. Above all, he is attuned to <em>Caddy</em>, his beloved sister, whose absence is the wound around which his entire consciousness revolves. Cared for on this day by the young Luster, Benjy serves Faulkner as both a technical tour de force and an emblem of innocence bearing witness to a family's ruin.
+      </p>
+      <div class="tags">
+        <span class="tag">Part One</span>
+        <span class="tag">Innocent witness</span>
+        <span class="tag">Non-linear time</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUENTIN -->
+  <div class="character">
+    <div class="char-initial compson">Q<span class="narrator-badge">Narrator II</span></div>
+    <div class="char-body">
+      <div class="char-name">Quentin Compson III</div>
+      <div class="char-role">Eldest Compson son; Harvard student; narrator of Part Two</div>
+      <p class="char-desc">
+        The most intellectually gifted and most psychologically tormented of the Compson children, Quentin narrates the novel's second section—June 2, 1910, the last day of his life. His father has sold Benjy's pasture to send him to Harvard, a sacrifice that only deepens his guilt. Quentin is consumed by two obsessions: the passage of time (he repeatedly smashes his grandfather's watch yet cannot escape its ticking) and Caddy's lost honor. He confesses to his father that he has committed incest with her—a lie, a desperate attempt to replace her shame with something grander and more private. His tortured stream-of-consciousness moves between Cambridge and the Mississippi of his childhood. By evening he carefully cleans his clothes, weighs his pockets with flatirons, and walks into the Charles River. He is the novel's tragic idealist, destroyed by a Southern code of honor that no longer has a world to live in.
+      </p>
+      <div class="tags">
+        <span class="tag">Part Two</span>
+        <span class="tag">Suicide</span>
+        <span class="tag">Honor & time</span>
+        <span class="tag">Harvard 1910</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- JASON -->
+  <div class="character">
+    <div class="char-initial compson">J<span class="narrator-badge">Narrator III</span></div>
+    <div class="char-body">
+      <div class="char-name">Jason Compson IV</div>
+      <div class="char-role">Third Compson son; head of household; narrator of Part Three</div>
+      <p class="char-desc">
+        Jason is perhaps American literature's most unsympathetically vivid narrator—furious, petty, racist, and relentlessly self-justifying. He narrates April 6, 1928, the day before Benjy's birthday. Since their father's death he has become the nominal head of the household, working at a hardware store, seething at every member of his family. His central villainy: he intercepts the monthly checks Caddy sends for her daughter Miss Quentin's upkeep, shows Mrs. Compson fraudulent receipts, pockets the cash, and hoards it in a locked box in his room. His voice is a marvel of dramatic irony—every complaint he makes against others reflects his own corruption. He is also furious that Caddy's divorce cost him the bank job her husband had promised. On this day, he chases a carnival performer he suspects of courting Miss Quentin across the countryside and fails spectacularly.
+      </p>
+      <div class="tags">
+        <span class="tag">Part Three</span>
+        <span class="tag">Embezzlement</span>
+        <span class="tag">Unreliable narrator</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CADDY -->
+  <div class="character">
+    <div class="char-initial compson" style="background: linear-gradient(135deg, #5a2a3a, #7a3a50);">C</div>
+    <div class="char-body">
+      <div class="char-name">Candace "Caddy" Compson</div>
+      <div class="char-role">The Compson daughter; the novel's absent center</div>
+      <p class="char-desc">
+        Caddy is the most important figure in the novel and the only major character who never narrates. She is known entirely through the broken perceptions of her three brothers—Benjy's wordless adoration, Quentin's anguished idealization, Jason's bitter contempt. As a girl she was fearless and nurturing; as a young woman she loses her virginity to Dalton Ames, becomes pregnant, hastily marries the banker Herbert Head, is divorced when he discovers the child isn't his, and is thereafter exiled from the family. She sends money for her daughter Miss Quentin, which Jason steals. Faulkner described Caddy as "the beautiful one" and said he loved her too much to let her speak in her own voice—she exists as a kind of gap around which all the men's voices orbit. She smells of trees and honeysuckle to Benjy; to Quentin she is purity once lost; to Jason she is the source of every grievance.
+      </p>
+      <div class="tags">
+        <span class="tag">Non-narrator</span>
+        <span class="tag">Central absence</span>
+        <span class="tag">Exile & loss</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MISS QUENTIN -->
+  <div class="character">
+    <div class="char-initial compson" style="background: linear-gradient(135deg, #3a2a4a, #5a3a6a);">Q̃</div>
+    <div class="char-body">
+      <div class="char-name">Miss Quentin (Quentin Compson II)</div>
+      <div class="char-role">Caddy's illegitimate daughter; ward of the Compson household</div>
+      <p class="char-desc">
+        Named after her deceased uncle, Miss Quentin is seventeen in 1928 and has grown up in the Compson house under Jason's grudging guardianship and Mrs. Compson's cold disapproval. She is willful, defiant, and starved for affection—drawn to carnival men and any exit from a household that regards her as a burden and a shame. She doesn't know that Jason has been stealing the money her mother sends for her. On the morning of April 7, she vanishes: she has broken into Jason's locked box, taken the money (actually hers), and eloped with a carnival performer. Her escape is the climactic act that sends Jason into his futile, farcical pursuit and brings Dilsey's section to its close. She is, in many ways, Caddy's revenge.
+      </p>
+      <div class="tags">
+        <span class="tag">Second generation</span>
+        <span class="tag">Runaway</span>
+        <span class="tag">Part Three & Four</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MR. COMPSON -->
+  <div class="character">
+    <div class="char-initial compson">Mr</div>
+    <div class="char-body">
+      <div class="char-name">Jason Compson III (Mr. Compson)</div>
+      <div class="char-role">The Compson patriarch; failed attorney; alcoholic nihilist</div>
+      <p class="char-desc">
+        The father of the four Compson children, Mr. Compson is a man of considerable intelligence and no will to live. He is a fatalistic alcoholic whose philosophical speeches—delivered with weary eloquence, particularly in Quentin's section—reveal a man who has surrendered to meaninglessness. He sells Benjy's pasture to fund Quentin's Harvard education and dies of drink within a year of Quentin's suicide. His voice echoes through Quentin's consciousness like a Greek chorus of despair: time is a mechanical illusion, battles are never won, honor is a word men invented to cover their failures. He understood Caddy most clearly of all the Compsons and mourned her departure most honestly, yet could do nothing to prevent it.
+      </p>
+      <div class="tags">
+        <span class="tag">Deceased by 1928</span>
+        <span class="tag">Nihilism</span>
+        <span class="tag">Alcoholism</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MRS. COMPSON -->
+  <div class="character">
+    <div class="char-initial compson">Mrs</div>
+    <div class="char-body">
+      <div class="char-name">Caroline Bascomb Compson (Mrs. Compson)</div>
+      <div class="char-role">The Compson matriarch; hypochondriac; self-absorbed mother</div>
+      <p class="char-desc">
+        Mrs. Compson is among Faulkner's most devastating portraits of maternal failure. She wraps herself in perpetual illness and self-pity, retreats to her room, and abdicates all parenting to Dilsey. She is obsessed with family name and social respectability—she considers the name "Compson" a burden she has stoically borne and feels Caddy's behavior as a personal affront to the Bascomb lineage. She favors Jason because she sees him as hers, a Bascomb, and has always been cold toward Caddy and Benjy. She had Benjy's name changed from Maury (her brother's name) when she could no longer deny his disability, as if the rename might contain the shame. Dilsey effectively raises her children while she lies in darkened rooms with a hot water bottle.
+      </p>
+      <div class="tags">
+        <span class="tag">Hypochondria</span>
+        <span class="tag">Maternal neglect</span>
+        <span class="tag">Social anxiety</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- UNCLE MAURY -->
+  <div class="character">
+    <div class="char-initial compson">Um</div>
+    <div class="char-body">
+      <div class="char-name">Uncle Maury Bascomb</div>
+      <div class="char-role">Mrs. Compson's brother; idle schemer</div>
+      <p class="char-desc">
+        Uncle Maury is a figure of low comedy in a tragedy—a florid, self-important, perpetually broke ne'er-do-well who trades on his sister's good will. He conducts a furtive affair with the wife of his neighbor Mr. Patterson and routinely uses young Benjy as an unwitting courier for his love letters, a scheme Caddy sees through immediately. He borrows money from the Compsons repeatedly and never repays it. His name was given to Benjy at birth, then stripped away when Benjy's disability became undeniable—a small, telling cruelty.
+      </p>
+      <div class="tags">
+        <span class="tag">Comic relief</span>
+        <span class="tag">Feckless</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- SECTION II -->
+  <h2 class="section-heading">II. The Gibson Household</h2>
+
+  <!-- DILSEY -->
+  <div class="character">
+    <div class="char-initial servants">D<span class="narrator-badge">Part Four</span></div>
+    <div class="char-body">
+      <div class="char-name">Dilsey Gibson</div>
+      <div class="char-role">Cook and matriarch of the servant family; moral center of the novel</div>
+      <p class="char-desc">
+        Dilsey is the one character in the novel who sees whole. She has served the Compsons for decades, effectively raised their children, and watched the family collapse from within. The fourth and final section—April 8, 1928, Easter Sunday—is rendered in the third person but through her experience, and it is the only section that achieves anything like clarity or grace. She attends a Black church service where the visiting Reverend Shegog's sermon moves her to tears; she has "seed de first en de last," she tells Frony—she has witnessed the beginning and the end. Dilsey endures, as Faulkner famously said of the Black characters in his appendix. She is not idealized but deeply human: practical, faithful, exhausted, and morally intact in a household that has rotted around her.
+      </p>
+      <div class="tags">
+        <span class="tag">Moral authority</span>
+        <span class="tag">Endurance</span>
+        <span class="tag">Part Four focal</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- LUSTER -->
+  <div class="character">
+    <div class="char-initial servants">L</div>
+    <div class="char-body">
+      <div class="char-name">Luster Gibson</div>
+      <div class="char-role">Dilsey's grandson; Benjy's caretaker on April 7, 1928</div>
+      <p class="char-desc">
+        Luster is fourteen years old, energetic, and perpetually distracted by his own concerns—chiefly his lost quarter, which he needs to attend a carnival show that evening. He cares for Benjy throughout the novel's opening section, herding him around the old golf course (formerly the Compson pasture) with practiced impatience and occasional tenderness. He is not unkind, but he is young, bored, and resentful of the burden. He occasionally teases Benjy deliberately, knowing exactly which words will provoke a moaning fit. At the novel's close, he drives Benjy to the cemetery in the wrong direction around the monument, triggering a catastrophic howl, until Jason seizes the reins and corrects course—a moment of terrible irony.
+      </p>
+      <div class="tags">
+        <span class="tag">Part One</span>
+        <span class="tag">Benjy's keeper</span>
+        <span class="tag">Comic foil</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROSKUS -->
+  <div class="character">
+    <div class="char-initial servants">R</div>
+    <div class="char-body">
+      <div class="char-name">Roskus Gibson</div>
+      <div class="char-role">Dilsey's husband; the Compson coachman</div>
+      <p class="char-desc">
+        Roskus is a superstitious and fatalistic figure who appears primarily in Benjy's childhood memories. He believes the Compson house is cursed and repeatedly says so—that bad luck follows this family because it is simply their nature. He suffers from rheumatism that increasingly limits his work. He dies before 1928, having long predicted the ruin he lived to half-witness. His grim augury proves truer than any of the Compsons' own self-understanding.
+      </p>
+      <div class="tags">
+        <span class="tag">Flashback presence</span>
+        <span class="tag">Fatalism</span>
+        <span class="tag">Deceased by 1928</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- T.P. -->
+  <div class="character">
+    <div class="char-initial servants" style="background: linear-gradient(135deg, #1a2e3a, #2a4a55);">TP</div>
+    <div class="char-body">
+      <div class="char-name">T.P. Gibson</div>
+      <div class="char-role">Dilsey's son; Benjy's earlier caretaker</div>
+      <p class="char-desc">
+        T.P. cared for Benjy before Luster took over the role, and he appears in several of Benjy's flashback memories—most memorably the chaotic scene of Caddy's wedding, when he and Benjy share sips of champagne and become hilariously, catastrophically drunk together. He is good-natured in these memories, younger and more reckless than Luster, and his scenes carry an edge of wild comedy amid the surrounding elegy.
+      </p>
+      <div class="tags">
+        <span class="tag">Memory presence</span>
+        <span class="tag">Benjy's former keeper</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERSH -->
+  <div class="character">
+    <div class="char-initial servants" style="background: linear-gradient(135deg, #1a3a2e, #2a5545);">V</div>
+    <div class="char-body">
+      <div class="char-name">Versh Gibson</div>
+      <div class="char-role">Dilsey's eldest son; childhood caretaker of the Compson children</div>
+      <p class="char-desc">
+        Versh appears in the earliest of Benjy's flashback memories, from the Compson children's youngest years. He supervised and accompanied the children—Benjy, Caddy, Quentin, Jason—in their play and in their cold-weather wandering. His voice is one of the first caretaking voices Benjy remembers. He has moved away from Jefferson by the time of the novel's present action.
+      </p>
+      <div class="tags">
+        <span class="tag">Earliest memories</span>
+        <span class="tag">Childhood scenes</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FRONY -->
+  <div class="character">
+    <div class="char-initial servants" style="background: linear-gradient(135deg, #2a3a1e, #3a5528);">Fr</div>
+    <div class="char-body">
+      <div class="char-name">Frony Gibson</div>
+      <div class="char-role">Dilsey's daughter; Luster's mother</div>
+      <p class="char-desc">
+        Frony is a steady, practical presence in the household—Dilsey's daughter and Luster's mother. She accompanies Dilsey and Luster to the Easter church service in Part Four, where it is to her that Dilsey makes the quiet, devastating statement that she has "seed de first en de last." Frony is sensible and grounded, a secondary but important presence in the Gibson family's portrait of endurance.
+      </p>
+      <div class="tags">
+        <span class="tag">Part Four</span>
+        <span class="tag">Gibson family</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- SECTION III -->
+  <h2 class="section-heading">III. Minor & Peripheral Characters</h2>
+
+  <!-- DALTON AMES -->
+  <div class="character">
+    <div class="char-initial minor">Da</div>
+    <div class="char-body">
+      <div class="char-name">Dalton Ames</div>
+      <div class="char-role">Caddy's seducer; father of Miss Quentin</div>
+      <p class="char-desc">
+        Dalton Ames appears only in Quentin's section, filtered through Quentin's furious and humiliated memory. He is the man who slept with Caddy and fathered her child. Quentin confronts him at a bridge, tries to fight him, and loses consciousness—Ames catches him when he falls, an act of casual physical superiority that destroys whatever remained of Quentin's heroic fantasy. He is handsome, composed, and indifferent to Quentin's agony. He represents the real world of masculine confidence that Quentin's codes of honor cannot compete with.
+      </p>
+      <div class="tags">
+        <span class="tag">Part Two</span>
+        <span class="tag">Miss Quentin's father</span>
+        <span class="tag">Quentin's nemesis</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERBERT HEAD -->
+  <div class="character">
+    <div class="char-initial minor">H</div>
+    <div class="char-body">
+      <div class="char-name">Herbert Head</div>
+      <div class="char-role">Caddy's husband; Indiana banker</div>
+      <p class="char-desc">
+        Herbert is the man Caddy marries to give her unborn child a name. He is wealthy, hearty, and oblivious—he promises Jason the bank position that Jason so desperately covets. When he discovers that Miss Quentin is not his child he divorces Caddy, revokes the job offer, and thereby becomes the source of Jason's most lasting grievance. He appears briefly in Quentin's section in a way that immediately marks him as brash and shallow; Quentin despises him. He is a plot mechanism as much as a character, but his betrayal shapes Jason's entire psychology.
+      </p>
+      <div class="tags">
+        <span class="tag">Caddy's ex-husband</span>
+        <span class="tag">Jason's lost future</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHREVE -->
+  <div class="character">
+    <div class="char-initial minor">Sh</div>
+    <div class="char-body">
+      <div class="char-name">Shreve McCannon</div>
+      <div class="char-role">Quentin's Harvard roommate; Canadian</div>
+      <p class="char-desc">
+        Shreve is Quentin's good-natured and practical roommate at Harvard—the same Shreve who will later become Quentin's interlocutor in <em>Absalom, Absalom!</em> Here he appears briefly but warmly at the edges of Quentin's last morning, trying to get him to class, lending him gasoline to clean a stain. He represents ordinary, undestroyed sanity—a foil to Quentin's unraveling. He does not know what Quentin is planning.
+      </p>
+      <div class="tags">
+        <span class="tag">Part Two</span>
+        <span class="tag">Harvard</span>
+        <span class="tag">Absalom, Absalom! connection</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- GERALD BLAND -->
+  <div class="character">
+    <div class="char-initial minor">G</div>
+    <div class="char-body">
+      <div class="char-name">Gerald Bland</div>
+      <div class="char-role">Harvard student; Quentin's antagonist</div>
+      <p class="char-desc">
+        Gerald Bland is a wealthy, self-satisfied Harvard student with an adoring, ever-present mother. He is everything Quentin cannot be—physically confident, socially at ease, utterly untroubled. Quentin picks a fight with him on the afternoon of June 2, projecting onto Gerald his rage at Dalton Ames; Quentin is beaten badly. The altercation takes place during a picnic outing, observed by mutual acquaintances, and reduces Quentin to a bloodied, humiliated figure. Gerald doesn't even fully understand why Quentin attacked him.
+      </p>
+      <div class="tags">
+        <span class="tag">Part Two</span>
+        <span class="tag">Physical foil</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MRS. BLAND -->
+  <div class="character">
+    <div class="char-initial minor" style="background: linear-gradient(135deg, #3a2240, #5a3060);">Mb</div>
+    <div class="char-body">
+      <div class="char-name">Mrs. Bland</div>
+      <div class="char-role">Gerald's doting mother; social fixture</div>
+      <p class="char-desc">
+        Mrs. Bland is a comic-grotesque figure—an overbearing Southern mother who has followed her son to Cambridge and presides over his social life with territorial pride. She organizes the picnic excursion on which Quentin's crisis reaches its physical peak. She is a gentle parody of Southern womanhood's most performative aspects: the cultivation of young men's excellence, the management of appearances, the hostessing that fills an otherwise empty life.
+      </p>
+      <div class="tags">
+        <span class="tag">Part Two</span>
+        <span class="tag">Social comedy</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPOADE -->
+  <div class="character">
+    <div class="char-initial minor" style="background: linear-gradient(135deg, #2a2a3a, #3a3a55);">Sp</div>
+    <div class="char-body">
+      <div class="char-name">Spoade</div>
+      <div class="char-role">Harvard acquaintance of Quentin</div>
+      <p class="char-desc">
+        Spoade is a Harvard student in Quentin's social circle—laconic, easygoing, and clearly amused by the drama around him. He appears during the picnic episode and witnesses the Bland altercation. He is a minor but distinguishable presence in Part Two, one of several young men whose uncomplicated existence contrasts with Quentin's implosion.
+      </p>
+      <div class="tags">
+        <span class="tag">Part Two</span>
+        <span class="tag">Harvard acquaintance</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- THE LITTLE GIRL -->
+  <div class="character">
+    <div class="char-initial minor" style="background: linear-gradient(135deg, #3a2a1a, #5a4030);">Sg</div>
+    <div class="char-body">
+      <div class="char-name">The Little Italian Girl ("Sister")</div>
+      <div class="char-role">Lost child whom Quentin tries to help; proxy for Caddy</div>
+      <p class="char-desc">
+        On the morning of his last day, Quentin encounters a small Italian immigrant girl who is lost and cannot speak enough English to explain herself. He attempts to find her family, spending much of the afternoon in her company—calling her "sister," buying her food, drifting through town. She becomes an unconscious surrogate for Caddy: small, dependent, needing protection Quentin could not provide his actual sister. Her brother Julio eventually finds her and, assuming the worst, attacks Quentin. The episode ends in a minor legal scuffle that further strips Quentin of dignity on the day he has chosen to die.
+      </p>
+      <div class="tags">
+        <span class="tag">Part Two</span>
+        <span class="tag">Caddy surrogate</span>
+        <span class="tag">Symbolic</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEACON -->
+  <div class="character">
+    <div class="char-initial minor" style="background: linear-gradient(135deg, #1e3530, #2e5548);">De</div>
+    <div class="char-body">
+      <div class="char-name">Deacon</div>
+      <div class="char-role">Black fixture of Harvard community; Southern students' guide</div>
+      <p class="char-desc">
+        Deacon is a well-known figure around Harvard who has for years cultivated relationships with incoming Southern students, performing small services and favors that make him a kind of unofficial ambassador. Quentin seeks him out on his last day to deliver a letter to Shreve. Their encounter is brief but charged: Deacon reads Quentin's face and knows something is wrong, though he cannot know what. He is a dignified, canny, and ultimately helpless witness at the margins of Quentin's final day.
+      </p>
+      <div class="tags">
+        <span class="tag">Part Two</span>
+        <span class="tag">Cambridge</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- REV. SHEGOG -->
+  <div class="character">
+    <div class="char-initial servants" style="background: linear-gradient(135deg, #2a1e1a, #4a3028);">RS</div>
+    <div class="char-body">
+      <div class="char-name">Reverend Shegog</div>
+      <div class="char-role">Visiting preacher; delivers the Easter sermon</div>
+      <p class="char-desc">
+        Reverend Shegog is a tiny, seemingly unimpressive man from St. Louis who visits the Black church in Jefferson on Easter Sunday, April 8, 1928. His sermon—beginning in a flat, formal register and then descending into visionary vernacular—is one of the great set pieces of American literature. He preaches the Crucifixion and the Resurrection with mounting ecstatic power, and his words move Dilsey to deep, quiet tears. The sermon provides the novel's only moment of genuine transcendence, the one place where time dissolves into something other than despair.
+      </p>
+      <div class="tags">
+        <span class="tag">Part Four</span>
+        <span class="tag">Grace & transcendence</span>
+        <span class="tag">Easter sermon</span>
+      </div>
+    </div>
+  </div>
+
+
+  <footer>
+    <p>
+      <strong>The Sound and the Fury</strong> is structured in four sections, each filtered through a radically different consciousness:<br>
+      <em>Benjy (April 7, 1928) · Quentin (June 2, 1910) · Jason (April 6, 1928) · Dilsey (April 8, 1928)</em>
+    </p>
+    <p style="margin-top:1rem;">The title is drawn from Macbeth's soliloquy in Act V, scene v — a meditation on the meaninglessness of sound, fury, and time, the very materials Faulkner reinvents as a novel.</p>
+  </footer>
+
+</div>
+</body>
+</html>
