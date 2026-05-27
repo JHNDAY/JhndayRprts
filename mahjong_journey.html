@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A New Game Together — John & Ferene's Mahjong Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ivory: #FAF7F2;
+    --ivory-warm: #F2EDE3;
+    --ivory-card: #FFFDF8;
+    --jade: #2D6A4F;
+    --jade-mid: #40916C;
+    --jade-light: #74C69D;
+    --jade-pale: #D8F3DC;
+    --jade-mist: #EBF8ED;
+    --gold: #B8860B;
+    --gold-bright: #D4A017;
+    --gold-pale: #FDF3D0;
+    --cinnabar: #A0391E;
+    --cinnabar-pale: #FDEEE9;
+    --cobalt: #1A4A7A;
+    --cobalt-pale: #E6EEF8;
+    --ink: #1A1510;
+    --ink-mid: #3D3025;
+    --ink-warm: #5C4B38;
+    --ink-muted: #8C7A68;
+    --ink-faint: #B8A998;
+    --divider: #DDD5C8;
+    --tile-face: #FEFCF5;
+    --tile-border: #C8B88A;
+    --tile-shadow: #A89870;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--ivory);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.75;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ─── TYPOGRAPHY ─── */
+  h1, h2, h3, h4 { font-family: 'Playfair Display', serif; line-height: 1.25; }
+  h1 { font-size: 3rem; font-weight: 700; letter-spacing: -0.01em; }
+  h2 { font-size: 1.75rem; font-weight: 600; }
+  h3 { font-size: 1.25rem; font-weight: 600; }
+  h4 { font-size: 1.05rem; font-weight: 600; }
+  .serif { font-family: 'Crimson Pro', serif; }
+  .italic { font-style: italic; }
+  .muted { color: var(--ink-muted); }
+  .small { font-size: 0.85rem; }
+  p { color: var(--ink-mid); }
+
+  /* ─── HERO ─── */
+  .hero {
+    padding: 64px 0 48px;
+    text-align: center;
+    border-bottom: 1px solid var(--divider);
+  }
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--jade-mid);
+    margin-bottom: 18px;
+  }
+  .hero h1 { color: var(--ink); margin-bottom: 16px; }
+  .hero h1 em { font-style: italic; color: var(--jade); }
+  .hero-sub {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.3rem;
+    font-weight: 300;
+    color: var(--ink-warm);
+    max-width: 560px;
+    margin: 0 auto 32px;
+    line-height: 1.6;
+    font-style: italic;
+  }
+  .hero-tiles {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  /* ─── SECTION LAYOUT ─── */
+  .section {
+    padding: 52px 0 40px;
+    border-bottom: 1px solid var(--divider);
+  }
+  .section:last-of-type { border-bottom: none; }
+  .section-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 10px;
+  }
+  .section h2 { color: var(--ink); margin-bottom: 14px; }
+  .section-intro {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.15rem;
+    color: var(--ink-warm);
+    max-width: 640px;
+    margin-bottom: 36px;
+    line-height: 1.7;
+  }
+
+  /* ─── MAHJONG TILE ─── */
+  .tile {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 58px;
+    background: var(--tile-face);
+    border: 1px solid var(--tile-border);
+    border-radius: 4px;
+    border-bottom: 4px solid var(--tile-shadow);
+    border-right: 3px solid var(--tile-shadow);
+    font-size: 20px;
+    line-height: 1;
+    cursor: default;
+    user-select: none;
+    position: relative;
+    transition: transform 0.15s ease, border-bottom-width 0.15s ease;
+    flex-shrink: 0;
+  }
+  .tile:hover {
+    transform: translateY(-3px);
+    border-bottom-width: 6px;
+  }
+  .tile .suit-label {
+    font-size: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    margin-top: 2px;
+    text-transform: uppercase;
+  }
+  .tile.char { color: var(--cinnabar); }
+  .tile.char .suit-label { color: var(--cinnabar); }
+  .tile.bam { color: var(--jade); }
+  .tile.bam .suit-label { color: var(--jade); }
+  .tile.circle { color: var(--cobalt); }
+  .tile.circle .suit-label { color: var(--cobalt); }
+  .tile.wind { color: var(--ink-mid); background: #F8F6F0; }
+  .tile.wind .suit-label { color: var(--ink-muted); }
+  .tile.dragon-red { color: #C0392B; }
+  .tile.dragon-green { color: var(--jade); }
+  .tile.dragon-white { color: var(--ink-faint); border: 2px solid var(--tile-border); }
+  .tile.large { width: 54px; height: 70px; font-size: 26px; }
+  .tile.sm { width: 34px; height: 44px; font-size: 14px; }
+  .tile.sm .suit-label { font-size: 6px; }
+
+  /* ─── GAMES GRID ─── */
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+  @media (max-width: 640px) { .games-grid { grid-template-columns: repeat(2, 1fr); } }
+  .game-card {
+    background: var(--ivory-card);
+    border: 1px solid var(--divider);
+    border-radius: 12px;
+    padding: 20px 16px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .game-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .game-card.wordle::before { background: var(--jade-mid); }
+  .game-card.strands::before { background: #5B7FA6; }
+  .game-card.connections::before { background: var(--gold-bright); }
+  .game-card.crossword::before { background: var(--cinnabar); }
+  .game-card .game-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+  .game-card h4 { font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 6px; color: var(--ink); }
+  .game-card p { font-size: 0.82rem; line-height: 1.55; color: var(--ink-warm); }
+  .game-card .love-tag {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .game-card.wordle .love-tag { background: var(--jade-pale); color: var(--jade); }
+  .game-card.strands .love-tag { background: #E6EEF8; color: var(--cobalt); }
+  .game-card.connections .love-tag { background: var(--gold-pale); color: var(--gold); }
+  .game-card.crossword .love-tag { background: var(--cinnabar-pale); color: var(--cinnabar); }
+
+  /* ─── TILE SUITE DISPLAY ─── */
+  .suite-block {
+    background: var(--ivory-card);
+    border: 1px solid var(--divider);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .suite-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .suite-header h3 { color: var(--ink); }
+  .suite-header .count-badge {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .suite-tiles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+  .suite-note {
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+    margin-top: 12px;
+    font-style: italic;
+    font-family: 'Crimson Pro', serif;
+  }
+
+  /* ─── STEPS ─── */
+  .steps { list-style: none; margin: 0; padding: 0; }
+  .step {
+    display: flex;
+    gap: 20px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--divider);
+    align-items: flex-start;
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--jade);
+    color: #fff;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .step-content h4 { color: var(--ink); margin-bottom: 6px; }
+  .step-content p { font-size: 0.95rem; color: var(--ink-warm); line-height: 1.65; }
+  .step-visual {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+    align-items: center;
+  }
+  .step-visual .label {
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    font-style: italic;
+    width: 100%;
+    font-family: 'Crimson Pro', serif;
+  }
+
+  /* ─── TURN FLOW ─── */
+  .turn-flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 24px 0;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .turn-step {
+    background: var(--ivory-card);
+    border: 1px solid var(--divider);
+    border-radius: 10px;
+    padding: 16px 18px;
+    flex: 1;
+    min-width: 150px;
+    text-align: center;
+  }
+  .turn-step .ts-icon { font-size: 1.6rem; margin-bottom: 6px; display: block; }
+  .turn-step h4 { font-size: 0.95rem; margin-bottom: 4px; color: var(--ink); }
+  .turn-step p { font-size: 0.82rem; color: var(--ink-warm); line-height: 1.5; }
+  .turn-arrow { font-size: 1.4rem; color: var(--ink-faint); flex-shrink: 0; align-self: center; }
+
+  /* ─── CONNECTIONS TABLE ─── */
+  .connection-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 600px) { .connection-grid { grid-template-columns: 1fr; } }
+  .conn-card {
+    background: var(--ivory-card);
+    border: 1px solid var(--divider);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .conn-icon-wrap {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .conn-icon-wrap.jade { background: var(--jade-pale); }
+  .conn-icon-wrap.gold { background: var(--gold-pale); }
+  .conn-icon-wrap.cin  { background: var(--cinnabar-pale); }
+  .conn-icon-wrap.cob  { background: var(--cobalt-pale); }
+  .conn-card h4 { font-size: 0.95rem; color: var(--ink); margin-bottom: 4px; }
+  .conn-card p { font-size: 0.87rem; color: var(--ink-warm); line-height: 1.55; }
+
+  /* ─── BENEFITS STRIP ─── */
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 500px) { .benefits-grid { grid-template-columns: 1fr; } }
+  .benefit-card {
+    background: var(--jade-mist);
+    border: 1px solid #B7DFBF;
+    border-radius: 12px;
+    padding: 22px 20px;
+  }
+  .benefit-card h4 { color: var(--jade); margin-bottom: 6px; font-size: 1rem; }
+  .benefit-card p { font-size: 0.88rem; color: var(--jade); opacity: 0.85; line-height: 1.6; }
+
+  /* ─── AHA MOMENT CALLOUT ─── */
+  .aha-box {
+    background: var(--gold-pale);
+    border: 1px solid #E8CC7A;
+    border-radius: 14px;
+    padding: 28px 28px 24px;
+    margin: 28px 0;
+    position: relative;
+  }
+  .aha-box::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 6rem;
+    color: var(--gold-bright);
+    position: absolute;
+    top: -10px;
+    left: 16px;
+    line-height: 1;
+    opacity: 0.4;
+  }
+  .aha-box p {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--gold);
+    line-height: 1.6;
+    padding-left: 8px;
+  }
+  .aha-box .attr {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.7;
+    margin-top: 10px;
+    padding-left: 8px;
+  }
+
+  /* ─── HAND EXAMPLE ─── */
+  .hand-example {
+    background: var(--ivory-warm);
+    border: 1px solid var(--divider);
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin: 16px 0;
+  }
+  .hand-example .he-label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 10px;
+  }
+  .hand-group {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .hand-sep {
+    width: 1px;
+    height: 40px;
+    background: var(--divider);
+    margin: 0 10px;
+  }
+  .he-caption {
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    margin-top: 10px;
+    font-style: italic;
+    font-family: 'Crimson Pro', serif;
+  }
+
+  /* ─── BUYING GUIDE ─── */
+  .buy-card {
+    background: var(--ivory-card);
+    border: 2px solid var(--jade-mid);
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 16px;
+  }
+  .buy-card .rec-badge {
+    display: inline-block;
+    background: var(--jade);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+  .buy-card h3 { color: var(--jade); margin-bottom: 8px; }
+  .buy-card p { font-size: 0.95rem; color: var(--ink-warm); margin-bottom: 14px; }
+  .checklist { list-style: none; padding: 0; }
+  .checklist li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 6px 0;
+    font-size: 0.9rem;
+    color: var(--ink-warm);
+  }
+  .checklist li::before {
+    content: '✓';
+    color: var(--jade);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* ─── FOOTER ─── */
+  .guide-footer {
+    text-align: center;
+    padding: 48px 0 16px;
+    border-top: 1px solid var(--divider);
+    margin-top: 48px;
+  }
+  .guide-footer p {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--ink-muted);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  .tile-row-deco {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  .table-wall {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: center;
+  }
+  .wall-row { display: flex; gap: 2px; }
+
+  /* ─── CALL-OUT STRIP ─── */
+  .strip {
+    background: var(--jade);
+    border-radius: 12px;
+    padding: 20px 24px;
+    color: #fff;
+    margin: 28px 0;
+  }
+  .strip h3 { color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 8px; }
+  .strip p { color: rgba(255,255,255,0.85); font-size: 0.95rem; margin: 0; }
+
+  /* ─── DIVIDERS ─── */
+  .ornament {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--divider);
+    margin: 16px 0;
+    letter-spacing: 8px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-eyebrow">A personal guide for John &amp; Ferene</div>
+  <h1>A New Game <em>Together</em></h1>
+  <p class="hero-sub">Your mornings already hold Wordle, Strands, Connections, and the Mini. Now — a table, 144 ivory tiles, and a world of pattern and play awaits you both.</p>
+  <div class="hero-tiles">
+    <div class="tile large char">一<span class="suit-label">man</span></div>
+    <div class="tile large bam">🀅<span class="suit-label">bam</span></div>
+    <div class="tile large circle">⑤<span class="suit-label">dot</span></div>
+    <div class="tile large wind">東<span class="suit-label">east</span></div>
+    <div class="tile large dragon-red">中<span class="suit-label">red</span></div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     YOUR GAMES
+═══════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Where you are now</div>
+  <h2>Your Morning Ritual</h2>
+  <p class="section-intro">Every morning the two of you sit down to four games that you love — not for competition, but for the shared pleasure of thinking together.</p>
+
+  <div class="games-grid">
+    <div class="game-card wordle">
+      <span class="game-icon">🟩</span>
+      <h4>Wordle</h4>
+      <p>Systematic elimination until the <em>aha</em> moment arrives — and you're over 95% accurate.</p>
+      <span class="love-tag">Your favourite</span>
+    </div>
+    <div class="game-card strands">
+      <span class="game-icon">🔵</span>
+      <h4>Strands</h4>
+      <p>Finding hidden patterns across a board — spotting the shape beneath the surface.</p>
+      <span class="love-tag">Pattern play</span>
+    </div>
+    <div class="game-card connections">
+      <span class="game-icon">🟨</span>
+      <h4>Connections</h4>
+      <p>Grouping by category — sometimes too clever by half, but satisfying when it clicks.</p>
+      <span class="love-tag">Grouping logic</span>
+    </div>
+    <div class="game-card crossword">
+      <span class="game-icon">📰</span>
+      <h4>Mini Crossword</h4>
+      <p>Building words from crossing letters — constraint satisfaction as puzzle art.</p>
+      <span class="love-tag">Word building</span>
+    </div>
+  </div>
+
+  <div class="aha-box" style="margin-top:28px;">
+    <p>The best part isn't winning — it's the working-together. The shared discovery. Two minds on one puzzle.</p>
+    <div class="attr">— The heart of your morning practice</div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     WHAT IS MAHJONG — GOAL FIRST
+═══════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Start here</div>
+  <h2>What Is Mahjong? — The Goal First</h2>
+  <p class="section-intro">Before a single rule, before suits and winds and dragons — understand the one simple idea at the heart of everything.</p>
+
+  <div class="strip">
+    <h3>The Goal in One Sentence</h3>
+    <p>Build a complete hand of <strong>14 tiles</strong> grouped into matching sets — before any of the other three players do.</p>
+  </div>
+
+  <p style="color:var(--ink-warm); margin-bottom: 16px;">Think of it like this: imagine Wordle crossed with a card game. You hold a hand of tiles (like cards). You're constantly drawing new tiles and discarding ones that don't fit — <em>narrowing possibilities</em>, seeking a pattern that completes. When your hand "closes" into a perfect arrangement — that's Mahjong. Your moment of <em>aha</em>.</p>
+
+  <p style="color:var(--ink-warm); margin-bottom: 24px;">The game is played at a table with four players, but learners always start by practicing the <strong>hand-building logic</strong> first — which the two of you can do together before ever playing a full game.</p>
+
+  <div class="hand-example">
+    <div class="he-label">What a winning hand looks like (14 tiles)</div>
+    <div class="hand-group">
+      <div class="tile sm char">一</div><div class="tile sm char">二</div><div class="tile sm char">三</div>
+      <div class="hand-sep"></div>
+      <div class="tile sm bam">🀄</div><div class="tile sm bam">🀄</div><div class="tile sm bam">🀄</div>
+      <div class="hand-sep"></div>
+      <div class="tile sm circle">⑦</div><div class="tile sm circle">⑧</div><div class="tile sm circle">⑨</div>
+      <div class="hand-sep"></div>
+      <div class="tile sm wind">西</div><div class="tile sm wind">西</div><div class="tile sm wind">西</div>
+      <div class="hand-sep"></div>
+      <div class="tile sm dragon-red">中</div><div class="tile sm dragon-red">中</div>
+    </div>
+    <p class="he-caption">4 sets of 3 tiles + 1 pair of 2 tiles = 14 tiles = Mahjong!</p>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     MEET THE TILES
+═══════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">The building blocks</div>
+  <h2>Meet the Tiles — All 144 of Them</h2>
+  <p class="section-intro">Think of the tiles as a deck of cards with three suits, plus honour tiles. Every tile in a standard set appears exactly <strong>4 times</strong> (one for each player's potential set).</p>
+
+  <!-- Characters -->
+  <div class="suite-block">
+    <div class="suite-header">
+      <h3 style="color:var(--cinnabar);">Characters — "Man" (萬)</h3>
+      <span class="count-badge" style="background:var(--cinnabar-pale); color:var(--cinnabar);">36 tiles</span>
+    </div>
+    <div class="suite-tiles">
+      <div class="tile char">一<span class="suit-label">1</span></div>
+      <div class="tile char">二<span class="suit-label">2</span></div>
+      <div class="tile char">三<span class="suit-label">3</span></div>
+      <div class="tile char">四<span class="suit-label">4</span></div>
+      <div class="tile char">五<span class="suit-label">5</span></div>
+      <div class="tile char">六<span class="suit-label">6</span></div>
+      <div class="tile char">七<span class="suit-label">7</span></div>
+      <div class="tile char">八<span class="suit-label">8</span></div>
+      <div class="tile char">九<span class="suit-label">9</span></div>
+      <span style="font-size:0.8rem; color:var(--ink-muted); padding-left:8px;">× 4 each = 36</span>
+    </div>
+    <p class="suite-note">The number-character tiles — Chinese numerals 1 through 9. Each tile belongs to this suit just as a "♠" card belongs to spades.</p>
+  </div>
+
+  <!-- Bamboo -->
+  <div class="suite-block">
+    <div class="suite-header">
+      <h3 style="color:var(--jade);">Bamboo — "Bam"</h3>
+      <span class="count-badge" style="background:var(--jade-pale); color:var(--jade);">36 tiles</span>
+    </div>
+    <div class="suite-tiles">
+      <div class="tile bam">①<span class="suit-label">1</span></div>
+      <div class="tile bam">②<span class="suit-label">2</span></div>
+      <div class="tile bam">③<span class="suit-label">3</span></div>
+      <div class="tile bam">④<span class="suit-label">4</span></div>
+      <div class="tile bam">⑤<span class="suit-label">5</span></div>
+      <div class="tile bam">⑥<span class="suit-label">6</span></div>
+      <div class="tile bam">⑦<span class="suit-label">7</span></div>
+      <div class="tile bam">⑧<span class="suit-label">8</span></div>
+      <div class="tile bam">⑨<span class="suit-label">9</span></div>
+      <span style="font-size:0.8rem; color:var(--ink-muted); padding-left:8px;">× 4 each = 36</span>
+    </div>
+    <p class="suite-note">Bamboo stalks, numbered 1–9. The 1-Bam tile often shows a peacock or bird instead of bamboo — a charming traditional quirk.</p>
+  </div>
+
+  <!-- Circles -->
+  <div class="suite-block">
+    <div class="suite-header">
+      <h3 style="color:var(--cobalt);">Circles — "Dot"</h3>
+      <span class="count-badge" style="background:var(--cobalt-pale); color:var(--cobalt);">36 tiles</span>
+    </div>
+    <div class="suite-tiles">
+      <div class="tile circle">①<span class="suit-label">1</span></div>
+      <div class="tile circle">②<span class="suit-label">2</span></div>
+      <div class="tile circle">③<span class="suit-label">3</span></div>
+      <div class="tile circle">④<span class="suit-label">4</span></div>
+      <div class="tile circle">⑤<span class="suit-label">5</span></div>
+      <div class="tile circle">⑥<span class="suit-label">6</span></div>
+      <div class="tile circle">⑦<span class="suit-label">7</span></div>
+      <div class="tile circle">⑧<span class="suit-label">8</span></div>
+      <div class="tile circle">⑨<span class="suit-label">9</span></div>
+      <span style="font-size:0.8rem; color:var(--ink-muted); padding-left:8px;">× 4 each = 36</span>
+    </div>
+    <p class="suite-note">Circles representing coins, numbered 1–9. The circle patterns on physical tiles are often beautifully decorative.</p>
+  </div>
+
+  <!-- Honours -->
+  <div class="suite-block">
+    <div class="suite-header">
+      <h3 style="color:var(--ink-mid);">Honours — Winds &amp; Dragons</h3>
+      <span class="count-badge" style="background:var(--ivory-warm); color:var(--ink-warm); border:1px solid var(--divider);">28 tiles</span>
+    </div>
+    <div class="suite-tiles" style="flex-direction: column; align-items: flex-start;">
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+        <div class="tile wind">東<span class="suit-label">East</span></div>
+        <div class="tile wind">南<span class="suit-label">South</span></div>
+        <div class="tile wind">西<span class="suit-label">West</span></div>
+        <div class="tile wind">北<span class="suit-label">North</span></div>
+        <span style="font-size:0.8rem; color:var(--ink-muted); padding-left:4px;">The four Winds × 4 each = 16</span>
+      </div>
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-top:10px;">
+        <div class="tile dragon-red">中<span class="suit-label">Red</span></div>
+        <div class="tile dragon-green">發<span class="suit-label">Green</span></div>
+        <div class="tile dragon-white">白<span class="suit-label">White</span></div>
+        <span style="font-size:0.8rem; color:var(--ink-muted); padding-left:4px;">The three Dragons × 4 each = 12</span>
+      </div>
+    </div>
+    <p class="suite-note">These tiles have no numeric sequence — they can only form sets of identical tiles (three of a kind, or a pair).</p>
+  </div>
+
+  <!-- Types of Sets -->
+  <h3 style="margin: 28px 0 16px; color:var(--ink);">The Two Types of Sets You'll Build</h3>
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+    <div class="hand-example">
+      <div class="he-label">A "Pung" — three identical tiles</div>
+      <div class="hand-group">
+        <div class="tile bam">⑤</div>
+        <div class="tile bam">⑤</div>
+        <div class="tile bam">⑤</div>
+      </div>
+      <p class="he-caption">Like a three-of-a-kind in cards. Also called a "triplet."</p>
+    </div>
+    <div class="hand-example">
+      <div class="he-label">A "Chow" — three consecutive tiles in one suit</div>
+      <div class="hand-group">
+        <div class="tile char">三</div>
+        <div class="tile char">四</div>
+        <div class="tile char">五</div>
+      </div>
+      <p class="he-caption">Like a run in rummy — 3, 4, 5 of the same suit.</p>
+    </div>
+  </div>
+  <div class="hand-example" style="margin-top:16px;">
+    <div class="he-label">A "Pair" — two identical tiles (needed to complete any winning hand)</div>
+    <div class="hand-group">
+      <div class="tile dragon-red">中</div>
+      <div class="tile dragon-red">中</div>
+    </div>
+    <p class="he-caption">Every winning hand needs exactly one pair — these are your "eyes."</p>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SHOW ME HOW — SETUP
+═══════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Show me how</div>
+  <h2>Setting Up the Table — Step by Step</h2>
+  <p class="section-intro">The first time you lay out the tiles, the ritual is part of the pleasure. Here's exactly what to do, in order.</p>
+
+  <ol class="steps">
+    <li class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Turn all tiles face-down and shuffle</h4>
+        <p>Pour the tiles face-down onto the table. Everyone pushes them around, mixing thoroughly — this is called "washing the tiles." The sound of shuffling ivory (or modern resin) tiles is one of the game's pleasures.</p>
+      </div>
+    </li>
+    <li class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Each player builds a wall of 36 tiles</h4>
+        <p>Each player stacks tiles into a row: <strong>18 tiles long, 2 tiles high</strong>, facing away from them. The four walls are pushed together to form a hollow square — "the Wall." This is where all tiles are drawn from during the game.</p>
+        <div class="step-visual">
+          <span class="label">Your wall (side view — 18 tiles × 2 high):</span>
+          <div style="display:flex; gap:1px;">
+            <div class="tile sm wind" style="font-size:8px; width:24px; height:34px;">▪</div>
+            <div class="tile sm wind" style="font-size:8px; width:24px; height:34px;">▪</div>
+            <div class="tile sm wind" style="font-size:8px; width:24px; height:34px;">▪</div>
+            <div class="tile sm wind" style="font-size:8px; width:24px; height:34px;">▪</div>
+            <div class="tile sm wind" style="font-size:8px; width:24px; height:34px;">▪</div>
+            <div class="tile sm wind" style="font-size:8px; width:24px; height:34px;">▪</div>
+            <div class="tile sm wind" style="font-size:8px; width:24px; height:34px;">▪</div>
+            <span style="font-size:0.75rem; color:var(--ink-faint); align-self:center; padding-left:4px;">… × 18</span>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Decide the dealer — roll the dice</h4>
+        <p>Everyone rolls two dice. The highest total becomes <strong>East Wind</strong> — the dealer for the first round. The dealer goes first and always has a small advantage. Roles rotate clockwise each round.</p>
+      </div>
+    </li>
+    <li class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Deal the starting tiles</h4>
+        <p>The dealer rolls again to determine where in the Wall to "break" (start drawing). Then tiles are dealt: <strong>each player takes 13 tiles</strong>, drawn in groups of 4. The dealer then takes one extra tile (14 total) and the game begins.</p>
+        <div class="step-visual">
+          <span class="label">Your 13-tile starting hand (face toward you only):</span>
+          <div class="tile sm char">三</div>
+          <div class="tile sm char">四</div>
+          <div class="tile sm bam">②</div>
+          <div class="tile sm bam">④</div>
+          <div class="tile sm bam">⑤</div>
+          <div class="tile sm circle">⑦</div>
+          <div class="tile sm circle">⑧</div>
+          <div class="tile sm wind">東</div>
+          <div class="tile sm wind">東</div>
+          <div class="tile sm dragon-green">發</div>
+          <div class="tile sm wind" style="background:#F5F0E0; opacity:0.4;">?</div>
+          <div class="tile sm wind" style="background:#F5F0E0; opacity:0.4;">?</div>
+          <div class="tile sm wind" style="background:#F5F0E0; opacity:0.4;">?</div>
+        </div>
+      </div>
+    </li>
+    <li class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h4>Arrange your tiles in your tile rack</h4>
+        <p>Stand your tiles in the rack (included in most sets) so only you can see them. Immediately start grouping: sort by suit, spot partial sets, and begin thinking about what you're building toward.</p>
+      </div>
+    </li>
+  </ol>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     HOW A TURN WORKS
+═══════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">The rhythm of play</div>
+  <h2>How a Turn Works</h2>
+  <p class="section-intro">Each turn follows a simple three-step rhythm. Once you learn it, the game flows naturally.</p>
+
+  <div class="turn-flow">
+    <div class="turn-step">
+      <span class="ts-icon">🀄</span>
+      <h4>Draw</h4>
+      <p>Take one tile from the Wall. Now you hold 14 tiles.</p>
+    </div>
+    <div class="turn-arrow">→</div>
+    <div class="turn-step">
+      <span class="ts-icon">🤔</span>
+      <h4>Decide</h4>
+      <p>Does the new tile help your hand? Can it complete a set? Or is it useless to you?</p>
+    </div>
+    <div class="turn-arrow">→</div>
+    <div class="turn-step">
+      <span class="ts-icon">🗑</span>
+      <h4>Discard</h4>
+      <p>Place one tile face-up in the center. You're back to 13. The next player goes.</p>
+    </div>
+    <div class="turn-arrow">→</div>
+    <div class="turn-step" style="border:2px solid var(--jade-mid);">
+      <span class="ts-icon">🎉</span>
+      <h4>Mahjong!</h4>
+      <p>If your 14 tiles form 4 sets + 1 pair — declare Mahjong and win.</p>
+    </div>
+  </div>
+
+  <div class="strip" style="margin-top: 24px;">
+    <h3>The Special Move: Claiming a Discard</h3>
+    <p>When another player discards a tile you need, you may <strong>claim it</strong> before the next player draws — but only to <em>complete a set</em>. You call out "Pung!" (to complete three-of-a-kind) or "Chow!" (to complete a run). This adds a wonderful social, reactive dimension to every discard.</p>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     THE CONNECTION TO YOUR GAMES
+═══════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">The bridge</div>
+  <h2>How Mahjong Speaks Your Language</h2>
+  <p class="section-intro">Every skill you've honed at the morning table translates directly into Mahjong. You are not starting from zero.</p>
+
+  <div class="connection-grid">
+    <div class="conn-card">
+      <div class="conn-icon-wrap jade">🟩</div>
+      <div>
+        <h4>Wordle's Systematic Elimination → Tile Tracking</h4>
+        <p>In Wordle you narrow the space of possibilities with each guess. In Mahjong, every discarded tile tells you what's no longer in the Wall — you track what's "dead" and calculate what remains, narrowing your strategy with every turn.</p>
+      </div>
+    </div>
+    <div class="conn-card">
+      <div class="conn-icon-wrap cob">🔵</div>
+      <div>
+        <h4>Strands' Pattern Recognition → Hand Reading</h4>
+        <p>Strands asks you to find the hidden shape beneath apparent chaos. Mahjong asks the same: hold 13 tiles and see the patterns trying to emerge. Which three tiles want to be a run? Which two are waiting for a partner?</p>
+      </div>
+    </div>
+    <div class="conn-card">
+      <div class="conn-icon-wrap gold">🟨</div>
+      <div>
+        <h4>Connections' Grouping → Set Building</h4>
+        <p>Connections asks: which items share a hidden category? Mahjong asks: which tiles belong in the same set? The reasoning is structurally identical — find the grouping that makes the hand cohere.</p>
+      </div>
+    </div>
+    <div class="conn-card">
+      <div class="conn-icon-wrap cin">📰</div>
+      <div>
+        <h4>The Aha Moment → Declaring Mahjong</h4>
+        <p>That Wordle moment when the board suddenly resolves? Mahjong has the same beat — the moment when your hand "closes" and you see the complete picture. "Mahjong!" is the game's version of the green row.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="aha-box" style="margin-top: 28px;">
+    <p>Mahjong rewards exactly the two things you already do best: seeing patterns and working the problem together. The tiles are new. The thinking isn't.</p>
+    <div class="attr">— Your readiness for this game</div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     PLAYING TOGETHER
+═══════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Your way of playing</div>
+  <h2>Mahjong as a Practice of Togetherness</h2>
+  <p class="section-intro">The way you approach your morning games — collaborative, not competitive — has a perfect home in how you can learn Mahjong.</p>
+
+  <ol class="steps">
+    <li class="step">
+      <div class="step-num" style="background:var(--gold);">①</div>
+      <div class="step-content">
+        <h4>Start with Two-Player Practice</h4>
+        <p>Before a full four-player game, spend your first sessions at the table just the two of you. Deal two hands of 13 tiles each, face-up between you. Together, ask: "What sets can we see forming? What's missing? What would we draw next?" This is learning by doing — no pressure, all discovery.</p>
+      </div>
+    </li>
+    <li class="step">
+      <div class="step-num" style="background:var(--gold);">②</div>
+      <div class="step-content">
+        <h4>Play "Open Hand" First</h4>
+        <p>When you're ready to simulate a full game, play the first few rounds with all tiles face-up. This makes every decision discussable — you can see each other's thinking and talk through every move. Mahjong played openly is the world's best teaching mode.</p>
+      </div>
+    </li>
+    <li class="step">
+      <div class="step-num" style="background:var(--gold);">③</div>
+      <div class="step-content">
+        <h4>Use the Discard Pool as a Shared Puzzle</h4>
+        <p>As tiles are discarded face-up into the center, you both have access to the same information. Noticing what's been discarded — and what therefore remains — is a collaborative thinking exercise as rich as any of your morning games.</p>
+      </div>
+    </li>
+  </ol>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     MENTAL BENEFITS
+═══════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">For your minds</div>
+  <h2>The Mental Workout</h2>
+  <p class="section-intro">Research on Mahjong and cognitive aging consistently finds it among the most demanding and beneficial games for mental fitness in later life — here's why.</p>
+
+  <div class="benefits-grid">
+    <div class="benefit-card">
+      <h4>Working Memory</h4>
+      <p>Tracking 144 tiles, remembering what's been discarded, holding your current hand strategy — Mahjong exercises working memory in a way no daily word game quite matches.</p>
+    </div>
+    <div class="benefit-card">
+      <h4>Pattern Recognition</h4>
+      <p>Reading sequences and triplets across suits, spotting opportunities in your hand and danger in your opponents' discards — Strands-level pattern work, but in three dimensions.</p>
+    </div>
+    <div class="benefit-card">
+      <h4>Strategic Thinking</h4>
+      <p>Every discard is a decision with consequences. Do you chase the hand you want, or pivot to a safer one? This ongoing cost-benefit reasoning keeps executive function sharp.</p>
+    </div>
+    <div class="benefit-card">
+      <h4>Social Engagement</h4>
+      <p>Four players, shared table, real-time decisions — social stimulation and mental challenge together create a richer cognitive environment than solo puzzles alone.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     BUYING GUIDE
+═══════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Ready to begin</div>
+  <h2>What to Buy — and Your First Session Plan</h2>
+  <p class="section-intro">You're ready to sit down with a set. Here's exactly what to look for, and how to spend your first session with the tiles.</p>
+
+  <div class="buy-card">
+    <div class="rec-badge">Recommended for Learners</div>
+    <h3>A Complete American Mahjong Set</h3>
+    <p>Look for a set that includes: 166 tiles (144 playing tiles + flower/joker tiles), 4 racks, 2 dice, and a scoring card. American Mahjong (NMJL rules) is the most widely played version in the United States and has the most learning resources, apps, and books available.</p>
+    <ul class="checklist">
+      <li>Budget $40–80 for a solid resin set — perfectly good for learning</li>
+      <li>Premium ivory-colored resin tiles with clear engraving are easiest to read</li>
+      <li>Look for "American Mahjong set with racks" on Amazon, Walmart, or a game shop</li>
+      <li>The National Mah Jongg League publishes an annual card ($14) with winning hands</li>
+      <li>Get the NMJL card for your first year — it tells you which hands are valid</li>
+    </ul>
+  </div>
+
+  <h3 style="margin: 28px 0 14px; color:var(--ink);">Your First Session — Show Me How</h3>
+  <ol class="steps">
+    <li class="step">
+      <div class="step-num" style="background:var(--jade-mid); width:32px; height:32px; font-size:0.9rem;">1</div>
+      <div class="step-content">
+        <h4>Open the box and identify all the tiles</h4>
+        <p>Spread everything face-up. Find the three suits (Characters, Bamboo, Circles), the Winds (East/South/West/North), and the Dragons (Red/Green/White). Just naming what you see is session one.</p>
+      </div>
+    </li>
+    <li class="step">
+      <div class="step-num" style="background:var(--jade-mid); width:32px; height:32px; font-size:0.9rem;">2</div>
+      <div class="step-content">
+        <h4>Practice building sets from face-up tiles</h4>
+        <p>Pick any 14 tiles from the pile, face-up between you. Together, can you arrange them into 4 sets + 1 pair? Try it five times. This is pure Mahjong logic with zero pressure.</p>
+      </div>
+    </li>
+    <li class="step">
+      <div class="step-num" style="background:var(--jade-mid); width:32px; height:32px; font-size:0.9rem;">3</div>
+      <div class="step-content">
+        <h4>Deal a practice two-player open hand</h4>
+        <p>Shuffle, deal 13 tiles each — face up between you. Take turns drawing and discarding, discussing every move out loud. No competition. Pure collaborative exploration.</p>
+      </div>
+    </li>
+    <li class="step">
+      <div class="step-num" style="background:var(--jade-mid); width:32px; height:32px; font-size:0.9rem;">4</div>
+      <div class="step-content">
+        <h4>After 2–3 sessions: invite two friends to play</h4>
+        <p>Mahjong truly shines at four. Once you know the rhythm of draw-decide-discard, invite friends and play a full round — the social dimension transforms the game entirely.</p>
+      </div>
+    </li>
+  </ol>
+
+  <div class="strip" style="margin-top:28px;">
+    <h3>One More Resource</h3>
+    <p>The free app <strong>Mahjong Time</strong> lets you play simulated games at your own pace, with tutorials. It's excellent for learning between sessions. YouTube also has beautiful tutorial channels — search "American Mahjong tutorial for beginners" for guided video walkthroughs.</p>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════ -->
+<div class="guide-footer">
+  <div class="tile-row-deco">
+    <div class="tile sm char">一</div>
+    <div class="tile sm bam">②</div>
+    <div class="tile sm circle">③</div>
+    <div class="tile sm wind">東</div>
+    <div class="tile sm dragon-green">發</div>
+    <div class="tile sm dragon-red">中</div>
+  </div>
+  <p>Ninety-five percent at Wordle. Pattern readers. Collaborators. You are not beginners — you're experienced thinkers meeting a new puzzle. The tiles are waiting.</p>
+  <div style="margin-top: 20px; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); font-family: 'DM Sans', sans-serif;">
+    Made with care · For John &amp; Ferene
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.tile').forEach(tile => {
+    tile.addEventListener('click', () => {
+      tile.style.transform = 'translateY(-6px) scale(1.05)';
+      setTimeout(() => { tile.style.transform = ''; }, 300);
+    });
+  });
+</script>
+</body>
+</html>
