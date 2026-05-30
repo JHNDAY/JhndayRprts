@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Brokerage vs. 401k — Your Inheritance Tax Guide</title>
+<title>Brokerage vs. 401(k) — Your Inheritance Tax Guide</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -19,9 +19,7 @@
     --col-401-light: #e8eef5;
     --col-brok-light: #e8f5ee;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
     background: var(--paper);
     color: var(--ink);
@@ -30,14 +28,13 @@
     min-height: 100vh;
   }
 
-  /* ── MASTHEAD ── */
+  /* MASTHEAD */
   header {
     background: var(--ink);
     color: var(--paper);
     padding: 2.5rem 3rem 2rem;
     border-bottom: 4px solid var(--gold);
   }
-
   .dateline {
     font-size: 0.7rem;
     letter-spacing: 0.2em;
@@ -45,7 +42,6 @@
     color: var(--rule);
     margin-bottom: 0.6rem;
   }
-
   header h1 {
     font-family: 'Playfair Display', Georgia, serif;
     font-size: clamp(1.6rem, 4vw, 2.8rem);
@@ -53,12 +49,7 @@
     line-height: 1.15;
     margin-bottom: 0.5rem;
   }
-
-  header h1 em {
-    font-style: italic;
-    color: var(--gold);
-  }
-
+  header h1 em { font-style: italic; color: var(--gold); }
   .subhead {
     font-size: 0.85rem;
     color: var(--rule);
@@ -67,48 +58,6 @@
     padding-top: 0.6rem;
     margin-top: 0.8rem;
   }
-
-  /* ── LOADING ── */
-  #loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 5rem 2rem;
-    gap: 1.5rem;
-  }
-
-  .spinner {
-    width: 48px; height: 48px;
-    border: 3px solid var(--cream);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.9s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .loading-text {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 1.1rem;
-    color: #888;
-    animation: pulse 2s ease-in-out infinite;
-  }
-  @keyframes pulse { 0%,100%{opacity:.5} 50%{opacity:1} }
-
-  /* ── ERROR ── */
-  #error {
-    display: none;
-    margin: 3rem;
-    padding: 1.5rem 2rem;
-    background: #fff0ed;
-    border-left: 4px solid var(--accent);
-    font-size: 0.9rem;
-    color: var(--accent);
-  }
-
-  /* ── MAIN CONTENT ── */
-  #content { display: none; }
 
   .container { max-width: 960px; margin: 0 auto; padding: 2.5rem 2rem; }
 
@@ -133,7 +82,7 @@
     margin-bottom: 0.5rem;
   }
 
-  /* Section rule headers */
+  /* Section rules */
   .section-rule {
     display: flex;
     align-items: center;
@@ -154,7 +103,6 @@
     background: var(--rule);
   }
 
-  /* Prose blocks */
   .prose {
     font-size: 0.95rem;
     line-height: 1.85;
@@ -162,7 +110,7 @@
     margin-bottom: 1.2rem;
   }
 
-  /* ── COMPARISON COLUMNS ── */
+  /* COMPARISON GRID */
   .compare-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -171,7 +119,6 @@
     margin: 1.5rem 0 2rem;
     overflow: hidden;
   }
-
   .col-header {
     padding: 0.9rem 1.2rem;
     font-family: 'Playfair Display', serif;
@@ -183,10 +130,6 @@
   }
   .col-header.left  { background: var(--col-401); }
   .col-header.right { background: var(--col-brok); border-left: 1px solid rgba(255,255,255,0.2); }
-
-  .compare-row {
-    display: contents;
-  }
   .compare-row > div {
     padding: 0.9rem 1.2rem;
     font-size: 0.88rem;
@@ -195,7 +138,6 @@
   }
   .compare-row > div.left  { background: var(--col-401-light); }
   .compare-row > div.right { background: var(--col-brok-light); border-left: 1px solid var(--rule); }
-
   .row-label {
     font-size: 0.68rem;
     letter-spacing: 0.12em;
@@ -203,10 +145,10 @@
     font-weight: 600;
     margin-bottom: 0.3rem;
   }
-  .row-label.blue { color: var(--col-401); }
+  .row-label.blue  { color: var(--col-401); }
   .row-label.green { color: var(--col-brok); }
 
-  /* ── WORKED EXAMPLE ── */
+  /* WORKED EXAMPLE */
   .example-box {
     background: var(--ink);
     color: var(--paper);
@@ -248,7 +190,6 @@
   .calc-val.accent { color: var(--accent-light); }
   .calc-val.gold   { color: var(--gold); }
   .calc-val.green  { color: #6dbf8a; }
-
   .example-note {
     margin-top: 1rem;
     font-size: 0.78rem;
@@ -257,17 +198,18 @@
     line-height: 1.6;
   }
 
-  /* ── STEP-UP TIMELINE ── */
+  /* TIMELINE */
   .timeline {
     display: flex;
     align-items: flex-start;
     gap: 0;
     margin: 1.5rem 0;
     overflow-x: auto;
+    padding-bottom: 0.5rem;
   }
   .tl-item {
     flex: 1;
-    min-width: 120px;
+    min-width: 130px;
     text-align: center;
     position: relative;
     padding: 0 0.5rem;
@@ -275,8 +217,8 @@
   .tl-item::after {
     content: '→';
     position: absolute;
-    right: -0.6rem;
-    top: 0.9rem;
+    right: -0.7rem;
+    top: 0.85rem;
     font-size: 1.2rem;
     color: var(--rule);
   }
@@ -286,15 +228,16 @@
     border-radius: 50%;
     margin: 0 auto 0.5rem;
     display: flex; align-items: center; justify-content: center;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 700;
     color: white;
   }
   .tl-year { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; color: #888; margin-bottom: 0.25rem; }
   .tl-desc { font-size: 0.78rem; line-height: 1.4; color: #444; }
-  .tl-val  { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: var(--ink); margin-top: 0.3rem; }
+  .tl-val  { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: var(--ink); margin-top: 0.3rem; font-weight: 700; }
+  .tl-note { font-size: 0.7rem; color: #888; font-style: italic; margin-top: 0.2rem; }
 
-  /* ── KEY TERMS ── */
+  /* KEY TERMS */
   .terms-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -313,13 +256,20 @@
     color: var(--accent);
     margin-bottom: 0.4rem;
   }
-  .term-def {
-    font-size: 0.82rem;
-    line-height: 1.6;
-    color: #555;
-  }
+  .term-def { font-size: 0.82rem; line-height: 1.6; color: #555; }
 
-  /* Footer */
+  /* CALLOUT */
+  .callout {
+    border: 1px solid var(--gold);
+    background: #fffbf0;
+    padding: 1.1rem 1.4rem;
+    margin: 1.2rem 0;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: #4a3a10;
+  }
+  .callout strong { color: var(--gold); }
+
   footer {
     border-top: 3px double var(--rule);
     padding: 1.5rem 2rem;
@@ -329,19 +279,14 @@
     margin-top: 3rem;
   }
 
-  /* Raw prose from Claude (fallback) */
-  #raw-response {
-    font-size: 0.92rem;
-    line-height: 1.85;
-    white-space: pre-wrap;
-    color: #2a2620;
-  }
-
   @media (max-width: 640px) {
     .compare-grid { grid-template-columns: 1fr; }
     .compare-row > div.right { border-left: none; border-top: 2px solid var(--rule); }
     header { padding: 1.5rem; }
     .container { padding: 1.5rem 1rem; }
+    .timeline { flex-direction: column; align-items: center; }
+    .tl-item::after { content: '↓'; right: auto; top: auto; bottom: -1.1rem; left: 50%; transform: translateX(-50%); }
+    .tl-item { margin-bottom: 1.5rem; }
   }
 </style>
 </head>
@@ -350,214 +295,202 @@
 <header>
   <div class="dateline">A Personal Finance Explainer · Prepared for Your Situation</div>
   <h1>Inherited Brokerage Accounts<br><em>vs.</em> Your 401(k)</h1>
-  <div class="subhead">Step-up basis · Capital gains · RMDs · How your tax obligations differ</div>
+  <div class="subhead">Step-up basis &middot; Capital gains &middot; RMDs &middot; How your tax obligations differ</div>
 </header>
 
-<div id="loading">
-  <div class="spinner"></div>
-  <div class="loading-text">Consulting the tax code on your behalf…</div>
-</div>
+<div class="container">
 
-<div id="error"></div>
-
-<div id="content">
-  <div class="container">
-
-    <div class="prompt-box">
-      <strong>Your Question</strong>
-      I have inherited over a million dollars invested in stocks and bonds and will maintain this in a brokerage account. I am familiar with a 401(k) — I have deferred income into it without paying taxes, and now as I take yearly RMDs I pay taxes. I understand the cost basis was stepped up to fair market value at the time of the original owner's death. When I sell, a taxable event occurs — but since different assets may have been acquired at different times, I'm not sure how to calculate what I actually owe in federal taxes on each sale. I want to understand brokerage withdrawals step by step — using my specific situation as the example — and see clearly how they differ from 401(k) withdrawals.
-    </div>
-
-    <!-- STRUCTURED RESPONSE INJECTED HERE -->
-    <div id="structured-content"></div>
-
+  <div class="prompt-box">
+    <strong>Your Question</strong>
+    I have inherited over a million dollars invested in stocks and bonds and will maintain this in a brokerage account. I am familiar with a 401(k) — I have deferred income over the years without paying taxes, and now as I take yearly RMDs I pay taxes. I understand the cost basis was stepped up to fair market value at the time of the original owner's death. When I sell, I expect a taxable event occurs — but since different assets may have been acquired at different times, I'm not sure how to calculate what I actually owe in federal taxes on each sale. I want to understand brokerage withdrawals step by step — using my specific situation as the example — and see clearly how they differ from 401(k) withdrawals.
   </div>
 
-  <footer>
-    This document is for educational purposes only and does not constitute tax or financial advice. Consult a qualified tax professional regarding your specific situation. · Generated with Claude AI
-  </footer>
-</div>
+  <!-- SECTION 1: OVERVIEW -->
+  <div class="section-rule"><h2>The Core Difference</h2></div>
+  <p class="prose">In your 401(k), you never paid tax on the money going in — so when it comes out, every dollar is taxed as ordinary income, just like a paycheck. Your inherited brokerage account works the opposite way: the original owner invested after-tax dollars, and when you sell, only the growth above your stepped-up cost basis is taxed — and at the lower long-term capital gains rate, not ordinary income rates. This distinction is significant: a $50,000 RMD from your 401(k) is fully taxable; a $50,000 sale from your brokerage account where the gain is only $8,000 means you owe tax on just that $8,000.</p>
 
-<script>
-const PROMPT = `You are a financial educator explaining to a retired adult (familiar with 401k RMDs) how an inherited brokerage account works for tax purposes.
-
-The person says: "I have inherited over a million dollars invested in stocks and bonds. I will maintain this inheritance in a brokerage account. I am familiar with a 401K account — I have deferred income over the years into this account without having to pay taxes — now as I take yearly RMDs I pay taxes. I understand the cost basis was stepped up to fair market value at the time of the original owner's death. When I sell, I expect a taxable event occurs — but since different assets may have been acquired at different times, I'm not sure how to calculate what I actually owe in federal taxes on each sale. I want to understand brokerage withdrawals step by step — using my specific situation as the example — and see clearly how they differ from 401k withdrawals."
-
-Respond in structured JSON only — no prose outside the JSON, no markdown fences. Use this exact schema:
-
-{
-  "overview": "2-3 sentence plain-English overview of the core difference between 401k and brokerage tax treatment",
-  "comparison": [
-    {
-      "dimension": "short label (e.g. 'When you pay tax')",
-      "col_401k": "1-2 sentence explanation for 401k",
-      "col_brokerage": "1-2 sentence explanation for brokerage"
-    }
-  ],
-  "stepup_explanation": "3-4 sentences explaining step-up basis in plain English for this person's situation",
-  "timeline": [
-    {
-      "year": "e.g. 1995",
-      "label": "short event name",
-      "description": "brief description",
-      "value": "e.g. $40/share",
-      "color": "hex color"
-    }
-  ],
-  "worked_example": {
-    "intro": "1 sentence setting up the example",
-    "rows": [
-      { "label": "e.g. Original purchase price (1995)", "value": "$40/share", "type": "neutral" },
-      { "label": "Step-up basis at death (2015)", "value": "$120/share", "type": "neutral" },
-      { "label": "Your sale price (2025)", "value": "$180/share", "type": "neutral" },
-      { "label": "Taxable gain", "value": "$60/share", "type": "accent" },
-      { "label": "Long-term capital gains rate (example)", "value": "15%", "type": "neutral" },
-      { "label": "Tax owed per share", "value": "$9/share", "type": "gold" },
-      { "label": "Compare: if NO step-up, gain would be", "value": "$140/share", "type": "accent" },
-      { "label": "Tax saved by step-up (per share)", "value": "$21/share", "type": "green" }
-    ],
-    "note": "Clarifying note about long-term vs short-term rates and holding periods for inherited assets"
-  },
-  "multiple_assets_explanation": "3-4 sentences explaining how to handle assets acquired at different times, including what records to keep",
-  "key_terms": [
-    { "term": "term name", "definition": "plain-English definition" }
-  ],
-  "closing_advice": "2-3 sentences of practical next steps for this person"
-}
-
-Include exactly 5 comparison dimensions, 4-5 timeline items, 6-8 key_terms. Make all dollar figures concrete and realistic. Keep language accessible — no jargon without explanation.`;
-
-async function fetchAndRender() {
-  try {
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 4000,
-        messages: [{ role: "user", content: PROMPT }]
-      })
-    });
-
-    const data = await response.json();
-    const rawText = data.content.map(b => b.text || "").join("").trim();
-
-    let parsed;
-    try {
-      let clean = rawText;
-      const fenceMatch = rawText.match(/```(?:json)?\s*([\s\S]*?)```/i);
-      if (fenceMatch) {
-        clean = fenceMatch[1].trim();
-      } else {
-        const start = rawText.indexOf('{');
-        const end = rawText.lastIndexOf('}');
-        if (start !== -1 && end !== -1 && end > start) {
-          clean = rawText.slice(start, end + 1);
-        }
-      }
-      parsed = JSON.parse(clean);
-    } catch(e) {
-      document.getElementById('structured-content').innerHTML =
-        '<pre style="white-space:pre-wrap;font-size:.85rem;line-height:1.7;color:#2a2620;padding:1rem;background:#fff;border:1px solid #ccc;">' +
-        rawText.replace(/</g,'&lt;') + '</pre>';
-      document.getElementById('loading').style.display = 'none';
-      document.getElementById('content').style.display = 'block';
-      return;
-    }
-
-    renderStructured(parsed);
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('content').style.display = 'block';
-
-  } catch(err) {
-    document.getElementById('loading').style.display = 'none';
-    const el = document.getElementById('error');
-    el.style.display = 'block';
-    el.textContent = "Unable to load response: " + err.message;
-  }
-}
-
-function renderStructured(d) {
-  const sc = document.getElementById('structured-content');
-  let html = '';
-
-  // Overview
-  html += `<div class="section-rule"><h2>The Core Difference</h2></div>`;
-  html += `<p class="prose">${d.overview}</p>`;
-
-  // Comparison grid
-  html += `<div class="section-rule"><h2>Side-by-Side Comparison</h2></div>`;
-  html += `<div class="compare-grid">
+  <!-- SECTION 2: COMPARISON -->
+  <div class="section-rule"><h2>Side-by-Side Comparison</h2></div>
+  <div class="compare-grid">
     <div class="col-header left">Your 401(k)</div>
-    <div class="col-header right">Your Inherited Brokerage</div>`;
-  (d.comparison||[]).forEach(row => {
-    html += `<div class="compare-row">
-      <div class="left"><div class="row-label blue">${row.dimension}</div>${row.col_401k}</div>
-      <div class="right"><div class="row-label green">${row.dimension}</div>${row.col_brokerage}</div>
-    </div>`;
-  });
-  html += `</div>`;
+    <div class="col-header right">Your Inherited Brokerage</div>
 
-  // Step-up basis
-  html += `<div class="section-rule"><h2>Step-Up Basis — Your Key Advantage</h2></div>`;
-  html += `<p class="prose">${d.stepup_explanation}</p>`;
+    <div class="compare-row">
+      <div class="left"><div class="row-label blue">When you pay tax</div>At the moment of every withdrawal — no exceptions. Each RMD is a taxable event.</div>
+      <div class="right"><div class="row-label green">When you pay tax</div>Only when you sell an asset. Simply holding the account, or receiving it as an inheritance, is not a taxable event.</div>
+    </div>
 
-  // Timeline
-  if (d.timeline && d.timeline.length) {
-    html += `<div class="timeline">`;
-    d.timeline.forEach(item => {
-      html += `<div class="tl-item">
-        <div class="tl-dot" style="background:${item.color||'#888'}">${item.year.slice(-2)}</div>
-        <div class="tl-year">${item.year}</div>
-        <div class="tl-desc">${item.label}</div>
-        <div class="tl-val">${item.value||''}</div>
-      </div>`;
-    });
-    html += `</div>`;
-  }
+    <div class="compare-row">
+      <div class="left"><div class="row-label blue">What is taxed</div>The entire withdrawal amount — 100% is ordinary income, taxed at your marginal rate (10%–37%).</div>
+      <div class="right"><div class="row-label green">What is taxed</div>Only the gain above your stepped-up cost basis. The basis itself is returned to you tax-free.</div>
+    </div>
 
-  // Worked example
-  if (d.worked_example) {
-    const we = d.worked_example;
-    html += `<div class="section-rule"><h2>A Worked Example</h2></div>`;
-    html += `<p class="prose">${we.intro}</p>`;
-    html += `<div class="example-box"><h3>The Numbers, Step by Step</h3>`;
-    (we.rows||[]).forEach(row => {
-      const cls = row.type === 'accent' ? 'accent' : row.type === 'gold' ? 'gold' : row.type === 'green' ? 'green' : '';
-      html += `<div class="calc-row">
-        <span class="calc-label">${row.label}</span>
-        <span class="calc-val ${cls}">${row.value}</span>
-      </div>`;
-    });
-    if (we.note) html += `<div class="example-note">${we.note}</div>`;
-    html += `</div>`;
-  }
+    <div class="compare-row">
+      <div class="left"><div class="row-label blue">Tax rate</div>Ordinary income rates — the same bracket as Social Security, pension income, and RMDs combined.</div>
+      <div class="right"><div class="row-label green">Tax rate</div>Long-term capital gains rates: 0%, 15%, or 20% depending on your total income. Almost always lower than ordinary income rates.</div>
+    </div>
 
-  // Multiple assets
-  html += `<div class="section-rule"><h2>When Assets Were Acquired at Different Times</h2></div>`;
-  html += `<p class="prose">${d.multiple_assets_explanation}</p>`;
+    <div class="compare-row">
+      <div class="left"><div class="row-label blue">Required withdrawals</div>Yes — RMDs are mandatory each year starting at age 73, whether you need the money or not.</div>
+      <div class="right"><div class="row-label green">Required withdrawals</div>No. You may hold the account indefinitely and sell only when you choose. There are no mandatory distributions.</div>
+    </div>
 
-  // Key terms
-  if (d.key_terms && d.key_terms.length) {
-    html += `<div class="section-rule"><h2>Key Terms to Know</h2></div>`;
-    html += `<div class="terms-grid">`;
-    d.key_terms.forEach(t => {
-      html += `<div class="term-card">
-        <div class="term-name">${t.term}</div>
-        <div class="term-def">${t.definition}</div>
-      </div>`;
-    });
-    html += `</div>`;
-  }
+    <div class="compare-row">
+      <div class="left"><div class="row-label blue">Cost basis</div>Not applicable — the entire account balance is pre-tax money. There is no basis calculation.</div>
+      <div class="right"><div class="row-label green">Cost basis</div>Your stepped-up basis is the fair market value of each asset on the date the original owner died — not what they originally paid.</div>
+    </div>
+  </div>
 
-  // Closing
-  html += `<div class="section-rule"><h2>Practical Next Steps</h2></div>`;
-  html += `<p class="prose">${d.closing_advice}</p>`;
+  <!-- SECTION 3: STEP-UP -->
+  <div class="section-rule"><h2>Step-Up Basis — Your Key Advantage</h2></div>
+  <p class="prose">When the original owner died, the IRS "reset" the cost basis of every asset in the account to its fair market value on that date. Any gain that accumulated during the original owner's lifetime is permanently erased for tax purposes — you will never owe tax on it. This is the step-up in basis, and it is one of the most valuable tax benefits in the entire tax code.</p>
+  <p class="prose">For your situation: if a stock was purchased for $30 per share decades ago and was worth $120 per share on the date of death, your cost basis is $120 — not $30. If you sell that stock today at $145, you owe tax only on the $25 gain since the date of death. The original $90 of appreciation is gone from the tax calculation entirely.</p>
 
-  sc.innerHTML = html;
-}
+  <div class="callout">
+    <strong>Important note about your trust situation:</strong> Because the assets were held in a family trust after the original owner's death, the step-up in basis was established at the date of death — not when the trust transferred assets to you. Your brokerage firm should have records of the stepped-up cost basis for each position. Request a cost basis report before you sell anything.
+  </div>
 
-fetchAndRender();
-</script>
+  <!-- TIMELINE -->
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot" style="background:#6b8aaa">Pre</div>
+      <div class="tl-year">Original Purchase</div>
+      <div class="tl-desc">Owner buys stock</div>
+      <div class="tl-val">$30/share</div>
+      <div class="tl-note">Original cost basis</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot" style="background:#8b3a2a">2015</div>
+      <div class="tl-year">Date of Death</div>
+      <div class="tl-desc">Step-up basis reset</div>
+      <div class="tl-val">$120/share</div>
+      <div class="tl-note">Your new basis — $90 gain erased</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot" style="background:#5a5a5a">2015–Now</div>
+      <div class="tl-year">Trust Period</div>
+      <div class="tl-desc">Assets held in family trust</div>
+      <div class="tl-val">Basis preserved</div>
+      <div class="tl-note">Step-up carries through</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot" style="background:#2a6b4a">Now</div>
+      <div class="tl-year">Your Inheritance</div>
+      <div class="tl-desc">Transfer to your brokerage</div>
+      <div class="tl-val">~$145/share</div>
+      <div class="tl-note">Only $25 gain is taxable</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot" style="background:#b8952a">Sale</div>
+      <div class="tl-year">When You Sell</div>
+      <div class="tl-desc">Taxable event occurs</div>
+      <div class="tl-val">Sale price − $120</div>
+      <div class="tl-note">= your taxable gain</div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: WORKED EXAMPLE -->
+  <div class="section-rule"><h2>A Worked Example — The Numbers Step by Step</h2></div>
+  <p class="prose">Suppose you sell 500 shares of a stock that was stepped up to $120/share at the date of death, and you sell it today for $145/share. Here is exactly how the federal tax is calculated:</p>
+
+  <div class="example-box">
+    <h3>Calculating Federal Tax on a Brokerage Sale</h3>
+    <div class="calc-row">
+      <span class="calc-label">Original owner's purchase price (decades ago)</span>
+      <span class="calc-val" style="color:#777">$30 / share</span>
+    </div>
+    <div class="calc-row">
+      <span class="calc-label">Your stepped-up cost basis (date of death)</span>
+      <span class="calc-val">$120 / share</span>
+    </div>
+    <div class="calc-row">
+      <span class="calc-label">Your sale price today</span>
+      <span class="calc-val">$145 / share</span>
+    </div>
+    <div class="calc-row">
+      <span class="calc-label">Your taxable gain per share ($145 − $120)</span>
+      <span class="calc-val accent">$25 / share</span>
+    </div>
+    <div class="calc-row">
+      <span class="calc-label">Number of shares sold</span>
+      <span class="calc-val">500 shares</span>
+    </div>
+    <div class="calc-row">
+      <span class="calc-label">Total taxable gain (500 × $25)</span>
+      <span class="calc-val accent">$12,500</span>
+    </div>
+    <div class="calc-row">
+      <span class="calc-label">Long-term capital gains rate (typical for retirees)</span>
+      <span class="calc-val">15%</span>
+    </div>
+    <div class="calc-row">
+      <span class="calc-label">Federal tax owed on this sale</span>
+      <span class="calc-val gold">$1,875</span>
+    </div>
+    <div class="calc-row">
+      <span class="calc-label">Total gain that existed — erased by step-up (500 × $90)</span>
+      <span class="calc-val green">$45,000 tax-free</span>
+    </div>
+    <div class="example-note">
+      Note: Inherited assets are always treated as long-term holdings regardless of how long you have personally held them — so the lower long-term capital gains rate (0%, 15%, or 20%) applies immediately. You do not need to wait a year. Whether you owe 0%, 15%, or 20% depends on your total taxable income for the year; your tax advisor can help you project this.
+    </div>
+  </div>
+
+  <!-- SECTION 5: MULTIPLE ASSETS -->
+  <div class="section-rule"><h2>When Assets Were Acquired at Different Times</h2></div>
+  <p class="prose">Because the step-up in basis is applied asset by asset as of the date of death, each holding in your brokerage account has its own individual cost basis — regardless of when the original owner purchased it. A stock bought in 1985 and a bond bought in 2010 both get stepped up to their respective fair market values on the same date: the date of death.</p>
+  <p class="prose">When you sell, your brokerage firm is required to report your cost basis on Form 1099-B, which you receive each January for the prior tax year. This form will show the proceeds of the sale, your cost basis, and the resulting gain or loss — the same three numbers you need to complete Schedule D of your federal tax return. Before selling anything, ask your brokerage for a full cost basis report so you can see every asset's individual basis and estimate your tax liability.</p>
+
+  <div class="callout">
+    <strong>Practical tip:</strong> If you have both highly appreciated assets (large gain above basis) and some assets near or below basis, you have flexibility in which ones you sell first. Selling assets with smaller gains — or even small losses — can reduce your tax bill for the year. This is called tax-lot management and is worth discussing with a financial advisor or CPA.
+  </div>
+
+  <!-- SECTION 6: KEY TERMS -->
+  <div class="section-rule"><h2>Key Terms to Know</h2></div>
+  <div class="terms-grid">
+    <div class="term-card">
+      <div class="term-name">Cost Basis</div>
+      <div class="term-def">The value from which your taxable gain is measured. For your inherited account, this is the stepped-up fair market value on the date of death — not the original purchase price.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">Step-Up in Basis</div>
+      <div class="term-def">The IRS rule that resets an inherited asset's cost basis to its fair market value on the date the original owner died, erasing all previously accumulated gain.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">Capital Gain</div>
+      <div class="term-def">The profit from selling an asset — calculated as sale price minus cost basis. Only this amount is taxed, not the full sale proceeds.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">Long-Term Capital Gains Rate</div>
+      <div class="term-def">The preferential tax rate (0%, 15%, or 20%) that applies to gains on assets held more than one year — or, in your case, all inherited assets automatically.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">Ordinary Income Rate</div>
+      <div class="term-def">Your regular tax bracket rate (10%–37%), applied to 401(k) withdrawals, RMDs, wages, and Social Security. Generally higher than capital gains rates.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">RMD (Required Minimum Distribution)</div>
+      <div class="term-def">The mandatory annual withdrawal from your 401(k) beginning at age 73. No equivalent requirement exists for a brokerage account.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">Form 1099-B</div>
+      <div class="term-def">The tax form your brokerage sends each January showing proceeds, cost basis, and gain or loss for every sale made in the prior year. The essential document for filing.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">Taxable Event</div>
+      <div class="term-def">A transaction that triggers a tax obligation. For your brokerage account, selling an asset is a taxable event. Holding it, inheriting it, or transferring it generally is not.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 7: NEXT STEPS -->
+  <div class="section-rule"><h2>Practical Next Steps</h2></div>
+  <p class="prose">Before making any sales, contact your brokerage and request a complete cost basis report showing the stepped-up basis for every position — this is the foundation of every tax calculation you will make going forward. When you do sell, your brokerage's Form 1099-B will report the gain automatically; you or your tax preparer will transfer those figures to Schedule D of your federal return. Given the size of this inheritance, a one-time consultation with a CPA or tax advisor who handles investment accounts is well worth the cost — particularly to project how brokerage gains interact with your 401(k) RMDs and Social Security in determining your overall tax bracket each year.</p>
+
+</div><!-- end container -->
+
+<footer>
+  This document is for educational purposes only and does not constitute tax or financial advice. Figures are illustrative. Consult a qualified tax professional regarding your specific situation.
+</footer>
+
 </body>
 </html>
