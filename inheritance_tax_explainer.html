@@ -110,43 +110,46 @@
     margin-bottom: 1.2rem;
   }
 
-  /* COMPARISON GRID */
-  .compare-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    border: 1px solid var(--rule);
+  /* COMPARISON TABLE */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
     margin: 1.5rem 0 2rem;
-    overflow: hidden;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    border: 1px solid var(--rule);
   }
-  .col-header {
-    padding: 0.9rem 1.2rem;
+  .compare-table thead th {
+    padding: 0.85rem 1.1rem;
     font-family: 'Playfair Display', serif;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     font-weight: 700;
     letter-spacing: 0.05em;
     text-transform: uppercase;
     color: white;
+    text-align: left;
   }
-  .col-header.left  { background: var(--col-401); }
-  .col-header.right { background: var(--col-brok); border-left: 1px solid rgba(255,255,255,0.2); }
-  .compare-row > div {
-    padding: 0.9rem 1.2rem;
-    font-size: 0.88rem;
-    line-height: 1.65;
-    border-top: 1px solid var(--rule);
+  .compare-table thead th.th-dim  { background: #3a3530; width: 18%; }
+  .compare-table thead th.th-401  { background: var(--col-401); width: 41%; border-left: 1px solid rgba(255,255,255,0.15); }
+  .compare-table thead th.th-brok { background: var(--col-brok); width: 41%; border-left: 1px solid rgba(255,255,255,0.15); }
+  .compare-table tbody tr { border-top: 1px solid var(--rule); }
+  .compare-table tbody tr:hover td { filter: brightness(0.97); }
+  .compare-table td {
+    padding: 0.85rem 1.1rem;
+    vertical-align: top;
   }
-  .compare-row > div.left  { background: var(--col-401-light); }
-  .compare-row > div.right { background: var(--col-brok-light); border-left: 1px solid var(--rule); }
-  .row-label {
-    font-size: 0.68rem;
-    letter-spacing: 0.12em;
+  .compare-table td.td-dim {
+    background: var(--cream);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    font-weight: 600;
-    margin-bottom: 0.3rem;
+    color: #5a4e3a;
+    border-right: 1px solid var(--rule);
   }
-  .row-label.blue  { color: var(--col-401); }
-  .row-label.green { color: var(--col-brok); }
+  .compare-table td.td-401  { background: var(--col-401-light); border-right: 1px solid var(--rule); }
+  .compare-table td.td-brok { background: var(--col-brok-light); }
 
   /* WORKED EXAMPLE */
   .example-box {
@@ -280,8 +283,10 @@
   }
 
   @media (max-width: 640px) {
-    .compare-grid { grid-template-columns: 1fr; }
-    .compare-row > div.right { border-left: none; border-top: 2px solid var(--rule); }
+    .compare-table thead th.th-dim { display: none; }
+    .compare-table td.td-dim { display: none; }
+    .compare-table thead th.th-401,
+    .compare-table thead th.th-brok { width: 50%; }
     header { padding: 1.5rem; }
     .container { padding: 1.5rem 1rem; }
     .timeline { flex-direction: column; align-items: center; }
@@ -311,35 +316,42 @@
 
   <!-- SECTION 2: COMPARISON -->
   <div class="section-rule"><h2>Side-by-Side Comparison</h2></div>
-  <div class="compare-grid">
-    <div class="col-header left">Your 401(k)</div>
-    <div class="col-header right">Your Inherited Brokerage</div>
-
-    <div class="compare-row">
-      <div class="left"><div class="row-label blue">When you pay tax</div>At the moment of every withdrawal — no exceptions. Each RMD is a taxable event.</div>
-      <div class="right"><div class="row-label green">When you pay tax</div>Only when you sell an asset. Simply holding the account, or receiving it as an inheritance, is not a taxable event.</div>
-    </div>
-
-    <div class="compare-row">
-      <div class="left"><div class="row-label blue">What is taxed</div>The entire withdrawal amount — 100% is ordinary income, taxed at your marginal rate (10%–37%).</div>
-      <div class="right"><div class="row-label green">What is taxed</div>Only the gain above your stepped-up cost basis. The basis itself is returned to you tax-free.</div>
-    </div>
-
-    <div class="compare-row">
-      <div class="left"><div class="row-label blue">Tax rate</div>Ordinary income rates — the same bracket as Social Security, pension income, and RMDs combined.</div>
-      <div class="right"><div class="row-label green">Tax rate</div>Long-term capital gains rates: 0%, 15%, or 20% depending on your total income. Almost always lower than ordinary income rates.</div>
-    </div>
-
-    <div class="compare-row">
-      <div class="left"><div class="row-label blue">Required withdrawals</div>Yes — RMDs are mandatory each year starting at age 73, whether you need the money or not.</div>
-      <div class="right"><div class="row-label green">Required withdrawals</div>No. You may hold the account indefinitely and sell only when you choose. There are no mandatory distributions.</div>
-    </div>
-
-    <div class="compare-row">
-      <div class="left"><div class="row-label blue">Cost basis</div>Not applicable — the entire account balance is pre-tax money. There is no basis calculation.</div>
-      <div class="right"><div class="row-label green">Cost basis</div>Your stepped-up basis is the fair market value of each asset on the date the original owner died — not what they originally paid.</div>
-    </div>
-  </div>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th class="th-dim">Dimension</th>
+        <th class="th-401">Your 401(k)</th>
+        <th class="th-brok">Your Inherited Brokerage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="td-dim">When you pay tax</td>
+        <td class="td-401">At the moment of every withdrawal — no exceptions. Each RMD is a taxable event.</td>
+        <td class="td-brok">Only when you sell an asset. Simply holding the account, or receiving it as an inheritance, is not a taxable event.</td>
+      </tr>
+      <tr>
+        <td class="td-dim">What is taxed</td>
+        <td class="td-401">The entire withdrawal — 100% is ordinary income, taxed at your marginal rate (10%–37%).</td>
+        <td class="td-brok">Only the gain above your stepped-up cost basis. The basis itself is returned to you tax-free.</td>
+      </tr>
+      <tr>
+        <td class="td-dim">Tax rate</td>
+        <td class="td-401">Ordinary income rates — the same bracket as Social Security, pension income, and RMDs combined.</td>
+        <td class="td-brok">Long-term capital gains rates: 0%, 15%, or 20% depending on your total income. Almost always lower than ordinary income rates.</td>
+      </tr>
+      <tr>
+        <td class="td-dim">Required withdrawals</td>
+        <td class="td-401">Yes — RMDs are mandatory each year starting at age 73, whether you need the money or not.</td>
+        <td class="td-brok">No. You may hold the account indefinitely and sell only when you choose. There are no mandatory distributions.</td>
+      </tr>
+      <tr>
+        <td class="td-dim">Cost basis</td>
+        <td class="td-401">Not applicable — the entire account balance is pre-tax money. There is no basis calculation.</td>
+        <td class="td-brok">Your stepped-up basis is the fair market value of each asset on the date the original owner died — not what they originally paid.</td>
+      </tr>
+    </tbody>
+  </table>
 
   <!-- SECTION 3: STEP-UP -->
   <div class="section-rule"><h2>Step-Up Basis — Your Key Advantage</h2></div>
