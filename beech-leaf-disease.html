@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Beech Tree & Beech Leaf Disease — A Homeowner's Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #2c4a2e;
+    --bark: #5c3d1e;
+    --leaf: #4a7c3f;
+    --leaf-pale: #8ab87a;
+    --amber: #c8860a;
+    --parchment: #f5f0e8;
+    --cream: #faf7f2;
+    --rust: #9e3a1a;
+    --ink: #1e1e1e;
+    --mid: #4a4a3a;
+    --border: #c8b99a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.7;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+
+  /* MASTHEAD */
+  .masthead {
+    border-top: 4px solid var(--forest);
+    border-bottom: 2px solid var(--forest);
+    padding: 28px 0 22px;
+    margin-bottom: 40px;
+    text-align: center;
+    position: relative;
+  }
+  .masthead::before {
+    content: "🌳";
+    font-size: 2.2rem;
+    display: block;
+    margin-bottom: 10px;
+  }
+  .masthead h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--forest);
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .masthead .subtitle {
+    font-size: 1rem;
+    color: var(--mid);
+    font-style: italic;
+    letter-spacing: 0.03em;
+  }
+  .masthead .location-tag {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 4px 16px;
+    background: var(--forest);
+    color: var(--parchment);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-style: normal;
+    font-family: 'Source Serif 4', serif;
+  }
+
+  /* VERDICT BOX */
+  .verdict {
+    background: var(--forest);
+    color: var(--parchment);
+    border-radius: 3px;
+    padding: 28px 32px;
+    margin-bottom: 40px;
+    position: relative;
+  }
+  .verdict h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #d4e8b0;
+    margin-bottom: 12px;
+    letter-spacing: 0.01em;
+  }
+  .verdict p {
+    font-size: 0.97rem;
+    line-height: 1.75;
+    color: #e8e0d0;
+  }
+  .verdict strong { color: #d4e8b0; }
+
+  /* SECTION HEADERS */
+  h2.section {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--forest);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+    margin: 40px 0 18px;
+  }
+  h3.subsection {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--bark);
+    margin: 24px 0 10px;
+  }
+
+  /* SYMPTOM GRID */
+  .symptom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .symptom-card {
+    background: var(--parchment);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--leaf);
+    padding: 16px 18px;
+    border-radius: 2px;
+  }
+  .symptom-card.warning { border-left-color: var(--rust); }
+  .symptom-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--forest);
+  }
+  .symptom-card.warning h4 { color: var(--rust); }
+  .symptom-card p { font-size: 0.9rem; line-height: 1.6; color: var(--mid); }
+
+  /* TREATMENT TABLE */
+  .treatment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.9rem;
+  }
+  .treatment-table thead tr {
+    background: var(--forest);
+    color: var(--parchment);
+  }
+  .treatment-table th {
+    padding: 12px 14px;
+    text-align: left;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
+  }
+  .treatment-table td {
+    padding: 11px 14px;
+    vertical-align: top;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.55;
+  }
+  .treatment-table tr:nth-child(even) { background: var(--parchment); }
+  .treatment-table tr:last-child td { border-bottom: none; }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .badge-best { background: #2c4a2e; color: #d4e8b0; }
+  .badge-good { background: #4a7c3f; color: #fff; }
+  .badge-support { background: #8ab87a; color: #1e1e1e; }
+
+  /* PROGNOSIS METER */
+  .prognosis-box {
+    background: var(--parchment);
+    border: 1px solid var(--border);
+    padding: 24px 28px;
+    margin: 20px 0;
+    border-radius: 2px;
+  }
+  .meter-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 12px 0;
+  }
+  .meter-label {
+    width: 180px;
+    font-size: 0.85rem;
+    color: var(--mid);
+    flex-shrink: 0;
+  }
+  .meter-bar {
+    flex: 1;
+    height: 14px;
+    background: #d8cdb8;
+    border-radius: 7px;
+    overflow: hidden;
+  }
+  .meter-fill {
+    height: 100%;
+    border-radius: 7px;
+  }
+  .fill-high { background: var(--leaf); width: 75%; }
+  .fill-med { background: var(--amber); width: 50%; }
+  .fill-low { background: var(--rust); width: 25%; }
+  .meter-pct {
+    width: 38px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--forest);
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+    border-left: 2px solid var(--leaf-pale);
+    margin: 20px 0;
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 20px;
+    padding-bottom: 4px;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -35px;
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--leaf);
+    border: 2px solid var(--cream);
+    box-shadow: 0 0 0 2px var(--leaf-pale);
+  }
+  .tl-item.urgent::before { background: var(--rust); box-shadow: 0 0 0 2px #d47a5a; }
+  .tl-month {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--amber);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .tl-item.urgent .tl-month { color: var(--rust); }
+  .tl-action { font-size: 0.92rem; color: var(--ink); margin-top: 2px; }
+
+  /* REPLACEMENT TREES */
+  .tree-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .tree-card {
+    background: var(--parchment);
+    border: 1px solid var(--border);
+    padding: 18px 20px;
+    border-radius: 2px;
+  }
+  .tree-card .tree-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--forest);
+    margin-bottom: 4px;
+  }
+  .tree-card .tree-sci {
+    font-style: italic;
+    font-size: 0.8rem;
+    color: var(--mid);
+    margin-bottom: 10px;
+  }
+  .tree-card ul {
+    list-style: none;
+    font-size: 0.87rem;
+    color: var(--mid);
+  }
+  .tree-card ul li::before { content: "◦ "; color: var(--leaf); }
+  .tree-card ul li { margin-bottom: 4px; }
+
+  /* CITATION */
+  .citations {
+    margin-top: 48px;
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+  }
+  .citations h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--forest);
+    margin-bottom: 14px;
+  }
+  .cite-list {
+    list-style: none;
+    font-size: 0.82rem;
+    color: var(--mid);
+    line-height: 1.6;
+  }
+  .cite-list li {
+    margin-bottom: 8px;
+    padding-left: 20px;
+    text-indent: -20px;
+  }
+  .cite-list li span.cnum {
+    color: var(--forest);
+    font-weight: 700;
+    margin-right: 6px;
+  }
+  .cite-list a {
+    color: var(--bark);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    word-break: break-word;
+  }
+  .cite-list a:hover { color: var(--leaf); }
+  sup { font-size: 0.72rem; color: var(--forest); vertical-align: super; }
+
+  /* ARBORIST BOX */
+  .action-box {
+    background: #fdf3e7;
+    border: 1px solid #d4a050;
+    border-left: 5px solid var(--amber);
+    padding: 20px 24px;
+    margin: 28px 0;
+    border-radius: 2px;
+  }
+  .action-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--bark);
+    margin-bottom: 10px;
+  }
+  .action-box p, .action-box li { font-size: 0.92rem; line-height: 1.65; }
+  .action-box a { color: var(--bark); }
+
+  /* CAUTION NOTE */
+  .caution {
+    background: #fdf3f0;
+    border: 1px solid #e8b0a0;
+    border-left: 4px solid var(--rust);
+    padding: 14px 18px;
+    margin: 18px 0;
+    font-size: 0.88rem;
+    border-radius: 2px;
+  }
+  .caution strong { color: var(--rust); }
+
+  p { margin-bottom: 12px; }
+  .lead { font-size: 1.05rem; font-style: italic; color: var(--mid); margin-bottom: 20px; }
+
+  @media (max-width: 600px) {
+    .symptom-grid, .tree-cards { grid-template-columns: 1fr; }
+    body { padding: 24px 16px 60px; }
+    .masthead h1 { font-size: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <h1>Your Beech Tree & Beech Leaf Disease</h1>
+  <div class="subtitle">A Homeowner's Guide — Lexington, Massachusetts</div>
+  <div class="location-tag">June 2026 &nbsp;|&nbsp; Based on current research</div>
+</div>
+
+<div class="verdict">
+  <h2>The Bottom Line</h2>
+  <p>
+    Your tree — large, mature, beloved, six years into infection — is in a category that researchers specifically address: <strong>high-value specimen beech worthy of treatment</strong>. Treatment cannot cure beech leaf disease, but the latest research shows it can <strong>significantly slow progression and extend the life of the tree</strong>, potentially by many years. Given that you're willing to commit to a multi-year program, treatment is the right call now. Begin with a certified arborist consultation this summer — the treatment window opens in late July. That commitment buys time, and you can reassess annually.
+  </p>
+</div>
+
+<!-- SECTION 1: WHAT IS THIS -->
+<h2 class="section">1. What You're Dealing With</h2>
+
+<p class="lead">The enemy is <em>Litylenchus crenatae mccannii</em> — a microscopic foliar nematode (roundworm), almost certainly of Asian origin, first detected in Ohio in 2012 and in Massachusetts by 2020.</p>
+
+<p>The nematodes overwinter in the buds, then colonize the leaves in spring, disrupting photosynthesis. They spread via rain splash, wind, birds, and insects — making neighborhood containment essentially impossible.<sup>1</sup></p>
+
+<div class="symptom-grid">
+  <div class="symptom-card">
+    <h4>✓ Classic Early Symptoms (You're Seeing)</h4>
+    <p>Good initial leaf emergence, then wilting, browning, and die-off as the season progresses. Upper canopy retains healthy leaves longer — a hallmark of BLD progression, as nematodes are washed downward by rain.<sup>2</sup></p>
+  </div>
+  <div class="symptom-card warning">
+    <h4>⚠ Why Size Complicates Treatment</h4>
+    <p>At 80–100 feet, foliar spraying is logistically difficult and requires high-pressure equipment. However, trunk injection — now proven effective — was specifically developed for large trees where spraying is impractical.<sup>3</sup></p>
+  </div>
+  <div class="symptom-card">
+    <h4>✓ Six Years In: Not the Worst Position</h4>
+    <p>Ohio research shows most otherwise-healthy beech die in 6–10 years without treatment. Some New England trees die faster. Your tree has survived 6 years, suggesting reasonable underlying health — a good treatment candidate.<sup>4</sup></p>
+  </div>
+  <div class="symptom-card warning">
+    <h4>⚠ Drought Stress Is the Accelerant</h4>
+    <p>UMass Amherst pathologist Nicholas Brazee notes that trees facing opportunistic insects, disease, and environmental stress — especially drought — die much faster. Keeping the tree hydrated is part of the treatment protocol.<sup>5</sup></p>
+  </div>
+</div>
+
+<!-- SECTION 2: TREATMENTS -->
+<h2 class="section">2. Treatment Options (Current Science)</h2>
+
+<p>As of 2025–2026, three approaches have demonstrated efficacy. For a tree of your size, the injection route is the primary option:</p>
+
+<table class="treatment-table">
+  <thead>
+    <tr>
+      <th>Treatment</th>
+      <th>Method</th>
+      <th>Best For</th>
+      <th>Your Tree?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <strong>Thiabendazole (TBZ) Injection</strong><br>
+        <em>Arbotect 20-S</em>
+      </td>
+      <td>Root flare injection — about 1 hour per tree. Also used for Dutch elm disease.</td>
+      <td>Large trees (>25 cm trunk), near water, where spraying is impractical.</td>
+      <td><span class="badge badge-best">Best Fit</span><br>Proven effective at NPS sites on large beeches in 2025; protects ~2 years per treatment.<sup>6</sup></td>
+    </tr>
+    <tr>
+      <td>
+        <strong>Fluopyram Foliar Spray</strong><br>
+        <em>Broadform®</em>
+      </td>
+      <td>4 high-pressure canopy sprays starting late July, at 21-day intervals.</td>
+      <td>Trees under ~30 ft; hedges; trees away from water bodies.</td>
+      <td><span class="badge badge-good">Possible</span><br>Kills >90% of nematodes when timed correctly, but full canopy coverage at your tree's height requires professional high-pressure equipment and may be challenging.<sup>7</sup></td>
+    </tr>
+    <tr>
+      <td>
+        <strong>Potassium Phosphite</strong><br>
+        <em>PolyPhosphite 30®</em>
+      </td>
+      <td>Soil drench or trunk injection; boosts tree's systemic resistance rather than killing nematodes directly.</td>
+      <td>Supportive therapy; long-term health maintenance.</td>
+      <td><span class="badge badge-support">Supportive</span><br>5-year Ohio trials show treated trees significantly healthier than controls; may be used alongside TBZ.<sup>8</sup></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="caution">
+  <strong>Important caveat:</strong> Fluopyram is a broad-spectrum chemical still being studied for effects on soil fungi. Holden Forests & Gardens recommends it only for high-value specimens, applied by professionals. The impact on non-target organisms in the surrounding ecosystem is an open research question.<sup>9</sup>
+</div>
+
+<!-- SECTION 3: PROGNOSIS -->
+<h2 class="section">3. Prognosis — With & Without Treatment</h2>
+
+<div class="prognosis-box">
+  <p style="font-size:0.9rem; color:var(--mid); margin-bottom:16px;">Researcher estimates for a large, otherwise-healthy mature beech in New England:</p>
+  <div class="meter-row">
+    <div class="meter-label">Without treatment</div>
+    <div class="meter-bar"><div class="meter-fill fill-low"></div></div>
+    <div class="meter-pct" style="color:var(--rust)">2–5 yrs</div>
+  </div>
+  <div class="meter-row">
+    <div class="meter-label">With TBZ injection</div>
+    <div class="meter-bar"><div class="meter-fill fill-high"></div></div>
+    <div class="meter-pct">5–12+ yrs</div>
+  </div>
+  <div class="meter-row">
+    <div class="meter-label">Combination protocol</div>
+    <div class="meter-bar"><div class="meter-fill" style="width:80%; background:var(--forest);"></div></div>
+    <div class="meter-pct">Best odds</div>
+  </div>
+  <p style="font-size:0.82rem; margin-top:16px; color:var(--mid); font-style:italic;">Note: These are informed estimates, not guarantees. Research on large specimen trees is preliminary. The National Park Service treated large beeches with TBZ in July 2025, with protection expected to last ~2 years before reassessment.<sup>10</sup></p>
+</div>
+
+<p>Researchers at Bartlett Tree describe BLD in the same ecosystem-catastrophe league as chestnut blight and emerald ash borer — containment and eradication are not feasible at the landscape scale. The goal is <strong>managing individual high-value trees</strong>.<sup>11</sup> Your specimen clearly qualifies.</p>
+
+<!-- SECTION 4: ACTION PLAN -->
+<h2 class="section">4. Your Action Plan — This Season</h2>
+
+<div class="timeline">
+  <div class="tl-item urgent">
+    <div class="tl-month">Now — June 2026</div>
+    <div class="tl-action">Contact a certified arborist for a site assessment. Ask specifically about TBZ (Arbotect 20-S) root flare injection and whether a supplemental foliar spray is feasible at your tree's height.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-month">Mid-July</div>
+    <div class="tl-action">If arborist recommends foliar fluopyram: first of 4 spray applications begins. Timing critical — nematodes must be migrating out of leaves into buds (late July–August).<sup>12</sup></div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-month">Late July – August</div>
+    <div class="tl-action">Injection treatment window. TBZ root flare injections can be administered. Effective "after heavy rain" when nematodes are most active and mobile. Keep tree well-watered through drought periods.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-month">Ongoing</div>
+    <div class="tl-action">Do not prune unnecessarily — every remaining leaf is helping the root system. Let the tree retain as much canopy as safely possible.<sup>13</sup> Schedule annual reassessments.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-month">Year 2 – 3</div>
+    <div class="tl-action">Repeat injection (TBZ protection lasts ~2 years). Evaluate canopy response. Potassium phosphite as ongoing soil support. Continue through your multi-year commitment window.</div>
+  </div>
+</div>
+
+<div class="action-box">
+  <h3>🔧 Local Arborist Resources</h3>
+  <p><strong>Hartney Greymont (Davey)</strong> — offices in Needham and Concord; ISA-certified arborists with explicit BLD experience and published commentary on BLD treatment in MA.
+    <a href="https://www.hartney.com" target="_blank">hartney.com</a> | (781) 444-1227<sup>14</sup></p>
+  <p style="margin-top:10px;"><strong>Bartlett Tree Experts</strong> — lead authors of the fluopyram and TBZ injection research; have treated century-old beeches in New England estates.
+    <a href="https://www.bartlett.com" target="_blank">bartlett.com</a></p>
+  <p style="margin-top:10px;"><strong>ISA Certified Arborist Finder:</strong> <a href="https://www.treesaregood.org/findanarborist" target="_blank">treesaregood.org/findanarborist</a></p>
+</div>
+
+<!-- SECTION 5: IF YOU REPLANT -->
+<h2 class="section">5. If You Eventually Replant — Tree Options</h2>
+
+<p>Your instinct toward white pines behind the beech is sound. Here are the best candidates for your Lexington yard, factoring in shade, growth rate, and New England suitability:</p>
+
+<div class="tree-cards">
+  <div class="tree-card">
+    <div class="tree-name">Eastern White Pine ✓ Your Instinct</div>
+    <div class="tree-sci">Pinus strobus</div>
+    <ul>
+      <li>Native to New England — ideal ecological fit</li>
+      <li>60–90 ft tall; 24 inches of growth per year</li>
+      <li>Year-round shade and privacy; excellent windbreak when planted in a row</li>
+      <li>Tolerates part shade — good behind existing trees</li>
+      <li>Avoid near streets (road salt sensitivity)<sup>15</sup></li>
+    </ul>
+  </div>
+  <div class="tree-card">
+    <div class="tree-name">Norway Spruce</div>
+    <div class="tree-sci">Picea abies</div>
+    <ul>
+      <li>Fast-growing evergreen; excellent winter presence</li>
+      <li>Hardy in MA winters; handles heavy snow loads well</li>
+      <li>Broad spread — needs room; strong windbreak</li>
+      <li>Slightly more formal aesthetic than white pine<sup>16</sup></li>
+    </ul>
+  </div>
+  <div class="tree-card">
+    <div class="tree-name">Red Maple</div>
+    <div class="tree-sci">Acer rubrum</div>
+    <ul>
+      <li>Native; spectacular fall color</li>
+      <li>Fast-growing deciduous shade canopy</li>
+      <li>Wide ecological value for birds and insects</li>
+      <li>Pairs well with evergreen screen behind it<sup>17</sup></li>
+    </ul>
+  </div>
+  <div class="tree-card">
+    <div class="tree-name">Northern Red Oak</div>
+    <div class="tree-sci">Quercus rubra</div>
+    <ul>
+      <li>Native; long-lived replacement for lost canopy</li>
+      <li>Grows 2 ft/yr when young; magnificent mature form</li>
+      <li>Outstanding wildlife value (acorns, cavity nesting)</li>
+      <li>More permanent investment — beech-quality longevity<sup>18</sup></li>
+    </ul>
+  </div>
+</div>
+
+<p style="font-size:0.9rem; color:var(--mid); font-style:italic;">Planting a red oak or white pine now — even while treating the beech — is a hedge worth making. They'll be 10–15 years old by the time you need them.</p>
+
+<!-- CITATIONS -->
+<div class="citations">
+  <h2>Sources & Citations</h2>
+  <ol class="cite-list">
+    <li><span class="cnum">1.</span> Cowles, R.S., Faubert, H., Marra, R.E. (May 2025). <em>Updated Beech Leaf Disease Biology and Management.</em> Connecticut Agricultural Experiment Station. <a href="https://portal.ct.gov/-/media/caes/documents/publications/fact_sheets/valley_laboratory/beech-leaf-disease-management-options.pdf" target="_blank">portal.ct.gov/caes</a></li>
+    <li><span class="cnum">2.</span> Rutgers NJAES Extension. <em>E376: Beech Leaf Disease & Management Options.</em> <a href="https://njaes.rutgers.edu/E376/" target="_blank">njaes.rutgers.edu/E376</a></li>
+    <li><span class="cnum">3.</span> Loyd, A. et al. (2025). "Thiabendazole as a Therapeutic Root Flare Injection for Beech Leaf Disease Management." <em>Arboriculture & Urban Forestry.</em> <a href="https://auf.isa-arbor.com/content/early/2025/02/04/jauf.2025.007" target="_blank">ISA Arboriculture journal</a></li>
+    <li><span class="cnum">4.</span> URI Cooperative Extension. (September 2024). <em>Beech Leaf Disease in Rhode Island Update.</em> <a href="https://web.uri.edu/coopext/wp-content/uploads/sites/2042/2024-BLD-update_9.23.24-1.pdf" target="_blank">web.uri.edu/coopext</a></li>
+    <li><span class="cnum">5.</span> Brazee, N., quoted in Epstein, D. (September 23, 2025). "A tiny invader continues to decimate beech trees across New England." <em>Boston Globe.</em> <a href="https://www.bostonglobe.com/2025/09/23/metro/beech-leaf-disease-new-england/" target="_blank">bostonglobe.com</a></li>
+    <li><span class="cnum">6.</span> National Park Service. (November 2025). <em>Treating Beech Leaf Disease at Prince William Forest Park.</em> <a href="https://www.nps.gov/articles/000/treating-beech-leaf-disease.htm" target="_blank">nps.gov</a></li>
+    <li><span class="cnum">7.</span> Borden, M.A. et al. (October 2025). "Developing Fluopyram as a Tool to Combat Beech Leaf Disease." <em>Journal of Nematology / PMC.</em> <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12497451/" target="_blank">pmc.ncbi.nlm.nih.gov</a></li>
+    <li><span class="cnum">8.</span> URI Cooperative Extension (2024), op. cit. Ohio 5-year phosphite trial results.</li>
+    <li><span class="cnum">9.</span> Holden Forests & Gardens. (January 2026). <em>Beech Leaf Disease.</em> <a href="https://holdenfg.org/beech-leaf-disease/" target="_blank">holdenfg.org</a></li>
+    <li><span class="cnum">10.</span> National Park Service, op. cit. (2025).</li>
+    <li><span class="cnum">11.</span> Bartlett Tree Research Laboratories. (August 2025). "Beech Leaf Disease: Groundbreaking New Treatment Strategies." <a href="https://www.bartlett.com/blog/beech-leaf-disease-groundbreaking-treatment-strategies/" target="_blank">bartlett.com</a></li>
+    <li><span class="cnum">12.</span> Loyd, A. et al. (2024). "Exploring Novel Management Methods for Beech Leaf Disease." <em>Journal of Environmental Horticulture</em> 42(1). <a href="https://meridian.allenpress.com/jeh/article/42/1/1/499411/" target="_blank">allenpress.com</a></li>
+    <li><span class="cnum">13.</span> O'Neill, J. (Hartney Greymont), quoted in Boston Globe (2025), op. cit.</li>
+    <li><span class="cnum">14.</span> Hartney Greymont. <em>Tree Disease & Insect Services.</em> <a href="https://www.hartney.com/tree-care-services/tree-disease-insect-services/" target="_blank">hartney.com</a></li>
+    <li><span class="cnum">15.</span> Suwak, M. (2025). "15 of the Best Fast-Growing Shade Trees." <em>Gardener's Path.</em> <a href="https://gardenerspath.com/plants/landscape-trees/how-use-to-cool-your-home/" target="_blank">gardenerspath.com</a></li>
+    <li><span class="cnum">16.</span> "Best Privacy Trees for Massachusetts." <em>A Blade of Grass.</em> (March 2026). <a href="https://abladeofgrass.com/blog/best-privacy-trees-for-massachusetts-top-options-that-thrive-in-bostons-climate/" target="_blank">abladeofgrass.com</a></li>
+    <li><span class="cnum">17.</span> "A Guide to Native Trees for Your Massachusetts Yard." <em>One Naturalist.</em> (November 2025). <a href="https://onenaturalist.blog/native-trees-massachusetts-yard/" target="_blank">onenaturalist.blog</a></li>
+    <li><span class="cnum">18.</span> Nature Hills Nursery. <em>Massachusetts Native Plants.</em> <a href="https://naturehills.com/collections/massachusetts-native-plants" target="_blank">naturehills.com</a></li>
+  </ol>
+</div>
+
+</body>
+</html>
