@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I Love Mahj — Card Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ivory: #f5f0e8;
+    --cream: #ede5d0;
+    --dark: #1a1208;
+    --green: #1e4d2b;
+    --green-light: #2d6e3e;
+    --green-muted: #3a5c40;
+    --gold: #c8a84b;
+    --gold-light: #e0c97a;
+    --red: #8b1a1a;
+    --red-light: #c0392b;
+    --suit1: #1a3a6b;
+    --suit2: #6b1a1a;
+    --suit3: #1a5a2a;
+    --shadow: rgba(0,0,0,0.35);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--green);
+    background-image:
+      radial-gradient(ellipse at 20% 20%, rgba(40,90,50,0.6) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(10,30,15,0.7) 0%, transparent 60%),
+      repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(0,0,0,0.03) 30px, rgba(0,0,0,0.03) 31px);
+    min-height: 100vh;
+    font-family: 'Crimson Pro', Georgia, serif;
+    color: var(--dark);
+    padding: 30px 20px 60px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+  header .badge {
+    display: inline-block;
+    border: 2px solid var(--gold);
+    border-radius: 2px;
+    padding: 4px 18px;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 10px;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    font-weight: 900;
+    color: var(--ivory);
+    letter-spacing: -1px;
+    line-height: 1;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+  }
+  header h1 span { color: var(--gold); }
+  header p.sub {
+    color: rgba(245,240,232,0.65);
+    font-size: 1.05rem;
+    font-style: italic;
+    margin-top: 8px;
+  }
+
+  /* ── LEGEND STRIP ── */
+  .legend-strip {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(200,168,75,0.3);
+    border-radius: 4px;
+    padding: 8px 16px;
+    color: var(--ivory);
+    font-size: 0.92rem;
+  }
+  .suit-swatch {
+    width: 32px; height: 22px;
+    border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 1px;
+  }
+  .s1 { background: var(--suit1); color: #aac4f0; border: 1px solid #aac4f0; }
+  .s2 { background: var(--suit2); color: #f0aaaa; border: 1px solid #f0aaaa; }
+  .s3 { background: var(--suit3); color: #aaf0b4; border: 1px solid #aaf0b4; text-decoration: underline; }
+
+  /* ── NOTATION GUIDE ── */
+  .notation-guide {
+    display: flex; gap: 14px; flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+  .notation-pill {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(200,168,75,0.25);
+    border-radius: 20px;
+    padding: 5px 14px;
+    color: var(--ivory);
+    font-size: 0.85rem;
+  }
+  .notation-pill strong { color: var(--gold-light); font-family: 'Playfair Display', serif; }
+
+  /* ── CARD GRID ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  /* ── SECTION CARD ── */
+  .section-card {
+    background: var(--ivory);
+    border-radius: 6px;
+    box-shadow: 0 4px 24px var(--shadow), 0 1px 3px rgba(0,0,0,0.2);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .section-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 36px var(--shadow);
+  }
+
+  .section-header {
+    padding: 12px 18px 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-icon { font-size: 1.5rem; }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--ivory);
+    letter-spacing: 0.5px;
+  }
+  .section-subtitle {
+    font-size: 0.8rem;
+    color: rgba(245,240,232,0.75);
+    font-style: italic;
+    margin-top: 1px;
+  }
+
+  /* Section color themes */
+  .theme-2468  .section-header { background: #1a3a6b; }
+  .theme-like  .section-header { background: #4a2060; }
+  .theme-math  .section-header { background: #1a4a4a; }
+  .theme-quints .section-header { background: #6b3010; }
+  .theme-runs  .section-header { background: #1e4d2b; }
+  .theme-13579 .section-header { background: #5a3a0a; }
+  .theme-winds .section-header { background: #3a1a1a; }
+  .theme-369   .section-header { background: #1a3a1a; }
+  .theme-pairs .section-header { background: #2a2a4a; }
+
+  /* ── HAND ROWS ── */
+  .hands-body { padding: 4px 0 8px; }
+
+  .hand-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 16px;
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+    gap: 8px;
+    transition: background 0.15s;
+    cursor: pointer;
+  }
+  .hand-row:last-child { border-bottom: none; }
+  .hand-row:hover { background: rgba(200,168,75,0.12); }
+  .hand-row.active { background: rgba(200,168,75,0.22); }
+
+  .hand-notation {
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    flex: 1;
+    color: #2a1a08;
+  }
+  /* Suit coloring */
+  .hand-notation .s1t { color: var(--suit1); font-weight: 600; }
+  .hand-notation .s2t { color: var(--suit2); font-weight: 600; }
+  .hand-notation .s3t { color: var(--suit3); font-weight: 600; text-decoration: underline; }
+
+  .score-badge {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 3px 9px;
+    border-radius: 12px;
+    font-family: 'Playfair Display', serif;
+  }
+  .score-x { background: #d4edda; color: #1a5c2a; border: 1px solid #82c896; }
+  .score-c { background: #f8d7da; color: #8b1a1a; border: 1px solid #e09090; }
+
+  /* ── TOOLTIP / EXPLAINER ── */
+  .explainer {
+    display: none;
+    background: #fffdf5;
+    border-top: 1px dashed rgba(0,0,0,0.15);
+    padding: 8px 16px 10px;
+    font-size: 0.83rem;
+    color: #444;
+    line-height: 1.6;
+    font-style: italic;
+  }
+  .hand-row.active + .explainer { display: block; }
+
+  /* ── SCORING LEGEND ── */
+  .scoring-legend {
+    max-width: 1280px;
+    margin: 28px auto 0;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(200,168,75,0.3);
+    border-radius: 6px;
+    padding: 20px 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .scoring-legend h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold);
+    font-size: 1rem;
+    margin-bottom: 8px;
+    grid-column: 1 / -1;
+  }
+  .score-explain {
+    color: var(--ivory);
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+  .score-explain strong { color: var(--gold-light); }
+
+  .tile-visual {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px; height: 28px;
+    background: white;
+    border: 1.5px solid #bbb;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.8);
+    font-size: 0.72rem;
+    font-weight: 700;
+    margin: 0 1px;
+    vertical-align: middle;
+    color: #222;
+  }
+  .tile-visual.flower { color: #c00; }
+  .tile-visual.wind   { color: #005; }
+  .tile-visual.dragon { color: #050; }
+
+  footer {
+    text-align: center;
+    color: rgba(245,240,232,0.4);
+    font-size: 0.8rem;
+    margin-top: 40px;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">American Mah Jongg · NMJL Card Guide</div>
+  <h1>I <span>♥</span> Mahj</h1>
+  <p class="sub">Interactive guide to reading and using the National Mah Jongg League card</p>
+</header>
+
+<!-- LEGEND -->
+<div class="legend-strip">
+  <div class="legend-item">
+    <div class="suit-swatch s1">S1</div>
+    <span>Suit #1 — plain text</span>
+  </div>
+  <div class="legend-item">
+    <div class="suit-swatch s2">S2</div>
+    <span>Suit #2 — (parentheses)</span>
+  </div>
+  <div class="legend-item">
+    <div class="suit-swatch s3">S3</div>
+    <span>Suit #3 — <u>underlined</u></span>
+  </div>
+  <div class="legend-item">
+    <span class="score-badge score-x">x25</span>&nbsp; Pay in/out — open or closed
+  </div>
+  <div class="legend-item">
+    <span class="score-badge score-c">c50</span>&nbsp; Closed only — self-draw win
+  </div>
+</div>
+
+<!-- NOTATION PILLS -->
+<div class="notation-guide">
+  <div class="notation-pill"><strong>F</strong> = Flower</div>
+  <div class="notation-pill"><strong>D</strong> = Dragon (White/Soap)</div>
+  <div class="notation-pill"><strong>N E W S</strong> = Wind tiles</div>
+  <div class="notation-pill"><strong>1–9</strong> = Number tiles (Bam/Crak/Dot)</div>
+  <div class="notation-pill"><strong>11</strong> = Pair · <strong>111</strong> = Pung · <strong>1111</strong> = Kong</div>
+  <div class="notation-pill">Click any hand to see an explanation ↓</div>
+</div>
+
+<!-- CARD GRID -->
+<div class="card-grid" id="cardGrid"></div>
+
+<!-- SCORING LEGEND -->
+<div class="scoring-legend">
+  <h3>📖 How Scoring Works</h3>
+  <div class="score-explain">
+    <strong>x (exposure allowed):</strong><br>
+    You can call discards to complete sets and still win. The value shown (e.g. x25) is paid by each losing player to the winner, or doubled if won by self-draw on some house rules.
+  </div>
+  <div class="score-explain">
+    <strong>c (closed hand only):</strong><br>
+    You <em>cannot</em> call any discards — all tiles must come from the wall. You can only win by drawing the tile yourself. Closed hands pay more (c50, c60, c75) to reward the harder path.
+  </div>
+</div>
+
+<footer>Click any hand row to reveal an explanation · NMJL card refreshes annually — always verify with your current year's card</footer>
+
+<script>
+const sections = [
+  {
+    id: "2468", title: "2468", theme: "theme-2468", icon: "🀙",
+    subtitle: "Even numbers only",
+    hands: [
+      { n: "FFFF 2 44 666 8888", score: "x25", ex: "Four Flowers + one 2 + pair 4s + pung 6s + kong 8s, all even numbers, all in one suit." },
+      { n: "666 66 888 ...", score: "x25", ex: "Pungs and pairs of even numbers across suits." },
+      { n: "222 444 (6666 8888)", score: "x25", ex: "Pungs of 2 and 4 in Suit 1, kong of 6 and kong of 8 in Suit 2." },
+      { n: "22 44 (44 66) 8888", score: "x25", ex: "Pairs of 2 and 4 in Suit 1, pairs of 4 and 6 in Suit 2, kong of 8 in any suit." },
+      { n: "FF 4444 8888 DDDD", score: "x25", ex: "Pair Flowers + kong 4s + kong 8s + kong Dragons (Soap)." },
+      { n: "FF 4444 (8888) DD", score: "x25", ex: "Flowers + kong 4s in Suit 1 + kong 8s in Suit 2 + pair Dragons." },
+      { n: "FF 2222 (44 66) 8888", score: "x25", ex: "Flowers + kong 2s + pair 4 and 6 + kong 8s across suits." },
+      { n: "222 444 666 888 DD", score: "x30", ex: "Four pungs of even numbers (2,4,6,8) plus a pair of Dragons." },
+      { n: "222 (44 66) 8888", score: "x25", ex: "Pung 2 + pairs 4 and 6 in Suit 2 + kong 8 across suits." },
+    ]
+  },
+  {
+    id: "like", title: "Any Like Numbers", theme: "theme-like", icon: "🀇",
+    subtitle: "Same number, different suits",
+    hands: [
+      { n: "FFFF 1111 (11) 1111", score: "x25", ex: "Four Flowers + kong of any number in Suit 1 + pair same number in Suit 2 + kong same number in Suit 3. All three tiles share the same number." },
+      { n: "FF 1111 DD (1111 DD)", score: "x25", ex: "Flowers + kong + pair Dragons in Suit 1, repeated in Suit 2 with same number." },
+      { n: "FF 1111 (DDD) 1111", score: "x25", ex: "Flowers + kongs of same number in two suits + pung of Dragons." },
+      { n: "11 DD (111 DDD) 1111", score: "c30", ex: "Closed hand: pair + Dragons in Suit 1, pung + pung Dragons in Suit 2, kong in Suit 3." },
+    ]
+  },
+  {
+    id: "math", title: "Math", theme: "theme-math", icon: "➕",
+    subtitle: "Equations built from tiles",
+    hands: [
+      { n: "FFFF 4444 x (8888) = 32", score: "x25", ex: "4 × 8 = 32. Kong of 4s in one suit × kong of 8s in another = 32. The tiles spell the equation." },
+      { n: "DDDD 3333 x (7777) = 21", score: "x25", ex: "3 × 7 = 21. Kong Dragons + kong 3s + kong 7s across suits." },
+      { n: "FF 3333 + 4444 = 7777", score: "x25", ex: "3 + 4 = 7. Two flowers + kongs of 3, 4, and 7 all in the same suit." },
+      { n: "FF 3333 + (4444) = 7777", score: "x25", ex: "Same equation but 4s in a different suit than 3s and 7s." },
+      { n: "FFFF 5555 + 6666 = 11", score: "x25", ex: "5 + 6 = 11. Four Flowers + kong 5s + kong 6s + pair 1s (representing '11')." },
+      { n: "FFFF 5555 + (6666) = 11", score: "x25", ex: "Same as above, 6s in a different suit." },
+      { n: "DD 8888 - 3333 = 5555", score: "x25", ex: "8 − 3 = 5. Pair Dragons + kong 8s − kong 3s = kong 5s." },
+      { n: "DD 8888 - (3333) = 5555", score: "x25", ex: "Same equation, 3s in a different suit." },
+      { n: "333 + 444 - 555 - 222 = 00", score: "c30", ex: "Closed hand: 3+4−5−2 = 0. Pungs of each number; the zero is represented by two Dragons (white = zero)." },
+    ]
+  },
+  {
+    id: "quints", title: "Quints", theme: "theme-quints", icon: "🃏",
+    subtitle: "Five of a kind (using jokers)",
+    hands: [
+      { n: "11111 2222 333 44 (any 4 consecutive #s)", score: "x40", ex: "A quint (5 of a kind, requires joker) of the first number, then decreasing groups of 4 consecutive numbers." },
+      { n: "FFFFF DDDDD 11111 (any #)", score: "x45", ex: "Quint of Flowers + quint of Dragons + quint of any number. Three quints!" },
+      { n: "11111 3333 555 DD (these #s only)", score: "x40", ex: "Quint of 1s + kong 3s + pung 5s + pair Dragons. Odd numbers 1-3-5 only." },
+      { n: "FFFFF 33 666 9999 (these #s only)", score: "x35", ex: "Quint Flowers + pair 3s + pung 6s + kong 9s. Numbers 3-6-9 only." },
+      { n: "FFFFF 33 (666) 9999 (these #s only)", score: "x35", ex: "Same as above but 6s in Suit 2." },
+    ]
+  },
+  {
+    id: "runs", title: "Consecutive Runs", theme: "theme-runs", icon: "🔢",
+    subtitle: "Sequential number groupings",
+    hands: [
+      { n: "11 22 333 444 5555 (these #s only)", score: "x25", ex: "Consecutive numbers 1–5: pair 1s, pair 2s, pung 3s, pung 4s, kong 5s. All same suit." },
+      { n: "55 66 777 888 9999 (these #s only)", score: "x25", ex: "Same pattern for 5–9 run in same suit." },
+      { n: "11 2222 3333 4444", score: "x25", ex: "Pair 1s + kong 2s + kong 3s + kong 4s, consecutive, same suit." },
+      { n: "1111 222 (3333 DDD)", score: "x25", ex: "Kong 1s + pung 2s in Suit 1; kong 3s + pung Dragons in Suit 2." },
+      { n: "1111 (2222) DDD 1111", score: "x25", ex: "Kong 1s in Suit 1 + kong 2s in Suit 2 + pung Dragons + kong 1s again." },
+      { n: "1111 (22) 22 22 3333", score: "x30", ex: "Kong 1s + three pairs of 2s across suits + kong 3s." },
+      { n: "FF 11 222 (33 444) DD", score: "x30", ex: "Flowers + consecutive groupings across two suits + pair Dragons." },
+      { n: "111 22 333 (DDD) DDD", score: "c30", ex: "Closed hand: pung + pair + pung of consecutive numbers + two pungs of Dragons." },
+    ]
+  },
+  {
+    id: "13579", title: "13579", theme: "theme-13579", icon: "🔵",
+    subtitle: "Odd numbers only",
+    hands: [
+      { n: "11 333 5555 777 99", score: "x25", ex: "Pair 1s + pung 3s + kong 5s + pung 7s + pair 9s. All odd, single suit." },
+      { n: "11 333 (5555) 777 99", score: "x25", ex: "Same pattern with 5s in Suit 2." },
+      { n: "1111 333 (555)", score: "x25", ex: "Kong 1s + pung 3s in Suit 1, pung 5s in Suit 2." },
+      { n: "1111 333 (5555 DDD)", score: "x25", ex: "Kong 1s + pung 3s + kong 5s in Suit 2 + pung Dragons." },
+      { n: "5555 777 (999 DDD)", score: "x25", ex: "Kong 5s + pung 7s + pung 9s in Suit 2 + pung Dragons." },
+      { n: "5555 777 (9999 DDD)", score: "x25", ex: "Kong 5s + pung 7s + kong 9s in Suit 2 + pung Dragons." },
+      { n: "5555 777 (9999 DDD)", score: "x25", ex: "Variant with different suit distribution for 9s." },
+      { n: "11 333 (DDDD) 777 99", score: "x25", ex: "Pair 1s + pung 3s + kong Dragons + pung 7s + pair 9s." },
+      { n: "55 777 (DDDD) 777 99", score: "x25", ex: "Pair 5s + pung 7s + kong Dragons + pung 7s + pair 9s across suits." },
+      { n: "11 333 (DDDD) 333 55", score: "x25", ex: "Pair 1s + two pungs of 3 across suits + kong Dragons + pair 5s." },
+      { n: "111 (3333) 555 N E W S", score: "c30", ex: "Closed: pung 1s + kong 3s + pung 5s + one each of the four Wind tiles." },
+      { n: "555 (7777) 999 N E W S", score: "c30", ex: "Closed: pung 5s + kong 7s + pung 9s + four Wind tiles." },
+    ]
+  },
+  {
+    id: "winds", title: "Winds-Dragons", theme: "theme-winds", icon: "🌬️",
+    subtitle: "Wind and dragon tile combos",
+    hands: [
+      { n: "NNNN EEE WWW SSSS", score: "x25", ex: "Kong North + pung East + pung West + kong South wind tiles." },
+      { n: "DD NN DD N EWS (DDDD)", score: "x25", ex: "Complex wind-dragon hand: pair + pung + pair Dragons with winds, any 2 dragons used." },
+      { n: "FFFF NNNN RR SSSS (red dragons only)", score: "x25", ex: "Four Flowers + kong North + pair Red Dragons + kong South." },
+      { n: "EEEE EE GG WWWWW (green dragons only)", score: "x25", ex: "Kong East + pair East + pair Green Dragons + kong West." },
+      { n: "FF N EEE WWW SSSS", score: "x25", ex: "Pair Flowers + single North + pung East + pung West + kong South." },
+      { n: "FF NN 1111 (2222) SS (any consecutive #s)", score: "x30", ex: "Flowers + pair Winds + kongs of consecutive numbers in two suits + pair South." },
+      { n: "FF EE 1111 (2222) WW (any consecutive #s)", score: "x30", ex: "Same pattern using East and West winds." },
+      { n: "NNNN DD (DD) DD WWWW", score: "x30", ex: "Kong North + three pairs of Dragons across suits + kong West." },
+      { n: "EEEE DD (DD) WWWW", score: "x30", ex: "Kong East + two pairs of Dragons + kong West." },
+      { n: "NN 111 (1111) 111 SS (odd like #s)", score: "c30", ex: "Closed: pair North + pungs/kongs of same odd number + pair South." },
+      { n: "EE 222 (2222) 222 WW (even like #s)", score: "c30", ex: "Closed: pair East + pungs/kongs of same even number + pair West." },
+    ]
+  },
+  {
+    id: "369", title: "369", theme: "theme-369", icon: "🔴",
+    subtitle: "Multiples of three",
+    hands: [
+      { n: "33 666 (33 66) 9999", score: "x25", ex: "Pairs and pungs of 3 and 6 across suits + kong 9s. Numbers 3-6-9 only." },
+      { n: "FFFF 33 666 99 DDD", score: "x25", ex: "Four Flowers + pair 3s + pung 6s + pair 9s + pung Dragons." },
+      { n: "3333 66 9999 DDDD", score: "x25", ex: "Kong 3s + pair 6s + kong 9s + kong Dragons." },
+      { n: "FF 3333 (6666) 9999", score: "x25", ex: "Flowers + kongs of 3, 6, 9 across two suits." },
+      { n: "FF 3333 (3333) 9999", score: "x25", ex: "Flowers + kongs of 3 in two suits + kong 9s." },
+      { n: "FF 3333 (6666) 9999", score: "x25", ex: "Flowers + kongs 3-6-9 across suits." },
+      { n: "FF 33 66 99 (DDD) DDD", score: "x30", ex: "Flowers + pairs of 3, 6, 9 + two pungs of Dragons across suits." },
+      { n: "3 66 999 (3 66 999)", score: "x35", ex: "Single 3 + pair 6s + pung 9s, mirrored in a second suit." },
+    ]
+  },
+  {
+    id: "pairs", title: "Singles and Pairs", theme: "theme-pairs", icon: "👥",
+    subtitle: "All pairs — closed hands only",
+    hands: [
+      { n: "NN EE WW SS 11 (11) 11 (like #s)", score: "c50", ex: "Closed: pair of each wind + three pairs of the same number across suits." },
+      { n: "FF 11 33 55 77 99 DD (consecutive #s)", score: "c50", ex: "Closed: pair Flowers + pairs of consecutive odd numbers + pair Dragons." },
+      { n: "11 22 33 44 55 66 DD (consecutive #s)", score: "c50", ex: "Closed: pairs of six consecutive numbers + pair Dragons. All same suit." },
+      { n: "FF 2 4 6 8 8 (2 2 4 6 8)", score: "c50", ex: "Closed: Flowers + singles and pairs of even numbers arranged across suits." },
+      { n: "3 66 (3 66 99) 33 66 99", score: "c50", ex: "Closed: complex 3-6-9 singles and pairs pattern across three suits." },
+      { n: "FF 11 22 33 (DD DD) (consecutive #s)", score: "c60", ex: "Closed: Flowers + pairs of consecutive numbers + two pairs of Dragons across suits." },
+      { n: "FF 0 1 2 3 (0 1 2 3) 0 1 2 3 (these #s only)", score: "c75", ex: "Closed, highest value: Flowers + the sequence 0(Dragon),1,2,3 across all three suits. Most difficult hand on the card!" },
+    ]
+  }
+];
+
+const explainerMap = {
+  // pre-baked explanations are in the data above
+};
+
+function renderSuit(text) {
+  // Color suit indicators: plain = s1t, (parens) = s2t, underlined = s3t
+  return text
+    .replace(/\(([^)]+)\)/g, '<span class="s2t">($1)</span>')
+    .replace(/\b([A-Z0-9]+)(?=.*\b)/g, (m) => {
+      // leave already-wrapped alone
+      return m;
+    });
+}
+
+function buildCard() {
+  const grid = document.getElementById('cardGrid');
+  sections.forEach(sec => {
+    const card = document.createElement('div');
+    card.className = `section-card ${sec.theme}`;
+
+    card.innerHTML = `
+      <div class="section-header">
+        <div class="section-icon">${sec.icon}</div>
+        <div>
+          <div class="section-title">${sec.title}</div>
+          <div class="section-subtitle">${sec.subtitle}</div>
+        </div>
+      </div>
+      <div class="hands-body" id="body-${sec.id}"></div>
+    `;
+
+    const body = card.querySelector(`#body-${sec.id}`);
+
+    sec.hands.forEach((hand, i) => {
+      const isX = hand.score.startsWith('x');
+      const row = document.createElement('div');
+      row.className = 'hand-row';
+      row.innerHTML = `
+        <span class="hand-notation">${hand.n}</span>
+        <span class="score-badge ${isX ? 'score-x' : 'score-c'}">${hand.score}</span>
+      `;
+      const exp = document.createElement('div');
+      exp.className = 'explainer';
+      exp.textContent = hand.ex;
+
+      row.addEventListener('click', () => {
+        const wasActive = row.classList.contains('active');
+        body.querySelectorAll('.hand-row').forEach(r => r.classList.remove('active'));
+        if (!wasActive) row.classList.add('active');
+      });
+
+      body.appendChild(row);
+      body.appendChild(exp);
+    });
+
+    grid.appendChild(card);
+  });
+}
+
+buildCard();
+</script>
+</body>
+</html>
