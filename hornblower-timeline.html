@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Captain Hornblower: A Naval Chronicle</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #0a1929 0%, #132f4c 100%);
+            color: #f5f1de;
+            line-height: 1.8;
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem 2rem;
+            border-bottom: 3px solid #d4af37;
+            position: relative;
+        }
+
+        header::before {
+            content: '⚓';
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #d4af37;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #a89a6f;
+            font-style: italic;
+            font-family: 'Garamond', serif;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: #d4af37;
+            top: 0;
+        }
+
+        .timeline-entry {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .timeline-entry:nth-child(odd) {
+            padding-right: calc(50% + 2rem);
+            text-align: right;
+        }
+
+        .timeline-entry:nth-child(even) {
+            padding-left: calc(50% + 2rem);
+            text-align: left;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 50%;
+            top: 1.5rem;
+            width: 16px;
+            height: 16px;
+            background: #d4af37;
+            border: 4px solid #0a1929;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        .entry-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .entry-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 24px rgba(212, 175, 55, 0.2);
+            transform: translateY(-4px);
+        }
+
+        .book-title {
+            font-size: 1.6rem;
+            color: #d4af37;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .year {
+            display: inline-block;
+            background: #d4af37;
+            color: #0a1929;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .naval-ops {
+            margin: 1.2rem 0;
+            padding: 1rem;
+            background: rgba(212, 175, 55, 0.1);
+            border-left: 3px solid #d4af37;
+            border-radius: 4px;
+        }
+
+        .naval-ops-title {
+            color: #d4af37;
+            font-weight: bold;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .personal-arc {
+            margin: 1.2rem 0;
+            padding: 1rem;
+            background: rgba(168, 154, 111, 0.1);
+            border-left: 3px solid #a89a6f;
+            border-radius: 4px;
+        }
+
+        .personal-arc-title {
+            color: #a89a6f;
+            font-weight: bold;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .vessel {
+            display: inline-block;
+            background: rgba(19, 47, 76, 0.8);
+            color: #d4af37;
+            padding: 0.2rem 0.6rem;
+            border-radius: 3px;
+            font-weight: bold;
+            margin: 0.3rem;
+            font-size: 0.9rem;
+        }
+
+        .character-name {
+            color: #d4af37;
+            font-weight: bold;
+        }
+
+        .key-events {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.9;
+        }
+
+        .key-events li {
+            margin-left: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 5rem;
+            padding-top: 2rem;
+            border-top: 2px solid #d4af37;
+            color: #a89a6f;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-marker {
+                left: 20px;
+            }
+
+            .timeline-entry:nth-child(odd),
+            .timeline-entry:nth-child(even) {
+                padding-left: 60px;
+                padding-right: 0;
+                text-align: left;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        .expand-toggle {
+            display: none;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            font-size: 0.9rem;
+            color: #a89a6f;
+            cursor: pointer;
+        }
+
+        .expand-toggle:hover {
+            color: #d4af37;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Captain Hornblower</h1>
+            <p class="subtitle">A Chronicle of Naval Service, 1794–1823</p>
+            <p style="margin-top: 1rem; color: #a89a6f; font-size: 0.95rem;">
+                The life and trials of Horatio Hornblower through the Napoleonic Wars
+            </p>
+        </header>
+
+        <div class="timeline">
+            <!-- Entry 1 -->
+            <div class="timeline-entry">
+                <div class="timeline-marker"></div>
+                <div class="entry-card">
+                    <div class="book-title">Mr. Midshipman Hornblower</div>
+                    <span class="year">1794</span>
+                    <div class="naval-ops">
+                        <div class="naval-ops-title">⚓ Naval Operations</div>
+                        <p>Seventeen-year-old midshipman aboard <span class="vessel">HMS Justinien</span>, then transferred to frigate <span class="vessel">HMS Indefatigable</span> under Captain Pellew. Engages in duels, fireship attacks, cutting-out expeditions, and endures Spanish captivity.</p>
+                    </div>
+                    <div class="personal-arc">
+                        <div class="personal-arc-title">♡ Personal Transformation</div>
+                        <p>Horatio lodges at Mrs. Mason's boarding house in Portsmouth, where he meets <span class="character-name">Maria Mason</span>—a simple, affectionate young woman who quietly adores him. The awkward, seasick youth matures into a capable officer with a sharp mathematical mind.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entry 2 -->
+            <div class="timeline-entry">
+                <div class="timeline-marker"></div>
+                <div class="entry-card">
+                    <div class="book-title">Lieutenant Hornblower</div>
+                    <span class="year">1801–1802</span>
+                    <div class="naval-ops">
+                        <div class="naval-ops-title">⚓ Naval Operations</div>
+                        <p>Serves aboard the 74-gun <span class="vessel">HMS Renown</span> under increasingly paranoid Captain Sawyer. Brilliant tactical operations in the West Indies and suppression of a Spanish prisoner revolt earn Hornblower his first independent command.</p>
+                    </div>
+                    <div class="personal-arc">
+                        <div class="personal-arc-title">♡ Bonds & Obligation</div>
+                        <p>The origin of lifelong brotherhood between Hornblower and <span class="character-name">Captain William Bush</span>. Desperate and half-pay in Portsmouth, Horatio proposes to Maria out of financial necessity and gentlemanly obligation—knowing he feels only pity, not romantic passion. Bush serves as his best man.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entry 3 -->
+            <div class="timeline-entry">
+                <div class="timeline-marker"></div>
+                <div class="entry-card">
+                    <div class="book-title">Hornblower and the Hotspur</div>
+                    <span class="year">1803</span>
+                    <div class="naval-ops">
+                        <div class="naval-ops-title">⚓ Naval Operations</div>
+                        <p>Takes command of the small sloop <span class="vessel">HMS Hotspur</span> to scout the rocky French coast off Brest under Admiral Cornwallis. Dangerous blockading operations and shore raids help thwart Napoleon's invasion plans.</p>
+                    </div>
+                    <div class="personal-arc">
+                        <div class="personal-arc-title">♡ Matrimony & Doubt</div>
+                        <p>Hornblower and Maria marry; <span class="character-name">William Bush</span> serves as first lieutenant aboard Hotspur. While Maria is fiercely devoted, Horatio is racked by guilt over his inability to return her passion. Maria gives birth to their son, also named Horatio, while he is at sea.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entry 4 -->
+            <div class="timeline-entry">
+                <div class="timeline-marker"></div>
+                <div class="entry-card">
+                    <div class="book-title">Hornblower During the Crisis</div>
+                    <span class="year">1805</span>
+                    <div class="naval-ops">
+                        <div class="naval-ops-title">⚓ Naval Operations</div>
+                        <p>Entrusted with a covert intelligence mission to deliver forged French naval orders off Spain, influencing enemy fleet positioning for Nelson's victory at Trafalgar. (Unfinished work with narrative notes and short stories.)</p>
+                    </div>
+                    <div class="personal-arc">
+                        <div class="personal-arc-title">♡ Domestic Anchorhold</div>
+                        <p>Maria remains in England caring for young Horatio and pregnant with their second child, serving as a steady domestic anchor while Horatio navigates high-stakes naval politics.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entry 5 -->
+            <div class="timeline-entry">
+                <div class="timeline-marker"></div>
+                <div class="entry-card">
+                    <div class="book-title">Hornblower and the Atropos</div>
+                    <span class="year">1805–1806</span>
+                    <div class="naval-ops">
+                        <div class="naval-ops-title">⚓ Naval Operations</div>
+                        <p>Commands the 22-gun <span class="vessel">HMS Atropos</span>, organizing Admiral Nelson's funeral procession along the Thames before sailing to the Mediterranean to salvage sunken silver treasure from an Ottoman bay.</p>
+                    </div>
+                    <div class="personal-arc">
+                        <div class="personal-arc-title">♡ Tragedy & Tenderness</div>
+                        <p>Personal catastrophe strikes: a smallpox epidemic in Portsmouth kills both of Hornblower's young children, Horatio and little Maria. He returns to find Maria utterly broken. Shared sorrow draws them into a tender, melancholy closeness for the first time.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entry 6 -->
+            <div class="timeline-entry">
+                <div class="timeline-marker"></div>
+                <div class="entry-card">
+                    <div class="book-title">The Happy Return (Beat to Quarters)</div>
+                    <span class="year">1808</span>
+                    <div class="naval-ops">
+                        <div class="naval-ops-title">⚓ Naval Operations</div>
+                        <p>Commands <span class="vessel">HMS Lydia</span> on a secret mission to Central America to aid a rebel warlord against Spain—only to learn mid-mission Spain has allied with Britain. Must track down and destroy the very Spanish warship he had provided to the rebels.</p>
+                    </div>
+                    <div class="personal-arc">
+                        <div class="personal-arc-title">♡ Forbidden Attraction</div>
+                        <p>Tasked with escorting <span class="character-name">Lady Barbara Wellesley</span>—aristocratic sister of the future Duke of Wellington—back to England. Despite Horatio's marriage and their vast social gulf, an intense romantic and intellectual attraction ignites between them. <span class="character-name">William Bush</span> observes the unexpressed tension with protective loyalty. Bound by honor, they restrain their feelings, but the encounter permanently alters Horatio's inner life.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entry 7 -->
+            <div class="timeline-entry">
+                <div class="timeline-marker"></div>
+                <div class="entry-card">
+                    <div class="book-title">A Ship of the Line</div>
+                    <span class="year">1810</span>
+                    <div class="naval-ops">
+                        <div class="naval-ops-title">⚓ Naval Operations</div>
+                        <p>Commands <span class="vessel">HMS Sutherland</span> (74 guns) conducting a relentless guerrilla campaign against French coastal positions along Catalonia. Overwhelmed by four enemy ships of the line and forced to surrender.</p>
+                    </div>
+                    <div class="personal-arc">
+                        <div class="personal-arc-title">♡ Loss & Captivity</div>
+                        <p><span class="character-name">Lady Barbara</span> has married Rear-Admiral Sir Percy Leighton. Hornblower struggles with jealousy and missing Maria, who is pregnant again. <span class="character-name">Bush</span> loses his foot to a French cannonball during the final battle and is captured with Hornblower. Unknown to Horatio while imprisoned, Maria dies in childbirth, delivering their son Richard.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entry 8 -->
+            <div class="timeline-entry">
+                <div class="timeline-marker"></div>
+                <div class="entry-card">
+                    <div class="book-title">Flying Colours</div>
+                    <span class="year">1810–1811</span>
+                    <div class="naval-ops">
+                        <div class="naval-ops-title">⚓ Naval Operations</div>
+                        <p>Imprisoned in France facing execution, Hornblower and amputee <span class="character-name">Bush</span> orchestrate a daring winter escape with a wounded coxswain. Hide at a French estate, hijack a French vessel, recapture a British prize ship, and return to England in triumph.</p>
+                    </div>
+                    <div class="personal-arc">
+                        <div class="personal-arc-title">♡ Reunion & Liberation</div>
+                        <p>Hornblower learns of Maria's death and discovers that <span class="character-name">Lady Barbara</span> has taken in baby Richard. Admiral Leighton dies shortly after. Free at last, Horatio and Barbara marry, elevating Hornblower into high society. <span class="character-name">Bush</span> is promoted to Commander for his heroism during the escape.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entry 9 -->
+            <div class="timeline-entry">
+                <div class="timeline-marker"></div>
+                <div class="entry-card">
+                    <div class="book-title">The Commodore (Commodore Hornblower)</div>
+                    <span class="year">1812</span>
+                    <div class="naval-ops">
+                        <div class="naval-ops-title">⚓ Naval Operations</div>
+                        <p>Promoted to Commodore, commands a Baltic squadron to keep Russia and Sweden in the war against Napoleon, playing a vital role in the defense of Riga during the French invasion.</p>
+                    </div>
+                    <div class="personal-arc">
+                        <div class="personal-arc-title">♡ Partnership & Trust</div>
+                        <p>Hornblower selects <span class="character-name">Bush</span> as captain of his flagship <span class="vessel">HMS Nonsuch</span>. At Smallbridge estate, <span class="character-name">Lady Barbara</span> uses her political connections to ease Horatio's chronic self-doubt. Their marriage evolves into deep affection, while <span class="character-name">Bush</span> remains his most trusted confidant on the quarterdeck.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entry 10 -->
+            <div class="timeline-entry">
+                <div class="timeline-marker"></div>
+                <div class="entry-card">
+                    <div class="book-title">Lord Hornblower</div>
+                    <span class="year">1814–1815</span>
+                    <div class="naval-ops">
+                        <div class="naval-ops-title">⚓ Naval Operations</div>
+                        <p>Suppresses a Royal Navy mutiny off France, supports a Royalist revolt in Bordeaux, and is elevated to the peerage as Baron Hornblower of Smallbridge. During Napoleon's Hundred Days, commands guerrilla resistance in the Loire Valley.</p>
+                    </div>
+                    <div class="personal-arc">
+                        <div class="personal-arc-title">♡ Devastating Loss</div>
+                        <p>The most shattering blow: <span class="character-name">Captain William Bush</span> is killed during a night attack on French ammunition barges at Caudebec. Hornblower is shattered by the sudden loss of his truest friend. Later, reunited with <span class="character-name">Marie de Graçay</span>, she is killed by Imperial troops. Saved from a French firing squad by news of Waterloo, he returns to <span class="character-name">Lady Barbara</span>, his steadfast emotional anchor.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entry 11 -->
+            <div class="timeline-entry">
+                <div class="timeline-marker"></div>
+                <div class="entry-card">
+                    <div class="book-title">Hornblower in the West Indies</div>
+                    <span class="year">1821–1823</span>
+                    <div class="naval-ops">
+                        <div class="naval-ops-title">⚓ Naval Operations</div>
+                        <p>As Commander-in-Chief of the West Indies station, navigates post-Napoleonic peace: suppressing pirate fleets, intercepting illegal slave ships, and handling political unrest in South America.</p>
+                    </div>
+                    <div class="personal-arc">
+                        <div class="personal-arc-title">♡ Enduring Love</div>
+                        <p><span class="character-name">Lady Barbara</span> joins Horatio in Jamaica. Their relationship has settled into a mature, deeply loving companionship. In a dramatic climax, Barbara survives a violent Caribbean hurricane at sea alongside Horatio, solidifying their shared lifetime of resilience.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>⚓ A comprehensive chronicle of Captain Horatio Hornblower's service in His Majesty's Navy, 1794–1823 ⚓</p>
+            <p style="margin-top: 0.5rem;">Based on the novels of C. S. Forester</p>
+        </footer>
+    </div>
+</body>
+</html>
