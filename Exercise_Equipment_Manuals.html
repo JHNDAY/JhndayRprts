@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise Equipment Manuals - Track Console & SCIFIT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #1e293b;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .guide-selector {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        .guide-selector h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .toggle-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .toggle-btn {
+            padding: 12px 28px;
+            border: 2px solid white;
+            background: transparent;
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn.active {
+            background: white;
+            color: #1e40af;
+            border-color: white;
+        }
+
+        .toggle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            color: white;
+            padding: 40px 40px;
+            text-align: center;
+            display: none;
+        }
+
+        header.active {
+            display: block;
+        }
+
+        header h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 15px;
+            opacity: 0.95;
+        }
+
+        .nav-container {
+            background: #f1f5f9;
+            border-bottom: 3px solid #1e40af;
+            overflow-x: auto;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: none;
+        }
+
+        .nav-container.active {
+            display: block;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0;
+            padding: 0;
+            list-style: none;
+            min-width: fit-content;
+        }
+
+        .tab-btn {
+            flex: 1;
+            min-width: 100px;
+            padding: 14px 14px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+            border-bottom: 4px solid transparent;
+            transition: all 0.3s ease;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            background: #e0e7ff;
+            color: #1e40af;
+        }
+
+        .tab-btn.active {
+            background: #dbeafe;
+            color: #1e40af;
+            border-bottom-color: #1e40af;
+        }
+
+        .content {
+            padding: 40px;
+            min-height: 600px;
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        .section-content {
+            display: none;
+        }
+
+        .section-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 28px;
+            margin-bottom: 28px;
+        }
+
+        .card h2 {
+            font-size: 26px;
+            color: #0c4a6e;
+            margin-bottom: 16px;
+            border-left: 5px solid #1e40af;
+            padding-left: 16px;
+        }
+
+        .card h3 {
+            font-size: 20px;
+            color: #1e3a8a;
+            margin-top: 24px;
+            margin-bottom: 14px;
+        }
+
+        .card h4 {
+            font-size: 16px;
+            color: #1e40af;
+            margin-top: 16px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .card p {
+            font-size: 15px;
+            color: #334155;
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+
+        .list-item {
+            margin-bottom: 12px;
+            padding-left: 10px;
+            border-left: 3px solid #93c5fd;
+        }
+
+        .list-item strong {
+            color: #1e40af;
+        }
+
+        .info-box, .warning-box, .tip-box {
+            border-radius: 8px;
+            padding: 18px;
+            margin: 20px 0;
+        }
+
+        .info-box {
+            background: #eff6ff;
+            border-left: 5px solid #2563eb;
+        }
+
+        .info-box p {
+            color: #0c4a6e;
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .warning-box {
+            background: #fef2f2;
+            border-left: 5px solid #dc2626;
+        }
+
+        .warning-box strong, .warning-box p {
+            color: #7f1d1d;
+        }
+
+        .warning-box p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .tip-box {
+            background: #f0fdf4;
+            border-left: 5px solid #16a34a;
+        }
+
+        .tip-box p {
+            color: #166534;
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .resistance-guide {
+            background: #fef3c7;
+            border: 3px solid #f59e0b;
+            border-radius: 10px;
+            padding: 24px;
+            margin: 20px 0;
+        }
+
+        .resistance-guide h3 {
+            color: #92400e;
+            margin-bottom: 16px;
+        }
+
+        .resistance-guide p {
+            color: #78350f;
+            margin-bottom: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        th {
+            background: #1e40af;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin: 20px 0;
+        }
+
+        .footer-info {
+            background: #f1f5f9;
+            border-top: 2px solid #e2e8f0;
+            padding: 24px 40px;
+            font-size: 13px;
+            color: #64748b;
+            text-align: center;
+            display: none;
+        }
+
+        .footer-info.active {
+            display: block;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #1e40af;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.4);
+            z-index: 1000;
+        }
+
+        .scroll-to-top.show {
+            display: flex;
+        }
+
+        @media (max-width: 768px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                padding: 30px 20px;
+            }
+
+            header h2 {
+                font-size: 24px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .tab-btn {
+                min-width: 80px;
+                padding: 10px 8px;
+                font-size: 11px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .toggle-buttons {
+                flex-direction: column;
+            }
+
+            .toggle-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- GUIDE SELECTOR -->
+        <div class="guide-selector">
+            <h1>📚 Exercise Equipment Manuals</h1>
+            <p style="margin-bottom: 20px; font-size: 15px;">Select a guide to view:</p>
+            <div class="toggle-buttons">
+                <button class="toggle-btn active" onclick="selectGuide('track-console')">
+                    🚴 Life Fitness Track Console
+                </button>
+                <button class="toggle-btn" onclick="selectGuide('scifit')">
+                    💪 SCIFIT PRO2/PRO1000
+                </button>
+            </div>
+        </div>
+
+        <!-- TRACK CONSOLE GUIDE -->
+        <div id="track-console-guide" class="guide-section active">
+            <header id="track-header" class="active">
+                <h2>Life Fitness Track Console</h2>
+                <p>Complete Owner's Manual & Operating Guide for C1 & C3 Lifecycle Exercise Bikes</p>
+            </header>
+
+            <div class="nav-container active" id="track-nav">
+                <div class="nav-tabs">
+                    <button class="tab-btn active" onclick="showTrackSection(0)">Quick Start</button>
+                    <button class="tab-btn" onclick="showTrackSection(1)">Console Overview</button>
+                    <button class="tab-btn" onclick="showTrackSection(2)">Button Guide</button>
+                    <button class="tab-btn" onclick="showTrackSection(3)">Workouts</button>
+                    <button class="tab-btn" onclick="showTrackSection(4)">Custom Workouts</button>
+                    <button class="tab-btn" onclick="showTrackSection(5)">User Profiles</button>
+                    <button class="tab-btn" onclick="showTrackSection(6)">Settings</button>
+                    <button class="tab-btn" onclick="showTrackSection(7)">Troubleshooting</button>
+                </div>
+            </div>
+
+            <div class="content active" id="track-content">
+                <!-- TRACK CONSOLE SECTIONS -->
+                <div class="section-content active" id="track-section-0">
+                    <div class="card">
+                        <h2>🚴 Quick Start Guide</h2>
+                        <p>Get started with your Life Fitness Lifecycle in 5 easy steps.</p>
+
+                        <h3>Step 1: Power On the Console</h3>
+                        <div class="list-item">Plug the power adapter into the wall outlet</div>
+                        <div class="list-item">The console will light up automatically</div>
+
+                        <h3>Step 2: Select Your Workout</h3>
+                        <div class="list-item">Press the <strong>WORKOUT SELECTION BUTTON</strong> to browse workouts</div>
+                        <div class="list-item">Choose from: Classic, HeartSync, Advanced, Goal, or Custom workouts</div>
+                        <div class="list-item">Press <strong>ENTER</strong> to select</div>
+
+                        <h3>Step 3: Adjust Resistance (The Answer You're Looking For!)</h3>
+                        <div class="resistance-guide">
+                            <h3>How to Change Resistance Level During Workout:</h3>
+                            <p><strong>Use the LEFT/RIGHT arrow buttons on the console</strong></p>
+                            <p><strong>Resistance Range: Levels 1-20</strong></p>
+                            <p>Level 1 = Easiest | Level 20 = Hardest</p>
+                            <p>Changes take effect immediately as you pedal</p>
+                        </div>
+
+                        <h3>Step 4: Start Your Workout</h3>
+                        <div class="list-item">Follow console prompts to enter time, goal, or other settings</div>
+                        <div class="list-item">Press <strong>ENTER/START</strong> to begin</div>
+
+                        <h3>Step 5: Monitor Your Stats</h3>
+                        <div class="list-item">Watch the console displays for: Heart Rate, Distance, Calories, Time</div>
+                        <div class="list-item">Adjust resistance anytime with LEFT/RIGHT arrows</div>
+                    </div>
+
+                    <div class="card">
+                        <h2>⚡ Resistance Adjustment Cheat Sheet</h2>
+                        <div class="two-column">
+                            <div>
+                                <h4>During Workout:</h4>
+                                <div class="list-item"><strong>Increase Resistance:</strong> Press RIGHT arrow</div>
+                                <div class="list-item"><strong>Decrease Resistance:</strong> Press LEFT arrow</div>
+                                <div class="list-item"><strong>Speed:</strong> Changes take effect immediately</div>
+                            </div>
+                            <div>
+                                <h4>Resistance Types:</h4>
+                                <div class="list-item"><strong>Brake Levels 1-20:</strong> Manual control (Manual workouts)</div>
+                                <div class="list-item"><strong>Difficulty 1-20:</strong> Auto-adjusting (Random, Hill, Sports Training)</div>
+                            </div>
+                        </div>
+
+                        <table>
+                            <tr>
+                                <th>Resistance Level</th>
+                                <th>Intensity</th>
+                                <th>Best For</th>
+                            </tr>
+                            <tr>
+                                <td>1-5</td>
+                                <td>Very Easy</td>
+                                <td>Warm-up, recovery</td>
+                            </tr>
+                            <tr>
+                                <td>6-10</td>
+                                <td>Easy</td>
+                                <td>Steady cardio</td>
+                            </tr>
+                            <tr>
+                                <td>11-15</td>
+                                <td>Moderate</td>
+                                <td>Fat burn, endurance</td>
+                            </tr>
+                            <tr>
+                                <td>16-20</td>
+                                <td>Hard</td>
+                                <td>Strength, intervals</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="card">
+                        <h2>❤️ Heart Rate Setup</h2>
+                        <h3>Using the Telemetry Chest Strap (Recommended)</h3>
+                        <p>This provides the most accurate heart rate reading for heart-based workouts.</p>
+                        <div class="list-item">Moisten the two electrodes on the underside of the strap</div>
+                        <div class="list-item">Secure high under your chest muscles</div>
+                        <div class="list-item">Keep it snug but comfortable for normal breathing</div>
+                        <div class="list-item">Consoles display your live heart rate within seconds</div>
+
+                        <h3>Using Contact Heart Rate (Hand Sensors)</h3>
+                        <p>Available but less accurate than chest strap.</p>
+                        <div class="list-item">Grasp the sensors on the handlebars firmly</div>
+                        <div class="list-item">Keep your hands still</div>
+                        <div class="list-item">Wait 15-20 seconds for heart rate to appear</div>
+                        <div class="list-item">Dry hands if needed for better contact</div>
+                    </div>
+                </div>
+
+                <!-- Additional track sections would go here (sections 1-7) -->
+                <!-- For brevity, showing structure but core content is in section 0 -->
+                <div class="section-content" id="track-section-1">
+                    <div class="card">
+                        <h2>Console Display Overview</h2>
+                        <h3>Main Display Areas</h3>
+                        <p><strong>Top-Left:</strong> Level (1-20) - Your current resistance</p>
+                        <p><strong>Top-Center:</strong> Time - Workout countdown</p>
+                        <p><strong>Top-Right:</strong> Speed (mph/kmh)</p>
+                        <p><strong>Middle:</strong> RPM, Distance, Heart Rate, Calories</p>
+                        <p><strong>Bottom:</strong> Workout Profile Graph - Visual representation of your workout intensity over time</p>
+                    </div>
+                </div>
+
+                <div class="section-content" id="track-section-2">
+                    <div class="card">
+                        <h2>Console Buttons & Controls</h2>
+                        <h3>Navigation Arrows</h3>
+                        <div class="list-item"><strong>LEFT/RIGHT:</strong> Adjust resistance during workout (LEFT = decrease, RIGHT = increase)</div>
+                        <div class="list-item"><strong>UP/DOWN:</strong> Adjust time or numeric values during setup</div>
+
+                        <h3>Main Control Buttons</h3>
+                        <div class="list-item"><strong>ENTER/START:</strong> Start workout or confirm selections</div>
+                        <div class="list-item"><strong>PAUSE/RESUME:</strong> Pause workout (max 5 minutes)</div>
+                        <div class="list-item"><strong>STOP/RESET:</strong> Stop workout or clear settings</div>
+                        <div class="list-item"><strong>SETTINGS:</strong> Access display and workout settings</div>
+                        <div class="list-item"><strong>USER PROFILES:</strong> Save and load user settings</div>
+                    </div>
+                </div>
+
+                <div class="section-content" id="track-section-3">
+                    <div class="card">
+                        <h2>14 Pre-Programmed Workouts</h2>
+                        <h3>🟢 CLASSIC WORKOUTS (Manual Control)</h3>
+                        <div class="list-item"><strong>MANUAL:</strong> You control everything. Levels 1-20, no pre-set intensity changes.</div>
+                        <div class="list-item"><strong>RANDOM:</strong> Console creates random terrain. 1+ million patterns.</div>
+                        <div class="list-item"><strong>HILL:</strong> Life Fitness patented interval training with hills and valleys.</div>
+
+                        <h3>💓 HEARTSYNC™ WORKOUTS (Auto-Adjusting)</h3>
+                        <div class="list-item"><strong>FAT BURN:</strong> Maintains 65% max heart rate for efficient fat burning.</div>
+                        <div class="list-item"><strong>CARDIO:</strong> Maintains 80% max heart rate for cardiovascular training.</div>
+                        <div class="list-item"><strong>HEART RATE HILL:</strong> Three progressive hills for adaptive training.</div>
+                        <div class="list-item"><strong>HEART RATE INTERVAL:</strong> Alternates between 80% and 65% HR max.</div>
+                        <div class="list-item"><strong>EXTREME HEART RATE:</strong> Rapid sprinting simulation for athletes.</div>
+                    </div>
+                </div>
+
+                <div class="section-content" id="track-section-4">
+                    <div class="card">
+                        <h2>Create Custom Workouts</h2>
+                        <p>Design up to 3 personalized workouts per user profile.</p>
+                        <h3>How to Create:</h3>
+                        <div class="list-item"><strong>1.</strong> Press USER PROFILES and select a profile</div>
+                        <div class="list-item"><strong>2.</strong> Hold USER PROFILES for 3 seconds</div>
+                        <div class="list-item"><strong>3.</strong> Scroll to "Custom Workout" and press ENTER</div>
+                        <div class="list-item"><strong>4.</strong> Choose MANUAL or HEART RATE type</div>
+                        <div class="list-item"><strong>5.</strong> Set workout time (1-99 minutes)</div>
+                        <div class="list-item"><strong>6.</strong> Design each of 24 intervals</div>
+                        <div class="list-item"><strong>7.</strong> Press ENTER to save</div>
+                    </div>
+                </div>
+
+                <div class="section-content" id="track-section-5">
+                    <div class="card">
+                        <h2>User Profiles</h2>
+                        <p>Save settings for up to 4 different users.</p>
+                        <h3>What Gets Saved:</h3>
+                        <div class="list-item">Custom name</div>
+                        <div class="list-item">Weight and Age</div>
+                        <div class="list-item">3 custom workouts</div>
+                        <div class="list-item">Workout history and goals</div>
+
+                        <h3>How to Log In:</h3>
+                        <div class="list-item">Press USER PROFILES button</div>
+                        <div class="list-item">Select profile 1, 2, 3, or 4</div>
+                        <div class="list-item">Press ENTER</div>
+                    </div>
+                </div>
+
+                <div class="section-content" id="track-section-6">
+                    <div class="card">
+                        <h2>Settings Menu</h2>
+                        <h3>Available Settings:</h3>
+                        <div class="list-item"><strong>Units:</strong> English or Metric</div>
+                        <div class="list-item"><strong>Beeps:</strong> On/Off audio feedback</div>
+                        <div class="list-item"><strong>Brightness:</strong> 1-10 (backlight intensity)</div>
+                        <div class="list-item"><strong>Contrast:</strong> 1-99 (display contrast)</div>
+                        <div class="list-item"><strong>Heart Rate Telemetry:</strong> On/Off wireless chest strap</div>
+                        <div class="list-item"><strong>Energy Saver:</strong> On/Off low-power mode</div>
+                    </div>
+                </div>
+
+                <div class="section-content" id="track-section-7">
+                    <div class="card">
+                        <h2>Troubleshooting & Support</h2>
+                        <h3>No Power?</h3>
+                        <div class="list-item">Check power cord is fully plugged in</div>
+                        <div class="list-item">Press ENERGY SAVER button</div>
+                        <div class="list-item">Try unplugging and re-plugging</div>
+
+                        <h3>Heart Rate Not Working?</h3>
+                        <div class="list-item">Check WIRELESS HR is ON in Settings</div>
+                        <div class="list-item">Wet chest strap electrodes</div>
+                        <div class="list-item">Move away from electrical interference</div>
+
+                        <h3>Resistance Not Changing?</h3>
+                        <div class="list-item">Ensure LEFT/RIGHT arrows are working</div>
+                        <div class="list-item">Power cycle the console</div>
+
+                        <div class="info-box">
+                            <p><strong>Contact Life Fitness Support:</strong><br>
+                            Phone: 1-800-351-3737 (7am-6pm CST)<br>
+                            Email: customersupport@lifefitness.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-info active" id="track-footer">
+                <p><strong>Life Fitness Track Console Owner's Manual</strong></p>
+                <p>For C1 & C3 Lifecycle Exercise Bikes | Model 8975201 REV B-2</p>
+                <p>© Life Fitness, a division of Brunswick Corporation. All rights reserved.</p>
+            </div>
+        </div>
+
+        <!-- SCIFIT GUIDE -->
+        <div id="scifit-guide" class="guide-section">
+            <header id="scifit-header">
+                <h2>SCIFIT PRO2 & PRO1000 User Guide</h2>
+                <p>Complete Owner's Manual for Upright Stationary Exercise Bikes</p>
+            </header>
+
+            <div class="nav-container" id="scifit-nav">
+                <div class="nav-tabs">
+                    <button class="tab-btn active" onclick="showScifitSection(0)">Quick Start</button>
+                    <button class="tab-btn" onclick="showScifitSection(1)">Setup & Adjustment</button>
+                    <button class="tab-btn" onclick="showScifitSection(2)">Programs & Workouts</button>
+                    <button class="tab-btn" onclick="showScifitSection(3)">Resistance Control</button>
+                    <button class="tab-btn" onclick="showScifitSection(4)">Maintenance</button>
+                    <button class="tab-btn" onclick="showScifitSection(5)">Troubleshooting</button>
+                    <button class="tab-btn" onclick="showScifitSection(6)">Specifications</button>
+                </div>
+            </div>
+
+            <div class="content" id="scifit-content">
+                <!-- SCIFIT SECTIONS -->
+                <div class="section-content active" id="scifit-section-0">
+                    <div class="card">
+                        <h2>🚴 Quick Start Guide</h2>
+                        <p>Get started on your SCIFIT in minutes.</p>
+
+                        <h3>Step 1: Initial Setup</h3>
+                        <div class="list-item">Check all bolts and hardware are tight</div>
+                        <div class="list-item">Verify the bike is on a level, solid surface</div>
+                        <div class="list-item">Allow 40 inches of clearance on all sides</div>
+
+                        <h3>Step 2: Adjust the Seat</h3>
+                        <div class="list-item">Sit on the seat with feet on pedals</div>
+                        <div class="list-item">Knee should bend slightly at pedal's lowest point</div>
+                        <div class="list-item">Loosen the seat adjustment knob (right side)</div>
+                        <div class="list-item">Slide seat up or down to proper height</div>
+                        <div class="list-item">Tighten knob securely</div>
+
+                        <h3>Step 3: Adjust Pedal Straps</h3>
+                        <div class="list-item">Tighten straps so shoes stay secure during pedaling</div>
+                        <div class="list-item">Straps should be snug but comfortable</div>
+                        <div class="list-item">Test before starting workout</div>
+
+                        <h3>Step 4: Power On (Optional)</h3>
+                        <div class="list-item">Plug AC adapter into wall outlet</div>
+                        <div class="list-item">Console will light up</div>
+                        <div class="list-item">Select a program or manual mode</div>
+
+                        <h3>Step 5: Start Pedaling</h3>
+                        <div class="list-item">Begin at low resistance</div>
+                        <div class="list-item">Adjust resistance as desired</div>
+                        <div class="list-item">Monitor your workout stats</div>
+                    </div>
+
+                    <div class="card">
+                        <h2>⚡ Resistance Control</h2>
+                        <div class="resistance-guide">
+                            <h3>SCIFIT Resistance System:</h3>
+                            <p><strong>Resistance Range:</strong> 200 levels (PRO2) - Independent of pedal speed</p>
+                            <p><strong>How It Works:</strong> Console controls resistance through electromagnetic braking system</p>
+                            <p>Resistance is speed-independent, meaning you can pedal fast or slow at any resistance level</p>
+                        </div>
+
+                        <h3>Adjusting Resistance During Workout:</h3>
+                        <div class="list-item">Use console arrow buttons to increase/decrease resistance</div>
+                        <div class="list-item">Changes take effect immediately</div>
+                        <div class="list-item">Allows for interval training and varied intensity</div>
+                    </div>
+
+                    <div class="card">
+                        <h2>❤️ Heart Rate Monitoring</h2>
+                        <h3>Hand Pulse Sensors</h3>
+                        <div class="list-item">Built into stationary handlebar</div>
+                        <div class="list-item">Grasp firmly with both hands</div>
+                        <div class="list-item">Wait for heart rate to display (10-15 seconds)</div>
+                        <div class="list-item">Keep hands still for accurate reading</div>
+                    </div>
+                </div>
+
+                <div class="section-content" id="scifit-section-1">
+                    <div class="card">
+                        <h2>Setup & Adjustment</h2>
+                        <h3>Room Setup</h3>
+                        <div class="list-item">Minimum 40-inch clearance on all sides</div>
+                        <div class="list-item">Place on solid, level surface</div>
+                        <div class="list-item">Well-ventilated area preferred</div>
+
+                        <h3>Seat Positioning (Critical for Comfort)</h3>
+                        <p>Proper seat height prevents leg muscle fatigue and ensures efficient pedaling.</p>
+                        <div class="list-item"><strong>Test Position:</strong> Sit on seat with ball of foot on pedal</div>
+                        <div class="list-item"><strong>Knee Bend:</strong> Should be slight bend (20-30 degrees) at lowest pedal point</div>
+                        <div class="list-item"><strong>Not Locking:</strong> Knees should never lock fully extended</div>
+                        <div class="list-item"><strong>Not Hunching:</strong> Avoid shifting in seat during pedaling</div>
+
+                        <h3>Pedal Strap Adjustment</h3>
+                        <p>Safety straps keep shoes secure but should not cut off circulation.</p>
+                        <div class="list-item"><strong>To Tighten:</strong> Pull loose end of strap down</div>
+                        <div class="list-item"><strong>To Loosen:</strong> Press clip and pull strap up</div>
+                        <div class="list-item"><strong>Fit Range:</strong> Works with various shoe sizes</div>
+                        <div class="list-item"><strong>Test:</strong> Confirm secure fit before each workout</div>
+                    </div>
+                </div>
+
+                <div class="section-content" id="scifit-section-2">
+                    <div class="card">
+                        <h2>Programs & Workouts</h2>
+                        <h3>Available Programs (6 Built-in):</h3>
+                        <div class="list-item"><strong>Manual:</strong> You control resistance throughout workout</div>
+                        <div class="list-item"><strong>Heart Rate:</strong> Console maintains target heart rate</div>
+                        <div class="list-item"><strong>Constant Work:</strong> Maintains constant calorie/watt output</div>
+                        <div class="list-item"><strong>ISO-Strength:</strong> Isometric resistance building</div>
+                        <div class="list-item"><strong>Random:</strong> Random resistance patterns for variety</div>
+                        <div class="list-item"><strong>Hill Profiles:</strong> Simulates outdoor hill riding</div>
+
+                        <h3>Selecting a Program:</h3>
+                        <div class="list-item">Power on console</div>
+                        <div class="list-item">Use navigation to browse programs</div>
+                        <div class="list-item">Select desired program</div>
+                        <div class="list-item">Enter any required settings (time, intensity)</div>
+                        <div class="list-item">Press START to begin</div>
+                    </div>
+                </div>
+
+                <div class="section-content" id="scifit-section-3">
+                    <div class="card">
+                        <h2>Resistance Control Systems</h2>
+                        <h3>PRO2 Specifications:</h3>
+                        <div class="list-item"><strong>Weight:</strong> 223 lbs</div>
+                        <div class="list-item"><strong>Max User Weight:</strong> 350 lbs</div>
+                        <div class="list-item"><strong>Resistance Levels:</strong> 200 electromagnetic levels</div>
+                        <div class="list-item"><strong>Speed Independent:</strong> Yes - adjust resistance at any pedal speed</div>
+
+                        <h3>PRO1000 Specifications:</h3>
+                        <div class="list-item"><strong>Weight:</strong> 202 lbs</div>
+                        <div class="list-item"><strong>Max User Weight:</strong> 350 lbs</div>
+                        <div class="list-item"><strong>Resistance Levels:</strong> 200 electromagnetic levels</div>
+
+                        <h3>How Speed-Independent Resistance Works:</h3>
+                        <p>Unlike bikes where resistance increases with speed, SCIFIT's electromagnetic resistance system allows you to:</p>
+                        <div class="list-item">Pedal slowly at high resistance (strength training)</div>
+                        <div class="list-item">Pedal fast at low resistance (cardio speed work)</div>
+                        <div class="list-item">Change resistance instantly without changing pedal speed</div>
+                    </div>
+                </div>
+
+                <div class="section-content" id="scifit-section-4">
+                    <div class="card">
+                        <h2>Maintenance & Care</h2>
+                        <h3>Weekly Maintenance:</h3>
+                        <div class="list-item">Clean display console with soft cloth</div>
+                        <div class="list-item">Wipe down frame</div>
+                        <div class="list-item">Check pedal straps for wear</div>
+
+                        <h3>Monthly Maintenance:</h3>
+                        <div class="list-item">Inspect all bolts and tighten if needed</div>
+                        <div class="list-item">Clean hand pulse sensors</div>
+                        <div class="list-item">Check for any unusual noises</div>
+
+                        <h3>Preventive Care Tips:</h3>
+                        <div class="list-item">Keep in cool, dry location</div>
+                        <div class="list-item">Don't expose to direct sunlight</div>
+                        <div class="list-item">Avoid high humidity environments</div>
+                        <div class="list-item">Regular inspection prevents major repairs</div>
+
+                        <h3>Approved Cleaners:</h3>
+                        <div class="list-item"><strong>Gym Wipes®:</strong> Pre-moistened, use before/after workouts</div>
+                        <div class="list-item"><strong>Mild soap and water:</strong> On microfiber cloth only</div>
+                        <div class="list-item"><strong>DO NOT USE:</strong> Ammonia, acid-based, or abrasive cleaners</div>
+                    </div>
+                </div>
+
+                <div class="section-content" id="scifit-section-5">
+                    <div class="card">
+                        <h2>Troubleshooting</h2>
+                        <h3>No Power / Console Won't Turn On</h3>
+                        <div class="list-item">✓ Verify power cord is plugged into wall</div>
+                        <div class="list-item">✓ Check wall outlet has power</div>
+                        <div class="list-item">✓ Ensure all connections are secure</div>
+
+                        <h3>Resistance Not Changing</h3>
+                        <div class="list-item">✓ Check console buttons are functioning</div>
+                        <div class="list-item">✓ Power cycle the equipment</div>
+                        <div class="list-item">✓ Verify resistance level buttons are working</div>
+
+                        <h3>Clicking Noise While Pedaling</h3>
+                        <div class="list-item">✓ Ensure pedals are securely tightened</div>
+                        <div class="list-item">✓ Check all bolts are tight</div>
+                        <div class="list-item">✓ Some mechanical noise is normal at higher speeds</div>
+
+                        <h3>Heart Rate Not Reading</h3>
+                        <div class="list-item">✓ Grasp sensors firmly</div>
+                        <div class="list-item">✓ Keep hands still</div>
+                        <div class="list-item">✓ Wait 15-20 seconds for reading</div>
+                        <div class="list-item">✓ Dry hands if sweaty</div>
+
+                        <div class="info-box">
+                            <p><strong>Contact Life Fitness Support:</strong><br>
+                            Phone: 1-800-351-3737<br>
+                            Email: customersupport@lifefitness.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-content" id="scifit-section-6">
+                    <div class="card">
+                        <h2>Complete Specifications</h2>
+                        <table>
+                            <tr>
+                                <th>Feature</th>
+                                <th>PRO2</th>
+                                <th>PRO1000</th>
+                            </tr>
+                            <tr>
+                                <td>Weight</td>
+                                <td>223 lbs (101 kg)</td>
+                                <td>202 lbs (91.6 kg)</td>
+                            </tr>
+                            <tr>
+                                <td>Max User Weight</td>
+                                <td>350 lbs (159 kg)</td>
+                                <td>350 lbs (159 kg)</td>
+                            </tr>
+                            <tr>
+                                <td>Resistance Levels</td>
+                                <td>200 electromagnetic</td>
+                                <td>200 electromagnetic</td>
+                            </tr>
+                            <tr>
+                                <td>Speed Independent</td>
+                                <td>Yes</td>
+                                <td>Yes</td>
+                            </tr>
+                            <tr>
+                                <td>Programs</td>
+                                <td>6 built-in</td>
+                                <td>6 built-in</td>
+                            </tr>
+                            <tr>
+                                <td>Dimensions</td>
+                                <td>35" L x 24" W x 50" H</td>
+                                <td>35" L x 24" W x 50" H</td>
+                            </tr>
+                        </table>
+
+                        <h3>Power Requirements:</h3>
+                        <div class="list-item">AC Adapter with proper grounding</div>
+                        <div class="list-item">Standard household outlet (110-120V USA)</div>
+
+                        <h3>Warranty:</h3>
+                        <div class="list-item">Frame: Lifetime</div>
+                        <div class="list-item">Parts: 3 years</div>
+                        <div class="list-item">Labor: 1 year</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-info" id="scifit-footer">
+                <p><strong>SCIFIT PRO2/PRO1000 Exercise Bike User Guide</strong></p>
+                <p>© SCIFIT. All rights reserved.</p>
+                <p style="margin-top: 15px; font-size: 12px;">
+                    <strong>Key Feature:</strong> 200 levels of speed-independent electromagnetic resistance provide precise, smooth resistance control.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="scroll-to-top" onclick="scrollToTop()">↑</div>
+
+    <script>
+        let currentGuide = 'track-console';
+
+        function selectGuide(guide) {
+            currentGuide = guide;
+
+            // Update toggle buttons
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Hide all guides
+            document.getElementById('track-console-guide').classList.remove('active');
+            document.getElementById('scifit-guide').classList.remove('active');
+
+            // Show selected guide
+            document.getElementById(guide + '-guide').classList.add('active');
+
+            // Update headers
+            document.getElementById('track-header').classList.remove('active');
+            document.getElementById('scifit-header').classList.remove('active');
+            document.getElementById(guide === 'track-console' ? 'track-header' : 'scifit-header').classList.add('active');
+
+            // Update navs
+            document.getElementById('track-nav').classList.remove('active');
+            document.getElementById('scifit-nav').classList.remove('active');
+            document.getElementById(guide === 'track-console' ? 'track-nav' : 'scifit-nav').classList.add('active');
+
+            // Update content
+            document.getElementById('track-content').classList.remove('active');
+            document.getElementById('scifit-content').classList.remove('active');
+            document.getElementById(guide === 'track-console' ? 'track-content' : 'scifit-content').classList.add('active');
+
+            // Update footers
+            document.getElementById('track-footer').classList.remove('active');
+            document.getElementById('scifit-footer').classList.remove('active');
+            document.getElementById(guide === 'track-console' ? 'track-footer' : 'scifit-footer').classList.add('active');
+
+            // Reset to first section
+            if (guide === 'track-console') {
+                showTrackSection(0);
+            } else {
+                showScifitSection(0);
+            }
+
+            scrollToTop();
+        }
+
+        function showTrackSection(index) {
+            document.querySelectorAll('#track-content .section-content').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelectorAll('#track-nav .tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            document.getElementById('track-section-' + index).classList.add('active');
+            document.querySelectorAll('#track-nav .tab-btn')[index].classList.add('active');
+            scrollToTop();
+        }
+
+        function showScifitSection(index) {
+            document.querySelectorAll('#scifit-content .section-content').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelectorAll('#scifit-nav .tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            document.getElementById('scifit-section-' + index).classList.add('active');
+            document.querySelectorAll('#scifit-nav .tab-btn')[index].classList.add('active');
+            scrollToTop();
+        }
+
+        window.addEventListener('scroll', function() {
+            const scrollBtn = document.querySelector('.scroll-to-top');
+            if (window.pageYOffset > 300) {
+                scrollBtn.classList.add('show');
+            } else {
+                scrollBtn.classList.remove('show');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
