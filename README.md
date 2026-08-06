@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Visualization & Content Choices: 
         - Report Info: Executive Summary -> Goal: Inform -> Presentation: Text blocks -> Interaction: Static -> Justification: Provides a quick overview.
-        - Report Info: Table 2 (Projected % of Global Electricity Consumption for Data Centers) -> Goal: Change/Inform -> Viz: Bar Chart (Chart.js) -> Interaction: Tooltips on hover -> Justification: Visually represents the trend over time, fulfilling a specific user request. Library: Chart.js.
+        - Report for Info: Table 2 (Projected % of Global Electricity Consumption for Data Centers) -> Goal: Change/Inform -> Viz: Bar Chart (Chart.js) -> Interaction: Tooltips on hover -> Justification: Visually represents the trend over time, fulfilling a specific user request. Library: Chart.js.
         - Report Info: Key Global AI/Data Center Energy Demand Projections (Table 1) -> Goal: Inform/Compare -> Presentation: HTML Table -> Interaction: Static -> Justification: Presents detailed comparative data in a structured format.
         - Report Info: Sections on Carbon Footprint, Drivers, Mitigation, Economics, Conclusion -> Goal: Inform/Explain -> Presentation: Text blocks, lists -> Interaction: Static/Scroll-to -> Justification: Breaks down complex information into digestible thematic sections.
         - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
