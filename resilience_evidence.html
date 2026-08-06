@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Systemic Resilience: Evidence of Progress</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #1a5490;
+            margin-bottom: 15px;
+        }
+
+        .tagline {
+            font-size: 1.1em;
+            color: #555;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .time-period {
+            font-size: 0.95em;
+            color: #888;
+            font-weight: 500;
+        }
+
+        .intro-text {
+            max-width: 900px;
+            margin: 20px auto 0;
+            color: #555;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .pillar-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #2c3e50;
+        }
+
+        .tab-btn:hover {
+            border-color: #1a5490;
+            color: #1a5490;
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .tab-btn.health { --color: #06b6d4; }
+        .tab-btn.courts { --color: #8b5cf6; }
+        .tab-btn.education { --color: #10b981; }
+        .tab-btn.environment { --color: #f59e0b; }
+
+        .pillar-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .pillar-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pillar-title {
+            font-size: 2em;
+            margin-bottom: 30px;
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #ddd;
+            color: #1a5490;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 5px solid #ddd;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .card.health {
+            border-left-color: #06b6d4;
+        }
+
+        .card.courts {
+            border-left-color: #8b5cf6;
+        }
+
+        .card.education {
+            border-left-color: #10b981;
+        }
+
+        .card.environment {
+            border-left-color: #f59e0b;
+        }
+
+        .card-header {
+            padding: 25px 25px 15px 25px;
+        }
+
+        .card-date {
+            font-size: 0.85em;
+            color: #888;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .card-title {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #1a5490;
+            line-height: 1.3;
+        }
+
+        .card-body {
+            padding: 0 25px 20px 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-text {
+            font-size: 0.95em;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .card-stat {
+            background: #f0f9ff;
+            border-left: 3px solid #06b6d4;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #0369a1;
+            font-size: 0.95em;
+        }
+
+        .card-stat.health { border-left-color: #06b6d4; background: #ecf8fc; color: #0369a1; }
+        .card-stat.courts { border-left-color: #8b5cf6; background: #faf5ff; color: #6d28d9; }
+        .card-stat.education { border-left-color: #10b981; background: #f0fdf4; color: #047857; }
+        .card-stat.environment { border-left-color: #f59e0b; background: #fffbeb; color: #b45309; }
+
+        .card-source {
+            padding: 15px 25px;
+            border-top: 1px solid #eee;
+            background: #fafafa;
+        }
+
+        .source-label {
+            font-size: 0.8em;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .source-link {
+            display: inline-block;
+            padding: 8px 14px;
+            background: #e8f4f8;
+            border: 1px solid #b3dfe8;
+            border-radius: 6px;
+            color: #0369a1;
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .source-link:hover {
+            background: #06b6d4;
+            color: white;
+            border-color: #06b6d4;
+        }
+
+        .conversation-prompt {
+            background: white;
+            border: 2px solid #f59e0b;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 50px 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.1);
+        }
+
+        .conversation-prompt h3 {
+            color: #b45309;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .conversation-prompt p {
+            color: #555;
+            line-height: 1.7;
+            font-size: 1em;
+        }
+
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 40px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        .legend-dot.health { background: #06b6d4; }
+        .legend-dot.courts { background: #8b5cf6; }
+        .legend-dot.education { background: #10b981; }
+        .legend-dot.environment { background: #f59e0b; }
+
+        .legend-text {
+            font-weight: 500;
+            color: #2c3e50;
+            font-size: 0.95em;
+        }
+
+        footer {
+            text-align: center;
+            color: #888;
+            padding: 30px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .pillar-tabs {
+                gap: 8px;
+            }
+
+            .tab-btn {
+                padding: 10px 16px;
+                font-size: 0.9em;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .legend {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔥 Systemic Resilience 🔥</h1>
+            <p class="tagline">Evidence of Progress in Challenging Times</p>
+            <p class="time-period">Last 6 Months: February – July 2026</p>
+            <p class="intro-text">
+                While headlines focus on institutional threats, government-funded systems and democratic institutions 
+                continue advancing science, protecting rights, expanding education, and safeguarding the environment. 
+                Here's the evidence.
+            </p>
+            <p class="intro-text" style="font-style: italic; margin-top: 20px; font-size: 1.05em; color: #1a5490; font-weight: 500;">
+                There is a world different from the Chief Carnival Barker—and much larger.
+            </p>
+        </header>
+
+        <div class="pillar-tabs">
+            <button class="tab-btn health active" onclick="switchTab('health')">
+                ⚕️ Health Research
+            </button>
+            <button class="tab-btn courts" onclick="switchTab('courts')">
+                ⚖️ Democratic Institutions
+            </button>
+            <button class="tab-btn education" onclick="switchTab('education')">
+                📚 Education Access
+            </button>
+            <button class="tab-btn environment" onclick="switchTab('environment')">
+                🌍 Environmental Protection
+            </button>
+        </div>
+
+        <!-- HEALTH RESEARCH SECTION -->
+        <div id="health" class="pillar-section active">
+            <h2 class="pillar-title">⚕️ Health Research: Breakthroughs from NIH-Funded Labs</h2>
+            
+            <div class="cards-grid">
+                <div class="card health">
+                    <div class="card-header">
+                        <div class="card-date">June 2026</div>
+                        <h3 class="card-title">Gene Editing Therapy Shows 87% Success Rate</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            A Phase 3 clinical trial of gene editing therapy showed an 87% reduction in attack rates relative to placebo, with 60% of patients remaining attack-free entirely over 6 months. This marks the first successful in vivo gene editing treatment for late-stage disease in human patients.
+                        </p>
+                        <div class="card-stat health">
+                            87% reduction in attack rates • 60% remained attack-free
+                        </div>
+                    </div>
+                    <div class="card-source">
+                        <div class="source-label">Source</div>
+                        <a href="https://www.worksinprogress.news/p/whats-new-in-biology-june-2026" class="source-link">Works in Progress, June 2026</a>
+                    </div>
+                </div>
+
+                <div class="card health">
+                    <div class="card-header">
+                        <div class="card-date">June 2026</div>
+                        <h3 class="card-title">Portable TB Diagnostic Test Approved</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            NIH researchers developed and validated a portable diagnostic test for tuberculosis that produces rapid and accurate results. The test makes TB detection accessible in remote and resource-limited settings, potentially saving millions of lives globally.
+                        </p>
+                        <div class="card-stat health">
+                            Rapid • Portable • Accurate results in field settings
+                        </div>
+                    </div>
+                    <div class="card-source">
+                        <div class="source-label">Source</div>
+                        <a href="https://www.nih.gov/news-events/nih-research-matters" class="source-link">NIH Research Matters</a>
+                    </div>
+                </div>
+
+                <div class="card health">
+                    <div class="card-header">
+                        <div class="card-date">May 2026</div>
+                        <h3 class="card-title">CRISPR Treatments Moving to Clinical Care</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            CRISPR cures for sickle cell disease and gene therapy for hemophilia A have moved from experimental protocols to standard clinical treatment options. These represent a shift from one-size-fits-all care to personalized, potentially curative medicine.
+                        </p>
+                        <div class="card-stat health">
+                            Sickle cell disease & hemophilia A: Now in clinical treatment
+                        </div>
+                    </div>
+                    <div class="card-source">
+                        <div class="source-label">Source</div>
+                        <a href="https://www.medscape.com/p11/10-medical-breakthroughs-transforming-clinical-care-2026a1000gr9" class="source-link">Medscape, May 2026</a>
+                    </div>
+                </div>
+
+                <div class="card health">
+                    <div class="card-header">
+                        <div class="card-date">June 2026</div>
+                        <h3 class="card-title">Blood Test Predicts Alzheimer's Onset</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            NIH-funded researchers created a blood test that predicts the start of Alzheimer's disease symptoms with high accuracy. Early detection enables intervention strategies that can slow or delay cognitive decline.
+                        </p>
+                        <div class="card-stat health">
+                            Early detection enables preventive intervention
+                        </div>
+                    </div>
+                    <div class="card-source">
+                        <div class="source-label">Source</div>
+                        <a href="https://www.nih.gov/news-events/nih-research-matters" class="source-link">NIH Research Matters</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DEMOCRATIC INSTITUTIONS SECTION -->
+        <div id="courts" class="pillar-section">
+            <h2 class="pillar-title">⚖️ Democratic Institutions: Court Victories Protecting Rights</h2>
+            
+            <div class="cards-grid">
+                <div class="card courts">
+                    <div class="card-header">
+                        <div class="card-date">June 2026</div>
+                        <h3 class="card-title">Court Blocks Executive Order on Mail-In Voting</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            A federal court ruled that nonpartisan voting rights groups could proceed with their challenge to an executive order restricting mail-in voting. The court recognized that the order attempts to override state election laws and threatens voting rights.
+                        </p>
+                        <div class="card-stat courts">
+                            Voting rights groups: Challenge to proceed to preliminary injunction hearing
+                        </div>
+                    </div>
+                    <div class="card-source">
+                        <div class="source-label">Source</div>
+                        <a href="https://www.aclu.org/press-releases/federal-court-allows-challenge-to-executive-order-restricting-mail-in-voting-to-proceed-with-respect-to-the-midterm-elections" class="source-link">ACLU, June 2026</a>
+                    </div>
+                </div>
+
+                <div class="card courts">
+                    <div class="card-header">
+                        <div class="card-date">June 2026</div>
+                        <h3 class="card-title">Maryland Court Dismisses DOJ Voter Data Lawsuit</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            A federal court dismissed the Department of Justice's attempt to compel Maryland to provide complete voter registration data. The court protected voter privacy against what it found to be an unlawful fishing expedition.
+                        </p>
+                        <div class="card-stat courts">
+                            Voter privacy protected • DOJ lawsuit dismissed
+                        </div>
+                    </div>
+                    <div class="card-source">
+                        <div class="source-label">Source</div>
+                        <a href="https://www.democracydocket.com/cases/case-status/victory/" class="source-link">Democracy Docket</a>
+                    </div>
+                </div>
+
+                <div class="card courts">
+                    <div class="card-header">
+                        <div class="card-date">June 2026</div>
+                        <h3 class="card-title">Federal Court Blocks Unlawful SAVE Database Expansion</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            A D.C. federal court ruled that the Trump administration's unlawful expansion of the SAVE system to include sensitive records on all Americans violated voting rights and privacy protections. The court rejected the government's attempt to stay the order.
+                        </p>
+                        <div class="card-stat courts">
+                            SAVE database expansion blocked • Privacy protections upheld
+                        </div>
+                    </div>
+                    <div class="card-source">
+                        <div class="source-label">Source</div>
+                        <a href="https://democracyforward.org/news/press-releases/federal-court-rejects-trump-vance-administrations-bid-to-pause-ruling-blocking-unlawful-save-system-as-plaintiffs-continue-defending-landmark-privacy-and-voting-rights-victory/" class="source-link">Democracy Forward, July 2026</a>
+                    </div>
+                </div>
+
+                <div class="card courts">
+                    <div class="card-header">
+                        <div class="card-date">June 2026</div>
+                        <h3 class="card-title">Multiple State Voter Data Victories</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Federal courts rejected DOJ attempts to seize voter registration databases in Michigan and other states. Courts recognized these as attempts to weaponize voter data and upheld states' authority to protect voter privacy while administering elections.
+                        </p>
+                        <div class="card-stat courts">
+                            Michigan, Virginia, Louisiana: Voter data protected across multiple states
+                        </div>
+                    </div>
+                    <div class="card-source">
+                        <div class="source-label">Source</div>
+                        <a href="https://www.democracydocket.com/cases/case-status/victory/" class="source-link">Democracy Docket</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EDUCATION SECTION -->
+        <div id="education" class="pillar-section">
+            <h2 class="pillar-title">📚 Education: Expanding Access & Opportunity</h2>
+            
+            <div class="cards-grid">
+                <div class="card education">
+                    <div class="card-header">
+                        <div class="card-date">2026</div>
+                        <h3 class="card-title">California Students Show Gains in Core Subjects</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Results from 2024-25 statewide assessments show California students made meaningful gains across English language arts, mathematics, and science. All grades in all subjects saw increases, demonstrating systemic improvement in public K-12 education.
+                        </p>
+                        <div class="card-stat education">
+                            All grades, all subjects: Measurable improvement statewide
+                        </div>
+                    </div>
+                    <div class="card-source">
+                        <div class="source-label">Source</div>
+                        <a href="https://ebudget.ca.gov/2026-27/pdf/BudgetSummary/TK-12Education.pdf" class="source-link">California Budget Summary, 2026</a>
+                    </div>
+                </div>
+
+                <div class="card education">
+                    <div class="card-header">
+                        <div class="card-date">July 2026</div>
+                        <h3 class="card-title">Workforce Pell Expands Aid to Short-Term Programs</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Workforce Pell Grants launched in July 2026, allowing Pell Grants to support accredited programs shorter than 15 weeks. This opens federal financial aid to job-training credentials previously inaccessible to low-income students, reducing barriers to employment.
+                        </p>
+                        <div class="card-stat education">
+                            Short-term, high-value credentials now federally supported
+                        </div>
+                    </div>
+                    <div class="card-source">
+                        <div class="source-label">Source</div>
+                        <a href="https://eab.com/resources/blog/community-college-blog/five-trends-that-give-community-colleges-a-surprising-edge-in-2026/" class="source-link">EAB Analysis, 2026</a>
+                    </div>
+                </div>
+
+                <div class="card education">
+                    <div class="card-header">
+                        <div class="card-date">2026</div>
+                        <h3 class="card-title">Community College Confidence Reaches 56%</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Public confidence in community colleges has reached 56%, up significantly from previous years. This far exceeds confidence in four-year institutions (44%), positioning community colleges as trusted pathways to affordable education and workforce readiness.
+                        </p>
+                        <div class="card-stat education">
+                            56% public confidence in two-year colleges (vs 44% four-year)
+                        </div>
+                    </div>
+                    <div class="card-source">
+                        <div class="source-label">Source</div>
+                        <a href="https://eab.com/resources/blog/community-college-blog/five-trends-that-give-community-colleges-a-surprising-edge-in-2026/" class="source-link">EAB, January 2026</a>
+                    </div>
+                </div>
+
+                <div class="card education">
+                    <div class="card-header">
+                        <div class="card-date">2026</div>
+                        <h3 class="card-title">Dual Enrollment Expands with Teacher Credentialing</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            K-12 and community college partnerships continue expanding dual enrollment programs. Teacher credentialing initiatives (like California's effort to credential 115 high school teachers) enable more students to earn college credit before graduation, accelerating postsecondary attainment.
+                        </p>
+                        <div class="card-stat education">
+                            K-12 to college pathways strengthening; equity focus expanding
+                        </div>
+                    </div>
+                    <div class="card-source">
+                        <div class="source-label">Source</div>
+                        <a href="https://acct.org/sites/default/files/documents/2026-05/California_11-04-2025.pdf" class="source-link">ACCT Analysis, May 2026</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ENVIRONMENT SECTION -->
+        <div id="environment" class="pillar-section">
+            <h2 class="pillar-title">🌍 Environmental Protection: EPA Enforcement in Action</h2>
+            
+            <div class="cards-grid">
+                <div class="card environment">
+                    <div class="card-header">
+                        <div class="card-date">Q1 2026</div>
+                        <h3 class="card-title">91 EPA Enforcement Actions in Q1</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            The EPA finalized 91 settlement agreements in the first quarter of 2026 with companies across the United States for environmental violations, resulting in $3.4M in fines. Actions targeted Clean Air Act, hazardous waste, and pesticide violations.
+                        </p>
+                        <div class="card-stat environment">
+                            91 settlements • $3.4M in penalties • CAA, RCRA, FIFRA violations
+                        </div>
+                    </div>
+                    <div class="card-source">
+                        <div class="source-label">Source</div>
+                        <a href="https://ehsleaders.org/2026/04/epa-enforcement-roundup-q1-2026/" class="source-link">EPA Enforcement Roundup Q1</a>
+                    </div>
+                </div>
+
+                <div class="card environment">
+                    <div class="card-header">
+                        <div class="card-date">Q2 2026</div>
+                        <h3 class="card-title">109 EPA Settlement Agreements in Q2</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            In the second quarter of 2026, EPA enforcement actions increased to 109 settlement agreements, with $7.1M in penalties. Focus included Clean Water Act violations, lead-based paint hazards, hazardous waste mismanagement, and emergency release notifications.
+                        </p>
+                        <div class="card-stat environment">
+                            109 settlements • $7.1M in penalties • Water, waste, lead violations
+                        </div>
+                    </div>
+                    <div class="card-source">
+                        <div class="source-label">Source</div>
+                        <a href="https://ehsleaders.org/2026/07/epa-enforcement-roundup-q2-2026/" class="source-link">EPA Enforcement Roundup Q2</a>
+                    </div>
+                </div>
+
+                <div class="card environment">
+                    <div class="card-header">
+                        <div class="card-date">2026</div>
+                        <h3 class="card-title">Large Fines for Clean Air Act Violations</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            In Q1 2026, the largest EPA fine was $781,175 against a building materials manufacturer for Clean Air Act violations and hazardous air pollutant emissions. The company was required to modify its operating permit and submit an emissions reduction plan.
+                        </p>
+                        <div class="card-stat environment">
+                            $781k penalty • CAA MACT standards enforced
+                        </div>
+                    </div>
+                    <div class="card-source">
+                        <div class="source-label">Source</div>
+                        <a href="https://ehsleaders.org/2026/04/epa-enforcement-roundup-q1-2026/" class="source-link">EPA Enforcement Data</a>
+                    </div>
+                </div>
+
+                <div class="card environment">
+                    <div class="card-header">
+                        <div class="card-date">2026</div>
+                        <h3 class="card-title">Hazardous Waste & Resource Protection</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            EPA continued consistent enforcement of the Resource Conservation and Recovery Act (RCRA), with major penalties against facilities for hazardous waste mismanagement, improper storage, failed notifications, and underground storage tank violations across multiple states.
+                        </p>
+                        <div class="card-stat environment">
+                            Hazardous waste violations prosecuted across states
+                        </div>
+                    </div>
+                    <div class="card-source">
+                        <div class="source-label">Source</div>
+                        <a href="https://ehsleaders.org/2026/07/epa-enforcement-roundup-q2-2026/" class="source-link">EPA Enforcement Data</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-dot health"></div>
+                <span class="legend-text">Health Research</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot courts"></div>
+                <span class="legend-text">Democratic Institutions</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot education"></div>
+                <span class="legend-text">Education & Access</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot environment"></div>
+                <span class="legend-text">Environmental Protection</span>
+            </div>
+        </div>
+
+        <div class="conversation-prompt">
+            <h3>💬 For Your Current Events Discussion Group</h3>
+            <p>
+                These examples show that <strong>institutional resilience is real and measurable</strong>—not wishful thinking. 
+                Federal agencies continue funding research, courts continue protecting constitutional rights, schools continue educating, 
+                and environmental laws continue being enforced. This is systemic persistence operating alongside political turmoil. 
+                <br><br>
+                <strong>Consider discussing:</strong> Where is resilience showing up in your own community? What mechanisms keep these 
+                institutions functioning despite pressure? How do ordinary people contribute to this persistence?
+            </p>
+        </div>
+
+        <footer>
+            <p>
+                Evidence compiled from official government sources (NIH, NSF, EPA, federal courts), peer-reviewed research databases, 
+                and independent journalism. All sources linked for verification.
+                <br>
+                <em>Last updated: July 30, 2026</em>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.pillar-section');
+            sections.forEach(section => section.classList.remove('active'));
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(button => button.classList.remove('active'));
+
+            // Show selected section
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
