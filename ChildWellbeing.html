@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Child Well-Being Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-title {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .header-nav {
+            flex-shrink: 0;
+        }
+
+        #view-select {
+            padding: 10px 15px;
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 200px;
+        }
+
+        #view-select:hover {
+            background-color: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.8);
+        }
+
+        #view-select:focus {
+            outline: none;
+            background-color: rgba(255,255,255,0.25);
+            border-color: white;
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.2);
+        }
+
+        #view-select option {
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        .view-section {
+            display: none;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        /* Map View Styles */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding: 20px 30px;
+            background-color: #fafafa;
+            border-bottom: 1px solid #e0e0e0;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-group label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .control-group select {
+            padding: 8px 12px;
+            border: 1px solid #d0d0d0;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: white;
+            cursor: pointer;
+            min-width: 180px;
+        }
+
+        .control-group select:hover {
+            border-color: #999;
+        }
+
+        .map-container {
+            padding: 30px;
+            position: relative;
+            background-color: #f9f9f9;
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .state {
+            stroke: #fff;
+            stroke-width: 0.5px;
+            cursor: pointer;
+            transition: stroke-width 0.2s;
+        }
+
+        .state:hover {
+            stroke-width: 1px;
+        }
+
+        .tooltip {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 10px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+            white-space: nowrap;
+        }
+
+        .legend {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+        }
+
+        .legend h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .legend-scale {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .legend-bar {
+            flex: 1;
+            height: 20px;
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .legend-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        /* Data Table Styles */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        th {
+            font-weight: 600;
+            padding: 8px;
+            text-align: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        td {
+            padding: 8px 6px;
+            text-align: center;
+            border-right: 1px solid #e0e0e0;
+        }
+
+        td:last-child {
+            border-right: none;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #fafafa;
+        }
+
+        tbody tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        .location-col {
+            text-align: left;
+            font-weight: 500;
+            color: white;
+            width: 100px;
+            position: sticky;
+            left: 0;
+            z-index: 10;
+            padding: 8px 12px;
+        }
+
+        tbody .location-col {
+            background-color: #666;
+            color: white;
+            font-size: 12px;
+        }
+
+        thead .location-col {
+            background-color: #666;
+        }
+
+        .category-header {
+            background-color: #666;
+            color: white;
+            text-align: center;
+            font-weight: 600;
+            padding: 8px 4px;
+            font-size: 11px;
+        }
+
+        .category-header.overall { background-color: #ff8c42; }
+        .category-header.economic { background-color: #a4c639; }
+        .category-header.education { background-color: #5b4a8a; }
+        .category-header.health { background-color: #0066a1; }
+        .category-header.family { background-color: #cc0000; }
+
+        .subheader {
+            background-color: #e8e8e8;
+            font-weight: 500;
+            color: #333;
+            font-size: 10px;
+            padding: 6px 4px;
+        }
+
+        .score-positive {
+            color: #0ca30c;
+            font-weight: 600;
+        }
+
+        .score-negative {
+            color: #e34948;
+            font-weight: 600;
+        }
+
+        .score-neutral {
+            color: #333;
+        }
+
+        .footer {
+            padding: 20px 30px;
+            background-color: #fafafa;
+            border-top: 1px solid #e0e0e0;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px 30px;
+            background-color: #fafafa;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+        }
+
+        .overall { background-color: #ff8c42; }
+        .economic { background-color: #a4c639; }
+        .education { background-color: #5b4a8a; }
+        .health { background-color: #0066a1; }
+        .family { background-color: #cc0000; }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header-title {
+                width: 100%;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            #view-select {
+                min-width: 100%;
+            }
+
+            .controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .control-group select {
+                min-width: 100%;
+            }
+
+            table {
+                font-size: 11px;
+            }
+
+            td, th {
+                padding: 6px 4px;
+                font-size: 10px;
+            }
+
+            .location-col {
+                width: 80px;
+                font-size: 11px;
+            }
+
+            .legend {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-title">
+                <h1>US Child Well-Being Analysis</h1>
+                <p>Interactive geographic data and comprehensive metrics by state</p>
+            </div>
+            <div class="header-nav">
+                <select id="view-select">
+                    <option value="map">📊 View: Interactive Map</option>
+                    <option value="data">📋 View: Data Table</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- MAP VIEW -->
+        <div id="map-view" class="view-section active">
+            <div class="controls">
+                <div class="control-group">
+                    <label for="metric-select">Metric</label>
+                    <select id="metric-select">
+                        <option value="overall">Overall Child Well-Being</option>
+                        <option value="economic">Economic Well-Being</option>
+                        <option value="education">Education</option>
+                        <option value="health">Health</option>
+                        <option value="family">Family and Community</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="value-select">Value Type</label>
+                    <select id="value-select">
+                        <option value="score">Score</option>
+                        <option value="change">Change</option>
+                        <option value="pct-change">Percentage Change</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="map-container">
+                <div id="map"></div>
+                <div class="tooltip" id="tooltip"></div>
+                <div class="legend" id="legend"></div>
+            </div>
+        </div>
+
+        <!-- DATA TABLE VIEW -->
+        <div id="data-view" class="view-section">
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-box overall"></div>
+                    <span>Overall Child Well-Being</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-box economic"></div>
+                    <span>Economic Well-Being</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-box education"></div>
+                    <span>Education</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-box health"></div>
+                    <span>Health</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-box family"></div>
+                    <span>Family and Community</span>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="location-col">Location</th>
+                            <th colspan="2" class="category-header overall">Overall Child Well-Being</th>
+                            <th colspan="2" class="category-header economic">Economic Well-Being</th>
+                            <th colspan="2" class="category-header education">Education</th>
+                            <th colspan="2" class="category-header health">Health</th>
+                            <th colspan="2" class="category-header family">Family and Community</th>
+                        </tr>
+                        <tr>
+                            <td class="location-col"></td>
+                            <td class="subheader">Score</td>
+                            <td class="subheader">Change</td>
+                            <td class="subheader">Score</td>
+                            <td class="subheader">Change</td>
+                            <td class="subheader">Score</td>
+                            <td class="subheader">Change</td>
+                            <td class="subheader">Score</td>
+                            <td class="subheader">Change</td>
+                            <td class="subheader">Score</td>
+                            <td class="subheader">Change</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="location-col">Alabama</td><td>421</td><td class="score-positive">4</td><td>494</td><td class="score-positive">24</td><td>304</td><td class="score-negative">-89</td><td>413</td><td class="score-negative">-34</td><td>473</td><td class="score-positive">113</td></tr>
+                        <tr><td class="location-col">Alaska</td><td>443</td><td class="score-positive">17</td><td>458</td><td class="score-positive">85</td><td>74</td><td class="score-negative">-136</td><td>539</td><td class="score-positive">43</td><td>701</td><td class="score-positive">74</td></tr>
+                        <tr><td class="location-col">Arizona</td><td>432</td><td class="score-negative">-1</td><td>547</td><td class="score-positive">54</td><td>137</td><td class="score-negative">-138</td><td>510</td><td class="score-negative">-96</td><td>535</td><td class="score-positive">175</td></tr>
+                        <tr><td class="location-col">Arkansas</td><td>389</td><td class="score-negative">-66</td><td>421</td><td class="score-negative">-80</td><td>319</td><td class="score-negative">-149</td><td>354</td><td class="score-negative">-126</td><td>463</td><td class="score-positive">93</td></tr>
+                        <tr><td class="location-col">California</td><td>520</td><td class="score-negative">-11</td><td>416</td><td class="score-negative">-29</td><td>371</td><td class="score-negative">-71</td><td>734</td><td class="score-negative">-37</td><td>561</td><td class="score-positive">95</td></tr>
+                        <tr><td class="location-col">Colorado</td><td>648</td><td class="score-negative">-15</td><td>682</td><td class="score-negative">-31</td><td>484</td><td class="score-negative">-81</td><td>631</td><td class="score-negative">-21</td><td>793</td><td class="score-positive">71</td></tr>
+                        <tr><td class="location-col">Connecticut</td><td>691</td><td class="score-negative">-36</td><td>624</td><td class="score-positive">24</td><td>667</td><td class="score-negative">-145</td><td>767</td><td class="score-negative">-13</td><td>705</td><td class="score-negative">-12</td></tr>
+                        <tr><td class="location-col">Delaware</td><td>543</td><td class="score-negative">-9</td><td>670</td><td class="score-positive">101</td><td>312</td><td class="score-negative">-219</td><td>605</td><td class="score-positive">19</td><td>586</td><td class="score-positive">62</td></tr>
+                        <tr><td class="location-col">Florida</td><td>513</td><td class="score-negative">-17</td><td>449</td><td class="score-neutral">0</td><td>422</td><td class="score-negative">-162</td><td>569</td><td class="score-negative">-5</td><td>611</td><td class="score-positive">96</td></tr>
+                        <tr><td class="location-col">Georgia</td><td>459</td><td class="score-negative">-5</td><td>494</td><td class="score-positive">2</td><td>356</td><td class="score-negative">-80</td><td>480</td><td class="score-negative">-5</td><td>505</td><td class="score-positive">62</td></tr>
+                        <tr><td class="location-col">Hawaii</td><td>593</td><td class="score-negative">-1</td><td>510</td><td class="score-positive">68</td><td>384</td><td class="score-negative">-68</td><td>738</td><td class="score-negative">-47</td><td>740</td><td class="score-positive">41</td></tr>
+                        <tr><td class="location-col">Idaho</td><td>632</td><td class="score-negative">-24</td><td>676</td><td class="score-negative">-83</td><td>287</td><td class="score-negative">-128</td><td>717</td><td class="score-positive">17</td><td>849</td><td class="score-positive">101</td></tr>
+                        <tr><td class="location-col">Illinois</td><td>617</td><td class="score-negative">-10</td><td>668</td><td class="score-positive">40</td><td>512</td><td class="score-negative">-81</td><td>629</td><td class="score-negative">-67</td><td>657</td><td class="score-positive">67</td></tr>
+                        <tr><td class="location-col">Indiana</td><td>586</td><td class="score-positive">37</td><td>716</td><td class="score-positive">76</td><td>467</td><td class="score-negative">-89</td><td>564</td><td class="score-positive">67</td><td>600</td><td class="score-positive">98</td></tr>
+                        <tr><td class="location-col">Iowa</td><td>681</td><td class="score-negative">-33</td><td>850</td><td class="score-positive">57</td><td>427</td><td class="score-negative">-171</td><td>689</td><td class="score-negative">-39</td><td>759</td><td class="score-positive">21</td></tr>
+                        <tr><td class="location-col">Kansas</td><td>640</td><td class="score-negative">-5</td><td>853</td><td class="score-positive">85</td><td>409</td><td class="score-negative">-119</td><td>621</td><td class="score-negative">-47</td><td>677</td><td class="score-positive">61</td></tr>
+                        <tr><td class="location-col">Kentucky</td><td>489</td><td class="score-positive">24</td><td>516</td><td class="score-positive">71</td><td>396</td><td class="score-negative">-113</td><td>546</td><td class="score-positive">14</td><td>500</td><td class="score-positive">127</td></tr>
+                        <tr><td class="location-col">Louisiana</td><td>292</td><td class="score-positive">15</td><td>250</td><td class="score-positive">11</td><td>339</td><td class="score-positive">73</td><td>322</td><td class="score-negative">-103</td><td>257</td><td class="score-positive">80</td></tr>
+                        <tr><td class="location-col">Maine</td><td>618</td><td class="score-negative">-83</td><td>662</td><td class="score-negative">-36</td><td>289</td><td class="score-negative">-247</td><td>675</td><td class="score-negative">-89</td><td>846</td><td class="score-positive">41</td></tr>
+                        <tr><td class="location-col">Maryland</td><td>610</td><td class="score-positive">1</td><td>731</td><td class="score-positive">107</td><td>424</td><td class="score-negative">-130</td><td>601</td><td class="score-negative">-21</td><td>685</td><td class="score-positive">50</td></tr>
+                        <tr><td class="location-col">Massachusetts</td><td>752</td><td class="score-negative">-64</td><td>623</td><td class="score-negative">-71</td><td>749</td><td class="score-negative">-151</td><td>877</td><td class="score-negative">-35</td><td>757</td><td class="score-neutral">0</td></tr>
+                        <tr><td class="location-col">Michigan</td><td>517</td><td class="score-negative">-38</td><td>585</td><td class="score-negative">-26</td><td>219</td><td class="score-negative">-178</td><td>629</td><td class="score-negative">-34</td><td>636</td><td class="score-positive">88</td></tr>
+                        <tr><td class="location-col">Minnesota</td><td>729</td><td class="score-negative">-61</td><td>875</td><td class="score-negative">-6</td><td>427</td><td class="score-negative">-200</td><td>781</td><td class="score-negative">-97</td><td>831</td><td class="score-positive">57</td></tr>
+                        <tr><td class="location-col">Mississippi</td><td>305</td><td class="score-positive">51</td><td>398</td><td class="score-positive">182</td><td>445</td><td class="score-positive">14</td><td>115</td><td class="score-negative">-120</td><td>261</td><td class="score-positive">126</td></tr>
+                        <tr><td class="location-col">Missouri</td><td>562</td><td class="score-positive">11</td><td>693</td><td class="score-positive">88</td><td>365</td><td class="score-negative">-181</td><td>527</td><td class="score-positive">30</td><td>663</td><td class="score-positive">104</td></tr>
+                        <tr><td class="location-col">Montana</td><td>607</td><td class="score-negative">-10</td><td>662</td><td class="score-positive">85</td><td>392</td><td class="score-negative">-140</td><td>605</td><td class="score-negative">-50</td><td>769</td><td class="score-positive">63</td></tr>
+                        <tr><td class="location-col">Nebraska</td><td>679</td><td class="score-negative">-53</td><td>880</td><td class="score-negative">-29</td><td>419</td><td class="score-negative">-168</td><td>684</td><td class="score-negative">-43</td><td>734</td><td class="score-positive">30</td></tr>
+                        <tr><td class="location-col">Nevada</td><td>363</td><td class="score-negative">-60</td><td>378</td><td class="score-negative">-71</td><td>169</td><td class="score-negative">-136</td><td>426</td><td class="score-negative">-129</td><td>480</td><td class="score-positive">95</td></tr>
+                        <tr><td class="location-col">New Hampshire</td><td>833</td><td class="score-positive">22</td><td>891</td><td class="score-positive">88</td><td>591</td><td class="score-negative">-100</td><td>901</td><td class="score-positive">66</td><td>950</td><td class="score-positive">33</td></tr>
+                        <tr><td class="location-col">New Jersey</td><td>704</td><td class="score-negative">-35</td><td>642</td><td class="score-positive">11</td><td>694</td><td class="score-negative">-218</td><td>764</td><td class="score-positive">48</td><td>718</td><td class="score-positive">23</td></tr>
+                        <tr><td class="location-col">New Mexico</td><td>219</td><td class="score-negative">-40</td><td>269</td><td class="score-positive">5</td><td>0</td><td class="score-negative">-125</td><td>394</td><td class="score-negative">-89</td><td>239</td><td class="score-positive">47</td></tr>
+                        <tr><td class="location-col">New York</td><td>550</td><td class="score-negative">-23</td><td>409</td><td class="score-negative">-27</td><td>509</td><td class="score-negative">-50</td><td>747</td><td class="score-negative">-45</td><td>537</td><td class="score-positive">32</td></tr>
+                        <tr><td class="location-col">North Carolina</td><td>521</td><td class="score-negative">-9</td><td>575</td><td class="score-positive">47</td><td>406</td><td class="score-negative">-136</td><td>526</td><td class="score-negative">-40</td><td>578</td><td class="score-positive">93</td></tr>
+                        <tr><td class="location-col">North Dakota</td><td>722</td><td class="score-positive">24</td><td>1000</td><td class="score-positive">99</td><td>254</td><td class="score-negative">-223</td><td>735</td><td class="score-positive">93</td><td>884</td><td class="score-positive">127</td></tr>
+                        <tr><td class="location-col">Ohio</td><td>538</td><td class="score-negative">-7</td><td>590</td><td class="score-negative">-18</td><td>452</td><td class="score-negative">-52</td><td>540</td><td class="score-negative">-34</td><td>569</td><td class="score-positive">75</td></tr>
+                        <tr><td class="location-col">Oklahoma</td><td>380</td><td class="score-negative">-43</td><td>486</td><td class="score-negative">-30</td><td>99</td><td class="score-negative">-230</td><td>434</td><td class="score-negative">-23</td><td>501</td><td class="score-positive">112</td></tr>
+                        <tr><td class="location-col">Oregon</td><td>554</td><td class="score-negative">-51</td><td>528</td><td class="score-negative">-8</td><td>224</td><td class="score-negative">-170</td><td>741</td><td class="score-negative">-62</td><td>722</td><td class="score-positive">35</td></tr>
+                        <tr><td class="location-col">Pennsylvania</td><td>610</td><td class="score-negative">-22</td><td>657</td><td class="score-positive">22</td><td>474</td><td class="score-negative">-162</td><td>655</td><td class="score-negative">-26</td><td>654</td><td class="score-positive">76</td></tr>
+                        <tr><td class="location-col">Rhode Island</td><td>608</td><td class="score-negative">-14</td><td>622</td><td class="score-negative">-54</td><td>386</td><td class="score-negative">-73</td><td>682</td><td class="score-negative">-95</td><td>741</td><td class="score-positive">163</td></tr>
+                        <tr><td class="location-col">South Carolina</td><td>457</td><td class="score-positive">27</td><td>493</td><td class="score-positive">6</td><td>348</td><td class="score-negative">-13</td><td>438</td><td class="score-positive">10</td><td>550</td><td class="score-positive">104</td></tr>
+                        <tr><td class="location-col">South Dakota</td><td>574</td><td class="score-negative">-48</td><td>689</td><td class="score-negative">-88</td><td>298</td><td class="score-negative">-208</td><td>662</td><td class="score-positive">82</td><td>646</td><td class="score-positive">22</td></tr>
+                        <tr><td class="location-col">Tennessee</td><td>482</td><td class="score-negative">-9</td><td>513</td><td class="score-negative">-24</td><td>457</td><td class="score-negative">-51</td><td>463</td><td class="score-negative">-24</td><td>495</td><td class="score-positive">63</td></tr>
+                        <tr><td class="location-col">Texas</td><td>410</td><td class="score-negative">-12</td><td>477</td><td class="score-negative">-14</td><td>372</td><td class="score-negative">-94</td><td>366</td><td class="score-negative">-52</td><td>427</td><td class="score-positive">112</td></tr>
+                        <tr><td class="location-col">Utah</td><td>753</td><td class="score-negative">-8</td><td>799</td><td class="score-negative">-15</td><td>556</td><td class="score-negative">-57</td><td>724</td><td class="score-negative">-1</td><td>935</td><td class="score-positive">43</td></tr>
+                        <tr><td class="location-col">Vermont</td><td>772</td><td class="score-positive">5</td><td>828</td><td class="score-positive">57</td><td>470</td><td class="score-negative">-184</td><td>852</td><td class="score-positive">27</td><td>940</td><td class="score-positive">124</td></tr>
+                        <tr><td class="location-col">Virginia</td><td>649</td><td class="score-negative">-21</td><td>707</td><td class="score-negative">-7</td><td>469</td><td class="score-negative">-171</td><td>691</td><td class="score-positive">53</td><td>732</td><td class="score-positive">43</td></tr>
+                        <tr><td class="location-col">Washington</td><td>618</td><td class="score-negative">-45</td><td>570</td><td class="score-negative">-67</td><td>389</td><td class="score-negative">-105</td><td>742</td><td class="score-negative">-73</td><td>772</td><td class="score-positive">63</td></tr>
+                        <tr><td class="location-col">West Virginia</td><td>430</td><td class="score-positive">10</td><td>490</td><td class="score-positive">85</td><td>201</td><td class="score-negative">-171</td><td>453</td><td class="score-neutral">0</td><td>577</td><td class="score-positive">128</td></tr>
+                        <tr><td class="location-col">Wisconsin</td><td>672</td><td class="score-negative">-33</td><td>809</td><td class="score-positive">19</td><td>532</td><td class="score-negative">-111</td><td>616</td><td class="score-negative">-86</td><td>733</td><td class="score-positive">47</td></tr>
+                        <tr><td class="location-col">Wyoming</td><td>599</td><td class="score-negative">-50</td><td>668</td><td class="score-negative">-181</td><td>396</td><td class="score-negative">-129</td><td>528</td><td class="score-positive">80</td><td>806</td><td class="score-positive">34</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="footer">
+                <p>Data organized by category: Overall Child Well-Being (Orange), Economic Well-Being (Green), Education (Purple), Health (Blue), and Family & Community (Red). Positive changes shown in green, negative in red.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+
+    <script>
+        const data = {
+            'Alabama': { overall: { score: 421, change: 4 }, economic: { score: 494, change: 24 }, education: { score: 304, change: -89 }, health: { score: 413, change: -34 }, family: { score: 473, change: 113 } },
+            'Alaska': { overall: { score: 443, change: 17 }, economic: { score: 458, change: 85 }, education: { score: 74, change: -136 }, health: { score: 539, change: 43 }, family: { score: 701, change: 74 } },
+            'Arizona': { overall: { score: 432, change: -1 }, economic: { score: 547, change: 54 }, education: { score: 137, change: -138 }, health: { score: 510, change: -96 }, family: { score: 535, change: 175 } },
+            'Arkansas': { overall: { score: 389, change: -66 }, economic: { score: 421, change: -80 }, education: { score: 319, change: -149 }, health: { score: 354, change: -126 }, family: { score: 463, change: 93 } },
+            'California': { overall: { score: 520, change: -11 }, economic: { score: 416, change: -29 }, education: { score: 371, change: -71 }, health: { score: 734, change: -37 }, family: { score: 561, change: 95 } },
+            'Colorado': { overall: { score: 648, change: -15 }, economic: { score: 682, change: -31 }, education: { score: 484, change: -81 }, health: { score: 631, change: -21 }, family: { score: 793, change: 71 } },
+            'Connecticut': { overall: { score: 691, change: -36 }, economic: { score: 624, change: 24 }, education: { score: 667, change: -145 }, health: { score: 767, change: -13 }, family: { score: 705, change: -12 } },
+            'Delaware': { overall: { score: 543, change: -9 }, economic: { score: 670, change: 101 }, education: { score: 312, change: -219 }, health: { score: 605, change: 19 }, family: { score: 586, change: 62 } },
+            'Florida': { overall: { score: 513, change: -17 }, economic: { score: 449, change: 0 }, education: { score: 422, change: -162 }, health: { score: 569, change: -5 }, family: { score: 611, change: 96 } },
+            'Georgia': { overall: { score: 459, change: -5 }, economic: { score: 494, change: 2 }, education: { score: 356, change: -80 }, health: { score: 480, change: -5 }, family: { score: 505, change: 62 } },
+            'Hawaii': { overall: { score: 593, change: -1 }, economic: { score: 510, change: 68 }, education: { score: 384, change: -68 }, health: { score: 738, change: -47 }, family: { score: 740, change: 41 } },
+            'Idaho': { overall: { score: 632, change: -24 }, economic: { score: 676, change: -83 }, education: { score: 287, change: -128 }, health: { score: 717, change: 17 }, family: { score: 849, change: 101 } },
+            'Illinois': { overall: { score: 617, change: -10 }, economic: { score: 668, change: 40 }, education: { score: 512, change: -81 }, health: { score: 629, change: -67 }, family: { score: 657, change: 67 } },
+            'Indiana': { overall: { score: 586, change: 37 }, economic: { score: 716, change: 76 }, education: { score: 467, change: -89 }, health: { score: 564, change: 67 }, family: { score: 600, change: 98 } },
+            'Iowa': { overall: { score: 681, change: -33 }, economic: { score: 850, change: 57 }, education: { score: 427, change: -171 }, health: { score: 689, change: -39 }, family: { score: 759, change: 21 } },
+            'Kansas': { overall: { score: 640, change: -5 }, economic: { score: 853, change: 85 }, education: { score: 409, change: -119 }, health: { score: 621, change: -47 }, family: { score: 677, change: 61 } },
+            'Kentucky': { overall: { score: 489, change: 24 }, economic: { score: 516, change: 71 }, education: { score: 396, change: -113 }, health: { score: 546, change: 14 }, family: { score: 500, change: 127 } },
+            'Louisiana': { overall: { score: 292, change: 15 }, economic: { score: 250, change: 11 }, education: { score: 339, change: 73 }, health: { score: 322, change: -103 }, family: { score: 257, change: 80 } },
+            'Maine': { overall: { score: 618, change: -83 }, economic: { score: 662, change: -36 }, education: { score: 289, change: -247 }, health: { score: 675, change: -89 }, family: { score: 846, change: 41 } },
+            'Maryland': { overall: { score: 610, change: 1 }, economic: { score: 731, change: 107 }, education: { score: 424, change: -130 }, health: { score: 601, change: -21 }, family: { score: 685, change: 50 } },
+            'Massachusetts': { overall: { score: 752, change: -64 }, economic: { score: 623, change: -71 }, education: { score: 749, change: -151 }, health: { score: 877, change: -35 }, family: { score: 757, change: 0 } },
+            'Michigan': { overall: { score: 517, change: -38 }, economic: { score: 585, change: -26 }, education: { score: 219, change: -178 }, health: { score: 629, change: -34 }, family: { score: 636, change: 88 } },
+            'Minnesota': { overall: { score: 729, change: -61 }, economic: { score: 875, change: -6 }, education: { score: 427, change: -200 }, health: { score: 781, change: -97 }, family: { score: 831, change: 57 } },
+            'Mississippi': { overall: { score: 305, change: 51 }, economic: { score: 398, change: 182 }, education: { score: 445, change: 14 }, health: { score: 115, change: -120 }, family: { score: 261, change: 126 } },
+            'Missouri': { overall: { score: 562, change: 11 }, economic: { score: 693, change: 88 }, education: { score: 365, change: -181 }, health: { score: 527, change: 30 }, family: { score: 663, change: 104 } },
+            'Montana': { overall: { score: 607, change: -10 }, economic: { score: 662, change: 85 }, education: { score: 392, change: -140 }, health: { score: 605, change: -50 }, family: { score: 769, change: 63 } },
+            'Nebraska': { overall: { score: 679, change: -53 }, economic: { score: 880, change: -29 }, education: { score: 419, change: -168 }, health: { score: 684, change: -43 }, family: { score: 734, change: 30 } },
+            'Nevada': { overall: { score: 363, change: -60 }, economic: { score: 378, change: -71 }, education: { score: 169, change: -136 }, health: { score: 426, change: -129 }, family: { score: 480, change: 95 } },
+            'New Hampshire': { overall: { score: 833, change: 22 }, economic: { score: 891, change: 88 }, education: { score: 591, change: -100 }, health: { score: 901, change: 66 }, family: { score: 950, change: 33 } },
+            'New Jersey': { overall: { score: 704, change: -35 }, economic: { score: 642, change: 11 }, education: { score: 694, change: -218 }, health: { score: 764, change: 48 }, family: { score: 718, change: 23 } },
+            'New Mexico': { overall: { score: 219, change: -40 }, economic: { score: 269, change: 5 }, education: { score: 0, change: -125 }, health: { score: 394, change: -89 }, family: { score: 239, change: 47 } },
+            'New York': { overall: { score: 550, change: -23 }, economic: { score: 409, change: -27 }, education: { score: 509, change: -50 }, health: { score: 747, change: -45 }, family: { score: 537, change: 32 } },
+            'North Carolina': { overall: { score: 521, change: -9 }, economic: { score: 575, change: 47 }, education: { score: 406, change: -136 }, health: { score: 526, change: -40 }, family: { score: 578, change: 93 } },
+            'North Dakota': { overall: { score: 722, change: 24 }, economic: { score: 1000, change: 99 }, education: { score: 254, change: -223 }, health: { score: 735, change: 93 }, family: { score: 884, change: 127 } },
+            'Ohio': { overall: { score: 538, change: -7 }, economic: { score: 590, change: -18 }, education: { score: 452, change: -52 }, health: { score: 540, change: -34 }, family: { score: 569, change: 75 } },
+            'Oklahoma': { overall: { score: 380, change: -43 }, economic: { score: 486, change: -30 }, education: { score: 99, change: -230 }, health: { score: 434, change: -23 }, family: { score: 501, change: 112 } },
+            'Oregon': { overall: { score: 554, change: -51 }, economic: { score: 528, change: -8 }, education: { score: 224, change: -170 }, health: { score: 741, change: -62 }, family: { score: 722, change: 35 } },
+            'Pennsylvania': { overall: { score: 610, change: -22 }, economic: { score: 657, change: 22 }, education: { score: 474, change: -162 }, health: { score: 655, change: -26 }, family: { score: 654, change: 76 } },
+            'Rhode Island': { overall: { score: 608, change: -14 }, economic: { score: 622, change: -54 }, education: { score: 386, change: -73 }, health: { score: 682, change: -95 }, family: { score: 741, change: 163 } },
+            'South Carolina': { overall: { score: 457, change: 27 }, economic: { score: 493, change: 6 }, education: { score: 348, change: -13 }, health: { score: 438, change: 10 }, family: { score: 550, change: 104 } },
+            'South Dakota': { overall: { score: 574, change: -48 }, economic: { score: 689, change: -88 }, education: { score: 298, change: -208 }, health: { score: 662, change: 82 }, family: { score: 646, change: 22 } },
+            'Tennessee': { overall: { score: 482, change: -9 }, economic: { score: 513, change: -24 }, education: { score: 457, change: -51 }, health: { score: 463, change: -24 }, family: { score: 495, change: 63 } },
+            'Texas': { overall: { score: 410, change: -12 }, economic: { score: 477, change: -14 }, education: { score: 372, change: -94 }, health: { score: 366, change: -52 }, family: { score: 427, change: 112 } },
+            'Utah': { overall: { score: 753, change: -8 }, economic: { score: 799, change: -15 }, education: { score: 556, change: -57 }, health: { score: 724, change: -1 }, family: { score: 935, change: 43 } },
+            'Vermont': { overall: { score: 772, change: 5 }, economic: { score: 828, change: 57 }, education: { score: 470, change: -184 }, health: { score: 852, change: 27 }, family: { score: 940, change: 124 } },
+            'Virginia': { overall: { score: 649, change: -21 }, economic: { score: 707, change: -7 }, education: { score: 469, change: -171 }, health: { score: 691, change: 53 }, family: { score: 732, change: 43 } },
+            'Washington': { overall: { score: 618, change: -45 }, economic: { score: 570, change: -67 }, education: { score: 389, change: -105 }, health: { score: 742, change: -73 }, family: { score: 772, change: 63 } },
+            'West Virginia': { overall: { score: 430, change: 10 }, economic: { score: 490, change: 85 }, education: { score: 201, change: -171 }, health: { score: 453, change: 0 }, family: { score: 577, change: 128 } },
+            'Wisconsin': { overall: { score: 672, change: -33 }, economic: { score: 809, change: 19 }, education: { score: 532, change: -111 }, health: { score: 616, change: -86 }, family: { score: 733, change: 47 } },
+            'Wyoming': { overall: { score: 599, change: -50 }, economic: { score: 668, change: -181 }, education: { score: 396, change: -129 }, health: { score: 528, change: 80 }, family: { score: 806, change: 34 } }
+        };
+
+        const stateNames = {
+            '01': 'Alabama', '02': 'Alaska', '04': 'Arizona', '05': 'Arkansas', '06': 'California',
+            '08': 'Colorado', '09': 'Connecticut', '10': 'Delaware', '12': 'Florida', '13': 'Georgia',
+            '15': 'Hawaii', '16': 'Idaho', '17': 'Illinois', '18': 'Indiana', '19': 'Iowa',
+            '20': 'Kansas', '21': 'Kentucky', '22': 'Louisiana', '23': 'Maine', '24': 'Maryland',
+            '25': 'Massachusetts', '26': 'Michigan', '27': 'Minnesota', '28': 'Mississippi', '29': 'Missouri',
+            '30': 'Montana', '31': 'Nebraska', '32': 'Nevada', '33': 'New Hampshire', '34': 'New Jersey',
+            '35': 'New Mexico', '36': 'New York', '37': 'North Carolina', '38': 'North Dakota', '39': 'Ohio',
+            '40': 'Oklahoma', '41': 'Oregon', '42': 'Pennsylvania', '44': 'Rhode Island', '45': 'South Carolina',
+            '46': 'South Dakota', '47': 'Tennessee', '48': 'Texas', '49': 'Utah', '50': 'Vermont',
+            '51': 'Virginia', '53': 'Washington', '54': 'West Virginia', '55': 'Wisconsin', '56': 'Wyoming'
+        };
+
+        let currentMetric = 'overall';
+        let currentValueType = 'score';
+
+        function getValue(state, metric, valueType) {
+            if (!data[state] || !data[state][metric]) return null;
+            const stateData = data[state][metric];
+            
+            if (valueType === 'score') {
+                return stateData.score;
+            } else if (valueType === 'change') {
+                return stateData.change;
+            } else {
+                return Math.round((stateData.change / stateData.score) * 100 * 10) / 10;
+            }
+        }
+
+        function getColorScale(valueType) {
+            if (valueType === 'score') {
+                return d3.scaleSequential(d3.interpolateBlues).domain([0, 1000]);
+            } else {
+                return d3.scaleDiverging(d3.interpolatePiYG).domain([-250, 0, 250]);
+            }
+        }
+
+        function updateMap() {
+            d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json').then(us => {
+                const states = topojson.feature(us, us.objects.states).features;
+                
+                const values = states.map(d => {
+                    const stateName = stateNames[d.id];
+                    return getValue(stateName, currentMetric, currentValueType);
+                }).filter(v => v !== null);
+
+                const minVal = Math.min(...values);
+                const maxVal = Math.max(...values);
+                const colorScale = getColorScale(currentValueType);
+                
+                if (currentValueType === 'score') {
+                    colorScale.domain([minVal, maxVal]);
+                } else {
+                    const absMax = Math.max(Math.abs(minVal), Math.abs(maxVal));
+                    colorScale.domain([-absMax, 0, absMax]);
+                }
+
+                d3.select('#map').html('');
+                const svg = d3.select('#map').append('svg')
+                    .attr('viewBox', '0 0 975 610')
+                    .attr('width', '100%')
+                    .attr('height', 'auto');
+
+                const path = d3.geoPath(d3.geoAlbersUsa().scale(1300).translate([487.5, 305]));
+
+                svg.selectAll('.state')
+                    .data(states)
+                    .join('path')
+                    .attr('class', 'state')
+                    .attr('d', path)
+                    .attr('fill', d => {
+                        const stateName = stateNames[d.id];
+                        const value = getValue(stateName, currentMetric, currentValueType);
+                        return value !== null ? colorScale(value) : '#ccc';
+                    })
+                    .on('mouseover', function(event, d) {
+                        const stateName = stateNames[d.id];
+                        const value = getValue(stateName, currentMetric, currentValueType);
+                        if (value !== null) {
+                            const tooltip = document.getElementById('tooltip');
+                            tooltip.textContent = `${stateName}: ${value.toFixed(currentValueType === 'pct-change' ? 1 : 0)}`;
+                            tooltip.style.display = 'block';
+                            tooltip.style.left = (event.pageX + 10) + 'px';
+                            tooltip.style.top = (event.pageY - 30) + 'px';
+                            d3.select(this).style('stroke-width', 1.5).style('stroke', '#333');
+                        }
+                    })
+                    .on('mousemove', function(event) {
+                        const tooltip = document.getElementById('tooltip');
+                        tooltip.style.left = (event.pageX + 10) + 'px';
+                        tooltip.style.top = (event.pageY - 30) + 'px';
+                    })
+                    .on('mouseout', function() {
+                        document.getElementById('tooltip').style.display = 'none';
+                        d3.select(this).style('stroke-width', 0.5).style('stroke', '#fff');
+                    });
+
+                updateLegend(minVal, maxVal, colorScale);
+            });
+        }
+
+        function updateLegend(minVal, maxVal, colorScale) {
+            const legend = document.getElementById('legend');
+            legend.innerHTML = '';
+
+            const h3 = document.createElement('h3');
+            h3.textContent = 'Value Scale';
+            legend.appendChild(h3);
+
+            const scaleDiv = document.createElement('div');
+            scaleDiv.className = 'legend-scale';
+
+            const bar = document.createElement('div');
+            bar.className = 'legend-bar';
+            bar.style.background = `linear-gradient(to right, ${
+                Array.from({length: 100}, (_, i) => colorScale(minVal + (maxVal - minVal) * (i / 100))).join(',')
+            })`;
+
+            scaleDiv.appendChild(bar);
+            legend.appendChild(scaleDiv);
+
+            const labels = document.createElement('div');
+            labels.className = 'legend-labels';
+            const minSpan = document.createElement('span');
+            minSpan.textContent = minVal.toFixed(currentValueType === 'pct-change' ? 1 : 0);
+            const maxSpan = document.createElement('span');
+            maxSpan.textContent = maxVal.toFixed(currentValueType === 'pct-change' ? 1 : 0);
+            labels.appendChild(minSpan);
+            labels.appendChild(maxSpan);
+            legend.appendChild(labels);
+        }
+
+        document.getElementById('metric-select').addEventListener('change', (e) => {
+            currentMetric = e.target.value;
+            updateMap();
+        });
+
+        document.getElementById('value-select').addEventListener('change', (e) => {
+            currentValueType = e.target.value;
+            updateMap();
+        });
+
+        document.getElementById('view-select').addEventListener('change', (e) => {
+            document.getElementById('map-view').classList.remove('active');
+            document.getElementById('data-view').classList.remove('active');
+            
+            if (e.target.value === 'map') {
+                document.getElementById('map-view').classList.add('active');
+                updateMap();
+            } else {
+                document.getElementById('data-view').classList.add('active');
+            }
+        });
+
+        updateMap();
+    </script>
+</body>
+</html>
