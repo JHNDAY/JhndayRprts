@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOLLI Current Events — August 4, 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Courier+Prime:wght@400;700&display=swap');
+
+body { margin: 0; padding: 2rem; background: #e8e0cc; scroll-behavior: smooth; }
+
+.mpage {
+  background: #fffdf6;
+  color: #0d0a05;
+  font-family: Georgia, 'Times New Roman', serif;
+  padding: 3rem 3.5rem;
+  border: 2px solid #3a2e18;
+  box-shadow: 5px 5px 0 #0d0a05;
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.mpage::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(0,0,0,0.03) 27px, rgba(0,0,0,0.03) 28px);
+  pointer-events:none;
+}
+
+.masthead { text-align:center; border-bottom:4px double #0d0a05; padding-bottom:1.3rem; margin-bottom:1.3rem; }
+.kicker { font-family:'Courier Prime',monospace; font-size:12px; letter-spacing:.35em; text-transform:uppercase; color:#4a3c28; margin-bottom:.6rem; }
+.headline { font-family:'Playfair Display',serif; font-size:3rem; font-weight:900; line-height:.95; color:#0d0a05; text-transform:uppercase; letter-spacing:.04em; margin-bottom:.5rem; }
+.subhead { font-family:'Playfair Display',serif; font-size:1.15rem; font-style:italic; color:#4a3c28; margin-bottom:.7rem; }
+.byline { font-family:'Courier Prime',monospace; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#9a8a68; }
+.dateline { font-family:'Courier Prime',monospace; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:#9a8a68; margin-top:.3rem; }
+
+hr.thick  { border:none; border-top:3px solid #0d0a05; margin:1.4rem 0; }
+hr.thin   { border:none; border-top:1px solid #c8b888; margin:1rem 0; }
+hr.double { border:none; border-top:4px double #0d0a05; margin:1.4rem 0; }
+
+.sec-tag { font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:.28em; text-transform:uppercase; color:#4a3c28; margin-bottom:.4rem; scroll-margin-top:1.5rem; }
+.sec-tag:target { animation: jump-highlight 1.8s ease-out; }
+@keyframes jump-highlight {
+  0% { background:#f0e8d0; box-shadow:0 0 0 6px #f0e8d0; }
+  100% { background:transparent; box-shadow:0 0 0 6px transparent; }
+}
+.sec-head { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; color:#0d0a05; border-bottom:2px solid #0d0a05; padding-bottom:.4rem; margin-bottom:1rem; }
+
+.topic-detail { display:none; }
+.topic-detail.is-open { display:block; animation: reveal .3s ease-out; }
+@keyframes reveal { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
+.drilldown-hint { text-align:center; font-family:'Courier Prime',monospace; font-size:12px; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:#8c0f0f; background:#f0e8d0; border:2px solid #8c0f0f; padding:.6rem 1rem; margin:0 0 .8rem; }
+.return-row { text-align:center; margin:1.4rem 0 .4rem; }
+.return-btn { font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:#4a3c28; background:#f0e8d0; border:2px solid #0d0a05; padding:.55rem 1.3rem; cursor:pointer; transition:background .15s; }
+.return-btn:hover { background:#e4d8b8; }
+.return-btn::before { content:'↑  '; }
+
+.topics { display:grid; grid-template-columns:repeat(3,1fr); border:2px solid #0d0a05; margin-bottom:1.4rem; }
+.topic { padding:.8rem 1rem; border-right:2px solid #0d0a05; border-bottom:2px solid #0d0a05; text-align:center; cursor:pointer; transition:background .15s; text-decoration:none; display:block; color:inherit; background:none; border-top:none; border-left:none; width:100%; font-family:inherit; }
+.topic:hover { background:#f0e8d0; }
+.topic:active { background:#e4d8b8; }
+.topic.is-open { background:#0d0a05; }
+.topic.is-open .topic-num { color:#e8a070; }
+.topic.is-open .topic-name { color:#fffdf6; }
+.topic:nth-child(3n) { border-right:none; }
+.topic:nth-last-child(-n+3) { border-bottom:none; }
+.topic-num { font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#8c0f0f; margin-bottom:4px; }
+.topic-name { font-family:'Playfair Display',serif; font-size:.88rem; font-weight:700; color:#0d0a05; line-height:1.3; }
+
+.participants { border:2px solid #0d0a05; border-top:none; display:flex; flex-wrap:wrap; gap:0; margin-bottom:1.4rem; background:#f0e8d0; }
+.participants-label { font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:.25em; text-transform:uppercase; color:#4a3c28; padding:.5rem 1rem; border-right:2px solid #0d0a05; white-space:nowrap; display:flex; align-items:center; }
+.participants-names { font-family:'Courier Prime',monospace; font-size:11px; color:#0d0a05; padding:.5rem 1rem; line-height:1.6; }
+
+.exchange { margin-bottom:1.4rem; }
+.ex-header { display:flex; align-items:baseline; gap:.8rem; margin-bottom:.5rem; }
+.ex-topic { font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:#9a8a68; }
+.ex-topic::before { content:'▸  '; color:#8c0f0f; }
+.ex-speaker { font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:#4a3c28; font-weight:700; }
+.ex-time { font-family:'Courier Prime',monospace; font-size:9px; letter-spacing:.1em; color:#9a8a68; margin-left:auto; }
+
+.ex-body { font-size:15px; line-height:1.75; color:#0d0a05; padding-left:1rem; border-left:3px solid #c8b888; }
+
+.callout { background:#f0e8d0; border:2px solid #0d0a05; padding:1rem 1.2rem; margin:1.2rem 0; }
+.callout-head { font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#8c0f0f; margin-bottom:.5rem; display:flex; align-items:center; gap:.6rem; }
+.callout-head::before,.callout-head::after { content:''; flex:1; height:1.5px; background:#8c0f0f; }
+.callout-body { font-size:14px; line-height:1.65; color:#4a3c28; font-style:italic; }
+
+.pullquote { font-family:'Playfair Display',serif; font-size:1.5rem; font-style:italic; color:#0d0a05; text-align:center; border-top:3px solid #0d0a05; border-bottom:3px solid #0d0a05; padding:1rem 2rem; margin:1.4rem 0; line-height:1.4; }
+.pullquote cite { display:block; font-family:'Courier Prime',monospace; font-size:11px; font-style:normal; letter-spacing:.18em; text-transform:uppercase; color:#9a8a68; margin-top:.5rem; }
+
+.notes-box { border:2px solid #0d0a05; padding:.9rem 1.1rem; background:rgba(0,0,0,.03); }
+.notes-head { font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; color:#0d0a05; text-transform:uppercase; letter-spacing:.04em; margin-bottom:.6rem; }
+ul.nlist { list-style:none; padding:0; margin:0; }
+ul.nlist li { font-size:14px; line-height:1.6; color:#4a3c28; padding:5px 0 5px 20px; border-bottom:1px dashed #c8b888; position:relative; font-style:italic; }
+ul.nlist li:last-child { border-bottom:none; }
+ul.nlist li::before { content:'▪'; position:absolute; left:0; top:7px; color:#8c0f0f; font-size:11px; }
+
+.sig { text-align:center; font-family:'Courier Prime',monospace; font-size:11px; color:#9a8a68; margin-top:1.5rem; margin-bottom:.8rem; }
+
+.footer { display:grid; grid-template-columns:repeat(3,1fr); margin-top:2rem; padding-top:1rem; border-top:2px solid #c8b888; text-align:center; font-family:'Courier Prime',monospace; font-size:10px; color:#9a8a68; gap:1rem; }
+</style>
+</head>
+<body>
+
+<div class="mpage">
+
+  <div class="masthead">
+    <div class="kicker">BOLLI Current Events Discussion Group</div>
+    <div class="headline">Elections, Iran War, and the Perils of Election Denial</div>
+    <div class="subhead">Transcript from a Zoom discussion on primaries, nominations, and geopolitical chaos</div>
+    <div class="byline">Participants: George Model, John Day, Beth Davis, Michael Berger, Sally Fleschner, and others</div>
+    <div class="dateline">August 4, 2026</div>
+  </div>
+
+  <div class="participants">
+    <span class="participants-label">Speakers:</span>
+    <span class="participants-names">George Model · John Day · Beth Davis · Michael Berger · Sally Fleschner · Francesca Nannetti · Geoff & Hilary Kent · Linda Fritz · Mark Seliber · Hal Shear</span>
+  </div>
+
+  <div class="topics">
+    <button type="button" class="topic" onclick="showTopic('elections', this)">
+      <div class="topic-num">01</div>
+      <div class="topic-name">Elections & Primaries</div>
+    </button>
+    <button type="button" class="topic" onclick="showTopic('nominations', this)">
+      <div class="topic-num">02</div>
+      <div class="topic-name">Senate Confirmations</div>
+    </button>
+    <button type="button" class="topic" onclick="showTopic('iran', this)">
+      <div class="topic-num">03</div>
+      <div class="topic-name">Iran War Escalation</div>
+    </button>
+    <button type="button" class="topic" onclick="showTopic('immigration', this)">
+      <div class="topic-num">04</div>
+      <div class="topic-name">Immigration Crisis</div>
+    </button>
+    <button type="button" class="topic" onclick="showTopic('vaccine', this)">
+      <div class="topic-num">05</div>
+      <div class="topic-name">Vaccine Science & NIH</div>
+    </button>
+    <button type="button" class="topic" onclick="showTopic('ai', this)">
+      <div class="topic-num">06</div>
+      <div class="topic-name">AI, Data, & Future</div>
+    </button>
+  </div>
+
+  <!-- TOPIC 1: ELECTIONS & PRIMARIES -->
+  <div class="topic-detail" id="detail-elections">
+  <div class="drilldown-hint">Click to close · Scroll to return to topics</div>
+
+  <div class="sec-tag" id="topic-elections">Electoral Dynamics · Michigan, Wisconsin, and the Tea Party Reverse</div>
+  <div class="sec-head">House Retirements and Demographic Challenges in Swing States</div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">George Model</span><span class="ex-time">01:06–05:03</span></div>
+    <div class="ex-body">
+      62 House members have retired—37 of them Republicans—and we're likely to exceed the 1992 record of 65 retirements with one-third of primaries still remaining. The real question is Michigan and Wisconsin. In Michigan, it's been a three-way race between El-Sayed, Stevens, and Mallory McMorrow. When McMorrow dropped out, Haley Stevens looked like the frontrunner, but recent polling shows El-Sayed ahead by double digits. This creates a reverse Tea Party scenario: we're selecting candidates that appeal to us collectively but reduce our probability of winning the general. If Stevens ran against the Republican Rogers, she'd have a small edge. But El-Sayed trails Rogers by 5–10%, which raises the real prospect that we're shooting ourselves in the foot.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">George Model</span><span class="ex-time">continuing</span></div>
+    <div class="ex-body">
+      The two Senate races we must protect are Michigan and Georgia. Ossoff looks strong in Georgia. But Alyssa Plotkin, a very moderate Democrat, only beat Rogers by a third of a percent in Michigan. So we have a very good chance of losing Michigan. Maine, which we're not holding anyway, won't be easy either. Polymarket and CalSheet both give Democrats an 84–86% chance of taking the House, which seems optimistic. They give Democrats only a 45% chance of winning the Senate, which I think is very optimistic and kind of delusional.
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-head">The Polling Paradox</div>
+    <div class="callout-body">House outlook looks good; Senate prospects much darker. The reverse Tea Party dynamic—choosing electability in a primary versus general appeal—threatens swing states like Michigan and Arizona.</div>
+  </div>
+
+  <div class="return-row"><button type="button" class="return-btn" onclick="closeTopics()">Back to Topics</button></div>
+  </div>
+
+  <!-- TOPIC 2: SENATE CONFIRMATIONS -->
+  <div class="topic-detail" id="detail-nominations">
+  <div class="drilldown-hint">Click to close · Scroll to return to topics</div>
+
+  <div class="sec-tag" id="topic-nominations">Judicial & Executive · Blanche Confirmation and the Slush Fund Dance</div>
+  <div class="sec-head">How Republican Moderates Traded Crumbs for Confirmation</div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">George Model</span><span class="ex-time">05:05–05:48</span></div>
+    <div class="ex-body">
+      The Blanche nomination drama came down to 12 Republicans and 10 Democrats. It took one Republican to kill the nomination. Cornyn and Tillis especially had reservations about the slush fund and whether tax relief for the Trumps would be retrospective. Trump probably made more money in 2025 than the rest of his career combined, and that wouldn't be subject to audit. Blanche gave them written notification that the slush fund was dead, but Trump never signed it—it's not a binding legal document. As Attorney General, he could revoke it. And there was absolutely nothing on tax immunity. Yet that was enough to swing their votes. Pure party line: 12 to 10.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">Geoff & Hilary Kent</span><span class="ex-time">06:10</span></div>
+    <div class="ex-body">
+      On the Blanche nomination, do you think Susan Collins will vote to support him, or is she nervous now that she has to run again?
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">George Model</span><span class="ex-time">06:21–09:35</span></div>
+    <div class="ex-body">
+      It's 52 to 47. If there were 3 Republican turncoats and all Democrats—including Fetterman unfortunately—voted against, that would overturn it. If Collins's vote was the 99th and decisive vote, I think she'd be concerned but would approve. She only votes against if it's a given that he'll be confirmed anyway. That's how she rolls.
+    </div>
+  </div>
+
+  <div class="return-row"><button type="button" class="return-btn" onclick="closeTopics()">Back to Topics</button></div>
+  </div>
+
+  <!-- TOPIC 3: IRAN WAR ESCALATION -->
+  <div class="topic-detail" id="detail-iran">
+  <div class="drilldown-hint">Click to close · Scroll to return to topics</div>
+
+  <div class="sec-tag" id="topic-iran">Geopolitics & Chaos · The Endless Cycle of Threats and Escalation</div>
+  <div class="sec-head">Checkmate in the Middle East: Iran Holds the Strait</div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">George Model</span><span class="ex-time">continuing from 06:21</span></div>
+    <div class="ex-body">
+      On the Iran war, we have this constant cycle: we threaten them, we bomb the hell out of them, and Trump says it's going to be Armageddon. Then he says we've made great progress, so I'm not going to do it. The Iranians say well, we haven't even spoken to the Americans. It goes on and on. Essentially, I think we have been checkmated. The Iranians are stubborn. They play their cards well. They couldn't care less what happens to their people. And now they hold the Strait. I wrote tongue-in-cheek this week about Trump trying to talk them to death with endless threats. He'll say: "You know, we were hitting them so hard, they came to me and said 'Please, sir, please stop, let's talk.'" He's lying, of course. But the checkmate is real.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">Sally Fleschner</span><span class="ex-time">10:44–11:33</span></div>
+    <div class="ex-body">
+      Last week we talked about bringing troops home and getting out of there. I've been thinking: how could Trump screw it up even more? The one thing nobody's done is destroy desalination plants. Every country in the Middle East depends on desalination plants. They've been off-limits for everybody. But if Trump and Hegseth and the military really want to ruin an entire area of the world, they could bring the war to the desalination plants.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">George Model</span><span class="ex-time">11:35–13:50</span></div>
+    <div class="ex-body">
+      Even before we did that, our attacks on their energy infrastructure have been estimated to thrust 3 million more Iranians into poverty. I'll also point out that water systems in seven states—only two identified, Minnesota and Michigan—have been hacked. The intelligence community thinks they were hacked by the Iranians. So they can play offense even in our homeland. They're not just on defense.
+    </div>
+  </div>
+
+  <div class="pullquote">
+    "We have been checkmated because the Iranians are very, very stubborn. They play their cards well, and they could care less what's going to happen to their people. And now they hold the Strait."
+    <cite>George Model</cite>
+  </div>
+
+  <div class="return-row"><button type="button" class="return-btn" onclick="closeTopics()">Back to Topics</button></div>
+  </div>
+
+  <!-- TOPIC 4: IMMIGRATION CRISIS -->
+  <div class="topic-detail" id="detail-immigration">
+  <div class="drilldown-hint">Click to close · Scroll to return to topics</div>
+
+  <div class="sec-tag" id="topic-immigration">Cruelty & Policy · Haiti, Syrians, and the Cost of Exclusion</div>
+  <div class="sec-head">When Policy Becomes Punishment: The Human Cost of Immigration Restrictions</div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">George Model</span><span class="ex-time">09:38–09:46</span></div>
+    <div class="ex-body">
+      350,000 Haitians lost their temporary protective status. Stephen Miller blithely said: why can't Haitians live in Haiti? Which, as we know, is just a wonderful place—so perhaps he could move there with his family. As dysfunctional as Haiti is, many of these people were exiled because they were being persecuted by gangs or whomever. Almost half of those 350,000 are in Florida, which is closest to Haiti. We have the third-most at 19,000. At least in these parts, they work as home health aides and in home healthcare, as well as hospitality—less so in agriculture. This will have a deleterious effect on the economy.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">George Model</span><span class="ex-time">continuing</span></div>
+    <div class="ex-body">
+      There are also 7,000 Syrians that nobody talks about. The immigration numbers tell a story of cruelty. $100,000 bonds for green card applicants. For people whose visas have run out, they've gotten letters saying they have to pay $998 a day penalties—which is saying that living here is worth $365,000 a year.
+    </div>
+  </div>
+
+  <div class="notes-box">
+    <div class="notes-head">The Numbers Behind the Policy</div>
+    <ul class="nlist">
+      <li>350,000 Haitians lost temporary protective status</li>
+      <li>Nearly half now in Florida; 19,000 in Massachusetts</li>
+      <li>Primary occupations: healthcare, hospitality, domestic work</li>
+      <li>7,000 Syrian refugees largely invisible in policy debate</li>
+      <li>Daily penalties: $998/day for visa overstays (≈$365K/year)</li>
+    </ul>
+  </div>
+
+  <div class="return-row"><button type="button" class="return-btn" onclick="closeTopics()">Back to Topics</button></div>
+  </div>
+
+  <!-- TOPIC 5: VACCINE DEVELOPMENT & INSTITUTIONAL SCIENCE -->
+  <div class="topic-detail" id="detail-vaccine">
+  <div class="drilldown-hint">Click to close · Scroll to return to topics</div>
+
+  <div class="sec-tag" id="topic-vaccine">Science & Institutional Achievement · mRNA Vaccines, NIH, and Institutional Science Under Fire</div>
+  <div class="sec-head">The Story Behind the Fauci Show Trial: One of the Most Remarkable Technical Accomplishments of Our Lifetime</div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">23:39–26:10</span></div>
+    <div class="ex-body">
+      This is a subject about which I have very strong feelings. Let's go over the history of what happened. It began in 1978 when Katalin Karicó earned her PhD in Hungary and immigrated to the United States, getting a fellowship at UPenn. She had a novel idea that would revolutionize vaccine science, but it was not widely recognized and faced a lot of skepticism. UPenn didn't think she was on the right track, so she got marginalized, living hand-to-mouth in different research labs. Between 1997 and 2005, she teamed with Drew Weissman to overcome the fundamental problem: how to deliver the vaccine to cells without the cells rejecting it. She figured it out. Penn's validation came too late—she was way down in the hierarchy, not much recognition. From 2013 to 2019, she jumped ship from UPenn to BioNTech and finalized the RNA program and brought it to fruition.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">26:18–30:15</span></div>
+    <div class="ex-body">
+      Let me explain how the vaccine works. The virus comes in a package with spikes on the surface—that's the calling card. The spikes find cells with ACE2 receptors, hook in, and give the virus entry to inject the viral genome. The cell's machinery gets hijacked and starts creating viral components, which are destructive to the cell. Thousands of viral packages form and go on to infect more cells. That's how a modest infection becomes a storm that overwhelms and kills the host. The immune system tries to respond to the spikes, but the virus progresses much faster than the immune system can react. Here's the genius of Karicó: they isolated just the instructions to create the spike protein—the calling card—reducing the RNA description from the full virus to about 10% of its size. They packaged it in lipid nanoparticles, got it into the cell, and had the cell create those spikes in great quantity. But crucially: the lethal aspects of the virus were not recreated, so the cell was not destroyed. The spikes appeared on the cell surface throughout the body wherever the vaccine reached. The immune system saw those spikes and created antibodies that destroy the virus. That's breathtakingly elegant.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">35:35–37:30</span></div>
+    <div class="ex-body">
+      Let me finish the development story and the role that NIH played. Institutional research is complicated and takes many different passes. With COVID, the spike protein has a particular geometric configuration—lock and key. A molecule has a configuration recognized by another structure, and that's what makes the machine work. When COVID attaches to a cell, that spike has a conformational change, and it's no longer recognizable by the immune system. That was a stumbling block in Karicó's design that had to be overcome. The work for that was done at NIH. Graham and Corbett did it under the direction of Tony Fauci. Fauci managed this wide National Institute of Health for so many years, managing many different problems. In his administrative role, he had to make assessments based on scientific understanding and make bets. Did he make mistakes? Of course. If you're a scientist and you're not making mistakes, you're not really doing science—you're not pushing the frontier.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">37:38–37:55</span></div>
+    <div class="ex-body">
+      It was clear that Fauci backed something very important. Without the NIH's contribution here, there would have been no vaccine. Without Graham and Corbett's work solving the conformational change problem, the vaccine wouldn't work.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">George Model</span><span class="ex-time">34:28–35:35</span></div>
+    <div class="ex-body">
+      Let me put some numbers around this. We had 1,230–1,250 COVID deaths in the U.S.—double what we had 100 years ago, but we have three times the population, so we fared about a third better than they did. On the other hand, research has indicated the vaccine saved about 2.5 million lives. That means it reduced what happened to us by two-thirds. Canada's death rate was well below half of ours. We saved 250,000 lives there. The anti-vaccine hesitancy movement probably cost us several hundred thousand deaths. Maybe our deaths were twice as high as they should have been.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">Michael Berger</span><span class="ex-time">30:24–32:49</span></div>
+    <div class="ex-body">
+      mRNA is a great progress in vaccination and can probably later be used for other viruses. COVID-19 is very difficult and sneaky—it has variations and modifications. If you had COVID vaccination last fall, you're not protected against recent COVID modifications. I'm in remission from lymphoma for a year, but I have no immunity. Infectious disease specialists found I must have had COVID sometime, because this particular COVID causes inflammation of the heart without the usual symptoms. They're working on a new vaccine this coming fall, but the problem is: do you need two vaccines for two strains, or if you have no immunity like me, do you need double vaccination? COVID is sneaky—a lot has to go into finding specific vaccines for specific variations.
+    </div>
+  </div>
+
+  <div class="pullquote">
+    "It is breathtakingly elegant what was done. You inject lipid nanoparticles containing reduced RNA—only the directions to create the innocuous spike—into a muscle cell. The cell reproduces only that protein, not the destructive proteins that go with the virus."
+    <cite>John Day</cite>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">37:57–40:31</span></div>
+    <div class="ex-body">
+      Compare this to how we used to do vaccines: we took weakened strains of virus and put them in the host, hoping the host would survive. This is totally different. We're not introducing the nefarious or lethal aspects into the host. This probably opens the door for lots of other vaccines. The immune system, running around your body all the time, sees these spikes and generates antibodies that defeat the virus. It's breathtakingly elegant. George covered some of the issues with the government response, which was politically motivated, absolutely bereft of any understanding of how this works and why it was important—certainly politicized views of science. The last eruption of that anti-science is the disgraceful hearings with Fauci, and the way they're trying to humiliate him. I find it just beyond contempt.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">Francesca Nannetti</span><span class="ex-time">41:08–41:10</span></div>
+    <div class="ex-body">
+      Haven't Rand Paul and others accused Fauci of working with the lab in China and having that unleashed here?
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">41:10–42:32</span></div>
+    <div class="ex-body">
+      That's distorted, like everything else. There's a branch of research called gain-of-function. To understand how a virus works, you've got to make it active. But you do that with lots of security so it doesn't escape. We have that in Boston now, and a couple years ago there was a breach at one of the Boston labs where lethal pathogens got out. But to understand the pathogen, you need a living example to do experiments. Trump and the MAGA crew early on decided a good political story is that Fauci was trying to destroy the United States. The anti-vaxxers don't like vaccines, so they jump in on this, and it becomes one big ugly smear that makes no sense. The miracle is that we still tend to move forward and make progress, even with this type of malignant manipulation in our politics.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">George Model</span><span class="ex-time">42:33–42:53</span></div>
+    <div class="ex-body">
+      Ron Johnson, when questioning Fauci, criticized him for resistance to ivermectin and hydroxychloroquine. It's remarkable that I hadn't heard the word hydroxychloroquine for five years.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">42:55–43:19</span></div>
+    <div class="ex-body">
+      These people—Johnson and others—know nothing about facts or science. It's all political, about what they can say to rev up their hardcore supporters.
+    </div>
+  </div>
+
+  <div class="notes-box">
+    <div class="notes-head">The Scale of Achievement vs. Attack</div>
+    <ul class="nlist">
+      <li>2.5 million lives saved by vaccine in US alone</li>
+      <li>2–3× better survival than 1919 pandemic (population-adjusted)</li>
+      <li>Anti-vaccine hesitancy likely cost hundreds of thousands of American lives</li>
+      <li>NIH role critical: Graham & Corbett solved conformational change problem under Fauci's direction</li>
+      <li>Gain-of-function research: necessary for understanding pathogens; conducted with security protocols</li>
+      <li>Political smear campaign: presenting basic scientific work as malicious intent</li>
+    </ul>
+  </div>
+
+  <div class="return-row"><button type="button" class="return-btn" onclick="closeTopics()">Back to Topics</button></div>
+  </div>
+
+  <!-- TOPIC 6: AI, DATA CENTERS & FUTURE -->
+  <div class="topic-detail" id="detail-ai">
+  <div class="drilldown-hint">Click to close · Scroll to return to topics</div>
+
+  <div class="sec-tag" id="topic-ai">Technology & Risk · AI Bubbles, Data Centers, and Election Security</div>
+  <div class="sec-head">Excessive Spending, Uninformed Implementation, and the Market's Exuberance</div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">Hal Shear</span><span class="ex-time">79:36–79:58</span></div>
+    <div class="ex-body">
+      The market this week has gone nuts on AI companies. Do you see this as a 2026 bubble, or one later on? Any sense of the duration?
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">79:58–81:02</span></div>
+    <div class="ex-body">
+      I'm absolutely not qualified to answer that. I have no idea. All I can say is I see excessive spending and relatively small return on investment. I've read accounts of how some companies have gone head over heels into AI in a way that was unintelligent. There was one company treating an AI agent like a person—really bizarre. I think that type of uninformed use of AI is going to be bad. But that's not new! Technology's hard to understand and implement. After the Transcontinental Railway was finished, it took them 10 years to figure out how to use it. Integrating new technology into a human process is not easy.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">78:22–78:40</span></div>
+    <div class="ex-body">
+      Data centers: they don't have to be placed next to where people live. They're noisy, use a lot of water, and suck up natural resources. There's no reason for them to be in residential areas. That's offensive to the people who live there.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">79:05–79:14</span></div>
+    <div class="ex-body">
+      You see legislation for that more and more: if they're going to open a data center, they have to supply their own energy. That's reasonable. There's no stopping it at this point. Almost everything in this country—the free market drives what happens. So you're gonna have some excessive exuberance that won't end so well, but it's gonna push things forward.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">Mark Seliber</span><span class="ex-time">81:20–81:27</span></div>
+    <div class="ex-body">
+      Does Citizens United allow for AI to make political contributions?
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">George Model</span><span class="ex-time">81:27–81:47</span></div>
+    <div class="ex-body">
+      The administration would like AI to count the votes under their guidance. They dismantled their election security system, and now they want to put in a new system developed from the system used on World Cup tickets. So that's very encouraging.
+    </div>
+  </div>
+
+  <div class="pullquote">
+    "Integrating new technology into a human process is not easy. You need time to figure out not just what it does, but what it should do."
+    <cite>John Day</cite>
+  </div>
+
+  <div class="return-row"><button type="button" class="return-btn" onclick="closeTopics()">Back to Topics</button></div>
+  </div>
+
+  <hr class="double">
+
+  <div class="sig">Prepared from Zoom transcript with human synthesis · BOLLI continues to grapple with polarization and geopolitical instability</div>
+
+  <div class="footer">
+    <span>BOLLI Current Events · August 4, 2026</span>
+    <span>Summer 2026</span>
+    <span>jhnday.github.io</span>
+  </div>
+
+</div>
+
+<script>
+  function showTopic(id, btn) {
+    var detail = document.getElementById('detail-' + id);
+    var wasOpen = detail.classList.contains('is-open');
+
+    document.querySelectorAll('.topic-detail').forEach(function (d) { d.classList.remove('is-open'); });
+    document.querySelectorAll('.topic').forEach(function (t) { t.classList.remove('is-open'); });
+
+    if (!wasOpen) {
+      detail.classList.add('is-open');
+      btn.classList.add('is-open');
+      setTimeout(function () {
+        detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
+    }
+  }
+
+  function closeTopics() {
+    document.querySelectorAll('.topic-detail').forEach(function (d) { d.classList.remove('is-open'); });
+    document.querySelectorAll('.topic').forEach(function (t) { t.classList.remove('is-open'); });
+    document.querySelector('.topics').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+</script>
+
+</body>
+</html>
