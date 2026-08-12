@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>House Divided Speech — Abraham Lincoln</title>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1008;
+    --ink-faded: #2e1f0a;
+    --parchment: #e8d9b0;
+    --parchment-dark: #d4be8a;
+    --parchment-shadow: #b89e6a;
+    --rule: #6b4c1e;
+    --ornament: #5a3e10;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #3a2e1a;
+    background-image:
+      radial-gradient(ellipse at center, #4a3a20 0%, #1e1508 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+    font-family: 'IM Fell English', serif;
+  }
+
+  .page {
+    width: 760px;
+    max-width: 100%;
+    background: var(--parchment);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E"),
+      linear-gradient(160deg, #edddb8 0%, #e2cb98 40%, #d8bf88 70%, #e4d0a2 100%);
+    box-shadow:
+      0 0 0 1px var(--parchment-shadow),
+      0 4px 8px rgba(0,0,0,0.4),
+      0 16px 40px rgba(0,0,0,0.5),
+      inset 0 0 60px rgba(120,80,20,0.15);
+    padding: 60px 70px;
+    position: relative;
+    color: var(--ink);
+    animation: pageReveal 1.2s ease-out;
+  }
+
+  @keyframes pageReveal {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Aged corners */
+  .page::before, .page::after {
+    content: '';
+    position: absolute;
+    width: 60px; height: 60px;
+    background: radial-gradient(ellipse at corner, rgba(90,60,10,0.3), transparent 70%);
+  }
+  .page::before { top: 0; left: 0; border-radius: 0 0 100% 0; }
+  .page::after  { bottom: 0; right: 0; border-radius: 100% 0 0 0; }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    text-align: center;
+    margin-bottom: 18px;
+  }
+
+  .blackletter {
+    font-family: 'UnifrakturMaguntia', cursive;
+    font-size: 2.8rem;
+    color: var(--ink);
+    letter-spacing: 2px;
+    line-height: 1.1;
+    text-shadow: 1px 1px 0 rgba(90,60,10,0.3);
+  }
+
+  .edition-line {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    color: var(--ink-faded);
+    margin-top: 4px;
+  }
+
+  /* ── RULES ── */
+  .rule-thick {
+    border: none;
+    border-top: 3px double var(--rule);
+    margin: 10px 0;
+  }
+  .rule-thin {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 6px 0;
+  }
+  .rule-ornamental {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--ornament);
+    margin: 8px 0;
+    letter-spacing: 0.5em;
+    opacity: 0.75;
+  }
+
+  /* ── COLUMN HEADLINE ── */
+  .headline-block {
+    text-align: center;
+    margin: 16px 0 12px;
+  }
+
+  .kicker {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--ink-faded);
+    text-transform: uppercase;
+  }
+
+  h1.speech-title {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 1.55rem;
+    font-weight: normal;
+    line-height: 1.25;
+    color: var(--ink);
+    margin: 6px 0 4px;
+    letter-spacing: 0.05em;
+  }
+
+  h2.speech-subtitle {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 1rem;
+    font-weight: normal;
+    color: var(--ink-faded);
+    margin: 2px 0;
+  }
+
+  .dateline {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--ink-faded);
+    margin-top: 6px;
+  }
+
+  /* ── BODY TEXT ── */
+  .speech-body {
+    column-count: 2;
+    column-gap: 32px;
+    column-rule: 1px solid var(--parchment-shadow);
+    margin-top: 16px;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  .speech-body p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    margin-bottom: 0.9em;
+    color: var(--ink);
+  }
+
+  .speech-body p:first-child::first-letter {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 3.6rem;
+    float: left;
+    line-height: 0.82;
+    margin-right: 5px;
+    margin-top: 6px;
+    color: var(--ink);
+  }
+
+  /* Decorative drop cap paragraph */
+  .scripture {
+    font-style: italic;
+    border-left: 2px solid var(--parchment-shadow);
+    padding-left: 10px;
+    margin: 0.5em 0 0.9em;
+    color: var(--ink-faded);
+  }
+
+  /* ── FOOTER ── */
+  .footer-block {
+    margin-top: 28px;
+    text-align: center;
+  }
+
+  .colophon {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--ink-faded);
+    margin-top: 10px;
+  }
+
+  .ornament-footer {
+    font-size: 1.4rem;
+    color: var(--ornament);
+    opacity: 0.6;
+    letter-spacing: 0.8em;
+    margin-top: 6px;
+  }
+
+  /* Stain / age mark accents */
+  .stain {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(120,80,20,0.12), transparent 70%);
+    pointer-events: none;
+  }
+  .stain-1 { width:120px; height:80px; top:80px; right:40px; transform: rotate(-20deg); }
+  .stain-2 { width:90px;  height:60px; bottom:140px; left:30px; transform: rotate(15deg); }
+</style>
+</head>
+<body>
+<article class="page">
+
+  <!-- Age stains -->
+  <div class="stain stain-1"></div>
+  <div class="stain stain-2"></div>
+
+  <!-- Masthead -->
+  <div class="masthead">
+    <div class="blackletter">The Illinois Republican</div>
+    <div class="edition-line">Springfield, Illinois &nbsp;·&nbsp; Thursday, June 17, 1858 &nbsp;·&nbsp; Vol. XII &nbsp;·&nbsp; No. 41</div>
+  </div>
+
+  <hr class="rule-thick">
+  <hr class="rule-thin">
+
+  <!-- Headline -->
+  <div class="headline-block">
+    <div class="kicker">Delivered at the Republican Convention</div>
+    <h1 class="speech-title">A House Divided Against Itself<br>Cannot Stand</h1>
+    <h2 class="speech-subtitle">Abraham Lincoln's Acceptance Speech for the Senatorial Nomination</h2>
+    <div class="dateline">Springfield &mdash; Wednesday Evening, the Sixteenth of June, Anno Domini 1858</div>
+  </div>
+
+  <hr class="rule-thin">
+  <div class="rule-ornamental">❧ &nbsp; ✦ &nbsp; ❧</div>
+  <hr class="rule-thin">
+
+  <!-- Speech body -->
+  <div class="speech-body">
+    <p>
+      Mr. President and Gentlemen of the Convention. If we could first know where we are, and whither we
+      are tending, we could then better judge what to do, and how to do it. We are now far into the fifth year,
+      since a policy was initiated, with the avowed object, and confident promise, of putting an end to slavery agitation.
+      Under the operation of that policy, that agitation has not only, not ceased, but has constantly augmented. In my
+      opinion, it will not cease, until a crisis shall have been reached, and passed.
+    </p>
+
+    <p>
+      "A house divided against itself cannot stand." I believe this government cannot endure, permanently half slave
+      and half free. I do not expect the Union to be dissolved — I do not expect the house to fall — but I do expect
+      it will cease to be divided. It will become all one thing or all the other. Either the opponents of slavery, will
+      arrest the further spread of it, and place it where the public mind shall rest in the belief that it is in the course
+      of ultimate extinction; or its advocates will push it forward, till it shall become alike lawful in all the States,
+      old as well as new — North as well as South.
+    </p>
+
+    <p>
+      Have we no tendency to the latter condition? Let any one who doubts, carefully contemplate that now almost complete legal
+      combination — piece of machinery so to speak — compounded of the Nebraska doctrine, and the Dred Scott decision. Let me
+      try to illustrate the workings of this machinery, and the processes of its development. In 1854, my old friend Judge Douglas
+      introduced the Nebraska bill. Its avowed object was to give the people a fair chance to decide the slavery question for
+      themselves.
+    </p>
+
+    <p>
+      But how could this be done? Of course by allowing the people to do just as they please about it.
+      At first blush, it seemed absurd for anybody to object to this; who could profess to believe in the "great
+      right of self-government," in any case, if he did not profess it in this? But, to state it in this shape is
+      to utterly fail to state it at all. The real significance of the Nebraska bill was: To draw the public attention
+      away from the real issue — slavery being restricted — and on to a false issue — self-government.
+    </p>
+
+    <p class="scripture">
+      "A house divided against itself cannot stand."
+    </p>
+
+    <p>
+      What is conservatism? Is it not adherence to the old and tried, against the new and untried?
+      We stick to, contend for, the identical old policy on the point in controversy which was adopted by "the fathers who framed
+      the Government under which we live;" while you with one accord reject their policy, and insist upon substituting something new.
+      True, you disagree among yourselves as to what that substitute shall be. You are divided on new propositions, but you are united
+      in rejecting all old propositions. Some of you are for reviving the foreign slave trade; some for a Congressional Slave Code
+      for the Territories; some for maintaining Slavery in the Territories through the means of unfriendly legislation.
+    </p>
+
+    <p>
+      These measures all belong to the past. They were all composed and acted upon before the formation of the Republican party. In what
+      does the new conservatism of the Republican party consist? It consists in sticking to the old policy of the fathers of the Government;
+      in opposition to the new innovations of the advocates of the slave power. Our cause, then, must be intrusted to, and conducted by its
+      own undaunted friends — those whose hearts are in the work — who do this solemn duty, under the just conviction that the hour is one
+      of darkness, and we must meet it as men meet a formidable enemy — with utter disregard of personal consequences.
+    </p>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="footer-block">
+    <hr class="rule-thin">
+    <div class="rule-ornamental">— ✦ —</div>
+    <hr class="rule-thin">
+    <div class="colophon">
+      Printed by the Republican Publishing House &nbsp;·&nbsp; State House, Springfield &nbsp;·&nbsp; Subscription: Six Cents per Week
+    </div>
+    <div class="ornament-footer">❦</div>
+  </div>
+
+</article>
+</body>
+</html>
