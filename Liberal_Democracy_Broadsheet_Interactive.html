@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Happened to Liberal Democracy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background: #f5f5f0;
+            color: #1a1a1a;
+            line-height: 1.7;
+            padding: 20px;
+        }
+
+        .broadsheet {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fafaf8;
+            box-shadow: 0 0 30px rgba(0,0,0,0.15);
+            border: 1px solid #ddd;
+        }
+
+        .masthead {
+            border-bottom: 4px double #1a1a1a;
+            padding: 30px 40px;
+            text-align: center;
+            background: linear-gradient(to bottom, #fff, #fafaf8);
+        }
+
+        .masthead img {
+            max-width: 320px;
+            height: auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .masthead h1 {
+            font-size: 3.2em;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+
+        .byline {
+            font-size: 0.95em;
+            font-style: italic;
+            color: #666;
+            border-top: 1px solid #999;
+            border-bottom: 1px solid #999;
+            padding: 8px 0;
+            margin-top: 15px;
+        }
+
+        .content {
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .section {
+            border-left: 3px solid #d4a574;
+            padding-left: 20px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .dropdown-header {
+            background: #f0f0ec;
+            padding: 16px 20px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid #d4a574;
+            user-select: none;
+            transition: background 0.3s ease;
+        }
+
+        .dropdown-header:hover {
+            background: #e8e8e0;
+        }
+
+        .dropdown-header.active {
+            background: #d4a574;
+            color: white;
+        }
+
+        .dropdown-toggle {
+            font-size: 1.4em;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-toggle.active {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #fafaf8;
+        }
+
+        .dropdown-content.active {
+            max-height: 2000px;
+        }
+
+        .biography-text {
+            padding: 30px;
+            line-height: 1.8;
+            font-size: 1em;
+        }
+
+        .biography-text h3 {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 12px;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .biography-text p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .biography-text em {
+            font-style: italic;
+            color: #555;
+        }
+
+        .chapters-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+
+        .chapter {
+            border: 1px solid #ddd;
+            padding: 20px;
+            background: #fff;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .chapter:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .chapter-number {
+            font-size: 0.85em;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .chapter-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #1a1a1a;
+        }
+
+        .chapter-summary {
+            font-size: 0.98em;
+            line-height: 1.7;
+            color: #333;
+            text-align: justify;
+        }
+
+        .word-count {
+            display: none;
+        }
+
+        .footer {
+            border-top: 2px solid #1a1a1a;
+            padding: 20px 40px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+            background: #f5f5f0;
+        }
+
+@media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+
+            .biography-text {
+                padding: 20px;
+            }
+
+            .masthead img {
+                max-width: 240px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="broadsheet">
+        <div class="masthead">
+            <img src="https://jhnday.github.io/JhndayRprts/LiberalDemocracyBookCover.png" alt="Liberal Democracy Book Cover">
+            <div class="byline">A Critical Examination by Daron Acemoglu</div>
+        </div>
+
+        <div class="content">
+            <!-- Biography Section -->
+            <div class="section">
+                <div class="dropdown-header" onclick="toggleDropdown(event)">
+                    <span>About the Author: Daron Acemoglu</span>
+                    <span class="dropdown-toggle">▼</span>
+                </div>
+                <div class="dropdown-content">
+                    <div class="biography-text">
+                        <h3>Early Life and Background</h3>
+                        <p>
+                            Daron Acemoglu was born on September 3, 1967, in Istanbul, Turkey, into an Armenian family. His father, Kevork Acemoglu, was a commercial lawyer and lecturer at Istanbul University, while his mother, Irma, was a principal of an Armenian school. Growing up as a member of an Armenian minority in 1980s Turkey would profoundly influence his intellectual trajectory.
+                        </p>
+
+                        <h3>Formative Experiences</h3>
+                        <p>
+                            When Acemoglu was thirteen in September 1980, the Turkish army seized the government. Tanks came into the streets of Istanbul, and soldiers stood at the school gate. The memory of that fear stayed with him. The economy around him fell apart at the same time—high inflation, high unemployment, factories that did not grow. A boy could see both at once, the boots and the empty shelves, and wonder whether the two had a common root. That question became his life.
+                        </p>
+                        <p>
+                            Acemoglu's early education began at the Aramyan Uncuyan Armenian Primary School in Istanbul. He later attended Galatasaray High School, one of the country's most prestigious institutions. After graduating in 1986, he moved to the United Kingdom for further education.
+                        </p>
+
+                        <h3>Education</h3>
+                        <p>
+                            Acemoglu received a BA in economics from the University of York in 1989, an M.Sc. in mathematical economics and econometrics from the London School of Economics in 1990, and a Ph.D. in economics from the London School of Economics in 1992. He earned his doctorate at the age of just 25, prompting economist Arnold Kling to describe him as a "wunderkind." After completing his doctorate, he spent a brief period lecturing at the London School of Economics before making the pivotal move to America.
+                        </p>
+
+                        <h3>Academic Career at MIT</h3>
+                        <p>
+                            In 1993, Acemoglu joined the Massachusetts Institute of Technology (MIT), where he quickly rose through the ranks. He became a full professor in 2000, and in 2019, he was honored with the title of "Institute Professor," the highest distinction. He is currently the Faculty Co-Director of the James M. and Cathleen D. Stone Center on Inequality and Shaping the Future of Work.
+                        </p>
+
+                        <h3>Research and Major Contributions</h3>
+                        <p>
+                            Acemoglu's groundbreaking work challenges conventional explanations for national prosperity. Rather than attributing economic success to geography, culture, or natural resources, his research demonstrates the primacy of institutions. His research spans political economy, development economics, labor economics, and technological change, focusing on how institutions, politics, and innovation shape economic outcomes.
+                        </p>
+                        <p>
+                            <em>Why Nations Fail: The Origins of Power, Prosperity, and Poverty</em> (2012), co-authored with James Robinson, presents a comprehensive theory of how inclusive versus extractive institutions determine national prosperity. <em>The Narrow Corridor: States, Societies, and the Fate of Liberty</em> (2019) explores the balance between state power and societal autonomy. <em>Power and Progress: Our Thousand-Year Struggle Over Technology and Prosperity</em> (2023), co-authored with Simon Johnson, examines technology's relationship to shared prosperity.
+                        </p>
+
+                        <h3>Honors and Recognition</h3>
+                        <p>
+                            In 2005, Acemoglu received the John Bates Clark Medal, given to an economist under the age of 40 for outstanding contributions—often considered a precursor to the Nobel Prize. He received the inaugural T. W. Shultz Prize in 2004, the Distinguished Science Award from the Turkish Sciences Association in 2006, the Carnegie Fellowship in 2017, and the 2016 BBVA Frontiers of Knowledge Award.
+                        </p>
+                        <p>
+                            In 2024, Acemoglu was awarded the Nobel Prize in Economics, shared with Simon Johnson and James A. Robinson, for studies of how institutions are formed and affect prosperity. He is one of the most frequently cited economists in the world and has been named a fellow of the National Academy of Sciences, the British Academy, the American Academy of Arts and Sciences, and numerous other prestigious organizations.
+                        </p>
+
+                        <h3>Personal Life and Ongoing Influence</h3>
+                        <p>
+                            Acemoglu is married to Asuman Ozdaglar, a professor of electrical engineering at MIT, and they have two sons. He maintains intellectual engagement with his native Turkey, providing analysis and commentary on its political and economic trajectory. His work has influenced institutional reform discussions worldwide, with organizations like the United Nations applying his theories to advise countries transitioning from authoritarian regimes.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chapter Summaries Section -->
+            <div class="section">
+                <div class="section-title">Book Chapter Summaries</div>
+                <div class="chapters-grid">
+                    <div class="chapter">
+                        <div class="chapter-number">Chapter 1</div>
+                        <div class="chapter-title">Liberal Democracy in Crisis</div>
+                        <div class="chapter-summary">
+                            After the Cold War, Fukuyama declared "the end of history" with liberalism's triumph. Yet liberalism faces crisis today, exemplified by Viktor Orbán's shift from championing democracy to building an "illiberal state." Trust in democratic institutions has eroded dramatically across the West.
+                        </div>
+                        <div class="word-count">46 words</div>
+                    </div>
+
+                    <div class="chapter">
+                        <div class="chapter-number">Chapter 2</div>
+                        <div class="chapter-title">Why Liberalism?</div>
+                        <div class="chapter-summary">
+                            Liberalism values individual freedom, community knowledge-sharing, and human development. Communities generate collective knowledge and solutions yet can constrain freedoms. The book's core argues for balancing community benefits with preserving individual liberties and autonomy.
+                        </div>
+                        <div class="word-count">35 words</div>
+                    </div>
+
+                    <div class="chapter">
+                        <div class="chapter-number">Chapter 3</div>
+                        <div class="chapter-title">Liberalism Without Social Contract</div>
+                        <div class="chapter-summary">
+                            Liberalism's relationship with community has been misunderstood. Early liberal thought valued community; later thinkers like Rousseau emphasized "general will" and social contracts. The chapter explains how to build a liberal framework based on deliberative, community foundations.
+                        </div>
+                        <div class="word-count">40 words</div>
+                    </div>
+
+                    <div class="chapter">
+                        <div class="chapter-number">Chapter 4</div>
+                        <div class="chapter-title">Liberal Success</div>
+                        <div class="chapter-summary">
+                            Post-WWII liberal democracies delivered on promises: shared prosperity, strong public services, and voice in governance. Countries adopting liberal institutions saw impressive economic growth, improved education and health. Even well-designed regulations protected vulnerable populations effectively.
+                        </div>
+                        <div class="word-count">39 words</div>
+                    </div>
+
+                    <div class="chapter">
+                        <div class="chapter-number">Chapter 5</div>
+                        <div class="chapter-title">Liberalism's Dilemmas</div>
+                        <div class="chapter-summary">
+                            Liberalism faces inherent tensions: inclusion versus freedom, addressing ignorance, and managing intolerance. No perfect solutions exist; dilemmas involve trade-offs between freedoms and self-government. Liberal theory offers practical frameworks for navigating these competing demands.
+                        </div>
+                        <div class="word-count">37 words</div>
+                    </div>
+
+                    <div class="chapter">
+                        <div class="chapter-number">Chapter 6</div>
+                        <div class="chapter-title">Pathway to Crisis</div>
+                        <div class="chapter-summary">
+                            Digital technologies transformed industrial economics into post-industrial structure. Economic dynamics shifted fundamentally—changes affecting labor markets, job quality, and wealth distribution. These shifts undermine the shared prosperity liberalism once promised workers.
+                        </div>
+                        <div class="word-count">33 words</div>
+                    </div>
+
+                    <div class="chapter">
+                        <div class="chapter-number">Chapter 7</div>
+                        <div class="chapter-title">Postindustrial Politics</div>
+                        <div class="chapter-summary">
+                            College-educated professionals became politically dominant in post-industrial societies, separating from working-class concerns. This educational divide created deep political polarization, with educated elites driving policy agendas disconnected from ordinary workers' experiences and needs.
+                        </div>
+                        <div class="word-count">35 words</div>
+                    </div>
+
+                    <div class="chapter">
+                        <div class="chapter-number">Chapter 8</div>
+                        <div class="chapter-title">Social Engineering</div>
+                        <div class="chapter-summary">
+                            Social engineering—deliberate attempts to reshape society—accompanies most political systems but intensifies when educated groups gain influence. Post-industrial elites pursued social engineering reflecting their values, triggering worker backlash and deepening liberal democracy's crisis.
+                        </div>
+                        <div class="word-count">35 words</div>
+                    </div>
+
+                    <div class="chapter">
+                        <div class="chapter-number">Chapter 9</div>
+                        <div class="chapter-title">Liberalism in the Age of Algorithms</div>
+                        <div class="chapter-summary">
+                            Social media amplifies pre-existing liberal failures by preventing community formation and trust-building. While AI's potential is complex, both social media and algorithmic systems can damage experimentation and collective knowledge accumulation, warranting strong regulation.
+                        </div>
+                        <div class="word-count">37 words</div>
+                    </div>
+
+                    <div class="chapter">
+                        <div class="chapter-number">Chapter 10</div>
+                        <div class="chapter-title">Working-Class Liberalism</div>
+                        <div class="chapter-summary">
+                            Liberal democracy must rebuild with working-class concerns central. Renewed focus: human fallibility, expression, shared growth, jobs, community, and self-government. This represents liberalism's path to sustainable revival for generations to come.
+                        </div>
+                        <div class="word-count">33 words</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Liberal Democracy: A Critical Analysis by Daron Acemoglu</strong></p>
+            <p>2024 Nobel Prize in Economic Sciences | Massachusetts Institute of Technology</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleDropdown(event) {
+            const header = event.currentTarget;
+            const content = header.nextElementSibling;
+            const toggle = header.querySelector('.dropdown-toggle');
+
+            header.classList.toggle('active');
+            content.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
