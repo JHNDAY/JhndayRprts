@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" style="color-scheme: light;"><head><!-- frame-runtime --><!-- /frame-runtime -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reading the 2026 Mah Jongg Card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&amp;family=Playfair+Display:ital,wght@0,500;0,700;1,500&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f1e1;
+  --paper: #fffaf0;
+  --ink: #14213d;
+  --muted: #475069;
+  --rule: #14213d;
+  --gold: #8a6a0a;
+  --gold-fill: #e3b93c;
+  --btn-bg: #14213d;
+  --btn-ink: #f7f1e1;
+  --field: #ffffff;
+  --tile: #fffdf4;
+  --tile-edge: #b9ab86;
+  --bam: #1f7a4d;
+  --crak: #b3261e;
+  --dot: #1d4e9e;
+  --note-bg: #efe6c8;
+  --serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --body: Georgia, "Times New Roman", serif;
+  --mono: "Courier Prime", "Courier New", monospace;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1830; --paper: #162244; --ink: #f3ead2; --muted: #b9c0d4;
+    --rule: #c9a227; --gold: #e6bd49; --gold-fill: #e6bd49;
+    --btn-bg: #e6bd49; --btn-ink: #0f1830; --field: #0f1830;
+    --note-bg: #1d2c55; --tile-edge: #7d7355;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1830; --paper: #162244; --ink: #f3ead2; --muted: #b9c0d4;
+  --rule: #c9a227; --gold: #e6bd49; --gold-fill: #e6bd49;
+  --btn-bg: #e6bd49; --btn-ink: #0f1830; --field: #0f1830;
+  --note-bg: #1d2c55; --tile-edge: #7d7355;
+}
+[hidden] { display: none !important; }
+*, *::before, *::after { box-sizing: inherit; }
+html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 4.5rem); scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--body); font-size: 1.125rem; line-height: 1.65;
+}
+.wrap { max-width: 58rem; margin: 0 auto; padding: 0 1.25rem 4rem; }
+
+/* Masthead */
+header.mast { padding: 2.2rem 0 1.2rem; border-bottom: 4px double var(--rule); margin-bottom: 0; }
+header.mast h1 { font-family: var(--serif); font-weight: 700; font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.1; margin: 0 0 .6rem; }
+header.mast p { margin: 0; color: var(--muted); font-style: italic; max-width: 40rem; }
+
+nav.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: var(--bg); border-bottom: 1px solid var(--rule);
+  display: flex; gap: .25rem; overflow-x: auto; padding: .4rem 0;
+}
+nav.top a {
+  flex: 0 0 auto; color: var(--ink); text-decoration: none; font-family: var(--serif);
+  font-weight: 500; padding: .55rem .85rem; border-radius: 4px; font-size: 1rem; min-height: 44px; display: inline-flex; align-items: center;
+}
+nav.top a:hover { background: var(--note-bg); }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--gold); outline-offset: 2px;
+}
+
+section { padding-top: 2.6rem; }
+h2 { font-family: var(--serif); font-size: clamp(1.6rem, 4vw, 2.2rem); line-height: 1.2; margin: 0 0 .5rem; padding-bottom: .4rem; border-bottom: 2px solid var(--rule); }
+h3 { font-family: var(--serif); font-size: 1.3rem; margin: 1.8rem 0 .4rem; }
+p { margin: .6rem 0; max-width: 42rem; }
+.lede { font-size: 1.2rem; }
+.note {
+  background: var(--note-bg); border-left: 5px solid var(--gold-fill);
+  padding: .8rem 1rem; margin: 1.2rem 0; max-width: 44rem;
+}
+.note p { margin: .3rem 0; }
+code, .mono { font-family: var(--mono); font-weight: 700; }
+.sample {
+  font-family: var(--mono); font-size: 1.5rem; letter-spacing: .08em; font-weight: 700;
+  background: var(--paper); border: 1px solid var(--tile-edge); padding: .8rem 1rem; display: inline-block; margin: .4rem 0;
+}
+
+/* Tables */
+.tscroll { overflow-x: auto; margin: 1rem 0; max-width: 100%; }
+table { border-collapse: collapse; width: 100%; background: var(--paper); font-size: 1.02rem; }
+th, td { text-align: left; vertical-align: top; padding: .65rem .8rem; border-bottom: 1px solid var(--tile-edge); }
+th { font-family: var(--serif); border-bottom: 2px solid var(--rule); background: var(--note-bg); }
+td.k { font-family: var(--mono); font-weight: 700; white-space: nowrap; }
+
+dl.gloss { margin: 1rem 0; display: grid; grid-template-columns: minmax(10rem, 14rem) 1fr; gap: 0; background: var(--paper); border: 1px solid var(--tile-edge); }
+dl.gloss dt, dl.gloss dd { margin: 0; padding: .7rem .9rem; border-bottom: 1px solid var(--tile-edge); }
+dl.gloss dt { font-family: var(--serif); font-weight: 700; }
+dl.gloss dt:last-of-type, dl.gloss dd:last-of-type { border-bottom: 0; }
+@media (max-width: 600px) {
+  dl.gloss { grid-template-columns: 1fr; }
+  dl.gloss dt { border-bottom: 0; padding-bottom: 0; }
+}
+
+/* Color chips */
+.chips { display: flex; flex-wrap: wrap; gap: .6rem; margin: .8rem 0; }
+.chip { font-family: var(--mono); font-weight: 700; font-size: 1.4rem; padding: .35rem .8rem; background: var(--tile); border: 1px solid var(--tile-edge); border-radius: 5px; }
+.c-r { color: var(--crak); } .c-g { color: var(--bam); } .c-b { color: var(--dot); } .c-k { color: #1b1b1b; }
+
+/* Tiles */
+.tilerow { display: flex; flex-wrap: wrap; gap: .45rem; margin: .5rem 0 1rem; }
+.tile {
+  width: 3.1rem; height: 4.1rem; background: var(--tile); border: 1px solid var(--tile-edge);
+  border-bottom-width: 4px; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  line-height: 1.1; color: #1b1b1b;
+}
+.tile .m { font-family: var(--serif); font-weight: 700; font-size: 1.5rem; }
+.tile .s { font-size: .62rem; font-family: var(--body); }
+.tile.bam { color: var(--bam); } .tile.crak { color: var(--crak); } .tile.dot { color: var(--dot); }
+.tile.wide { width: 4.2rem; }
+.tile.joker { background: #2a2a2a; color: #f5d56b; border-color: #111; }
+.tile.soap { color: var(--dot); }
+.rowlabel { font-family: var(--serif); font-weight: 700; margin: 1rem 0 0; }
+
+/* Charleston */
+ol.steps { list-style: none; counter-reset: s; padding: 0; margin: 1rem 0; max-width: 44rem; }
+ol.steps li { counter-increment: s; position: relative; padding: .7rem .9rem .7rem 3.4rem; background: var(--paper); border: 1px solid var(--tile-edge); margin-bottom: .45rem; }
+ol.steps li::before {
+  content: counter(s); position: absolute; left: .8rem; top: .55rem; width: 2rem; height: 2rem; border-radius: 50%;
+  background: var(--btn-bg); color: var(--btn-ink); font-family: var(--serif); font-weight: 700; display: grid; place-items: center;
+}
+ol.steps li.vote { background: var(--note-bg); border-left: 5px solid var(--gold-fill); }
+ol.steps li.vote::before { content: "?"; }
+ol.steps li strong { font-family: var(--serif); }
+ul.plain { max-width: 44rem; padding-left: 1.3rem; }
+ul.plain li { margin: .4rem 0; }
+
+/* Forms */
+.panel { background: var(--paper); border: 1px solid var(--tile-edge); padding: 1.1rem 1.2rem; margin: 1rem 0; }
+.grid { display: grid; gap: .9rem 1rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); }
+label { display: block; font-family: var(--serif); font-weight: 700; margin-bottom: .25rem; font-size: 1rem; }
+input[type="text"], input[type="number"], input[type="search"], select, textarea {
+  width: 100%; font: inherit; font-size: 1.05rem; padding: .6rem .7rem; min-height: 44px;
+  background: var(--field); color: var(--ink); border: 2px solid var(--tile-edge); border-radius: 4px;
+}
+textarea { min-height: 7rem; font-family: var(--mono); font-size: .95rem; }
+.inline { display: flex; align-items: center; gap: .6rem; min-height: 44px; font-family: var(--body); font-weight: 400; font-size: 1.05rem; }
+.inline input { width: 1.4rem; height: 1.4rem; accent-color: var(--btn-bg); }
+button.btn, .seg button {
+  font: inherit; font-family: var(--serif); font-weight: 700; font-size: 1rem; min-height: 44px; padding: .55rem 1.1rem;
+  background: var(--btn-bg); color: var(--btn-ink); border: 2px solid var(--btn-bg); border-radius: 4px; cursor: pointer;
+}
+button.btn.alt, .seg button { background: transparent; color: var(--ink); border-color: var(--ink); }
+.seg { display: flex; flex-wrap: wrap; gap: .4rem; }
+.seg button { padding: .4rem .9rem; min-width: 3.4rem; }
+.seg button[aria-pressed="true"] { background: var(--btn-bg); color: var(--btn-ink); border-color: var(--btn-bg); }
+.actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1rem; }
+
+.result { margin-top: 1.1rem; }
+.result .big { font-family: var(--serif); font-size: 1.5rem; font-weight: 700; }
+.result td.num, .result th.num { text-align: right; font-family: var(--mono); font-weight: 700; }
+
+/* Tracker table */
+.hands td.hand { font-family: var(--mono); font-weight: 700; font-size: 1.1rem; letter-spacing: .04em; }
+.hands td.val { font-family: var(--mono); font-weight: 700; }
+.hands button.mini {
+  font: inherit; min-height: 44px; min-width: 44px; background: transparent; color: var(--ink); border: 1px solid var(--tile-edge);
+  border-radius: 4px; cursor: pointer; font-size: 1rem; padding: .2rem .55rem;
+}
+.hands button.mini.on { background: var(--gold-fill); color: #14213d; border-color: var(--gold-fill); }
+.empty { padding: 1.4rem; text-align: center; color: var(--muted); background: var(--paper); border: 1px dashed var(--tile-edge); }
+.count { color: var(--muted); font-style: italic; margin: .6rem 0 0; }
+#msg { min-height: 1.6rem; color: var(--gold); font-weight: 700; margin: .5rem 0 0; }
+
+footer { margin-top: 3.5rem; border-top: 4px double var(--rule); padding-top: 1rem; color: var(--muted); font-size: .95rem; max-width: 46rem; }
+
+@media print {
+  nav.top, .noprint { display: none; }
+  body { background: #fff; color: #000; font-size: 11pt; }
+  .panel, table, dl.gloss { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="mast">
+  <h1>Reading the 2026 Mah Jongg Card</h1>
+  <p>A plain-language companion to the National Mah Jongg League card: how the card is written, what the tiles and jokers do, how the Charleston goes, and what each win pays.</p>
+  <div class="actions noprint">
+    <button type="button" class="btn" id="dl-guide" disabled="">Download this guide</button>
+  </div>
+  <p id="dl-msg" role="status" aria-live="polite" style="min-height:1.6rem; color:var(--gold); font-weight:700; font-style:normal; margin-top:.5rem"></p>
+</header>
+
+<nav class="top" aria-label="Sections of this guide">
+  <a href="#read">Reading the card</a>
+  <a href="#sections">Card sections</a>
+  <a href="#tiles">Tiles</a>
+  <a href="#jokers">Jokers</a>
+  <a href="#charleston">Charleston</a>
+  <a href="#play">Turn by turn</a>
+  <a href="#scoring">Payments</a>
+  <a href="#tracker">My hands</a>
+</nav>
+
+<main>
+
+<div class="note">
+  <p><strong>Keep your own card beside you.</strong> This guide explains how to read the card but does not reprint its hands. The League publishes a new card every year, and you can order yours at nmjl.org. The "My hands" tool at the bottom lets you type in the hands you care about from your own copy.</p>
+</div>
+
+<!-- ============ READING THE CARD ============ -->
+<section id="read">
+  <h2>How to read the card</h2>
+  <p class="lede">Every line on the card is a recipe for a 14-tile hand. Tiles are written as numbers and letters, grouped with spaces, with a short note in parentheses and a point value at the end.</p>
+
+  <h3>Colors mean suits, not specific suits</h3>
+  <p>The card prints its hands in colors. Tiles printed in the <em>same</em> color must come from the <em>same</em> suit. Tiles in <em>different</em> colors must come from different suits. The color itself does not tell you which suit: a hand printed in red does not have to use Craks, and green does not have to mean Bams. This year's card prints in red, green, and black.</p>
+  <div class="chips" aria-label="Example colors">
+    <span class="chip c-r">Red</span><span class="chip c-g">Green</span><span class="chip c-k">Black</span>
+  </div>
+  <p>So if a hand shows one run of numbers in red and another run in green, you need two different suits, and you choose which suit plays each role.</p>
+
+  <h3>Reading one line</h3>
+  <p>Here is a made-up sample line (it is not a hand from the card) to show how the notation works:</p>
+  <div class="sample" aria-label="Sample hand: F F, 4 4 4 4, 5 5, 6 6 6 6, 7 7">FF 4444 55 6666 77</div>
+  <p>Read it in groups: two flowers, a kong of 4s, a pair of 5s, a kong of 6s, and a pair of 7s. That adds up to 2 + 4 + 2 + 4 + 2 = 14 tiles. Every Mah Jongg hand totals 14.</p>
+
+  <h3>The notation key</h3>
+  <div class="tscroll">
+    <table>
+      <thead><tr><th>You see</th><th>It means</th></tr></thead>
+      <tbody>
+        <tr><td class="k">1 2 3 … 9</td><td>A number tile of that value, in the suit the color indicates.</td></tr>
+        <tr><td class="k">N E W S</td><td>The four wind tiles: North, East, West, South.</td></tr>
+        <tr><td class="k">D</td><td>A dragon tile. The note beside the hand says which dragons are allowed (see the glossary below).</td></tr>
+        <tr><td class="k">0</td><td>A White Dragon playing the part of zero (see below).</td></tr>
+        <tr><td class="k">F</td><td>A flower tile. Any flower will do for any F.</td></tr>
+        <tr><td class="k">Repeats</td><td>The number of times a symbol repeats is how many you need: two is a pair, three a pung, four a kong, five a quint.</td></tr>
+        <tr><td class="k">X</td><td>Next to the value: the hand may be exposed. You can call discards and show sets as you build it.</td></tr>
+        <tr><td class="k">C</td><td>Next to the value: the hand must stay concealed. Nothing is exposed, except that the winning tile may be taken from a discard.</td></tr>
+        <tr><td class="k">25 … 75</td><td>The hand's base point value. It is the number used in the payment calculator below.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>White Dragon is zero</h3>
+  <p>The card carries a note at the top left: the White Dragon (often called "Soap") is used as zero. A 0 on the card is always played with a White Dragon tile. The note also says it may be used with any suit, so a zero does not have to match the suit of the numbers around it. Wherever the card shows a plain D for a dragon, that is a real dragon hand and the printed instructions govern which dragon fits.</p>
+
+  <h3>Glossary of the phrases in parentheses</h3>
+  <dl class="gloss">
+    <dt>Any 1 Suit</dt><dd>Every number tile in the hand comes from a single suit.</dd>
+    <dt>Any 2 Suits</dt><dd>The number tiles come from two different suits. Each color on the line stands for one of them.</dd>
+    <dt>Any 3 Suits</dt><dd>The number tiles are spread across all three suits, one color per suit.</dd>
+    <dt>Pair, Pung, Kong, Quint</dt><dd>2, 3, 4, and 5 identical tiles. Larger groups need jokers once you run out of natural tiles, since the set contains only four of each tile.</dd>
+    <dt>Consec. Nos.</dt><dd>Consecutive numbers: for instance 3-4-5-6 in order. The note tells you whether you may choose where the run starts.</dd>
+    <dt>Like Numbers</dt><dd>The same number in different suits. A "like" group might be the same pair or kong repeated across the suits.</dd>
+    <dt>Matching Dragon</dt><dd>The dragon that pairs with a suit: Green with Bams, Red with Craks, White with Dots.</dd>
+    <dt>Opp. Dragon</dt><dd>Opposite dragon: a dragon that does not match the suit in question.</dd>
+    <dt>Any Dragon</dt><dd>Whichever dragon you like, as the note allows.</dd>
+    <dt>Kongs Match Pair</dt><dd>Wording like this means the pair and the kongs on the line must connect in the way the note describes. Read it as a rule about which numbers go together.</dd>
+    <dt>Dead hand</dt><dd>A hand that can no longer win, for example because of the wrong tile count or an error in exposing. A player with a dead hand keeps playing but cannot win.</dd>
+  </dl>
+</section>
+
+<!-- ============ SECTIONS ============ -->
+<section id="sections">
+  <h2>How the card is organized</h2>
+  <p>The card is divided into themed sections. A section tells you the theme the hands share, so you can scan quickly for the family of hands that fits what you were dealt. The sections do not rank hands by difficulty; use the printed value and the X or C mark for that.</p>
+  <div class="tscroll">
+    <table>
+      <thead><tr><th>Section</th><th>What its hands have in common</th></tr></thead>
+      <tbody>
+        <tr><td><strong>2026</strong></td><td>Built around the digits of the year: 2, 0, 2, and 6. The zero is a White Dragon.</td></tr>
+        <tr><td><strong>2468</strong></td><td>Even-numbered tiles: 2s, 4s, 6s, and 8s.</td></tr>
+        <tr><td><strong>Any Like Numbers</strong></td><td>The same number repeated across suits, so you choose which number to build.</td></tr>
+        <tr><td><strong>Quints</strong></td><td>Five of a kind. There are only four of any tile, so a quint needs at least one joker.</td></tr>
+        <tr><td><strong>Consecutive Run</strong></td><td>Runs of numbers in order, with pairs and kongs on the way.</td></tr>
+        <tr><td><strong>13579</strong></td><td>Odd-numbered tiles: 1s, 3s, 5s, 7s, and 9s.</td></tr>
+        <tr><td><strong>Winds-Dragons</strong></td><td>Heavy on wind and dragon tiles, sometimes mixed with numbers.</td></tr>
+        <tr><td><strong>369</strong></td><td>Multiples of three: 3s, 6s, and 9s.</td></tr>
+        <tr><td><strong>Singles and Pairs</strong></td><td>Hands made of pairs and single tiles. These are generally concealed, and because jokers cannot stand in for singles or pairs, they play without jokers.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Sections are the same year to year in spirit, but the specific hands change every year, so always play from the current card.</p>
+</section>
+
+<!-- ============ TILES ============ -->
+<section id="tiles">
+  <h2>Tile legend</h2>
+  <p>An American set has 152 tiles. Here is what is in it.</p>
+
+  <div id="tile-demo"></div>
+
+  <div class="tscroll">
+    <table>
+      <thead><tr><th>Group</th><th>Tiles</th><th>Copies of each</th><th>Total</th></tr></thead>
+      <tbody>
+        <tr><td>Bams (Bamboo)</td><td>1 through 9</td><td>4</td><td class="k">36</td></tr>
+        <tr><td>Craks (Characters)</td><td>1 through 9</td><td>4</td><td class="k">36</td></tr>
+        <tr><td>Dots (Circles)</td><td>1 through 9</td><td>4</td><td class="k">36</td></tr>
+        <tr><td>Winds</td><td>North, East, West, South</td><td>4</td><td class="k">16</td></tr>
+        <tr><td>Dragons</td><td>Green, Red, White (Soap)</td><td>4</td><td class="k">12</td></tr>
+        <tr><td>Flowers</td><td>Eight flowers, interchangeable</td><td>8 in all</td><td class="k">8</td></tr>
+        <tr><td>Jokers</td><td>Wild tiles with limits (next section)</td><td>8 in all</td><td class="k">8</td></tr>
+        <tr><td colspan="3"><strong>Whole set</strong></td><td class="k">152</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Suit pairing worth remembering: Green Dragon goes with Bams, Red Dragon with Craks, White Dragon with Dots. White also doubles as the zero on the card.</p>
+</section>
+
+<!-- ============ JOKERS ============ -->
+<section id="jokers">
+  <h2>Joker rules</h2>
+  <ul class="plain">
+    <li><strong>Where jokers work.</strong> A joker can stand in for any tile in a set of three or more identical tiles: a pung, kong, quint, or sextet.</li>
+    <li><strong>Where they do not.</strong> Never in a pair and never as a single tile. A hand that is entirely pairs and singles, like those in the Singles and Pairs section, plays without jokers.</li>
+    <li><strong>Flowers.</strong> Jokers can fill out a set of flowers of three or more, but not a pair of flowers.</li>
+    <li><strong>No passing.</strong> A joker may not be passed in the Charleston.</li>
+    <li><strong>Discarded jokers are dead.</strong> If someone discards a joker, nobody can call it or pick it up.</li>
+    <li><strong>Exchanging.</strong> On your own turn, you may swap a natural tile from your rack for a joker sitting in any exposed set, yours or another player's, as long as your tile is the one the joker is standing in for. You take the joker and may use it in your own hand.</li>
+    <li><strong>Calling with jokers.</strong> You may call a discard to complete a set that includes jokers from your rack, as long as the set is one that jokers are allowed in.</li>
+    <li><strong>Jokerless bonus.</strong> A winning hand with no jokers in it earns a bonus (see the payments section).</li>
+  </ul>
+  <div class="note"><p>Groups differ on small points. The National Mah Jongg League publishes the official rules, and your group's house rules take priority at your table.</p></div>
+</section>
+
+<!-- ============ CHARLESTON ============ -->
+<section id="charleston">
+  <h2>The Charleston</h2>
+  <p>The Charleston is the tile exchange before play begins. Each pass is three tiles, face down, and no jokers can ever be passed. Choose the tiles you want to be rid of before you pick up what you receive.</p>
+  <h3>First Charleston (required)</h3>
+  <ol class="steps">
+    <li><strong>Pass right.</strong> Each player passes three tiles to the player on their right.</li>
+    <li><strong>Pass across.</strong> Three tiles go to the player opposite.</li>
+    <li><strong>Pass left.</strong> Three tiles go to the player on the left. A blind pass is allowed here: you may pass along tiles you just received without looking at them, using tiles from your rack to make up the rest.</li>
+    <li class="vote"><strong>Vote.</strong> Everyone must agree to a second Charleston. If any one player says no, it stops.</li>
+  </ol>
+  <h3>Second Charleston (optional)</h3>
+  <ol class="steps" style="counter-reset: s 3;">
+    <li><strong>Pass left.</strong> Three tiles to the player on the left.</li>
+    <li><strong>Pass across.</strong> Three tiles to the player opposite.</li>
+    <li><strong>Pass right.</strong> Three tiles to the player on the right. A blind pass is allowed on this last pass.</li>
+  </ol>
+  <h3>Courtesy pass</h3>
+  <ol class="steps" style="counter-reset: s 6;">
+    <li><strong>Across, zero to three tiles.</strong> You and the player opposite each say how many tiles you want to swap, from none to three. If you name different numbers, the smaller number is the one you swap.</li>
+  </ol>
+  <p>After the courtesy pass, East discards first and play begins.</p>
+</section>
+
+<!-- ============ PLAY ============ -->
+<section id="play">
+  <h2>A turn at the table</h2>
+  <ul class="plain">
+    <li><strong>The deal.</strong> East takes 14 tiles; everyone else takes 13. Play goes counterclockwise.</li>
+    <li><strong>On your turn.</strong> Draw one tile from the wall (or take a discard you are entitled to call), then discard one face up and say its name aloud.</li>
+    <li><strong>Calling a discard.</strong> Any player may call the most recent discard to complete a pung, kong, quint, or sextet, or to win. You must expose that set face up on your rack. You cannot call a discard just to make a pair or a single, except to win.</li>
+    <li><strong>Competing calls.</strong> A call for Mah Jongg beats any other call. Otherwise, the caller who would be next in turn order gets the tile.</li>
+    <li><strong>Concealed hands.</strong> A hand marked C stays unexposed. The only discard you may take is the one that wins.</li>
+    <li><strong>Winning.</strong> Call "Mah Jongg" when your 14 tiles match a hand on the card exactly, then show it. If the wall runs out first, the game is a draw and nobody is paid.</li>
+  </ul>
+</section>
+
+<!-- ============ SCORING ============ -->
+<section id="scoring">
+  <h2>Payment calculator</h2>
+  <p>Enter the point value printed on the hand you won. The calculator applies the common NMJL payment rules: the discarder pays double on a win off a discard, everyone pays double on a self-drawn win, and a jokerless hand doubles the value.</p>
+
+  <div class="panel">
+    <div class="grid">
+      <div>
+        <label for="calc-val">Hand value</label>
+        <input id="calc-val" type="number" min="5" step="5" value="25" inputmode="numeric">
+      </div>
+      <div>
+        <label id="lbl-chips">Quick values</label>
+        <div class="seg" id="calc-chips" role="group" aria-labelledby="lbl-chips"></div>
+      </div>
+    </div>
+    <div class="grid" style="margin-top:1rem">
+      <div>
+        <label for="calc-win">How the hand was won</label>
+        <select id="calc-win">
+          <option value="discard">From someone's discard</option>
+          <option value="self">Self-drawn from the wall</option>
+        </select>
+      </div>
+      <div>
+        <label>Bonus</label>
+        <label class="inline"><input type="checkbox" id="calc-jl"> Jokerless (no jokers in the hand)</label>
+      </div>
+    </div>
+    <div class="result" aria-live="polite" id="calc-out"></div>
+  </div>
+
+  <div class="note">
+    <p>Hands that cannot contain jokers at all, such as those in Singles and Pairs, do not usually earn the jokerless bonus, so leave that box unchecked for them. Some groups add or drop bonuses, so check your table's house rules.</p>
+  </div>
+</section>
+
+<!-- ============ TRACKER ============ -->
+<section id="tracker">
+  <h2>My hands</h2>
+  <p>Type in the hands you want to keep handy from your own card, then filter and search them by section, value, or exposed versus concealed. It starts empty. Your entries are saved in this browser on this device only.</p>
+
+  <div class="panel noprint">
+    <form id="hand-form" onsubmit="return false;" novalidate="">
+      <div class="grid">
+        <div>
+          <label for="f-section">Section</label>
+          <select id="f-section"></select>
+        </div>
+        <div>
+          <label for="f-hand">Hand, as printed on your card</label>
+          <input id="f-hand" type="text" autocomplete="off" placeholder="Type the tiles in your own shorthand">
+        </div>
+        <div>
+          <label for="f-value">Value</label>
+          <select id="f-value"></select>
+        </div>
+        <div>
+          <label for="f-type">Exposed or concealed</label>
+          <select id="f-type">
+            <option value="X">X: exposed allowed</option>
+            <option value="C">C: concealed</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-top:.9rem">
+        <label for="f-notes">Notes (optional)</label>
+        <input id="f-notes" type="text" autocomplete="off" placeholder="Suit requirements, your reminders">
+      </div>
+      <div class="actions">
+        <button type="button" class="btn" id="f-add">Add hand</button>
+      </div>
+      <div id="msg" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+
+  <div class="panel noprint">
+    <div class="grid">
+      <div>
+        <label for="q-text">Search</label>
+        <input id="q-text" type="search" placeholder="Search hands and notes">
+      </div>
+      <div>
+        <label for="q-section">Section</label>
+        <select id="q-section"></select>
+      </div>
+      <div>
+        <label for="q-value">Value</label>
+        <select id="q-value"></select>
+      </div>
+      <div>
+        <label for="q-type">Type</label>
+        <select id="q-type">
+          <option value="">All</option>
+          <option value="X">Exposed allowed (X)</option>
+          <option value="C">Concealed (C)</option>
+        </select>
+      </div>
+    </div>
+    <label class="inline" style="margin-top:.6rem"><input type="checkbox" id="q-star"> Show favorites only</label>
+  </div>
+
+  <p class="count" id="count" aria-live="polite"></p>
+  <div id="list"></div>
+  <div class="actions noprint">
+    <button type="button" class="btn alt" id="dl-csv">Download my hands (CSV)</button>
+  </div>
+
+  <details class="panel noprint" style="margin-top:1.4rem">
+    <summary style="cursor:pointer; font-family:var(--serif); font-weight:700; min-height:44px; display:flex; align-items:center;">Back up or restore your list</summary>
+    <p>Press "Create backup text," then copy the text and keep it somewhere safe. To restore, paste a backup into the box and press "Restore from text." Restoring replaces what is on this page.</p>
+    <textarea id="bk-text" aria-label="Backup text" spellcheck="false"></textarea>
+    <div class="actions">
+      <button type="button" class="btn alt" id="bk-make">Create backup text</button>
+      <button type="button" class="btn alt" id="bk-restore">Restore from text</button>
+      <button type="button" class="btn alt" id="bk-clear">Clear all hands</button>
+    </div>
+  </details>
+</section>
+
+</main>
+
+<footer>
+  <p>This guide is an independent study aid and is not affiliated with or endorsed by the National Mah Jongg League. The League's card is its own copyrighted publication. Rules summarized here follow common American Mah Jongg practice and can differ slightly between groups; for official rulings, consult the League's rule book.</p>
+</footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- Shared data ---------- */
+  var SECTIONS = ["2026", "2468", "Any Like Numbers", "Quints", "Consecutive Run", "13579", "Winds-Dragons", "369", "Singles and Pairs"];
+  var VALUES = [25, 30, 35, 40, 45, 50, 75];
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+  function $(id) { return document.getElementById(id); }
+
+  /* ---------- Tile legend ---------- */
+  function tile(main, sub, cls) {
+    var t = el("div", "tile " + (cls || ""));
+    t.appendChild(el("span", "m", main));
+    if (sub) t.appendChild(el("span", "s", sub));
+    return t;
+  }
+  (function buildTiles() {
+    var host = $("tile-demo");
+    [["Bams", "bam"], ["Craks", "crak"], ["Dots", "dot"]].forEach(function (s) {
+      host.appendChild(el("p", "rowlabel", s[0] + ": 1 through 9"));
+      var row = el("div", "tilerow");
+      for (var n = 1; n <= 9; n++) row.appendChild(tile(String(n), s[0].slice(0, -1), s[1]));
+      host.appendChild(row);
+    });
+    host.appendChild(el("p", "rowlabel", "Winds"));
+    var w = el("div", "tilerow");
+    [["N", "North"], ["E", "East"], ["W", "West"], ["S", "South"]].forEach(function (x) { w.appendChild(tile(x[0], x[1], "")); });
+    host.appendChild(w);
+    host.appendChild(el("p", "rowlabel", "Dragons"));
+    var d = el("div", "tilerow");
+    d.appendChild(tile("D", "Green", "bam wide"));
+    d.appendChild(tile("D", "Red", "crak wide"));
+    d.appendChild(tile("D", "White", "soap wide"));
+    host.appendChild(d);
+    host.appendChild(el("p", "rowlabel", "Flowers and Jokers"));
+    var f = el("div", "tilerow");
+    f.appendChild(tile("F", "Flower", "wide"));
+    f.appendChild(tile("J", "Joker", "joker wide"));
+    host.appendChild(f);
+  })();
+
+  /* ---------- Payment calculator ---------- */
+  var calcVal = $("calc-val"), calcWin = $("calc-win"), calcJl = $("calc-jl"), calcOut = $("calc-out"), calcChips = $("calc-chips");
+
+  VALUES.forEach(function (v) {
+    var b = el("button", "", String(v));
+    b.type = "button";
+    b.setAttribute("aria-pressed", v === 25 ? "true" : "false");
+    b.addEventListener("click", function () { calcVal.value = v; renderCalc(); });
+    calcChips.appendChild(b);
+  });
+
+  function renderCalc() {
+    var base = parseInt(calcVal.value, 10);
+    Array.prototype.forEach.call(calcChips.children, function (b) {
+      b.setAttribute("aria-pressed", String(parseInt(b.textContent, 10) === base));
+    });
+    calcOut.textContent = "";
+    if (!base || base < 1) {
+      calcOut.appendChild(el("p", "", "Enter the hand's point value to see the payments."));
+      return;
+    }
+    var jl = calcJl.checked;
+    var eff = jl ? base * 2 : base;
+    var self = calcWin.value === "self";
+
+    var rows = [];
+    if (self) {
+      rows = [["Player 1", eff * 2], ["Player 2", eff * 2], ["Player 3", eff * 2]];
+    } else {
+      rows = [["The player who discarded", eff * 2], ["Other player", eff], ["Other player", eff]];
+    }
+    var total = rows.reduce(function (a, r) { return a + r[1]; }, 0);
+
+    var big = el("p", "big", "Winner collects " + total + " points");
+    calcOut.appendChild(big);
+
+    var steps = [];
+    steps.push("Hand value: " + base + (jl ? ", doubled to " + eff + " for no jokers." : "."));
+    steps.push(self ? "Self-drawn win: each of the other three players pays double, " + (eff * 2) + "." : "Win off a discard: the discarder pays double, " + (eff * 2) + ". The other two pay " + eff + " each.");
+    var ul = el("ul", "plain");
+    steps.forEach(function (s) { ul.appendChild(el("li", "", s)); });
+    calcOut.appendChild(ul);
+
+    var wrap = el("div", "tscroll");
+    var tb = el("table");
+    var th = el("thead"), hr = el("tr");
+    hr.appendChild(el("th", "", "Pays"));
+    var pn = el("th", "num", "Points");
+    hr.appendChild(pn);
+    th.appendChild(hr); tb.appendChild(th);
+    var body = el("tbody");
+    rows.forEach(function (r) {
+      var tr = el("tr");
+      tr.appendChild(el("td", "", r[0]));
+      tr.appendChild(el("td", "num", String(r[1])));
+      body.appendChild(tr);
+    });
+    var tt = el("tr");
+    tt.appendChild(el("td", "", "Total to the winner"));
+    tt.appendChild(el("td", "num", String(total)));
+    body.appendChild(tt);
+    tb.appendChild(body);
+    wrap.appendChild(tb);
+    calcOut.appendChild(wrap);
+  }
+  calcVal.addEventListener("input", renderCalc);
+  calcWin.addEventListener("change", renderCalc);
+  calcJl.addEventListener("change", renderCalc);
+  renderCalc();
+
+  /* ---------- Storage (guarded) ---------- */
+  var KEY = "mj2026-my-hands";
+  var memStore = null;
+  function loadHands() {
+    try {
+      var raw = window.localStorage.getItem(KEY);
+      if (raw) { var a = JSON.parse(raw); if (Array.isArray(a)) return a; }
+    } catch (e) { /* storage unavailable */ }
+    return memStore ? memStore.slice() : [];
+  }
+  var storageOK = true;
+  function saveHands(list) {
+    memStore = list.slice();
+    try { window.localStorage.setItem(KEY, JSON.stringify(list)); storageOK = true; }
+    catch (e) { storageOK = false; }
+  }
+  var hands = loadHands();
+
+  /* ---------- Tracker UI ---------- */
+  function fillSelect(sel, items, allLabel, fmt) {
+    sel.textContent = "";
+    if (allLabel) { var o = el("option", "", allLabel); o.value = ""; sel.appendChild(o); }
+    items.forEach(function (it) { var o = el("option", "", fmt ? fmt(it) : String(it)); o.value = String(it); sel.appendChild(o); });
+  }
+  fillSelect($("f-section"), SECTIONS);
+  fillSelect($("f-value"), VALUES, null, function (v) { return v + " points"; });
+  fillSelect($("q-section"), SECTIONS, "All sections");
+  fillSelect($("q-value"), VALUES, "All values", function (v) { return v + " points"; });
+
+  var msg = $("msg");
+  function say(t) {
+    msg.textContent = t;
+    if (!storageOK) msg.textContent = t + " (This browser is not keeping a saved copy, so use the backup text to keep your list.)";
+    clearTimeout(say._t);
+    say._t = setTimeout(function () { msg.textContent = ""; }, 4000);
+  }
+
+  var pendingDelete = null;
+
+  function render() {
+    var qt = $("q-text").value.trim().toLowerCase();
+    var qs = $("q-section").value, qv = $("q-value").value, qty = $("q-type").value, qst = $("q-star").checked;
+    var shown = hands.filter(function (h) {
+      if (qs && h.section !== qs) return false;
+      if (qv && String(h.value) !== qv) return false;
+      if (qty && h.type !== qty) return false;
+      if (qst && !h.star) return false;
+      if (qt && (h.hand + " " + (h.notes || "")).toLowerCase().indexOf(qt) === -1) return false;
+      return true;
+    });
+    shown.sort(function (a, b) {
+      var s = SECTIONS.indexOf(a.section) - SECTIONS.indexOf(b.section);
+      return s !== 0 ? s : (a.value - b.value);
+    });
+
+    $("count").textContent = hands.length === 0 ? "" : "Showing " + shown.length + " of " + hands.length + " saved hands.";
+    var host = $("list");
+    host.textContent = "";
+
+    if (hands.length === 0) {
+      host.appendChild(el("div", "empty", "No hands yet. Add one above, copying it from your own card."));
+      return;
+    }
+    if (shown.length === 0) {
+      host.appendChild(el("div", "empty", "No hands match these filters. Clear a filter to see more."));
+      return;
+    }
+
+    var wrap = el("div", "tscroll hands");
+    var tb = el("table");
+    var th = el("thead"), hr = el("tr");
+    ["Favorite", "Section", "Hand", "Value", "Type", "Notes", "Remove"].forEach(function (t) { hr.appendChild(el("th", "", t)); });
+    th.appendChild(hr); tb.appendChild(th);
+    var body = el("tbody");
+    shown.forEach(function (h) {
+      var tr = el("tr");
+      var c1 = el("td");
+      var sb = el("button", "mini" + (h.star ? " on" : ""), h.star ? "★" : "☆");
+      sb.type = "button";
+      sb.setAttribute("aria-pressed", String(!!h.star));
+      sb.setAttribute("aria-label", (h.star ? "Remove favorite: " : "Mark favorite: ") + h.hand);
+      sb.addEventListener("click", function () { h.star = !h.star; saveHands(hands); render(); });
+      c1.appendChild(sb);
+      tr.appendChild(c1);
+      tr.appendChild(el("td", "", h.section));
+      tr.appendChild(el("td", "hand", h.hand));
+      tr.appendChild(el("td", "val", String(h.value)));
+      tr.appendChild(el("td", "", h.type === "C" ? "Concealed" : "Exposed OK"));
+      tr.appendChild(el("td", "", h.notes || ""));
+      var c7 = el("td");
+      var confirming = pendingDelete === h.id;
+      var db = el("button", "mini", confirming ? "Sure?" : "✕");
+      db.type = "button";
+      db.setAttribute("aria-label", (confirming ? "Confirm removing " : "Remove ") + h.hand);
+      db.addEventListener("click", function () {
+        if (pendingDelete === h.id) {
+          hands = hands.filter(function (x) { return x.id !== h.id; });
+          pendingDelete = null; saveHands(hands); say("Hand removed.");
+        } else { pendingDelete = h.id; }
+        render();
+      });
+      c7.appendChild(db);
+      tr.appendChild(c7);
+      body.appendChild(tr);
+    });
+    tb.appendChild(body);
+    wrap.appendChild(tb);
+    host.appendChild(wrap);
+  }
+
+  $("f-add").addEventListener("click", function () {
+    var handText = $("f-hand").value.trim();
+    if (!handText) { say("Type the hand first, then press Add hand."); $("f-hand").focus(); return; }
+    hands.push({
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+      section: $("f-section").value,
+      hand: handText,
+      value: parseInt($("f-value").value, 10),
+      type: $("f-type").value,
+      notes: $("f-notes").value.trim(),
+      star: false
+    });
+    saveHands(hands);
+    $("f-hand").value = ""; $("f-notes").value = "";
+    $("f-hand").focus();
+    say("Hand added.");
+    render();
+  });
+  $("f-hand").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); $("f-add").click(); } });
+  $("f-notes").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); $("f-add").click(); } });
+
+  ["q-text", "q-section", "q-value", "q-type", "q-star"].forEach(function (id) {
+    $(id).addEventListener("input", render);
+    $(id).addEventListener("change", render);
+  });
+
+  /* Backup / restore */
+  $("bk-make").addEventListener("click", function () {
+    $("bk-text").value = JSON.stringify(hands);
+    $("bk-text").focus(); $("bk-text").select();
+  });
+  $("bk-restore").addEventListener("click", function () {
+    try {
+      var a = JSON.parse($("bk-text").value);
+      if (!Array.isArray(a)) throw new Error("not a list");
+      hands = a.filter(function (h) { return h && typeof h.hand === "string" && SECTIONS.indexOf(h.section) !== -1; }).map(function (h) {
+        return { id: String(h.id || Date.now() + Math.random()), section: h.section, hand: h.hand, value: parseInt(h.value, 10) || 25, type: h.type === "C" ? "C" : "X", notes: typeof h.notes === "string" ? h.notes : "", star: !!h.star };
+      });
+      saveHands(hands); say("Restored " + hands.length + " hands."); render();
+    } catch (e) { say("That text is not a valid backup. Paste the full backup text and try again."); }
+  });
+  var clearArmed = false;
+  $("bk-clear").addEventListener("click", function () {
+    if (!clearArmed) { clearArmed = true; this.textContent = "Press again to clear everything"; var b = this; setTimeout(function () { clearArmed = false; b.textContent = "Clear all hands"; }, 4000); return; }
+    clearArmed = false; this.textContent = "Clear all hands";
+    hands = []; saveHands(hands); say("All hands cleared."); render();
+  });
+
+  render();
+
+  /* ---------- Downloads ---------- */
+  function flash(text) {
+    var m = $("dl-msg");
+    m.textContent = text;
+    clearTimeout(flash._t);
+    flash._t = setTimeout(function () { m.textContent = ""; }, 5000);
+  }
+  function reason(err) {
+    var c = err && err.code;
+    if (c === "declined") return "Download canceled.";
+    if (c === "rate_limited") return "A download prompt is already open. Answer it, then try again.";
+    return "The download could not start in this view.";
+  }
+
+  function cleanSource() {
+    var c = document.documentElement.cloneNode(true);
+    ["tile-demo", "calc-chips", "calc-out", "list", "f-section", "f-value", "q-section", "q-value", "bk-text", "count", "msg"].forEach(function (id) {
+      var n = c.querySelector("#" + id);
+      if (n) n.textContent = "";
+    });
+    Array.prototype.forEach.call(c.querySelectorAll("script"), function (sc) {
+      if (sc.src || sc.textContent.indexOf("mj2026-my-hands") === -1) sc.remove();
+    });
+    return "<!DOCTYPE html>\n" + c.outerHTML;
+  }
+  async function guideSource() {
+    try {
+      var r = await fetch(location.href, { credentials: "omit" });
+      var t = await r.text();
+      if (/^\s*<!doctype html/i.test(t) && t.indexOf("mj2026-my-hands") !== -1) return t;
+    } catch (e) { /* fall back to rebuilding from the page */ }
+    return cleanSource();
+  }
+
+  function csvCell(v) {
+    v = String(v == null ? "" : v);
+    if (/^[=+\-@\t\r]/.test(v)) v = "'" + v;
+    return '"' + v.replace(/"/g, '""') + '"';
+  }
+  function handsCsv() {
+    var rows = [["Section", "Hand", "Value", "Type", "Notes", "Favorite"]];
+    hands.slice().sort(function (a, b) {
+      var s = SECTIONS.indexOf(a.section) - SECTIONS.indexOf(b.section);
+      return s !== 0 ? s : (a.value - b.value);
+    }).forEach(function (h) {
+      rows.push([h.section, h.hand, h.value, h.type === "C" ? "Concealed" : "Exposed OK", h.notes || "", h.star ? "Yes" : ""]);
+    });
+    return "\uFEFF" + rows.map(function (r) { return r.map(csvCell).join(","); }).join("\r\n");
+  }
+
+  (async function wireDownloads() {
+    var dl = null;
+    try { dl = (window.claude && window.claude.use) ? await window.claude.use("downloads") : null; } catch (e) { dl = null; }
+    if (!dl) return;
+
+    var g = $("dl-guide"), c = $("dl-csv");
+    g.hidden = false; c.hidden = false;
+
+    g.addEventListener("click", async function () {
+      g.disabled = true;
+      try {
+        var html = await guideSource();
+        await dl.save({ filename: "mahjong-card-guide.html", data: html });
+        flash("Guide ready. Open the saved file in any browser.");
+      } catch (e) { flash(reason(e)); }
+      g.disabled = false;
+    });
+
+    c.addEventListener("click", async function () {
+      if (!hands.length) { say("Add at least one hand before downloading your list."); return; }
+      try {
+        await dl.save({ filename: "my-mahjong-hands.csv", data: handsCsv() });
+        say("Your hands were saved as a spreadsheet file.");
+      } catch (e) { say(reason(e)); }
+    });
+  })();
+})();
+</script>
+
+
+</body></html>
