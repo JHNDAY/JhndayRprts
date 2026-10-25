@@ -1,0 +1,183 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Exerpeutic RPM Chart</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+/* Layout: single centered column — calculator card on top, conversion table below, calibration note last */
+:root {
+  --bg: #eef1f4;
+  --surface: #ffffff;
+  --fg: #1c2530;
+  --muted: #5a6876;
+  --line: #d3dae2;
+  --accent: #1f4fa8;
+  --accent-soft: #e2eaf8;
+  --lcd: #c9d1bf;
+  --lcd-ink: #1d2418;
+  --display: "Barlow Semi Condensed", "Arial Narrow", Arial, sans-serif;
+  --body: "Source Sans 3", "Segoe UI", Helvetica, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12171d; --surface: #1b222b; --fg: #e6ebf0; --muted: #9aa7b4;
+    --line: #2e3844; --accent: #7aa5ef; --accent-soft: #22324c;
+    --lcd: #a9b39d; --lcd-ink: #141a10; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12171d; --surface: #1b222b; --fg: #e6ebf0; --muted: #9aa7b4;
+  --line: #2e3844; --accent: #7aa5ef; --accent-soft: #22324c;
+  --lcd: #a9b39d; --lcd-ink: #141a10; color-scheme: dark;
+}
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--body); font-size: 18px; line-height: 1.5;
+}
+.wrap {
+  max-width: 560px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 32px 48px;
+  display: grid; gap: 28px;
+}
+h1 {
+  font-family: var(--display); font-weight: 700; font-size: 2.1rem;
+  line-height: 1.1; margin: 0; text-wrap: balance;
+}
+.lede { margin: 6px 0 0; color: var(--muted); }
+.formula {
+  font-family: var(--display); font-weight: 600; color: var(--accent);
+}
+h2 {
+  font-family: var(--display); font-weight: 600; font-size: 1.05rem;
+  text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+  margin: 0 0 12px;
+}
+.calc {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 14px; padding: 22px; display: grid; gap: 16px;
+}
+label { font-weight: 600; display: block; margin-bottom: 6px; }
+.row { display: flex; gap: 16px; align-items: stretch; flex-wrap: wrap; }
+.row > div { flex: 1 1 180px; min-width: 0; }
+input {
+  width: 100%; box-sizing: border-box;
+  font-family: var(--display); font-weight: 600; font-size: 2.4rem;
+  padding: 10px 14px; border: 2px solid var(--line); border-radius: 10px;
+  background: var(--bg); color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+input:focus { outline: none; border-color: var(--accent); }
+.lcd {
+  background: var(--lcd); color: var(--lcd-ink);
+  border-radius: 10px; padding: 8px 16px; height: 100%; box-sizing: border-box;
+  display: flex; flex-direction: column; justify-content: center;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,.25);
+}
+.lcd small {
+  font-family: var(--display); font-weight: 600; letter-spacing: 0.1em;
+  font-size: .8rem; text-transform: uppercase;
+}
+.lcd output {
+  font-family: var(--display); font-weight: 700; font-size: 3rem;
+  line-height: 1; font-variant-numeric: tabular-nums;
+}
+.hint { margin: 0; color: var(--muted); font-size: 1rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips button {
+  font: 600 1rem var(--body); padding: 6px 14px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--bg); color: var(--fg); cursor: pointer;
+}
+.chips button:hover, .chips button:focus-visible { border-color: var(--accent); color: var(--accent); outline: none; }
+table {
+  width: 100%; border-collapse: collapse; background: var(--surface);
+  border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+  font-variant-numeric: tabular-nums;
+}
+th, td { padding: 10px 20px; text-align: right; }
+th:first-child, td:first-child { text-align: left; }
+thead th {
+  font-family: var(--display); font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.08em; font-size: .9rem; color: var(--muted);
+  border-bottom: 2px solid var(--line);
+}
+tbody td { font-family: var(--display); font-weight: 600; font-size: 1.45rem; border-bottom: 1px solid var(--line); }
+tbody tr:last-child td { border-bottom: 0; }
+tbody td:last-child { color: var(--accent); }
+tr.hit td { background: var(--accent-soft); }
+.note { font-size: 1rem; color: var(--muted); margin: 0; max-width: 65ch; }
+.note strong { color: var(--fg); }
+@media (prefers-reduced-motion: no-preference) { tr td { transition: background .2s; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Exerpeutic Bike: RPM to Console Reading</h1>
+    <p class="lede">Console reading = <span class="formula">RPM ÷ 6.5</span></p>
+  </header>
+
+  <section class="calc" aria-labelledby="calc-h">
+    <h2 id="calc-h">Calculator</h2>
+    <div class="row">
+      <div>
+        <label for="rpm">Target RPM</label>
+        <input id="rpm" type="number" inputmode="decimal" min="0" max="200" step="1" value="60">
+      </div>
+      <div>
+        <div class="lcd" aria-live="polite">
+          <small>Speed</small>
+          <output id="out" for="rpm">9.2</output>
+        </div>
+      </div>
+    </div>
+    <div class="chips" aria-label="Quick picks">
+      <button type="button" data-v="40">40</button>
+      <button type="button" data-v="50">50</button>
+      <button type="button" data-v="60">60</button>
+      <button type="button" data-v="70">70</button>
+      <button type="button" data-v="80">80</button>
+      <button type="button" data-v="90">90</button>
+    </div>
+    <p class="hint" id="rps">That's 1.00 pedal revolution per second.</p>
+  </section>
+
+  <section aria-labelledby="tbl-h">
+    <h2 id="tbl-h">Conversion table</h2>
+    <table>
+      <thead><tr><th>Pedal RPM</th><th>Console reading</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </section>
+
+  <p class="note"><strong>How the 6.5 factor was measured:</strong> at a steady console reading of 6, the pedals made 13 revolutions in 20 seconds, the same in three trials. That's 39 RPM, and 39 ÷ 6 = 6.5. Because the count is in whole revolutions, the factor may be off by up to about 5%.</p>
+</div>
+
+<script>
+const K = 6.5;
+const tbody = document.getElementById('tbody');
+for (let r = 40; r <= 100; r += 5) {
+  const tr = document.createElement('tr');
+  tr.dataset.rpm = r;
+  tr.innerHTML = `<td>${r}</td><td>${(r / K).toFixed(1)}</td>`;
+  tbody.appendChild(tr);
+}
+const inp = document.getElementById('rpm');
+const out = document.getElementById('out');
+const rps = document.getElementById('rps');
+function update() {
+  const v = parseFloat(inp.value);
+  document.querySelectorAll('tr.hit').forEach(t => t.classList.remove('hit'));
+  if (!isFinite(v) || v < 0) { out.textContent = '–'; rps.textContent = 'Enter a pedal RPM.'; return; }
+  out.textContent = (v / K).toFixed(1);
+  rps.textContent = `That's ${(v / 60).toFixed(2)} pedal revolution${v === 60 ? '' : 's'} per second.`;
+  const row = tbody.querySelector(`tr[data-rpm="${v}"]`);
+  if (row) row.classList.add('hit');
+}
+inp.addEventListener('input', update);
+document.querySelectorAll('.chips button').forEach(b =>
+  b.addEventListener('click', () => { inp.value = b.dataset.v; update(); inp.focus(); }));
+update();
+</script>
+
+</body></html>
