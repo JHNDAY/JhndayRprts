@@ -1,0 +1,291 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Decoding Cardio Load</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+/* Layout: broadsheet-style single column with a sticky section index; numbered sections follow the conversation's actual order */
+:root{
+  --navy:#16284a; --gold:#b58a2c; --cream:#faf6ec; --paper:#fffdf7; --ink:#1c2230; --muted:#5d6475; --rule:#d9cfb6; --tint:#f1e8d3; --good:#2f7a4f; --warn:#a2452f;
+  --display:"Playfair Display",Georgia,"Times New Roman",serif;
+  --body:"Source Serif 4",Georgia,serif;
+  --mono:"Courier Prime","Courier New",monospace;
+  --bg:var(--cream); --fg:var(--ink); --card:var(--paper); --head:var(--navy); --accent:var(--gold);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1729;--fg:#e8e3d6;--card:#16213a;--head:#e9d7a8;--accent:#d4a84a;--muted:#a3a9b8;--rule:#2d3a57;--tint:#1d2b4a;--good:#6cc191;--warn:#e28a72;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1729;--fg:#e8e3d6;--card:#16213a;--head:#e9d7a8;--accent:#d4a84a;--muted:#a3a9b8;--rule:#2d3a57;--tint:#1d2b4a;--good:#6cc191;--warn:#e28a72;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--fg);font:17px/1.6 var(--body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.mast{border-bottom:3px double var(--accent);padding-block:28px 18px}
+.kicker{font:700 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h1{font:800 clamp(34px,6vw,58px)/1.05 var(--display);color:var(--head);margin:10px 0 8px;text-wrap:balance}
+.dek{font-size:19px;color:var(--muted);max-width:62ch;margin:0}
+.meta{font:13px var(--mono);color:var(--muted);margin-top:12px}
+.layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:40px;padding-block:28px 60px}
+nav.index{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start}
+nav.index ol{list-style:none;margin:0;padding:0;display:grid;gap:2px;counter-reset:s}
+nav.index a{display:flex;gap:10px;padding:7px 10px;border-radius:4px;color:var(--fg);text-decoration:none;font-size:15px;line-height:1.3}
+nav.index a span{font:700 13px var(--mono);color:var(--accent);min-width:1.6em}
+nav.index a:hover,nav.index a.on{background:var(--tint)}
+nav.index a.on{font-weight:600}
+nav.index a:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.navlabel{font:700 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 8px 10px}
+main{min-width:0}
+section{padding-block:8px 34px;border-bottom:1px solid var(--rule);scroll-margin-top:16px}
+section:last-of-type{border-bottom:0}
+.q{font:italic 16px/1.45 var(--body);color:var(--muted);border-left:3px solid var(--accent);padding:4px 0 4px 14px;margin:18px 0 10px;max-width:62ch}
+.q b{font:700 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-style:normal;display:block;margin-bottom:2px}
+h2{font:700 clamp(25px,3.6vw,33px)/1.15 var(--display);color:var(--head);margin:6px 0 12px;text-wrap:balance}
+h2 .n{font:700 15px var(--mono);color:var(--accent);margin-right:10px;vertical-align:middle}
+h3{font:700 19px/1.3 var(--display);color:var(--head);margin:24px 0 6px}
+p,li{max-width:66ch}
+ul{padding-left:1.2em}
+li{margin:4px 0}
+.formula{font:700 clamp(16px,2.6vw,21px)/1.5 var(--mono);background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:14px 18px;margin:14px 0;overflow-x:auto;color:var(--head)}
+.formula small{display:block;font:400 13px var(--mono);color:var(--muted);margin-top:4px}
+.callout{background:var(--tint);border-radius:4px;padding:14px 18px;margin:16px 0;max-width:66ch}
+.callout b{color:var(--head)}
+.tbl{overflow-x:auto;margin:14px 0}
+table{border-collapse:collapse;font-variant-numeric:tabular-nums;min-width:440px;width:100%;max-width:640px;background:var(--card)}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--rule)}
+th{font:700 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--accent)}
+td.num{font-family:var(--mono);text-align:right}
+td.big{font-weight:700;color:var(--head)}
+.chart{background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:12px;margin:14px 0;max-width:680px}
+.chart svg{width:100%;height:auto;display:block}
+.cap{font:13px/1.4 var(--mono);color:var(--muted);margin-top:6px}
+.calc{background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:16px 18px;margin:18px 0;max-width:680px}
+.calc h3{margin-top:0}
+.inputs{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:12px}
+.inputs label{display:grid;gap:4px;font:700 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.inputs input{width:110px;font:700 18px var(--mono);padding:6px 8px;border:1px solid var(--rule);border-radius:4px;background:var(--bg);color:var(--fg)}
+.inputs input:focus-visible{outline:2px solid var(--accent)}
+.out{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.out div{border-top:2px solid var(--accent);padding-top:6px}
+.out .v{font:700 26px var(--mono);color:var(--head);font-variant-numeric:tabular-nums}
+.out .l{font-size:13px;color:var(--muted);line-height:1.3}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:14px 0}
+.steps div{background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:12px 14px}
+.steps b{display:block;font-family:var(--display);color:var(--head);font-size:17px;margin-bottom:2px}
+.steps div.ok{border-top:3px solid var(--good)}
+.steps div.no{border-top:3px solid var(--warn)}
+.verdict{font-weight:600;color:var(--head)}
+.sources li{font-size:15px}
+a{color:var(--accent)}
+.corr{font:700 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;background:var(--accent);color:var(--bg);padding:2px 6px;border-radius:3px;margin-left:6px;vertical-align:middle}
+@media (max-width:820px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:8px}
+  nav.index{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--rule);margin:0 -16px;padding:8px 16px}
+  .navlabel{display:none}
+  nav.index ol{display:flex;overflow-x:auto;gap:4px;scrollbar-width:none}
+  nav.index a{white-space:nowrap;font-size:14px;padding:6px 10px}
+}
+</style>
+
+<div class="wrap">
+<header class="mast">
+  <div class="kicker">Fitbit Charge 6 · Polar H10 · Google Health app</div>
+  <h1>Decoding Cardio Load</h1>
+  <p class="dek">How the Google Health app scores your effort, sets your weekly target, and estimates your maximum heart rate, worked through with your own numbers.</p>
+  <div class="meta">Conversation of October 29, 2026 · Resting HR 64 bpm · Age 75 · Weekly cardio 322 of 230 (140%)</div>
+</header>
+
+<div class="layout">
+<nav class="index" aria-label="Sections">
+  <p class="navlabel">In this conversation</p>
+  <ol>
+    <li><a href="#load"><span>1</span>How load is computed</a></li>
+    <li><a href="#target"><span>2</span>Your weekly target</a></li>
+    <li><a href="#maxhr"><span>3</span>Maximum heart rate</a></li>
+    <li><a href="#numbers"><span>4</span>Your thresholds</a></li>
+    <li><a href="#criteria"><span>5</span>What counts as a max</a></li>
+    <li><a href="#accept"><span>6</span>Accepting Google's max</a></li>
+    <li><a href="#h10"><span>7</span>The Polar H10</a></li>
+    <li><a href="#where"><span>8</span>Where to change it</a></li>
+    <li><a href="#sources"><span>§</span>Sources</a></li>
+  </ol>
+</nav>
+
+<main>
+<section id="load">
+  <div class="q"><b>You asked</b>How does the Fitbit compute the cardio load of an activity?</div>
+  <h2><span class="n">1</span>How cardio load is computed</h2>
+  <p>Cardio load is a version of TRIMP ("training impulse"), a sports-science measure from Banister. Every minute, your average heart rate is turned into a fraction of your <b>heart rate reserve</b>, the span between resting and maximum.</p>
+  <div class="formula">x = (HR − resting HR) ÷ (max HR − resting HR)<small>x is the fraction of heart rate reserve (%HRR ÷ 100) for that minute</small></div>
+  <div class="formula">load per minute = 0.64 · x · e<sup>k·x</sup><small>k = 1.92 for males, 1.67 for females. The day's load is the sum over all minutes.</small></div>
+  <p>The exponential means harder minutes count disproportionately more. Google added three rules for all-day wear:</p>
+  <ul>
+    <li><b>Below 30% HRR earns nothing.</b></li>
+    <li><b>Every scoring minute needs movement</b> from the motion sensors, so stress alone doesn't count.</li>
+    <li><b>Minutes between 30% and 40% HRR are down-weighted.</b> Google doesn't publish the factor.</li>
+  </ul>
+  <div class="chart">
+    <svg id="loadChart" viewBox="0 0 640 300" role="img" aria-label="Cardio load per minute rises exponentially from 30% to 100% of heart rate reserve"></svg>
+    <div class="cap">Load earned per minute vs %HRR (k = 1.92). The shaded band is the reduced-credit zone; its exact factor isn't published, so the curve is dashed there.</div>
+  </div>
+  <p>This is why mowing the lawn counts: any minute with movement and enough heart rate scores, workout or not. Indoor cycling, walking and yard work all pass through the same formula. Confirming an activity type like "Maybe: Sport" improves the workout insights; the load comes from heart rate either way.</p>
+</section>
+
+<section id="target">
+  <div class="q"><b>You asked</b>How does it set targets for me?</div>
+  <h2><span class="n">2</span>Your weekly target</h2>
+  <p>The app now sets a <b>weekly</b> target; daily load resets at midnight and adds toward it. The target estimates your typical ("chronic") load two ways and takes the larger:</p>
+  <div class="formula">target = max( RM , EWMA )<small>RM: average weekly load over the past 28 days · EWMA: a smoothed average that changes slowly</small></div>
+  <ul>
+    <li>After a break, the slow EWMA stops the target from collapsing. When you return, the faster rolling mean lets it recover.</li>
+    <li>A minimum target, calibrated to health guidelines, applies to everyone.</li>
+    <li>The first personal target appears after 7 days; the best estimate after 4 weeks.</li>
+    <li>With Premium and the Health Coach turned on, the Coach may adjust the target further.</li>
+  </ul>
+  <div class="callout"><b>Your screen: 322 of 230 = 140%.</b> The ring turns green when the target is met and changes color again if you exceed it by a lot. Weeks well above target pull the 4-week average up, so the target rises gradually if you keep it up.</div>
+</section>
+
+<section id="maxhr">
+  <div class="q"><b>You asked</b>How is the maximum heart rate determined?</div>
+  <h2><span class="n">3</span>Maximum heart rate</h2>
+  <p>By default Fitbit doesn't measure it. It estimates it:</p>
+  <div class="formula">max HR = 220 − age = 220 − 75 = 145 bpm<small>Tanaka's formula, a better fit for older adults: 208 − 0.7 × 75 ≈ 155 bpm</small></div>
+  <p>220 − age is a population rule of thumb. Individuals commonly differ from it by 10 to 20 bpm either way, and it tends to run low for older adults. A max set too low inflates every minute's %HRR, and the exponential magnifies the error. Because your target is built from your own past load, a consistent bias largely cancels in the "% of target" figure.</p>
+</section>
+
+<section id="numbers">
+  <div class="q"><b>You asked</b>How does 0.3 × 81 = 24.3 relate to the 88 bpm threshold?</div>
+  <h2><span class="n">4</span>Your thresholds</h2>
+  <p>The missing step: <b>add resting heart rate back</b>. 24.3 is how many beats <i>above resting</i> the threshold sits.</p>
+  <div class="formula">heart rate = resting + (%HRR × reserve)<small>reserve = 145 − 64 = 81 beats</small></div>
+  <div class="tbl"><table>
+    <thead><tr><th>%HRR</th><th>Beats above resting</th><th>+ resting</th><th>Heart rate</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td class="num">30%</td><td class="num">0.30 × 81 = 24.3</td><td class="num">64 + 24.3</td><td class="num big">≈ 88</td><td>No load below this</td></tr>
+      <tr><td class="num">40%</td><td class="num">0.40 × 81 = 32.4</td><td class="num">64 + 32.4</td><td class="num big">≈ 96</td><td>Full credit above this</td></tr>
+      <tr><td class="num">70%</td><td class="num">0.70 × 81 = 56.7</td><td class="num">64 + 56.7</td><td class="num big">≈ 121</td><td>Solid aerobic effort</td></tr>
+    </tbody>
+  </table></div>
+  <p>Working backward: at 100 bpm you are 36 beats above resting, and 36 ÷ 81 ≈ 44% of your reserve.</p>
+  <div class="calc">
+    <h3>Try other numbers</h3>
+    <div class="inputs">
+      <label for="rhr">Resting HR<input id="rhr" type="number" value="64" min="30" max="120" inputmode="numeric"></label>
+      <label for="mhr">Max HR<input id="mhr" type="number" value="145" min="100" max="220" inputmode="numeric"></label>
+      <label for="cur">A reading<input id="cur" type="number" value="100" min="30" max="220" inputmode="numeric"></label>
+    </div>
+    <div class="out" aria-live="polite">
+      <div><div class="v" id="o30">88</div><div class="l">30% HRR: load starts</div></div>
+      <div><div class="v" id="o40">96</div><div class="l">40% HRR: full credit</div></div>
+      <div><div class="v" id="o70">121</div><div class="l">70% HRR: solid effort</div></div>
+      <div><div class="v" id="ocur">44%</div><div class="l">%HRR of your reading</div></div>
+    </div>
+  </div>
+  <p class="cap">The spreadsheet HRR_Thresholds.xlsx from this conversation does the same calculation.</p>
+</section>
+
+<section id="criteria">
+  <div class="q"><b>You asked</b>Shouldn't a maximum require holding the heart rate for some duration?</div>
+  <h2><span class="n">5</span>What counts as a max</h2>
+  <p>Not holding it. Max heart rate is a ceiling you touch briefly at exhaustion. A rate you can sustain for several minutes is below your max. Physiologists look for a <b>plateau</b>: heart rate stops rising, by less than about 2–5 bpm per stage, even as the workload keeps increasing. Supporting signs:</p>
+  <ul>
+    <li>You can't continue (about 17–19 on the 6–20 effort scale).</li>
+    <li>In a lab, a respiratory exchange ratio of about 1.10 or higher.</li>
+    <li>A value within about 10 bpm of the age-predicted max, as a sanity check.</li>
+  </ul>
+  <p>Duration does matter for judging a sensor's reading: a one-second spike is suspect; a value that holds for several seconds, or repeats across hard sessions, is credible. At 75, a supervised exercise stress test is the safe way to measure a true max.</p>
+</section>
+
+<section id="accept">
+  <div class="q"><b>You asked</b>Should I let Google set my max from my most recent workout?</div>
+  <h2><span class="n">6</span>Accepting Google's suggested max</h2>
+  <p>The logic is sound: a heart rate you really reached is a <b>lower bound</b> on your true max. Repeated prompts suggest 145 is too low for you. Check the workout's heart-rate graph first:</p>
+  <div class="steps">
+    <div class="ok"><b>Accept</b>Peak climbs smoothly with effort, matches very hard breathing, and similar peaks repeat across sessions.</div>
+    <div class="no"><b>Decline</b>A sudden 20–30 bpm jump that vanishes within seconds, or a peak during comfortable effort.</div>
+  </div>
+  <p>Effect of accepting: each beat becomes a smaller share of your reserve, so load per minute falls at first. At a max of 155, the thresholds move from about 88 / 96 / 121 to about 91 / 100 / 128 bpm. Your target follows your own history, so it re-settles within a few weeks.</p>
+</section>
+
+<section id="h10">
+  <div class="q"><b>You said</b>I use a Polar H10 chest strap, and I can use it in place of the Charge 6 in the Google Health app.</div>
+  <h2><span class="n">7</span>The Polar H10<span class="corr">Your correction</span></h2>
+  <p>The H10 measures electrically, like an ECG, so it isn't fooled by pedaling rhythm. I first relied on an older forum thread saying the Charge 6 couldn't use it; you corrected that. The Google Health app accepts it.</p>
+  <ul>
+    <li><b>Max-HR prompts after H10 workouts are trustworthy.</b> Ignore only a brief spike in the first few minutes, before the electrodes are moist. Wetting the strap first prevents it.</li>
+    <li><b>Workout load is more accurate</b> during H10 sessions, such as indoor cycling.</li>
+    <li><b>Everything else still comes from the Charge 6:</b> mowing, walks, daily activity and the overnight resting heart rate.</li>
+  </ul>
+  <p class="verdict">If Google keeps suggesting a higher max after H10 workouts, accept it.</p>
+</section>
+
+<section id="where">
+  <div class="q"><b>You asked</b>Where in the app do I update the maximum heart rate?</div>
+  <h2><span class="n">8</span>Where to change it</h2>
+  <p>Google's help pages don't document a manual max-heart-rate setting in the Google Health app. They say zones are personalized and adjust over time, which matches the prompts you receive.</p>
+  <ul>
+    <li>Zones are shown at <b>Health tab → Heart → Heart rate</b>. A manual edit, if one exists, is most likely there.</li>
+    <li>Also check <b>Profile picture → Google Health settings</b>. The older Fitbit app kept it under Heart Settings.</li>
+    <li>Ask the <b>Coach</b>: "How do I set a custom max heart rate?"</li>
+    <li>Simplest: accept the next suggestion that follows an H10 workout.</li>
+  </ul>
+</section>
+
+<section id="sources">
+  <h2><span class="n">§</span>Sources</h2>
+  <ul class="sources">
+    <li><a href="https://arxiv.org/html/2508.11613v2" target="_blank" rel="noopener">Adaptive Cardio Load Targets for Improving Fitness and Performance</a> (Google white paper, arXiv)</li>
+    <li><a href="https://support.google.com/googlehealth/answer/15402655" target="_blank" rel="noopener">Google Health Help: What are cardio load and target load?</a></li>
+    <li><a href="https://store.google.com/magazine/fitbit-weekly-cardio-load?hl=en-US" target="_blank" rel="noopener">Google Store: Fitbit's new weekly Cardio Load target</a></li>
+    <li><a href="https://support.google.com/googlehealth/answer/14237938?hl=en" target="_blank" rel="noopener">Google Health Help: Track your heart rate</a></li>
+    <li><a href="https://blog.fitbit.com/?p=10104" target="_blank" rel="noopener">Fitbit blog: target heart rate zones</a></li>
+    <li><a href="https://community.fitbit.com/t5/Blaze/Max-heart-rate-amp-custom-zones/td-p/1212765" target="_blank" rel="noopener">Fitbit Community: Max heart rate &amp; custom zones</a></li>
+  </ul>
+</section>
+</main>
+</div>
+</div>
+
+<script>
+(function(){
+  // Chart: load per minute vs %HRR
+  var svg=document.getElementById('loadChart'),NS='http://www.w3.org/2000/svg';
+  var L={l:56,r:20,t:16,b:44},W=640,H=300,pw=W-L.l-L.r,ph=H-L.t-L.b,yMax=5;
+  function X(p){return L.l+p/100*pw}function Y(v){return L.t+ph-(v/yMax)*ph}
+  function el(n,a,t){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(t!=null)e.textContent=t;svg.appendChild(e);return e}
+  function f(p){var x=p/100;return 0.64*x*Math.exp(1.92*x)}
+  el('rect',{x:X(30),y:L.t,width:X(40)-X(30),height:ph,fill:'var(--tint)'});
+  for(var v=0;v<=5;v++){el('line',{x1:L.l,x2:W-L.r,y1:Y(v),y2:Y(v),stroke:'var(--rule)','stroke-width':1});el('text',{x:L.l-8,y:Y(v)+4,'text-anchor':'end','font-size':12,'font-family':'Courier Prime, monospace',fill:'var(--muted)'},v)}
+  for(var p=0;p<=100;p+=10){el('text',{x:X(p),y:H-L.b+18,'text-anchor':'middle','font-size':12,'font-family':'Courier Prime, monospace',fill:'var(--muted)'},p+'%')}
+  el('text',{x:L.l+pw/2,y:H-6,'text-anchor':'middle','font-size':12,'font-family':'Courier Prime, monospace',fill:'var(--muted)'},'% of heart rate reserve');
+  el('text',{x:14,y:L.t+ph/2,'text-anchor':'middle','font-size':12,'font-family':'Courier Prime, monospace',fill:'var(--muted)',transform:'rotate(-90 14 '+(L.t+ph/2)+')'},'load per minute');
+  el('line',{x1:X(0),x2:X(30),y1:Y(0),y2:Y(0),stroke:'var(--accent)','stroke-width':3});
+  var d1='',d2='';for(var q=30;q<=40;q+=1)d1+=(q===30?'M':'L')+X(q).toFixed(1)+' '+Y(f(q)).toFixed(1);
+  for(var q2=40;q2<=100;q2+=1)d2+=(q2===40?'M':'L')+X(q2).toFixed(1)+' '+Y(f(q2)).toFixed(1);
+  el('path',{d:d1,fill:'none',stroke:'var(--accent)','stroke-width':3,'stroke-dasharray':'5 4'});
+  el('path',{d:d2,fill:'none',stroke:'var(--accent)','stroke-width':3});
+  [[50,'0.84'],[70,'1.72']].forEach(function(m){var p=m[0];el('circle',{cx:X(p),cy:Y(f(p)),r:4.5,fill:'var(--head)'});el('text',{x:X(p)-8,y:Y(f(p))-10,'text-anchor':'end','font-size':13,'font-family':'Courier Prime, monospace','font-weight':700,fill:'var(--head)'},p+'% → '+m[1])});
+  el('text',{x:X(35),y:L.t+14,'text-anchor':'middle','font-size':11,'font-family':'Courier Prime, monospace',fill:'var(--muted)'},'reduced');
+  el('text',{x:X(15),y:Y(0)-8,'text-anchor':'middle','font-size':11,'font-family':'Courier Prime, monospace',fill:'var(--muted)'},'no load below 30%');
+
+  // Calculator
+  var ids=['rhr','mhr','cur'];
+  function calc(){
+    var r=+document.getElementById('rhr').value,m=+document.getElementById('mhr').value,c=+document.getElementById('cur').value,res=m-r;
+    function t(p){return res>0?Math.round(r+p*res):'—'}
+    document.getElementById('o30').textContent=t(.3);
+    document.getElementById('o40').textContent=t(.4);
+    document.getElementById('o70').textContent=t(.7);
+    document.getElementById('ocur').textContent=res>0?Math.round((c-r)/res*100)+'%':'—';
+  }
+  ids.forEach(function(i){document.getElementById(i).addEventListener('input',calc)});calc();
+
+  // Highlight current section in the index
+  var links=[].slice.call(document.querySelectorAll('nav.index a'));
+  var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a});
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('on')});var a=map[e.target.id];if(a){a.classList.add('on');var ol=a.closest('ol');if(ol&&window.innerWidth<=820){ol.scrollLeft=a.parentNode.offsetLeft-16}}}})},{rootMargin:'-20% 0px -70% 0px'});
+    document.querySelectorAll('main section').forEach(function(s){io.observe(s)});
+  }
+})();
+</script>
+
+</body></html>
